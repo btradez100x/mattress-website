@@ -1,0 +1,259 @@
+[BRAND]
+Working name: Valtora - name under test, see Section 13
+Website Developer Specification
+Shopify - Self-build - Modular - Deposit-taking - Per-market sizing, theming & copy
+v3 - Self-build - August 2026
+0. Context for the developer
+This site is built in-house (no brand agency at this stage) to launch lean and validate demand. It must look premium enough to sell a £2,000+ product, take refundable deposits, and be flexible enough to change positioning, price, colours, copy - and even the brand NAME - between test rounds. The audience is also under test: we do not yet know whether the winning segment is Western expats, affluent Indian buyers, Emirati/Arab buyers, or new-wealth arrivals. Everything below is built so the answer can come from data and the site can pivot to it.
+The five things that matter most
+1. Deposit/reserve mechanic (S3) - the primary conversion; tests are worthless without it.
+2. Modular, editable everything (S4-6) - copy, price, offer, colours, fonts and NAME changeable without a developer.
+3. Per-market sizing (S9.1) - UAE and UK use DIFFERENT size names AND dimensions. A UK King is not a UAE King.
+4. Segment delivery via page variants (S5) - the site cannot detect who a visitor is; ad targeting sends each segment to its own variant page, tracked by UTM.
+5. Attribution (S8) - UTMs must persist to the deposit record so we can read which segment/territory/name wins.
+1. Objectives
+Present a premium (AED 8,999-14,999 / £1,999-2,999) mattress brand credibly.
+Take a small refundable 'reserve your allocation' deposit as the primary conversion.
+Be fully configurable - copy, price, offer, palette, fonts, name - without developer help.
+Support duplicated page variants for segment/territory/name testing, each separately tracked.
+Display DIFFERENT mattress sizes and dimensions per market (UAE vs UK).
+Sell replaceable comfort tops as a standalone product line; support lifecycle emails.
+Correct tracking and UTM-to-deposit attribution across Meta, Snap, TikTok, Google.
+2. Platform & theme
+Shopify (Basic or above). Shopify Markets recommended for UAE/UK regions and currency (confirm vs separate storefronts for maintainability).
+Theme: clean premium theme (Dawn baseline or premium), customised for restraint per the Brand Guidelines (whitespace, one serif + one sans).
+Critical principle: no hard-coded copy, price, colour, or name anywhere in test surfaces. Everything is a theme setting, section setting, or design token.
+3. Core requirement - the deposit / reserve mechanic
+Product type: 'Reserve your allocation' - small refundable deposit (default AED 200 / £50, configurable), NOT full price. Via a deposit/pre-order app (e.g. Downpayment, Preorder Now/PreProduct) or native purchase options.
+Deposit amount, refundability and terms clearly stated at point of payment.
+Capture on deposit: name, email, phone, SIZE (per correct market list), price tier, and the UTM set (see S8). Size data drives the inventory order.
+Refundable, with a clear refund path (manual via admin acceptable at launch).
+Confirmation email: what was reserved, deposit amount, refundable status, realistic ship window.
+Admin export of deposits by size, price tier, and UTM fields.
+4. Page structure (modular, editable)
+Single long-form landing/product page; each section discrete, reorderable, editable:
+#
+Section
+Editable elements
+1
+Announcement bar
+Text (per-market)
+2
+Hero
+Headline, subhead, media, CTA - the positioning-test surface
+3
+Big idea / wedge
+Heading, body, media - the Swap System story
+4
+Benefits
+3-4 blocks (icon + heading + text)
+5
+Product / spec
+Layer bullets, exploded diagram, 35cm depth
+6
+Swap System explainer
+Unzip-and-swap video/animation
+7
+Cooling / support proof
+Swap emphasis per test
+8
+Social proof
+Reviews - empty at launch, easy to populate
+9
+Offer
+Trial / warranty / delivery / founding price - test surface
+10
+Size + price + reserve
+Market-correct size selector, price display, BNPL widget, deposit button
+11
+FAQ
+Editable Q&A incl. size guide
+12
+Footer
+Policies, contact, size guide
+Duplication requirement: marketing can duplicate this page (template + content) to create variants for segments, territories, prices, or names - same structure, different settings.
+5. Theming & per-market / per-segment configurability
+Colours, fonts and copy must be configurable at three levels: global, per market, and per page-variant. Implement as design tokens, not hard-coded styles.
+5.1 Design tokens
+All colours as CSS custom properties driven by theme settings: --brand-primary, --brand-accent, --brand-bg, --brand-surface, --brand-ink (defaults per Brand Guidelines: navy 1F3A5F, gold 8A6D3B, off-white F7F5F1, stone EAE6DF, ink 222222).
+Fonts as theme settings (serif for headlines, sans for body) - swappable without code.
+One place to change globally; the whole site re-skins from the tokens.
+5.2 Per-market configuration (UAE vs UK)
+Shopify Markets (or separate storefronts) can carry different token values, copy emphasis, sizes, currency and BNPL per market.
+Use with restraint: capability is required, but the end-state is ONE brand identity with at most minor market-level accents. Market copy differences (proof-led UK vs exclusivity-led UAE) are expected; wholesale palette divergence is a test-phase tool, not the destination.
+5.3 Per-segment delivery (the important mechanic)
+How segment targeting actually works
+The site cannot detect whether a visitor is a British expat, Indian, or Emirati. Segment delivery happens through PAGE VARIANTS + AD TARGETING: each ad set (segment) links to its own duplicated variant page, carrying segment-tuned copy (and optionally a token override for mood), tracked by utm_content. The ads decide who sees what.
+Build requirement: template-level token overrides so a duplicated variant page can carry a different accent/mood without touching the global theme. Segment variants are TEST assets - no winning segment is assumed until Sprint 1 data decides (see S8).
+6. Copy deck & voice (build with these words)
+Default site copy below - segment-neutral, premium register, name-agnostic ([Brand] = the name token). Load as default section content; all strings remain editable. Voice rules at the end of this section.
+6.1 Announcement bar (options)
+'First allocation now reserving - limited units per size.'
+'Made to order. Reserve yours with a fully refundable deposit.'
+6.2 Hero (base + territory variants)
+Base (Adaptive - default): H1: 'Change your comfort, not your mattress.'  Sub: 'The premium hybrid with a replaceable comfort top - unzip, swap, and make it feel new again.'  CTA: 'Reserve yours'
+Cool-sleep variant: H1: 'Engineered to sleep cool. Built for where you live.'  Sub: 'A 35cm premium hybrid for hot nights - breathable cool-knit cover, gel-infused comfort.'
+Support variant: H1: 'Wake up without the ache.'  Sub: 'A 7-zone spring system and deep support base, engineered for spinal alignment.'
+Luxury variant: H1: 'Made to order. Made to last. Made for the few.'  Sub: 'A limited allocation of premium hybrid mattresses, crafted to order.'
+6.3 Big idea (Swap System)
+'Most mattresses get replaced because the top wears out - while the springs beneath have years left. [Brand] separates the two. Unzip the comfort top, swap in a new one, and your bed feels new again. Change firmness as life changes. Keep the bed for decades.'
+6.4 Benefits (four blocks)
+'A bed that adapts' - 'Swap the top to change firmness - as your body, your partner, or your preferences change.'
+'Cool by design' - 'A breathable cool-knit cover and gel-infused comfort layer, made for warm nights.'
+'Deep, engineered support' - 'A 20cm, 7-zone pocket-spring core and high-density base keep your spine aligned.'
+'Built to keep' - 'Refresh the top instead of replacing the mattress - less waste, less cost over time.'
+6.5 Product / spec bullets
+35cm full height - substantial, hotel-grade depth | 400gsm cool-knit cover | Gel-infused memory foam comfort layer | Replaceable comfort top (zip access) | 20cm 7-zone pocket-spring core | High-density encased support base | Anti-slip base
+6.6 Offer lines (test variants)
+'100-night trial' | '15-year warranty on the core' | 'Free white-glove delivery and setup' | 'Founding allocation - save AED [X]'
+6.7 Reserve microcopy
+'Reserve with a fully refundable AED 200 deposit.' | 'or from AED [X]/month with Tabby or Tamara' (UK: 'from £[X]/month with Klarna') | Button: 'Reserve my size'
+6.8 FAQ (defaults)
+What does the deposit do? - 'It reserves your mattress in the current allocation. Fully refundable any time before dispatch.'
+When will it ship? - 'Each mattress is made to order. Current window: [X-Y] weeks. We confirm your date before dispatch.'
+Which size should I choose? - link to the size guide; note that UAE and UK sizes differ.
+How does the replaceable top work? - 'Unzip, lift out, swap in. Tops come in soft, medium and firm.'
+What if it is not right for me? - trial/refund terms per the active offer.
+What is the warranty? - '[X]-year warranty on the spring core.'
+6.9 Voice rules (for anything the developer writes)
+Short, confident, sentence case. No exclamation marks. No urgency cliches (hurry, last chance, unbeatable).
+Concrete numbers over adjectives (35cm, 7-zone, 100 nights). Always show cm next to size names.
+Honest on lead times - honesty reads as premium.
+Words to use: engineered, considered, adaptive, refresh, enduring, cool, crafted, allocation, reserve. Avoid: cheap, deal, blowout, revolutionary.
+6.10 Segment variant guidance (test assets only - no winner assumed)
+Segment
+Copy emphasis shift
+Register / notes
+1 Western expats
+Trial, proof, performance-recovery framing
+Warm-expert; base palette
+2 Affluent Indian
+Family, lasting quality, value-over-time of the swap system
+Warm-expert / heritage; family imagery
+3 Emirati / Arab
+Exclusivity, allocation, craft
+Arabic creative; may test darker gold-forward token override
+4 New-wealth / creators
+'The upgrade for your new home'
+UGC-leaning; base palette
+7. Replaceable-top product line
+'Replacement top' product (variants: firmness x market-correct size). Purchasable standalone.
+Size-selector guidance for matching an existing mattress; automated matching later.
+Lifecycle email capability (offer alternate-firmness/refresh tops post-purchase).
+8. Tracking, attribution & the segment readout
+This section answers 'how do we know which segment/territory/name won'. Build it exactly.
+8.1 Pixels & events
+Meta Pixel, Google Ads tag + GA4, TikTok Pixel, Snapchat Pixel. Deposit completion = the conversion event, with value, on all platforms.
+8.2 UTM schema (use verbatim)
+Parameter
+Values
+Meaning
+utm_source
+meta / snapchat / tiktok / google
+Platform
+utm_medium
+paid-social / paid-search
+Channel type
+utm_campaign
+s1-adaptive / s1-cool / s1-support / s1-lux / s1-perf
+Sprint + territory
+utm_content
+seg1-west / seg2-ind / seg3-arab / seg4-new (+ -v2 for page/name variants)
+Segment + variant
+utm_term
+creative id
+Which ad
+8.3 UTM persistence (the critical build)
+Requirement: a small script captures UTMs on landing (first-touch, stored in localStorage/cookie), writes them to cart attributes, so they land on the order/deposit record and appear in the admin export. The deposit app must carry cart attributes through checkout - verify this when choosing the app.
+8.4 How the data is read (for the marketing owner)
+Spend side: Meta Ads Manager (one ad set per segment = spend per segment); same in Snap/TikTok/Google.
+Conversion side: Shopify orders export filtered to the deposit product, pivoted by utm_content (segment) and utm_campaign (territory) = deposits per cell, plus size and price tier.
+Join: cost per deposit per cell = ad-set spend / matching deposits. Rank cells; require a minimum (e.g. 5+ deposits) before trusting a cell.
+Decision: winning segment + territory takes the budget; the site pivots its base copy/palette to the winner; losing variants are archived, not deleted.
+9. Per-market nuances
+9.1 SIZING - different names AND dimensions (critical)
+The SAME name means DIFFERENT dimensions across markets: a UK King (150cm wide) is close to a UAE Queen (160cm); a UAE King is 180cm. Show the correct market list AND cm dimensions or customers order the wrong bed.
+UAE size
+W x L (cm)
+UK size
+W x L (cm)
+Single
+90-100 x 200
+Single
+90 x 190
+Queen
+160 x 200
+Double
+135 x 190
+King
+180 x 200
+King
+150 x 200
+Super King
+200 x 200
+Super King
+180 x 200
+Sizing build requirements
+1. Size selector shows the visitor's market list (via Shopify Markets region / storefront).
+2. ALWAYS show cm next to the name (e.g. 'King - 180 x 200 cm').
+3. Size guide page with a comparison chart and an expat note: 'UAE sizes differ from UK sizes - a UAE King is wider than a UK King.'
+4. Depth 35cm - deeper than UK-standard sheets (25-30cm); note it, and sell it (substantial, hotel-grade).
+5. Each size = a variant with its own price, deposit, inventory, and matching replaceable-top size.
+9.2 Currency, BNPL, language, delivery, SEO, consent
+Currency: UAE AED (8,999/11,999/14,999); UK GBP (1,999/2,499/2,999).
+BNPL: UAE = Tabby + Tamara (essential). UK = Klarna and/or Clearpay (NOT Tabby/Tamara - GCC-only).
+Language: UAE English primary, Arabic for ad creative (RTL if an Arabic site version is built). UK English only.
+Delivery: UAE local + white-glove; UK proposition per fulfilment route.
+SEO: UAE minimal (thin search). UK matters - blog/content capability for cooling + back-pain clusters, schema (Product/Review/FAQ), fast Core Web Vitals.
+Consent: UAE banner; UK full GDPR explicit opt-in - non-negotiable.
+Analytics weighting: UAE Meta/Snap/TikTok; UK Google/GA4 + Meta.
+10. Content & trust (credibility at £2k)
+Delivery, refund, lead-time and size-guide pages; honest made-to-order timeline, prominent.
+Warranty, trial, secure-checkout badges, contact. Real photography + the unzip-and-swap video (placeholders flagged).
+Mobile-first; the deposit flow must be flawless on mobile.
+11. What NOT to build
+No custom checkout (Shopify's only). No hard-coded copy/price/name/colour in test surfaces.
+No SEO-heavy UAE build. No SEO targeting of the Swap System (~0 search demand).
+No permanent per-market brand forks - tokens and settings, not divergent codebases.
+No native app or loyalty system at launch.
+12. Acceptance criteria
+Customer selects the correct market size (cm shown), pays a refundable deposit, receives confirmation with lead time and refund terms - flawless on mobile.
+UAE visitors see UAE sizes; UK visitors see UK sizes; dimensions always shown.
+Marketing can change headline, price, offer, palette tokens, fonts, and brand name/logo without a developer.
+Marketing can duplicate the page into segment/territory/price/name variants; each variant can carry a token override.
+UTMs persist to the deposit record; the export shows utm_campaign/utm_content per deposit alongside size and tier.
+Deposit events fire to Meta, Google (+Snap/TikTok UAE) with value.
+Replacement tops purchasable standalone with market-correct sizes.
+UAE: AED + Tabby/Tamara. UK: GBP + Klarna/Clearpay + GDPR consent.
+Fast on mobile (Core Web Vitals green, especially UK).
+13. The brand name is NOT final - build for it to change
+The name is under test (candidates: Valtora (control), Amara, Nadira, Aeris). The visual identity is designed so a name change touches almost nothing - build to that.
+13.1 Render the wordmark, do not upload it
+The key build decision
+The logo is a wordmark - the name set in a locked typographic system. Do NOT implement it as an uploaded image file. Render it in HTML/CSS from the brand-name theme setting, in the locked typeface, case, tracking and colour. A name change then requires editing one text field, and the mark still looks like the same brand.
+Locked (hard-code these)
+Variable (theme setting)
+Typeface, single weight
+The brand name string
+All caps
+(optional) abstract mark asset
+Letter-spacing approx. 0.12-0.18em
+Colour: navy on light / off-white on dark
+Clear space = one letter height
+If an optional abstract mark is used (a simple geometric device, NOT a letter monogram), that asset is fixed and name-independent - it may be uploaded.
+13.2 Name as a global token
+Brand name stored as ONE global theme setting, referenced everywhere: header wordmark, page titles, meta tags, transactional and lifecycle emails, footer, policy pages, alt text.
+Support the SAME page under 2-3 names for live name A/B tests (duplicated variants), each tracked via utm_content.
+Do NOT bake the name into image files, checkout settings, hard-coded strings, or anything needing a rebuild to change.
+Acceptance test: changing the brand-name setting updates the rendered wordmark and every reference site-wide, with no image edit and no code change.
+14. Build priority order
+Theme + modular sections + design tokens + name-as-setting (the flexibility foundation).
+Deposit/reserve mechanic + size/tier capture + export.
+Per-market SIZE selector with cm dimensions.
+Tracking + UTM persistence to deposits (S8) - do not launch ads before this works.
+Base copy deck loaded (S6); variant duplication tested.
+BNPL per market.
+Replaceable-top line + lifecycle emails.
+Trust/size-guide pages + mobile polish.
+UK deltas (currency, BNPL, GDPR, SEO). Arabic/RTL if in scope.
+Items 1-5 are the true MVP for UAE validation. 6-9 follow once live and learning.

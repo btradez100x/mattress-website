@@ -1,0 +1,87 @@
+<section class="section section--dark" id="offer" data-reveal>
+  <div class="page-width">
+    <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2>{{ section.settings.heading }}</h2>
+    {%- if section.settings.body != blank -%}
+      <p class="section__lede">{{ section.settings.body }}</p>
+    {%- endif -%}
+
+    <div class="offer__items">
+      {%- for block in section.blocks -%}
+        <div class="offer__item" {{ block.shopify_attributes }}>
+          <strong>{{ block.settings.title }}</strong>
+          <span>{{ block.settings.text }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Offer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Founding allocation"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Reserve with confidence."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Made to order. Fully refundable deposit. Honest lead times."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "offer_item",
+      "name": "Offer line",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "100-night trial"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Supporting text",
+          "default": "Sleep on it. Decide at home."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Offer",
+      "blocks": [
+        {
+          "type": "offer_item",
+          "settings": { "title": "100-night trial", "text": "Sleep on it. Decide at home." }
+        },
+        {
+          "type": "offer_item",
+          "settings": { "title": "15-year warranty", "text": "On the spring core." }
+        },
+        {
+          "type": "offer_item",
+          "settings": { "title": "White-glove delivery", "text": "Free delivery and setup." }
+        },
+        {
+          "type": "offer_item",
+          "settings": { "title": "Founding allocation", "text": "Limited units per size." }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

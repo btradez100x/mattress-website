@@ -1,0 +1,137 @@
+{%- liquid
+  assign brand = section.settings.brand_name_override | default: settings.brand_name
+  assign style = ''
+  if section.settings.override_primary != blank or section.settings.override_accent != blank
+    if section.settings.override_primary != blank
+      assign style = style | append: '--brand-primary:' | append: section.settings.override_primary | append: ';'
+    endif
+    if section.settings.override_accent != blank
+      assign style = style | append: '--brand-accent:' | append: section.settings.override_accent | append: ';'
+    endif
+  endif
+  assign tone = section.settings.tone | default: 'light'
+-%}
+<section
+  class="hero hero--{{ tone }}"
+  id="hero"
+  {% if style != blank %}style="{{ style }}"{% endif %}
+>
+  <div class="hero__media" aria-hidden="true">
+    {%- if section.settings.video != blank -%}
+      {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: '1920x' }}
+    {%- else -%}
+      {% render 'theme-image',
+        image: section.settings.image,
+        fallback: 'hero-mattress.jpg',
+        loading: 'eager',
+        alt: brand
+      %}
+    {%- endif -%}
+  </div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__content">
+    <div class="hero__brand">
+      {% render 'wordmark',
+        brand_name_override: brand,
+        dark: false,
+        class: 'wordmark--hero',
+        link: routes.root_url
+      %}
+    </div>
+    {%- if section.settings.heading != blank -%}
+      <h1>{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="hero__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    <div class="hero__cta">
+      <a class="btn" href="{{ section.settings.cta_link | default: '#reserve' }}">
+        {{ section.settings.cta_label | default: 'Reserve yours' }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Copy (positioning test surface)"
+    },
+    {
+      "type": "text",
+      "id": "brand_name_override",
+      "label": "Brand name override",
+      "info": "For name A/B variants on duplicated pages."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Headline",
+      "default": "Change your comfort, not your mattress."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subhead",
+      "default": "The premium hybrid with a replaceable comfort top — unzip, swap, and make it feel new again."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Reserve yours"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "select",
+      "id": "tone",
+      "label": "Hero tone",
+      "options": [
+        { "value": "light", "label": "Light (product on off-white)" },
+        { "value": "dark", "label": "Dark overlay (lifestyle)" }
+      ],
+      "default": "light",
+      "info": "Light matches Brand Guidelines A2 studio hero. Dark for lifestyle photography."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image",
+      "info": "Defaults to theme asset hero-mattress.jpg (real product cutout composite)."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Hero video (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Token overrides (segment variants)"
+    },
+    {
+      "type": "color",
+      "id": "override_primary",
+      "label": "Primary override"
+    },
+    {
+      "type": "color",
+      "id": "override_accent",
+      "label": "Accent override"
+    }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

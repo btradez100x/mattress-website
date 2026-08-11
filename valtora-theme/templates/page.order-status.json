@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "order-status",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

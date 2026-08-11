@@ -1,0 +1,170 @@
+VALTORA
+Premium Sleep, Engineered for the Gulf
+Brand Guidelines
+Self-execution starter system · Name kept testable
+Self-execution starter system · v1 · August 2026
+How to use these guidelines
+This is a starter brand system you can execute yourself - no agency required - to a standard credible enough to sell a premium (£2,000+) product and collect deposits. It is deliberately tight and opinionated so you can apply it consistently without a designer.
+Two principles that govern everything
+1. Premium equals restraint. The single biggest mistake a self-built premium brand makes is doing too much - too many fonts, colours, effects, words. Discipline reads as expensive. When unsure, remove.
+2. The name is not yet final - keep it testable. These guidelines are built as a SYSTEM (colour, type, voice, layout) that works regardless of the final name. See Section 1 for the name-testing framework. Do not order physical goods (labels, packaging, embroidered logos) until the name is validated.
+On the brand agency (deliberate decision)
+You are launching WITHOUT the agency, on purpose. With liquidity tight, the £3k is not justified before validation - and the name must be tested first anyway, so the brand cannot be finalised now. This starter system gets you over the credibility floor to validate. Bring the agency in at Phase 2, once you have a proven positioning AND revenue, to build depth and polish for scale.
+1. Brand name - keeping it testable
+'Valtora' is the working name. Before committing (and before ordering any physical goods), test it. Behaviour beats opinion - run a live A/B, not a survey.
+How to test the name
+Live deposit A/B (best): run the same landing page under 2-3 names (same design, copy, offer, price) and measure which gets more deposits / lower cost per deposit. Real money down is the truest signal.
+Ad-level test (cheaper): run identical ads under different brand names and compare click-through and cost per lead.
+Avoid: 'which name do you prefer?' surveys - they measure stated taste, not buying behaviour.
+Naming criteria (data-derived)
+Pronounceable across English, Arabic and Hindi - our three largest language groups.
+Avoid the letters V and P if possible. Arabic has no native /v/ or /p/ sound; Arabic speakers commonly render V as F. 'Valtora' risks becoming 'Faltora' with Segment 3 (highest per-head wealth) and in Arabic creative. This is a real filter, not a nicety.
+2-3 syllables; easy to say, spell and remember.
+No SEO obligation. Brand names carry ~0 search demand in our keyword data, so the name owes nothing to keywords - it should be distinctive, not descriptive.
+Must not lock us to one territory or attribute. Positioning is still under test (adaptive / cool-sleep / support / luxury / performance) and the business expands into a sleep platform. A name naming one feature ages badly.
+Premium register; trademark-registrable (distinctive, not generic); .com available.
+Name candidates to test
+Name
+Rationale
+Risk
+Valtora (control)
+Working name; confident, Italianate, premium; already in all materials
+The /v/ problem in Arabic
+Amara
+Roots in 'eternal / lasting' - ties to the 'built to keep, refresh don't replace' pillar; clean in English, Arabic and Hindi; no V or P
+Fairly common as a personal name
+Nadira
+Arabic for 'rare, precious'; strong for Segments 2 and 3; supports the limited-allocation story
+May read regional if scaling to the UK
+Aeris
+Air / cool association supporting the cool-sleep territory; modern-minimal; suits Segment 4
+Cooler, less warm than the others
+Do not confound name with segment
+These candidates deliberately skew to different segments - which is useful, but it means you must NOT run name and segment as one combined test, or you cannot tell which variable moved the result. Run Sprint 1 on the control name to find the winning positioning and segment; test names in a small, clean A/B afterwards, within the winning segment.
+Verify before spending
+Trademark clearance and .com availability must be checked for any candidate before you spend on it, and certainly before filing. Names that look perfect frequently are not available. This has not been verified for any of the above.
+On descriptive names (e.g. 'Cool Sleep') - not recommended
+Cooling keywords are alive in both markets (UK 24,950/mo; UAE 3,160/mo), which makes a name like 'Cool Sleep' tempting. It should not be the brand name, for four reasons:
+It is legally weak. Descriptive names are difficult or impossible to register as trademarks, and competitors remain free to use the words. You would be building a premium brand on a mark you cannot defend - fatal for a long-horizon ambition.
+It pre-decides the positioning test. Cool-sleep is one of five territories under test. Naming the company after it before the data lands forecloses the other four, including the replaceable-top wedge, which is the more ownable story.
+It caps expansion. The plan is a sleep platform - replaceable tops, bedding, accessories, then cooler markets (UK, Europe). 'Cool Sleep' boxes you into one attribute and one climate.
+It buys no search advantage. A brand name does not rank you for 'cooling mattress' - page content and SEO do that. You get the cost of a generic name with none of the benefit.
+Use it correctly instead: 'cool sleep' is excellent as a positioning line, a product or collection name (e.g. the Cool Sleep top), a page headline, and an SEO content target. Keep the descriptive language where it earns its keep, and keep the brand name distinctive.
+Naming rule for the physical product
+Do NOT commit the name to anything physical or costly until validated: mattress labels, embroidered logos, packaging print runs, trademark filings for the wrong name. The website and ads can flex a name in minutes; a printed label cannot. Validate first, then lock.
+When the name is locked
+Once validated, trademark it immediately (in the UAE first, then key markets), secure the .com and social handles, and only then finalise physical goods and the named replaceable-top system (your 'SwapTop'-type sub-brand).
+2. Brand foundation
+Positioning statement
+For discerning buyers who see sleep as worth investing in, [Name] is the design-led premium sleep brand that makes a better bed you never fully replace - just refresh - engineered to sleep cool and adapt to you, built for how people live in the Gulf and beyond.
+Brand essence (one line)
+A better bed, for life. Refresh it, don't replace it.
+Brand pillars
+Adaptive: the replaceable top - change your comfort, not your mattress.
+Enduring: built to last decades; refresh the layer, keep the bed.
+Cool: engineered to sleep cool - built for the climate.
+Considered: premium, restrained, design-led - not mass-market.
+Brand personality
+Confident, calm, expert, and quietly premium. Speaks like a knowledgeable friend with impeccable taste - never shouty, never salesy, never cluttered. Think Aesop's restraint meets Apple's clarity meets a boutique hotel's warmth.
+3. Logo
+You can create a credible logo yourself (a clean wordmark is the safest, most premium choice for a self-build). Avoid literal icons (beds, Zs, pillows) - they read cheap.
+Recommended approach: a locked wordmark SYSTEM
+A wordmark is the name rendered visually - so it cannot stay fixed while the name is tested. What you lock instead is the SYSTEM that produces it, so any name looks like the same brand's mark.
+Lock these, and the logo survives a name change
+Typeface, letter-spacing, weight, case treatment, colour, and clear-space rule. Set 'VALTORA' or 'AMARA' in that same locked system and the marks look identical in character. Everything else - palette, type scale, layout, imagery, voice - is untouched by a name change, so roughly 95% of the identity is genuinely fixed and testable-around.
+Element
+Locked spec (do not vary)
+Typeface
+The chosen serif (see Section 4), one weight only
+Case
+All caps
+Letter-spacing
+Generous tracking (approx. 0.12-0.18em) - the main premium cue
+Colour
+Navy on light; off-white on dark. Single colour only
+Clear space
+Equal to the height of one letter on all sides
+Optional constant mark: if you want a graphic element that never changes, add a small ABSTRACT device (a simple geometric form) beside the wordmark - not a letter monogram, since initials break when the name changes. This gives a fixed visual anchor across every name variant.
+Build implication: the wordmark is RENDERED from the name token in the locked typeface, not uploaded as an image file. This is simpler to build and is what makes the name genuinely swappable (see Developer Spec S13).
+Tools: set it in Canva or Figma; if using an AI logo tool, treat it as a starting point and refine the spacing and weight yourself.
+Logo rules
+Give it space - always surround the logo with clear space equal to the height of one letter.
+One colour at a time - navy on light, off-white on dark. Never on a busy background.
+Never: stretch, add effects (shadows, gradients, outlines), rotate, recolour arbitrarily, or place on a clashing colour.
+Minimum size: legible at ~24px height on mobile.
+4. Typography
+Two typefaces maximum. A premium serif for headlines (adds sophistication and warmth) and a clean sans for body (adds clarity). Both are free via Google Fonts, so you can use them on the website and in Canva at no cost.
+Role
+Typeface (free, Google Fonts)
+Use
+Weights
+Headlines / logo
+A refined serif: Cormorant Garamond, Fraunces, or Playfair Display
+Hero headlines, section titles, the wordmark
+Regular / Medium
+Body / UI
+A clean sans: Inter, Work Sans, or Manrope
+Body copy, buttons, labels, FAQ
+Regular / Medium / Semibold
+Typography discipline
+Pick ONE serif and ONE sans and never add a third. Set headlines generously large with tight line-height; keep body at a comfortable reading size (16px+ on web). Plenty of whitespace between elements. This restraint alone makes a self-built site look premium.
+Type scale (web starting point)
+Hero headline: 48-64px (serif). Section heading: 32-40px (serif). Subheading: 20-24px. Body: 16-18px (sans). Caption/label: 13-14px (sans, letter-spaced for labels).
+5. Colour palette
+A restrained, premium palette: a deep anchor, a warm metallic accent, and quiet neutrals. Restraint is the point - premium brands use few colours, used confidently.
+Deep Navy#1F3A5F
+Warm Gold#8A6D3B
+Off-White#F7F5F1
+Soft Stone#EAE6DF
+Ink#222222
+Note: navy + gold is the starting recommendation (confident, premium, warm). If name-testing or positioning suggests a cooler, more 'performance/tech' feel, a charcoal + cool-accent palette is an alternative to test - keep the DISCIPLINE (one deep anchor, one accent, quiet neutrals) whatever the hues.
+Colour usage rules
+Backgrounds: mostly off-white / stone (light, airy, premium). Dark navy sections used sparingly for contrast/drama.
+Gold: an accent only - fine lines, small highlights, the logo. Never large fills (gold blocks read cheap).
+Text: ink/navy on light; off-white on dark. Maintain high contrast for readability and accessibility.
+Never: bright/saturated colours, multiple accents, gradients, or colour used decoratively. When in doubt, more neutral.
+6. Voice & tone
+Confident, calm, and clear. Say less. Let the product and the price speak. Below is how to write in-brand.
+We are
+We are not
+Confident and calm
+Shouty, hype-y, urgent
+Clear and simple
+Jargon-heavy or padded
+Warm and human
+Corporate or cold
+Quietly premium
+Flashy or boastful
+Honest (esp. on lead times)
+Over-promising
+Voice in practice
+Do: 'Change your comfort, not your mattress.' Short, confident, benefit-clear.
+Don't: 'AMAZING luxury mattress SALE - buy now, limited time!!!' Everything premium avoids.
+Do: state the made-to-order lead time plainly - honesty is premium and protects trust.
+Words we use / avoid
+Use: engineered, considered, adaptive, refresh, enduring, cool, crafted, allocation, reserve.
+Avoid: cheap, deal, bargain, blowout, hurry, unbeatable, revolutionary, game-changing.
+7. Imagery style
+Photography is the single biggest lever for looking premium on a self-build. Even phone photos work IF they follow these rules. This is where NOT to cut corners.
+Imagery principles
+Restraint and space: clean backgrounds, lots of negative space, one subject in focus. Never cluttered.
+Natural, soft light: warm morning light or soft diffused studio light. Avoid harsh flash or busy scenes.
+Tactility: show texture - the cool-knit cover, the zip, the layers. Macro detail sells premium materials.
+The hero shot: the unzip-and-swap of the replaceable top. This is your signature image - shoot it well (even on a good phone against a clean wall).
+Lifestyle: aspirational, calm bedroom settings - premium interiors, soft light, uncluttered.
+The 'system' shot: the bed with its swappable tops - visualises the ecosystem.
+Imagery don'ts
+No busy showroom/retail mattress photography (that's the tier you're displacing).
+No heavy text overlays on images. No stocky, generic 'happy family on bed' clichés.
+No over-filtering or heavy colour grading - keep it natural and calm.
+8. Applying the system (self-build checklist)
+A quick checklist to keep everything on-brand as you build the site and ads yourself:
+One serif, one sans, navy + gold + neutrals. Nothing else.
+Lots of whitespace. When a page feels busy, remove something.
+Every headline confident and short. Every image calm and tactile.
+The unzip-and-swap as the hero visual; the layer/system story front and centre.
+Honest lead-time and refund messaging - premium and trust-building.
+Name kept swappable everywhere until validated; nothing physical printed yet.
+BNPL ('from AED X/month') shown to soften the price - on-brand, not salesy.
+The one test for anything you make
+Would this look at home next to Aesop, Apple, or a boutique hotel's website? If yes, it's on-brand. If it looks like a mass-market mattress retailer's sale banner, start over. Restraint wins.

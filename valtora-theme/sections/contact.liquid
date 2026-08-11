@@ -1,0 +1,51 @@
+<section class="section">
+  <div class="page-width" style="max-width:40rem;">
+    <p class="section__eyebrow">Contact</p>
+    <hr class="gold-rule">
+    <h1 style="font-size:clamp(2.25rem,4vw,3rem);">{{ section.settings.heading }}</h1>
+    <p class="section__lede">{{ section.settings.body }}</p>
+
+    <ul class="contact-details" style="list-style:none;padding:0;margin:2rem 0;display:grid;gap:0.85rem;">
+      {%- if settings.contact_email != blank -%}
+        <li><strong>Email</strong> — <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></li>
+      {%- endif -%}
+      {%- if settings.contact_phone != blank -%}
+        <li><strong>Phone</strong> — <a href="tel:{{ settings.contact_phone }}">{{ settings.contact_phone }}</a></li>
+      {%- endif -%}
+      {%- if settings.contact_hours != blank -%}
+        <li><strong>Hours</strong> — {{ settings.contact_hours }}</li>
+      {%- endif -%}
+      {%- if settings.response_time_note != blank -%}
+        <li><strong>Response</strong> — {{ settings.response_time_note }}</li>
+      {%- endif -%}
+    </ul>
+
+    {%- if settings.whatsapp_enabled -%}
+      {% render 'whatsapp-button', variant: 'inline' %}
+    {%- endif -%}
+
+    {%- if page.content != blank -%}
+      <div class="rte" style="margin-top:2rem;">{{ page.content }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Talk to a person."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Questions about sizing, the deposit, or lead times — we reply within one working day."
+    }
+  ]
+}
+{% endschema %}

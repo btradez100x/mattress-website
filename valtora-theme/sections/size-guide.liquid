@@ -1,0 +1,79 @@
+<section class="section">
+  <div class="page-width">
+    <p class="section__eyebrow">Sizing</p>
+    <hr class="gold-rule">
+    <h1 style="font-size:clamp(2.25rem,4vw,3rem);">{{ section.settings.heading }}</h1>
+    <p class="section__lede">{{ section.settings.intro }}</p>
+
+    <div class="table-wrap">
+      <table class="size-table">
+        <thead>
+          <tr>
+            <th>UAE size</th>
+            <th>W × L (cm)</th>
+            <th>UK size</th>
+            <th>W × L (cm)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Single</td><td>90–100 × 200</td><td>Single</td><td>90 × 190</td></tr>
+          <tr><td>Queen</td><td>160 × 200</td><td>Double</td><td>135 × 190</td></tr>
+          <tr><td>King</td><td>180 × 200</td><td>King</td><td>150 × 200</td></tr>
+          <tr><td>Super King</td><td>200 × 200</td><td>Super King</td><td>180 × 200</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rte" style="margin-top:2rem;">
+      <h2>{{ section.settings.note_heading }}</h2>
+      <p>{{ section.settings.note_body }}</p>
+      <h2>{{ section.settings.depth_heading }}</h2>
+      <p>{{ section.settings.depth_body }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Size guide",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Size guide"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "UAE and UK use different size names and dimensions. Always order by centimetres."
+    },
+    {
+      "type": "text",
+      "id": "note_heading",
+      "label": "Expat note heading",
+      "default": "For expats"
+    },
+    {
+      "type": "textarea",
+      "id": "note_body",
+      "label": "Expat note",
+      "default": "UAE sizes differ from UK sizes — a UAE King is wider than a UK King. A UK King (150cm) is closer to a UAE Queen (160cm)."
+    },
+    {
+      "type": "text",
+      "id": "depth_heading",
+      "label": "Depth heading",
+      "default": "37cm depth"
+    },
+    {
+      "type": "textarea",
+      "id": "depth_body",
+      "label": "Depth body",
+      "default": "Our mattress is 37cm deep — substantial, hotel-grade, and deeper than typical UK sheets (25–30cm). Plan for deep-fitted sheets."
+    }
+  ],
+  "presets": [{ "name": "Size guide" }]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+<section class="section">
+  <div class="page-width">
+    <p class="section__eyebrow">{{ page.title }}</p>
+    <hr class="gold-rule">
+    <h1 style="font-size:clamp(2.25rem,4vw,3rem);">{{ page.title }}</h1>
+    <div class="rte" style="margin-top:1.5rem;">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": []
+}
+{% endschema %}

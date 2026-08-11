@@ -1,0 +1,127 @@
+[BRAND]
+Developer Spec - Trust Layer
+Section 15 addendum - trust, risk reversal & credibility
+Addendum to Developer Spec v3 - written against the current theme build
+15.0 Why this section exists
+We are an unknown brand asking for AED 9,000-15,000 / £2,000-3,000, for a made-to-order product that does not yet exist, with a 2-3 month lead time and zero reviews. That is close to the hardest trust ask in e-commerce.
+The governing principle
+Badges will not carry this. Risk reversal and radical transparency will. Build in the order below - Tier 1 items do the most work and must ship with the MVP. Everything here is additive to the existing theme; nothing in it changes the deposit mechanic, sizing, or attribution already built.
+What the current theme already has (do not rebuild)
+Market auto-detection and size list with cm dimensions (sections/size-reserve.liquid)
+Design tokens, brand name as setting, rendered wordmark (snippets/css-variables.liquid, wordmark.liquid)
+UTM first-touch persistence to cart attributes (assets/utm-persistence.js)
+Pixel settings for Meta, GA4, Google Ads, TikTok, Snapchat (snippets/tracking-pixels.liquid)
+Refundable deposit microcopy in the reserve panel; social-proof section with an empty state; footer policy links
+What is missing and this addendum specifies
+A dedicated trust/risk-reversal section; deposit terms expansion at point of payment; legal entity and licence details; WhatsApp and human contact; payment and BNPL trust marks; a review-platform slot; an order-status/lead-time surface; certification slots.
+15.1 TIER 1 - Risk reversal (MVP - highest impact)
+15.1.1 New section: trust-bar.liquid
+A slim, four-item reassurance strip placed directly beneath the hero and again immediately above the reserve CTA (same section, two placements).
+Blocks (repeatable, max 4): icon (image_picker or inline SVG select), label (text), sublabel (text), optional link.
+Defaults: 'Fully refundable deposit' / 'Refund any time before dispatch'  |  '100-night trial' / 'Sleep on it properly'  |  '{{ settings.warranty_years }}-year core warranty' / 'On the spring core'  |  'White-glove delivery & setup' / 'We bring it in and set it up'
+Rule: each label must link to the page that proves it. An unlinked claim is weaker than no claim.
+15.1.2 Deposit terms expansion (in size-reserve.liquid)
+The reserve panel currently states the deposit is refundable. Expand it into an inline, always-visible summary directly above the reserve button - do not hide it behind a link or modal alone.
+New section settings: deposit_terms_title (text), deposit_terms (richtext), deposit_terms_link (url).
+Default richtext content (editable):
+What your deposit does
+- Reserves your size in the current production allocation.
+- Fully refundable at any time before your mattress is dispatched.
+- The balance is only due once we confirm your dispatch date.
+- Refunds are returned to the original payment method within 5-10 business days.
+Acceptance: visible without scrolling past the reserve button on mobile; not collapsed by default.
+15.1.3 Trial, warranty, refund & lead-time policy pages
+Create four page templates (or one page.trust.json template reused) so these are real, indexable pages, not modal text. Footer already has the link settings - populate them.
+Page
+Must answer plainly
+Trial
+Length; who arranges collection; who pays return shipping; refund timing; any conditions.
+Warranty
+Years; what is covered; what voids it; how to claim.
+Refunds / deposit
+How to cancel a reservation; timing; method; who to contact.
+Delivery & lead time
+Current made-to-order window; how dispatch is confirmed; white-glove scope; areas served.
+Write these in plain English
+Vague trial terms read as a trap; specific ones read as confidence. At this price the refund and trial pages get read. Name the awkward details (who pays return shipping, how long refunds take) rather than omitting them - omission is what destroys trust, not an unfavourable answer.
+15.2 TIER 2 - Transparency (MVP)
+15.2.1 New section: founder-note.liquid
+Purpose: for an unknown premium brand this is disproportionately powerful - people buy from a person when they cannot yet buy from a reputation.
+Settings: portrait (image_picker), name (text), role (text), note (richtext), signature_image (image_picker, optional).
+Place between social proof and the offer section. Keep to ~80-120 words in the brand voice - calm, specific, no hype.
+15.2.2 Legal entity block (footer.liquid)
+Add to the footer schema and render in the footer's legal row:
+legal_entity_name   (text)   e.g. "[Company] FZ-LLC"
+trade_licence_no    (text)   UAE trade licence number
+registered_address  (textarea)
+tax_reg_no          (text)   TRN / VAT number
+company_no          (text)   for the UK entity when live
+Why it matters: in the UAE a visible trade licence number is a strong legitimacy signal, and for the UK market company/VAT details are a baseline expectation. Render per market where the entities differ.
+15.2.3 Lead-time honesty & order status
+Surface {{ settings.lead_time_window }} in three places: the trust bar, the reserve panel, and the deposit confirmation email.
+Copy pattern: 'Made to order. Current window: [X-Y] weeks. We confirm your dispatch date before the balance is due.' Never 'ships soon'.
+Order status page (post-MVP, before first fulfilment): a simple page where a customer enters order number + email and sees a production stage (Reserved / In production / Quality check / Ready to dispatch / Dispatched). A static stage list updated manually is acceptable at launch.
+15.2.4 Spec transparency
+product-specs.liquid should show the full layer stack, including depth in cm and the density/thickness of each layer. Openness about construction reads as confidence and differentiates against competitors who hide it.
+15.3 TIER 3 - Human contact (near-mandatory in the UAE)
+15.3.1 New snippet: whatsapp-button.liquid
+This is not optional for the UAE
+In the GCC, WhatsApp is often the difference between a AED 12,000 enquiry and a bounce. Persistent floating button on mobile, plus an inline button in the reserve panel and contact page.
+Settings (add to settings_schema.json, 'Social & contact' group):
+whatsapp_number      (text)    international format, digits only
+whatsapp_prefill     (text)    default: "Hi - I have a question about reserving a mattress."
+whatsapp_enabled     (checkbox)
+contact_hours        (text)    e.g. "Sun-Thu, 9am-6pm GST"
+response_time_note   (text)    e.g. "We reply within one working day."
+Link format: https://wa.me/{{ settings.whatsapp_number }}?text={{ settings.whatsapp_prefill | url_encode }}
+Floating button must not obscure the reserve CTA on mobile - offset above the sticky bar if one exists.
+Render phone, email, contact hours and response-time note in the footer and on the contact page.
+15.4 TIER 4 - Payment & security signals
+footer.liquid already has show_payment_icons - implement it. Render: Visa, Mastercard, Amex, Apple Pay, plus Tabby and Tamara for AE; Klarna and/or Clearpay for GB.
+BNPL is itself a trust signal - those providers vetted the business before approving it. Show the logos, not just the text microcopy.
+Render a secure-checkout line immediately beneath the reserve button: 'Secure checkout by Shopify. Card details are never stored by us.'
+Market-aware: use the same market variable already resolved in size-reserve.liquid so AE and GB show the correct providers.
+15.5 TIER 5 - Social proof (build the infrastructure, never fake it)
+Install a review platform from day one even with zero reviews - Judge.me, Okendo or Trustpilot - so reviews land publicly and verifiably. Add an app-block slot in social-proof.liquid.
+Keep the existing empty state. 'Reviews will appear here as the first allocation settles in' is honest and on-brand - far better than hiding the section or padding it.
+Founding-customer programme: tag the first cohort in Shopify; a lifecycle email requests an honest review plus photos in exchange for something meaningful.
+Certification & proof slots (leave the space, fill later)
+A repeatable 'proof' block (logo image + caption + optional link) for: CertiPUR-US / OEKO-TEX foam certification, the cooling lab certificate, press mentions, awards. Hidden until populated.
+Certifications are worth pursuing early
+CertiPUR-US or OEKO-TEX on the foams is achievable, third-party, and closes part of the materials-credibility gap against Simba - which our competitive analysis identified as our single real vulnerability.
+15.6 What must NOT be built
+These actively destroy trust at this price point
+No fake urgency. No countdown timers, no 'X people are viewing this', no artificial stock counters. These work on impulse buys and repel considered ones. Genuine scarcity ('limited first allocation') is fine because it is true - manufactured scarcity is not.
+No fake, seeded, or incentivised-for-positive reviews. Illegal in both the UK and UAE and fatal if discovered. Incentivising an HONEST review is acceptable; incentivising a POSITIVE one is not.
+No unverified claims. No cooling temperature or percentage figures until the lab test exists. No medical claims anywhere (see S6.9 / creative compliance).
+No trust badges we have not earned. Generic 'as seen in' or invented award graphics. Empty proof slots are better than false ones.
+15.7 The UAE cash-on-delivery problem
+Cash on delivery is a strong trust expectation in the UAE and it does not fit a made-to-order deposit model. We cannot fully solve this. The refundable deposit is our functional equivalent - so its refundability must be the loudest trust message on the page, and the FAQ should address the concern directly.
+Add to the FAQ defaults:
+Q: Can I pay cash on delivery?
+A: Because each mattress is made to order, we take a small refundable deposit to
+reserve your size. The balance is due only once we confirm your dispatch date -
+and the deposit is refundable in full at any point before dispatch.
+15.8 Acceptance criteria
+Trust bar renders beneath the hero and above the reserve CTA, with every claim linking to the page that proves it.
+Deposit terms are visible inline above the reserve button on mobile without expanding anything.
+Trial, warranty, refund and delivery/lead-time pages exist, are linked in the footer, and answer the awkward questions plainly.
+Founder note section renders with portrait and note.
+Footer shows legal entity name, trade licence number, registered address and tax number, market-appropriate.
+WhatsApp button appears on mobile (floating) and in the reserve panel, opens with prefilled text, and does not obscure the reserve CTA.
+Contact hours and response-time note render in the footer and contact page.
+Payment icons render per market (Tabby/Tamara for AE; Klarna/Clearpay for GB) with the secure-checkout line beneath the reserve button.
+Review platform app block is installed and the social-proof empty state displays correctly with zero reviews.
+Proof/certification blocks exist and stay hidden until populated.
+Lead-time window renders in the trust bar, reserve panel and confirmation email, using the existing setting.
+No countdown timers, viewer counts, artificial stock counters, or unearned badges anywhere in the build.
+15.9 Build order
+Deposit terms expansion + trust bar (biggest impact, smallest effort).
+Trial / warranty / refund / delivery pages, linked in footer.
+WhatsApp button + contact details + response times.
+Legal entity block in footer.
+Payment icons + secure-checkout line, market-aware.
+Founder note section.
+Review platform install + proof/certification slots.
+Order-status surface (before first fulfilment, not before launch).
+Items 1-5 ship with the MVP. Items 6-8 follow before the first deposits convert to dispatches.

@@ -1,0 +1,99 @@
+{%- liquid
+  assign brand_override = section.settings.brand_name_override
+-%}
+<header class="site-header">
+  <div class="site-header__inner">
+    {% render 'wordmark', brand_name_override: brand_override %}
+
+    {%- if section.settings.menu != blank -%}
+      <nav class="site-header__nav" aria-label="Primary">
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </nav>
+    {%- else -%}
+      <nav class="site-header__nav" aria-label="Primary">
+        <a href="#swap">The Swap System</a>
+        <a href="#specs">Specs</a>
+        <a href="#reserve">Reserve</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    {%- endif -%}
+
+    <div class="site-header__actions">
+      {%- if section.settings.show_reserve_cta -%}
+        <a class="btn" href="{{ section.settings.reserve_link | default: '#reserve' }}">
+          {{ section.settings.reserve_label | default: 'Reserve yours' }}
+        </a>
+      {%- endif -%}
+      <button
+        class="nav-toggle"
+        type="button"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="MobileNav"
+        aria-label="Open menu"
+      >
+        <span class="nav-toggle__bars" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav-panel" id="MobileNav" data-nav-panel aria-hidden="true">
+    {%- if section.settings.menu != blank -%}
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    {%- else -%}
+      <a href="#swap">The Swap System</a>
+      <a href="#specs">Specs</a>
+      <a href="#reserve">Reserve</a>
+      <a href="#faq">FAQ</a>
+    {%- endif -%}
+    {%- if section.settings.show_reserve_cta -%}
+      <a href="{{ section.settings.reserve_link | default: '#reserve' }}">
+        {{ section.settings.reserve_label | default: 'Reserve yours' }}
+      </a>
+    {%- endif -%}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name_override",
+      "label": "Brand name override (name A/B)",
+      "info": "Leave blank to use the global Brand name setting."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reserve_cta",
+      "label": "Show reserve CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reserve_label",
+      "label": "Reserve CTA label",
+      "default": "Reserve yours"
+    },
+    {
+      "type": "url",
+      "id": "reserve_link",
+      "label": "Reserve CTA link"
+    }
+  ]
+}
+{% endschema %}

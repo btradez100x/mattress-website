@@ -1,0 +1,126 @@
+{%- liquid
+  assign brand = settings.brand_name | default: 'Valtora'
+  assign warranty = settings.warranty_years | default: '15'
+  assign lead = settings.lead_time_window | default: '6–8 weeks'
+-%}
+<section class="section section--surface" id="faq" data-reveal>
+  <div class="page-width page-width--narrow" style="max-width:48rem; width:min(100% - (var(--space-gutter) * 2), 48rem);">
+    <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2>{{ section.settings.heading }}</h2>
+
+    <div class="faq__list" data-faq>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign answer = block.settings.answer
+          assign answer = answer | replace: '[Brand]', brand
+          assign answer = answer | replace: '[X]', warranty
+          assign answer = answer | replace: '[X-Y]', lead
+        -%}
+        <div class="faq__item" data-faq-item aria-expanded="false" {{ block.shopify_attributes }}>
+          <button class="faq__trigger" type="button" data-faq-trigger>
+            <span>{{ block.settings.question }}</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div class="faq__panel">{{ answer | newline_to_br }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Questions"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Clear answers."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What does the deposit do?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "It reserves your mattress in the current allocation. Fully refundable any time before dispatch.",
+          "info": "Tokens: [Brand], [X] (warranty years), [X-Y] (lead time)."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "question": "What does the deposit do?",
+            "answer": "It reserves your mattress in the current allocation. Fully refundable any time before dispatch."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "When will it ship?",
+            "answer": "Each mattress is made to order. Current window: [X-Y]. We confirm your date before dispatch."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "Which size should I choose?",
+            "answer": "Use the size selector on this page — dimensions are always shown in cm. UAE and UK sizes differ (a UAE King is wider than a UK King). See the size guide for a full comparison."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "How does the replaceable top work?",
+            "answer": "Unzip, lift out, swap in. Tops come in soft, medium and firm."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "What if it is not right for me?",
+            "answer": "You have a 100-night trial. If it is not right, we guide you through the return process per the active offer terms."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "What is the warranty?",
+            "answer": "[X]-year warranty on the spring core."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "Can I pay cash on delivery?",
+            "answer": "Because each mattress is made to order, we take a small refundable deposit to reserve your size. The balance is due only once we confirm your dispatch date — and the deposit is refundable in full at any point before dispatch."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

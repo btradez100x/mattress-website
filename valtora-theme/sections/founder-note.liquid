@@ -1,0 +1,87 @@
+<section class="section founder-note" id="founder" data-reveal>
+  <div class="page-width founder-note__grid">
+    <div class="founder-note__portrait">
+      {%- if section.settings.portrait != blank -%}
+        {{
+          section.settings.portrait
+          | image_url: width: 900
+          | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 900px) 28vw, 80vw', alt: section.settings.name
+        }}
+      {%- else -%}
+        <div class="media-placeholder" style="aspect-ratio: 4 / 5; min-height: 0;">
+          Founder portrait
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="founder-note__copy">
+      <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+      <hr class="gold-rule">
+      <h2>{{ section.settings.heading }}</h2>
+      <div class="founder-note__body rte">
+        {{ section.settings.note }}
+      </div>
+      <div class="founder-note__signoff">
+        {%- if section.settings.signature_image != blank -%}
+          {{
+            section.settings.signature_image
+            | image_url: width: 280
+            | image_tag: loading: 'lazy', class: 'founder-note__signature', alt: ''
+          }}
+        {%- endif -%}
+        <p class="founder-note__name">{{ section.settings.name }}</p>
+        {%- if section.settings.role != blank -%}
+          <p class="founder-note__role">{{ section.settings.role }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Founder note",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "A note from the founder"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built for how people actually sleep here."
+    },
+    {
+      "type": "richtext",
+      "id": "note",
+      "label": "Note (~80–120 words)",
+      "default": "<p>We started this because replacing a whole mattress when only the top had worn out felt wasteful — and because sleeping cool in the Gulf should not be a compromise. Each bed is made to order. The deposit reserves your size and is refundable before dispatch. If something is unclear, message us — a person will reply.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "portrait",
+      "label": "Portrait"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "default": "Founder"
+    },
+    {
+      "type": "text",
+      "id": "role",
+      "label": "Role",
+      "default": "Founder"
+    },
+    {
+      "type": "image_picker",
+      "id": "signature_image",
+      "label": "Signature image (optional)"
+    }
+  ],
+  "presets": [{ "name": "Founder note" }]
+}
+{% endschema %}

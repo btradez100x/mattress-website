@@ -1,0 +1,42 @@
+{%- liquid
+  assign brand = settings.brand_name | default: 'Valtora'
+  assign og_title = page_title | default: brand
+  if page_title
+    assign og_title = page_title | append: ' · ' | append: brand
+  endif
+-%}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="{{ settings.color_primary }}">
+<link rel="canonical" href="{{ canonical_url }}">
+
+{%- if settings.favicon != blank -%}
+  <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+{%- endif -%}
+
+<title>
+  {{ page_title }}
+  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+  {%- unless page_title contains brand %} &ndash; {{ brand }}{% endunless -%}
+</title>
+
+{% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+{% else %}
+  <meta name="description" content="{{ settings.brand_tagline | escape }} — {{ brand }}. A better bed, for life. Refresh it, don't replace it.">
+{% endif %}
+
+<meta property="og:site_name" content="{{ brand }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ og_title | escape }}">
+<meta property="og:type" content="website">
+<meta property="og:description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ settings.brand_tagline | escape }}{% endif %}">
+{%- if page_image -%}
+  <meta property="og:image" content="http:{{ page_image | image_url: width: 1200 }}">
+  <meta property="og:image:secure_url" content="https:{{ page_image | image_url: width: 1200 }}">
+{%- endif -%}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ og_title | escape }}">
+<meta name="twitter:description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ settings.brand_tagline | escape }}{% endif %}">

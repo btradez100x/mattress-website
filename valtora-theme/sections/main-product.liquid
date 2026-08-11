@@ -1,0 +1,80 @@
+{%- assign product = section.settings.product | default: product -%}
+<section class="section product-form">
+  <div class="page-width" style="display:grid;gap:2.5rem;">
+    {%- if product != blank -%}
+      <div class="specs__grid">
+        <div>
+          {%- if product.featured_media -%}
+            {{
+              product.featured_media
+              | image_url: width: 1400
+              | image_tag: loading: 'eager', widths: '600,900,1200,1400', sizes: '(min-width:900px) 45vw, 100vw'
+            }}
+          {%- else -%}
+            <div class="media-placeholder">Product image</div>
+          {%- endif -%}
+        </div>
+        <div>
+          <p class="section__eyebrow">{{ settings.brand_name }}</p>
+          <h1 style="font-size:clamp(2rem,4vw,2.75rem);">{{ product.title }}</h1>
+          <p class="reserve-panel__price">{{ product.selected_or_first_available_variant.price | money }}</p>
+          <div class="rte">{{ product.description }}</div>
+          <form method="post" action="{{ routes.cart_add_url }}" style="margin-top:1.5rem;" id="ProductForm-{{ section.id }}">
+            {%- if product.has_only_default_variant -%}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            {%- else -%}
+              <div style="margin-bottom:1rem;">
+                <label for="Variant-{{ section.id }}" style="display:block;margin-bottom:0.5rem;font-size:0.8125rem;letter-spacing:0.08em;text-transform:uppercase;">
+                  Options
+                </label>
+                <select name="id" id="Variant-{{ section.id }}" style="width:100%;padding:0.85rem;border:1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);background:var(--brand-bg);">
+                  {%- for variant in product.variants -%}
+                    <option
+                      value="{{ variant.id }}"
+                      {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                      {% unless variant.available %}disabled{% endunless %}
+                    >
+                      {{ variant.title }} — {{ variant.price | money }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+            <button class="btn" type="submit" name="add">
+              {%- if product.type == 'Replacement top' or product.tags contains 'replacement-top' -%}
+                Add replacement top
+              {%- else -%}
+                Add to cart
+              {%- endif -%}
+            </button>
+          </form>
+          <p class="cart-attributes-note">
+            Size dimensions are shown on the landing reserve flow. For replacement tops, choose the firmness and market-correct size variant.
+          </p>
+        </div>
+      </div>
+    {%- else -%}
+      <p>Product unavailable.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  document.getElementById('ProductForm-{{ section.id }}')?.addEventListener('submit', function () {
+    if (window.ValtoraUTM) window.ValtoraUTM.syncCartAttributes();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product override",
+      "info": "Leave blank on product templates."
+    }
+  ]
+}
+{% endschema %}

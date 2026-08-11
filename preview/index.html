@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en" data-market="ae">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#1F3A5F">
+    <title>Valtora — Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./base.css">
+    <style>
+      :root {
+        --brand-primary: #1F3A5F;
+        --brand-accent: #8A6D3B;
+        --brand-bg: #F7F5F1;
+        --brand-surface: #EAE6DF;
+        --brand-ink: #222222;
+        --brand-on-dark: #F7F5F1;
+        --font-serif: 'Cormorant Garamond', Georgia, serif;
+        --font-sans: 'Manrope', system-ui, sans-serif;
+        --wordmark-tracking: 0.15em;
+        --space-section: clamp(4.5rem, 10vw, 7.5rem);
+        --space-gutter: clamp(1.25rem, 4vw, 2.5rem);
+        --max-width: 72rem;
+        --max-width-narrow: 40rem;
+        --radius: 0;
+        --transition: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .preview-banner {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        background: #8A6D3B;
+        color: #F7F5F1;
+        text-align: center;
+        font-size: 0.8125rem;
+        letter-spacing: 0.04em;
+        padding: 0.55rem 1rem;
+      }
+      .preview-banner strong { font-weight: 600; }
+      body.template-index .site-header { top: 0; }
+      /* preview banner is in flow; keep header sticky below it visually via sticky stack */
+
+    </style>
+  </head>
+  <body class="template-index">
+    <div class="preview-banner">
+      <strong>Local theme preview</strong> — static mock of the Shopify landing page (not connected to a store)
+    </div>
+
+    <div class="announcement" role="region" aria-label="Announcement">
+      <p style="margin:0">First allocation now reserving — limited units per size.</p>
+    </div>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="wordmark" href="#" aria-label="Valtora">
+          <span class="wordmark__text">Valtora</span>
+        </a>
+        <nav class="site-header__nav" aria-label="Primary">
+          <a href="#swap">The Swap System</a>
+          <a href="#specs">Specs</a>
+          <a href="#reserve">Reserve</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="site-header__actions">
+          <a class="btn" href="#reserve">Reserve yours</a>
+          <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="MobileNav" aria-label="Open menu">
+            <span class="nav-toggle__bars" aria-hidden="true"><span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span><span></span></span>
+          </button>
+        </div>
+      </div>
+      <div class="nav-panel" id="MobileNav" data-nav-panel aria-hidden="true">
+        <a href="#swap">The Swap System</a>
+        <a href="#specs">Specs</a>
+        <a href="#reserve">Reserve</a>
+        <a href="#faq">FAQ</a>
+        <a href="#reserve">Reserve yours</a>
+      </div>
+    </header>
+
+    <main id="MainContent">
+      <!-- Hero -->
+      <section class="hero hero--light" id="hero">
+        <div class="hero__media" aria-hidden="true">
+          <img src="./assets/hero-mattress.jpg" alt="Valtora mattress" width="2000" height="1500">
+        </div>
+        <div class="hero__scrim" aria-hidden="true"></div>
+        <div class="hero__content">
+          <div class="hero__brand">
+            <a class="wordmark wordmark--hero" href="#" aria-label="Valtora">
+              <span class="wordmark__text">Valtora</span>
+            </a>
+          </div>
+          <h1>Change your comfort, not your mattress.</h1>
+          <p class="hero__sub">The premium hybrid with a replaceable comfort top — unzip, swap, and make it feel new again.</p>
+          <div class="hero__cta">
+            <a class="btn" href="#reserve">Reserve yours</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-bar" data-reveal>
+        <div class="page-width">
+          <ul class="trust-bar__list" role="list">
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#reserve"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Fully refundable deposit</strong><span class="trust-bar__sub">Refund any time before dispatch</span></span></a></li>
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#faq"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong><span class="trust-bar__sub">Sleep on it properly</span></span></a></li>
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#faq"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong><span class="trust-bar__sub">On the spring core</span></span></a></li>
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#offer"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">White-glove delivery &amp; setup</strong><span class="trust-bar__sub">We bring it in and set it up</span></span></a></li>
+          </ul>
+          <p class="trust-bar__lead">Made to order. Current window: 6–8 weeks. We confirm your dispatch date before the balance is due.</p>
+        </div>
+      </section>
+
+      <!-- Big idea -->
+      <section class="section" id="swap" data-reveal>
+        <div class="page-width big-idea__grid">
+          <div class="big-idea__copy">
+            <p class="section__eyebrow">The Swap System</p>
+            <hr class="gold-rule">
+            <h2>A better bed, for life.</h2>
+            <div class="section__lede rte">
+              Most mattresses get replaced because the top wears out — while the springs beneath have years left. Valtora separates the two. Unzip the comfort top, swap in a new one, and your bed feels new again. Change firmness as life changes. Keep the bed for decades.
+            </div>
+          </div>
+          <div class="big-idea__media">
+            <img src="./assets/lifestyle-airy.jpg" alt="Bedroom with Valtora mattress" width="1600" height="1200" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+      </section>
+
+      <!-- Benefits -->
+      <section class="section section--surface" id="benefits" data-reveal>
+        <div class="page-width">
+          <p class="section__eyebrow">Why it matters</p>
+          <h2>Engineered for how you live.</h2>
+          <div class="benefits__grid">
+            <article class="benefit">
+              <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 14h16M8 14V8l4-3 4 3v6" stroke="currentColor" stroke-width="1.25"/></svg>
+              <h3>A bed that adapts</h3>
+              <p>Swap the top to change firmness — as your body, your partner, or your preferences change.</p>
+            </article>
+            <article class="benefit">
+              <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v18M5 7l14 10M5 17L19 7" stroke="currentColor" stroke-width="1.25"/></svg>
+              <h3>Cool by design</h3>
+              <p>A breathable cool-knit cover and gel-infused comfort layer, made for warm nights.</p>
+            </article>
+            <article class="benefit">
+              <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16h16M6 16V9a6 6 0 0 1 12 0v7" stroke="currentColor" stroke-width="1.25"/></svg>
+              <h3>Deep, engineered support</h3>
+              <p>A 20cm, 7-zone pocket-spring core and high-density base keep your spine aligned.</p>
+            </article>
+            <article class="benefit">
+              <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 8v4l2.5 2.5" stroke="currentColor" stroke-width="1.25"/></svg>
+              <h3>Built to keep</h3>
+              <p>Refresh the top instead of replacing the mattress — less waste, less cost over time.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Specs -->
+      <section class="section" id="specs" data-reveal>
+        <div class="page-width specs__grid">
+          <div>
+            <p class="section__eyebrow">The mattress</p>
+            <hr class="gold-rule">
+            <h2>37cm. Hotel-grade depth.</h2>
+            <p class="section__lede">Substantial enough to feel considered — deeper than standard UK sheets, engineered as a system you refresh rather than replace.</p>
+            <ul class="specs__list">
+              <li>37cm full height — substantial, hotel-grade depth</li>
+              <li>400gsm cool-knit cover</li>
+              <li>Gel-infused memory foam comfort layer</li>
+              <li>Replaceable comfort top (zip access)</li>
+              <li>20cm 7-zone pocket-spring core</li>
+              <li>High-density encased support base</li>
+              <li>Anti-slip base</li>
+            </ul>
+          </div>
+          <div class="big-idea__media">
+            <img src="./assets/product-side.jpg" alt="Mattress side profile 37cm depth" width="1600" height="1200" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+      </section>
+
+      <!-- Swap video -->
+      <section class="section section--dark" id="swap-video" data-reveal>
+        <div class="page-width" style="text-align:center; max-width: 48rem; margin-inline: auto;">
+          <p class="section__eyebrow">How it works</p>
+          <h2>Unzip. Lift out. Swap in.</h2>
+          <p class="section__lede" style="margin-inline:auto;">Tops come in soft, medium and firm. Change comfort as life changes — keep the engineered core for decades.</p>
+        </div>
+        <div class="page-width" style="margin-top: 2.5rem;">
+          <div class="big-idea__media" style="aspect-ratio: 16 / 9; max-width: 56rem; margin-inline: auto;">
+            <img src="./assets/swap-poster.jpg" alt="Swap System unzip detail" width="1600" height="1200" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+      </section>
+
+      <!-- Cooling -->
+      <section class="section" id="proof" data-reveal>
+        <div class="page-width big-idea__grid">
+          <div class="big-idea__media">
+            <img src="./assets/cover-macro.jpg" alt="Cool-knit cover texture" width="1600" height="1200" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div>
+            <p class="section__eyebrow">Built for the climate</p>
+            <hr class="gold-rule">
+            <h2>Engineered to sleep cool.</h2>
+            <p class="section__lede">A breathable cool-knit cover and gel-infused comfort layer, paired with a 7-zone pocket-spring core for deep, considered support.</p>
+            <ul class="specs__list">
+              <li>400gsm cool-knit cover</li>
+              <li>Gel-infused comfort layer</li>
+              <li>20cm 7-zone pocket springs</li>
+              <li>High-density encased base</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews -->
+      <section class="section section--surface" id="reviews" data-reveal>
+        <div class="page-width">
+          <p class="section__eyebrow">From early owners</p>
+          <h2>Quiet confidence.</h2>
+          <p class="reviews__empty">Reviews will appear here as the first allocation settles in.</p>
+        </div>
+      </section>
+
+      <!-- Offer -->
+      <section class="section section--dark" id="offer" data-reveal>
+        <div class="page-width">
+          <p class="section__eyebrow">Founding allocation</p>
+          <h2>Reserve with confidence.</h2>
+          <p class="section__lede">Made to order. Fully refundable deposit. Honest lead times.</p>
+          <div class="offer__items">
+            <div class="offer__item"><strong>100-night trial</strong><span>Sleep on it. Decide at home.</span></div>
+            <div class="offer__item"><strong>15-year warranty</strong><span>On the spring core.</span></div>
+            <div class="offer__item"><strong>White-glove delivery</strong><span>Free delivery and setup.</span></div>
+            <div class="offer__item"><strong>Founding allocation</strong><span>Limited units per size.</span></div>
+          </div>
+        </div>
+      </section>
+
+      
+      <section class="trust-bar trust-bar--surface" data-reveal>
+        <div class="page-width">
+          <ul class="trust-bar__list" role="list">
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#reserve"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Fully refundable deposit</strong><span class="trust-bar__sub">Refund any time before dispatch</span></span></a></li>
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#faq"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong><span class="trust-bar__sub">Sleep on it properly</span></span></a></li>
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#faq"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong><span class="trust-bar__sub">On the spring core</span></span></a></li>
+            <li class="trust-bar__item"><a class="trust-bar__link" href="#offer"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">White-glove delivery &amp; setup</strong><span class="trust-bar__sub">We bring it in and set it up</span></span></a></li>
+          </ul>
+          <p class="trust-bar__lead">Made to order. Current window: 6–8 weeks. We confirm your dispatch date before the balance is due.</p>
+        </div>
+      </section>
+
+      <!-- Reserve -->
+      <section class="section" id="reserve" data-reveal>
+        
+
+<script type="application/json" data-size-price-config>
+[
+  {"id":"single","label":"Single","dims":"90–100 × 200 cm","price":"AED 8,999","available":true,"price_set":"control"},
+  {"id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","available":true,"price_set":"control"},
+  {"id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","available":true,"price_set":"control"},
+  {"id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 14,999","available":false,"price_set":"control"}
+]
+</script>
+<div class="page-width size-reserve__layout" data-size-reserve data-market="ae" data-price-set="control">
+          <div>
+            <p class="section__eyebrow">Reserve your allocation</p>
+            <hr class="gold-rule">
+            <h2>Choose your size.</h2>
+            <p class="section__lede">Select your size — price updates for your market. Dimensions always shown in centimetres.</p>
+            <p class="market-note">Showing UAE sizes and prices. Dimensions always shown in cm — a UAE King differs from a UK King.</p>
+            <div class="size-list" data-size-list role="listbox" aria-label="Mattress size"></div>
+            
+          </div>
+          <aside class="reserve-panel">
+            <p class="section__eyebrow" style="margin-bottom:0.35rem;">Your selection</p>
+            <p style="margin:0;font-weight:500;">
+              <span data-selected-size>—</span>
+              <span style="opacity:0.65;font-weight:400;"> · </span>
+              <span data-selected-dims style="opacity:0.75;font-weight:400;"></span>
+            </p>
+            <p class="reserve-panel__price" data-display-price>AED 8,999</p>
+
+          <div data-reserve-available>
+            <p class="reserve-panel__meta">
+              Reserve with a fully refundable AED 200 deposit.
+            </p>
+            <p class="reserve-panel__meta" style="margin-top:-0.5rem;">or from AED [X]/month with Tabby or Tamara</p>
+            
+            <div class="deposit-terms">
+              <p class="deposit-terms__title">What your deposit does</p>
+              <div class="deposit-terms__body rte"><ul>
+                <li>Reserves your size in the current production allocation.</li>
+                <li>Fully refundable at any time before your mattress is dispatched.</li>
+                <li>The balance is only due once we confirm your dispatch date.</li>
+                <li>Refunds are returned to the original payment method within 5–10 business days.</li>
+              </ul></div>
+            </div>
+
+            <form data-reserve-form data-variant-id="">
+              <button class="btn" type="submit" style="width:100%;">Reserve my size</button>
+            </form>
+            <p class="secure-checkout-line">Secure checkout by Shopify. Card details are never stored by us.</p>
+            <div class="payment-marks"><ul class="payment-marks__list" role="list"><li><span class="payment-marks__pill">Visa</span></li><li><span class="payment-marks__pill">Mastercard</span></li><li><span class="payment-marks__pill">Amex</span></li><li><span class="payment-marks__pill">Apple Pay</span></li><li><span class="payment-marks__pill payment-marks__pill--bnpl">Tabby</span></li><li><span class="payment-marks__pill payment-marks__pill--bnpl">Tamara</span></li></ul></div>
+          </div>
+
+          <div data-reserve-notify hidden>
+            <p class="reserve-panel__meta">This size is not in the current allocation. Leave your email and we will notify you when it opens.</p>
+            <form class="notify-form" onsubmit="event.preventDefault(); alert('Notify request recorded (preview only).'); return false;">
+              <label class="notify-form__label">Email</label>
+              <input class="notify-form__input" type="email" required placeholder="you@email.com">
+              <input type="hidden" data-notify-size>
+              <input type="hidden" data-notify-body>
+              <button class="btn" type="submit" style="width:100%;margin-top:0.75rem;">Notify me</button>
+            </form>
+          </div>
+            <p class="reserve-status" data-reserve-status hidden></p>
+            <p class="reserve-panel__note">Made to order. Current window: 6–8 weeks. We confirm your dispatch date before the balance is due.</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section section--surface" id="faq" data-reveal>
+        <div class="page-width" style="max-width:48rem; width:min(100% - (var(--space-gutter) * 2), 48rem); margin-inline:auto;">
+          <p class="section__eyebrow">Questions</p>
+          <h2>Clear answers.</h2>
+          <div class="faq__list" data-faq>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>What does the deposit do?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">It reserves your mattress in the current allocation. Fully refundable any time before dispatch.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>When will it ship?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">Each mattress is made to order. Current window: 6–8 weeks. We confirm your date before dispatch.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>Which size should I choose?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">Use the size selector — dimensions are always shown in cm. UAE and UK sizes differ (a UAE King is wider than a UK King).</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>How does the replaceable top work?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">Unzip, lift out, swap in. Tops come in soft, medium and firm.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>What is the warranty?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">15-year warranty on the spring core.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width site-footer__grid">
+        <div class="site-footer__brand">
+          <a class="wordmark wordmark--dark" href="#"><span class="wordmark__text">Valtora</span></a>
+          <p>Premium Sleep, Engineered for the Gulf. A better bed, for life. Refresh it, don't replace it.</p>
+          <p style="margin-top:1.25rem;"><a href="mailto:hello@valtora.com">hello@valtora.com</a></p>
+        </div>
+        <div>
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="#swap">The Swap System</a></li>
+            <li><a href="#specs">Specs</a></li>
+            <li><a href="#reserve">Reserve</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Policies</h3>
+          <ul>
+            <li><a href="#">Delivery</a></li>
+            <li><a href="#">Refunds &amp; trial</a></li>
+            <li><a href="#">Lead times</a></li>
+            <li><a href="#">Size guide</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-width site-footer__bottom">
+        <span>© 2026 Valtora.</span>
+        <span>Name under test — identity built to change.</span>
+      </div>
+    </footer>
+
+    <script>
+      window.ValtoraTheme = { brandName: 'Valtora', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '#' } };
+    </script>
+    <script src="./theme.js"></script>
+  </body>
+</html>
