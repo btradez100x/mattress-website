@@ -1,0 +1,19 @@
+{%- comment -%} Market-aware payment / BNPL marks — S15.4 {%- endcomment -%}
+{%- liquid
+  assign market = market | default: settings.default_market
+-%}
+<div class="payment-marks" aria-label="Accepted payment methods">
+  <ul class="payment-marks__list" role="list">
+    <li><span class="payment-marks__pill">Visa</span></li>
+    <li><span class="payment-marks__pill">Mastercard</span></li>
+    <li><span class="payment-marks__pill">Amex</span></li>
+    <li><span class="payment-marks__pill">Apple Pay</span></li>
+    {%- if market == 'gb' -%}
+      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Klarna</span></li>
+      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Clearpay</span></li>
+    {%- else -%}
+      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Tabby</span></li>
+      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Tamara</span></li>
+    {%- endif -%}
+  </ul>
+</div>

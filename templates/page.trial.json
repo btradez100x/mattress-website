@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "trust-policy",
+      "settings": {
+        "eyebrow": "Trial",
+        "heading": "100-night trial",
+        "intro": "Sleep on it properly. Specific terms \u2014 not fine print.",
+        "fallback_content": "<h2>How long</h2><p>You have 100 nights from delivery to decide. That is long enough to adjust to a new bed.</p><h2>If it is not right</h2><p>Contact us before the trial ends. We arrange collection. Return shipping within the mainland UAE is covered by us on the standard trial return; remote areas may differ and we will confirm before collection. UK returns: we will confirm the collection route and any carriage cost before you commit.</p><h2>Refund timing</h2><p>Once the mattress is collected and inspected for damage beyond normal trial use, refunds go back to the original payment method within 5\u201310 business days.</p><h2>Conditions</h2><p>The mattress must be used with a protector; stains, tears or misuse outside normal sleep can affect eligibility. We say this plainly so there are no surprises.</p>",
+        "cta_label": "Reserve your size",
+        "cta_link": "/#reserve"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

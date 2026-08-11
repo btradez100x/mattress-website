@@ -1,0 +1,31 @@
+<section class="section">
+  <div class="page-width">
+    <p class="section__eyebrow">Collection</p>
+    <h1 style="font-size:clamp(2rem,4vw,2.75rem);">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="rte section__lede">{{ collection.description }}</div>
+    {%- endif -%}
+    <div class="benefits__grid" style="margin-top:2.5rem;">
+      {%- for product in collection.products -%}
+        <a href="{{ product.url }}" style="text-decoration:none;">
+          {%- if product.featured_media -%}
+            {{ product.featured_media | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400,600,800', sizes: '(min-width:720px) 45vw, 100vw' }}
+          {%- else -%}
+            <div class="media-placeholder" style="aspect-ratio:4/5;min-height:0;">No image</div>
+          {%- endif -%}
+          <h3 style="margin-top:1rem;">{{ product.title }}</h3>
+          <p style="opacity:0.75;">{{ product.price | money }}</p>
+        </a>
+      {%- else -%}
+        <p>No products in this collection yet.</p>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

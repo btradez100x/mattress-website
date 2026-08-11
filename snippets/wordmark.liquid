@@ -1,0 +1,26 @@
+{% comment %}
+  Rendered wordmark from brand_name setting (Spec S13).
+  Never an uploaded logo image — name stays testable.
+{% endcomment %}
+{%- liquid
+  assign name = brand_name_override | default: settings.brand_name | default: 'Valtora'
+  assign link_url = link | default: routes.root_url
+  assign dark = dark | default: false
+-%}
+<a
+  class="wordmark{% if dark %} wordmark--dark{% endif %}{% if class != blank %} {{ class }}{% endif %}"
+  href="{{ link_url }}"
+  aria-label="{{ name }}"
+>
+  {%- if settings.brand_mark != blank -%}
+    <img
+      class="wordmark__mark"
+      src="{{ settings.brand_mark | image_url: width: 64 }}"
+      alt=""
+      width="24"
+      height="24"
+      loading="eager"
+    >
+  {%- endif -%}
+  <span class="wordmark__text">{{ name }}</span>
+</a>

@@ -1,0 +1,180 @@
+{%- liquid
+  assign warranty = settings.warranty_years | default: '15'
+  assign lead = settings.lead_time_window | default: '6–8 weeks'
+-%}
+{%- if section.blocks.size > 0 -%}
+  <section
+    class="trust-bar{% if section.settings.surface %} trust-bar--surface{% endif %}"
+    id="{{ section.settings.anchor_id | default: 'trust' }}-{{ section.id }}"
+    data-reveal
+  >
+    <div class="page-width">
+      <ul class="trust-bar__list" role="list">
+        {%- for block in section.blocks limit: 4 -%}
+          {%- liquid
+            assign label = block.settings.label
+            assign sub = block.settings.sublabel
+            assign label = label | replace: '{{ settings.warranty_years }}', warranty
+            assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
+            assign label = label | replace: '[X]', warranty
+            assign sub = sub | replace: '[X-Y]', lead
+          -%}
+          <li class="trust-bar__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a class="trust-bar__link" href="{{ block.settings.link }}">
+            {%- else -%}
+              <div class="trust-bar__link trust-bar__link--static">
+            {%- endif -%}
+              <span class="trust-bar__icon" aria-hidden="true">
+                {%- if block.settings.icon_image != blank -%}
+                  {{ block.settings.icon_image | image_url: width: 64 | image_tag: loading: 'lazy', widths: '32,64', alt: '' }}
+                {%- else -%}
+                  {%- case block.settings.icon -%}
+                    {%- when 'trial' -%}
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.25"/><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/></svg>
+                    {%- when 'warranty' -%}
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg>
+                    {%- when 'delivery' -%}
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10zM7 20a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm11 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" stroke="currentColor" stroke-width="1.25"/></svg>
+                    {%- when 'lead' -%}
+                      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.25"/></svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
+                  {%- endcase -%}
+                {%- endif -%}
+              </span>
+              <span class="trust-bar__copy">
+                <strong class="trust-bar__label">{{ label }}</strong>
+                {%- if sub != blank -%}
+                  <span class="trust-bar__sub">{{ sub }}</span>
+                {%- endif -%}
+              </span>
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.show_lead_line -%}
+        <p class="trust-bar__lead">
+          Made to order. Current window: {{ lead }}. We confirm your dispatch date before the balance is due.
+        </p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Trust bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "surface",
+      "label": "Stone surface background",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lead_line",
+      "label": "Show made-to-order lead-time line",
+      "default": true,
+      "info": "Uses Theme settings → Lead time. Spec S15.2.3."
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor id prefix",
+      "default": "trust"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "deposit", "label": "Deposit / check" },
+            { "value": "trial", "label": "Trial" },
+            { "value": "warranty", "label": "Warranty" },
+            { "value": "delivery", "label": "Delivery" },
+            { "value": "lead", "label": "Lead time" }
+          ],
+          "default": "deposit"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Fully refundable deposit"
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Sublabel",
+          "default": "Refund any time before dispatch"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Proof link",
+          "info": "Each claim should link to the page that proves it (S15.1.1)."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust bar",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "icon": "deposit",
+            "label": "Fully refundable deposit",
+            "sublabel": "Refund any time before dispatch"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "trial",
+            "label": "100-night trial",
+            "sublabel": "Sleep on it properly"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "warranty",
+            "label": "{{ settings.warranty_years }}-year core warranty",
+            "sublabel": "On the spring core"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "delivery",
+            "label": "White-glove delivery & setup",
+            "sublabel": "We bring it in and set it up"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

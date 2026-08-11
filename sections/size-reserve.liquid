@@ -1,0 +1,380 @@
+{%- liquid
+  assign market = section.settings.market_force
+  if market == 'auto'
+    if localization.country.iso_code == 'GB'
+      assign market = 'gb'
+    elsif localization.country.iso_code == 'AE'
+      assign market = 'ae'
+    else
+      assign market = settings.default_market
+    endif
+  endif
+
+  assign active_set = section.settings.active_price_set | default: 'control' | strip | downcase
+  assign deposit_label = section.settings.deposit_label | default: settings.deposit_amount_label
+  assign bnpl = section.settings.bnpl_microcopy | default: settings.bnpl_microcopy
+  assign deposit_product = section.settings.deposit_product
+  assign variant_id = blank
+  if deposit_product != blank and deposit_product.selected_or_first_available_variant
+    assign variant_id = deposit_product.selected_or_first_available_variant.id
+  endif
+  assign first_price = blank
+  assign brand = settings.brand_name | default: 'Valtora'
+-%}
+<meta name="valtora-market" content="{{ market }}">
+
+<section class="section" id="reserve" data-reveal>
+<script type="application/json" data-size-price-config>
+  [
+  {%- assign first_out = true -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign block_set = block.settings.price_set | default: 'control' | strip | downcase
+      assign include_row = false
+      if block.type == 'size_price' and block.settings.market == market and block_set == active_set
+        assign include_row = true
+      endif
+    -%}
+    {%- if include_row -%}
+      {%- unless first_out -%},{%- endunless -%}
+      {
+        "id": {{ block.settings.size_id | json }},
+        "label": {{ block.settings.label | json }},
+        "dims": {{ block.settings.dims | json }},
+        "price": {{ block.settings.price_display | json }},
+        "available": {% if block.settings.available %}true{% else %}false{% endif %},
+        "price_set": {{ block_set | json }}
+      }
+      {%- assign first_out = false -%}
+      {%- if first_price == blank -%}
+        {%- assign first_price = block.settings.price_display -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  ]
+</script>
+
+  <div
+    class="page-width size-reserve__layout"
+    data-size-reserve
+    data-market="{{ market }}"
+    data-price-set="{{ active_set | escape }}"
+  >
+    <div>
+      <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+      <hr class="gold-rule">
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p class="section__lede">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      <p class="market-note">
+        {%- if market == 'gb' -%}
+          Showing UK sizes and prices. Dimensions always shown in cm — a UK King differs from a UAE King.
+        {%- else -%}
+          Showing UAE sizes and prices. Dimensions always shown in cm — a UAE King differs from a UK King.
+        {%- endif -%}
+      </p>
+
+      <div class="size-list" data-size-list role="listbox" aria-label="Mattress size"></div>
+    </div>
+
+    <aside class="reserve-panel">
+      <p class="section__eyebrow" style="margin-bottom:0.35rem;">Your selection</p>
+      <p style="margin:0;font-weight:500;">
+        <span data-selected-size>—</span>
+        <span style="opacity:0.65;font-weight:400;"> · </span>
+        <span data-selected-dims style="opacity:0.75;font-weight:400;"></span>
+      </p>
+      <p class="reserve-panel__price" data-display-price>{{ first_price }}</p>
+
+      {%- comment -%} Available path {%- endcomment -%}
+      <div data-reserve-available>
+        <p class="reserve-panel__meta">
+          Reserve with a fully refundable {{ deposit_label }} deposit.
+        </p>
+        {%- if bnpl != blank -%}
+          <p class="reserve-panel__meta" style="margin-top:-0.5rem;">{{ bnpl }}</p>
+        {%- endif -%}
+
+        <div class="deposit-terms">
+          <p class="deposit-terms__title">
+            {{ section.settings.deposit_terms_title | default: 'What your deposit does' }}
+          </p>
+          <div class="deposit-terms__body rte">
+            {%- if section.settings.deposit_terms != blank -%}
+              {{ section.settings.deposit_terms }}
+            {%- else -%}
+              <ul>
+                <li>Reserves your size in the current production allocation.</li>
+                <li>Fully refundable at any time before your mattress is dispatched.</li>
+                <li>The balance is only due once we confirm your dispatch date.</li>
+                <li>Refunds are returned to the original payment method within 5–10 business days.</li>
+              </ul>
+            {%- endif -%}
+          </div>
+          {%- if section.settings.deposit_terms_link != blank -%}
+            <a class="deposit-terms__more" href="{{ section.settings.deposit_terms_link }}">Full deposit &amp; refund terms</a>
+          {%- endif -%}
+        </div>
+
+        <form
+          data-reserve-form
+          data-variant-id="{{ variant_id }}"
+          action="{{ routes.cart_add_url }}"
+          method="post"
+        >
+          {%- if variant_id != blank -%}
+            <input type="hidden" name="id" value="{{ variant_id }}">
+            <input type="hidden" name="quantity" value="1">
+          {%- endif -%}
+          <button class="btn" type="submit" style="width:100%;">
+            {{ section.settings.button_label | default: 'Reserve my size' }}
+          </button>
+        </form>
+
+        <p class="secure-checkout-line">
+          Secure checkout by Shopify. Card details are never stored by us.
+        </p>
+
+        {% render 'payment-marks', market: market %}
+      </div>
+
+      {%- comment -%} Out of stock / notify path {%- endcomment -%}
+      <div data-reserve-notify hidden>
+        <p class="reserve-panel__meta" data-oos-message>
+          {{ section.settings.oos_message | default: 'This size is not in the current allocation. Leave your email and we will notify you when it opens.' }}
+        </p>
+
+        {% form 'contact', class: 'notify-form' %}
+          <input type="hidden" name="contact[subject]" value="{{ brand }} — size availability notify">
+          <input type="hidden" name="contact[size]" value="" data-notify-size>
+          <input type="hidden" name="contact[market]" value="{{ market | upcase }}">
+          <input type="hidden" name="contact[price_set]" value="{{ active_set }}">
+          <input
+            type="hidden"
+            name="contact[body]"
+            value=""
+            data-notify-body
+          >
+          <label class="notify-form__label" for="NotifyEmail-{{ section.id }}">Email</label>
+          <input
+            id="NotifyEmail-{{ section.id }}"
+            class="notify-form__input"
+            type="email"
+            name="contact[email]"
+            required
+            autocomplete="email"
+            placeholder="you@email.com"
+          >
+          <button class="btn" type="submit" style="width:100%;margin-top:0.75rem;">
+            {{ section.settings.notify_button_label | default: 'Notify me' }}
+          </button>
+          {%- if form.posted_successfully? -%}
+            <p class="reserve-status" role="status">Thanks — we will email you when this size is available.</p>
+          {%- endif -%}
+          {{ form.errors | default_errors }}
+        {% endform %}
+      </div>
+
+      {%- if settings.whatsapp_enabled -%}
+        <div class="reserve-panel__whatsapp">
+          {% render 'whatsapp-button', variant: 'inline' %}
+        </div>
+      {%- endif -%}
+
+      <p class="reserve-status" data-reserve-status hidden></p>
+
+      <p class="reserve-panel__note">
+        Made to order. Current window: {{ settings.lead_time_window }}. We confirm your dispatch date before the balance is due.
+      </p>
+
+      {%- if deposit_product == blank -%}
+        <p class="reserve-panel__note" style="color:var(--brand-accent);">
+          Theme editor: select a deposit/pre-order product in this section so Reserve can add to cart.
+        </p>
+      {%- endif -%}
+    </aside>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Size + price + reserve",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Price testing"
+    },
+    {
+      "type": "paragraph",
+      "content": "Price sets (tiers) are for testing — not shown to customers. Change the active set to swap every size price at once. Duplicate size rows for each set (e.g. control, test-a)."
+    },
+    {
+      "type": "text",
+      "id": "active_price_set",
+      "label": "Active price set",
+      "default": "control",
+      "info": "Must match the Price set ID on size rows below (e.g. control, test-a, test-b)."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Reserve your allocation"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Choose your size."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Select your size — price updates for your market. Dimensions always shown in centimetres."
+    },
+    {
+      "type": "select",
+      "id": "market_force",
+      "label": "Size & price list",
+      "options": [
+        { "value": "auto", "label": "Auto (from Markets / default)" },
+        { "value": "ae", "label": "Force UAE sizes & prices" },
+        { "value": "gb", "label": "Force UK sizes & prices" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "product",
+      "id": "deposit_product",
+      "label": "Deposit product"
+    },
+    {
+      "type": "text",
+      "id": "deposit_label",
+      "label": "Deposit amount label override"
+    },
+    {
+      "type": "text",
+      "id": "bnpl_microcopy",
+      "label": "BNPL microcopy override"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Reserve button label",
+      "default": "Reserve my size"
+    },
+    {
+      "type": "header",
+      "content": "Out of stock / notify"
+    },
+    {
+      "type": "textarea",
+      "id": "oos_message",
+      "label": "Unavailable size message",
+      "default": "This size is not in the current allocation. Leave your email and we will notify you when it opens."
+    },
+    {
+      "type": "text",
+      "id": "notify_button_label",
+      "label": "Notify button label",
+      "default": "Notify me"
+    },
+    {
+      "type": "header",
+      "content": "Deposit terms"
+    },
+    {
+      "type": "text",
+      "id": "deposit_terms_title",
+      "label": "Deposit terms title",
+      "default": "What your deposit does"
+    },
+    {
+      "type": "richtext",
+      "id": "deposit_terms",
+      "label": "Deposit terms",
+      "default": "<ul><li>Reserves your size in the current production allocation.</li><li>Fully refundable at any time before your mattress is dispatched.</li><li>The balance is only due once we confirm your dispatch date.</li><li>Refunds are returned to the original payment method within 5–10 business days.</li></ul>"
+    },
+    {
+      "type": "url",
+      "id": "deposit_terms_link",
+      "label": "Full terms page link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "size_price",
+      "name": "Size + price",
+      "settings": [
+        {
+          "type": "text",
+          "id": "price_set",
+          "label": "Price set ID",
+          "default": "control",
+          "info": "Group prices for testing. Switch Active price set above to activate."
+        },
+        {
+          "type": "select",
+          "id": "market",
+          "label": "Market",
+          "options": [
+            { "value": "ae", "label": "UAE" },
+            { "value": "gb", "label": "United Kingdom" }
+          ],
+          "default": "ae"
+        },
+        {
+          "type": "text",
+          "id": "size_id",
+          "label": "Size ID",
+          "default": "king"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Size name",
+          "default": "King"
+        },
+        {
+          "type": "text",
+          "id": "dims",
+          "label": "Dimensions",
+          "default": "180 × 200 cm"
+        },
+        {
+          "type": "text",
+          "id": "price_display",
+          "label": "Price",
+          "default": "AED 11,999"
+        },
+        {
+          "type": "checkbox",
+          "id": "available",
+          "label": "Available to reserve",
+          "default": true,
+          "info": "Off = show Notify me instead of Reserve for this size."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size + price + reserve",
+      "blocks": [
+        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "single", "label": "Single", "dims": "90–100 × 200 cm", "price_display": "AED 8,999", "available": true } },
+        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "queen", "label": "Queen", "dims": "160 × 200 cm", "price_display": "AED 11,999", "available": true } },
+        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "king", "label": "King", "dims": "180 × 200 cm", "price_display": "AED 14,999", "available": true } },
+        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "super-king", "label": "Super King", "dims": "200 × 200 cm", "price_display": "AED 14,999", "available": false } },
+        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "single", "label": "Single", "dims": "90 × 190 cm", "price_display": "£1,999", "available": true } },
+        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "double", "label": "Double", "dims": "135 × 190 cm", "price_display": "£2,499", "available": true } },
+        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "king", "label": "King", "dims": "150 × 200 cm", "price_display": "£2,999", "available": true } },
+        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "super-king", "label": "Super King", "dims": "180 × 200 cm", "price_display": "£2,999", "available": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

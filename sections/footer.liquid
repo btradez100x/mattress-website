@@ -1,0 +1,182 @@
+{%- liquid
+  assign brand = settings.brand_name | default: 'Valtora'
+  assign market = settings.default_market
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+
+  if market == 'gb'
+    assign legal_name = settings.legal_entity_name_gb
+    assign legal_address = settings.registered_address_gb
+    assign tax_no = settings.tax_reg_no_gb
+    assign company_no = settings.company_no_gb
+  else
+    assign legal_name = settings.legal_entity_name_ae
+    assign legal_address = settings.registered_address_ae
+    assign tax_no = settings.tax_reg_no_ae
+    assign company_no = blank
+  endif
+-%}
+<footer class="site-footer">
+  <div class="page-width site-footer__grid">
+    <div class="site-footer__brand">
+      {% render 'wordmark', dark: true %}
+      <p>
+        {{ settings.brand_tagline }}. A better bed, for life. Refresh it, don't replace it.
+      </p>
+      <div class="site-footer__contact">
+        {%- if settings.contact_email != blank -%}
+          <p><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></p>
+        {%- endif -%}
+        {%- if settings.contact_phone != blank -%}
+          <p><a href="tel:{{ settings.contact_phone }}">{{ settings.contact_phone }}</a></p>
+        {%- endif -%}
+        {%- if settings.contact_hours != blank -%}
+          <p>{{ settings.contact_hours }}</p>
+        {%- endif -%}
+        {%- if settings.response_time_note != blank -%}
+          <p class="site-footer__response">{{ settings.response_time_note }}</p>
+        {%- endif -%}
+        {%- if settings.whatsapp_enabled and settings.whatsapp_number != blank -%}
+          <p style="margin-top:1rem;">{% render 'whatsapp-button', variant: 'inline' %}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div>
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="#swap">The Swap System</a></li>
+        <li><a href="#specs">Specs</a></li>
+        <li><a href="#reserve">Reserve</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        {%- if section.settings.size_guide_link != blank -%}
+          <li><a href="{{ section.settings.size_guide_link }}">Size guide</a></li>
+        {%- endif -%}
+      </ul>
+    </div>
+
+    <div>
+      <h3>{{ section.settings.policies_heading | default: 'Policies' }}</h3>
+      <ul>
+        {%- if section.settings.menu != blank -%}
+          {%- for link in section.settings.menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- if section.settings.trial_link != blank -%}
+            <li><a href="{{ section.settings.trial_link }}">100-night trial</a></li>
+          {%- endif -%}
+          {%- if section.settings.warranty_link != blank -%}
+            <li><a href="{{ section.settings.warranty_link }}">Warranty</a></li>
+          {%- endif -%}
+          {%- if section.settings.refund_link != blank -%}
+            <li><a href="{{ section.settings.refund_link }}">Refunds &amp; deposit</a></li>
+          {%- endif -%}
+          {%- if section.settings.delivery_link != blank -%}
+            <li><a href="{{ section.settings.delivery_link }}">Delivery &amp; lead time</a></li>
+          {%- endif -%}
+          {%- if section.settings.lead_time_link != blank -%}
+            <li><a href="{{ section.settings.lead_time_link }}">Lead times</a></li>
+          {%- endif -%}
+          {%- if section.settings.contact_link != blank -%}
+            <li><a href="{{ section.settings.contact_link }}">Contact</a></li>
+          {%- endif -%}
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+
+  {%- if section.settings.show_payment_icons -%}
+    <div class="page-width site-footer__payments">
+      {% render 'payment-marks', market: market %}
+    </div>
+  {%- endif -%}
+
+  {%- if legal_name != blank or settings.trade_licence_no != blank or legal_address != blank or tax_no != blank or company_no != blank -%}
+    <div class="page-width site-footer__legal">
+      {%- if legal_name != blank -%}<span>{{ legal_name }}</span>{%- endif -%}
+      {%- if market != 'gb' and settings.trade_licence_no != blank -%}
+        <span>Trade licence {{ settings.trade_licence_no }}</span>
+      {%- endif -%}
+      {%- if company_no != blank -%}<span>Company no. {{ company_no }}</span>{%- endif -%}
+      {%- if tax_no != blank -%}<span>{% if market == 'gb' %}VAT{% else %}TRN{% endif %} {{ tax_no }}</span>{%- endif -%}
+      {%- if legal_address != blank -%}<span class="site-footer__address">{{ legal_address | newline_to_br }}</span>{%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="page-width site-footer__bottom">
+    <span>
+      © {{ 'now' | date: '%Y' }} {{ brand }}.
+      {%- if section.settings.copyright_text != blank %} {{ section.settings.copyright_text }}{% endif -%}
+    </span>
+    <span>Name under test — identity built to change.</span>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "policies_heading",
+      "label": "Policies heading",
+      "default": "Policies"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Policy menu"
+    },
+    {
+      "type": "url",
+      "id": "size_guide_link",
+      "label": "Size guide page"
+    },
+    {
+      "type": "url",
+      "id": "trial_link",
+      "label": "Trial page"
+    },
+    {
+      "type": "url",
+      "id": "warranty_link",
+      "label": "Warranty page"
+    },
+    {
+      "type": "url",
+      "id": "delivery_link",
+      "label": "Delivery & lead time page"
+    },
+    {
+      "type": "url",
+      "id": "refund_link",
+      "label": "Refunds & deposit page"
+    },
+    {
+      "type": "url",
+      "id": "lead_time_link",
+      "label": "Lead time page (optional separate)"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact page"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Extra copyright text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

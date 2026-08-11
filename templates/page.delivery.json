@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "trust-policy",
+      "settings": {
+        "eyebrow": "Delivery",
+        "heading": "Delivery & lead time",
+        "intro": "Made to order \u2014 with an honest window, not \u2018ships soon\u2019.",
+        "fallback_content": "<h2>Lead time</h2><p>Each mattress is made to order. Current window: see the site setting (typically 6\u20138 weeks). We confirm your dispatch date before the balance is due.</p><h2>How dispatch is confirmed</h2><p>You receive written confirmation with a dispatch window. The remaining balance is requested only after that confirmation.</p><h2>White-glove scope</h2><p>Where offered: delivery into the room, unpacking, and setup of the mattress. Packaging removed on request where building rules allow.</p><h2>Areas served</h2><p>UAE: mainland delivery on the founding allocation; remote areas confirmed at reservation. UK: fulfilment route confirmed per order.</p>",
+        "cta_label": "Reserve your size",
+        "cta_link": "/#reserve"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "First allocation now reserving — limited units per size.",
+        "link": ""
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "",
+        "show_reserve_cta": true,
+        "reserve_label": "Reserve yours",
+        "reserve_link": "#reserve"
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

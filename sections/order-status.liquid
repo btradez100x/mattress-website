@@ -1,0 +1,56 @@
+{%- comment -%} Order status lookup — S15.2.3 post-MVP stub; static stages OK at launch {%- endcomment -%}
+<section class="section">
+  <div class="page-width" style="max-width:40rem;">
+    <p class="section__eyebrow">Order status</p>
+    <hr class="gold-rule">
+    <h1 style="font-size:clamp(2.25rem,4vw,3rem);">{{ section.settings.heading }}</h1>
+    <p class="section__lede">{{ section.settings.body }}</p>
+
+    <form class="order-status-form" method="get" action="{{ request.path }}" style="margin-top:2rem;display:grid;gap:1rem;">
+      <label>
+        <span style="display:block;font-size:0.8125rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Order number</span>
+        <input type="text" name="order" value="{{ request.params.order | escape }}" required style="width:100%;padding:0.85rem 1rem;border:1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);background:var(--brand-bg);">
+      </label>
+      <label>
+        <span style="display:block;font-size:0.8125rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Email</span>
+        <input type="email" name="email" value="{{ request.params.email | escape }}" required style="width:100%;padding:0.85rem 1rem;border:1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);background:var(--brand-bg);">
+      </label>
+      <button class="btn" type="submit">Check status</button>
+    </form>
+
+    <ol class="order-stages" style="margin:2.5rem 0 0;padding:0;list-style:none;display:grid;gap:0;">
+      {%- assign stages = 'Reserved,In production,Quality check,Ready to dispatch,Dispatched' | split: ',' -%}
+      {%- for stage in stages -%}
+        <li style="padding:1rem 0;border-bottom:1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);display:grid;grid-template-columns:2rem 1fr;gap:0.75rem;align-items:baseline;">
+          <span style="color:var(--brand-accent);font-size:0.85rem;">{{ forloop.index }}</span>
+          <span>{{ stage }}</span>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    <p class="reserve-panel__note" style="margin-top:1.5rem;">
+      Made to order. Current window: {{ settings.lead_time_window }}. We confirm your dispatch date before the balance is due.
+      Live lookup will be connected before first fulfilment — until then, email {{ settings.contact_email }} with your order number.
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Order status",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Where is my mattress?"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Enter your order number and email. Production stages are updated as your bed moves through the workshop."
+    }
+  ]
+}
+{% endschema %}

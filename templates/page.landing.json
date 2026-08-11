@@ -1,0 +1,567 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading": "Change your comfort, not your mattress.",
+        "subheading": "The premium hybrid with a replaceable comfort top \u2014 unzip, swap, and make it feel new again.",
+        "cta_label": "Reserve yours",
+        "cta_link": "#reserve",
+        "tone": "light"
+      }
+    },
+    "big-idea": {
+      "type": "big-idea",
+      "settings": {}
+    },
+    "benefits": {
+      "type": "benefits",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "adapt",
+            "heading": "A bed that adapts",
+            "text": "Swap the top to change firmness \u2014 as your body, your partner, or your preferences change."
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "cool",
+            "heading": "Cool by design",
+            "text": "A breathable cool-knit cover and gel-infused comfort layer, made for warm nights."
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "support",
+            "heading": "Deep, engineered support",
+            "text": "A 20cm, 7-zone pocket-spring core and high-density base keep your spine aligned."
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "enduring",
+            "heading": "Built to keep",
+            "text": "Refresh the top instead of replacing the mattress \u2014 less waste, less cost over time."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    },
+    "product-specs": {
+      "type": "product-specs",
+      "blocks": {
+        "s1": {
+          "type": "spec",
+          "settings": {
+            "text": "37cm full height \u2014 substantial, hotel-grade depth"
+          }
+        },
+        "s2": {
+          "type": "spec",
+          "settings": {
+            "text": "400gsm cool-knit cover"
+          }
+        },
+        "s3": {
+          "type": "spec",
+          "settings": {
+            "text": "Gel-infused memory foam comfort layer"
+          }
+        },
+        "s4": {
+          "type": "spec",
+          "settings": {
+            "text": "Replaceable comfort top (zip access)"
+          }
+        },
+        "s5": {
+          "type": "spec",
+          "settings": {
+            "text": "20cm 7-zone pocket-spring core"
+          }
+        },
+        "s6": {
+          "type": "spec",
+          "settings": {
+            "text": "High-density encased support base"
+          }
+        },
+        "s7": {
+          "type": "spec",
+          "settings": {
+            "text": "Anti-slip base"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6",
+        "s7"
+      ]
+    },
+    "swap-explainer": {
+      "type": "swap-explainer",
+      "settings": {}
+    },
+    "cooling-support": {
+      "type": "cooling-support",
+      "settings": {}
+    },
+    "social-proof": {
+      "type": "social-proof",
+      "settings": {}
+    },
+    "offer": {
+      "type": "offer",
+      "blocks": {
+        "o1": {
+          "type": "offer_item",
+          "settings": {
+            "title": "100-night trial",
+            "text": "Sleep on it. Decide at home."
+          }
+        },
+        "o2": {
+          "type": "offer_item",
+          "settings": {
+            "title": "15-year warranty",
+            "text": "On the spring core."
+          }
+        },
+        "o3": {
+          "type": "offer_item",
+          "settings": {
+            "title": "White-glove delivery",
+            "text": "Free delivery and setup."
+          }
+        },
+        "o4": {
+          "type": "offer_item",
+          "settings": {
+            "title": "Founding allocation",
+            "text": "Limited units per size."
+          }
+        }
+      },
+      "block_order": [
+        "o1",
+        "o2",
+        "o3",
+        "o4"
+      ]
+    },
+    "size-reserve": {
+      "type": "size-reserve",
+      "blocks": {
+        "sp1": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "ae",
+            "size_id": "single",
+            "label": "Single",
+            "dims": "90\u2013100 \u00d7 200 cm",
+            "price_display": "AED 8,999",
+            "available": true
+          }
+        },
+        "sp2": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "ae",
+            "size_id": "queen",
+            "label": "Queen",
+            "dims": "160 \u00d7 200 cm",
+            "price_display": "AED 11,999",
+            "available": true
+          }
+        },
+        "sp3": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "ae",
+            "size_id": "king",
+            "label": "King",
+            "dims": "180 \u00d7 200 cm",
+            "price_display": "AED 14,999",
+            "available": true
+          }
+        },
+        "sp4": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "ae",
+            "size_id": "super-king",
+            "label": "Super King",
+            "dims": "200 \u00d7 200 cm",
+            "price_display": "AED 14,999",
+            "available": false
+          }
+        },
+        "sp5": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "gb",
+            "size_id": "single",
+            "label": "Single",
+            "dims": "90 \u00d7 190 cm",
+            "price_display": "\u00a31,999",
+            "available": true
+          }
+        },
+        "sp6": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "gb",
+            "size_id": "double",
+            "label": "Double",
+            "dims": "135 \u00d7 190 cm",
+            "price_display": "\u00a32,499",
+            "available": true
+          }
+        },
+        "sp7": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "gb",
+            "size_id": "king",
+            "label": "King",
+            "dims": "150 \u00d7 200 cm",
+            "price_display": "\u00a32,999",
+            "available": true
+          }
+        },
+        "sp8": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "control",
+            "market": "gb",
+            "size_id": "super-king",
+            "label": "Super King",
+            "dims": "180 \u00d7 200 cm",
+            "price_display": "\u00a32,999",
+            "available": false
+          }
+        },
+        "sp9": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "ae",
+            "size_id": "single",
+            "label": "Single",
+            "dims": "90\u2013100 \u00d7 200 cm",
+            "price_display": "AED 7,999",
+            "available": true
+          }
+        },
+        "sp10": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "ae",
+            "size_id": "queen",
+            "label": "Queen",
+            "dims": "160 \u00d7 200 cm",
+            "price_display": "AED 9,999",
+            "available": true
+          }
+        },
+        "sp11": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "ae",
+            "size_id": "king",
+            "label": "King",
+            "dims": "180 \u00d7 200 cm",
+            "price_display": "AED 12,999",
+            "available": true
+          }
+        },
+        "sp12": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "ae",
+            "size_id": "super-king",
+            "label": "Super King",
+            "dims": "200 \u00d7 200 cm",
+            "price_display": "AED 12,999",
+            "available": false
+          }
+        },
+        "sp13": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "gb",
+            "size_id": "single",
+            "label": "Single",
+            "dims": "90 \u00d7 190 cm",
+            "price_display": "\u00a31,799",
+            "available": true
+          }
+        },
+        "sp14": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "gb",
+            "size_id": "double",
+            "label": "Double",
+            "dims": "135 \u00d7 190 cm",
+            "price_display": "\u00a32,199",
+            "available": true
+          }
+        },
+        "sp15": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "gb",
+            "size_id": "king",
+            "label": "King",
+            "dims": "150 \u00d7 200 cm",
+            "price_display": "\u00a32,699",
+            "available": true
+          }
+        },
+        "sp16": {
+          "type": "size_price",
+          "settings": {
+            "price_set": "test-a",
+            "market": "gb",
+            "size_id": "super-king",
+            "label": "Super King",
+            "dims": "180 \u00d7 200 cm",
+            "price_display": "\u00a32,699",
+            "available": false
+          }
+        }
+      },
+      "block_order": [
+        "sp1",
+        "sp2",
+        "sp3",
+        "sp4",
+        "sp5",
+        "sp6",
+        "sp7",
+        "sp8",
+        "sp9",
+        "sp10",
+        "sp11",
+        "sp12",
+        "sp13",
+        "sp14",
+        "sp15",
+        "sp16"
+      ],
+      "settings": {
+        "body": "Select your size \u2014 price updates for your market. Dimensions always shown in centimetres.",
+        "market_force": "auto",
+        "button_label": "Reserve my size",
+        "active_price_set": "control"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "f1": {
+          "type": "item",
+          "settings": {
+            "question": "What does the deposit do?",
+            "answer": "It reserves your mattress in the current allocation. Fully refundable any time before dispatch."
+          }
+        },
+        "f2": {
+          "type": "item",
+          "settings": {
+            "question": "When will it ship?",
+            "answer": "Each mattress is made to order. Current window: [X-Y]. We confirm your date before dispatch."
+          }
+        },
+        "f3": {
+          "type": "item",
+          "settings": {
+            "question": "Which size should I choose?",
+            "answer": "Use the size selector \u2014 dimensions always shown in cm. UAE and UK sizes differ."
+          }
+        },
+        "f4": {
+          "type": "item",
+          "settings": {
+            "question": "How does the replaceable top work?",
+            "answer": "Unzip, lift out, swap in. Tops come in soft, medium and firm."
+          }
+        },
+        "f5": {
+          "type": "item",
+          "settings": {
+            "question": "What if it is not right for me?",
+            "answer": "You have a 100-night trial per the active offer terms."
+          }
+        },
+        "f6": {
+          "type": "item",
+          "settings": {
+            "question": "What is the warranty?",
+            "answer": "[X]-year warranty on the spring core."
+          }
+        },
+        "f7": {
+          "type": "item",
+          "settings": {
+            "question": "Can I pay cash on delivery?",
+            "answer": "Because each mattress is made to order, we take a small refundable deposit to reserve your size. The balance is due only once we confirm your dispatch date \u2014 and the deposit is refundable in full at any point before dispatch."
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6",
+        "f7"
+      ]
+    },
+    "trust-bar-top": {
+      "type": "trust-bar",
+      "blocks": {
+        "tb1": {
+          "type": "item",
+          "settings": {
+            "icon": "deposit",
+            "label": "Fully refundable deposit",
+            "sublabel": "Refund any time before dispatch"
+          }
+        },
+        "tb2": {
+          "type": "item",
+          "settings": {
+            "icon": "trial",
+            "label": "100-night trial",
+            "sublabel": "Sleep on it properly"
+          }
+        },
+        "tb3": {
+          "type": "item",
+          "settings": {
+            "icon": "warranty",
+            "label": "{{ settings.warranty_years }}-year core warranty",
+            "sublabel": "On the spring core"
+          }
+        },
+        "tb4": {
+          "type": "item",
+          "settings": {
+            "icon": "delivery",
+            "label": "White-glove delivery & setup",
+            "sublabel": "We bring it in and set it up"
+          }
+        }
+      },
+      "block_order": [
+        "tb1",
+        "tb2",
+        "tb3",
+        "tb4"
+      ],
+      "settings": {
+        "surface": false,
+        "show_lead_line": true,
+        "anchor_id": "trust-top"
+      }
+    },
+    "trust-bar-reserve": {
+      "type": "trust-bar",
+      "blocks": {
+        "tb1": {
+          "type": "item",
+          "settings": {
+            "icon": "deposit",
+            "label": "Fully refundable deposit",
+            "sublabel": "Refund any time before dispatch"
+          }
+        },
+        "tb2": {
+          "type": "item",
+          "settings": {
+            "icon": "trial",
+            "label": "100-night trial",
+            "sublabel": "Sleep on it properly"
+          }
+        },
+        "tb3": {
+          "type": "item",
+          "settings": {
+            "icon": "warranty",
+            "label": "{{ settings.warranty_years }}-year core warranty",
+            "sublabel": "On the spring core"
+          }
+        },
+        "tb4": {
+          "type": "item",
+          "settings": {
+            "icon": "delivery",
+            "label": "White-glove delivery & setup",
+            "sublabel": "We bring it in and set it up"
+          }
+        }
+      },
+      "block_order": [
+        "tb1",
+        "tb2",
+        "tb3",
+        "tb4"
+      ],
+      "settings": {
+        "surface": true,
+        "show_lead_line": true,
+        "anchor_id": "trust-reserve"
+      }
+    },
+    "founder-note": {
+      "type": "founder-note",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "trust-bar-top",
+    "big-idea",
+    "benefits",
+    "product-specs",
+    "swap-explainer",
+    "cooling-support",
+    "social-proof",
+    "founder-note",
+    "offer",
+    "trust-bar-reserve",
+    "size-reserve",
+    "faq"
+  ]
+}

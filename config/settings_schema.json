@@ -1,0 +1,329 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Valtora",
+    "theme_version": "1.0.0",
+    "theme_author": "Valtora",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://help.shopify.com/"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand name (swappable)"
+      },
+      {
+        "type": "paragraph",
+        "content": "The wordmark is rendered from this setting — change the name without uploading a logo. See Spec S13."
+      },
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Brand name",
+        "default": "Valtora"
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline",
+        "label": "Tagline",
+        "default": "Premium Sleep, Engineered for the Gulf"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_mark",
+        "label": "Optional abstract mark",
+        "info": "Simple geometric device only — not a letter monogram (name-independent)."
+      },
+      {
+        "type": "range",
+        "id": "wordmark_tracking",
+        "min": 8,
+        "max": 22,
+        "step": 1,
+        "unit": "em",
+        "label": "Wordmark letter-spacing (÷100)",
+        "default": 15,
+        "info": "Value is hundredths of an em (15 = 0.15em). Spec target: 0.12–0.18em."
+      }
+    ]
+  },
+  {
+    "name": "Design tokens",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Colour palette"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary (navy)",
+        "default": "#1F3A5F"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent (gold)",
+        "default": "#8A6D3B"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Background (off-white)",
+        "default": "#F7F5F1"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Surface (stone)",
+        "default": "#EAE6DF"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Ink (text)",
+        "default": "#222222"
+      },
+      {
+        "type": "color",
+        "id": "color_on_dark",
+        "label": "Text on dark",
+        "default": "#F7F5F1"
+      },
+      {
+        "type": "header",
+        "content": "Typography"
+      },
+      {
+        "type": "select",
+        "id": "font_serif",
+        "label": "Headline / wordmark serif",
+        "options": [
+          { "value": "cormorant", "label": "Cormorant Garamond" },
+          { "value": "fraunces", "label": "Fraunces" },
+          { "value": "playfair", "label": "Playfair Display" }
+        ],
+        "default": "cormorant"
+      },
+      {
+        "type": "select",
+        "id": "font_sans",
+        "label": "Body / UI sans",
+        "options": [
+          { "value": "manrope", "label": "Manrope" },
+          { "value": "work_sans", "label": "Work Sans" },
+          { "value": "inter", "label": "Inter" }
+        ],
+        "default": "manrope"
+      }
+    ]
+  },
+  {
+    "name": "Market & sizing",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Primary market drives default size list when Markets region is unavailable. Prefer Shopify Markets for automatic currency and region."
+      },
+      {
+        "type": "select",
+        "id": "default_market",
+        "label": "Default market",
+        "options": [
+          { "value": "ae", "label": "UAE" },
+          { "value": "gb", "label": "United Kingdom" }
+        ],
+        "default": "ae"
+      },
+      {
+        "type": "text",
+        "id": "deposit_amount_label",
+        "label": "Deposit amount label",
+        "default": "AED 200",
+        "info": "Shown in reserve microcopy. Use £50 for UK."
+      },
+      {
+        "type": "text",
+        "id": "bnpl_microcopy",
+        "label": "BNPL microcopy",
+        "default": "or from AED [X]/month with Tabby or Tamara"
+      },
+      {
+        "type": "text",
+        "id": "lead_time_window",
+        "label": "Made-to-order lead time",
+        "default": "6–8 weeks"
+      },
+      {
+        "type": "text",
+        "id": "warranty_years",
+        "label": "Core warranty (years)",
+        "default": "15"
+      }
+    ]
+  },
+  {
+    "name": "Tracking & pixels",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Deposit completion should fire as the conversion event with value. UTM first-touch persistence is built into the theme (Spec S8)."
+      },
+      {
+        "type": "text",
+        "id": "meta_pixel_id",
+        "label": "Meta Pixel ID"
+      },
+      {
+        "type": "text",
+        "id": "ga4_measurement_id",
+        "label": "GA4 Measurement ID"
+      },
+      {
+        "type": "text",
+        "id": "google_ads_id",
+        "label": "Google Ads tag ID"
+      },
+      {
+        "type": "text",
+        "id": "tiktok_pixel_id",
+        "label": "TikTok Pixel ID"
+      },
+      {
+        "type": "text",
+        "id": "snapchat_pixel_id",
+        "label": "Snapchat Pixel ID"
+      }
+    ]
+  },
+  {
+    "name": "Social & contact",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Contact email",
+        "default": "hello@valtora.com"
+      },
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Contact phone"
+      },
+      {
+        "type": "header",
+        "content": "WhatsApp (S15.3 — near-mandatory for UAE)"
+      },
+      {
+        "type": "checkbox",
+        "id": "whatsapp_enabled",
+        "label": "Enable WhatsApp",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number",
+        "info": "International format, digits only (e.g. 9715XXXXXXXX)."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_prefill",
+        "label": "WhatsApp prefill message",
+        "default": "Hi - I have a question about reserving a mattress."
+      },
+      {
+        "type": "text",
+        "id": "contact_hours",
+        "label": "Contact hours",
+        "default": "Sun–Thu, 9am–6pm GST"
+      },
+      {
+        "type": "text",
+        "id": "response_time_note",
+        "label": "Response-time note",
+        "default": "We reply within one working day."
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      }
+    ]
+  },
+  {
+    "name": "Legal entity",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shown in the footer. Use market-specific fields when UAE and UK entities differ (S15.2.2)."
+      },
+      {
+        "type": "header",
+        "content": "UAE entity"
+      },
+      {
+        "type": "text",
+        "id": "legal_entity_name_ae",
+        "label": "Legal entity name (UAE)",
+        "default": "[Company] FZ-LLC"
+      },
+      {
+        "type": "text",
+        "id": "trade_licence_no",
+        "label": "Trade licence number"
+      },
+      {
+        "type": "textarea",
+        "id": "registered_address_ae",
+        "label": "Registered address (UAE)"
+      },
+      {
+        "type": "text",
+        "id": "tax_reg_no_ae",
+        "label": "TRN / VAT number (UAE)"
+      },
+      {
+        "type": "header",
+        "content": "UK entity"
+      },
+      {
+        "type": "text",
+        "id": "legal_entity_name_gb",
+        "label": "Legal entity name (UK)"
+      },
+      {
+        "type": "text",
+        "id": "company_no_gb",
+        "label": "Company number (UK)"
+      },
+      {
+        "type": "textarea",
+        "id": "registered_address_gb",
+        "label": "Registered address (UK)"
+      },
+      {
+        "type": "text",
+        "id": "tax_reg_no_gb",
+        "label": "VAT number (UK)"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  }
+]

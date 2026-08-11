@@ -1,0 +1,155 @@
+/**
+ * UTM first-touch persistence (Spec S8.3)
+ * Captures utm_* on landing, stores in localStorage + cookie,
+ * writes to cart attributes so they land on the deposit/order record.
+ */
+(function () {
+  var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  var STORAGE_KEY = 'valtora_utm_first_touch';
+  var COOKIE_DAYS = 90;
+
+  function getParams() {
+    var params = new URLSearchParams(window.location.search);
+    var found = {};
+    var hasAny = false;
+    KEYS.forEach(function (k) {
+      var v = params.get(k);
+      if (v) {
+        found[k] = v;
+        hasAny = true;
+      }
+    });
+    return hasAny ? found : null;
+  }
+
+  function setCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + days * 864e5);
+    document.cookie =
+      name +
+      '=' +
+      encodeURIComponent(value) +
+      ';expires=' +
+      d.toUTCString() +
+      ';path=/;SameSite=Lax';
+  }
+
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  function readStored() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY) || getCookie(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeStored(data) {
+    var json = JSON.stringify(data);
+    try {
+      localStorage.setItem(STORAGE_KEY, json);
+    } catch (e) {}
+    setCookie(STORAGE_KEY, json, COOKIE_DAYS);
+  }
+
+  function ensureFirstTouch() {
+    var existing = readStored();
+    if (existing) return existing;
+    var fresh = getParams();
+    if (fresh) {
+      fresh._captured_at = new Date().toISOString();
+      fresh._landing_path = window.location.pathname;
+      writeStored(fresh);
+      return fresh;
+    }
+    return null;
+  }
+
+  function toCartAttributes(utm) {
+    if (!utm) return {};
+    var attrs = {};
+    KEYS.forEach(function (k) {
+      if (utm[k]) attrs[k] = utm[k];
+    });
+    return attrs;
+  }
+
+  /**
+   * Merge UTM attrs into a cart/add payload or FormData.
+   */
+  function applyToCartPayload(payload) {
+    var utm = ensureFirstTouch();
+    var attrs = toCartAttributes(utm);
+    if (!Object.keys(attrs).length) return payload;
+
+    if (payload instanceof FormData) {
+      Object.keys(attrs).forEach(function (k) {
+        if (!payload.has('attributes[' + k + ']')) {
+          payload.append('attributes[' + k + ']', attrs[k]);
+        }
+      });
+      return payload;
+    }
+
+    payload = payload || {};
+    payload.attributes = Object.assign({}, attrs, payload.attributes || {});
+    return payload;
+  }
+
+  /**
+   * PATCH cart attributes via /cart/update.js (for deposit apps that don't use our form).
+   */
+  function syncCartAttributes() {
+    var utm = ensureFirstTouch();
+    var attrs = toCartAttributes(utm);
+    if (!Object.keys(attrs).length) return Promise.resolve(null);
+
+    return fetch((window.ValtoraTheme && window.ValtoraTheme.routes.cart) || '/cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ attributes: attrs }),
+    }).catch(function () {
+      return null;
+    });
+  }
+
+  // Shopify cart/update.js endpoint
+  function syncViaUpdateJs() {
+    var utm = ensureFirstTouch();
+    var attrs = toCartAttributes(utm);
+    if (!Object.keys(attrs).length) return Promise.resolve(null);
+
+    return fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ attributes: attrs }),
+    }).catch(function () {
+      return null;
+    });
+  }
+
+  var utm = ensureFirstTouch();
+
+  window.ValtoraUTM = {
+    get: readStored,
+    ensure: ensureFirstTouch,
+    applyToCartPayload: applyToCartPayload,
+    syncCartAttributes: syncViaUpdateJs,
+    keys: KEYS,
+  };
+
+  // Keep cart attributes warm on load
+  if (utm) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        syncViaUpdateJs();
+      });
+    } else {
+      syncViaUpdateJs();
+    }
+  }
+})();

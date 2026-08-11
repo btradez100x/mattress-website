@@ -1,0 +1,62 @@
+{
+  "current": {
+    "brand_name": "Valtora",
+    "brand_tagline": "Premium Sleep, Engineered for the Gulf",
+    "wordmark_tracking": 15,
+    "color_primary": "#1F3A5F",
+    "color_accent": "#8A6D3B",
+    "color_bg": "#F7F5F1",
+    "color_surface": "#EAE6DF",
+    "color_ink": "#222222",
+    "color_on_dark": "#F7F5F1",
+    "font_serif": "cormorant",
+    "font_sans": "manrope",
+    "default_market": "ae",
+    "deposit_amount_label": "AED 200",
+    "bnpl_microcopy": "or from AED [X]/month with Tabby or Tamara",
+    "lead_time_window": "6–8 weeks",
+    "warranty_years": "15",
+    "contact_email": "hello@valtora.com",
+    "whatsapp_enabled": true,
+    "whatsapp_prefill": "Hi - I have a question about reserving a mattress.",
+    "contact_hours": "Sun–Thu, 9am–6pm GST",
+    "response_time_note": "We reply within one working day.",
+    "legal_entity_name_ae": "[Company] FZ-LLC",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "text": "First allocation now reserving — limited units per size.",
+          "link": ""
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "menu": "",
+          "show_reserve_cta": true,
+          "reserve_label": "Reserve yours",
+          "reserve_link": "#reserve"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "policies": {
+            "type": "link_list",
+            "settings": {
+              "heading": "Policies",
+              "menu": ""
+            }
+          }
+        },
+        "block_order": ["policies"],
+        "settings": {
+          "show_payment_icons": false,
+          "copyright_text": ""
+        }
+      }
+    },
+    "content_for_index": []
+  }
+}

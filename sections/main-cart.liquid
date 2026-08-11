@@ -1,0 +1,58 @@
+<section class="section cart-page">
+  <div class="page-width page-width--narrow">
+    <p class="section__eyebrow">Cart</p>
+    <hr class="gold-rule">
+    <h1 style="font-size:clamp(2rem,4vw,2.75rem);">Your reserve</h1>
+
+    {%- if cart.item_count == 0 -%}
+      <p style="margin-top:1.5rem;">Your cart is empty.</p>
+      <a class="btn" href="{{ routes.root_url }}#reserve" style="margin-top:1rem;">Reserve a size</a>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" style="margin-top:2rem;">
+        {%- for item in cart.items -%}
+          <div style="padding:1.25rem 0;border-bottom:1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);">
+            <strong>{{ item.product.title }}</strong>
+            <div style="font-size:0.9rem;opacity:0.8;margin-top:0.35rem;">
+              {{ item.variant.title }} · {{ item.final_line_price | money }}
+            </div>
+            {%- if item.properties.size > 0 -%}
+              <ul style="margin:0.75rem 0 0;padding-left:1.1rem;font-size:0.875rem;opacity:0.8;">
+                {%- for p in item.properties -%}
+                  {%- if p.last != blank -%}
+                    <li>{{ p.first }}: {{ p.last }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+        {%- if cart.attributes.size > 0 -%}
+          <div class="cart-attributes-note">
+            Attribution captured for this deposit:
+            {%- for attr in cart.attributes -%}
+              {%- if attr.first contains 'utm_' -%}
+                <span style="display:inline-block;margin-right:0.75rem;">{{ attr.first }}={{ attr.last }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <p style="margin-top:1.5rem;font-family:var(--font-serif);font-size:1.75rem;color:var(--brand-primary);">
+          {{ cart.total_price | money }}
+        </p>
+        <p class="reserve-panel__note">
+          Deposit amount and refundability are confirmed at checkout. Pair this cart with your deposit app.
+        </p>
+        <button class="btn" type="submit" name="checkout" style="margin-top:1rem;">Continue to checkout</button>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}
