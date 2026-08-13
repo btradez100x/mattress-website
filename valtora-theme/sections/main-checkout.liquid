@@ -1,0 +1,110 @@
+{%- liquid
+  assign lead_window = settings.lead_time_window | default: '8 to 10 weeks'
+  assign warranty = settings.warranty_years | default: '15'
+  assign payment_mode = settings.payment_mode | default: 'full'
+  assign split_percent = settings.split_percent | default: 50
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+    assign finance_name = 'Klarna'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+    assign finance_name = 'Tabby or Tamara'
+  else
+    assign market = settings.default_market | default: 'ae'
+    if market == 'gb'
+      assign finance_name = 'Klarna'
+    else
+      assign finance_name = 'Tabby or Tamara'
+    endif
+  endif
+-%}
+<section
+  class="checkout-page"
+  data-checkout-page
+  data-market="{{ market }}"
+  data-payment-mode="{{ payment_mode }}"
+  data-lead-window="{{ lead_window | escape }}"
+  data-large-order-threshold-gb="10000"
+  data-large-order-threshold-ae="47000"
+  data-finance-name="{{ finance_name | escape }}"
+>
+  <div class="page-width checkout-page__wrap">
+    <div class="cart-empty" data-checkout-empty hidden>
+      <p>Your order is empty.</p>
+      <a class="btn" href="{{ routes.root_url }}#reserve">See sizes and prices</a>
+    </div>
+
+    <div class="checkout-stage" data-checkout-flow data-reserve-stage-b>
+      <p class="checkout-stage__eyebrow">{{ section.settings.heading | default: 'Before you order' }}</p>
+      <h1 class="checkout-stage__summary" data-stageb-summary></h1>
+
+      <ul class="checkout-stage__lines" role="list" data-checkout-lines></ul>
+
+      <div class="checkout-stage__total">
+        <span>
+          <span data-checkout-item-count>0 units</span>
+          <span class="checkout-stage__finance" data-bnpl-monthly></span>
+        </span>
+        <strong data-checkout-subtotal>-</strong>
+      </div>
+
+      <div class="order-large-terms" data-order-large-terms hidden>
+        <p class="deposit-terms__title">Terms for larger orders</p>
+        <p class="reserve-panel__meta" data-order-large-copy></p>
+        <label class="order-large-terms__ack">
+          <input type="checkbox" data-order-large-ack>
+          <span>I understand these terms for this order</span>
+        </label>
+      </div>
+
+      <button class="checkout-stage__pay" type="button" data-checkout-pay>
+        <span data-pay-label>Pay</span>
+      </button>
+      <p class="checkout-stage__status" data-cart-status hidden role="status"></p>
+
+      <div class="checkout-stage__lead" data-leadtime-block>
+        <p class="checkout-stage__lead-k">Delivery</p>
+        <p class="checkout-stage__lead-v" data-lead-window-label>{{ lead_window }}</p>
+        <p class="checkout-stage__lead-s">
+          Most orders arrive sooner. Built after you order, flown to your market, delivered into your room by two people.
+        </p>
+      </div>
+
+      <p class="checkout-stage__copy" data-leadtime-copy>
+        If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
+      </p>
+
+      <ul class="checkout-stage__terms">
+        {%- if payment_mode == 'full' -%}
+          <li>Cancel any time before dispatch, no questions asked</li>
+          <li>Spread the cost with {{ finance_name }} at no extra charge</li>
+          <li>Refunds within 5-10 business days</li>
+          <li>100 nights to change your mind once it arrives</li>
+          <li>{{ warranty }}-year core warranty</li>
+        {%- else -%}
+          <li>Pay {{ split_percent }}% today. Balance due before dispatch</li>
+          <li>Cancel any time before dispatch for a full refund of amounts paid</li>
+          <li>Spread either payment with {{ finance_name }} at no extra charge</li>
+          <li>100 nights to change your mind once it arrives</li>
+          <li>{{ warranty }}-year core warranty</li>
+        {%- endif -%}
+      </ul>
+
+      <a class="checkout-stage__back" href="{{ routes.root_url }}#reserve">Back to sizes</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Checkout review",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Stage B heading",
+      "default": "Before you order"
+    }
+  ]
+}
+{% endschema %}

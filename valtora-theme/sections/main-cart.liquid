@@ -1,50 +1,80 @@
-<section class="section cart-page">
+<section class="section cart-page order-page" data-cart-page data-order-page>
   <div class="page-width page-width--narrow">
-    <p class="section__eyebrow">Cart</p>
+    <p class="section__eyebrow">Order</p>
     <hr class="gold-rule">
-    <h1 style="font-size:clamp(2rem,4vw,2.75rem);">Your reserve</h1>
+    <h1 class="cart-page__title">Your order</h1>
 
     {%- if cart.item_count == 0 -%}
-      <p style="margin-top:1.5rem;">Your cart is empty.</p>
-      <a class="btn" href="{{ routes.root_url }}#reserve" style="margin-top:1rem;">Reserve a size</a>
+      <div class="cart-empty">
+        <p>Your order is empty.</p>
+        <a class="btn" href="{{ routes.root_url }}#reserve">See sizes and prices</a>
+      </div>
     {%- else -%}
-      <form action="{{ routes.cart_url }}" method="post" style="margin-top:2rem;">
-        {%- for item in cart.items -%}
-          <div style="padding:1.25rem 0;border-bottom:1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);">
-            <strong>{{ item.product.title }}</strong>
-            <div style="font-size:0.9rem;opacity:0.8;margin-top:0.35rem;">
-              {{ item.variant.title }} · {{ item.final_line_price | money }}
-            </div>
-            {%- if item.properties.size > 0 -%}
-              <ul style="margin:0.75rem 0 0;padding-left:1.1rem;font-size:0.875rem;opacity:0.8;">
-                {%- for p in item.properties -%}
-                  {%- if p.last != blank -%}
-                    <li>{{ p.first }}: {{ p.last }}</li>
+      <form action="{{ routes.cart_url }}" method="post" class="cart-form" data-cart-form>
+        <ul class="cart-lines order-lines__list" role="list">
+          {%- for item in cart.items -%}
+            <li class="cart-line" data-cart-line data-key="{{ item.key | escape }}">
+              <div class="cart-line__main">
+                <div class="cart-line__copy">
+                  <p class="cart-line__title">
+                    {%- if item.properties.Size != blank -%}
+                      {{ item.properties.Size }}
+                    {%- else -%}
+                      {{ item.product.title }}
+                    {%- endif -%}
+                  </p>
+                  {%- if item.properties.Firmness != blank -%}
+                    <p class="cart-line__variant">Firmness: {{ item.properties.Firmness }}</p>
                   {%- endif -%}
-                {%- endfor -%}
-              </ul>
+                  {%- if item.properties['Item type'] != blank -%}
+                    <p class="cart-line__variant">{{ item.properties['Item type'] }}</p>
+                  {%- endif -%}
+                  {%- if item.properties.size > 0 -%}
+                    <ul class="cart-line__props">
+                      {%- for p in item.properties -%}
+                        {%- if p.last != blank and p.first.first != '_' -%}
+                          {%- unless p.first == 'Size' or p.first == 'Firmness' or p.first == 'Item type' -%}
+                            <li><span>{{ p.first }}:</span> {{ p.last }}</li>
+                          {%- endunless -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                  <p class="cart-line__unit">{{ item.final_price | money }} each</p>
+                </div>
+
+                <div class="cart-line__qty">
+                  <span class="order-line__qty-label">Qty {{ item.quantity }}</span>
+                </div>
+
+                <p class="cart-line__total" data-line-total>{{ item.final_line_price | money }}</p>
+              </div>
+
+              <div class="cart-line__actions">
+                <a class="cart-line__remove" href="{{ routes.root_url }}#reserve">Edit in order builder</a>
+                <a class="cart-line__remove" href="{{ item.url_to_remove }}">Remove</a>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="cart-summary order-summary is-visible">
+          <div class="cart-summary__row">
+            <span>{{ cart.item_count }} {{ cart.item_count | pluralize: 'unit', 'units' }} · {{ cart.items.size }} {{ cart.items.size | pluralize: 'line', 'lines' }}</span>
+            <strong data-cart-subtotal>{{ cart.total_price | money }}</strong>
+          </div>
+          <p class="cart-summary__note">
+            Delivery is charged once per order. Cancel any time before dispatch for a full refund.
+            {%- if cart.attributes.large_order == 'true' -%}
+              This order is flagged as high value: refundable until production is committed (typically within 5 working days), then non-refundable.
             {%- endif -%}
+          </p>
+          <div class="cart-summary__actions">
+            <a class="btn btn--ghost" href="{{ routes.root_url }}#reserve">Add another size</a>
+            <button class="btn" type="submit" name="checkout" data-cart-checkout>Checkout</button>
           </div>
-        {%- endfor -%}
-
-        {%- if cart.attributes.size > 0 -%}
-          <div class="cart-attributes-note">
-            Attribution captured for this deposit:
-            {%- for attr in cart.attributes -%}
-              {%- if attr.first contains 'utm_' -%}
-                <span style="display:inline-block;margin-right:0.75rem;">{{ attr.first }}={{ attr.last }}</span>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
-
-        <p style="margin-top:1.5rem;font-family:var(--font-serif);font-size:1.75rem;color:var(--brand-primary);">
-          {{ cart.total_price | money }}
-        </p>
-        <p class="reserve-panel__note">
-          Deposit amount and refundability are confirmed at checkout. Pair this cart with your deposit app.
-        </p>
-        <button class="btn" type="submit" name="checkout" style="margin-top:1rem;">Continue to checkout</button>
+          <p class="cart-status" data-cart-status hidden role="status"></p>
+        </div>
       </form>
     {%- endif -%}
   </div>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" data-market="ae" data-font-set="modern">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#1F3A5F">
+    <title>Order · Aligna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../base.css">
+    <style>
+      :root {
+        --brand-primary: #1F3A5F;
+        --brand-accent: #8A6D3B;
+        --brand-bg: #F7F5F1;
+        --brand-surface: #EAE6DF;
+        --brand-ink: #222222;
+        --brand-on-dark: #F7F5F1;
+        --font-serif: 'Fraunces', Georgia, serif;
+        --font-sans: 'Outfit', system-ui, sans-serif;
+        --font-wordmark: var(--font-sans);
+        --font-headline: var(--font-sans);
+        --wordmark-tracking: 0.18em;
+        --space-section: clamp(5.5rem, 12vw, 9rem);
+        --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
+        --max-width: 72rem;
+        --max-width-narrow: 40rem;
+        --radius: 0;
+        --radius-control: 0.35rem;
+        --transition: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .preview-banner {
+        background: #1F3A5F; color: #F7F5F1; text-align: center;
+        font-size: 0.8125rem; letter-spacing: 0.04em; padding: 0.55rem 1rem;
+      }
+      .site-header--solid {
+        position: sticky; top: 0; z-index: 40;
+        background: color-mix(in srgb, var(--brand-bg) 92%, transparent);
+        border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+        backdrop-filter: blur(8px);
+      }
+      .site-header--solid .site-header__inner {
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        padding: 0.85rem 0;
+      }
+      .site-header--solid .site-header__nav { display: none; gap: 1.25rem; }
+      @media (min-width: 900px) {
+        .site-header--solid .site-header__nav { display: flex; }
+      }
+      .site-header__actions { display: flex; align-items: center; gap: 0.75rem; }
+    </style>
+  </head>
+  <body>
+    <div class="preview-banner"><strong>Local theme preview</strong> · Multi-item order</div>
+    <header class="site-header site-header--solid">
+      <div class="page-width site-header__inner">
+        <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
+          <span class="wordmark__lockup">
+            <span class="wordmark__text">Aligna</span>
+            <span class="wordmark__product">Mattresses</span>
+          </span>
+        </a>
+        <nav class="site-header__nav" aria-label="Primary">
+          <a href="../index.html#swap">The Swap System</a>
+          <a href="../index.html#specs">Specs</a>
+          <a href="./manufacturing.html">Manufacturing</a>
+          <a href="../index.html#lifestyle">Lifestyle</a>
+          <a href="../index.html#reserve">Reserve</a>
+          <a href="../blog/index.html">Journal</a>
+          <a href="../index.html#founder">Founder</a>
+          <a href="../index.html#faq">FAQ</a>
+        </nav>
+        <div class="site-header__actions">
+          <a class="site-header__order" href="./cart.html" data-order-link hidden aria-label="Order">
+            <span class="site-header__order-label">Order</span>
+            <span class="site-header__order-count" data-order-count hidden>0</span>
+          </a>
+          <a class="btn" href="../index.html#reserve">See sizes and prices</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section cart-page order-page" data-cart-page data-order-page>
+        <div class="page-width page-width--narrow">
+          <p class="section__eyebrow">Order</p>
+          <hr class="gold-rule">
+          <h1 class="cart-page__title">Your order</h1>
+
+          <div class="cart-empty" data-cart-empty>
+            <p>Your order is empty.</p>
+            <a class="btn" href="../index.html#reserve">See sizes and prices</a>
+          </div>
+
+          <ul class="cart-lines" role="list" data-cart-lines></ul>
+
+          <div class="cart-summary" data-cart-summary hidden>
+            <div class="cart-summary__row">
+              <span data-cart-item-count>0 units</span>
+              <strong data-cart-subtotal>-</strong>
+            </div>
+            <p class="cart-summary__note">
+              Delivery is charged once per order. Cancel any time before dispatch for a full refund.
+            </p>
+            <div class="cart-summary__actions">
+              <a class="btn btn--ghost" href="../index.html#reserve">Add another size</a>
+              <button class="btn" type="button" data-cart-checkout>Checkout</button>
+            </div>
+            <p class="cart-status" data-cart-status hidden role="status"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="../theme.js?v=wo-v4-nofirm1"></script>
+  </body>
+</html>

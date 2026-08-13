@@ -1,0 +1,576 @@
+<!-- Brand Guidelines v3 - premium sleep -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --snow:#F5F4F1;
+  --bone:#E4E1DA;
+  --graphite:#3A3A3C;
+  --carbon:#1A1A1A;
+  --ember:#8A6D3B;
+  --slate:#6B6B70;
+  --hair:#D6D2CA;
+  --hair-dk:#2E2E30;
+
+  --fd:'Instrument Sans',system-ui,sans-serif;
+  --ft:'Inter',system-ui,sans-serif;
+  --fm:'Geist Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+
+.bg{
+  background:var(--snow); color:var(--carbon);
+  font-family:var(--ft); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:120px;
+}
+.w{max-width:1040px;margin:0 auto;padding:0 40px}
+@media(max-width:640px){.w{padding:0 20px}}
+
+/* micro label */
+.ml{
+  font-family:var(--fm);font-size:10px;font-weight:500;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--slate);
+}
+.ml.e{color:var(--ember)}
+.ml.inv{color:#9A9A9F}
+
+/* THE LINE - the device. light above, dark below */
+.line{height:0;border:0;border-top:1px solid var(--hair);margin:0}
+.line-dk{height:0;border:0;border-top:1px solid var(--hair-dk);margin:0}
+
+.sec{padding:96px 0 0}
+.sec-h{display:flex;align-items:baseline;gap:22px;margin-bottom:36px}
+.sec-n{font-family:var(--fm);font-size:11px;color:var(--slate);opacity:.6;letter-spacing:.2em}
+h2.h{
+  font-family:var(--fd);font-size:clamp(30px,5vw,46px);font-weight:700;
+  letter-spacing:-.04em;line-height:1;
+}
+h3.sh{font-family:var(--ft);font-size:16px;font-weight:600;margin:42px 0 14px;letter-spacing:-.01em}
+p{color:var(--slate);max-width:66ch}
+p+p{margin-top:14px}
+p strong{color:var(--carbon);font-weight:600}
+.lede{font-size:19px;line-height:1.55;color:var(--graphite);max-width:58ch}
+
+/* dark ground sections - the alternating principle, demonstrated */
+.dark{background:var(--carbon);color:var(--snow);margin-top:96px;padding:96px 0}
+.dark h2.h{color:var(--snow)}
+.dark h3.sh{color:var(--snow)}
+.dark p{color:#9A9A9F}
+.dark p strong{color:var(--snow)}
+.dark .sec-n{color:#6B6B70}
+.dark .lede{color:#B8B8BD}
+
+/* HERO */
+.hero{padding:120px 0 0}
+.hero .ml{display:block;margin-bottom:44px}
+.hero h1{
+  font-family:var(--fd);font-weight:700;
+  font-size:clamp(50px,11.5vw,124px);line-height:.88;
+  letter-spacing:-.055em;
+}
+.hero h1 em{font-style:normal;color:var(--slate)}
+.hero-sub{margin-top:40px;font-size:19px;color:var(--graphite);max-width:44ch;line-height:1.5}
+.hero-band{margin-top:88px;height:120px;background:var(--carbon)}
+
+/* THE LINE demo */
+.linedemo{margin:8px 0 0;border:1px solid var(--hair);border-radius:2px;overflow:hidden}
+.linedemo .up{background:var(--snow);height:120px;display:flex;align-items:flex-end;padding:0 22px 14px}
+.linedemo .dn{background:var(--carbon);height:120px;display:flex;align-items:flex-start;padding:14px 22px 0}
+.linedemo .up span,.linedemo .dn span{font-family:var(--fm);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.linedemo .up span{color:var(--slate)}
+.linedemo .dn span{color:#7A7A80}
+
+/* swatches */
+.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:8px}
+@media(max-width:700px){.sw{grid-template-columns:repeat(2,1fr)}}
+.sw div{padding:0}
+.sw .chip{height:132px}
+.sw .meta{background:var(--snow);padding:14px 14px 16px}
+.sw .nm{font-size:13px;font-weight:600;color:var(--carbon)}
+.sw .hx{font-family:var(--fm);font-size:10.5px;color:var(--slate);margin-top:3px}
+.sw .rt{font-family:var(--fm);font-size:10px;color:var(--ember);margin-top:7px;letter-spacing:.06em}
+
+/* type specimen */
+.spec{border-top:1px solid var(--hair);padding:26px 0}
+.spec:last-child{border-bottom:1px solid var(--hair)}
+.spec .lbl{margin-bottom:12px}
+.t-d{font-family:var(--fd);font-weight:700;font-size:clamp(38px,7vw,64px);letter-spacing:-.045em;line-height:1.02}
+.t-h2{font-family:var(--fd);font-weight:700;font-size:clamp(28px,4.6vw,44px);letter-spacing:-.035em;line-height:1.1}
+.t-h3{font-family:var(--ft);font-weight:600;font-size:24px;letter-spacing:-.015em}
+.t-b{font-family:var(--ft);font-size:16px;color:var(--graphite);max-width:62ch}
+.t-c{font-family:var(--ft);font-size:14px;color:var(--slate)}
+.t-l{font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate)}
+.num{font-variant-numeric:tabular-nums}
+
+/* tables */
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+th{font-family:var(--fm);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);text-align:left;padding:0 14px 12px 0;font-weight:500;border-bottom:1px solid var(--hair)}
+td{padding:14px 14px 14px 0;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--graphite)}
+td:first-child{color:var(--carbon);font-weight:500;width:26%}
+.dark th{color:#7A7A80;border-color:var(--hair-dk)}
+.dark td{color:#9A9A9F;border-color:var(--hair-dk)}
+.dark td:first-child{color:var(--snow)}
+
+/* do / dont */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:10px}
+@media(max-width:640px){.dd{grid-template-columns:1fr}}
+.dd>div{background:var(--snow);padding:22px}
+.dd .k{font-family:var(--fm);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px}
+.dd .yes .k{color:var(--ember)}
+.dd .no .k{color:#B04A3A}
+.dd p{font-size:14px;margin:0}
+.dd ul{list-style:none;font-size:14px;color:var(--slate)}
+.dd li{padding:5px 0 5px 16px;position:relative}
+.dd li:before{content:'';position:absolute;left:0;top:13px;width:6px;height:1px;background:var(--slate)}
+
+/* product card demo */
+.card{border:1px solid var(--hair);border-radius:2px;overflow:hidden;margin-top:10px;max-width:420px}
+.card .img{background:var(--bone);height:150px;position:relative}
+.card .img:after{content:'';position:absolute;left:0;right:0;bottom:0;height:56px;background:var(--carbon)}
+.card .body{padding:22px}
+.card .nm{font-family:var(--fd);font-weight:700;font-size:22px;letter-spacing:-.02em}
+.card .dim{font-family:var(--fm);font-size:11px;color:var(--slate);letter-spacing:.1em;margin-top:6px}
+.card .pr{font-family:var(--fd);font-weight:700;font-size:30px;letter-spacing:-.03em;margin-top:20px;font-variant-numeric:tabular-nums}
+.card .fin{font-size:13px;color:var(--slate);margin-top:4px}
+.card .btn{margin-top:20px;background:var(--carbon);color:var(--snow);padding:14px;text-align:center;font-size:14px;font-weight:600;border-radius:2px}
+
+/* stage demo */
+.stages{margin-top:12px}
+.stage{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px solid var(--hair-dk)}
+.stage:last-child{border:0}
+.stage .dot{width:7px;height:7px;border-radius:50%;background:var(--hair-dk);flex:none}
+.stage.done .dot{background:var(--snow)}
+.stage.now .dot{background:var(--ember);box-shadow:0 0 0 4px rgba(138,109,59,.2)}
+.stage .nm{font-size:14px;color:#6B6B70}
+.stage.done .nm{color:#9A9A9F}
+.stage.now .nm{color:var(--snow);font-weight:600}
+.stage .dt{margin-left:auto;font-family:var(--fm);font-size:10px;color:#5A5A60;letter-spacing:.08em}
+
+/* tokens */
+pre{
+  background:var(--carbon);color:#B8B8BD;font-family:var(--fm);font-size:12px;
+  line-height:1.85;padding:26px;border-radius:2px;overflow-x:auto;margin-top:10px
+}
+pre .c{color:#6B6B70}
+pre .v{color:var(--snow)}
+
+/* motion demo */
+.mo{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.mo div{flex:1;min-width:150px;border:1px solid var(--hair);border-radius:2px;padding:16px}
+.mo .d{font-family:var(--fd);font-weight:700;font-size:26px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.mo .n{font-family:var(--fm);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.mo .e{font-family:var(--fm);font-size:10px;color:var(--ember);margin-top:9px;word-break:break-all}
+
+.note{border-left:2px solid var(--ember);padding:2px 0 2px 20px;margin-top:22px}
+.note p{color:var(--graphite)}
+.dark .note p{color:#B8B8BD}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:10px}
+@media(max-width:700px){.cols{grid-template-columns:1fr;gap:28px}}
+ul.pl{list-style:none;margin-top:8px}
+ul.pl li{color:var(--slate);font-size:15px;padding:7px 0 7px 18px;position:relative}
+ul.pl li:before{content:'';position:absolute;left:0;top:16px;width:7px;height:1px;background:var(--hair)}
+.dark ul.pl li{color:#9A9A9F}
+.dark ul.pl li:before{background:var(--hair-dk)}
+</style>
+
+<div class="bg">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="w">
+    <span class="ml">Brand Guidelines &nbsp;/&nbsp; v3 &nbsp;/&nbsp; Built from competitive research</span>
+    <h1>We did not<br>inherit this.<br><em>We engineered it.</em></h1>
+    <p class="hero-sub">Every luxury bed brand sells a century. We sell a better idea about which part should be replaceable.</p>
+  </div>
+  <div class="hero-band"></div>
+</div>
+
+<!-- 01 -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">01</span><h2 class="h">The research, and what it found</h2></div>
+  <p class="lede">Three findings from studying Hästens, Vispring, Savoir, Duxiana, Simba, Emma, Eight Sleep and the 2026 furniture design landscape. Each one closes a door or opens one.</p>
+
+  <h3 class="sh">Finding one - the category competes on heritage, and we cannot</h3>
+  <p>Hästens founded 1852. Vispring 1901, and made the mattresses for the Titanic. Savoir created for the Savoy. Every luxury bed brand's positioning rests on the same claim: <strong>we have been doing this for a century.</strong></p>
+  <p>We have no heritage and cannot manufacture it. Any attempt to imply age, tradition or lineage reads as pastiche and gets caught by a buyer who researches. This closes off the entire conventional route to luxury in this category.</p>
+
+  <h3 class="sh">Finding two - the most successful luxury bed brand differentiates on a pattern</h3>
+  <p>Hästens is recognised worldwide by its blue and white check. Retailers describe it as <strong>"pretty much their visual signature"</strong> and note that the bed is <strong>"designed to be seen as much as felt."</strong> Not the horsehair. Not the spring count. The check.</p>
+  <div class="note"><p>The lesson is not to copy a pattern. It is that in a category where every product looks identical under a sheet, <strong>an ownable visual device does more work than any specification</strong> - and almost nobody in premium DTC uses one.</p></div>
+
+  <h3 class="sh">Finding three - warm minimalism is now the default, not a differentiator</h3>
+  <p>The 2026 design press is consistent: the decade-long dominance of Scandinavian-inflected minimalism is giving way to material intensity, richer palettes and visible evidence of the maker's hand. One editor put it plainly - <strong>this is not minimalism; minimalism stripped away. What is happening now adds back, but with discrimination.</strong></p>
+  <p>Off-white, stone, restraint, whitespace: that is what every premium DTC brand looks like now. Being more restrained is not differentiation. It is camouflage.</p>
+
+  <h3 class="sh">The gap</h3>
+  <table>
+    <tr><th>Territory</th><th>Owned by</th><th>Open to us</th></tr>
+    <tr><td>Heritage and lineage</td><td>Hästens, Vispring, Savoir</td><td>No - pretending is fatal</td></tr>
+    <tr><td>Convenience and price</td><td>Simba, Emma, Otty</td><td>No - and we do not want it</td></tr>
+    <tr><td>Warm minimal aesthetic</td><td>Everyone in premium DTC</td><td>No - it is the default</td></tr>
+    <tr><td>Technology and data</td><td>Eight Sleep</td><td>Partially - we have no sensors</td></tr>
+    <tr><td>Honest modern engineering,<br>with an ownable device</td><td>Nobody</td><td><strong>Yes</strong></td></tr>
+  </table>
+</div></div>
+
+<!-- 02 DARK -->
+<div class="dark"><div class="w">
+  <div class="sec-h"><span class="sec-n">02</span><h2 class="h">Position</h2></div>
+  <p class="lede">We are not old. We are not pretending to be. We are the mattress engineered now, for how people actually live - built to be refreshed rather than replaced, and made to order so nothing is wasted.</p>
+
+  <h3 class="sh">Against each incumbent</h3>
+  <table>
+    <tr><th>Against</th><th>Their claim</th><th>Our counter</th></tr>
+    <tr><td>Hästens, Vispring, Savoir</td><td>A century of craft</td><td>A century of doing it the same way. We changed the part that wears.</td></tr>
+    <tr><td>Simba, Emma, Otty</td><td>Convenience and discount</td><td>Made for you, not stacked in a warehouse.</td></tr>
+    <tr><td>Eight Sleep</td><td>Technology and tracking</td><td>No subscription, no app, no sensors to fail. Just a better bed.</td></tr>
+  </table>
+
+  <h3 class="sh">Essence</h3>
+  <p style="font-family:var(--fd);font-size:clamp(24px,4vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1.2;color:var(--snow);max-width:20ch;margin-top:14px">A better bed, for life. Refresh it, do not replace it.</p>
+
+  <h3 class="sh">Personality</h3>
+  <p>Modern, exact, quietly confident, unsentimental. We do not romanticise the past because we did not come from it. We are interested in how things are made now.</p>
+</div></div>
+
+<!-- 03 THE LINE -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">03</span><h2 class="h">The Line</h2></div>
+  <p class="lede">Our mattress has a zip running its full perimeter, dividing the white quilted top from the dark base. It is the visible expression of the one thing no competitor offers. It is also a single, clean, horizontal division between two materials.</p>
+  <p>That becomes the brand device - product-derived, instantly recognisable, and impossible to copy without copying the product.</p>
+
+  <div class="linedemo">
+    <div class="up"><span>Light above</span></div>
+    <div class="dn"><span>Dark below</span></div>
+  </div>
+  <p style="font-size:13px;margin-top:12px">A true division between two grounds. Not a rule floating on one background.</p>
+
+  <h3 class="sh">Where it appears</h3>
+  <table>
+    <tr><th>Application</th><th>Expression</th></tr>
+    <tr><td>Section dividers</td><td>Tonal shift at the edge - light ground meeting dark ground</td></tr>
+    <tr><td>Page structure</td><td>Major sections separated by the transition, not by whitespace alone</td></tr>
+    <tr><td>Photography</td><td>Compose to place the product's real zip on a horizontal third</td></tr>
+    <tr><td>Packaging</td><td>A single band where the two materials of the box meet</td></tr>
+    <tr><td>Order portal</td><td>Stage progression as a line advancing, not a bar filling</td></tr>
+    <tr><td>Video</td><td>Transitions as a horizontal wipe - never a fade, never a cut</td></tr>
+  </table>
+
+  <div class="dd">
+    <div class="yes"><div class="k">Always</div><ul>
+      <li>Horizontal</li><li>A true meeting of two tones</li><li>Hairline weight - 1px screen, 0.25pt print</li><li>One per view</li>
+    </ul></div>
+    <div class="no"><div class="k">Never</div><ul>
+      <li>Angled, curved or vertical</li><li>A coloured stroke</li><li>Decorative or repeated as a pattern</li><li>Two competing in one view</li>
+    </ul></div>
+  </div>
+</div></div>
+
+<!-- 04 COLOUR -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">04</span><h2 class="h">Colour</h2></div>
+  <p class="lede">Earlier versions specified off-white, stone, navy and gold. The product is white and near-black. That was the mistake - the palette should come from the object, and the object already has the highest-contrast colourway in the category.</p>
+
+  <div class="sw">
+    <div><div class="chip" style="background:#F5F4F1;border-bottom:1px solid var(--hair)"></div><div class="meta"><div class="nm">Snow</div><div class="hx">#F5F4F1</div><div class="rt">Light ground</div></div></div>
+    <div><div class="chip" style="background:#E4E1DA"></div><div class="meta"><div class="nm">Bone</div><div class="hx">#E4E1DA</div><div class="rt">Secondary</div></div></div>
+    <div><div class="chip" style="background:#3A3A3C"></div><div class="meta"><div class="nm">Graphite</div><div class="hx">#3A3A3C</div><div class="rt">10.1:1 AAA</div></div></div>
+    <div><div class="chip" style="background:#1A1A1A"></div><div class="meta"><div class="nm">Carbon</div><div class="hx">#1A1A1A</div><div class="rt">16.4:1 AAA</div></div></div>
+    <div><div class="chip" style="background:#8A6D3B"></div><div class="meta"><div class="nm">Ember</div><div class="hx">#8A6D3B</div><div class="rt">4.8:1 AA</div></div></div>
+  </div>
+
+  <h3 class="sh">The contrast principle</h3>
+  <p><strong>Light above, dark below.</strong> This is the product, and it is now the layout logic. Pages move between light and dark grounds, divided by The Line. That structural rhythm is more distinctive than any arrangement of neutrals - and it is derived from the object rather than applied to it.</p>
+
+  <h3 class="sh">Roles</h3>
+  <table>
+    <tr><th>Colour</th><th>Role</th><th>Use</th></tr>
+    <tr><td>Snow</td><td>Light ground</td><td>The top surface. Primary background, product grounds</td></tr>
+    <tr><td>Bone</td><td>Secondary light</td><td>Cards, table stripes, subtle separation</td></tr>
+    <tr><td>Graphite</td><td>Mid dark</td><td>Secondary dark surfaces, borders, muted text</td></tr>
+    <tr><td>Carbon</td><td>Dark ground</td><td>The base. Headings, dark sections, wordmark, body text</td></tr>
+    <tr><td>Ember</td><td>Accent, sparing</td><td>Fine detail only. Never a fill. Never above 2% of a view</td></tr>
+  </table>
+  <div class="note"><p>Minimum 4.5:1 for body text, 3:1 for large text and UI. Never rely on colour alone to convey meaning. Focus states always visible.</p></div>
+</div></div>
+
+<!-- 05 TYPE -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">05</span><h2 class="h">Typography</h2></div>
+  <p class="lede">Where the category reaches for a serif to signal heritage, we do not. A precise modern grotesque is itself a positioning statement - engineered, not inherited. This is a deliberate break from every competitor studied.</p>
+
+  <div class="spec"><div class="ml lbl">Display &nbsp;/&nbsp; Instrument Sans 700 &nbsp;/&nbsp; tracking −4.5%</div>
+    <div class="t-d">Change your comfort,<br>not your mattress.</div></div>
+  <div class="spec"><div class="ml lbl">H2 &nbsp;/&nbsp; 700 &nbsp;/&nbsp; tracking −3.5%</div>
+    <div class="t-h2">Made to order. Made to last.</div></div>
+  <div class="spec"><div class="ml lbl">H3 &nbsp;/&nbsp; Inter 600</div>
+    <div class="t-h3">Seven zones. One bed, for decades.</div></div>
+  <div class="spec"><div class="ml lbl">Body &nbsp;/&nbsp; Inter 400 &nbsp;/&nbsp; 16px &nbsp;/&nbsp; 1.6</div>
+    <div class="t-b">Most mattresses are replaced because the top layer wears out, while the springs beneath still have a decade of life in them. We separated the two.</div></div>
+  <div class="spec"><div class="ml lbl">Figures &nbsp;/&nbsp; tabular &nbsp;/&nbsp; always</div>
+    <div class="t-d num">37cm &nbsp; £2,499 &nbsp; 180 × 200</div></div>
+  <div class="spec"><div class="ml lbl">Label &nbsp;/&nbsp; Geist Mono 500 &nbsp;/&nbsp; +14% tracking</div>
+    <div class="t-l">Made to order - delivered in 8 to 10 weeks</div></div>
+
+  <h3 class="sh">Scale</h3>
+  <table>
+    <tr><th>Level</th><th>Desktop</th><th>Mobile</th><th>Line height</th><th>Tracking</th></tr>
+    <tr><td>Display</td><td class="num">64px</td><td class="num">38px</td><td class="num">1.02</td><td class="num">−0.045em</td></tr>
+    <tr><td>H2</td><td class="num">44px</td><td class="num">30px</td><td class="num">1.10</td><td class="num">−0.035em</td></tr>
+    <tr><td>H3</td><td class="num">24px</td><td class="num">20px</td><td class="num">1.25</td><td class="num">−0.015em</td></tr>
+    <tr><td>Body</td><td class="num">16px</td><td class="num">16px</td><td class="num">1.60</td><td class="num">0</td></tr>
+    <tr><td>Label</td><td class="num">12px</td><td class="num">12px</td><td class="num">1.40</td><td class="num">+0.14em</td></tr>
+  </table>
+
+  <div class="dd">
+    <div class="yes"><div class="k">Do</div><ul>
+      <li>One family. Weight and scale do the work</li>
+      <li>Display very tight, negative tracking</li>
+      <li>Tabular figures on every number</li>
+      <li>Measure 60-75 characters</li>
+    </ul></div>
+    <div class="no"><div class="k">Never</div><ul>
+      <li>A serif - it signals heritage we do not have</li>
+      <li>A third typeface</li>
+      <li>Justified text</li>
+      <li>Letterspaced lowercase body</li>
+    </ul></div>
+  </div>
+</div></div>
+
+<!-- 06 LAYOUT DARK -->
+<div class="dark"><div class="w">
+  <div class="sec-h"><span class="sec-n">06</span><h2 class="h">Layout</h2></div>
+  <p class="lede">This section is on a dark ground. The one before it was light. That alternation, divided by The Line, is the structural signature.</p>
+
+  <div class="cols">
+    <div>
+      <h3 class="sh">Grid</h3>
+      <ul class="pl">
+        <li>Desktop - 12 columns, 24px gutters, 1240px max, 80px page margin</li>
+        <li>Mobile - 4 columns, 16px gutters, 20px margin</li>
+        <li>Section rhythm - 128px desktop, 72px mobile</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="sh">Spacing scale</h3>
+      <ul class="pl">
+        <li class="num">4 · 8 · 12 · 16 · 24</li>
+        <li class="num">32 · 48 · 64 · 96</li>
+        <li class="num">128 · 192</li>
+        <li>Nothing outside this scale. Arbitrary values are the fastest route to a layout that looks amateur.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sh">The alternating ground principle</h3>
+  <p>Roughly every third section moves to the opposite ground. Not every section - the rhythm of light, light, dark is what makes structure feel composed rather than scrolled. <strong>This replaces whitespace as the primary spatial signal</strong> and is what separates our layout from the sea of all-cream premium DTC sites.</p>
+
+  <h3 class="sh">Material intensity, not flat minimalism</h3>
+  <ul class="pl">
+    <li>Surfaces may carry a very low-opacity texture - paper grain, a woven suggestion. Never a visible pattern.</li>
+    <li>Photography full-bleed at section transitions.</li>
+    <li>Space is generous but purposeful. Composed, not sparse.</li>
+  </ul>
+</div></div>
+
+<!-- 07 IN USE -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">07</span><h2 class="h">The system in use</h2></div>
+  <p class="lede">Two live components. Both use only the tokens in section 11.</p>
+
+  <div class="cols">
+    <div>
+      <div class="ml" style="margin-bottom:14px">Product card</div>
+      <div class="card">
+        <div class="img"></div>
+        <div class="body">
+          <div class="nm">King</div>
+          <div class="dim num">180 × 200 CM &nbsp;·&nbsp; MEDIUM</div>
+          <div class="pr num">£2,499</div>
+          <div class="fin num">or £208/month with Klarna</div>
+          <div class="btn">Continue</div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:14px">The Line appears in the image block where the light top meets the dark base. Price in tabular figures. No delivery window at this step - that is revealed after intent.</p>
+    </div>
+    <div>
+      <div class="ml" style="margin-bottom:14px">Order portal - dark ground</div>
+      <div style="background:var(--carbon);padding:26px;border-radius:2px">
+        <div class="ml inv" style="margin-bottom:18px">ORDER 1042 &nbsp;·&nbsp; KING &nbsp;·&nbsp; MEDIUM</div>
+        <div class="stages">
+          <div class="stage done"><span class="dot"></span><span class="nm">Order confirmed</span><span class="dt">14 AUG</span></div>
+          <div class="stage done"><span class="dot"></span><span class="nm">In production</span><span class="dt">28 AUG</span></div>
+          <div class="stage now"><span class="dot"></span><span class="nm">Quality checked</span><span class="dt">TODAY</span></div>
+          <div class="stage"><span class="dot"></span><span class="nm">In transit</span><span class="dt"></span></div>
+          <div class="stage"><span class="dot"></span><span class="nm">Arrived in the UK</span><span class="dt"></span></div>
+          <div class="stage"><span class="dot"></span><span class="nm">Delivered</span><span class="dt"></span></div>
+        </div>
+      </div>
+      <p style="font-size:13px;margin-top:14px">Stages advance along a line. Only Ember marks the current position - the single permitted use of accent in the interface.</p>
+    </div>
+  </div>
+</div></div>
+
+<!-- 08 IMAGERY -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">08</span><h2 class="h">Imagery</h2></div>
+  <p class="lede">Editorial, not catalogue. The reference set is architectural photography and design press - not furniture retail.</p>
+
+  <table>
+    <tr><th>Attribute</th><th>Specification</th></tr>
+    <tr><td>Colour temperature</td><td>Neutral. Never warmed into beige, never cooled to blue</td></tr>
+    <tr><td>Contrast</td><td>Higher than category norm. Detail retained in both extremes</td></tr>
+    <tr><td>Saturation</td><td>Low, near-neutral. The product carries no colour</td></tr>
+    <tr><td>Shadow</td><td>Deep and clean. Shadows are structure, not softness</td></tr>
+    <tr><td>Light</td><td>Directional. Raking side light reveals quilting and weave</td></tr>
+    <tr><td>Crop</td><td>Loose. Nothing important within 10% of an edge</td></tr>
+  </table>
+
+  <div class="dd">
+    <div class="yes"><div class="k">Shoot</div><ul>
+      <li>Product on neutral ground, elevated, soft contact shadow</li>
+      <li>Macro - knit, zip teeth, stitch, layer edge</li>
+      <li>The swap in action. The signature image</li>
+      <li>Interiors that are specific, not generic</li>
+    </ul></div>
+    <div class="no"><div class="k">Never</div><ul>
+      <li>Showroom or retail mattress photography</li>
+      <li>Beige-washed interiors that could be any brand</li>
+      <li>Text overlays, badges, price flashes</li>
+      <li>Couples bouncing, thumbs up, pyjama laughter</li>
+    </ul></div>
+  </div>
+</div></div>
+
+<!-- 09 VOICE -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">09</span><h2 class="h">Voice</h2></div>
+  <p class="lede">Exact, calm, unsentimental. We state facts and let them work. We never reach for an adjective where a number will serve.</p>
+
+  <h3 class="sh">The heritage counter</h3>
+  <p>When the category says <em>since 1852</em>, we say what we did instead. Never disparage the incumbents - they make fine beds. Simply be specific about the present. <strong>Specificity beats nostalgia when the buyer is comparing.</strong></p>
+
+  <h3 class="sh">Headline formulas</h3>
+  <table>
+    <tr><th>Formula</th><th>Example</th></tr>
+    <tr><td>Contrast</td><td>Change your comfort, not your mattress.</td></tr>
+    <tr><td>Flat statement</td><td>Made to order. Made to last.</td></tr>
+    <tr><td>Specification as line</td><td>37cm. Seven zones. One bed, for decades.</td></tr>
+    <tr><td>Counter-heritage</td><td>We did not inherit this. We engineered it.</td></tr>
+  </table>
+
+  <div class="dd">
+    <div class="yes"><div class="k">Words we use</div><ul>
+      <li>engineered · exact · made to order</li>
+      <li>refresh · replace the layer</li>
+      <li>seven zones · 37cm · eight to ten weeks</li>
+    </ul></div>
+    <div class="no"><div class="k">Words we avoid</div><ul>
+      <li>heritage · timeless · artisanal</li>
+      <li>luxury (as an adjective)</li>
+      <li>revolutionary · hurry · unbeatable</li>
+    </ul></div>
+  </div>
+
+  <h3 class="sh">Conventions</h3>
+  <ul class="pl">
+    <li>Sentence case everywhere except the wordmark. No exclamation marks, ever.</li>
+    <li>Numerals for all measurements and prices. Tabular figures.</li>
+    <li>Hyphens - never em or en dashes.</li>
+    <li>British English. Second person. Say the thing plainly.</li>
+  </ul>
+</div></div>
+
+<!-- 10 MOTION DARK -->
+<div class="dark"><div class="w">
+  <div class="sec-h"><span class="sec-n">10</span><h2 class="h">Motion</h2></div>
+  <p class="lede">Motion is horizontal. Where a transition is needed it moves along The Line - wipes, not fades. The device expressed in time.</p>
+
+  <div class="mo">
+    <div><div class="d num">120<span style="font-size:14px">ms</span></div><div class="n">Hover · state</div><div class="e">ease-out</div></div>
+    <div><div class="d num">450<span style="font-size:14px">ms</span></div><div class="n">Scroll reveal</div><div class="e">cubic-bezier(.22,1,.36,1)</div></div>
+    <div><div class="d num">600<span style="font-size:14px">ms</span></div><div class="n">Section wipe</div><div class="e">cubic-bezier(.22,1,.36,1)</div></div>
+    <div><div class="d num">280<span style="font-size:14px">ms</span></div><div class="n">Panel · modal</div><div class="e">ease-out</div></div>
+  </div>
+
+  <h3 class="sh">Rules</h3>
+  <ul class="pl">
+    <li>Reveal is opacity 0→1 with translateY 20px→0. Trigger at 20% in viewport. Once only, never on scroll up.</li>
+    <li>Stagger siblings by 50ms maximum. One movement per view.</li>
+    <li>Nothing bounces, springs or overshoots. This brand is exact.</li>
+    <li>Respect <span style="font-family:var(--fm);font-size:13px;color:var(--snow)">prefers-reduced-motion</span> - disable reveals and autoplay entirely.</li>
+    <li>Video muted always, captioned where speech occurs, poster frame on every instance.</li>
+  </ul>
+</div></div>
+
+<!-- 11 TOKENS -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">11</span><h2 class="h">Tokens</h2></div>
+  <p class="lede">The only values that should appear in code.</p>
+<pre><span class="c">/* ground */</span>
+--ground-light:  <span class="v">#F5F4F1</span>;   <span class="c">/* Snow     */</span>
+--ground-soft:   <span class="v">#E4E1DA</span>;   <span class="c">/* Bone     */</span>
+--ground-mid:    <span class="v">#3A3A3C</span>;   <span class="c">/* Graphite */</span>
+--ground-dark:   <span class="v">#1A1A1A</span>;   <span class="c">/* Carbon   */</span>
+--accent:        <span class="v">#8A6D3B</span>;   <span class="c">/* Ember    */</span>
+
+<span class="c">/* type */</span>
+--font-display:  <span class="v">'Instrument Sans'</span>, system-ui, sans-serif;
+--font-text:     <span class="v">'Inter'</span>, system-ui, sans-serif;
+--font-mono:     <span class="v">'Geist Mono'</span>, ui-monospace, monospace;
+--numeric:       <span class="v">tabular-nums</span>;
+
+<span class="c">/* space */</span>
+--s1:4px;   --s2:8px;   --s3:12px;  --s4:16px;
+--s5:24px;  --s6:32px;  --s7:48px;  --s8:64px;
+--s9:96px;  --s10:128px; --s11:192px;
+
+<span class="c">/* the line */</span>
+--line:          <span class="v">1px solid</span>;
+--radius:        <span class="v">0</span>;            <span class="c">/* nothing is rounded */</span>
+
+<span class="c">/* motion */</span>
+--ease:          <span class="v">cubic-bezier(.22,1,.36,1)</span>;
+--dur-fast:      <span class="v">120ms</span>;
+--dur-base:      <span class="v">450ms</span>;
+--dur-wipe:      <span class="v">600ms</span>;</pre>
+</div></div>
+
+<!-- 12 QUALITY FLOOR -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">12</span><h2 class="h">Quality floor</h2></div>
+  <p class="lede">Nothing ships until every line is true.</p>
+  <table>
+    <tr><td>01</td><td>Does it look like it came from a brand that engineers rather than inherits? If it looks heritage, it is wrong.</td></tr>
+    <tr><td>02</td><td>Is The Line present - once, horizontal, a true division between two grounds?</td></tr>
+    <tr><td>03</td><td>Is the contrast high? If the image has been warmed into beige it is the default aesthetic, and it is wrong.</td></tr>
+    <tr><td>04</td><td>One typeface family. Weight and scale doing the work. Tabular figures on every number.</td></tr>
+    <tr><td>05</td><td>Product matches reality exactly - 37cm, white quilted top, dark side panel, piping, handles.</td></tr>
+    <tr><td>06</td><td>Contrast ratios pass AA. Nothing relies on colour alone. Focus states visible.</td></tr>
+    <tr><td>07</td><td>Sentence case. No exclamation marks. Hyphens. Numerals for measurements.</td></tr>
+    <tr><td>08</td><td>Motion horizontal, single, respects reduced-motion.</td></tr>
+    <tr><td>09</td><td>No unearned badges, awards, reviews or heritage implications.</td></tr>
+    <tr><td>10</td><td>A human has approved it.</td></tr>
+  </table>
+</div></div>
+
+<!-- 13 STILL OPEN -->
+<div class="sec"><div class="w">
+  <div class="sec-h"><span class="sec-n">13</span><h2 class="h">Still open</h2></div>
+  <p class="lede">Recorded honestly, because pretending these are settled would undermine everything else.</p>
+  <table>
+    <tr><th>Question</th><th>Status</th></tr>
+    <tr><td>The name</td><td>Unresolved. Sattva ruled out - direct conflict with Saatva, a $500m luxury mattress brand using the same Sanskrit root in the same category. Shortlist: Amara, Nadira, Aligna. All need class 20 clearance.</td></tr>
+    <tr><td>The abstract mark</td><td>Optional. A constant geometric device beside the wordmark would survive a name change. Not a letterform monogram - initials break when names do.</td></tr>
+    <tr><td>Cooling claim</td><td>No lab substantiation. Construction may be described; performance may not be quantified until tested.</td></tr>
+    <tr><td>Photography</td><td>Swap sequence must be real footage. No generation can invent a mechanism it has never seen.</td></tr>
+    <tr><td>Texture treatment</td><td>Low-opacity surface texture is permitted but unspecified. Needs a defined asset before anyone improvises one.</td></tr>
+  </table>
+</div></div>
+
+</div>

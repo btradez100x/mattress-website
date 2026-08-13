@@ -1,0 +1,231 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --snow:#F5F4F1;--bone:#E4E1DA;--graphite:#3A3A3C;--carbon:#1A1A1A;
+  --ember:#8A6D3B;--slate:#6B6B70;--hair:#D6D2CA;--hair-dk:#2E2E30;
+  --fd:'Instrument Sans',system-ui,sans-serif;
+  --ft:'Inter',system-ui,sans-serif;
+  --fm:'Geist Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+.mk{background:var(--snow);color:var(--carbon);font-family:var(--ft);font-size:16px;line-height:1.6;padding-bottom:80px}
+.w{max-width:1080px;margin:0 auto;padding:0 32px}
+.ml{font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--slate)}
+.ml.e{color:var(--ember)}
+.hd{padding:56px 0 0}
+.hd h1{font-family:var(--fd);font-weight:700;font-size:clamp(28px,4.5vw,40px);letter-spacing:-.035em;line-height:1.05;margin-top:18px}
+.hd p{color:var(--slate);max-width:60ch;margin-top:14px;font-size:15px}
+.note{border-left:2px solid var(--ember);padding:2px 0 2px 18px;margin:26px 0}
+.note p{color:var(--graphite);font-size:14.5px;max-width:66ch}
+.note p+p{margin-top:8px}
+
+.stagehead{display:flex;align-items:baseline;gap:16px;margin:64px 0 8px;padding-top:36px;border-top:1px solid var(--hair)}
+.stagehead .n{font-family:var(--fm);font-size:11px;color:var(--slate);letter-spacing:.2em}
+.stagehead h2{font-family:var(--fd);font-weight:700;font-size:26px;letter-spacing:-.03em}
+.stagesub{color:var(--slate);font-size:14.5px;margin-bottom:26px;max-width:64ch}
+
+/* ---- layout ---- */
+.grid{display:grid;grid-template-columns:1fr 360px;gap:44px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr;gap:26px}}
+
+/* size list */
+.sz{border:1px solid var(--hair);border-radius:2px;background:#EFEDE8;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:8px;cursor:pointer;transition:120ms ease-out}
+.sz:hover{border-color:var(--graphite)}
+.sz.on{background:#fff;border-color:var(--carbon);border-width:1.5px}
+.sz .rd{width:15px;height:15px;border-radius:50%;border:1.5px solid var(--slate);flex:none;position:relative}
+.sz.on .rd{border-color:var(--carbon)}
+.sz.on .rd:after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--carbon)}
+.sz .nm{font-weight:600;font-size:16.5px;letter-spacing:-.01em}
+.sz .dm{font-family:var(--fm);font-size:11px;color:var(--slate);letter-spacing:.06em;margin-top:2px}
+.sz .pr{margin-left:auto;font-family:var(--fd);font-weight:700;font-size:19px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sz .tag{font-family:var(--fm);font-size:9px;letter-spacing:.18em;color:var(--ember);margin-left:8px}
+.sz.off{opacity:.5}
+.sz.off .pr{color:var(--slate)}
+
+/* qty */
+.qty{display:flex;align-items:center;gap:0;margin-left:auto}
+.qty button{width:32px;height:32px;border:1px solid var(--hair);background:#fff;font-size:15px;color:var(--carbon);cursor:pointer;font-family:var(--ft)}
+.qty span{width:38px;text-align:center;font-family:var(--fm);font-size:13px;font-variant-numeric:tabular-nums}
+
+/* ---- PANEL: stage A ---- */
+.pan{background:#fff;border:1px solid var(--hair);border-radius:2px;padding:24px;position:sticky;top:20px}
+.pan .lbl{margin-bottom:14px;display:block}
+.ln{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--hair)}
+.ln .l{font-size:14.5px}
+.ln .l small{display:block;font-family:var(--fm);font-size:10px;color:var(--slate);letter-spacing:.06em;margin-top:2px}
+.ln .r{font-family:var(--fm);font-size:14px;font-variant-numeric:tabular-nums;color:var(--graphite)}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 4px}
+.tot .l{font-size:14px;color:var(--slate)}
+.tot .r{font-family:var(--fd);font-weight:700;font-size:34px;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.fin{font-size:13px;color:var(--slate);margin-bottom:20px}
+.btn{display:block;width:100%;background:var(--carbon);color:var(--snow);border:0;padding:15px;border-radius:2px;font-family:var(--ft);font-size:15px;font-weight:600;cursor:pointer;letter-spacing:-.005em}
+.btn:hover{background:#000}
+.reassure{font-size:12.5px;color:var(--slate);text-align:center;margin-top:12px}
+
+/* floating basket */
+.float{margin-top:26px;background:var(--carbon);color:var(--snow);border-radius:2px;padding:14px 20px;display:flex;align-items:center;gap:18px}
+.float .c{font-family:var(--fm);font-size:10px;letter-spacing:.18em;color:#8A8A90}
+.float .t{font-family:var(--fd);font-weight:700;font-size:21px;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-left:auto}
+.float .b{background:var(--snow);color:var(--carbon);padding:10px 22px;border-radius:2px;font-size:14px;font-weight:600}
+
+/* ---- PANEL: stage B ---- */
+.panb{background:var(--carbon);color:var(--snow);border-radius:2px;padding:30px}
+.panb .ml{color:#8A8A90}
+.panb h3{font-family:var(--fd);font-weight:700;font-size:22px;letter-spacing:-.025em;margin:14px 0 16px}
+.panb p{color:#A8A8AE;font-size:14.5px;max-width:52ch}
+.panb .lead{background:#242426;border-radius:2px;padding:18px;margin:20px 0}
+.panb .lead .k{font-family:var(--fm);font-size:9.5px;letter-spacing:.2em;color:var(--ember)}
+.panb .lead .v{font-family:var(--fd);font-weight:700;font-size:26px;letter-spacing:-.03em;margin-top:6px;color:var(--snow)}
+.panb .lead .s{font-size:13.5px;color:#A8A8AE;margin-top:8px}
+.panb ul{list-style:none;margin:18px 0 0}
+.panb li{font-size:14px;color:#A8A8AE;padding:7px 0 7px 18px;position:relative}
+.panb li:before{content:'';position:absolute;left:0;top:16px;width:7px;height:1px;background:#4A4A50}
+.panb .btn2{display:block;width:100%;background:var(--snow);color:var(--carbon);border:0;padding:15px;border-radius:2px;font-family:var(--ft);font-size:15px;font-weight:600;margin-top:24px;cursor:pointer}
+.panb .back{text-align:center;font-size:13px;color:#8A8A90;margin-top:14px}
+
+.evt{font-family:var(--fm);font-size:10px;letter-spacing:.14em;color:var(--ember);background:#FBF8F1;border:1px solid #E8DFC9;padding:7px 12px;border-radius:2px;display:inline-block;margin-top:14px}
+
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:14px}
+@media(max-width:720px){.cmp{grid-template-columns:1fr}}
+.cmp>div{background:var(--snow);padding:20px}
+.cmp .k{font-family:var(--fm);font-size:9.5px;letter-spacing:.2em;margin-bottom:10px}
+.cmp .no .k{color:#B04A3A}.cmp .yes .k{color:var(--ember)}
+.cmp ul{list-style:none;font-size:14px;color:var(--slate)}
+.cmp li{padding:5px 0 5px 15px;position:relative}
+.cmp li:before{content:'';position:absolute;left:0;top:13px;width:6px;height:1px;background:var(--slate)}
+</style>
+
+<div class="mk">
+<div class="w">
+
+<div class="hd">
+  <span class="ml">Reserve flow &nbsp;/&nbsp; two-stage reveal &nbsp;/&nbsp; mockup</span>
+  <h1>Price and lead time must not share a viewport.</h1>
+  <p>The current build shows selection, price, guarantees, delivery window and full order terms in one panel. A drop-off there tells us something went wrong but not what. Splitting the reveal is what makes the test readable.</p>
+  <div class="note">
+    <p><strong>Stage A</strong> answers: will they proceed at this price?</p>
+    <p><strong>Stage B</strong> answers: will they still proceed knowing it takes 8 to 10 weeks?</p>
+  </div>
+</div>
+
+<!-- STAGE A -->
+<div class="stagehead"><span class="n">STAGE A</span><h2>Price only</h2></div>
+<p class="stagesub">The panel is a basket summary. Selection, quantity, total, finance, continue. Nothing about timing, nothing about terms. One short reassurance line that reverses risk without revealing the wait.</p>
+
+<div class="grid">
+  <div>
+    <div class="sz"><span class="rd"></span><span><span class="nm">Single</span><span class="dm">90 × 190 CM</span></span><span class="pr">£1,999</span></div>
+    <div class="sz"><span class="rd"></span><span><span class="nm">Double</span><span class="dm">135 × 190 CM</span></span><span class="pr">£2,499</span></div>
+    <div class="sz on"><span class="rd"></span><span><span class="nm">King<span class="tag">MOST POPULAR</span></span><span class="dm">150 × 200 CM</span></span>
+      <span class="qty"><button>−</button><span>1</span><button>+</button></span>
+      <span class="pr" style="margin-left:16px">£2,999</span></div>
+    <div class="sz off"><span class="rd"></span><span><span class="nm">Super King</span><span class="dm">180 × 200 CM &nbsp;·&nbsp; NOT YET AVAILABLE</span></span><span class="pr">£3,499</span></div>
+    <div class="sz"><span class="rd"></span><span><span class="nm">Request a size</span><span class="dm">TELL US WHAT YOU NEED</span></span><span class="pr" style="font-size:12px;font-family:var(--fm);letter-spacing:.14em;color:var(--ember)">CUSTOM</span></div>
+    <p style="font-size:13px;color:var(--slate);margin-top:16px">Showing UK sizes. Dimensions always in centimetres - a UK King differs from a UAE King.</p>
+  </div>
+
+  <div>
+    <div class="pan">
+      <span class="ml lbl">Your order</span>
+      <div class="ln"><span class="l">King · 1<small>150 × 200 CM</small></span><span class="r">£2,999</span></div>
+      <div class="tot"><span class="l">Total</span><span class="r">£2,999</span></div>
+      <div class="fin">or from £250/month with Klarna</div>
+      <button class="btn">Continue</button>
+      <div class="reassure">Cancel any time before dispatch</div>
+    </div>
+    <div class="evt">FIRES: view_price</div>
+  </div>
+</div>
+
+<h3 style="font-family:var(--fd);font-weight:700;font-size:19px;letter-spacing:-.02em;margin:44px 0 6px">Multi-item, same panel</h3>
+<p style="color:var(--slate);font-size:14.5px;max-width:62ch">Adding a second size turns the panel into a genuine basket. No trolley icon, no separate cart page - the summary simply grows.</p>
+<div class="grid" style="margin-top:14px">
+  <div></div>
+  <div>
+    <div class="pan" style="position:static">
+      <span class="ml lbl">Your order</span>
+      <div class="ln"><span class="l">King · 1<small>150 × 200 CM</small></span><span class="r">£2,999</span></div>
+      <div class="ln"><span class="l">Single · 2<small>90 × 190 CM</small></span><span class="r">£3,998</span></div>
+      <div class="tot"><span class="l">Total · 3 mattresses</span><span class="r">£6,997</span></div>
+      <div class="fin">or from £583/month with Klarna</div>
+      <button class="btn">Continue</button>
+      <div class="reassure">Cancel any time before dispatch</div>
+    </div>
+  </div>
+</div>
+
+<h3 style="font-family:var(--fd);font-weight:700;font-size:19px;letter-spacing:-.02em;margin:44px 0 6px">Floating basket on scroll</h3>
+<p style="color:var(--slate);font-size:14.5px;max-width:62ch">When the panel scrolls out of view it collapses to a single bar. This replaces the existing sticky reserve bar rather than competing with it - two competing calls to action reduce both.</p>
+<div class="float">
+  <span class="c">3 MATTRESSES</span>
+  <span class="t">£6,997</span>
+  <span class="b">Continue</span>
+</div>
+
+<!-- STAGE B -->
+<div class="stagehead"><span class="n">STAGE B</span><h2>Lead time and terms</h2></div>
+<p class="stagesub">Revealed only after Continue. Intent is now established, so the wait is disclosed to someone who has already decided on price. A drop-off here is a lead-time rejection and nothing else.</p>
+
+<div class="grid">
+  <div>
+    <div class="cmp">
+      <div class="no"><div class="k">Currently on the site</div><ul>
+        <li>Price, guarantees, delivery window and full order terms in one panel</li>
+        <li>Roughly 120 words before the button</li>
+        <li>A drop-off is uninterpretable</li>
+        <li>Terms compete with the price for attention</li>
+      </ul></div>
+      <div class="yes"><div class="k">Proposed</div><ul>
+        <li>Stage A is a basket. Under 20 words</li>
+        <li>Stage B carries the wait and the terms</li>
+        <li>Two clean measurement points</li>
+        <li>Lead time still discoverable in FAQ, delivery page and footer</li>
+      </ul></div>
+    </div>
+    <div class="note" style="margin-top:26px">
+      <p><strong>This is progressive disclosure, not concealment.</strong> The delivery window stays in the FAQ, on the delivery page and in the footer throughout. It simply does not share an eyeline with the price. Revealing it once intent exists is cleaner test design and better selling.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="panb">
+      <span class="ml">Before you order</span>
+      <h3>King · 1</h3>
+      <div class="lead">
+        <div class="k">DELIVERY</div>
+        <div class="v">8 to 10 weeks</div>
+        <div class="s">Most orders arrive sooner. Built after you order, flown to the UK, delivered into your room by two people.</div>
+      </div>
+      <p>If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p>
+      <ul>
+        <li>Cancel any time before dispatch, no questions asked</li>
+        <li>Spread the cost with Klarna at no extra charge</li>
+        <li>Refunds within 5-10 business days</li>
+        <li>100 nights to change your mind once it arrives</li>
+        <li>15-year core warranty</li>
+      </ul>
+      <button class="btn2">Pay £2,999</button>
+      <div class="back">Back to sizes</div>
+    </div>
+    <div class="evt">FIRES: reserve_intent, view_leadtime</div>
+  </div>
+</div>
+
+<!-- notes -->
+<div class="stagehead"><span class="n">NOTES</span><h2>Three things to decide</h2></div>
+<div style="max-width:66ch">
+  <h3 style="font-family:var(--fd);font-weight:700;font-size:17px;letter-spacing:-.02em;margin:0 0 6px">Prices have moved</h3>
+  <p style="color:var(--slate);font-size:14.5px">The screenshot shows £1,999 / £2,499 / £2,999 / £3,499. The brochure and financial model carry £1,549 / £1,999 / £2,499 / £2,899. Both need updating to whichever is final - the model's contribution figures shift with it.</p>
+
+  <h3 style="font-family:var(--fd);font-weight:700;font-size:17px;letter-spacing:-.02em;margin:28px 0 6px">Super King marked unavailable</h3>
+  <p style="color:var(--slate);font-size:14.5px">It is the highest-value size and it is switched off. Given a 40-unit MOQ applies whichever size is ordered, consider making it orderable on a stated longer lead time rather than turning the revenue away. If it stays off, remove the price - showing a price for something nobody can buy is friction without purpose.</p>
+
+  <h3 style="font-family:var(--fd);font-weight:700;font-size:17px;letter-spacing:-.02em;margin:28px 0 6px">The reassurance line in Stage A</h3>
+  <p style="color:var(--slate);font-size:14.5px">"Cancel any time before dispatch" reverses risk without revealing the wait. It lifts intent uniformly across price variants, so it does not contaminate the price read. Keep it to one line - a paragraph here reintroduces the problem the split was built to solve.</p>
+</div>
+
+</div>
+</div>

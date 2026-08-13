@@ -1,0 +1,20 @@
+{%- comment -%}
+  Stage A basket (V4.1 mockup): live lines + total only.
+  Quantity lives on the size row. Lead time / terms live in Stage B.
+{%- endcomment -%}
+<input type="hidden" name="quantity" value="1" data-qty-input>
+
+<ul class="order-basket__list" data-order-lines-list role="list"></ul>
+
+<span class="visually-hidden" data-selected-size>-</span>
+<span class="visually-hidden" data-selected-dims></span>
+
+<div class="order-basket__tot">
+  <span data-order-total-label>Total</span>
+  <strong data-order-total data-display-price>{{ first_price }}</strong>
+</div>
+
+<p class="order-basket__service" data-order-qty-service hidden>
+  Ordering several? We can sequence delivery to suit you.
+  <a href="/pages/contact">Talk to us</a>
+</p>

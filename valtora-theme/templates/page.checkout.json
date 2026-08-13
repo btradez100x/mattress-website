@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-checkout",
+      "settings": {
+        "heading": "Before you order"
+      }
+    }
+  },
+  "order": ["main"]
+}

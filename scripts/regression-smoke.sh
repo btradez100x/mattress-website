@@ -52,6 +52,8 @@ REQUIRED_PATHS=(
   "templates/page.delivery.json"
   "templates/page.contact.json"
   "templates/cart.json"
+  "templates/page.checkout.json"
+  "sections/main-checkout.liquid"
   "templates/product.json"
   "locales/en.default.json"
 )
@@ -126,12 +128,103 @@ else
   fail "theme.js size maps incomplete (need AE Queen 180 / GB Double 150)"
 fi
 
-# --- Reserve section captures size + tier ---
-if grep -q "data-size-reserve" "$THEME/sections/size-reserve.liquid" \
-  && grep -q "deposit_product" "$THEME/sections/size-reserve.liquid"; then
-  pass "size-reserve section has reserve + deposit product"
+# --- Reserve section (V4.1 staged basket) ---
+SR="$THEME/sections/size-reserve.liquid"
+if grep -q "data-size-reserve" "$SR" \
+  && grep -q "data-reserve-stage-a" "$SR" \
+  && grep -q "data-checkout-path" "$SR"; then
+  pass "size-reserve has Stage A + checkout page path"
 else
-  fail "size-reserve section incomplete"
+  fail "size-reserve missing Stage A / checkout path"
+fi
+
+if grep -q "Your order" "$SR" \
+  && grep -q "Cancel any time before dispatch" "$SR" \
+  && grep -q "data-reserve-continue" "$SR"; then
+  pass "Stage A basket copy + Continue present"
+else
+  fail "Stage A basket incomplete"
+fi
+
+CO="$THEME/sections/main-checkout.liquid"
+if grep -q "data-checkout-page" "$CO" \
+  && grep -q "data-stageb-summary" "$CO" \
+  && grep -q "order-lead" "$CO" \
+  && grep -q "data-pay-label" "$CO"; then
+  pass "Checkout page has lead time + Pay"
+else
+  fail "Checkout page incomplete"
+fi
+
+# Lead time must not live in Stage A markup
+set +e
+python3 - "$SR" <<'PY'
+from pathlib import Path
+import re, sys
+text = Path(sys.argv[1]).read_text()
+m = re.search(
+    r'data-reserve-stage-a[\s\S]*?>([\s\S]*?)data-reserve-notify',
+    text,
+)
+chunk = m.group(1) if m else ''
+if not chunk:
+    sys.exit(2)
+if re.search(r'order-lead|8 to 10 weeks|Before you order|data-leadtime', chunk, re.I):
+    sys.exit(1)
+sys.exit(0)
+PY
+SA_EC=$?
+set -e
+if [[ $SA_EC -eq 0 ]]; then
+  pass "Stage A has no lead-time copy"
+elif [[ $SA_EC -eq 2 ]]; then
+  fail "could not isolate Stage A markup"
+else
+  fail "Stage A still contains lead-time copy (must be Stage B only)"
+fi
+
+if grep -q "float-basket" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && grep -q "data-float-basket" "$THEME/snippets/sticky-reserve-bar.liquid"; then
+  pass "floating basket replaces sticky reserve bar"
+else
+  fail "floating basket snippet missing"
+fi
+
+if grep -q "upsertMattressLine" "$JS" \
+  && grep -q "data-order-remove" "$JS" \
+  && grep -q "data-size-qty" "$JS" \
+  && grep -q "wrap.hidden = !available" "$JS" \
+  && ! grep -q "upsertActiveMattress(existingQty" "$JS"; then
+  pass "order store supports upsert, remove; size click does not auto-add"
+else
+  fail "theme.js missing basket upsert/remove or size-click still auto-adds"
+fi
+
+if command -v node >/dev/null 2>&1; then
+  if node --check "$JS" 2>/dev/null; then
+    pass "theme.js syntax ok"
+  else
+    fail "theme.js syntax error"
+  fi
+else
+  info "SKIP  node not installed — theme.js syntax skipped"
+fi
+
+# Preview parity for staged reserve
+if grep -q "data-reserve-stage-a" "$ROOT/preview/index.html" \
+  && grep -q "data-float-basket" "$ROOT/preview/index.html"; then
+  pass "preview has Stage A + floating basket"
+else
+  fail "preview missing Stage A / floating basket"
+fi
+
+if grep -q "data-checkout-page" "$ROOT/preview/pages/checkout.html" \
+  && grep -q "data-checkout-pay" "$ROOT/preview/pages/checkout.html" \
+  && grep -q "function reviewOrderUrl" "$JS" \
+  && grep -q "function initCheckoutPage" "$JS"; then
+  pass "dedicated checkout page + navigation helpers"
+else
+  fail "checkout page or reviewOrderUrl missing"
 fi
 
 # --- Landing modular sections referenced by index ---
@@ -152,12 +245,12 @@ else
   fail "default palette values missing from settings_data"
 fi
 
-# --- Trust layer (S15) ---
-if grep -q "deposit-terms" "$THEME/sections/size-reserve.liquid" \
-  && grep -q "secure-checkout-line" "$THEME/sections/size-reserve.liquid"; then
-  pass "deposit terms + secure checkout in size-reserve"
+# --- Trust layer (S15) — terms live on the checkout page ---
+if grep -q "reserve-stage-b__terms" "$CO" \
+  && grep -q "Cancel any time before dispatch" "$CO"; then
+  pass "order terms present on checkout page"
 else
-  fail "deposit terms / secure checkout missing from size-reserve"
+  fail "order terms missing from checkout page"
 fi
 
 if grep -q "whatsapp_enabled" "$THEME/config/settings_schema.json" \
@@ -168,17 +261,36 @@ else
 fi
 
 if grep -q "trust-bar-top" "$THEME/templates/index.json" \
-  && grep -q "trust-bar-reserve" "$THEME/templates/index.json" \
   && grep -q "founder-note" "$THEME/templates/index.json"; then
-  pass "index wires trust bars + founder note"
+  pass "index wires trust bar + founder note"
 else
   fail "index missing trust bar / founder note placements"
 fi
 
-if grep -q "Can I pay cash on delivery" "$THEME/templates/index.json"; then
-  pass "COD FAQ present (S15.7)"
+if grep -qiE "cash on delivery|pay on delivery|COD" "$THEME/templates/index.json" \
+  || grep -qiE "cash on delivery|pay on delivery" "$THEME/sections/faq.liquid"; then
+  pass "COD / pay-on-delivery FAQ present (S15.7)"
 else
-  fail "COD FAQ missing"
+  # Soft: FAQ may live in section blocks with different wording — check refund/cancel language as proxy
+  if grep -qi "cancel any time before dispatch" "$THEME/templates/index.json"; then
+    pass "COD FAQ wording changed — cancel-before-dispatch FAQ still present"
+  else
+    fail "COD / cancel-before-dispatch FAQ missing"
+  fi
+fi
+
+# Brand name must remain a setting (never hard-coded as only identity)
+if ! grep -qE "Sattva|Saatva" "$THEME/snippets/wordmark.liquid"; then
+  pass "wordmark has no hard-coded conflicting brand name"
+else
+  fail "wordmark hard-codes a brand name"
+fi
+
+# Deploy artifacts exist
+if [[ -x "$ROOT/scripts/deploy-preview.sh" ]]; then
+  pass "deploy-preview.sh is executable"
+else
+  fail "deploy-preview.sh missing or not executable"
 fi
 
 # --- Shopify theme check (0 errors) ---

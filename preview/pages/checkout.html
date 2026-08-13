@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#1F3A5F">
+    <title>Checkout · Aligna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../base.css?v=wo-v4-ty2">
+    <style>
+      :root {
+        --brand-primary: #1F3A5F;
+        --brand-accent: #8A6D3B;
+        --brand-bg: #F7F5F1;
+        --brand-surface: #EAE6DF;
+        --brand-ink: #222222;
+        --brand-on-dark: #F7F5F1;
+        --wordmark-color: #8A6D3B;
+        --heading-color: #222222;
+        --eyebrow-color: #8A6D3B;
+        --font-serif: 'Fraunces', Georgia, serif;
+        --font-sans: 'Outfit', system-ui, sans-serif;
+        --font-wordmark: var(--font-sans);
+        --font-headline: var(--font-sans);
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+        --wordmark-tracking: 0.18em;
+        --space-section: clamp(5.5rem, 12vw, 9rem);
+        --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
+        --max-width: 72rem;
+        --max-width-narrow: 40rem;
+        --radius: 0;
+        --radius-control: 0.35rem;
+        --transition: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .preview-banner {
+        background: #1F3A5F; color: #F7F5F1; text-align: center;
+        font-size: 0.8125rem; letter-spacing: 0.04em; padding: 0.55rem 1rem;
+      }
+      html[data-brand-guidelines="v2"] .preview-banner {
+        background: #1A1A1A;
+        color: #F5F4F1;
+      }
+      .site-header--solid {
+        position: sticky; top: 0; z-index: 40;
+        background: color-mix(in srgb, var(--brand-bg) 92%, transparent);
+        border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+        backdrop-filter: blur(8px);
+      }
+      .site-header--solid .site-header__inner {
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        padding: 0.85rem 0;
+      }
+    </style>
+  </head>
+  <body data-page="checkout" data-payment-mode="full">
+    <header class="site-header site-header--solid">
+      <div class="page-width site-header__inner">
+        <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
+          <span class="wordmark__lockup">
+            <span class="wordmark__text" data-brand-text>Aligna</span>
+            <span class="wordmark__product" data-brand-product-line>Mattresses</span>
+          </span>
+        </a>
+        <a class="checkout-header__back" href="../index.html#reserve">Back to sizes</a>
+      </div>
+    </header>
+
+    <main>
+      <section
+        class="checkout-page"
+        data-checkout-page
+        data-checkout-preview="true"
+        data-confirmed-path="./order-confirmed.html"
+        data-lead-window="8 to 10 weeks"
+        data-large-order-threshold-gb="10000"
+        data-large-order-threshold-ae="47000"
+      >
+        <div class="page-width checkout-page__wrap">
+          <div class="cart-empty" data-checkout-empty hidden>
+            <p>Your order is empty.</p>
+            <a class="btn" href="../index.html#reserve">See sizes and prices</a>
+          </div>
+
+          <div class="checkout-stage" data-checkout-flow data-reserve-stage-b>
+            <p class="checkout-stage__eyebrow">Before you order</p>
+            <h1 class="checkout-stage__summary" data-stageb-summary></h1>
+
+            <ul class="checkout-stage__lines" role="list" data-checkout-lines></ul>
+
+            <div class="checkout-stage__total">
+              <span>
+                <span data-checkout-item-count>0 units</span>
+                <span class="checkout-stage__finance" data-bnpl-monthly></span>
+              </span>
+              <strong data-checkout-subtotal>-</strong>
+            </div>
+
+            <div class="order-large-terms" data-order-large-terms hidden>
+              <p class="deposit-terms__title">Terms for larger orders</p>
+              <p class="reserve-panel__meta" data-order-large-copy></p>
+              <label class="order-large-terms__ack">
+                <input type="checkbox" data-order-large-ack>
+                <span>I understand these terms for this order</span>
+              </label>
+            </div>
+
+            <button class="checkout-stage__pay" type="button" data-checkout-pay>
+              <span data-pay-label>Pay</span>
+            </button>
+            <p class="checkout-stage__status" data-cart-status hidden role="status"></p>
+
+            <div class="checkout-stage__lead" data-leadtime-block>
+              <p class="checkout-stage__lead-k">Delivery</p>
+              <p class="checkout-stage__lead-v" data-lead-window-label>8 to 10 weeks</p>
+              <p class="checkout-stage__lead-s">
+                Most orders arrive sooner. Built after you order, flown to your market, delivered into your room by two people.
+              </p>
+            </div>
+
+            <p class="checkout-stage__copy" data-leadtime-copy>
+              If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
+            </p>
+
+            <ul class="checkout-stage__terms">
+              <li>Cancel any time before dispatch, no questions asked</li>
+              <li>Spread the cost with <span data-market-only="ae">Tabby or Tamara</span><span data-market-only="gb" hidden>Klarna</span> at no extra charge</li>
+              <li>Refunds within 5-10 business days</li>
+              <li>100 nights to change your mind once it arrives</li>
+              <li>15-year core warranty</li>
+            </ul>
+
+            <a class="checkout-stage__back" href="../index.html#reserve">Back to sizes</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      window.ValtoraTheme = { brandName: 'Aligna', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '../index.html' }, debugTrack: true };
+    </script>
+    <script src="../theme.js?v=wo-v4-ty2"></script>
+  </body>
+</html>
