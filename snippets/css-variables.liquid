@@ -1,33 +1,223 @@
 {% comment %}
-  Design tokens from theme settings (Spec S5.1).
-  Page/section token overrides can set inline --brand-* on a wrapper.
+  Design tokens from theme settings.
+  brand_guidelines: v1 (navy/cream) | v2 (carbon/snow/ember - product-derived)
+  colour_scheme depends on guidelines version.
 {% endcomment %}
+{%- liquid
+  assign guidelines = settings.brand_guidelines | default: 'v1'
+  assign font_set = settings.font_set | default: 'modern'
+  assign scheme = settings.color_scheme | default: 'signature'
+
+  if guidelines == 'v2'
+    if scheme != 'v2_carbon' and scheme != 'v2_graphite' and scheme != 'v2_warm' and scheme != 'v2_cool'
+      assign scheme = 'v2_carbon'
+    endif
+  else
+    if scheme == 'v2_carbon' or scheme == 'v2_graphite' or scheme == 'v2_warm' or scheme == 'v2_cool'
+      assign scheme = 'signature'
+    endif
+  endif
+
+  if guidelines == 'v2'
+    if scheme == 'v2_graphite'
+      assign color_primary = '#3A3A3C'
+      assign color_accent = '#8A6D3B'
+      assign color_bg = '#F5F4F1'
+      assign color_surface = '#E4E1DA'
+      assign color_ink = '#3A3A3C'
+      assign color_on_dark = '#F5F4F1'
+      assign wordmark_color = '#3A3A3C'
+      assign heading_color = '#3A3A3C'
+      assign eyebrow_color = '#6B6B70'
+      assign eyebrow_on_dark = '#9A9A9F'
+    elsif scheme == 'v2_warm'
+      assign color_primary = '#1A1A1A'
+      assign color_accent = '#9A7344'
+      assign color_bg = '#F7F4EE'
+      assign color_surface = '#E8E2D6'
+      assign color_ink = '#1A1A1A'
+      assign color_on_dark = '#F7F4EE'
+      assign wordmark_color = '#1A1A1A'
+      assign heading_color = '#1A1A1A'
+      assign eyebrow_color = '#7A6A55'
+      assign eyebrow_on_dark = '#C4B49A'
+    elsif scheme == 'v2_cool'
+      assign color_primary = '#1A1A1A'
+      assign color_accent = '#6E8494'
+      assign color_bg = '#F3F4F3'
+      assign color_surface = '#E4E7E6'
+      assign color_ink = '#1A1A1A'
+      assign color_on_dark = '#F3F4F3'
+      assign wordmark_color = '#1A1A1A'
+      assign heading_color = '#1A1A1A'
+      assign eyebrow_color = '#6B6B70'
+      assign eyebrow_on_dark = '#9A9A9F'
+    else
+      assign color_primary = '#1A1A1A'
+      assign color_accent = '#8A6D3B'
+      assign color_bg = '#F5F4F1'
+      assign color_surface = '#E4E1DA'
+      assign color_ink = '#1A1A1A'
+      assign color_on_dark = '#F5F4F1'
+      assign wordmark_color = '#1A1A1A'
+      assign heading_color = '#1A1A1A'
+      assign eyebrow_color = '#6B6B70'
+      assign eyebrow_on_dark = '#9A9A9F'
+    endif
+    assign sans_stack = "'Inter', system-ui, sans-serif"
+    assign serif_stack = "'Instrument Sans', system-ui, sans-serif"
+    assign mono_stack = "'Geist Mono', ui-monospace, monospace"
+    assign wordmark_font = 'serif'
+    assign headline_font = 'serif'
+    assign wordmark_tracking_em = '-0.02'
+    assign transition_token = '450ms cubic-bezier(0.22, 1, 0.36, 1)'
+  else
+    if scheme == 'warm_charcoal'
+      assign color_primary = '#2F2C28'
+      assign color_accent = '#9A7344'
+      assign color_bg = '#F5F1EA'
+      assign color_surface = '#E7E0D4'
+      assign color_ink = '#1A1917'
+      assign color_on_dark = '#F5F1EA'
+    elsif scheme == 'cool_graphite'
+      assign color_primary = '#1E2A32'
+      assign color_accent = '#6E8494'
+      assign color_bg = '#F3F4F3'
+      assign color_surface = '#E4E7E6'
+      assign color_ink = '#1C2124'
+      assign color_on_dark = '#F3F4F3'
+    else
+      assign color_primary = settings.color_primary | default: '#1F3A5F'
+      assign color_accent = settings.color_accent | default: '#8A6D3B'
+      assign color_bg = settings.color_bg | default: '#F7F5F1'
+      assign color_surface = settings.color_surface | default: '#EAE6DF'
+      assign color_ink = settings.color_ink | default: '#222222'
+      assign color_on_dark = settings.color_on_dark | default: '#F7F5F1'
+    endif
+
+    if scheme == 'classic_navy'
+      assign wordmark_color = color_primary
+      assign heading_color = color_primary
+      assign eyebrow_color = color_primary
+      assign eyebrow_on_dark = color_accent
+    else
+      assign wordmark_color = color_accent
+      assign heading_color = color_ink
+      assign eyebrow_color = color_accent
+      assign eyebrow_on_dark = color_accent
+    endif
+
+    if font_set == 'classic'
+      assign sans_stack = "'Manrope', system-ui, sans-serif"
+      assign serif_stack = "'Cormorant Garamond', Georgia, serif"
+      assign wordmark_font = 'serif'
+      assign headline_font = 'serif'
+    else
+      case settings.font_sans
+        when 'work_sans'
+          assign sans_stack = "'Work Sans', system-ui, sans-serif"
+        when 'inter'
+          assign sans_stack = "'Inter', system-ui, sans-serif"
+        when 'manrope'
+          assign sans_stack = "'Manrope', system-ui, sans-serif"
+        else
+          assign sans_stack = "'Outfit', system-ui, sans-serif"
+      endcase
+      case settings.font_serif
+        when 'playfair'
+          assign serif_stack = "'Playfair Display', Georgia, serif"
+        when 'cormorant'
+          assign serif_stack = "'Cormorant Garamond', Georgia, serif"
+        else
+          assign serif_stack = "'Fraunces', Georgia, serif"
+      endcase
+      assign wordmark_font = settings.wordmark_font | default: 'sans'
+      assign headline_font = settings.headline_font | default: 'sans'
+    endif
+    assign mono_stack = "ui-monospace, SFMono-Regular, Menlo, monospace"
+    assign wordmark_tracking_em = settings.wordmark_tracking | divided_by: 100.0
+    assign transition_token = '560ms cubic-bezier(0.19, 1, 0.22, 1)'
+  endif
+-%}
 {% style %}
   :root {
-    --brand-primary: {{ settings.color_primary }};
-    --brand-accent: {{ settings.color_accent }};
-    --brand-bg: {{ settings.color_bg }};
-    --brand-surface: {{ settings.color_surface }};
-    --brand-ink: {{ settings.color_ink }};
-    --brand-on-dark: {{ settings.color_on_dark }};
+    --brand-primary: {{ color_primary }};
+    --brand-accent: {{ color_accent }};
+    --brand-bg: {{ color_bg }};
+    --brand-surface: {{ color_surface }};
+    --brand-ink: {{ color_ink }};
+    --brand-on-dark: {{ color_on_dark }};
+    --wordmark-color: {{ wordmark_color }};
+    --heading-color: {{ heading_color }};
+    --eyebrow-color: {{ eyebrow_color }};
+    --eyebrow-on-dark: {{ eyebrow_on_dark }};
 
-    --font-serif: {% case settings.font_serif %}
-      {% when 'fraunces' %}'Fraunces', Georgia, serif
-      {% when 'playfair' %}'Playfair Display', Georgia, serif
-      {% else %}'Cormorant Garamond', Georgia, serif
-    {% endcase %};
-    --font-sans: {% case settings.font_sans %}
-      {% when 'work_sans' %}'Work Sans', system-ui, sans-serif
-      {% when 'inter' %}'Inter', system-ui, sans-serif
-      {% else %}'Manrope', system-ui, sans-serif
-    {% endcase %};
+    --font-serif: {{ serif_stack }};
+    --font-sans: {{ sans_stack }};
+    --font-mono: {{ mono_stack }};
+    --font-wordmark: {% if wordmark_font == 'serif' %}var(--font-serif){% else %}var(--font-sans){% endif %};
+    --font-headline: {% if headline_font == 'serif' %}var(--font-serif){% else %}var(--font-sans){% endif %};
 
-    --wordmark-tracking: {{ settings.wordmark_tracking | divided_by: 100.0 }}em;
-    --space-section: clamp(4.5rem, 10vw, 7.5rem);
-    --space-gutter: clamp(1.25rem, 4vw, 2.5rem);
+    --wordmark-tracking: {{ wordmark_tracking_em }}em;
+    --space-section: clamp(5.5rem, 12vw, 9rem);
+    --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
     --max-width: 72rem;
     --max-width-narrow: 40rem;
     --radius: 0;
-    --transition: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    --radius-control: {% if guidelines == 'v2' %}0{% else %}0.35rem{% endif %};
+    --transition: {{ transition_token }};
+    --sticky-reserve-offset: 0px;
+    --hairline: {% if guidelines == 'v2' %}#D6D2CA{% else %}color-mix(in srgb, {{ color_primary }} 12%, transparent){% endif %};
+    --hairline-dark: #2E2E30;
   }
+
+  body.has-sticky-reserve {
+    --sticky-reserve-offset: 5.75rem;
+  }
+
+  {% if guidelines == 'v2' %}
+  h1, h2 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+  h1 { letter-spacing: -0.045em; line-height: 1.02; }
+  h3, h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .section__eyebrow,
+  .wordmark__product {
+    font-family: var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .wordmark__text {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+  .gold-rule {
+    border: 0;
+    border-top: 1px solid var(--hairline);
+    background: none;
+    height: 0;
+  }
+  .section--dark .gold-rule {
+    border-top-color: var(--hairline-dark);
+  }
+  .btn { border-radius: 2px; }
+  {% elsif font_set == 'classic' %}
+  h1, h2, h3, h4 {
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+  h1 { font-weight: 400; letter-spacing: -0.02em; }
+  .wordmark__text {
+    font-weight: 400;
+  }
+  {% endif %}
 {% endstyle %}
