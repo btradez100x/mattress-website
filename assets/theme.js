@@ -3194,10 +3194,28 @@
       return document.documentElement.getAttribute('data-float-basket-force') === '1';
     }
 
+    function setFloatBasketSpace() {
+      var h = Math.ceil((bar.getBoundingClientRect && bar.getBoundingClientRect().height) || bar.offsetHeight || 72);
+      document.documentElement.style.setProperty('--float-basket-space', h + 'px');
+    }
+
+    function copyrightAtPageEnd() {
+      var copyright =
+        document.querySelector('[data-footer-copyright]') || document.querySelector('.site-footer__bottom');
+      var footer = document.querySelector('.site-footer');
+      var el = copyright || footer;
+      if (!el) return false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var rect = el.getBoundingClientRect();
+      var doc = document.documentElement;
+      var atScrollEnd = doc.scrollHeight - window.scrollY - vh < 8;
+      return atScrollEnd || rect.bottom <= vh + 1;
+    }
+
     function update() {
       if (suppressPage) {
         bar.hidden = true;
-        document.body.classList.remove('has-sticky-reserve');
+        document.body.classList.remove('has-sticky-reserve', 'float-basket-at-footer');
         return;
       }
       // Unavailable size / request-a-size: keep the basket at the bottom even
@@ -3206,6 +3224,8 @@
         bar.hidden = false;
         bar.removeAttribute('hidden');
         document.body.classList.add('has-sticky-reserve');
+        document.body.classList.toggle('float-basket-at-footer', copyrightAtPageEnd());
+        setFloatBasketSpace();
         return;
       }
       // Homepage / pages with #reserve: hide while reserve panel is in view,
@@ -3214,12 +3234,16 @@
         var show = heroCtaPassed && !reserveVisible;
         bar.hidden = !show;
         document.body.classList.toggle('has-sticky-reserve', show);
+        document.body.classList.toggle('float-basket-at-footer', show && copyrightAtPageEnd());
+        if (show) setFloatBasketSpace();
         return;
       }
       // All other pages: always show the floating basket.
       bar.hidden = false;
       bar.removeAttribute('hidden');
       document.body.classList.add('has-sticky-reserve');
+      document.body.classList.toggle('float-basket-at-footer', copyrightAtPageEnd());
+      setFloatBasketSpace();
     }
 
     function checkVisibility() {
@@ -3241,6 +3265,7 @@
     }
 
     paintFloatBasketFromStore();
+    setFloatBasketSpace();
 
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(
@@ -3252,6 +3277,9 @@
       if (hero) io.observe(hero);
       if (heroCta) io.observe(heroCta);
       if (reserve) io.observe(reserve);
+      var footerWatch =
+        document.querySelector('[data-footer-copyright]') || document.querySelector('.site-footer');
+      if (footerWatch) io.observe(footerWatch);
     }
 
     window.addEventListener('scroll', checkVisibility, { passive: true });

@@ -15,14 +15,23 @@
         {%- endfor -%}
       </ul>
     </div>
-    <div class="specs__media" data-reveal-child style="--reveal-delay: 120ms">
+    {%- liquid
+      assign specs_caption = section.settings.image_caption
+      if specs_caption == blank
+        assign specs_caption = 'Side profile'
+      endif
+    -%}
+    <figure class="specs__figure" data-reveal-child style="--reveal-delay: 120ms">
+      <div class="specs__media">
       {% render 'theme-image',
         image: section.settings.image,
         fallback: 'product-side.jpg',
-        alt: section.settings.heading,
+        alt: specs_caption,
         sizes: '(min-width: 900px) 45vw, 100vw'
       %}
-    </div>
+      </div>
+      <figcaption class="specs__caption">{{ specs_caption }}</figcaption>
+    </figure>
   </div>
   {%- if section.settings.show_cert_strip -%}
     {%- if settings.show_chemicals_claim or settings.show_oeko_tex_claim and settings.oeko_tex_certificate_no != blank -%}
@@ -79,6 +88,12 @@
       "type": "image_picker",
       "id": "image",
       "label": "Diagram / product image"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image caption",
+      "default": "Side profile"
     },
     {
       "type": "checkbox",

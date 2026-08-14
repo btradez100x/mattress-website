@@ -1,7 +1,12 @@
 {%- if section.settings.enable_section -%}
 <section class="section{% if section.settings.surface %} section--surface{% endif %}" id="{{ section.settings.anchor_id | default: 'cool-touch' }}" data-reveal>
   <div class="page-width media-feature__split">
-    {%- assign main_caption = section.settings.image_caption | default: 'Cool-knit cover detail' -%}
+    {%- liquid
+      assign main_caption = section.settings.image_caption
+      if main_caption == blank
+        assign main_caption = 'Cool-knit cover detail'
+      endif
+    -%}
     <figure class="cool-touch__main">
       <div class="media-feature__split-media">
         {%- if section.settings.video != blank -%}
@@ -15,7 +20,7 @@
           %}
         {%- endif -%}
       </div>
-      <figcaption>{{ main_caption }}</figcaption>
+      <figcaption class="cool-touch__caption">{{ main_caption }}</figcaption>
     </figure>
     <div class="media-feature__split-copy">
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -45,12 +50,17 @@
           {%- for block in section.blocks -%}
             {%- if block.type == 'media' and block.settings.enabled -%}
               <figure class="cool-touch__thumb" {{ block.shopify_attributes }}>
+                {%- liquid
+                  assign media_fallback = block.settings.fallback_asset | default: 'cover-macro.jpg'
+                  assign media_caption = block.settings.caption
+                  if media_caption == blank
+                    assign media_caption = 'Cover texture'
+                  endif
+                -%}
                 <div class="cool-touch__thumb-frame">
                 {%- if block.settings.video != blank -%}
                   {{ block.settings.video | video_tag: image_size: '600x', controls: true }}
                 {%- else -%}
-                  {%- assign media_fallback = block.settings.fallback_asset | default: 'cover-macro.jpg' -%}
-                  {%- assign media_caption = block.settings.caption | default: 'Cover texture' -%}
                   {% render 'theme-image',
                     image: block.settings.image,
                     fallback: media_fallback,
@@ -59,8 +69,7 @@
                   %}
                 {%- endif -%}
                 </div>
-                {%- assign media_caption = block.settings.caption | default: 'Cover texture' -%}
-                <figcaption>{{ media_caption }}</figcaption>
+                <figcaption class="cool-touch__caption">{{ media_caption }}</figcaption>
               </figure>
             {%- endif -%}
           {%- endfor -%}

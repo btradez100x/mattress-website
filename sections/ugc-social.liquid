@@ -30,6 +30,12 @@
             {%- continue -%}
           {%- endif -%}
           <article class="ugc__card" {{ block.shopify_attributes }} data-platform="{{ block.settings.platform }}">
+            {%- liquid
+              assign ugc_caption = block.settings.caption
+              if ugc_caption == blank
+                assign ugc_caption = 'Customer film'
+              endif
+            -%}
             <div class="ugc__media">
               {%- if block.settings.shopify_video != blank -%}
                 {{ block.settings.shopify_video | video_tag: image_size: '900x', controls: true, class: 'ugc__video' }}
@@ -59,16 +65,15 @@
               {%- endif -%}
               <span class="ugc__platform">{{ block.settings.platform }}</span>
             </div>
-            {%- if block.settings.caption != blank or block.settings.handle != blank -%}
-              <div class="ugc__meta">
-                {%- if block.settings.handle != blank -%}
-                  <p class="ugc__handle">@{{ block.settings.handle | remove: '@' }}</p>
-                {%- endif -%}
-                {%- if block.settings.caption != blank -%}
-                  <p class="ugc__caption">{{ block.settings.caption }}</p>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
+            {%- liquid
+              assign ugc_handle = block.settings.handle
+            -%}
+            <div class="ugc__meta">
+              {%- if ugc_handle != blank -%}
+                <p class="ugc__handle">@{{ ugc_handle | remove: '@' }}</p>
+              {%- endif -%}
+              <p class="ugc__caption">{{ ugc_caption }}</p>
+            </div>
           </article>
         {%- endif -%}
       {%- endfor -%}

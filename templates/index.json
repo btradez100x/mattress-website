@@ -169,6 +169,7 @@
         "eyebrow": "The mattress",
         "heading": "Every layer, stated.",
         "body": "Measured at 37cm made up. Below is the full construction, layer by layer, with densities. Most brands do not publish this. You are spending a lot of money on something you cannot open, so you should be able to see what is inside it.",
+        "image_caption": "Side profile",
         "show_cert_strip": false
       }
     },
@@ -611,7 +612,8 @@
         "heading": "Built from years of studying sleep.",
         "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort top you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
         "name": "Benjamin Maxwell",
-        "role": "Founder"
+        "role": "Founder",
+        "portrait_caption": "Benjamin Maxwell, founder"
       }
     },
     "press-logos": {

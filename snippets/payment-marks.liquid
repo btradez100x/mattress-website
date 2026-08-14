@@ -1,19 +1,60 @@
-{%- comment -%} Market-aware payment / BNPL marks - S15.4 {%- endcomment -%}
+{%- comment -%}
+  Market-aware payment marks. Shopify SVG tags share a 38x24 card; Visa is
+  optically low in that viewBox, so CSS locks height and flex-centers every mark.
+{%- endcomment -%}
 {%- liquid
   assign market = market | default: settings.default_market
+  assign card_types = 'visa,master,american_express,apple_pay' | split: ','
 -%}
 <div class="payment-marks" aria-label="Accepted payment methods">
   <ul class="payment-marks__list" role="list">
-    <li><span class="payment-marks__pill">Visa</span></li>
-    <li><span class="payment-marks__pill">Mastercard</span></li>
-    <li><span class="payment-marks__pill">Amex</span></li>
-    <li><span class="payment-marks__pill">Apple Pay</span></li>
+    {%- for type in card_types -%}
+      {%- capture mark_svg -%}{{ type | payment_type_svg_tag: class: 'payment-marks__icon' }}{%- endcapture -%}
+      {%- liquid
+        assign mark_label = type
+        case type
+          when 'visa'
+            assign mark_label = 'Visa'
+          when 'master'
+            assign mark_label = 'Mastercard'
+          when 'american_express'
+            assign mark_label = 'Amex'
+          when 'apple_pay'
+            assign mark_label = 'Apple Pay'
+        endcase
+      -%}
+      <li class="payment-marks__item payment-marks__item--{{ type }}">
+        {%- if mark_svg != blank -%}
+          {{ mark_svg }}
+        {%- else -%}
+          <span class="payment-marks__pill">{{ mark_label }}</span>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
     {%- if market == 'gb' -%}
-      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Klarna</span></li>
-      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Clearpay</span></li>
+      {%- capture klarna_svg -%}{{ 'klarna' | payment_type_svg_tag: class: 'payment-marks__icon' }}{%- endcapture -%}
+      {%- capture clearpay_svg -%}{{ 'clearpay' | payment_type_svg_tag: class: 'payment-marks__icon' }}{%- endcapture -%}
+      <li class="payment-marks__item payment-marks__item--klarna">
+        {%- if klarna_svg != blank -%}
+          {{ klarna_svg }}
+        {%- else -%}
+          <span class="payment-marks__pill payment-marks__pill--bnpl">Klarna</span>
+        {%- endif -%}
+      </li>
+      <li class="payment-marks__item payment-marks__item--clearpay">
+        {%- if clearpay_svg != blank -%}
+          {{ clearpay_svg }}
+        {%- else -%}
+          <span class="payment-marks__pill payment-marks__pill--bnpl">Clearpay</span>
+        {%- endif -%}
+      </li>
     {%- else -%}
-      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Tabby</span></li>
-      <li><span class="payment-marks__pill payment-marks__pill--bnpl">Tamara</span></li>
+      <li class="payment-marks__item">
+        <span class="payment-marks__pill payment-marks__pill--bnpl">Tabby</span>
+      </li>
+      <li class="payment-marks__item">
+        <span class="payment-marks__pill payment-marks__pill--bnpl">Tamara</span>
+      </li>
     {%- endif -%}
   </ul>
 </div>
