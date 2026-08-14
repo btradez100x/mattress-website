@@ -1,3 +1,13 @@
+# Regression results — 2026-08-15 (storefront reveal visible)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: Storefront luxury stagger is now hide-until-scroll (opacity 0 + 1.5rem rise, 600ms cubic-bezier(0.22, 1, 0.36, 1)). 900ms `showAll` only unsticks in-view nodes on storefront so below-fold still animates. Customize and reduced-motion stay fully visible. Wipe `clip-path: inset(0 100%)` still banned. No version bump.
+
+---
+
 # Regression results — 2026-08-15 (single Brand name source)
 
 ## Smoke
