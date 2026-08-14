@@ -12,14 +12,15 @@
 
   assign payment_mode = settings.payment_mode | default: 'full'
   assign split_percent = settings.split_percent | default: 50
-  assign active_set = section.settings.active_price_set | default: 'control' | strip | downcase
   assign deposit_label = section.settings.deposit_label | default: settings.deposit_amount_label
-  assign bnpl = section.settings.bnpl_microcopy | default: settings.bnpl_microcopy
   assign deposit_product = section.settings.deposit_product
+  assign mattress = section.settings.mattress_product
+  if mattress == blank
+    assign mattress = product
+  endif
   assign leadtime_placement = section.settings.leadtime_placement | default: 'staged'
   assign stage_b_heading = section.settings.stage_b_heading | default: 'Before you order'
   assign leadtime_vague = section.settings.leadtime_vague_text | default: 'Made to order. We confirm your delivery date before dispatch.'
-  assign lead_window = settings.lead_time_window | default: '8 to 10 weeks'
   assign warranty = settings.warranty_years | default: '15'
   assign variant_id = blank
   if deposit_product != blank and deposit_product.selected_or_first_available_variant
@@ -46,12 +47,17 @@
     assign checkout_label = section.settings.button_label_split | default: 'Pay'
     assign checkout_label = checkout_label | append: ' ' | append: split_percent | append: '% today'
   endif
-  if market == 'gb'
-    assign comfort_top_price = section.settings.comfort_top_price_gb | default: '£250'
-  else
-    assign comfort_top_price = section.settings.comfort_top_price_ae | default: 'AED 1,200'
+  assign comfort_top_price = blank
+  assign comfort_top_price_raw = blank
+  if settings.comfort_tops_enabled and section.settings.comfort_top_product != blank
+    assign comfort_top_price = section.settings.comfort_top_product.price | money
+    assign comfort_top_price_raw = section.settings.comfort_top_product.price
   endif
 -%}
+{%- capture lead_window -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
+{%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'min' -%}{%- endcapture -%}
+{%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'max' -%}{%- endcapture -%}
+{%- assign lead_window = lead_window | strip -%}
 {%- if section.settings.enable_section -%}
 <meta name="valtora-market" content="{{ market }}">
 
@@ -65,73 +71,75 @@
 <script type="application/json" data-size-price-config>
   [
   {%- assign first_out = true -%}
-  {%- for block in section.blocks -%}
-    {%- liquid
-      assign block_set = block.settings.price_set | default: 'control' | strip | downcase
-      assign include_row = false
-      if block.type == 'size_price' and block.settings.market == market and block_set == active_set
-        assign include_row = true
-      endif
-      if include_row
-        assign price_txt = block.settings.price_display | default: ''
-        if market == 'gb'
-          if price_txt contains 'AED'
-            assign include_row = false
-          endif
-          unless price_txt contains '£' or price_txt contains 'GBP' or price_txt contains 'gbp'
-            if price_txt != blank
-              assign include_row = false
-            endif
-          endunless
-        endif
-        if market == 'ae'
-          if price_txt contains '£'
-            assign include_row = false
-          endif
-          unless price_txt contains 'AED' or price_txt contains 'aed'
-            if price_txt != blank
-              assign include_row = false
-            endif
-          endunless
-        endif
-      endif
-    -%}
-    {%- if include_row -%}
-      {%- unless first_out -%},{%- endunless -%}
-      {
-        "id": {{ block.settings.size_id | json }},
-        "label": {{ block.settings.label | json }},
-        "dims": {{ block.settings.dims | json }},
-        "price": {{ block.settings.price_display | json }},
-        "firmness": {{ block.settings.firmness | default: 'Medium' | json }},
-        "variant_id": {{ block.settings.variant_id | json }},
-        "market": {{ market | json }},
-        "available": {% if block.settings.available %}true{% else %}false{% endif %},
-        "popular": {% if block.settings.popular %}true{% else %}false{% endif %},
-        "price_set": {{ block_set | json }}
-      }
-      {%- assign first_out = false -%}
-      {%- if first_price == blank -%}
-        {%- assign first_price = block.settings.price_display -%}
+  {%- if mattress != blank -%}
+    {%- for v in mattress.variants -%}
+      {%- if v.metafields.custom.enabled == false -%}
+        {%- continue -%}
       {%- endif -%}
-    {%- endif -%}
-  {%- endfor -%}
+      {%- liquid
+        assign v_market = v.metafields.custom.market | strip | downcase
+        if v_market == blank
+          assign v_title_down = v.title | downcase
+          if v_title_down contains 'uae'
+            assign v_market = 'ae'
+          else
+            assign v_market = 'gb'
+          endif
+        endif
+      -%}
+      {%- if v_market == market -%}
+        {%- liquid
+          assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', ''
+          if size_id == blank
+            assign size_id = v.option1 | handle | replace: '-uae', ''
+          endif
+          if size_id == blank
+            assign size_id = v.title | handle | replace: '-uae', ''
+          endif
+          assign size_label = v.option1 | replace: ' (UAE)', ''
+          if size_label == blank
+            assign size_label = v.title | replace: ' (UAE)', ''
+          endif
+        -%}
+        {%- unless first_out -%},{%- endunless -%}
+        {
+          "id": {{ size_id | json }},
+          "label": {{ size_label | json }},
+          "dims": {{ v.metafields.custom.dims | json }},
+          "price": {{ v.price | money | json }},
+          "price_raw": {{ v.price | json }},
+          "variant_id": {{ v.id | json }},
+          "market": {{ market | json }},
+          "available": {{ v.available | json }},
+          "popular": {% if v.metafields.custom.popular == true %}true{% else %}false{% endif %}
+        }
+        {%- assign first_out = false -%}
+        {%- if first_price == blank -%}
+          {%- assign first_price = v.price | money -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
   ]
 </script>
 
   <div
-    class="page-width size-reserve__layout"
+    class="page-width size-reserve__layout{% if first_out %} size-reserve__layout--empty{% endif %}"
     data-size-reserve
     data-market="{{ market }}"
-    data-price-set="{{ active_set | escape }}"
     data-payment-mode="{{ payment_mode }}"
     data-split-percent="{{ split_percent }}"
     data-leadtime-placement="{{ leadtime_placement }}"
     data-finance-name="{{ finance_name | escape }}"
     data-lead-window="{{ lead_window | escape }}"
-    data-comfort-top-price="{{ comfort_top_price | escape }}"
-    data-comfort-top-variant="{{ section.settings.comfort_top_product.selected_or_first_available_variant.id | default: '' }}"
-    data-default-firmness="Medium"
+    data-lead-min="{{ lt_min | strip }}"
+    data-lead-max="{{ lt_max | strip }}"
+    data-comfort-top-price="{% if settings.comfort_tops_enabled %}{{ comfort_top_price | escape }}{% endif %}"
+    data-comfort-top-price-raw="{% if settings.comfort_tops_enabled %}{{ comfort_top_price_raw }}{% endif %}"
+    data-comfort-top-variant="{% if settings.comfort_tops_enabled %}{{ section.settings.comfort_top_product.selected_or_first_available_variant.id | default: '' }}{% endif %}"
+    data-comfort-tops-enabled="{% if settings.comfort_tops_enabled %}true{% else %}false{% endif %}"
+    data-default-firmness="Soft / firm"
+    data-add-label="{{ settings.size_add_label | default: 'Add' | escape }}"
     data-large-order-threshold-gb="10000"
     data-large-order-threshold-ae="47000"
     data-contact-path="/pages/contact"
@@ -143,6 +151,11 @@
       <h2>{{ section.settings.heading }}</h2>
       {%- if section.settings.body != blank -%}
         <p class="section__lede">{{ section.settings.body }}</p>
+      {%- endif -%}
+      {%- if section.settings.firmness_line != blank -%}
+      <p class="size-reserve__feel">{{ section.settings.firmness_line }}</p>
+      {%- else -%}
+      <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
       {%- endif -%}
 
       <div class="size-picker">
@@ -183,6 +196,15 @@
           <a href="/pages/size-guide">{{ section.settings.size_guide_label | default: 'Size guide' }}</a>
         {%- endif -%}
       </p>
+      {%- if mattress == blank -%}
+        <p class="reserve-panel__note" style="color:var(--brand-accent);">
+          Theme editor: select the mattress product in this section so sizes and prices load from Shopify variants.
+        </p>
+      {%- elsif first_out -%}
+        <p class="reserve-panel__note" style="color:var(--brand-accent);">
+          No sizes for this market yet. Each variant needs metafield custom.market (gb or ae) and custom.dims.
+        </p>
+      {%- endif -%}
     </div>
 
     <aside class="reserve-panel" data-reserve-panel>
@@ -204,22 +226,37 @@
             </p>
           {%- endif -%}
 
-          <p class="order-basket__finance" data-bnpl-monthly>
-            {%- if bnpl != blank -%}
-              {{ bnpl }}
-            {%- else -%}
-              or from <span data-bnpl-amount>[X]</span>/month with {{ finance_name }}
+          <p class="order-basket__finance" data-bnpl-monthly hidden>
+            <span data-bnpl-copy></span>
+            {%- if market == 'gb' -%}
+              <klarna-placement
+                data-bnpl-klarna
+                data-key="credit-promotion-auto-size"
+                data-locale="en-GB"
+                hidden
+              ></klarna-placement>
+              {%- if settings.splitit_enabled and settings.splitit_merchant_id != blank -%}
+                <spt-strip
+                  data-splitit-slot
+                  is_solid="true"
+                  relative_to_parent="true"
+                  text_size="small"
+                  text_alignment="left"
+                  hidden
+                ></spt-strip>
+              {%- endif -%}
             {%- endif -%}
           </p>
 
-          <div data-order-retail>
+          <div data-order-retail hidden>
             <a
               class="btn"
               style="width:100%;text-align:center;"
               data-reserve-continue
+              data-checkout-href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
               href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
             >
-              {{ continue_label }}
+              Checkout
             </a>
 
             <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
@@ -227,7 +264,7 @@
         </div>
       </div>
 
-      {%- comment -%} Out of stock / notify path {%- endcomment -%}
+      {%- comment -%} Allocation waitlist / notify path {%- endcomment -%}
       <div data-reserve-notify hidden>
         <p class="reserve-panel__meta" data-oos-message>
           {{ section.settings.oos_message | default: 'This size is not in the current allocation. Leave your email and we will notify you when it opens.' }}
@@ -237,7 +274,6 @@
           <input type="hidden" name="contact[subject]" value="{{ brand }} - size availability notify">
           <input type="hidden" name="contact[size]" value="" data-notify-size>
           <input type="hidden" name="contact[market]" value="{{ market | upcase }}">
-          <input type="hidden" name="contact[price_set]" value="{{ active_set }}">
           <input
             type="hidden"
             name="contact[body]"
@@ -351,12 +387,6 @@
       {%- endif -%}
 
       <p class="reserve-status" data-reserve-status hidden></p>
-
-      {%- if deposit_product == blank -%}
-        <p class="reserve-panel__note" style="color:var(--brand-accent);">
-          Theme editor: select a checkout product in this section so Place order can check out.
-        </p>
-      {%- endif -%}
     </aside>
   </div>
 </section>
@@ -376,23 +406,21 @@
       "type": "text",
       "id": "anchor_id",
       "label": "Anchor ID",
-      "info": "Optional. Use \"reserve\" on the early price section so #reserve CTAs work. Leave blank to use reserve-{{ section.id }}. Second instance can use reserve-late.",
-      "default": ""
+      "info": "Optional. Use reserve on the early price section so #reserve CTAs work. Leave blank for an auto id. Second instance can use reserve-late."
     },
     {
       "type": "header",
-      "content": "Price testing"
+      "content": "Mattress product"
     },
     {
       "type": "paragraph",
-      "content": "Price sets (tiers) are for testing - not shown to customers. Change the active set to swap every size price at once. Duplicate size rows for each set (e.g. control, test-a)."
+      "content": "Prices, size names, availability and sort order come from this Shopify product. Each variant needs custom.market (ae or gb) and custom.dims. custom.enabled = false withdraws the size from the list. Leave it blank or true to show it. Temporarily unavailable (notify) uses Shopify inventory: track quantity, 0, do not continue selling. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
     },
     {
-      "type": "text",
-      "id": "active_price_set",
-      "label": "Active price set",
-      "default": "control",
-      "info": "Must match the Price set ID on size rows below (e.g. control, test-a, test-b)."
+      "type": "product",
+      "id": "mattress_product",
+      "label": "Mattress product",
+      "info": "Variants are filtered by custom.market for the current market. Falls back to the page product if blank."
     },
     {
       "type": "text",
@@ -413,6 +441,12 @@
       "default": "Select your size - price updates for your market. Dimensions always shown in centimetres."
     },
     {
+      "type": "text",
+      "id": "firmness_line",
+      "label": "Firmness line",
+      "default": "Soft one side, firm the other. Unzip and flip whenever you want a different feel."
+    },
+    {
       "type": "select",
       "id": "market_force",
       "label": "Size & price list",
@@ -426,8 +460,8 @@
     {
       "type": "product",
       "id": "deposit_product",
-      "label": "Checkout product",
-      "info": "Full-price product when Payment mode is Full. When Split, use a product priced at the first-payment amount."
+      "label": "Split-payment product (optional)",
+      "info": "Full payment uses each mattress variant. Only needed in Split mode, for a product priced at the first-payment amount."
     },
     {
       "type": "text",
@@ -438,7 +472,8 @@
     {
       "type": "text",
       "id": "bnpl_microcopy",
-      "label": "BNPL microcopy override"
+      "label": "BNPL extra line (optional)",
+      "info": "Do not put a monthly figure, term length or APR here. Klarna / Tabby render their own terms."
     },
     {
       "type": "text",
@@ -470,22 +505,10 @@
       "content": "Comfort tops"
     },
     {
-      "type": "text",
-      "id": "comfort_top_price_gb",
-      "label": "Spare comfort top price (UK)",
-      "default": "£250"
-    },
-    {
-      "type": "text",
-      "id": "comfort_top_price_ae",
-      "label": "Spare comfort top price (UAE)",
-      "default": "AED 1,200"
-    },
-    {
       "type": "product",
       "id": "comfort_top_product",
       "label": "Spare comfort top product",
-      "info": "Optional. Used when a spare top is added to the order so checkout charges the top price, not the mattress."
+      "info": "Price is read from this product. Used when a spare top is added so checkout charges the top, not the mattress."
     },
     {
       "type": "header",
@@ -516,7 +539,7 @@
     },
     {
       "type": "header",
-      "content": "Out of stock / notify"
+      "content": "Allocation waitlist / notify"
     },
     {
       "type": "textarea",
@@ -600,9 +623,10 @@
       "default": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>100 nights to change your mind once it arrives.</li><li>15-year warranty on the spring core.</li></ul>"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "deposit_terms_link",
-      "label": "Full terms page link"
+      "label": "Full terms page link",
+      "info": "Path such as /pages/refunds. Hash and relative paths are allowed."
     },
     {
       "type": "header",
@@ -615,100 +639,15 @@
       "default": "Size guide"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "size_guide_link",
-      "label": "Size guide page"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "size_price",
-      "name": "Size + price",
-      "settings": [
-        {
-          "type": "text",
-          "id": "price_set",
-          "label": "Price set ID",
-          "default": "control",
-          "info": "Group prices for testing. Switch Active price set above to activate."
-        },
-        {
-          "type": "select",
-          "id": "market",
-          "label": "Market",
-          "options": [
-            { "value": "ae", "label": "UAE" },
-            { "value": "gb", "label": "United Kingdom" }
-          ],
-          "default": "ae"
-        },
-        {
-          "type": "text",
-          "id": "size_id",
-          "label": "Size ID",
-          "default": "king"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Size name",
-          "default": "King"
-        },
-        {
-          "type": "text",
-          "id": "dims",
-          "label": "Dimensions",
-          "default": "180 × 200 cm"
-        },
-        {
-          "type": "text",
-          "id": "firmness",
-          "label": "Firmness",
-          "default": "Medium",
-          "info": "Shown on order lines. Usually the included comfort top."
-        },
-        {
-          "type": "text",
-          "id": "variant_id",
-          "label": "Shopify variant ID (optional)",
-          "info": "If set, checkout uses this variant so size prices stay correct. Leave blank to use the section checkout product."
-        },
-        {
-          "type": "text",
-          "id": "price_display",
-          "label": "Price",
-          "default": "AED 11,999"
-        },
-        {
-          "type": "checkbox",
-          "id": "available",
-          "label": "Available to reserve",
-          "default": true,
-          "info": "Off = show Notify me instead of Reserve for this size."
-        },
-        {
-          "type": "checkbox",
-          "id": "popular",
-          "label": "Most popular",
-          "default": false,
-          "info": "Highlights this size and prefers it as the default selection."
-        }
-      ]
+      "label": "Size guide page",
+      "info": "Path such as /pages/size-guide."
     }
   ],
   "presets": [
     {
-      "name": "Size + price + reserve",
-      "blocks": [
-        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "single", "label": "Single", "dims": "90-100 × 200 cm", "price_display": "AED 8,999", "available": true } },
-        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "queen", "label": "Queen", "dims": "160 × 200 cm", "price_display": "AED 11,999", "available": true, "popular": true } },
-        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "king", "label": "King", "dims": "180 × 200 cm", "price_display": "AED 14,999", "available": true } },
-        { "type": "size_price", "settings": { "price_set": "control", "market": "ae", "size_id": "super-king", "label": "Super King", "dims": "200 × 200 cm", "price_display": "AED 14,999", "available": false } },
-        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "single", "label": "Single", "dims": "90 × 190 cm", "price_display": "£1,999", "available": true } },
-        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "double", "label": "Double", "dims": "135 × 190 cm", "price_display": "£2,499", "available": true } },
-        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "king", "label": "King", "dims": "150 × 200 cm", "price_display": "£2,999", "available": true } },
-        { "type": "size_price", "settings": { "price_set": "control", "market": "gb", "size_id": "super-king", "label": "Super King", "dims": "180 × 200 cm", "price_display": "£2,999", "available": false } }
-      ]
+      "name": "Size + price + reserve"
     }
   ]
 }

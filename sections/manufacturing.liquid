@@ -1,0 +1,288 @@
+{%- liquid
+  assign brand = settings.brand_name | default: 'Aligna'
+  assign eyebrow = section.settings.eyebrow | default: 'Manufacturing'
+  assign heading = section.settings.heading | default: 'Curated materials. Made by hand.'
+  assign lede = section.settings.lede | default: 'Internationally sourced components, brought together with care - so the bed you sleep on is considered at every layer.'
+  assign story_heading = section.settings.story_heading | default: 'An ethos, not a catalogue find.'
+  assign story = section.settings.story | replace: '[Brand]', brand | replace: 'Aligna', brand
+  assign source_heading = section.settings.source_heading | default: 'Sourced with intent'
+  assign source_body = section.settings.source_body | replace: '[Brand]', brand | replace: 'Aligna', brand
+  assign craft_heading = section.settings.craft_heading | default: 'Made by hand'
+  assign craft_body = section.settings.craft_body | replace: '[Brand]', brand | replace: 'Aligna', brand
+  assign dubai_heading = section.settings.dubai_heading | default: 'Designed in Dubai'
+  assign dubai_body = section.settings.dubai_body | replace: '[Brand]', brand | replace: 'Aligna', brand
+  assign gallery_heading = section.settings.gallery_heading | default: 'Craft, up close'
+  assign cta_label = section.settings.cta_label | default: 'Reserve yours'
+  assign cta_link = section.settings.cta_link | default: '/#reserve'
+-%}
+<section class="mfg">
+  <div class="mfg-hero">
+    {%- if section.settings.hero_image != blank -%}
+      {{
+        section.settings.hero_image
+        | image_url: width: 2400
+        | image_tag: loading: 'eager', class: 'mfg-hero__img', widths: '900,1400,2000,2400', sizes: '100vw', alt: heading
+      }}
+    {%- else -%}
+      <img class="mfg-hero__img" src="{{ 'manufacturing-hero.jpg' | asset_url }}" alt="{{ heading | escape }}" width="2000" height="1125" fetchpriority="high">
+    {%- endif -%}
+    <div class="mfg-hero__veil" aria-hidden="true"></div>
+    <div class="page-width mfg-hero__copy">
+      <p class="section__eyebrow mfg-hero__eyebrow">{{ eyebrow }}</p>
+      <hr class="gold-rule">
+      <h1>{{ heading }}</h1>
+      <p class="mfg-hero__lede">{{ lede }}</p>
+    </div>
+  </div>
+
+  <div class="section mfg-story">
+    <div class="page-width mfg-story__grid">
+      <div class="mfg-story__portrait">
+        {%- if section.settings.story_image != blank -%}
+          {{
+            section.settings.story_image
+            | image_url: width: 1200
+            | image_tag: loading: 'lazy', widths: '480,800,1200', sizes: '(min-width: 900px) 36vw, 90vw', alt: section.settings.story_heading
+          }}
+        {%- else -%}
+          <img src="{{ 'founder-ben.jpg' | asset_url }}" alt="{{ brand | escape }} founder" width="900" height="1100" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="mfg-story__copy">
+        <p class="section__eyebrow">The idea</p>
+        <hr class="gold-rule">
+        <h2>{{ story_heading }}</h2>
+        <div class="rte mfg-story__body">{{ story }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--surface mfg-split">
+    <div class="page-width mfg-split__grid mfg-split__grid--three">
+      <article class="mfg-split__card mfg-split__card--dark">
+        <p class="section__eyebrow">Materials</p>
+        <h2>{{ source_heading }}</h2>
+        <div class="rte">{{ source_body }}</div>
+      </article>
+      <article class="mfg-split__card mfg-split__card--dark">
+        <p class="section__eyebrow">Craft</p>
+        <h2>{{ craft_heading }}</h2>
+        <div class="rte">{{ craft_body }}</div>
+      </article>
+      <article class="mfg-split__card mfg-split__card--dark">
+        <p class="section__eyebrow">Origin</p>
+        <h2>{{ dubai_heading }}</h2>
+        <div class="rte">{{ dubai_body }}</div>
+      </article>
+    </div>
+  </div>
+
+  <div class="section mfg-gallery">
+    <div class="page-width">
+      <p class="section__eyebrow">At the bench</p>
+      <hr class="gold-rule">
+      <h2>{{ gallery_heading }}</h2>
+      <p class="section__lede">Detail over decoration - the parts you feel every night.</p>
+      <div class="mfg-gallery__grid">
+        {%- assign defaults = 'manufacturing-cover.jpg,manufacturing-handle.jpg,manufacturing-depth.jpg,manufacturing-detail-1.jpg,manufacturing-detail-2.jpg,manufacturing-detail-3.jpg,manufacturing-side.jpg,manufacturing-result.jpg' | split: ',' -%}
+        {%- if section.blocks.size > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'gallery_image' -%}
+              <figure class="mfg-gallery__item" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 1400
+                    | image_tag: loading: 'lazy', widths: '480,800,1200,1400', sizes: '(min-width: 900px) 30vw, 90vw', alt: block.settings.caption | default: brand
+                  }}
+                {%- else -%}
+                  {%- assign fallback = defaults[forloop.index0] | default: 'manufacturing-cover.jpg' -%}
+                  <img src="{{ fallback | asset_url }}" alt="{{ block.settings.caption | default: brand | escape }}" loading="lazy" width="1200" height="800">
+                {%- endif -%}
+                {%- if block.settings.caption != blank -%}
+                  <figcaption>{{ block.settings.caption }}</figcaption>
+                {%- endif -%}
+              </figure>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for file in defaults -%}
+            <figure class="mfg-gallery__item">
+              <img src="{{ file | asset_url }}" alt="{{ brand | escape }} craftsmanship" loading="lazy" width="1200" height="800">
+            </figure>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+      {%- if section.settings.gallery_note != blank -%}
+        <p class="mfg-gallery__note">{{ section.settings.gallery_note }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="section section--dark mfg-cta">
+    <div class="page-width" style="text-align:center;max-width:40rem;margin-inline:auto;">
+      <p class="section__eyebrow">Next</p>
+      <h2>Sleep on the one you would choose yourself.</h2>
+      <p class="section__lede" style="margin-inline:auto;">See sizes and prices. Made to order. Cancel any time before dispatch for a full refund.</p>
+      <p style="margin-top:1.75rem;">
+        <a class="btn" href="{{ cta_link }}">{{ cta_label }}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Manufacturing page",
+  "tag": "section",
+  "class": "section-manufacturing",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image",
+      "info": "Full-bleed. Prefer craft detail or finished product hero."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Manufacturing"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Curated materials. Made by hand."
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Supporting line",
+      "default": "Internationally sourced components, brought together with care - so the bed you sleep on is considered at every layer."
+    },
+    {
+      "type": "header",
+      "content": "Founder ethos"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story portrait / travel image"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Story heading",
+      "default": "An ethos, not a catalogue find."
+    },
+    {
+      "type": "richtext",
+      "id": "story",
+      "label": "Story",
+      "default": "<p>The idea for [Brand] did not start in a showroom. It started on the road - years of travel as a businessman, sleeping in different cities, different beds, and waking up knowing most mattresses were a compromise.</p><p>Some were soft and gave out. Some were firm and unforgiving. Few slept cool when the climate asked for it. Fewer still felt like something you would keep for decades.</p><p>So the brief became personal: curate the mattress he wanted to sleep on every night - deep support, a cooler surface for warm markets, and a comfort top you can refresh instead of replacing the whole bed. [Brand] is that curation, made to order.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Sourcing, craft & design"
+    },
+    {
+      "type": "text",
+      "id": "source_heading",
+      "label": "Materials heading",
+      "default": "Sourced with intent"
+    },
+    {
+      "type": "richtext",
+      "id": "source_body",
+      "label": "Materials body",
+      "default": "<p>Components are chosen for performance and longevity, not for cost. The spring unit, the comfort layers and the cover are each selected on what they do over a decade, not what they cost in a year.</p>"
+    },
+    {
+      "type": "text",
+      "id": "craft_heading",
+      "label": "Craft heading",
+      "default": "Made by hand"
+    },
+    {
+      "type": "richtext",
+      "id": "craft_body",
+      "label": "Craft body",
+      "default": "<p>Each mattress is assembled individually rather than pressed and sealed by machine. That is why the comfort top can be unzipped, lifted out and replaced instead of the whole bed being thrown away.</p>"
+    },
+    {
+      "type": "text",
+      "id": "dubai_heading",
+      "label": "Design heading",
+      "default": "Designed in Dubai"
+    },
+    {
+      "type": "richtext",
+      "id": "dubai_body",
+      "label": "Design body",
+      "default": "<p>The specification, the layer stack and the swap system were designed in Dubai.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "text",
+      "id": "gallery_heading",
+      "label": "Gallery heading",
+      "default": "Craft, up close"
+    },
+    {
+      "type": "text",
+      "id": "gallery_note",
+      "label": "Gallery note (optional)",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Reserve yours"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Gallery image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Materials, craftsmanship, or finished detail."
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Manufacturing page",
+      "blocks": [
+        { "type": "gallery_image", "settings": { "caption": "Cool-knit cover" } },
+        { "type": "gallery_image", "settings": { "caption": "Reinforced handle" } },
+        { "type": "gallery_image", "settings": { "caption": "Hotel-grade depth" } },
+        { "type": "gallery_image", "settings": { "caption": "Edge detail" } },
+        { "type": "gallery_image", "settings": { "caption": "Side construction" } },
+        { "type": "gallery_image", "settings": { "caption": "Finish" } },
+        { "type": "gallery_image", "settings": { "caption": "Profile" } },
+        { "type": "gallery_image", "settings": { "caption": "In the room" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

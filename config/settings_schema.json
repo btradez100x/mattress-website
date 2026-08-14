@@ -2,10 +2,23 @@
   {
     "name": "theme_info",
     "theme_name": "Valtora",
-    "theme_version": "1.0.0",
+    "theme_version": "9.2.0",
     "theme_author": "Valtora",
     "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
     "theme_support_url": "https://help.shopify.com/"
+  },
+  {
+    "name": "Homepage sections",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Show/hide: open each homepage section and use \u201cShow this section\u201d. Reorder: Customize \u2192 Home page \u2192 drag sections in the left sidebar. Header and footer stay in their groups."
+      },
+      {
+        "type": "paragraph",
+        "content": "Hero, Size + reserve, FAQ, lifestyle collage, and the other landing sections all support show/hide."
+      }
+    ]
   },
   {
     "name": "Brand",
@@ -16,25 +29,41 @@
       },
       {
         "type": "paragraph",
-        "content": "The wordmark is rendered from this setting — change the name without uploading a logo. See Spec S13."
+        "content": "The wordmark is rendered from this setting - change the name without uploading a logo. See Spec S13."
       },
       {
         "type": "text",
         "id": "brand_name",
         "label": "Brand name",
-        "default": "Valtora"
+        "default": "Aligna",
+        "info": "Line 1 of the header wordmark, plus [Brand] copy tokens and Trading as in the footer/contact. Line 2 is Product line under wordmark below."
+      },
+      {
+        "type": "text",
+        "id": "brand_product_line",
+        "label": "Product line under wordmark",
+        "default": "Mattresses",
+        "info": "Line 2 of the live header wordmark (e.g. Mattresses or The Mattress). Leave blank to hide. Header can override this for A/B tests."
       },
       {
         "type": "text",
         "id": "brand_tagline",
         "label": "Tagline",
-        "default": "Premium Sleep, Engineered for the Gulf"
+        "default": "Premium Sleep, Engineered for the Gulf",
+        "info": "On-site tagline (footer, etc.). Share-card copy is separate below."
+      },
+      {
+        "type": "textarea",
+        "id": "share_description",
+        "label": "Share / link-preview copy",
+        "default": "Premium Sleep, Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.",
+        "info": "Shown when someone shares the URL (WhatsApp, iMessage, etc.). Use [Brand], [Line], or [Tagline] as tokens."
       },
       {
         "type": "image_picker",
         "id": "brand_mark",
         "label": "Optional abstract mark",
-        "info": "Simple geometric device only — not a letter monogram (name-independent)."
+        "info": "Simple geometric device only - not a letter monogram (name-independent)."
       },
       {
         "type": "range",
@@ -43,9 +72,9 @@
         "max": 22,
         "step": 1,
         "unit": "em",
-        "label": "Wordmark letter-spacing (÷100)",
-        "default": 15,
-        "info": "Value is hundredths of an em (15 = 0.15em). Spec target: 0.12–0.18em."
+        "label": "Wordmark letter-spacing (\u00f7100)",
+        "default": 18,
+        "info": "Value is hundredths of an em (18 = 0.18em). Higher tracking reads more Nike / premium lockup."
       }
     ]
   },
@@ -54,18 +83,87 @@
     "settings": [
       {
         "type": "header",
+        "content": "Brand guidelines"
+      },
+      {
+        "type": "paragraph",
+        "content": "V1 is the original navy / cream system. V2 is the product-derived carbon / snow / ember system (Instrument Sans + Inter + Geist Mono). Colour schemes below are filtered by version in practice - pick a matching scheme for the selected guidelines."
+      },
+      {
+        "type": "select",
+        "id": "brand_guidelines",
+        "label": "Brand guidelines version",
+        "options": [
+          {
+            "value": "v1",
+            "label": "V1 - navy / cream (current)"
+          },
+          {
+            "value": "v2",
+            "label": "V2 - carbon / snow / ember (new)"
+          }
+        ],
+        "default": "v1"
+      },
+      {
+        "type": "header",
         "content": "Colour palette"
+      },
+      {
+        "type": "paragraph",
+        "content": "V1 schemes: Signature, Classic navy, Warm charcoal, Cool graphite. V2 schemes: Carbon+Ember, Graphite+Ember, Warm bone, Cool steel."
+      },
+      {
+        "type": "select",
+        "id": "color_scheme",
+        "label": "Colour scheme",
+        "options": [
+          {
+            "value": "signature",
+            "label": "V1 \u00b7 Signature - gold wordmark, ink headlines"
+          },
+          {
+            "value": "classic_navy",
+            "label": "V1 \u00b7 Classic navy - navy wordmark & headlines"
+          },
+          {
+            "value": "warm_charcoal",
+            "label": "V1 \u00b7 Warm charcoal - charcoal + bronze"
+          },
+          {
+            "value": "cool_graphite",
+            "label": "V1 \u00b7 Cool graphite - steel accent"
+          },
+          {
+            "value": "v2_carbon",
+            "label": "V2 \u00b7 Carbon + Ember (canonical)"
+          },
+          {
+            "value": "v2_graphite",
+            "label": "V2 \u00b7 Graphite + Ember"
+          },
+          {
+            "value": "v2_warm",
+            "label": "V2 \u00b7 Warm bone + bronze"
+          },
+          {
+            "value": "v2_cool",
+            "label": "V2 \u00b7 Cool steel accent"
+          }
+        ],
+        "default": "signature"
       },
       {
         "type": "color",
         "id": "color_primary",
-        "label": "Primary (navy)",
-        "default": "#1F3A5F"
+        "label": "Primary (navy / charcoal)",
+        "default": "#1F3A5F",
+        "info": "Used for CTAs and dark sections. Warm charcoal / cool graphite schemes override this."
       },
       {
         "type": "color",
         "id": "color_accent",
-        "label": "Accent (gold)",
+        "label": "Accent (gold / bronze / steel)",
         "default": "#8A6D3B"
       },
       {
@@ -98,25 +196,100 @@
       },
       {
         "type": "select",
-        "id": "font_serif",
-        "label": "Headline / wordmark serif",
+        "id": "font_set",
+        "label": "Font set",
         "options": [
-          { "value": "cormorant", "label": "Cormorant Garamond" },
-          { "value": "fraunces", "label": "Fraunces" },
-          { "value": "playfair", "label": "Playfair Display" }
+          {
+            "value": "modern",
+            "label": "Modern - Outfit (Apple / Nike)"
+          },
+          {
+            "value": "classic",
+            "label": "Classic - Cormorant + Manrope"
+          }
         ],
-        "default": "cormorant"
+        "default": "modern",
+        "info": "V1 only. V2 always uses Instrument Sans + Inter + Geist Mono."
+      },
+      {
+        "type": "paragraph",
+        "content": "Advanced overrides below only apply when Font set is Modern."
       },
       {
         "type": "select",
         "id": "font_sans",
-        "label": "Body / UI sans",
+        "label": "Modern sans override",
         "options": [
-          { "value": "manrope", "label": "Manrope" },
-          { "value": "work_sans", "label": "Work Sans" },
-          { "value": "inter", "label": "Inter" }
+          {
+            "value": "outfit",
+            "label": "Outfit (modern / Apple-like)"
+          },
+          {
+            "value": "work_sans",
+            "label": "Work Sans"
+          },
+          {
+            "value": "inter",
+            "label": "Inter"
+          },
+          {
+            "value": "manrope",
+            "label": "Manrope"
+          }
         ],
-        "default": "manrope"
+        "default": "outfit"
+      },
+      {
+        "type": "select",
+        "id": "font_serif",
+        "label": "Accent serif",
+        "options": [
+          {
+            "value": "fraunces",
+            "label": "Fraunces"
+          },
+          {
+            "value": "cormorant",
+            "label": "Cormorant Garamond"
+          },
+          {
+            "value": "playfair",
+            "label": "Playfair Display"
+          }
+        ],
+        "default": "fraunces"
+      },
+      {
+        "type": "select",
+        "id": "wordmark_font",
+        "label": "Modern wordmark style",
+        "options": [
+          {
+            "value": "sans",
+            "label": "Sans (Apple / Nike)"
+          },
+          {
+            "value": "serif",
+            "label": "Serif (classic)"
+          }
+        ],
+        "default": "sans"
+      },
+      {
+        "type": "select",
+        "id": "headline_font",
+        "label": "Modern headline style",
+        "options": [
+          {
+            "value": "sans",
+            "label": "Sans (Apple / Nike)"
+          },
+          {
+            "value": "serif",
+            "label": "Serif (editorial)"
+          }
+        ],
+        "default": "sans"
       }
     ]
   },
@@ -132,35 +305,204 @@
         "id": "default_market",
         "label": "Default market",
         "options": [
-          { "value": "ae", "label": "UAE" },
-          { "value": "gb", "label": "United Kingdom" }
+          {
+            "value": "ae",
+            "label": "UAE"
+          },
+          {
+            "value": "gb",
+            "label": "United Kingdom"
+          }
         ],
         "default": "ae"
       },
       {
         "type": "text",
+        "id": "size_add_label",
+        "label": "Size Add button",
+        "default": "Add",
+        "info": "Label on each available size in Size + price + reserve."
+      },
+      {
+        "type": "select",
+        "id": "payment_mode",
+        "label": "Payment mode",
+        "info": "Full = 100% at checkout (current). Split = first payment now, balance before dispatch. One setting drives all copy and checkout behaviour.",
+        "options": [
+          {
+            "value": "full",
+            "label": "Full payment at checkout"
+          },
+          {
+            "value": "split",
+            "label": "Split payment (percent now)"
+          }
+        ],
+        "default": "full"
+      },
+      {
+        "type": "range",
+        "id": "split_percent",
+        "label": "First payment percentage",
+        "min": 25,
+        "max": 75,
+        "step": 5,
+        "unit": "%",
+        "default": 50,
+        "info": "Used when Payment mode is Split. Product price in Shopify must match the amount charged today."
+      },
+      {
+        "type": "text",
         "id": "deposit_amount_label",
-        "label": "Deposit amount label",
+        "label": "Split first-payment label",
         "default": "AED 200",
-        "info": "Shown in reserve microcopy. Use £50 for UK."
+        "info": "Only used in Split mode (amount due today). Use \u00a350 for UK if that is your first payment."
+      },
+      {
+        "type": "text",
+        "id": "klarna_client_id",
+        "label": "Klarna client ID",
+        "info": "From your Klarna merchant portal. Leave blank to disable Klarna messaging. Loads only for the UK market."
+      },
+      {
+        "type": "checkbox",
+        "id": "splitit_enabled",
+        "label": "Splitit available",
+        "default": false,
+        "info": "Off at launch. Turn on once the merchant account is approved and tested. Also requires a Splitit merchant ID. UK only."
+      },
+      {
+        "type": "text",
+        "id": "splitit_merchant_id",
+        "label": "Splitit merchant ID",
+        "info": "Terminal Id from Splitit Hub (Merchants Management → Terminals). Leave blank to disable regardless of the checkbox."
       },
       {
         "type": "text",
         "id": "bnpl_microcopy",
-        "label": "BNPL microcopy",
-        "default": "or from AED [X]/month with Tabby or Tamara"
+        "label": "BNPL extra line (optional)",
+        "info": "Do not put a monthly figure, term length or APR. Klarna and Tabby/Tamara render their own terms."
+      },
+      {
+        "type": "number",
+        "id": "lead_time_mattress_min",
+        "label": "Mattress lead time - min weeks",
+        "default": 8
+      },
+      {
+        "type": "number",
+        "id": "lead_time_mattress_max",
+        "label": "Mattress lead time - max weeks",
+        "default": 10
+      },
+      {
+        "type": "number",
+        "id": "lead_time_top_min",
+        "label": "Comfort top lead time - min weeks",
+        "default": 2
+      },
+      {
+        "type": "number",
+        "id": "lead_time_top_max",
+        "label": "Comfort top lead time - max weeks",
+        "default": 3
+      },
+      {
+        "type": "number",
+        "id": "lead_time_default_min",
+        "label": "Fallback min weeks",
+        "default": 8
+      },
+      {
+        "type": "number",
+        "id": "lead_time_default_max",
+        "label": "Fallback max weeks",
+        "default": 10
       },
       {
         "type": "text",
         "id": "lead_time_window",
-        "label": "Made-to-order lead time",
-        "default": "6–8 weeks"
+        "label": "Made-to-order lead time (deprecated)",
+        "default": "8 to 10 weeks",
+        "info": "Deprecated. Use the min/max week numbers above. Kept until every reference is migrated. Templates must not read this."
+      },
+      {
+        "type": "textarea",
+        "id": "lead_time_line",
+        "label": "Made-to-order lead line",
+        "default": "Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.",
+        "info": "Trust bar and order-status copy. Use [lead] for the window above. If lead time is blank, Current window: \u2026 is removed automatically."
+      },
+      {
+        "type": "header",
+        "content": "Order status lookup"
+      },
+      {
+        "type": "checkbox",
+        "id": "order_lookup_enabled",
+        "label": "Enable order lookup",
+        "default": false,
+        "info": "Off until the App Proxy worker is live. When off, the form stays disabled and honest."
+      },
+      {
+        "type": "text",
+        "id": "order_lookup_endpoint",
+        "label": "Lookup endpoint",
+        "default": "/apps/order",
+        "info": "Shopify App Proxy today. If you leave Shopify, change this to the public API (e.g. https://api.valtora.com/order). The JSON contract stays the same."
       },
       {
         "type": "text",
         "id": "warranty_years",
         "label": "Core warranty (years)",
         "default": "15"
+      },
+      {
+        "type": "text",
+        "id": "firmness_label",
+        "label": "Firmness label",
+        "default": "Medium-firm",
+        "info": "Unused on storefront. Firmness is the flip line on Size + reserve."
+      },
+      {
+        "type": "text",
+        "id": "firmness_note",
+        "label": "Firmness note",
+        "default": "Suits most sleepers",
+        "info": "Unused on storefront. Firmness is the flip line on Size + reserve."
+      },
+      {
+        "type": "textarea",
+        "id": "variation_notice",
+        "label": "Variation notice (Stage B / FAQ)",
+        "default": "Handmade, so natural variation in fabric shade is possible. The construction is identical every time."
+      },
+      {
+        "type": "checkbox",
+        "id": "comfort_tops_enabled",
+        "label": "Comfort tops available to buy",
+        "default": false,
+        "info": "Off at launch. When off, do not link to /products/comfort-top; keep the product draft so it 404s for customers."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_chemicals_claim",
+        "label": "Show \u201cFree from harmful chemicals\u201d claim",
+        "default": false,
+        "info": "Off until verified. Gates trust bar, specs strip, offer, and FAQ items for this claim."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_oeko_tex_claim",
+        "label": "Show OEKO-TEX\u00ae STANDARD 100 claim",
+        "default": false,
+        "info": "Off until a certificate number is verified. The claim still will not render unless the certificate number below is filled."
+      },
+      {
+        "type": "text",
+        "id": "oeko_tex_certificate_no",
+        "label": "OEKO-TEX certificate number",
+        "info": "Displayed next to the OEKO-TEX claim. Required. Leave blank to hide the claim even if the toggle above is on."
       }
     ]
   },
@@ -169,52 +511,141 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Deposit completion should fire as the conversion event with value. UTM first-touch persistence is built into the theme (Spec S8)."
+        "content": "Prefer Google Tag Manager. Theme code pushes events to dataLayer via vTrack; Meta and GA4 are configured in GTM only (no direct theme scripts). Meta / GA4 ID fields below are documentation of which IDs are in use."
+      },
+      {
+        "type": "text",
+        "id": "gtm_container_id",
+        "label": "Google Tag Manager container ID",
+        "info": "Format GTM-XXXXXXX. Leave blank to disable GTM.",
+        "placeholder": "GTM-XXXXXXX"
       },
       {
         "type": "text",
         "id": "meta_pixel_id",
-        "label": "Meta Pixel ID"
+        "label": "Meta Pixel ID (configure in GTM)"
       },
       {
         "type": "text",
         "id": "ga4_measurement_id",
-        "label": "GA4 Measurement ID"
+        "label": "GA4 Measurement ID (configure in GTM)"
       },
       {
         "type": "text",
         "id": "google_ads_id",
-        "label": "Google Ads tag ID"
+        "label": "Google Ads tag ID (configure in GTM)"
       },
       {
         "type": "text",
         "id": "tiktok_pixel_id",
-        "label": "TikTok Pixel ID"
+        "label": "TikTok Pixel ID (legacy if no GTM)"
       },
       {
         "type": "text",
         "id": "snapchat_pixel_id",
-        "label": "Snapchat Pixel ID"
+        "label": "Snapchat Pixel ID (legacy if no GTM)"
+      },
+      {
+        "type": "text",
+        "id": "clarity_project_id",
+        "label": "Microsoft Clarity project ID (legacy if no GTM; prefer GTM)",
+        "info": "Session recordings for low-sample diagnosis."
+      },
+      {
+        "type": "header",
+        "content": "Exit-intent prompt"
+      },
+      {
+        "type": "paragraph",
+        "content": "Optional single-question popup on leave (desktop mouseleave) or rapid scroll-up (mobile). Answers are stored in the browser, sent as cart attributes (exit_intent_reason) for Shopify order export, and fired as a vTrack event."
+      },
+      {
+        "type": "checkbox",
+        "id": "exit_intent_enabled",
+        "label": "Enable exit-intent prompt",
+        "default": false,
+        "info": "Off by default. Turn on for paid-test diagnosis."
+      },
+      {
+        "type": "range",
+        "id": "exit_intent_delay_seconds",
+        "min": 0,
+        "max": 120,
+        "step": 5,
+        "unit": "s",
+        "label": "Wait before prompt can appear",
+        "default": 30,
+        "info": "Seconds on the page before leave/scroll-up can show the prompt."
       }
     ]
   },
   {
-    "name": "Social & contact",
+    "name": "Reviews",
     "settings": [
+      {
+        "type": "checkbox",
+        "id": "reviews_enabled",
+        "label": "Show published review entries",
+        "default": true,
+        "info": "Keeps the Reviews section on the page. When off, visitors see the empty state instead of reviews.json content."
+      },
+      {
+        "type": "checkbox",
+        "id": "reviews_allow_submissions",
+        "label": "Allow customers to leave reviews",
+        "default": true,
+        "info": "Shows a write-a-review form. Submissions are emailed to you for moderation before publishing."
+      },
+      {
+        "type": "checkbox",
+        "id": "reviews_require_purchase",
+        "label": "Only buyers can review",
+        "default": true,
+        "info": "Requires a signed-in customer with at least one order (including a deposit purchase)."
+      },
+      {
+        "type": "paragraph",
+        "content": "Approved reviews: add them to the reviews.json theme asset, or connect a reviews app block in the Social proof section."
+      }
+    ]
+  },
+  {
+    "name": "Business details",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "These fields power the footer, contact page, and legal line. Edit here in Theme settings (not in the footer section)."
+      },
+      {
+        "type": "header",
+        "content": "Contact"
+      },
       {
         "type": "text",
         "id": "contact_email",
         "label": "Contact email",
-        "default": "hello@valtora.com"
+        "default": "hello@aligna.com",
+        "info": "Shown in the footer and contact page."
+      },
+      {
+        "type": "paragraph",
+        "content": "Phone and WhatsApp are set per country under UAE / UK below. The storefront uses the visitor\u2019s market (or Default market)."
       },
       {
         "type": "text",
-        "id": "contact_phone",
-        "label": "Contact phone"
+        "id": "contact_hours",
+        "label": "Contact hours",
+        "default": "Sun-Thu, 9am-6pm GST"
+      },
+      {
+        "type": "text",
+        "id": "response_time_note",
+        "label": "Response-time note",
+        "default": "We reply within one working day."
       },
       {
         "type": "header",
-        "content": "WhatsApp (S15.3 — near-mandatory for UAE)"
+        "content": "WhatsApp (S15.3 - near-mandatory for UAE)"
       },
       {
         "type": "checkbox",
@@ -224,27 +655,13 @@
       },
       {
         "type": "text",
-        "id": "whatsapp_number",
-        "label": "WhatsApp number",
-        "info": "International format, digits only (e.g. 9715XXXXXXXX)."
-      },
-      {
-        "type": "text",
         "id": "whatsapp_prefill",
         "label": "WhatsApp prefill message",
         "default": "Hi - I have a question about reserving a mattress."
       },
       {
-        "type": "text",
-        "id": "contact_hours",
-        "label": "Contact hours",
-        "default": "Sun–Thu, 9am–6pm GST"
-      },
-      {
-        "type": "text",
-        "id": "response_time_note",
-        "label": "Response-time note",
-        "default": "We reply within one working day."
+        "type": "header",
+        "content": "Social"
       },
       {
         "type": "url",
@@ -255,49 +672,77 @@
         "type": "url",
         "id": "social_tiktok",
         "label": "TikTok"
-      }
-    ]
-  },
-  {
-    "name": "Legal entity",
-    "settings": [
-      {
-        "type": "paragraph",
-        "content": "Shown in the footer. Use market-specific fields when UAE and UK entities differ (S15.2.2)."
       },
       {
         "type": "header",
-        "content": "UAE entity"
+        "content": "UAE business / legal"
+      },
+      {
+        "type": "paragraph",
+        "content": "Shown in the footer for UAE visitors (and as the default market)."
+      },
+      {
+        "type": "text",
+        "id": "contact_phone_ae",
+        "label": "Phone (UAE)",
+        "info": "International format preferred (e.g. +971 5X XXX XXXX). Leave blank to hide."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number_ae",
+        "label": "WhatsApp (UAE)",
+        "info": "Digits with country code (e.g. 9715XXXXXXXX). Falls back to Phone (UAE) if blank."
       },
       {
         "type": "text",
         "id": "legal_entity_name_ae",
-        "label": "Legal entity name (UAE)",
-        "default": "[Company] FZ-LLC"
+        "label": "Business / legal name (UAE)",
+        "default": "Valtora FZE",
+        "info": "Registered company name (e.g. Valtora FZE). \u201cTrading as\u201d always uses Brand \u2192 Brand name."
       },
       {
         "type": "text",
         "id": "trade_licence_no",
-        "label": "Trade licence number"
+        "label": "Trade licence number",
+        "info": "Appears in the footer legal line as \u201cTrade licence \u2026\u201d. Leave blank to hide."
       },
       {
         "type": "textarea",
         "id": "registered_address_ae",
-        "label": "Registered address (UAE)"
+        "label": "Business address (UAE)",
+        "default": "Business Centre, Sharjah Publishing City Free Zone\nSharjah, United Arab Emirates"
       },
       {
         "type": "text",
         "id": "tax_reg_no_ae",
-        "label": "TRN / VAT number (UAE)"
+        "label": "TRN / VAT number (UAE)",
+        "info": "Leave blank to hide."
       },
       {
         "type": "header",
-        "content": "UK entity"
+        "content": "UK business / legal"
+      },
+      {
+        "type": "paragraph",
+        "content": "Used when the visitor market is UK. Leave blank until a UK entity is ready."
+      },
+      {
+        "type": "text",
+        "id": "contact_phone_gb",
+        "label": "Phone (UK)",
+        "info": "International format preferred (e.g. +44 7XXX XXXXXX). Leave blank to hide."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number_gb",
+        "label": "WhatsApp (UK)",
+        "info": "Digits with country code (e.g. 447XXXXXXXXX). Falls back to Phone (UK) if blank."
       },
       {
         "type": "text",
         "id": "legal_entity_name_gb",
-        "label": "Legal entity name (UK)"
+        "label": "Business / legal name (UK)",
+        "info": "\u201cTrading as\u201d uses Brand \u2192 Brand name (same as UAE)."
       },
       {
         "type": "text",
@@ -307,7 +752,7 @@
       {
         "type": "textarea",
         "id": "registered_address_gb",
-        "label": "Registered address (UK)"
+        "label": "Business address (UK)"
       },
       {
         "type": "text",
@@ -322,7 +767,8 @@
       {
         "type": "image_picker",
         "id": "favicon",
-        "label": "Favicon"
+        "label": "Favicon",
+        "info": "Optional. If empty, the tab icon is the brand name initials in your colour scheme."
       }
     ]
   }

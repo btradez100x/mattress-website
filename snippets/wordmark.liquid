@@ -1,16 +1,43 @@
 {% comment %}
   Rendered wordmark from brand_name setting (Spec S13).
-  Never an uploaded logo image — name stays testable.
+  Never an uploaded logo image - name stays testable.
+  Two-line lockup: line 1 = brand name, line 2 = product line.
+  Header override may be a textarea: first line = name, extra lines = product line.
 {% endcomment %}
 {%- liquid
-  assign name = brand_name_override | default: settings.brand_name | default: 'Valtora'
+  assign name = settings.brand_name | default: 'Aligna' | strip
+  assign product_line = settings.brand_product_line | default: '' | strip
+  if product_line_override != blank
+    assign product_line = product_line_override | strip
+  endif
+
+  if brand_name_override != blank
+    assign override_html = brand_name_override | newline_to_br
+    assign override_html = override_html | replace: '<br />', '~~~' | replace: '<br/>', '~~~' | replace: '<br>', '~~~'
+    assign override_lines = override_html | split: '~~~'
+    assign name = override_lines.first | strip | strip_html
+    if name == blank
+      assign name = settings.brand_name | default: 'Aligna' | strip
+    endif
+    if override_lines.size > 1 and product_line_override == blank
+      assign parsed_line = override_lines[1] | strip | strip_html
+      if parsed_line != blank
+        assign product_line = parsed_line
+      endif
+    endif
+  endif
+
   assign link_url = link | default: routes.root_url
   assign dark = dark | default: false
+  assign show_line = false
+  if product_line != blank and show_product_line != false
+    assign show_line = true
+  endif
 -%}
 <a
-  class="wordmark{% if dark %} wordmark--dark{% endif %}{% if class != blank %} {{ class }}{% endif %}"
+  class="wordmark{% if dark %} wordmark--dark{% endif %}{% if show_line %} wordmark--with-line{% endif %}{% if class != blank %} {{ class }}{% endif %}"
   href="{{ link_url }}"
-  aria-label="{{ name }}"
+  aria-label="{{ name }}{% if show_line %} {{ product_line }}{% endif %}"
 >
   {%- if settings.brand_mark != blank -%}
     <img
@@ -22,5 +49,10 @@
       loading="eager"
     >
   {%- endif -%}
-  <span class="wordmark__text">{{ name }}</span>
+  <span class="wordmark__lockup">
+    <span class="wordmark__text" data-brand-text>{{ name }}</span>
+    {%- if show_line -%}
+      <span class="wordmark__product" data-brand-product-line>{{ product_line }}</span>
+    {%- endif -%}
+  </span>
 </a>

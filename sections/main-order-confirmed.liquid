@@ -1,5 +1,4 @@
 {%- liquid
-  assign lead_window = settings.lead_time_window | default: '8 to 10 weeks'
   assign warranty = settings.warranty_years | default: '15'
   if localization.country.iso_code == 'GB'
     assign market = 'gb'
@@ -15,14 +14,35 @@
       assign arrived_label = 'Arrived in the UAE'
     endif
   endif
+  assign order_name = order.name | default: ''
+  assign first_name = order.customer.first_name | default: ''
+  assign order_email = order.email | default: ''
+  capture wa_raw
+    render 'whatsapp-number'
+  endcapture
+  assign wa_raw = wa_raw | strip
 -%}
+{%- capture lead_window -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
+{%- assign lead_window = lead_window | strip -%}
 <main data-order-confirmed data-market="{{ market }}" data-lead-window="{{ lead_window | escape }}">
   <section class="thanks-hero section--dark" data-reveal>
     <div class="page-width thanks-hero__inner">
-      <p class="section__eyebrow">{{ section.settings.eyebrow | default: 'Order confirmed' }}</p>
-      <h1 class="thanks-hero__title">{{ section.settings.heading | default: 'Thank you.' }}</h1>
+      <p class="section__eyebrow">
+        {%- if order_name != blank -%}
+          ORDER CONFIRMED · #{{ order_name }}
+        {%- else -%}
+          {{ section.settings.eyebrow | default: 'ORDER CONFIRMED' }}
+        {%- endif -%}
+      </p>
+      <h1 class="thanks-hero__title">
+        {%- if first_name != blank -%}
+          Thank you, {{ first_name }}.
+        {%- else -%}
+          {{ section.settings.heading | default: 'Thank you.' }}
+        {%- endif -%}
+      </h1>
       <p class="thanks-hero__lede">
-        {{ section.settings.lede | default: "Your order is in. We'll build it to your size, keep you updated at every stage, and deliver it into your room." }}
+        {{ section.settings.lede | default: 'Your order is in and production starts this week. Allow 8 to 10 weeks - most orders arrive sooner, and we will email you at every stage so you are never wondering.' }}
       </p>
       <p class="thanks-hero__window">
         Expected delivery
@@ -38,7 +58,6 @@
     <div class="page-width page-width--narrow">
       <p class="section__eyebrow">Your order</p>
       <hr class="gold-rule">
-      <p class="thanks-order__count" data-confirmed-count></p>
       <ul class="thanks-order__lines" role="list" data-confirmed-lines></ul>
       <p class="thanks-order__total">
         <span>Total</span>
@@ -51,9 +70,14 @@
   <section class="thanks-journey section--dark" data-reveal>
     <div class="page-width page-width--narrow">
       <p class="section__eyebrow">What happens next</p>
-      <h2 class="thanks-journey__title">We'll update you at every stage.</h2>
+      <h2 class="thanks-journey__title">We will keep you posted.</h2>
       <p class="thanks-journey__lede">
-        Silence is how chargebacks start. You will hear from us as the order moves - not only when it arrives.
+        {%- if order_email != blank -%}
+          A confirmation is on its way to {{ order_email }}.
+        {%- else -%}
+          A confirmation is on its way to your email.
+        {%- endif -%}
+        The next email comes when your mattress goes into production.
       </p>
       <ol class="thanks-stages" data-confirmed-stages>
         <li class="thanks-stage thanks-stage--now" data-stage="confirmed">
@@ -104,16 +128,22 @@
     <div class="page-width page-width--narrow">
       <p class="section__eyebrow">Meanwhile</p>
       <hr class="gold-rule">
-      <h2 class="thanks-close__title">Cancel any time before dispatch.</h2>
-      <p class="thanks-close__lede">
-        No questions asked. Once it arrives you still have 100 nights to change your mind, and a {{ warranty }}-year core warranty.
-      </p>
+      <h2 class="thanks-close__title">Change your mind before dispatch and we refund you in full, no questions asked.</h2>
       <div class="thanks-close__actions">
+        {%- assign status_href = pages['order-status'].url | default: '/pages/order-status' -%}
         {%- if section.settings.status_link != blank -%}
-          <a class="btn" href="{{ section.settings.status_link }}">Track your order</a>
+          {%- assign status_href = section.settings.status_link -%}
         {%- endif -%}
-        <a class="btn btn--ghost" href="{{ routes.root_url }}">Back to the site</a>
+        <a class="btn" href="{{ status_href }}">Track your order</a>
       </div>
+      <p class="thanks-close__inbox">
+        Questions?
+        {%- if wa_raw != blank -%} WhatsApp {{ wa_raw }}{%- endif -%}
+        {%- if settings.contact_email != blank -%}
+          {%- if wa_raw != blank %} · {% endif -%}
+          <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>
+        {%- endif -%}
+      </p>
     </div>
   </section>
 </main>
@@ -125,20 +155,20 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Order confirmed"
+      "label": "Eyebrow fallback",
+      "default": "ORDER CONFIRMED"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
+      "label": "Heading fallback",
       "default": "Thank you."
     },
     {
       "type": "textarea",
       "id": "lede",
       "label": "Supporting copy",
-      "default": "Your order is in. We'll build it to your size, keep you updated at every stage, and deliver it into your room."
+      "default": "Your order is in and production starts this week. Allow 8 to 10 weeks - most orders arrive sooner, and we will email you at every stage so you are never wondering."
     },
     {
       "type": "image_picker",

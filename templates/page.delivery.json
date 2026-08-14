@@ -5,8 +5,8 @@
       "settings": {
         "eyebrow": "Delivery",
         "heading": "Delivery & lead time",
-        "intro": "Made to order \u2014 with an honest window, not \u2018ships soon\u2019.",
-        "fallback_content": "<h2>Lead time</h2><p>Each mattress is made to order. Current window: see the site setting (typically 6\u20138 weeks). We confirm your dispatch date before the balance is due.</p><h2>How dispatch is confirmed</h2><p>You receive written confirmation with a dispatch window. The remaining balance is requested only after that confirmation.</p><h2>White-glove scope</h2><p>Where offered: delivery into the room, unpacking, and setup of the mattress. Packaging removed on request where building rules allow.</p><h2>Areas served</h2><p>UAE: mainland delivery on the founding allocation; remote areas confirmed at reservation. UK: fulfilment route confirmed per order.</p>",
+        "intro": "Made to order - with an honest window, not ‘ships soon’.",
+        "fallback_content": "<h2>Lead time</h2><p>Each mattress is made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p><h2>How dispatch is confirmed</h2><p>You receive written confirmation with a delivery window. Cancel any time before dispatch for a full refund.</p><h2>Delivery</h2><p>Delivery into your home is arranged for your market. Options and any access requirements are confirmed before dispatch. There is no setup service contracted at this time.</p><h2>Areas served</h2><p>UAE: mainland delivery on the founding allocation; remote areas confirmed at checkout. UK: fulfilment route confirmed per order.</p>",
         "cta_label": "Reserve your size",
         "cta_link": "/#reserve"
       }

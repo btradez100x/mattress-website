@@ -70,7 +70,7 @@
     assign wordmark_font = 'serif'
     assign headline_font = 'serif'
     assign wordmark_tracking_em = '-0.02'
-    assign transition_token = '450ms cubic-bezier(0.22, 1, 0.36, 1)'
+    assign transition_token = 'var(--dur-base) var(--ease)'
   else
     if scheme == 'warm_charcoal'
       assign color_primary = '#2F2C28'
@@ -136,7 +136,7 @@
     endif
     assign mono_stack = "ui-monospace, SFMono-Regular, Menlo, monospace"
     assign wordmark_tracking_em = settings.wordmark_tracking | divided_by: 100.0
-    assign transition_token = '560ms cubic-bezier(0.19, 1, 0.22, 1)'
+    assign transition_token = 'var(--dur-base) var(--ease)'
   endif
 -%}
 {% style %}

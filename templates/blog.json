@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "eyebrow": "Journal",
+        "heading": "Sleep research & mattress guidance.",
+        "lede": "Clear, practical writing on comfort, cool sleep, support and how to choose a mattress that fits how you actually rest - without the hype."
+      }
+    }
+  },
+  "order": ["main"]
+}

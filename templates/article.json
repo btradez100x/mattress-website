@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "settings": {
+        "show_date": true,
+        "show_author": true,
+        "show_share": false,
+        "cta_heading": "Ready to choose with confidence?",
+        "cta_body": "See sizes and prices. Made to order. Cancel any time before dispatch for a full refund.",
+        "cta_label": "Reserve your size",
+        "cta_link": "/#reserve"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

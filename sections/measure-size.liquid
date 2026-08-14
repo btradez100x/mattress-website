@@ -1,0 +1,141 @@
+{%- if section.settings.enable_section -%}
+<section class="section measure-size{% if section.settings.surface %} section--surface{% endif %}" id="{{ section.settings.anchor_id | default: 'measure' }}" data-reveal>
+  <div class="page-width measure-size__inner">
+    <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 0ms">{{ section.settings.eyebrow }}</p>
+    <hr class="gold-rule" data-reveal-child style="--reveal-delay: 100ms">
+    <h2 data-reveal-child style="--reveal-delay: 160ms">{{ section.settings.heading }}</h2>
+    {%- if section.settings.lede != blank -%}
+      <p class="section__lede" data-reveal-child style="--reveal-delay: 220ms">{{ section.settings.lede }}</p>
+    {%- endif -%}
+
+    <ol class="measure-size__steps">
+      {%- for block in section.blocks -%}
+        <li class="measure-size__step" {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 80 | plus: 280 }}ms">
+          <span class="measure-size__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+          <div>
+            <h3>{{ block.settings.title }}</h3>
+            <div class="rte">{{ block.settings.body }}</div>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if section.settings.guide_label != blank -%}
+      <p class="measure-size__link" data-reveal-child style="--reveal-delay: 600ms">
+        <a href="{{ section.settings.guide_link | default: '/pages/size-guide' }}">{{ section.settings.guide_label }}</a>
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "How to measure",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "surface",
+      "label": "Surface background",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "default": "measure"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Before you reserve"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Measure in centimetres. Order the size that matches."
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Supporting text",
+      "default": "Size names differ by market. A UAE King is not a UK King. Always trust the centimetre dimensions - not the label on the tag."
+    },
+    {
+      "type": "text",
+      "id": "guide_label",
+      "label": "Size guide link label",
+      "default": "Full size guide (UAE vs UK)"
+    },
+    {
+      "type": "text",
+      "id": "guide_link",
+      "label": "Size guide link",
+      "info": "Path such as /pages/size-guide."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Measure the sleeping surface"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body",
+          "default": "<p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How to measure",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Measure the sleeping surface",
+            "body": "<p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Or measure the base",
+            "body": "<p>If you are buying for a new bed, measure the usable bed base or slatted area (inside the rails). That is the footprint your mattress must fill.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Match width × length",
+            "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Between sizes or custom?",
+            "body": "<p>If nothing lines up, use <strong>Request a size</strong> and we will discuss options, lead time, and pricing with you on WhatsApp.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,151 @@
+{%- comment -%} Article template with Article schema + soft reserve CTA {%- endcomment -%}
+{%- liquid
+  assign brand = settings.brand_name | default: 'Aligna'
+-%}
+
+<article class="section article" itemscope itemtype="https://schema.org/Article">
+  <div class="page-width page-width--narrow article__header">
+    <p class="section__eyebrow">
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+    </p>
+    <hr class="gold-rule">
+    <h1 itemprop="headline">{{ article.title }}</h1>
+    <p class="article__meta">
+      {%- if section.settings.show_date -%}
+        <time itemprop="datePublished" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+          {{ article.published_at | date: '%-d %B %Y' }}
+        </time>
+      {%- endif -%}
+      {%- if section.settings.show_author and article.author != blank -%}
+        <span aria-hidden="true"> · </span>
+        <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <span itemprop="name">{{ article.author }}</span>
+        </span>
+      {%- endif -%}
+    </p>
+    {%- if article.excerpt != blank -%}
+      <p class="section__lede article__dek" itemprop="description">{{ article.excerpt | strip_html }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if article.image -%}
+    <div class="article__hero page-width">
+      {{
+        article.image
+        | image_url: width: 1600
+        | image_tag:
+          loading: 'eager',
+          widths: '800,1200,1600',
+          sizes: '(min-width: 900px) 72rem, 100vw',
+          alt: article.image.alt | default: article.title,
+          itemprop: 'image'
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="page-width page-width--narrow">
+    <div class="rte article__body" itemprop="articleBody">
+      {{ article.content }}
+    </div>
+
+    {%- if article.tags.size > 0 -%}
+      <ul class="article__tags" role="list">
+        {%- for tag in article.tags -%}
+          <li><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.cta_heading != blank -%}
+      <aside class="article__cta" aria-label="Next step">
+        <h2>{{ section.settings.cta_heading }}</h2>
+        {%- if section.settings.cta_body != blank -%}
+          <p>{{ section.settings.cta_body }}</p>
+        {%- endif -%}
+        <a class="btn" href="{{ section.settings.cta_link | default: '/#reserve' }}">
+          {{ section.settings.cta_label | default: 'Reserve your size' }}
+        </a>
+      </aside>
+    {%- endif -%}
+
+    <p class="article__back">
+      <a href="{{ blog.url }}">← All articles</a>
+    </p>
+  </div>
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ article.title | json }},
+  "description": {{ article.excerpt | default: article.content | strip_html | truncate: 160 | json }},
+  "datePublished": {{ article.published_at | date: '%Y-%m-%d' | json }},
+  "dateModified": {{ article.updated_at | date: '%Y-%m-%d' | json }},
+  "author": {
+    "@type": "Person",
+    "name": {{ article.author | default: brand | json }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ brand | json }}
+  },
+  "mainEntityOfPage": {{ canonical_url | json }}
+  {%- if article.image -%}
+  ,"image": {{ article.image | image_url: width: 1200 | prepend: 'https:' | json }}
+  {%- endif -%}
+}
+</script>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show publish date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show share links",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "End-of-article CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA heading",
+      "default": "Ready to choose with confidence?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_body",
+      "label": "CTA body",
+      "default": "See sizes and prices. Made to order. Cancel any time before dispatch for a full refund."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Reserve your size"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    }
+  ]
+}
+{% endschema %}

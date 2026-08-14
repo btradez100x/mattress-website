@@ -1,0 +1,29 @@
+{%- comment -%}
+  Renders the made-to-order lead line.
+  Params:
+    lead_line_override - optional section override (blank = theme setting)
+    product / variant / product_type - forwarded to the resolver
+  If the resolved window is empty, "Current window: …" is omitted.
+{%- endcomment -%}
+{%- capture lead -%}
+  {%- render 'lead-time', product: product, variant: variant, product_type: product_type -%}
+{%- endcapture -%}
+{%- assign lead = lead | strip -%}
+{%- liquid
+  assign line = lead_line_override | default: settings.lead_time_line | default: 'Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.'
+  if lead == blank
+    assign line = line | replace: ' Current window: [lead].', ''
+    assign line = line | replace: 'Current window: [lead]. ', ''
+    assign line = line | replace: 'Current window: [lead].', ''
+    assign line = line | replace: ' Current window: [lead]', ''
+    assign line = line | replace: 'Current window: [lead]', ''
+    assign line = line | replace: ' Current window: [X-Y].', ''
+    assign line = line | replace: 'Current window: [X-Y]. ', ''
+    assign line = line | replace: 'Current window: [X-Y].', ''
+    assign line = line | replace: ' Current window: [X-Y]', ''
+    assign line = line | replace: 'Current window: [X-Y]', ''
+  else
+    assign line = line | replace: '[lead]', lead | replace: '[X-Y]', lead
+  endif
+-%}
+{{- line | strip -}}

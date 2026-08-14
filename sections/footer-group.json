@@ -6,9 +6,18 @@
       "type": "footer",
       "settings": {
         "show_payment_icons": true,
-        "copyright_text": ""
+        "copyright_text": "",
+        "trial_link": "/pages/100-night-trial",
+        "warranty_link": "/pages/warranty",
+        "refund_link": "/pages/refunds-deposit",
+        "delivery_link": "/pages/delivery-lead-time",
+        "size_guide_link": "/pages/size-guide",
+        "contact_link": "/pages/contact",
+        "order_status_link": "/pages/order-status"
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }

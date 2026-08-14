@@ -1,8 +1,24 @@
 {%- liquid
-  assign brand = settings.brand_name | default: 'Valtora'
+  assign brand = settings.brand_name | default: 'Aligna'
   assign warranty = settings.warranty_years | default: '15'
-  assign lead = settings.lead_time_window | default: '6–8 weeks'
+  assign payment_mode = settings.payment_mode | default: 'full'
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+  if market == 'gb'
+    assign market_label = 'the UK'
+  elsif market == 'ae'
+    assign market_label = 'the UAE'
+  else
+    assign market_label = 'your market'
+  endif
 -%}
+{%- capture lead -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
+{%- assign lead = lead | strip -%}
+{%- if section.settings.enable_section -%}
 <section class="section section--surface" id="faq" data-reveal>
   <div class="page-width page-width--narrow" style="max-width:48rem; width:min(100% - (var(--space-gutter) * 2), 48rem);">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -11,27 +27,52 @@
     <div class="faq__list" data-faq>
       {%- for block in section.blocks -%}
         {%- liquid
+          assign show_item = true
+          assign mode_vis = block.settings.payment_mode_visibility | default: 'all'
+          if mode_vis == 'full' and payment_mode != 'full'
+            assign show_item = false
+          endif
+          if mode_vis == 'split' and payment_mode != 'split'
+            assign show_item = false
+          endif
           assign answer = block.settings.answer
-          assign answer = answer | replace: '[Brand]', brand
+          assign answer = answer | replace: '[Brand]', brand | replace: 'Aligna', brand
           assign answer = answer | replace: '[X]', warranty
           assign answer = answer | replace: '[X-Y]', lead
+          assign answer = answer | replace: 'the UK', market_label | replace: 'the UAE', market_label
+          assign q_down = block.settings.question | downcase
+          assign a_down = block.settings.answer | downcase
+          if q_down contains 'oeko' or a_down contains 'oeko'
+            if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+              assign show_item = false
+            endif
+          endif
         -%}
-        <div class="faq__item" data-faq-item aria-expanded="false" {{ block.shopify_attributes }}>
-          <button class="faq__trigger" type="button" data-faq-trigger>
-            <span>{{ block.settings.question }}</span>
-            <span class="faq__icon" aria-hidden="true"></span>
-          </button>
-          <div class="faq__panel">{{ answer | newline_to_br }}</div>
-        </div>
+        {%- if show_item -%}
+          <div class="faq__item" data-faq-item aria-expanded="false" {{ block.shopify_attributes }}>
+            <button class="faq__trigger" type="button" data-faq-trigger>
+              <span>{{ block.settings.question }}</span>
+              <span class="faq__icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq__panel">{{ answer | newline_to_br }}{% if q_down contains 'oeko' %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</div>
+          </div>
+        {%- endif -%}
       {%- endfor -%}
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "FAQ",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -54,18 +95,30 @@
           "type": "text",
           "id": "question",
           "label": "Question",
-          "default": "What does the deposit do?"
+          "default": "Why does it take 8 to 10 weeks?"
         },
         {
           "type": "textarea",
           "id": "answer",
           "label": "Answer",
-          "default": "It reserves your mattress in the current allocation. Fully refundable any time before dispatch.",
+          "default": "Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.",
           "info": "Tokens: [Brand], [X] (warranty years), [X-Y] (lead time)."
+        },
+        {
+          "type": "select",
+          "id": "payment_mode_visibility",
+          "label": "Show for payment mode",
+          "options": [
+            { "value": "all", "label": "All modes" },
+            { "value": "full", "label": "Full payment only" },
+            { "value": "split", "label": "Split payment only" }
+          ],
+          "default": "all"
         }
       ]
     }
   ],
+  "max_blocks": 50,
   "presets": [
     {
       "name": "FAQ",
@@ -73,36 +126,101 @@
         {
           "type": "item",
           "settings": {
-            "question": "What does the deposit do?",
-            "answer": "It reserves your mattress in the current allocation. Fully refundable any time before dispatch."
+            "question": "Why does it take 8 to 10 weeks?",
+            "answer": "Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner."
           }
         },
         {
           "type": "item",
           "settings": {
-            "question": "When will it ship?",
-            "answer": "Each mattress is made to order. Current window: [X-Y]. We confirm your date before dispatch."
+            "question": "What does it feel like?",
+            "answer": "You choose. The comfort module inside has a softer face and a firmer face - flip it to change. Soft suits side sleepers and lighter frames; firm suits back and front sleepers and heavier frames. If you are used to a very soft mattress, either setting will feel firmer for the first week or so while your body adjusts."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "How do I change the firmness?",
+            "answer": "Open the zip on the side of the mattress, lift out the comfort module, turn it over and put it back. Two minutes, no tools. One side is softer, the other is firmer. You can do it as often as you like and it costs nothing."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "What if my partner and I want different firmnesses?",
+            "answer": "The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your 100 nights and we will collect it and refund you in full."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "Will my mattress look exactly like the photographs?",
+            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have 100 nights to tell us and we will collect it and refund you in full."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "Can I change my mind after ordering?",
+            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have 100 nights."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "What if it is late?",
+            "answer": "We give a delivery window rather than a single date because international freight can move. If we are going to miss the window we will tell you before you find out, and you can cancel for a full refund at any point before dispatch."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "What if I do not like it?",
+            "answer": "You have 100 nights to decide. If it is not right we collect it and refund you."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "How much is a comfort top?",
+            "answer": "GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same top works on any other mattress as a 10cm topper, so it is not only useful to people who own ours."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "Is the price negotiable?",
+            "answer": "No. We sell direct and price the same for everyone, which is how the price stays where it is."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "Do I pay in full today?",
+            "answer": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna, Tabby or Tamara where available. Cancel any time before dispatch for a full refund.",
+            "payment_mode_visibility": "full"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "How does the split payment work?",
+            "answer": "You pay part today to place the order. The balance is due before dispatch. Cancel any time before dispatch for a full refund of amounts paid.",
+            "payment_mode_visibility": "split"
           }
         },
         {
           "type": "item",
           "settings": {
             "question": "Which size should I choose?",
-            "answer": "Use the size selector on this page — dimensions are always shown in cm. UAE and UK sizes differ (a UAE King is wider than a UK King). See the size guide for a full comparison."
+            "answer": "Use the size selector on this page - dimensions are always shown in cm. UAE and UK sizes differ (a UAE King is wider than a UK King). See the size guide for a full comparison."
           }
         },
         {
           "type": "item",
           "settings": {
             "question": "How does the replaceable top work?",
-            "answer": "Unzip, lift out, swap in. Tops come in soft, medium and firm."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "question": "What if it is not right for me?",
-            "answer": "You have a 100-night trial. If it is not right, we guide you through the return process per the active offer terms."
+            "answer": "Unzip, lift out, swap in when the comfort layer is worn. To change firmness, flip the module inside - you do not need a new top."
           }
         },
         {
@@ -115,8 +233,8 @@
         {
           "type": "item",
           "settings": {
-            "question": "Can I pay cash on delivery?",
-            "answer": "Because each mattress is made to order, we take a small refundable deposit to reserve your size. The balance is due only once we confirm your dispatch date — and the deposit is refundable in full at any point before dispatch."
+            "question": "Will I feel my partner moving?",
+            "answer": "Much less than on a conventional sprung mattress. Every spring is individually wrapped in its own pocket, so it compresses on its own rather than pulling its neighbours with it. Add 10cm of foam above that and most movement is absorbed before it reaches you.\n\nIt is not complete isolation - no sprung mattress is - but if you are currently woken every time your partner turns over, this will be a noticeable change."
           }
         }
       ]

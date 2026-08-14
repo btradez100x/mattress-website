@@ -1,0 +1,87 @@
+{
+  "sections": {
+    "manufacturing": {
+      "type": "manufacturing",
+      "blocks": {
+        "g1": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "Cool-knit cover"
+          }
+        },
+        "g2": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "Reinforced handle"
+          }
+        },
+        "g3": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "Hotel-grade depth"
+          }
+        },
+        "g4": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "Edge detail"
+          }
+        },
+        "g5": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "Side construction"
+          }
+        },
+        "g6": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "Finish"
+          }
+        },
+        "g7": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "Profile"
+          }
+        },
+        "g8": {
+          "type": "gallery_image",
+          "settings": {
+            "caption": "In the room"
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8"
+      ],
+      "settings": {
+        "eyebrow": "Manufacturing",
+        "heading": "Curated materials. Made by hand.",
+        "lede": "Internationally sourced components, brought together with care - so the bed you sleep on is considered at every layer.",
+        "story_heading": "An ethos, not a catalogue find.",
+        "story": "<p>The idea for [Brand] did not start in a showroom. It started on the road - years of travel as a businessman, sleeping in different cities, different beds, and waking up knowing most mattresses were a compromise.</p><p>Some were soft and gave out. Some were firm and unforgiving. Few slept cool when the climate asked for it. Fewer still felt like something you would keep for decades.</p><p>So the brief became personal: curate the mattress he wanted to sleep on every night - deep support, a cooler surface for warm markets, and a comfort top you can refresh instead of replacing the whole bed. [Brand] is that curation, made to order.</p>",
+        "source_heading": "Sourced with intent",
+        "source_body": "<p>Components are chosen for performance and longevity, not for cost. The spring unit, the comfort layers and the cover are each selected on what they do over a decade, not what they cost in a year.</p>",
+        "craft_heading": "Made by hand",
+        "craft_body": "<p>Each mattress is assembled individually rather than pressed and sealed by machine. That is why the comfort top can be unzipped, lifted out and replaced instead of the whole bed being thrown away.</p>",
+        "dubai_heading": "Designed in Dubai",
+        "dubai_body": "<p>The specification, the layer stack and the swap system were designed in Dubai.</p>",
+        "gallery_heading": "Craft, up close",
+        "gallery_note": "",
+        "cta_label": "Reserve yours",
+        "cta_link": "/#reserve"
+      }
+    }
+  },
+  "order": [
+    "manufacturing"
+  ]
+}

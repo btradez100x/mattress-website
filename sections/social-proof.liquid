@@ -1,7 +1,67 @@
-<section class="section section--surface" id="reviews" data-reveal>
+{%- liquid
+  assign reviews_on = settings.reviews_enabled
+  if section.settings.enable_reviews == false
+    assign reviews_on = false
+  endif
+  assign allow_submit = settings.reviews_allow_submissions
+  if section.settings.enable_submissions == false
+    assign allow_submit = false
+  endif
+  assign require_purchase = settings.reviews_require_purchase
+  if section.settings.require_purchase == false
+    assign require_purchase = false
+  endif
+
+  assign can_review = false
+  assign review_gate = 'login'
+  if customer
+    if require_purchase == false
+      assign can_review = true
+      assign review_gate = 'open'
+    elsif customer.orders_count > 0
+      assign can_review = true
+      assign review_gate = 'open'
+    else
+      assign review_gate = 'purchase'
+    endif
+  endif
+
+  assign reviews_url = 'reviews.json' | asset_url
+  assign login_return = request.path | append: '#write-review'
+-%}
+{%- if section.settings.enable_section -%}
+<section
+  class="section section--surface"
+  id="reviews"
+  data-reveal
+  data-reviews
+  data-reviews-show-entries="{% if reviews_on %}true{% else %}false{% endif %}"
+  data-reviews-url="{% if reviews_on %}{{ reviews_url }}{% endif %}"
+  data-reviews-page-size="{{ section.settings.page_size | default: 6 }}"
+>
   <div class="page-width">
-    <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
-    <h2>{{ section.settings.heading }}</h2>
+    <div class="reviews__header">
+      <div>
+        <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="section__lede">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+      <div class="reviews__summary" data-reviews-summary aria-live="polite"{% unless reviews_on %} hidden{% endunless %}>
+        <p class="reviews__score">
+          <span data-reviews-average>-</span>
+          <span class="reviews__score-max">/ 5</span>
+        </p>
+        <div class="reviews__stars" data-reviews-stars aria-hidden="true"></div>
+        <p class="reviews__count" data-reviews-count></p>
+        {%- if allow_submit -%}
+          <p class="reviews__write-link">
+            <a class="btn--accent-line" href="#write-review">{{ section.settings.write_cta | default: 'Write a review' }}</a>
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
 
     {%- for block in section.blocks -%}
       {%- if block.type == '@app' -%}
@@ -11,33 +71,155 @@
       {%- endif -%}
     {%- endfor -%}
 
-    {%- assign review_count = 0 -%}
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'review' -%}
-        {%- assign review_count = review_count | plus: 1 -%}
-      {%- endif -%}
-    {%- endfor -%}
+    <div class="reviews__grid" data-reviews-grid></div>
+    <p class="reviews__empty" data-reviews-empty{% if reviews_on %} hidden{% endif %}>{{ section.settings.empty_text }}</p>
 
-    {%- if review_count == 0 -%}
-      <p class="reviews__empty">{{ section.settings.empty_text }}</p>
-    {%- else -%}
-      <div class="reviews__grid">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'review' -%}
-            <blockquote class="review" {{ block.shopify_attributes }}>
-              <p class="review__quote">“{{ block.settings.quote }}”</p>
-              <footer class="review__author">{{ block.settings.author }}</footer>
-            </blockquote>
-          {%- endif -%}
-        {%- endfor -%}
+    <div class="reviews__actions">
+      <button class="btn btn--ghost" type="button" data-reviews-more hidden>
+        {{ section.settings.load_more_label | default: 'Show more reviews' }}
+      </button>
+    </div>
+
+    {%- if allow_submit -%}
+      <div class="review-compose" id="write-review" data-review-compose>
+        <h3 class="review-compose__heading">{{ section.settings.form_heading | default: 'Write a review' }}</h3>
+        <p class="review-compose__lede">
+          {{ section.settings.form_lede | default: 'Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear.' }}
+        </p>
+
+        {%- if can_review -%}
+          {%- form 'contact', id: 'ReviewForm', class: 'review-form' -%}
+            <input type="hidden" name="contact[subject]" value="{{ settings.brand_name | default: 'Aligna' }} - product review submission">
+            <input type="hidden" name="contact[review_submission]" value="true">
+            <input type="hidden" name="contact[customer_id]" value="{{ customer.id }}">
+            <input type="hidden" name="contact[customer_email]" value="{{ customer.email }}">
+            <input type="hidden" name="contact[orders_count]" value="{{ customer.orders_count }}">
+
+            <fieldset class="review-form__rating">
+              <legend class="review-form__label">Rating</legend>
+              <div class="review-form__stars" data-review-stars>
+                {%- assign rating_values = '5,4,3,2,1' | split: ',' -%}
+                {%- for i in rating_values -%}
+                  <input
+                    id="ReviewRating-{{ section.id }}-{{ i }}"
+                    type="radio"
+                    name="contact[rating]"
+                    value="{{ i }}"
+                    {% if i == '5' %}checked{% endif %}
+                    required
+                  >
+                  <label for="ReviewRating-{{ section.id }}-{{ i }}" title="{{ i }} stars">★</label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+
+            <label class="review-form__label" for="ReviewName-{{ section.id }}">Display name</label>
+            <input
+              id="ReviewName-{{ section.id }}"
+              class="review-form__input"
+              type="text"
+              name="contact[display_name]"
+              value="{{ customer.first_name | default: customer.name | escape }}"
+              required
+              maxlength="80"
+              autocomplete="nickname"
+            >
+
+            <label class="review-form__label" for="ReviewTitle-{{ section.id }}">Title</label>
+            <input
+              id="ReviewTitle-{{ section.id }}"
+              class="review-form__input"
+              type="text"
+              name="contact[review_title]"
+              required
+              maxlength="120"
+              placeholder="Short summary"
+            >
+
+            <label class="review-form__label" for="ReviewBody-{{ section.id }}">Review</label>
+            <textarea
+              id="ReviewBody-{{ section.id }}"
+              class="review-form__input review-form__textarea"
+              name="contact[body]"
+              required
+              rows="5"
+              maxlength="2000"
+              placeholder="What should other buyers know?"
+            ></textarea>
+
+            <label class="review-form__label" for="ReviewSize-{{ section.id }}">Size purchased (optional)</label>
+            <input
+              id="ReviewSize-{{ section.id }}"
+              class="review-form__input"
+              type="text"
+              name="contact[size]"
+              maxlength="40"
+              placeholder="e.g. King"
+            >
+
+            <input type="hidden" name="contact[email]" value="{{ customer.email }}">
+
+            <button class="btn" type="submit">{{ section.settings.submit_label | default: 'Submit review' }}</button>
+            <p class="review-form__note">Your review is sent for moderation and will not appear instantly.</p>
+
+            {%- if form.posted_successfully? -%}
+              <p class="review-form__success" role="status">Thank you - your review was received and will be reviewed shortly.</p>
+            {%- endif -%}
+            {{ form.errors | default_errors }}
+          {%- endform -%}
+        {%- elsif review_gate == 'login' -%}
+          <div class="review-compose__gate">
+            <p>Sign in with the account you used to buy to leave a verified review.</p>
+            <a class="btn" href="{{ routes.account_login_url }}?return_url={{ login_return | url_encode }}">Sign in to review</a>
+            {%- if shop.customer_accounts_enabled -%}
+              <p class="review-form__note">
+                No account yet?
+                <a href="{{ routes.account_register_url }}?return_url={{ login_return | url_encode }}">Create one</a>
+                with the same email as your order.
+              </p>
+            {%- endif -%}
+          </div>
+        {%- else -%}
+          <div class="review-compose__gate">
+            <p>Reviews are limited to customers who have placed an order with us.</p>
+            <a class="btn" href="#reserve">Reserve your size</a>
+          </div>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
     {%- assign has_proof = false -%}
     {%- for block in section.blocks -%}
       {%- if block.type == 'proof' -%}
-        {%- if block.settings.logo != blank or block.settings.caption != blank -%}
-          {%- assign has_proof = true -%}
+        {%- liquid
+          assign show_proof = true
+          assign cap_down = block.settings.caption | downcase
+          assign is_chem = false
+          assign is_oeko = false
+          if cap_down contains 'harmful chemicals'
+            assign is_chem = true
+          endif
+          if cap_down contains 'oeko'
+            assign is_oeko = true
+          endif
+          if is_chem and is_oeko
+            if settings.show_chemicals_claim != true or settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+              assign show_proof = false
+            endif
+          elsif is_chem
+            if settings.show_chemicals_claim != true
+              assign show_proof = false
+            endif
+          elsif is_oeko
+            if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+              assign show_proof = false
+            endif
+          endif
+        -%}
+        {%- if show_proof -%}
+          {%- if block.settings.logo != blank or block.settings.caption != blank -%}
+            {%- assign has_proof = true -%}
+          {%- endif -%}
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
@@ -48,6 +230,32 @@
         <ul class="proof-strip__list" role="list">
           {%- for block in section.blocks -%}
             {%- if block.type == 'proof' and block.settings.logo != blank or block.type == 'proof' and block.settings.caption != blank -%}
+              {%- liquid
+                assign show_proof = true
+                assign cap_down = block.settings.caption | downcase
+                assign is_chem = false
+                assign is_oeko = false
+                if cap_down contains 'harmful chemicals'
+                  assign is_chem = true
+                endif
+                if cap_down contains 'oeko'
+                  assign is_oeko = true
+                endif
+                if is_chem and is_oeko
+                  if settings.show_chemicals_claim != true or settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+                    assign show_proof = false
+                  endif
+                elsif is_chem
+                  if settings.show_chemicals_claim != true
+                    assign show_proof = false
+                  endif
+                elsif is_oeko
+                  if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+                    assign show_proof = false
+                  endif
+                endif
+              -%}
+              {%- if show_proof -%}
               <li class="proof-strip__item" {{ block.shopify_attributes }}>
                 {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" style="text-decoration:none;">{%- endif -%}
                 {%- if block.settings.logo != blank -%}
@@ -58,10 +266,11 @@
                   }}
                 {%- endif -%}
                 {%- if block.settings.caption != blank -%}
-                  <span>{{ block.settings.caption }}</span>
+                  <span>{{ block.settings.caption }}{% if is_oeko %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</span>
                 {%- endif -%}
                 {%- if block.settings.link != blank -%}</a>{%- endif -%}
               </li>
+              {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
         </ul>
@@ -69,50 +278,103 @@
     {%- endif -%}
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Social proof",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reviews",
+      "label": "Show published review entries",
+      "default": true,
+      "info": "Off = keep the Reviews section and empty state, but hide reviews.json content. Also controlled by Theme settings → Reviews."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_submissions",
+      "label": "Show write-a-review form",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "require_purchase",
+      "label": "Require a purchase to review",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "From early owners"
+      "default": "Customer reviews"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Quiet confidence."
+      "default": "What owners say."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Verified purchase reviews from the founding allocations."
+    },
+    {
+      "type": "text",
+      "id": "write_cta",
+      "label": "Write review link label",
+      "default": "Write a review"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading",
+      "default": "Write a review"
+    },
+    {
+      "type": "textarea",
+      "id": "form_lede",
+      "label": "Form introduction",
+      "default": "Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button",
+      "default": "Submit review"
     },
     {
       "type": "text",
       "id": "empty_text",
       "label": "Empty state",
-      "default": "Reviews will appear here as the first allocation settles in."
+      "default": "Reviews will appear here shortly."
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "Load more label",
+      "default": "Show more reviews"
+    },
+    {
+      "type": "range",
+      "id": "page_size",
+      "label": "Reviews per page",
+      "min": 3,
+      "max": 12,
+      "step": 3,
+      "default": 6
     }
   ],
   "blocks": [
     { "type": "@app" },
-    {
-      "type": "review",
-      "name": "Review",
-      "settings": [
-        {
-          "type": "textarea",
-          "id": "quote",
-          "label": "Quote",
-          "default": "The swap system is the part I keep explaining to friends."
-        },
-        {
-          "type": "text",
-          "id": "author",
-          "label": "Author",
-          "default": "Founding allocation"
-        }
-      ]
-    },
     {
       "type": "proof",
       "name": "Proof / certification",

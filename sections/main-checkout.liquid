@@ -1,5 +1,4 @@
 {%- liquid
-  assign lead_window = settings.lead_time_window | default: '8 to 10 weeks'
   assign warranty = settings.warranty_years | default: '15'
   assign payment_mode = settings.payment_mode | default: 'full'
   assign split_percent = settings.split_percent | default: 50
@@ -18,12 +17,18 @@
     endif
   endif
 -%}
+{%- capture lead_window -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
+{%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'min' -%}{%- endcapture -%}
+{%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'max' -%}{%- endcapture -%}
+{%- assign lead_window = lead_window | strip -%}
 <section
   class="checkout-page"
   data-checkout-page
   data-market="{{ market }}"
   data-payment-mode="{{ payment_mode }}"
   data-lead-window="{{ lead_window | escape }}"
+  data-lead-min="{{ lt_min | strip }}"
+  data-lead-max="{{ lt_max | strip }}"
   data-large-order-threshold-gb="10000"
   data-large-order-threshold-ae="47000"
   data-finance-name="{{ finance_name | escape }}"
@@ -43,7 +48,27 @@
       <div class="checkout-stage__total">
         <span>
           <span data-checkout-item-count>0 units</span>
-          <span class="checkout-stage__finance" data-bnpl-monthly></span>
+          <span class="checkout-stage__finance" data-bnpl-monthly hidden>
+            <span data-bnpl-copy></span>
+            {%- if finance_name == 'Klarna' -%}
+              <klarna-placement
+                data-bnpl-klarna
+                data-key="credit-promotion-auto-size"
+                data-locale="en-GB"
+                hidden
+              ></klarna-placement>
+              {%- if settings.splitit_enabled and settings.splitit_merchant_id != blank -%}
+                <spt-strip
+                  data-splitit-slot
+                  is_solid="true"
+                  relative_to_parent="true"
+                  text_size="small"
+                  text_alignment="left"
+                  hidden
+                ></spt-strip>
+              {%- endif -%}
+            {%- endif -%}
+          </span>
         </span>
         <strong data-checkout-subtotal>-</strong>
       </div>
@@ -64,29 +89,43 @@
 
       <div class="checkout-stage__lead" data-leadtime-block>
         <p class="checkout-stage__lead-k">Delivery</p>
-        <p class="checkout-stage__lead-v" data-lead-window-label>{{ lead_window }}</p>
-        <p class="checkout-stage__lead-s">
-          Most orders arrive sooner. Built after you order, flown to your market, delivered into your room by two people.
+        <p class="checkout-stage__lead-v" data-lead-window-label>{% render 'lead-time', product: product, product_type: 'mattress' %}</p>
+        <p class="checkout-stage__lead-s" data-leadtime-explain>
+          Most orders arrive sooner. Built after you order and flown to your market.
         </p>
       </div>
 
-      <p class="checkout-stage__copy" data-leadtime-copy>
+      <p class="checkout-stage__copy" data-leadtime-copy data-leadtime-copy-mattress>
+        Made to order and delivered in {% render 'lead-time', product: product, product_type: 'mattress' %}. Most orders arrive sooner. Your mattress is built after you order it and flown to
+        {%- if market == 'gb' %} the UK
+        {%- elsif market == 'ae' %} the UAE
+        {%- else %} your market
+        {%- endif -%}.
         If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
       </p>
+      <p class="checkout-stage__copy" data-leadtime-copy-top hidden>
+        Your comfort top is made to order and sent by courier in {% render 'lead-time', product_type: 'top' %}. Unroll it and give it a few hours to recover its full height.
+      </p>
+      <p class="checkout-stage__copy" data-leadtime-copy-mixed hidden>
+        Your order includes a mattress and a comfort top. We use the longer window so everything can arrive together.
+      </p>
 
+      {%- assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.' -%}
       <ul class="checkout-stage__terms">
         {%- if payment_mode == 'full' -%}
-          <li>Cancel any time before dispatch, no questions asked</li>
-          <li>Spread the cost with {{ finance_name }} at no extra charge</li>
-          <li>Refunds within 5-10 business days</li>
-          <li>100 nights to change your mind once it arrives</li>
-          <li>{{ warranty }}-year core warranty</li>
+          <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
+          <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
+          <li>Refunds returned to the original payment method within 5-10 business days.</li>
+          <li>100 nights to change your mind once it arrives.</li>
+          <li>{{ warranty }}-year warranty on the spring core.</li>
+          <li>{{ variation_notice }}</li>
         {%- else -%}
-          <li>Pay {{ split_percent }}% today. Balance due before dispatch</li>
-          <li>Cancel any time before dispatch for a full refund of amounts paid</li>
-          <li>Spread either payment with {{ finance_name }} at no extra charge</li>
-          <li>100 nights to change your mind once it arrives</li>
-          <li>{{ warranty }}-year core warranty</li>
+          <li>Pay {{ split_percent }}% today. Balance due before dispatch.</li>
+          <li>Cancel any time before dispatch for a full refund of amounts paid.</li>
+          <li>Spread either payment with {{ finance_name }} at no extra charge.</li>
+          <li>100 nights to change your mind once it arrives.</li>
+          <li>{{ warranty }}-year warranty on the spring core.</li>
+          <li>{{ variation_notice }}</li>
         {%- endif -%}
       </ul>
 

@@ -3,11 +3,13 @@
     "main": {
       "type": "main-order-confirmed",
       "settings": {
-        "eyebrow": "Order confirmed",
+        "eyebrow": "ORDER CONFIRMED",
         "heading": "Thank you.",
-        "lede": "Your order is in. We'll build it to your size, keep you updated at every stage, and deliver it into your room."
+        "lede": "Your order is in and production starts this week. Allow 8 to 10 weeks - most orders arrive sooner, and we will email you at every stage so you are never wondering."
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

@@ -1,0 +1,83 @@
+{%- comment -%}
+  Stage B: lead time + terms + Pay. Hidden until Continue (progressive disclosure).
+  Without JS, both stages remain visible (.js-ready + .is-collapsed hide Stage B).
+{%- endcomment -%}
+{%- liquid
+  assign leadtime_placement = leadtime_placement | default: 'staged'
+  assign stage_b_heading = stage_b_heading | default: 'Before you order'
+  assign lead_window = lead_window | default: '8 to 10 weeks'
+  assign leadtime_vague = leadtime_vague | default: 'Made to order. We confirm your delivery date before dispatch.'
+  assign payment_mode = payment_mode | default: 'full'
+  assign finance_name = finance_name | default: 'Klarna'
+  assign market = market | default: settings.default_market | default: 'ae'
+  if market == 'gb'
+    assign fly_to = 'the UK'
+  else
+    assign fly_to = 'the UAE'
+  endif
+  assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.'
+  if payment_mode == 'full'
+    assign terms_title = order_terms_title_full | default: 'Order terms'
+    assign terms_body = order_terms_full
+  else
+    assign terms_title = order_terms_title_split | default: 'Payment and order terms'
+    assign terms_body = order_terms_split
+  endif
+-%}
+<div
+  class="reserve-stage-b is-collapsed"
+  data-reserve-stage-b
+  tabindex="-1"
+  aria-live="polite"
+>
+  <p class="reserve-stage-b__eyebrow">{{ stage_b_heading }}</p>
+  <p class="reserve-stage-b__summary" data-stageb-summary></p>
+
+  {%- unless leadtime_placement == 'inline' -%}
+    <div class="order-lead" data-leadtime-block>
+      <p class="order-lead__k">Delivery</p>
+      {%- if leadtime_placement == 'vague' -%}
+        <p class="order-lead__v" data-lead-window-label>{{ leadtime_vague }}</p>
+      {%- else -%}
+        <p class="order-lead__v" data-lead-window-label>{{ lead_window }}</p>
+        <p class="order-lead__s">Most orders arrive sooner.</p>
+      {%- endif -%}
+    </div>
+    <p class="reserve-stage-b__copy" data-leadtime-copy>
+      Made to order and delivered in {{ lead_window }}. Most orders arrive sooner. Your mattress is built after you order it and flown to {{ fly_to }}. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
+    </p>
+  {%- endunless -%}
+
+  <div class="order-large-terms" data-order-large-terms hidden>
+    <p class="deposit-terms__title">Terms for larger orders</p>
+    <p class="reserve-panel__meta" data-order-large-copy></p>
+    <label class="order-large-terms__ack">
+      <input type="checkbox" data-order-large-ack>
+      <span>I understand these terms for this order</span>
+    </label>
+  </div>
+
+  <div class="deposit-terms">
+    <p class="deposit-terms__title">{{ terms_title }}</p>
+    <div class="rte reserve-stage-b__terms-body">
+      {%- if terms_body != blank -%}
+        {{ terms_body }}
+      {%- else -%}
+        <ul class="reserve-stage-b__terms">
+          <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
+          <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
+          <li>Refunds returned to the original payment method within 5-10 business days.</li>
+          <li>100 nights to change your mind once it arrives.</li>
+          <li>15-year warranty on the spring core.</li>
+          <li>{{ variation_notice }}</li>
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <button type="button" class="btn reserve-stage-b__pay" data-checkout-pay style="width:100%;">
+    <span data-pay-label>{{ checkout_label | default: 'Pay' }}</span>
+  </button>
+
+  <button type="button" class="order-basket__back" data-reserve-back>Back to order</button>
+</div>

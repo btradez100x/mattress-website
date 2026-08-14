@@ -34,7 +34,7 @@
                       {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
                       {% unless variant.available %}disabled{% endunless %}
                     >
-                      {{ variant.title }} — {{ variant.price | money }}
+                      {{ variant.title }} - {{ variant.price | money }}
                     </option>
                   {%- endfor -%}
                 </select>

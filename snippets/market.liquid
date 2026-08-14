@@ -1,0 +1,13 @@
+{%- comment -%}
+  Resolve active market: ae | gb
+  {% render 'market' %} then use market from liquid scope via capture pattern.
+{%- endcomment -%}
+{%- liquid
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+-%}
+{{- market -}}
