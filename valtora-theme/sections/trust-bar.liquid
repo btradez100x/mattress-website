@@ -1,70 +1,240 @@
 {%- liquid
   assign warranty = settings.warranty_years | default: '15'
-  assign lead = settings.lead_time_window | default: '6–8 weeks'
+  assign marquee = section.settings.enable_marquee
+  assign duration = section.settings.marquee_duration | default: 40
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
 -%}
+{%- capture lead -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
+{%- assign lead = lead | strip -%}
+{%- if section.settings.enable_section -%}
 {%- if section.blocks.size > 0 -%}
   <section
-    class="trust-bar{% if section.settings.surface %} trust-bar--surface{% endif %}"
+    class="trust-bar{% if section.settings.surface %} trust-bar--surface{% endif %}{% if marquee %} trust-bar--marquee{% endif %}"
     id="{{ section.settings.anchor_id | default: 'trust' }}-{{ section.id }}"
-    data-reveal
+    {% unless marquee %}data-reveal{% endunless %}
+    style="{% if marquee %}--trust-marquee-duration: {{ duration }}s;{% endif %}"
   >
-    <div class="page-width">
-      <ul class="trust-bar__list" role="list">
-        {%- for block in section.blocks limit: 4 -%}
-          {%- liquid
-            assign label = block.settings.label
-            assign sub = block.settings.sublabel
-            assign label = label | replace: '{{ settings.warranty_years }}', warranty
-            assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
-            assign label = label | replace: '[X]', warranty
-            assign sub = sub | replace: '[X-Y]', lead
-          -%}
-          <li class="trust-bar__item" {{ block.shopify_attributes }}>
-            {%- if block.settings.link != blank -%}
-              <a class="trust-bar__link" href="{{ block.settings.link }}">
-            {%- else -%}
-              <div class="trust-bar__link trust-bar__link--static">
-            {%- endif -%}
-              <span class="trust-bar__icon" aria-hidden="true">
-                {%- if block.settings.icon_image != blank -%}
-                  {{ block.settings.icon_image | image_url: width: 64 | image_tag: loading: 'lazy', widths: '32,64', alt: '' }}
-                {%- else -%}
-                  {%- case block.settings.icon -%}
-                    {%- when 'trial' -%}
-                      <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.25"/><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/></svg>
-                    {%- when 'warranty' -%}
-                      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg>
-                    {%- when 'delivery' -%}
-                      <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10zM7 20a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm11 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" stroke="currentColor" stroke-width="1.25"/></svg>
-                    {%- when 'lead' -%}
-                      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.25"/></svg>
-                    {%- else -%}
-                      <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
-                  {%- endcase -%}
+    {%- if marquee -%}
+      <div class="trust-bar__viewport" data-trust-marquee{% if section.settings.pause_on_hover %} data-pause-hover{% endif %}>
+        <div class="trust-bar__track">
+          {%- for pass in (1..2) -%}
+            <ul class="trust-bar__list" role="list"{% if pass == 2 %} aria-hidden="true"{% endif %}>
+              {%- for block in section.blocks -%}
+                {%- liquid
+                  assign label = block.settings.label
+                  assign sub = block.settings.sublabel
+                  assign label = label | replace: '{{ settings.warranty_years }}', warranty
+                  assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
+                  assign label = label | replace: '[X]', warranty
+                  assign sub = sub | replace: '[X-Y]', lead
+                -%}
+                {%- liquid
+                  assign show_item = true
+                  assign visibility = block.settings.market_visibility | default: 'all'
+                  if visibility == 'ae' and market != 'ae'
+                    assign show_item = false
+                  endif
+                  if visibility == 'gb' and market != 'gb'
+                    assign show_item = false
+                  endif
+                  assign label_down = label | downcase
+                  assign sub_down = sub | downcase
+                  assign is_chemicals_claim = false
+                  assign is_oeko_claim = false
+                  if label_down contains 'harmful chemicals'
+                    assign is_chemicals_claim = true
+                  endif
+                  if label_down contains 'oeko' or sub_down contains 'oeko'
+                    assign is_oeko_claim = true
+                  endif
+                  if block.settings.icon == 'oeko'
+                    assign is_oeko_claim = true
+                  endif
+                  if block.settings.icon == 'chemicals' and is_oeko_claim == false and is_chemicals_claim == false
+                    assign is_chemicals_claim = true
+                  endif
+                  if is_chemicals_claim and is_oeko_claim
+                    if settings.show_chemicals_claim != true or settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+                      assign show_item = false
+                    endif
+                  elsif is_chemicals_claim
+                    if settings.show_chemicals_claim != true
+                      assign show_item = false
+                    endif
+                  elsif is_oeko_claim
+                    if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+                      assign show_item = false
+                    endif
+                  endif
+                -%}
+                {%- if show_item -%}
+                <li class="trust-bar__item" {% if pass == 1 %}{{ block.shopify_attributes }}{% endif %}>
+                  {%- if block.settings.link != blank -%}
+                    <a class="trust-bar__link" href="{{ block.settings.link }}"{% if pass == 2 %} tabindex="-1"{% endif %}>
+                  {%- else -%}
+                    <div class="trust-bar__link trust-bar__link--static">
+                  {%- endif -%}
+                    <span class="trust-bar__icon" aria-hidden="true">
+                      {%- if block.settings.icon_image != blank -%}
+                        {{ block.settings.icon_image | image_url: width: 64 | image_tag: loading: 'lazy', widths: '32,64', alt: '' }}
+                      {%- else -%}
+                        {%- case block.settings.icon -%}
+                          {%- when 'trial' -%}
+                            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg>
+                          {%- when 'warranty' -%}
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg>
+                          {%- when 'delivery' -%}
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10z" stroke="currentColor" stroke-width="1.25"/></svg>
+                          {%- when 'lead' -%}
+                            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.25"/></svg>
+                          {%- when 'craft' -%}
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg>
+                          {%- when 'chemicals' -%}
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
+                          {%- when 'oeko' -%}
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
+                          {%- else -%}
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
+                        {%- endcase -%}
+                      {%- endif -%}
+                    </span>
+                    <span class="trust-bar__copy">
+                      <strong class="trust-bar__label">{{ label }}</strong>
+                      {%- if sub != blank -%}
+                        <span class="trust-bar__sub">{{ sub }}</span>
+                      {%- endif -%}
+                      {%- if is_oeko_claim -%}
+                        <span class="trust-bar__sub">{{ settings.oeko_tex_certificate_no }}</span>
+                      {%- endif -%}
+                    </span>
+                  {%- if block.settings.link != blank -%}
+                    </a>
+                  {%- else -%}
+                    </div>
+                  {%- endif -%}
+                  <span class="trust-bar__sep" aria-hidden="true"></span>
+                </li>
                 {%- endif -%}
-              </span>
-              <span class="trust-bar__copy">
-                <strong class="trust-bar__label">{{ label }}</strong>
-                {%- if sub != blank -%}
-                  <span class="trust-bar__sub">{{ sub }}</span>
-                {%- endif -%}
-              </span>
-            {%- if block.settings.link != blank -%}
-              </a>
-            {%- else -%}
-              </div>
+              {%- endfor -%}
+            </ul>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- else -%}
+      <div class="page-width">
+        <ul class="trust-bar__list" role="list">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign label = block.settings.label
+              assign sub = block.settings.sublabel
+              assign label = label | replace: '{{ settings.warranty_years }}', warranty
+              assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
+              assign label = label | replace: '[X]', warranty
+              assign sub = sub | replace: '[X-Y]', lead
+            -%}
+            {%- liquid
+              assign show_item = true
+              assign visibility = block.settings.market_visibility | default: 'all'
+              if visibility == 'ae' and market != 'ae'
+                assign show_item = false
+              endif
+              if visibility == 'gb' and market != 'gb'
+                assign show_item = false
+              endif
+              assign label_down = label | downcase
+              assign sub_down = sub | downcase
+              assign is_chemicals_claim = false
+              assign is_oeko_claim = false
+              if label_down contains 'harmful chemicals'
+                assign is_chemicals_claim = true
+              endif
+              if label_down contains 'oeko' or sub_down contains 'oeko'
+                assign is_oeko_claim = true
+              endif
+              if block.settings.icon == 'oeko'
+                assign is_oeko_claim = true
+              endif
+              if block.settings.icon == 'chemicals' and is_oeko_claim == false and is_chemicals_claim == false
+                assign is_chemicals_claim = true
+              endif
+              if is_chemicals_claim and is_oeko_claim
+                if settings.show_chemicals_claim != true or settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+                  assign show_item = false
+                endif
+              elsif is_chemicals_claim
+                if settings.show_chemicals_claim != true
+                  assign show_item = false
+                endif
+              elsif is_oeko_claim
+                if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+                  assign show_item = false
+                endif
+              endif
+            -%}
+            {%- if show_item -%}
+            <li class="trust-bar__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.link != blank -%}
+                <a class="trust-bar__link" href="{{ block.settings.link }}">
+              {%- else -%}
+                <div class="trust-bar__link trust-bar__link--static">
+              {%- endif -%}
+                <span class="trust-bar__icon" aria-hidden="true">
+                  {%- if block.settings.icon_image != blank -%}
+                    {{ block.settings.icon_image | image_url: width: 64 | image_tag: loading: 'lazy', widths: '32,64', alt: '' }}
+                  {%- else -%}
+                    {%- case block.settings.icon -%}
+                      {%- when 'trial' -%}
+                        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg>
+                      {%- when 'warranty' -%}
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg>
+                      {%- when 'delivery' -%}
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10z" stroke="currentColor" stroke-width="1.25"/></svg>
+                      {%- when 'lead' -%}
+                        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.25"/></svg>
+                      {%- when 'craft' -%}
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg>
+                      {%- when 'chemicals' -%}
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
+                      {%- when 'oeko' -%}
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
+                      {%- else -%}
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg>
+                    {%- endcase -%}
+                  {%- endif -%}
+                </span>
+                <span class="trust-bar__copy">
+                  <strong class="trust-bar__label">{{ label }}</strong>
+                  {%- if sub != blank -%}
+                    <span class="trust-bar__sub">{{ sub }}</span>
+                  {%- endif -%}
+                  {%- if is_oeko_claim -%}
+                    <span class="trust-bar__sub">{{ settings.oeko_tex_certificate_no }}</span>
+                  {%- endif -%}
+                </span>
+              {%- if block.settings.link != blank -%}
+                </a>
+              {%- else -%}
+                </div>
+              {%- endif -%}
+            </li>
             {%- endif -%}
-          </li>
-        {%- endfor -%}
-      </ul>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
 
-      {%- if section.settings.show_lead_line -%}
-        <p class="trust-bar__lead">
-          Made to order. Current window: {{ lead }}. We confirm your dispatch date before the balance is due.
-        </p>
-      {%- endif -%}
-    </div>
+    {%- if section.settings.show_lead_line -%}
+      <div class="page-width">
+        <p class="trust-bar__lead">{% render 'lead-time-line', lead_line_override: section.settings.lead_line %}</p>
+      </div>
+    {%- endif -%}
   </section>
+{%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -72,6 +242,35 @@
   "name": "Trust bar",
   "tag": "section",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_marquee",
+      "label": "Rotating banner (continuous loop)",
+      "default": true,
+      "info": "Items scroll endlessly in a circle. Pause on hover is available below."
+    },
+    {
+      "type": "range",
+      "id": "marquee_duration",
+      "label": "Loop duration (seconds)",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 40,
+      "unit": "s"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause rotation on hover",
+      "default": true
+    },
     {
       "type": "checkbox",
       "id": "surface",
@@ -83,7 +282,13 @@
       "id": "show_lead_line",
       "label": "Show made-to-order lead-time line",
       "default": true,
-      "info": "Uses Theme settings → Lead time. Spec S15.2.3."
+      "info": "Wording from Theme settings → Market & sizing → Made-to-order lead line, unless overridden below."
+    },
+    {
+      "type": "textarea",
+      "id": "lead_line",
+      "label": "Lead line override",
+      "info": "Leave blank to use the theme setting. Use [lead] for the current window (e.g. 8 to 10 weeks)."
     },
     {
       "type": "text",
@@ -96,18 +301,21 @@
     {
       "type": "item",
       "name": "Trust item",
-      "limit": 4,
+      "limit": 8,
       "settings": [
         {
           "type": "select",
           "id": "icon",
           "label": "Icon",
           "options": [
-            { "value": "deposit", "label": "Deposit / check" },
+            { "value": "deposit", "label": "Cancel / check" },
             { "value": "trial", "label": "Trial" },
             { "value": "warranty", "label": "Warranty" },
             { "value": "delivery", "label": "Delivery" },
-            { "value": "lead", "label": "Lead time" }
+            { "value": "lead", "label": "Lead time" },
+            { "value": "craft", "label": "Handmade / craft" },
+            { "value": "chemicals", "label": "Chemicals claim (gated)" },
+            { "value": "oeko", "label": "OEKO-TEX claim (gated)" }
           ],
           "default": "deposit"
         },
@@ -120,7 +328,7 @@
           "type": "text",
           "id": "label",
           "label": "Label",
-          "default": "Fully refundable deposit"
+          "default": "Cancel before dispatch"
         },
         {
           "type": "text",
@@ -129,10 +337,21 @@
           "default": "Refund any time before dispatch"
         },
         {
-          "type": "url",
+          "type": "select",
+          "id": "market_visibility",
+          "label": "Show in market",
+          "options": [
+            { "value": "all", "label": "All markets" },
+            { "value": "ae", "label": "UAE only" },
+            { "value": "gb", "label": "UK only" }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "text",
           "id": "link",
           "label": "Proof link",
-          "info": "Each claim should link to the page that proves it (S15.1.1)."
+          "info": "Path or in-page anchor (for example /pages/warranty or #specs)."
         }
       ]
     }
@@ -140,12 +359,15 @@
   "presets": [
     {
       "name": "Trust bar",
+      "settings": {
+        "enable_marquee": true
+      },
       "blocks": [
         {
           "type": "item",
           "settings": {
             "icon": "deposit",
-            "label": "Fully refundable deposit",
+            "label": "Cancel before dispatch",
             "sublabel": "Refund any time before dispatch"
           }
         },
@@ -161,16 +383,24 @@
           "type": "item",
           "settings": {
             "icon": "warranty",
-            "label": "{{ settings.warranty_years }}-year core warranty",
+            "label": "15-year core warranty",
             "sublabel": "On the spring core"
           }
         },
         {
           "type": "item",
           "settings": {
-            "icon": "delivery",
-            "label": "White-glove delivery & setup",
-            "sublabel": "We bring it in and set it up"
+            "icon": "craft",
+            "label": "Handmade to order",
+            "sublabel": "Built after you order it, never from stock"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "oeko",
+            "label": "OEKO-TEX® STANDARD 100",
+            "sublabel": "Textiles independently tested"
           }
         }
       ]

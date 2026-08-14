@@ -4,3 +4,6 @@ node_modules/
 *.log
 .env
 .env.*
+.dev.vars
+Valtora-Shopify-Theme.zip
+*.zip

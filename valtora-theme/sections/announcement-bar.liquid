@@ -1,11 +1,28 @@
-{%- if section.settings.text != blank -%}
+{%- liquid
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+  if market == 'gb' and section.settings.text_gb != blank
+    assign announcement = section.settings.text_gb
+  elsif market == 'ae' and section.settings.text_ae != blank
+    assign announcement = section.settings.text_ae
+  else
+    assign announcement = section.settings.text
+  endif
+-%}
+{%- if section.settings.enable_section -%}
+{%- if announcement != blank -%}
   <div class="announcement" role="region" aria-label="Announcement">
     {%- if section.settings.link != blank -%}
-      <a href="{{ section.settings.link }}">{{ section.settings.text }}</a>
+      <a href="{{ section.settings.link }}">{{ announcement }}</a>
     {%- else -%}
-      <p style="margin:0">{{ section.settings.text }}</p>
+      <p style="margin:0">{{ announcement }}</p>
     {%- endif -%}
   </div>
+{%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -13,10 +30,28 @@
   "name": "Announcement bar",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "text",
-      "label": "Text",
-      "default": "First allocation now reserving — limited units per size."
+      "label": "Text (fallback)",
+      "default": "Cancel any time before dispatch · 100-night trial"
+    },
+    {
+      "type": "text",
+      "id": "text_ae",
+      "label": "Text (UAE)",
+      "default": "Cancel any time before dispatch · 100-night trial · Made to order"
+    },
+    {
+      "type": "text",
+      "id": "text_gb",
+      "label": "Text (UK)",
+      "default": "Cancel any time before dispatch · 100-night trial"
     },
     {
       "type": "url",

@@ -5,8 +5,11 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "text": "First allocation now reserving — limited units per size.",
-        "link": ""
+        "text": "Cancel any time before dispatch \u00b7 100-night trial",
+        "link": "",
+        "enable_section": true,
+        "text_ae": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Made to order",
+        "text_gb": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Spread with Klarna"
       }
     },
     "header": {
@@ -19,5 +22,8 @@
       }
     }
   },
-  "order": ["announcement-bar", "header"]
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
 }

@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "trust-policy",
+      "settings": {
+        "eyebrow": "Policies",
+        "heading": "Privacy",
+        "intro": "What we collect, why we collect it, and how to ask us to delete it.",
+        "fallback_content": "<h2>What we collect</h2><p>Order details, contact details you give us, and technical data needed to run the site (for example, cookies that keep your basket and market preference).</p><h2>How we use it</h2><p>To fulfil your order, send status updates, answer support requests, and improve the site. We do not sell your data.</p><h2>Sharing</h2><p>We share data with payment, delivery, and email providers only as needed to complete an order or send a message you asked for.</p><h2>Your rights</h2><p>Email us to access, correct, or delete your data. We will confirm in writing.</p><p>Replace this fallback with the full policy from Shopify Settings → Policies when you publish.</p>",
+        "cta_label": "Reserve your size",
+        "cta_link": "/#reserve"
+      }
+    }
+  },
+  "order": ["main"]
+}

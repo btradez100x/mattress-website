@@ -1,0 +1,60 @@
+{%- comment -%}
+  Lead time resolver - the ONLY place that reads lead time storage.
+  Usage:
+    {% capture lt_display %}{% render 'lead-time', variant: variant, product: product %}{% endcapture %}
+    {% render 'lead-time', product: product, format: 'span' %}
+  format: display (default) | min | max | note | span
+{%- endcomment -%}
+{%- liquid
+  assign lt_min = nil
+  assign lt_max = nil
+  assign lt_note = ''
+  assign fmt = format | default: 'display'
+
+  if variant and variant.metafields.custom.lead_time_max_weeks != blank
+    assign lt_min = variant.metafields.custom.lead_time_min_weeks | plus: 0
+    assign lt_max = variant.metafields.custom.lead_time_max_weeks | plus: 0
+    assign lt_note = variant.metafields.custom.lead_time_note | default: ''
+  endif
+
+  if lt_max == nil and product and product.metafields.custom.lead_time_max_weeks != blank
+    assign lt_min = product.metafields.custom.lead_time_min_weeks | plus: 0
+    assign lt_max = product.metafields.custom.lead_time_max_weeks | plus: 0
+    assign lt_note = product.metafields.custom.lead_time_note | default: ''
+  endif
+
+  if lt_max == nil
+    assign resolved_type = product_type | default: '' | downcase
+    if resolved_type == blank and product
+      assign resolved_type = product.type | downcase
+    endif
+    if resolved_type contains 'top'
+      assign lt_min = settings.lead_time_top_min | default: 2
+      assign lt_max = settings.lead_time_top_max | default: 3
+    elsif resolved_type contains 'mattress'
+      assign lt_min = settings.lead_time_mattress_min | default: 8
+      assign lt_max = settings.lead_time_mattress_max | default: 10
+    endif
+  endif
+
+  if lt_max == nil
+    assign lt_min = settings.lead_time_default_min | default: 8
+    assign lt_max = settings.lead_time_default_max | default: 10
+  endif
+
+  if lt_note != blank
+    assign lt_display = lt_note
+  elsif lt_min == lt_max
+    assign lt_display = lt_max | append: ' weeks'
+  else
+    assign lt_display = lt_min | append: ' to ' | append: lt_max | append: ' weeks'
+  endif
+-%}
+{%- case fmt -%}
+  {%- when 'min' -%}{{- lt_min -}}
+  {%- when 'max' -%}{{- lt_max -}}
+  {%- when 'note' -%}{{- lt_note -}}
+  {%- when 'span' -%}
+    <span data-lead-window="{{ lt_display | escape }}" data-lead-min="{{ lt_min }}" data-lead-max="{{ lt_max }}">{{ lt_display }}</span>
+  {%- else -%}{{- lt_display -}}
+{%- endcase -%}

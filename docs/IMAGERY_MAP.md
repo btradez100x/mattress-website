@@ -4,7 +4,7 @@ Brand Guidelines + Visual Asset Brief integrity rule: **real product only**; env
 
 | Theme asset | Role | Source |
 |---|---|---|
-| `hero-mattress.jpg` | Homepage hero (A2 floating studio) | Round one — floating 3/4 on off-white |
+| `hero-mattress.jpg` | Homepage hero (A2 floating studio) | Round one - floating 3/4 on off-white |
 | `lifestyle-airy.jpg` | Big idea / Swap story | Light airy bedroom |
 | `swap-poster.jpg` | Swap explainer | Unzip / layer reveal poster |
 | `product-side.jpg` | Specs | Clean side profile (depth) |

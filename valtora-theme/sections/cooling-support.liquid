@@ -1,3 +1,4 @@
+{%- if section.settings.enable_section -%}
 <section class="section" id="proof" data-reveal>
   <div class="page-width big-idea__grid">
     <div class="big-idea__media">
@@ -29,11 +30,18 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Cooling / support proof",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
     {
       "type": "text",
       "id": "eyebrow",

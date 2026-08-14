@@ -1,0 +1,9 @@
+SHOPIFY_API_SECRET=shpss_replace_me
+SHOPIFY_ADMIN_TOKEN=shpat_replace_me
+TOKEN_SECRET=replace_me_long_random
+NOTIFY_SECRET=replace_me_long_random
+RESEND_API_KEY=
+SHOPIFY_SHOP=your-shop.myshopify.com
+STATUS_PAGE_URL=http://127.0.0.1:5173/pages/order-status.html
+EMAIL_FROM=Aligna <hello@example.com>
+ALLOW_UNSIGNED=1

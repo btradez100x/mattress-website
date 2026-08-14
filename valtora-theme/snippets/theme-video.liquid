@@ -1,0 +1,54 @@
+{%- comment -%}
+  Theme-asset video with optional Shopify CDN video override.
+  Usage:
+    {% render 'theme-video',
+      video: section.settings.video,
+      fallback: 'swap-explainer.mp4',
+      poster: section.settings.image,
+      poster_fallback: 'swap-poster.jpg',
+      autoplay: true,
+      muted: true,
+      loop: true,
+      controls: false,
+      class: 'theme-video'
+    %}
+{%- endcomment -%}
+{%- liquid
+  assign fallback = fallback | default: ''
+  assign poster_fallback = poster_fallback | default: 'swap-poster.jpg'
+  assign class_name = class | default: 'theme-video'
+  assign do_autoplay = autoplay | default: false
+  assign do_muted = muted | default: false
+  assign do_loop = loop | default: false
+  assign do_controls = controls | default: true
+  assign do_playsinline = playsinline | default: true
+-%}
+{%- if video != blank -%}
+  {{
+    video
+    | video_tag:
+      image_size: '1600x',
+      autoplay: do_autoplay,
+      muted: do_muted,
+      loop: do_loop,
+      controls: do_controls,
+      class: class_name
+  }}
+{%- elsif fallback != blank -%}
+  <video
+    class="{{ class_name }}"
+    {% if do_autoplay %}autoplay{% endif %}
+    {% if do_muted %}muted{% endif %}
+    {% if do_loop %}loop{% endif %}
+    {% if do_controls %}controls{% endif %}
+    {% if do_playsinline %}playsinline{% endif %}
+    preload="metadata"
+    {% if poster != blank %}
+      poster="{{ poster | image_url: width: 1600 }}"
+    {% else %}
+      poster="{{ poster_fallback | asset_url }}"
+    {% endif %}
+  >
+    <source src="{{ fallback | asset_url }}" type="video/mp4">
+  </video>
+{%- endif -%}

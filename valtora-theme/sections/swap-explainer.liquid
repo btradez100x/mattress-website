@@ -1,31 +1,65 @@
+{%- liquid
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+  assign video_fallback = section.settings.fallback_video | default: 'swap-explainer.mp4'
+-%}
+{%- if section.settings.enable_section -%}
 <section class="section section--dark" id="swap-video" data-reveal>
   <div class="page-width" style="text-align:center; max-width: 48rem; margin-inline: auto;">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2>{{ section.settings.heading }}</h2>
+    {%- if section.settings.handmade_link != blank -%}
+      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.handmade_link }}</div>
+    {%- endif -%}
     {%- if section.settings.body != blank -%}
       <p class="section__lede" style="margin-inline:auto;">{{ section.settings.body }}</p>
     {%- endif -%}
+    {%- if section.settings.dual_use != blank -%}
+      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.dual_use }}</div>
+    {%- endif -%}
+    {%- if settings.comfort_tops_enabled and section.settings.top_cta_label != blank -%}
+      <p style="margin-top:1.5rem;">
+        <a class="btn" href="{{ section.settings.top_cta_url | default: '/products/comfort-top' }}">{{ section.settings.top_cta_label }}</a>
+      </p>
+    {%- endif -%}
+    {%- if market == 'gb' and section.settings.ownership_cost_gb != blank -%}
+      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.ownership_cost_gb }}</div>
+    {%- elsif market != 'gb' and section.settings.ownership_cost_ae != blank -%}
+      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.ownership_cost_ae }}</div>
+    {%- endif -%}
   </div>
   <div class="page-width" style="margin-top: 2.5rem;">
-    <div class="big-idea__media" style="aspect-ratio: 16 / 9; max-width: 56rem; margin-inline: auto;">
-      {%- if section.settings.video != blank -%}
-        {{ section.settings.video | video_tag: image_size: '1600x', controls: true }}
-      {%- else -%}
-        {% render 'theme-image',
-          image: section.settings.image,
-          fallback: 'swap-poster.jpg',
-          alt: section.settings.heading,
-          sizes: '100vw'
-        %}
-      {%- endif -%}
+    <div class="big-idea__media big-idea__media--wide big-idea__media--player" style="aspect-ratio: 16 / 9; max-width: 56rem; margin-inline: auto;">
+      {% render 'theme-video',
+        video: section.settings.video,
+        fallback: video_fallback,
+        poster: section.settings.image,
+        poster_fallback: 'swap-poster.jpg',
+        autoplay: true,
+        muted: true,
+        loop: true,
+        controls: true,
+        class: 'theme-video theme-video--player'
+      %}
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Swap System explainer",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -39,10 +73,46 @@
       "default": "Unzip. Lift out. Swap in."
     },
     {
+      "type": "richtext",
+      "id": "handmade_link",
+      "label": "Handmade link (before body)",
+      "default": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort top can be unzipped, lifted out and replaced.</p>"
+    },
+    {
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Tops come in soft, medium and firm. Change comfort as life changes — keep the engineered core for decades."
+      "default": "When the comfort layer wears, unzip it, lift it out and swap in a new one. Keep the engineered core for decades."
+    },
+    {
+      "type": "richtext",
+      "id": "dual_use",
+      "label": "Dual use",
+      "default": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>"
+    },
+    {
+      "type": "text",
+      "id": "top_cta_label",
+      "label": "Comfort top CTA label",
+      "default": "See the comfort top"
+    },
+    {
+      "type": "text",
+      "id": "top_cta_url",
+      "label": "Comfort top CTA link",
+      "info": "Path such as /products/comfort-top. Leave blank to hide until comfort tops are on."
+    },
+    {
+      "type": "richtext",
+      "id": "ownership_cost_gb",
+      "label": "Ownership cost (UK)",
+      "default": "<p>A comfort top costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "ownership_cost_ae",
+      "label": "Ownership cost (UAE)",
+      "default": "<p>A comfort top costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
     },
     {
       "type": "image_picker",
@@ -52,7 +122,14 @@
     {
       "type": "video",
       "id": "video",
-      "label": "Explainer video"
+      "label": "Explainer video (Shopify hosted)"
+    },
+    {
+      "type": "text",
+      "id": "fallback_video",
+      "label": "Theme asset video filename",
+      "default": "swap-explainer.mp4",
+      "info": "Used when no Shopify video is selected. Best fit: 16:9."
     }
   ],
   "presets": [{ "name": "Swap System explainer" }]

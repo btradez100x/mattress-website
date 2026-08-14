@@ -1,0 +1,32 @@
+# Pushes valtora-theme/ to the unpublished (or named) theme on each push to main/v9.
+# Secrets (repo → Settings → Secrets and variables → Actions):
+#   SHOPIFY_STORE            e.g. 7dbr1b-1q.myshopify.com
+#   SHOPIFY_CLI_THEME_TOKEN  Theme Access password (Shopify Admin → Settings → Apps)
+#   SHOPIFY_THEME_ID         Theme id from Online Store → Themes → … → Copy theme ID
+name: Deploy Shopify theme
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master, v9]
+    paths:
+      - 'valtora-theme/**'
+      - '.github/workflows/deploy-shopify-theme.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Push theme
+        working-directory: valtora-theme
+        env:
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+        run: |
+          npx --yes @shopify/cli@latest theme push \
+            --theme "${{ secrets.SHOPIFY_THEME_ID }}" \
+            --nodelete

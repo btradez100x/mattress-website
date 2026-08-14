@@ -1,9 +1,9 @@
-# Valtora theme — Regression pack
+# Valtora theme - Regression pack
 
 **Product:** Valtora Shopify theme (`valtora-theme/`)  
 **Source of truth:** Brand Guidelines + Website Developer Spec v3 (Aug 2026)  
 **Pack version:** 1.0  
-**Scope:** MVP (Spec §14 items 1–5) + trust pages/templates already in theme. Items 6–9 called out as deferred gates.
+**Scope:** MVP (Spec §14 items 1-5) + trust pages/templates already in theme. Items 6-9 called out as deferred gates.
 
 ---
 
@@ -12,9 +12,11 @@
 | Run type | When | Duration | Suite |
 |---|---|---|---|
 | **Smoke** | Every theme push / PR | ~15 min | §3 |
-| **Full regression** | Before ads launch, before name A/B go-live, after deposit-app change | ~60–90 min | §3 + §4–§10 |
+| **Full regression** | Before ads launch, before name A/B go-live, after deposit-app change | ~60-90 min | §3 + §4-§10 |
 | **Acceptance gate** | UAE validation launch | ~2 hrs + store setup | §11 (Spec §12) |
-| **Automated smoke** | CI / local before push | ~1 min | `scripts/regression-smoke.sh` |
+| **Automated smoke** | CI / local before push **and before every agent “done”** | ~1-2 min | `scripts/regression-smoke.sh` (includes CX consistency) |
+
+**Agent rule:** Do not say a build is done until `./scripts/regression-smoke.sh` exits 0. If it fails, fix and re-run.
 
 **Pass rule:** All P0 fail → block release. Any P1 fail → block ads spend. P2 can ship with logged follow-up.
 
@@ -34,10 +36,10 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 
 | Env | Purpose |
 |---|---|
-| **Local static** | `preview/` — visual/layout only; no cart/checkout |
+| **Local static** | `preview/` - visual/layout only; no cart/checkout |
 | **Theme preview** | `shopify theme dev` or unpublished theme preview URL |
 | **Staging store** | Markets AE + GB enabled; deposit app installed; test pixels |
-| **Production** | Ads live — only after Acceptance gate |
+| **Production** | Ads live - only after Acceptance gate |
 
 ### Prerequisites checklist (before full / acceptance runs)
 
@@ -52,22 +54,40 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 
 ---
 
-## 3. Smoke suite (P0) — every push
+## 3. Smoke suite (P0) - every push / every deploy
+
+**Deploy rule:** Do not publish preview or refresh the public link unless this suite passes.
 
 | ID | Case | Steps | Expected | Sev |
 |---|---|---|---|---|
 | SM-01 | Homepage renders | Open `/` | Full landing: hero → FAQ; no Liquid errors | P0 |
 | SM-02 | Wordmark renders | Inspect header + hero brand | Text wordmark (ALL CAPS, tracked), not a logo `.png` for the name | P0 |
-| SM-03 | Design tokens applied | Inspect computed CSS on `body` / `:root` | `--brand-primary` ≈ `#1F3A5F`, bg off-white | P0 |
-| SM-04 | Size list + cm | Scroll to `#reserve`; open size options | Each option shows name **and** cm (e.g. `King — 180 × 200 cm`) | P0 |
-| SM-05 | Tier + price | Select Signature | Display price updates to that tier | P0 |
-| SM-06 | Reserve → cart | Select size + tier → Reserve | Cart has line item; properties include Size (with cm), Size ID, Price tier, Market | P0 |
-| SM-07 | UTM first-touch | Visit `/?utm_source=meta&utm_medium=paid-social&utm_campaign=s1-adaptive&utm_content=seg1-west&utm_term=c1` then Reserve | Cart/order attributes include those five UTMs | P0 |
-| SM-08 | UTM persists across pages | Land with UTMs → browse `#faq` → Reserve | Same first-touch UTMs still on cart (not lost) | P0 |
-| SM-09 | Brand name setting | Theme settings → Brand name = `Amara` → reload | Header/hero/footer wordmark reads AMARA; `[Brand]` body copy updates where used | P0 |
-| SM-10 | Mobile reserve | 390×844 viewport; complete Reserve | Size list usable; CTA sticky/reachable; no horizontal scroll; reaches cart | P0 |
-| SM-11 | Theme check | `shopify theme check` in `valtora-theme/` | 0 errors (warnings OK if documented) | P0 |
-| SM-12 | Automated smoke | `./scripts/regression-smoke.sh` | Exit 0 | P0 |
+| SM-03 | Design tokens applied | Inspect computed CSS on `body` / `:root` | Brand tokens applied via settings | P0 |
+| SM-04 | Size list + cm | Scroll to `#reserve`; open size options | Each option shows name **and** cm | P0 |
+| SM-05 | Tier + price | Select a size | Basket total updates | P0 |
+| SM-06 | Reserve → cart | Stage B → Pay | Cart has line item(s) with size properties | P0 |
+| SM-07 | UTM first-touch | Visit with UTMs then Pay | Cart/order attributes include UTMs | P0 |
+| SM-08 | UTM persists across pages | Land with UTMs → browse → Pay | First-touch UTMs retained | P0 |
+| SM-09 | Brand name setting | Theme settings → Brand name | Wordmark updates; no hard-coded Sattva/Saatva | P0 |
+| SM-10 | Mobile reserve | 390×844 viewport | Size list usable; floating basket reachable | P0 |
+| SM-11 | Theme check | `shopify theme check` | 0 errors | P0 |
+| SM-12 | Automated smoke | `./scripts/regression-smoke.sh` | Exit 0 (includes CX consistency) | P0 |
+| SM-13 | Stage A basket only | Open `#reserve`, select size | Panel shows lines + total + BNPL + Continue + one cancel line. **No** lead time | P0 |
+| SM-14 | Checkout page | Click Continue | Lands on /pages/checkout (or preview/pages/checkout.html); fires view_leadtime; page has delivery + terms + Pay; no nested scroll | P0 |
+| SM-15 | Qty persists across sizes | Add King qty 1, select Double | King counter remains visible | P0 |
+| SM-16 | Remove from basket | Click Remove (or qty to 0) | Line leaves basket; Continue disables if empty | P0 |
+| SM-17 | Floating basket | Scroll away from `#reserve` | Bottom bar: count · total · Continue (replaces old sticky bar) | P0 |
+| SM-18 | Deploy + public link | `./scripts/deploy-preview.sh` | Smoke pass; `share/PUBLIC_URL.txt` updated; public `/v4/` loads | P0 |
+| SM-19 | Cross-page brand chrome | Set brand/scheme on homepage; open manufacturing, cart, checkout, trust, blog | Same brand name, product line, colour scheme, announcement copy; no Aligna flash; titles stay `Page · Brand` | P0 |
+| SM-20 | Consistency script | `python3 scripts/regression-consistency.py` | Exit 0 | P0 |
+
+### Deploy command (mandatory)
+
+```bash
+./scripts/deploy-preview.sh
+```
+
+This always: runs SM-12 → syncs `preview/` to `share/v4/` → refreshes the external tunnel → writes `share/PUBLIC_URL.txt`.
 
 ---
 
@@ -77,11 +97,35 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 |---|---|---|---|---|
 | BR-01 | Global palette change | Change Primary / Accent / BG in theme settings | Site re-skins; gold remains accent-only (no large gold fills) | P1 |
 | BR-02 | Font swap | Serif → Fraunces; Sans → Work Sans | Headlines + body update; wordmark stays serif | P1 |
-| BR-03 | Wordmark system locked | Change name only | Tracking (~0.12–0.18em), ALL CAPS, single colour preserved | P0 |
+| BR-03 | Wordmark system locked | Change name only | Tracking (~0.12-0.18em), ALL CAPS, single colour preserved | P0 |
 | BR-04 | Name override (A/B) | On landing variant: Header/Hero brand override = `Nadira`; global still `Valtora` | That page shows NADIRA; homepage still VALTORA | P0 |
 | BR-05 | No baked name in images | Grep media alt / uploaded logos | Name not required in image files to change brand | P1 |
-| BR-06 | Meta / title uses brand | View page source `<title>` / og:site_name | Uses brand setting | P2 |
+| BR-06 | Meta / title uses brand | View page source `<title>` / og:site_name | Uses brand setting; subpages keep `Page · Brand` (not overwritten by site name) | P0 |
 | BR-07 | Optional abstract mark | Upload geometric mark in Brand settings | Mark appears beside wordmark; still name-independent | P2 |
+| BR-08 | Manufacturing / journey story | Open manufacturing; change Brand in preview config | Logo, product line, and in-copy `[Brand]` / `data-brand-text` all update; colours follow scheme | P0 |
+| BR-09 | Announcement consistency | Edit Banner UAE/UK; visit cart + manufacturing + blog | Same announcement copy + brand colour on every page | P0 |
+| BR-10 | No theme blink | Navigate homepage → cart → manufacturing with non-default brand/scheme | No flash of default Aligna/navy for even one frame | P0 |
+
+---
+
+## 4b. Automated consistency gate (CX)
+
+Script: `scripts/regression-consistency.py` (also invoked by SM-12).
+
+Checks every `preview/` + `share/v4/` HTML page for:
+
+- `brand-boot.js` before paint
+- `theme.js` on subpages
+- `data-brand-guidelines` + `data-color-scheme`
+- `PreviewFontLink` on Google Fonts links
+- `data-brand-text` / `data-brand-product-line` on wordmarks
+- no hardcoded navy header/banner chrome
+- announcement bar on subpages
+- manufacturing brand token coverage
+- live Shopify not overwritten by preview localStorage
+- page titles not clobbered by share-meta
+
+**Pass rule:** any FAIL blocks smoke and deploy.
 
 ---
 
@@ -111,7 +155,7 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 
 | Size | Dimensions |
 |---|---|
-| Single | 90–100 × 200 cm |
+| Single | 90-100 × 200 cm |
 | Queen | 160 × 200 cm |
 | King | 180 × 200 cm |
 | Super King | 200 × 200 cm |
@@ -124,14 +168,15 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 | Double | 135 × 190 cm |
 | King | 150 × 200 cm |
 | Super King | 180 × 200 cm |
+| Emperor | 200 × 200 cm |
 
 | ID | Case | Steps | Expected | Sev |
 |---|---|---|---|---|
 | SZ-01 | UAE list | Market AE (or force UAE) | UAE four sizes + cm per table | P0 |
-| SZ-02 | UK list | Market GB (or force UK) | UK four sizes + cm; **Double** present, **Queen** absent | P0 |
-| SZ-03 | King ambiguity | Compare AE King vs GB King | AE 180×200; GB 150×200 — both labelled clearly | P0 |
+| SZ-02 | UK list | Market GB (or force UK) | UK five sizes + cm; **Double** present, **Queen** absent, **Emperor** 200×200 | P0 |
+| SZ-03 | King ambiguity | Compare AE King vs GB King | AE 180×200; GB 150×200 - both labelled clearly | P0 |
 | SZ-04 | Force override | Section “Force UK sizes” while browsing as AE | UK list shows (variant testing) | P1 |
-| SZ-05 | Auto detection | AE market storefront | Note shows “Showing UAE sizes…” | P1 |
+| SZ-05 | Auto detection | AE market storefront | UAE sizes and AED prices shown | P1 |
 | SZ-06 | Size guide page | Open size guide template | Comparison table + expat note + 37cm depth note | P1 |
 | SZ-07 | Line properties | Reserve King / Signature | Properties: `Size` with cm, `Size ID`, `Price tier`, `Market` | P0 |
 | SZ-08 | Deposit product missing | Clear deposit product in section | Clear editor/storefront guidance; no silent failure | P1 |
@@ -169,7 +214,7 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 | TR-08 | Deposit conversion | Complete deposit; verify pixel/GA4 | Conversion/purchase (or app equivalent) with value | P0 |
 | TR-09 | TikTok / Snap (UAE) | IDs set; PageView | Events fire (UAE weighting) | P2 |
 | TR-10 | No UTM visit | Clean storage; land without UTMs; Reserve | Cart works; no bogus utm attributes required | P1 |
-| TR-11 | Deposit app attribute pass-through | Confirm with chosen app docs + test order | Attributes survive checkout (app-dependent — **ads blocker if fail**) | P0 |
+| TR-11 | Deposit app attribute pass-through | Confirm with chosen app docs + test order | Attributes survive checkout (app-dependent - **ads blocker if fail**) | P0 |
 
 ---
 
@@ -196,14 +241,14 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 
 ---
 
-## 10b. Trust layer (Spec S15) — risk reversal & credibility
+## 10b. Trust layer (Spec S15) - risk reversal & credibility
 
 | ID | Case | Steps | Expected | Sev |
 |---|---|---|---|---|
 | TRU-01 | Trust bar ×2 | Homepage: under hero + above reserve | Four linked claims + lead-time line | P0 |
 | TRU-02 | Deposit terms inline | Reserve panel on mobile | Terms visible above button; not collapsed | P0 |
 | TRU-03 | Policy pages | Trial / warranty / refunds / delivery templates | Awkward questions answered; footer linked | P0 |
-| TRU-04 | Founder note | Between social proof and offer | Portrait + note (~80–120 words) | P1 |
+| TRU-04 | Founder note | Between social proof and offer | Portrait + note (~80-120 words) | P1 |
 | TRU-05 | Legal entity footer | Fill UAE trade licence / TRN | Visible in footer legal row | P1 |
 | TRU-06 | WhatsApp float + reserve | Number set; mobile | Float does not cover Reserve CTA; opens wa.me with prefill | P0 |
 | TRU-07 | Contact hours | Footer + contact page | Hours + response-time note | P1 |
@@ -219,11 +264,11 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 | UX-04 | Mobile nav | <900px; open menu | Panel opens/closes; links work | P1 |
 | UX-05 | Reduced motion | `prefers-reduced-motion: reduce` | Hero/reveal not jarring | P2 |
 | UX-06 | Contrast | Navy/ink on off-white; off-white on navy | Readable; gold not used for body text | P1 |
-| UX-07 | Lighthouse mobile | Prod/staging homepage | CWV green target (esp. UK) — LCP/INP/CLS | P1 |
+| UX-07 | Lighthouse mobile | Prod/staging homepage | CWV green target (esp. UK) - LCP/INP/CLS | P1 |
 | UX-08 | Password page | Theme password enabled | Brand wordmark + enter form | P2 |
 | UX-09 | 404 | Hit bad URL | Branded 404 + home CTA | P2 |
 
-### Deferred (Spec §14 items 6–9) — track but don’t block UAE MVP theme ship
+### Deferred (Spec §14 items 6-9) - track but don’t block UAE MVP theme ship
 
 | ID | Case | Notes | Gate |
 |---|---|---|---|
@@ -241,18 +286,18 @@ Use as the **launch gate**. Every row must Pass (or N/A with owner sign-off).
 
 | Spec §12 criterion | Covering cases | Result |
 |---|---|---|
-| Correct market size + cm; refundable deposit; confirmation with lead time + refund terms; flawless mobile | SZ-01–03, SZ-07, SZ-13–14, SM-10 | ☐ |
-| UAE ↔ UK size lists correct; cm always shown | SZ-01–06, SM-04 | ☐ |
-| Marketing changes headline, price, offer, palette, fonts, brand name without developer | BR-01–04, LP-01–02, LP-09, SZ-11 | ☐ |
-| Duplicate page variants; token override per variant | SG-01–03, LP-04–05 | ☐ |
-| UTMs persist to deposit; export shows campaign + content + size + tier | TR-01–06, TR-11, SZ-15 | ☐ |
-| Deposit events → Meta, Google (+ Snap/TikTok UAE) with value | TR-07–09 | ☐ |
-| Replacement tops standalone with market-correct sizes | PR-01–02 | ☐ |
-| UAE AED + Tabby/Tamara; UK GBP + Klarna/Clearpay + GDPR | SZ-11–12, DF-01–03 | ☐ |
+| Correct market size + cm; refundable deposit; confirmation with lead time + refund terms; flawless mobile | SZ-01-03, SZ-07, SZ-13-14, SM-10 | ☐ |
+| UAE ↔ UK size lists correct; cm always shown | SZ-01-06, SM-04 | ☐ |
+| Marketing changes headline, price, offer, palette, fonts, brand name without developer | BR-01-04, LP-01-02, LP-09, SZ-11 | ☐ |
+| Duplicate page variants; token override per variant | SG-01-03, LP-04-05 | ☐ |
+| UTMs persist to deposit; export shows campaign + content + size + tier | TR-01-06, TR-11, SZ-15 | ☐ |
+| Deposit events → Meta, Google (+ Snap/TikTok UAE) with value | TR-07-09 | ☐ |
+| Replacement tops standalone with market-correct sizes | PR-01-02 | ☐ |
+| UAE AED + Tabby/Tamara; UK GBP + Klarna/Clearpay + GDPR | SZ-11-12, DF-01-03 | ☐ |
 | Fast on mobile (CWV green) | UX-07, SM-10 | ☐ |
-| Brand name setting updates wordmark + references (S13 acceptance) | SM-09, BR-03–04, LP-06 | ☐ |
+| Brand name setting updates wordmark + references (S13 acceptance) | SM-09, BR-03-04, LP-06 | ☐ |
 
-**Ads launch blocker:** TR-11 + SZ-13–15 + SM-07 must Pass.
+**Ads launch blocker:** TR-11 + SZ-13-15 + SM-07 must Pass.
 
 ---
 
@@ -280,16 +325,17 @@ Minimum each full regression:
 
 ---
 
-## 14. Automated smoke
+## 14. Automated smoke + deploy
 
 ```bash
 cd "/Users/benacolatse/Mattress Shopify website"
-./scripts/regression-smoke.sh
+./scripts/regression-smoke.sh   # gate only
+./scripts/deploy-preview.sh     # gate + sync share/v4 + refresh public URL
 ```
 
-Checks: required theme files, JSON parse, critical settings keys, wordmark snippet presence, UTM script keys, size maps in `theme.js`, `shopify theme check` (0 errors).
+`deploy-preview.sh` is mandatory on every preview publish. It fails closed if smoke fails, then updates `share/PUBLIC_URL.txt` and the live tunnel (default subdomain `deep-adults-roll`).
 
-Optional static visual: open `http://127.0.0.1:5173/` (`preview/`) for layout-only review — **does not** replace SM-06/07/13.
+Optional static visual: open `http://127.0.0.1:5173/` (`preview/`) for layout-only review - **does not** replace SM-06/07.
 
 ---
 

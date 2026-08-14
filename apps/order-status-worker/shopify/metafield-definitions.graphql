@@ -1,0 +1,291 @@
+# Run one mutation at a time in Shopify Admin GraphiQL (or the custom app).
+# Owner: ORDER. Namespace: custom.
+
+mutation OrderStage {
+  metafieldDefinitionCreate(definition: {
+    name: "Order stage"
+    namespace: "custom"
+    key: "order_stage"
+    description: "Production stage 1-8. Set by Flow from paid/tags/fulfilment. Do not trust the cart attribute."
+    type: "single_line_text_field"
+    ownerType: ORDER
+    pin: true
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation StageUpdatedAt {
+  metafieldDefinitionCreate(definition: {
+    name: "Stage updated at"
+    namespace: "custom"
+    key: "stage_updated_at"
+    type: "date_time"
+    ownerType: ORDER
+    pin: true
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation DeliveryWindow {
+  metafieldDefinitionCreate(definition: {
+    name: "Delivery window"
+    namespace: "custom"
+    key: "delivery_window"
+    type: "single_line_text_field"
+    ownerType: ORDER
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation DeliveryDate {
+  metafieldDefinitionCreate(definition: {
+    name: "Delivery date"
+    namespace: "custom"
+    key: "delivery_date"
+    description: "Firm date. Only shown from stage 7."
+    type: "date"
+    ownerType: ORDER
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation DelayNotice {
+  metafieldDefinitionCreate(definition: {
+    name: "Delay notice"
+    namespace: "custom"
+    key: "delay_notice"
+    type: "multi_line_text_field"
+    ownerType: ORDER
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation RevisedWindow {
+  metafieldDefinitionCreate(definition: {
+    name: "Revised window"
+    namespace: "custom"
+    key: "revised_window"
+    type: "single_line_text_field"
+    ownerType: ORDER
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation BatchPhoto {
+  metafieldDefinitionCreate(definition: {
+    name: "Batch photo"
+    namespace: "custom"
+    key: "batch_photo"
+    description: "Optional production-run image. Prefer a shop-level run, not a per-order upload."
+    type: "file_reference"
+    ownerType: ORDER
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation SizeLabel {
+  metafieldDefinitionCreate(definition: {
+    name: "Size label"
+    namespace: "custom"
+    key: "size_label"
+    type: "single_line_text_field"
+    ownerType: ORDER
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation SizeDims {
+  metafieldDefinitionCreate(definition: {
+    name: "Size dimensions"
+    namespace: "custom"
+    key: "size_dims"
+    type: "single_line_text_field"
+    ownerType: ORDER
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation ProductLeadTimeMin {
+  metafieldDefinitionCreate(definition: {
+    name: "Lead time min weeks"
+    namespace: "custom"
+    key: "lead_time_min_weeks"
+    description: "Minimum weeks in the delivery window. Variant overrides product."
+    type: "number_integer"
+    ownerType: PRODUCT
+    pin: true
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation ProductLeadTimeMax {
+  metafieldDefinitionCreate(definition: {
+    name: "Lead time max weeks"
+    namespace: "custom"
+    key: "lead_time_max_weeks"
+    type: "number_integer"
+    ownerType: PRODUCT
+    pin: true
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation ProductLeadTimeNote {
+  metafieldDefinitionCreate(definition: {
+    name: "Lead time note"
+    namespace: "custom"
+    key: "lead_time_note"
+    description: "Optional display override for the lead-time line."
+    type: "single_line_text_field"
+    ownerType: PRODUCT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation VariantLeadTimeMin {
+  metafieldDefinitionCreate(definition: {
+    name: "Lead time min weeks"
+    namespace: "custom"
+    key: "lead_time_min_weeks"
+    type: "number_integer"
+    ownerType: PRODUCTVARIANT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation VariantLeadTimeMax {
+  metafieldDefinitionCreate(definition: {
+    name: "Lead time max weeks"
+    namespace: "custom"
+    key: "lead_time_max_weeks"
+    type: "number_integer"
+    ownerType: PRODUCTVARIANT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation VariantLeadTimeNote {
+  metafieldDefinitionCreate(definition: {
+    name: "Lead time note"
+    namespace: "custom"
+    key: "lead_time_note"
+    type: "single_line_text_field"
+    ownerType: PRODUCTVARIANT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation ProductFirmnessNumber {
+  metafieldDefinitionCreate(definition: {
+    name: "Firmness number"
+    namespace: "custom"
+    key: "firmness_number"
+    description: "Comfort top feel: 4 Soft, 6 Medium, 8 Firm."
+    type: "number_integer"
+    ownerType: PRODUCT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation ProductSuits {
+  metafieldDefinitionCreate(definition: {
+    name: "Suits"
+    namespace: "custom"
+    key: "suits"
+    description: "Who the feel is for, e.g. Side sleepers and lighter frames."
+    type: "single_line_text_field"
+    ownerType: PRODUCT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation VariantMarket {
+  metafieldDefinitionCreate(definition: {
+    name: "Market"
+    namespace: "custom"
+    key: "market"
+    description: "Which market this size belongs to. Use ae or gb. The size list filters on this."
+    type: "single_line_text_field"
+    ownerType: PRODUCTVARIANT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation VariantDims {
+  metafieldDefinitionCreate(definition: {
+    name: "Dimensions"
+    namespace: "custom"
+    key: "dims"
+    description: "Display dimensions, e.g. 150 × 200 cm. Shown next to the size name."
+    type: "single_line_text_field"
+    ownerType: PRODUCTVARIANT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation VariantPopular {
+  metafieldDefinitionCreate(definition: {
+    name: "Popular"
+    namespace: "custom"
+    key: "popular"
+    description: "Optional. When true, this size is marked Most popular."
+    type: "boolean"
+    ownerType: PRODUCTVARIANT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+
+mutation VariantEnabled {
+  metafieldDefinitionCreate(definition: {
+    name: "Enabled"
+    namespace: "custom"
+    key: "enabled"
+    description: "When false, the size is withdrawn and does not render. Blank or true shows it. Use inventory (qty 0, do not continue selling) for a visible waitlist / notify state."
+    type: "boolean"
+    ownerType: PRODUCTVARIANT
+  }) {
+    createdDefinition { id name key }
+    userErrors { field message }
+  }
+}
+

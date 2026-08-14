@@ -1,42 +1,68 @@
 {%- liquid
-  assign brand = settings.brand_name | default: 'Valtora'
-  assign og_title = page_title | default: brand
-  if page_title
-    assign og_title = page_title | append: ' · ' | append: brand
+  assign brand = settings.brand_name | default: 'Aligna'
+  assign line = settings.brand_product_line | default: ''
+  assign tagline = settings.brand_tagline | default: 'A better bed, for life.'
+  assign site_label = brand
+  if line != blank
+    assign site_label = brand | append: ' ' | append: line
+  endif
+
+  assign og_title = page_title | default: site_label
+  if page_title != blank
+    unless page_title contains brand
+      assign og_title = page_title | append: ' · ' | append: brand
+    endunless
+  endif
+
+  if page_description != blank
+    assign og_description = page_description
+  elsif settings.share_description != blank
+    assign og_description = settings.share_description
+    assign og_description = og_description | replace: '[Brand]', brand
+    assign og_description = og_description | replace: '[Line]', line
+    assign og_description = og_description | replace: '[Tagline]', tagline
+  else
+    assign og_description = tagline | append: ' · ' | append: brand | append: '. A better bed, for life. Refresh it, do not replace it.'
+  endif
+
+  assign share_image = page_image
+  if share_image == blank and settings.brand_mark != blank
+    assign share_image = settings.brand_mark
   endif
 -%}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="{{ settings.color_primary }}">
+<meta name="application-name" content="{{ brand | escape }}">
+<meta name="apple-mobile-web-app-title" content="{{ brand | escape }}">
 <link rel="canonical" href="{{ canonical_url }}">
 
-{%- if settings.favicon != blank -%}
-  <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-{%- endif -%}
+{% render 'favicon' %}
 
 <title>
   {{ page_title }}
-  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains brand %} &ndash; {{ brand }}{% endunless -%}
+  {%- if current_tags %} - tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+  {%- if current_page != 1 %} - Page {{ current_page }}{% endif -%}
+  {%- unless page_title contains brand %} - {{ brand }}{% endunless -%}
 </title>
 
-{% if page_description %}
-  <meta name="description" content="{{ page_description | escape }}">
-{% else %}
-  <meta name="description" content="{{ settings.brand_tagline | escape }} — {{ brand }}. A better bed, for life. Refresh it, don't replace it.">
-{% endif %}
+<meta name="description" content="{{ og_description | escape }}">
 
-<meta property="og:site_name" content="{{ brand }}">
+<meta property="og:site_name" content="{{ brand | escape }}">
 <meta property="og:url" content="{{ canonical_url }}">
 <meta property="og:title" content="{{ og_title | escape }}">
-<meta property="og:type" content="website">
-<meta property="og:description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ settings.brand_tagline | escape }}{% endif %}">
-{%- if page_image -%}
-  <meta property="og:image" content="http:{{ page_image | image_url: width: 1200 }}">
-  <meta property="og:image:secure_url" content="https:{{ page_image | image_url: width: 1200 }}">
+<meta property="og:type" content="{% if request.page_type == 'article' %}article{% else %}website{% endif %}">
+<meta property="og:description" content="{{ og_description | escape }}">
+{%- if share_image != blank -%}
+  <meta property="og:image" content="https:{{ share_image | image_url: width: 1200 }}">
+  <meta property="og:image:secure_url" content="https:{{ share_image | image_url: width: 1200 }}">
+  <meta property="og:image:alt" content="{{ site_label | escape }}">
 {%- endif -%}
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ og_title | escape }}">
-<meta name="twitter:description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ settings.brand_tagline | escape }}{% endif %}">
+<meta name="twitter:description" content="{{ og_description | escape }}">
+{%- if share_image != blank -%}
+  <meta name="twitter:image" content="https:{{ share_image | image_url: width: 1200 }}">
+  <meta name="twitter:image:alt" content="{{ site_label | escape }}">
+{%- endif -%}

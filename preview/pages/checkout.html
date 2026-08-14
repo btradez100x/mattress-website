@@ -2,30 +2,17 @@
 <html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="../brand-boot.js?v=wo-v9-favicon1" data-valtora-brand-boot></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#1F3A5F">
     <title>Checkout · Aligna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../base.css?v=wo-v4-ty2">
+    <link rel="stylesheet" href="../base.css?v=wo-v9-basketux2">
     <style>
       :root {
-        --brand-primary: #1F3A5F;
-        --brand-accent: #8A6D3B;
-        --brand-bg: #F7F5F1;
-        --brand-surface: #EAE6DF;
-        --brand-ink: #222222;
-        --brand-on-dark: #F7F5F1;
-        --wordmark-color: #8A6D3B;
-        --heading-color: #222222;
-        --eyebrow-color: #8A6D3B;
-        --font-serif: 'Fraunces', Georgia, serif;
-        --font-sans: 'Outfit', system-ui, sans-serif;
-        --font-wordmark: var(--font-sans);
-        --font-headline: var(--font-sans);
-        --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-        --wordmark-tracking: 0.18em;
+
         --space-section: clamp(5.5rem, 12vw, 9rem);
         --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
         --max-width: 72rem;
@@ -33,14 +20,19 @@
         --radius: 0;
         --radius-control: 0.35rem;
         --transition: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      
       }
       .preview-banner {
-        background: #1F3A5F; color: #F7F5F1; text-align: center;
-        font-size: 0.8125rem; letter-spacing: 0.04em; padding: 0.55rem 1rem;
+        background: var(--brand-primary);
+        color: var(--brand-on-dark);
+        text-align: center;
+        font-size: 0.8125rem;
+        letter-spacing: 0.04em;
+        padding: 0.55rem 1rem;
       }
       html[data-brand-guidelines="v2"] .preview-banner {
-        background: #1A1A1A;
-        color: #F5F4F1;
+        background: var(--brand-primary);
+        color: var(--brand-on-dark);
       }
       .site-header--solid {
         position: sticky; top: 0; z-index: 40;
@@ -55,12 +47,20 @@
     </style>
   </head>
   <body data-page="checkout" data-payment-mode="full">
+    <div class="preview-banner" data-preview-chrome><strong>Local theme preview</strong></div>
+        <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
+      <p style="margin:0" data-market-announcement>
+        <span data-market-only="ae">Cancel any time before dispatch · 100-night trial · Made to order</span>
+        <span data-market-only="gb" hidden>Cancel any time before dispatch · 100-night trial · Spread with Klarna</span>
+      </p>
+    </div>
+
     <header class="site-header site-header--solid">
       <div class="page-width site-header__inner">
         <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
           <span class="wordmark__lockup">
             <span class="wordmark__text" data-brand-text>Aligna</span>
-            <span class="wordmark__product" data-brand-product-line>Mattresses</span>
+            <span class="wordmark__product" data-brand-product-line data-brand-product-line>Mattresses</span>
           </span>
         </a>
         <a class="checkout-header__back" href="../index.html#reserve">Back to sizes</a>
@@ -73,7 +73,7 @@
         data-checkout-page
         data-checkout-preview="true"
         data-confirmed-path="./order-confirmed.html"
-        data-lead-window="8 to 10 weeks"
+        data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10"
         data-large-order-threshold-gb="10000"
         data-large-order-threshold-ae="47000"
       >
@@ -92,7 +92,7 @@
             <div class="checkout-stage__total">
               <span>
                 <span data-checkout-item-count>0 units</span>
-                <span class="checkout-stage__finance" data-bnpl-monthly></span>
+                <span class="checkout-stage__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></span>
               </span>
               <strong data-checkout-subtotal>-</strong>
             </div>
@@ -114,21 +114,29 @@
             <div class="checkout-stage__lead" data-leadtime-block>
               <p class="checkout-stage__lead-k">Delivery</p>
               <p class="checkout-stage__lead-v" data-lead-window-label>8 to 10 weeks</p>
-              <p class="checkout-stage__lead-s">
-                Most orders arrive sooner. Built after you order, flown to your market, delivered into your room by two people.
+              <p class="checkout-stage__lead-s" data-leadtime-explain>
+                Most orders arrive sooner. Built after you order and flown to your market.
               </p>
             </div>
 
-            <p class="checkout-stage__copy" data-leadtime-copy>
-              If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
+            <p class="checkout-stage__copy" data-leadtime-copy data-leadtime-copy-mattress>
+              <span data-market-only="ae">Made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. Your mattress is built after you order it and flown to the UAE. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</span>
+              <span data-market-only="gb" hidden>Made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. Your mattress is built after you order it and flown to the UK. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</span>
+            </p>
+            <p class="checkout-stage__copy" data-leadtime-copy-top hidden>
+              Your comfort top is made to order and sent by courier in 2 to 3 weeks. Unroll it and give it a few hours to recover its full height.
+            </p>
+            <p class="checkout-stage__copy" data-leadtime-copy-mixed hidden>
+              Your order includes a mattress and a comfort top. We use the longer window so everything can arrive together.
             </p>
 
             <ul class="checkout-stage__terms">
-              <li>Cancel any time before dispatch, no questions asked</li>
-              <li>Spread the cost with <span data-market-only="ae">Tabby or Tamara</span><span data-market-only="gb" hidden>Klarna</span> at no extra charge</li>
-              <li>Refunds within 5-10 business days</li>
-              <li>100 nights to change your mind once it arrives</li>
-              <li>15-year core warranty</li>
+              <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
+              <li>Spread the cost with <span data-market-only="ae">Tabby or Tamara</span><span data-market-only="gb" hidden>Klarna</span> at no extra charge.</li>
+              <li>Refunds returned to the original payment method within 5-10 business days.</li>
+              <li>100 nights to change your mind once it arrives.</li>
+              <li>15-year warranty on the spring core.</li>
+              <li>Handmade, so natural variation in fabric shade is possible. The construction is identical every time.</li>
             </ul>
 
             <a class="checkout-stage__back" href="../index.html#reserve">Back to sizes</a>
@@ -137,9 +145,54 @@
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="page-width site-footer__grid">
+        <div class="site-footer__brand">
+          <a class="wordmark wordmark--dark" href="../index.html" aria-label="Aligna Mattresses">
+            <span class="wordmark__lockup">
+              <span class="wordmark__text" data-brand-text>Aligna</span>
+              <span class="wordmark__product" data-brand-product-line>Mattresses</span>
+            </span>
+          </a>
+          <div class="site-footer__contact">
+            <p class="site-footer__company"><strong>Valtora FZE</strong></p>
+            <p>Sun-Thu, 9am-6pm GST</p>
+            <p class="site-footer__response">We reply within one working day.</p>
+            <p data-business-email-wrap><a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a></p>
+          </div>
+        </div>
+        <div>
+          <h3>Policies</h3>
+          <ul>
+            <li><a href="./trial.html">100-night trial</a></li>
+            <li><a href="./warranty.html">Warranty</a></li>
+            <li><a href="./refunds.html">Refunds &amp; cancellations</a></li>
+            <li><a href="./delivery.html">Delivery &amp; lead time</a></li>
+            <li><a href="./size-guide.html">Size guide</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./order-status.html">Order status</a></li>
+            <li><a href="./privacy.html">Privacy</a></li>
+            <li><a href="./terms.html">Terms</a></li>
+            <li><a href="./cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-width site-footer__bottom">
+        <span>&copy; 2026 <span data-brand-text>Aligna</span>.</span>
+        <span><a href="../index.html">Back to home</a></span>
+      </div>
+    </footer>
+
+
     <script>
       window.ValtoraTheme = { brandName: 'Aligna', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '../index.html' }, debugTrack: true };
     </script>
-    <script src="../theme.js?v=wo-v4-ty2"></script>
+    <div class="float-basket" data-float-basket data-sticky-reserve hidden>
+      <span class="float-basket__count" data-float-count>Choose a size</span>
+      <strong class="float-basket__total" data-float-total data-sticky-price></strong>
+      <a class="float-basket__btn" data-float-continue data-checkout-href="./checkout.html" href="../index.html#reserve">See sizes and prices</a>
+    </div>
+
+    <script src="../theme.js?v=wo-v9-favicon1"></script>
   </body>
 </html>

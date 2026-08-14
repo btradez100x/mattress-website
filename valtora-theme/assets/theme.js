@@ -16,6 +16,7 @@
       { id: 'double', label: 'Double', dims: '135 × 190 cm', firmness: 'Medium' },
       { id: 'king', label: 'King', dims: '150 × 200 cm', firmness: 'Medium' },
       { id: 'super-king', label: 'Super King', dims: '180 × 200 cm', firmness: 'Medium' },
+      { id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', firmness: 'Medium' },
     ],
   };
 
@@ -57,54 +58,297 @@
   function vTrack(name, params) {
     params = params || {};
     var body = document.body;
-    if (!params.market) {
-      params.market =
-        (body && body.getAttribute('data-market')) ||
-        document.documentElement.getAttribute('data-market') ||
-        detectMarket();
+    var market =
+      params.market ||
+      (body && body.getAttribute('data-market')) ||
+      document.documentElement.getAttribute('data-market') ||
+      detectMarket();
+    var paymentMode =
+      params.payment_mode ||
+      (body && body.getAttribute('data-payment-mode')) ||
+      (document.querySelector('[data-size-reserve]') &&
+        document.querySelector('[data-size-reserve]').getAttribute('data-payment-mode')) ||
+      'full';
+    var payload = Object.assign(
+      {
+        event: name,
+        market: market,
+        payment_mode: paymentMode,
+      },
+      params
+    );
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(payload);
+    // Legacy direct SDKs only when GTM is not present (no double-count).
+    if (!window.google_tag_manager) {
+      try {
+        if (typeof gtag === 'function') gtag('event', name, payload);
+        if (typeof fbq === 'function') fbq('trackCustom', name, payload);
+        if (typeof ttq !== 'undefined' && ttq.track) ttq.track(name, payload);
+      } catch (err) {}
     }
-    if (!params.price_set) {
-      params.price_set =
-        (body && body.getAttribute('data-price-set')) ||
-        (document.querySelector('[data-size-reserve]') &&
-          document.querySelector('[data-size-reserve]').getAttribute('data-price-set')) ||
-        'control';
-    }
-    if (!params.payment_mode) {
-      params.payment_mode =
-        (body && body.getAttribute('data-payment-mode')) ||
-        (document.querySelector('[data-size-reserve]') &&
-          document.querySelector('[data-size-reserve]').getAttribute('data-payment-mode')) ||
-        'full';
-    }
-    try {
-      if (typeof gtag === 'function') gtag('event', name, params);
-      if (typeof fbq === 'function') fbq('trackCustom', name, params);
-      if (typeof ttq !== 'undefined' && ttq.track) ttq.track(name, params);
-    } catch (err) {}
     if (window.ValtoraTheme && window.ValtoraTheme.debugTrack) {
-      console.info('[vTrack]', name, params);
+      console.info('[vTrack]', name, payload);
     }
   }
   window.vTrack = vTrack;
 
-  function parsePriceAmount(priceText) {
-    if (!priceText) return null;
-    var cleaned = String(priceText).replace(/[^\d.,]/g, '').replace(/,/g, '');
-    var n = parseFloat(cleaned);
-    return isFinite(n) && n > 0 ? n : null;
+  function vTrackOnce(name, params) {
+    var key = 'vt_' + name;
+    if (sessionFlag(key)) return;
+    setSessionFlag(key);
+    vTrack(name, params);
+  }
+  window.vTrackOnce = vTrackOnce;
+
+  function topEntryPoint() {
+    try {
+      var params = new URLSearchParams(location.search);
+      if (params.get('order') || params.get('t')) return 'portal';
+      var utm = (window.ValtoraUTM && window.ValtoraUTM.get && window.ValtoraUTM.get()) || {};
+      var src = String(utm.utm_source || '').toLowerCase();
+      var med = String(utm.utm_medium || '').toLowerCase();
+      if (med === 'email' || src.indexOf('email') !== -1) {
+        if (/life|post.?purchase|nurture/.test(src + med + String(utm.utm_campaign || ''))) {
+          return 'email_lifecycle';
+        }
+        return 'email_campaign';
+      }
+      if (med === 'social' || /instagram|facebook|tiktok|meta/.test(src)) return 'social';
+      var ref = document.referrer || '';
+      if (/comfort-top|swap/.test(location.pathname)) {
+        if (/reserve|#swap|index/.test(ref)) return 'mattress_page';
+      }
+      if (!ref) return 'direct';
+      try {
+        var host = new URL(ref).hostname;
+        if (host && host !== location.hostname) return 'organic';
+      } catch (e) {}
+      if (/reserve|index|swap/.test(ref)) return 'mattress_page';
+      return 'direct';
+    } catch (err) {
+      return 'direct';
+    }
   }
 
-  function formatMoneyLike(amount, sample) {
-    var rounded = Math.round(amount);
-    var sampleStr = String(sample || '');
-    if (/£/.test(sampleStr) || /GBP/i.test(sampleStr)) {
-      return '£' + rounded.toLocaleString('en-GB');
+  function firePurchaseOnce(params) {
+    params = params || {};
+    var orderId = params.order_id || params.orderId || 'unknown';
+    var key = 'purchase_fired_' + orderId;
+    if (sessionFlag(key) || sessionFlag('valtora_purchase')) return;
+    setSessionFlag(key);
+    setSessionFlag('valtora_purchase');
+    var utm = (window.ValtoraUTM && window.ValtoraUTM.get && window.ValtoraUTM.get()) || {};
+    var payload = Object.assign(
+      {
+        order_id: orderId,
+        value: params.value,
+        currency: params.currency || '',
+        line_count: params.line_count || 0,
+        units: params.units || 0,
+        order_value: params.order_value || params.value || '',
+      },
+      utm
+    );
+    // Strip internal UTM bookkeeping keys from the event payload.
+    delete payload._captured_at;
+    delete payload._landing_path;
+    vTrack('purchase', payload);
+    var last = OrderStore.readLastOrder && OrderStore.readLastOrder();
+    var lastLines = (last && last.lines) || params.lines || [];
+    lastLines.forEach(function (line) {
+      if (line.itemType !== 'top') return;
+      vTrack('top_purchase', {
+        size: line.sizeId || line.label || '',
+        firmness: line.firmness || '',
+        entry_point: topEntryPoint(),
+        owns_mattress: lastLines.some(function (l) { return l.itemType !== 'top'; }),
+      });
+    });
+  }
+  window.firePurchaseOnce = firePurchaseOnce;
+
+  function linePriceCents(line) {
+    if (!line) return 0;
+    var n = parseInt(line.priceRaw, 10);
+    return isFinite(n) && n > 0 ? n : 0;
+  }
+
+  function formatMoneyFromCents(cents, market) {
+    var major = Math.round(Number(cents) / 100);
+    if (!isFinite(major) || major < 0) major = 0;
+    if ((market || detectMarket()) === 'gb') {
+      return '£' + major.toLocaleString('en-GB');
     }
-    if (/AED/i.test(sampleStr)) {
-      return 'AED ' + rounded.toLocaleString('en-AE');
+    return 'AED ' + major.toLocaleString('en-AE');
+  }
+
+  function formatLineTotal(line) {
+    var qty = parseInt(line && line.quantity, 10) || 0;
+    return formatMoneyFromCents(linePriceCents(line) * qty, (line && line.market) || detectMarket());
+  }
+
+  function formatOrderTotal(lines, market) {
+    return formatMoneyFromCents(
+      OrderStore.orderValueCents(lines),
+      market || (lines && lines[0] && lines[0].market) || detectMarket()
+    );
+  }
+
+  function sizePriceRaw(size) {
+    if (!size) return 0;
+    var n = parseInt(size.price_raw != null ? size.price_raw : size.priceRaw, 10);
+    return isFinite(n) && n > 0 ? n : 0;
+  }
+
+  function marketFinanceName(mkt) {
+    return mkt === 'gb' ? 'Klarna' : 'Tabby or Tamara';
+  }
+
+  function refreshKlarnaPlacements() {
+    try {
+      if (
+        window.Klarna &&
+        window.Klarna.OnsiteMessaging &&
+        typeof window.Klarna.OnsiteMessaging.refresh === 'function'
+      ) {
+        window.Klarna.OnsiteMessaging.refresh();
+        return;
+      }
+    } catch (e) {}
+    try {
+      window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
+      window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
+    } catch (e2) {}
+  }
+
+  function splititLive() {
+    var theme = window.ValtoraTheme || {};
+    if (theme.splititEnabled === true) return true;
+    if (document.documentElement.getAttribute('data-splitit') === 'on') return true;
+    return !!document.querySelector('script[src*="web-components.splitit.com"]');
+  }
+
+  function hideSplititSlot(el) {
+    if (!el) return;
+    var slot = el.querySelector('[data-splitit-slot], spt-strip');
+    if (!slot) return;
+    slot.hidden = true;
+    slot.setAttribute('hidden', '');
+    if (el._splititTimer) {
+      window.clearTimeout(el._splititTimer);
+      el._splititTimer = null;
     }
-    return String(rounded);
+  }
+
+  function paintSplititSlot(el) {
+    var slot = el && el.querySelector('[data-splitit-slot], spt-strip');
+    if (!slot) return;
+    if (!splititLive()) {
+      hideSplititSlot(el);
+      return;
+    }
+    slot.hidden = false;
+    slot.removeAttribute('hidden');
+    if (el._splititTimer) window.clearTimeout(el._splititTimer);
+    el._splititTimer = window.setTimeout(function () {
+      var filled =
+        slot.childElementCount > 0 ||
+        (slot.shadowRoot && slot.shadowRoot.childElementCount > 0) ||
+        slot.offsetHeight > 12;
+      if (!filled) hideSplititSlot(el);
+    }, 3000);
+  }
+
+  function checkoutSizeParam(lines) {
+    return (lines || [])
+      .filter(function (line) {
+        return line.itemType !== 'top';
+      })
+      .map(function (line) {
+        return line.sizeId || line.label || '';
+      })
+      .filter(Boolean)
+      .join(', ');
+  }
+
+  function paintBnplMonthly(el, opts) {
+    if (!el) return;
+    opts = opts || {};
+    var lines = opts.lines || OrderStore.lines();
+    var mattressLines = (lines || []).filter(function (line) {
+      return line.itemType !== 'top';
+    });
+    var cents = opts.cents != null ? opts.cents : OrderStore.orderValueCents(lines);
+    var units = mattressLines.reduce(function (sum, line) {
+      return sum + (parseInt(line.quantity, 10) || 0);
+    }, 0);
+    var copy = el.querySelector('[data-bnpl-copy]');
+    var klarnaSlot = el.querySelector('[data-bnpl-klarna], klarna-placement');
+
+    function hideBnpl() {
+      el.hidden = true;
+      el.setAttribute('hidden', '');
+      if (copy) copy.textContent = '';
+      else if (!klarnaSlot) el.textContent = '';
+      if (klarnaSlot) {
+        klarnaSlot.setAttribute('hidden', '');
+        klarnaSlot.setAttribute('data-purchase-amount', '');
+      }
+      hideSplititSlot(el);
+      if (el._bnplTimer) {
+        window.clearTimeout(el._bnplTimer);
+        el._bnplTimer = null;
+      }
+    }
+
+    function setGeneric(text) {
+      if (klarnaSlot) klarnaSlot.setAttribute('hidden', '');
+      if (copy) copy.textContent = text;
+      else el.textContent = text;
+    }
+
+    if (!mattressLines.length || !units || !cents) {
+      hideBnpl();
+      return;
+    }
+
+    var mkt = opts.market || detectMarket();
+    el.hidden = false;
+    el.removeAttribute('hidden');
+    el.classList.add('bnpl-slot');
+
+    if (mkt === 'gb') {
+      paintSplititSlot(el);
+      var sdkLoaded = !!document.querySelector('script[src*="js.klarna.com"]');
+      if (sdkLoaded && klarnaSlot) {
+        if (copy) copy.textContent = '';
+        klarnaSlot.hidden = false;
+        klarnaSlot.removeAttribute('hidden');
+        klarnaSlot.setAttribute('data-purchase-amount', String(Math.round(cents)));
+        refreshKlarnaPlacements();
+        if (el._bnplTimer) window.clearTimeout(el._bnplTimer);
+        el._bnplTimer = window.setTimeout(function () {
+          var filled =
+            klarnaSlot &&
+            (klarnaSlot.childElementCount > 0 ||
+              (klarnaSlot.shadowRoot && klarnaSlot.shadowRoot.childElementCount > 0) ||
+              klarnaSlot.offsetHeight > 12);
+          if (!filled) setGeneric('Spread the cost with Klarna');
+        }, 3000);
+        return;
+      }
+      setGeneric('Spread the cost with Klarna');
+      return;
+    }
+
+    hideSplititSlot(el);
+    if (mkt === 'ae') {
+      setGeneric('Spread the cost with Tabby or Tamara');
+      return;
+    }
+
+    hideBnpl();
   }
 
   function sessionFlag(key) {
@@ -196,9 +440,7 @@
     if (!root || root.classList.contains('is-visible')) return false;
     root.classList.add('is-visible');
     root.querySelectorAll('[data-reveal-grouped]').forEach(function (el, i) {
-      if (!el.style.getPropertyValue('--reveal-delay')) {
-        el.style.setProperty('--reveal-delay', Math.min(i * 110, 660) + 'ms');
-      }
+      el.style.setProperty('--reveal-delay', i * 50 + 'ms');
       revealChild(el);
     });
     return true;
@@ -210,21 +452,46 @@
     });
   }
 
+  function skipMotion(el) {
+    if (!el || !el.closest) return false;
+    return !!el.closest(
+      '[data-top-price], [data-lead-window-label], [data-leadtime-copy], [data-leadtime-copy-top], [data-leadtime-copy-mixed], [data-leadtime-block], [data-lead-line], .checkout-stage__terms, .trust-policy__body'
+    );
+  }
+
   function tagChild(el, delayMs) {
     if (!el || el.hasAttribute('data-reveal-grouped')) return;
-    if (el.closest && el.closest('.hero')) return;
+    if (skipMotion(el)) return;
+    if (el.closest && el.closest('.hero, .mfg-hero')) return;
     el.setAttribute('data-reveal-child', '');
     if (delayMs != null && !el.style.getPropertyValue('--reveal-delay')) {
-      el.style.setProperty('--reveal-delay', delayMs + 'ms');
+      el.style.setProperty('--reveal-delay', Math.min(delayMs, 50) + 'ms');
     }
   }
 
+  function tagCascade(root, items, stepMs) {
+    if (!root || !items || !items.length) return;
+    var step = Math.min(stepMs == null ? 50 : stepMs, 50);
+    root.setAttribute('data-reveal-group', '');
+    items.forEach(function (el, i) {
+      if (skipMotion(el)) return;
+      el.setAttribute('data-reveal-child', '');
+      el.setAttribute('data-reveal-grouped', '');
+      el.style.setProperty('--reveal-delay', i * step + 'ms');
+    });
+  }
+
   function initReveal() {
+    if (window.Shopify && window.Shopify.designMode) {
+      document.documentElement.classList.add('shopify-design-mode');
+    }
     document.documentElement.classList.add('js-ready');
 
-    document.querySelectorAll('main .section, main .founder-note').forEach(function (sec) {
-      if (!sec.hasAttribute('data-reveal')) sec.setAttribute('data-reveal', '');
-    });
+    document
+      .querySelectorAll('main .section, main .founder-note, main .mfg-hero, main .article')
+      .forEach(function (sec) {
+        if (!sec.hasAttribute('data-reveal')) sec.setAttribute('data-reveal', '');
+      });
     document.querySelectorAll('.trust-bar--marquee').forEach(function (el) {
       el.removeAttribute('data-reveal');
       el.classList.remove('is-visible');
@@ -247,7 +514,10 @@
       ['.cool-touch__gallery', '.cool-touch__thumb'],
       ['.size-list', '.size-option'],
       ['.faq__list', '.faq__item'],
-      ['.layer-stack', 'li']
+      ['.layer-stack', 'li'],
+      ['.mfg-gallery__grid', '.mfg-gallery__item'],
+      ['.mfg-split__grid', '.mfg-split__card'],
+      ['.blog-index__grid', '.blog-card']
     ];
     staggerRoots.forEach(function (pair) {
       document.querySelectorAll(pair[0]).forEach(function (root) {
@@ -255,12 +525,7 @@
           return !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true';
         });
         if (!items.length) return;
-        root.setAttribute('data-reveal-group', '');
-        items.forEach(function (el, i) {
-          el.setAttribute('data-reveal-child', '');
-          el.setAttribute('data-reveal-grouped', '');
-          el.style.setProperty('--reveal-delay', Math.min(i * 140, 700) + 'ms');
-        });
+        tagCascade(root, items, pair[0].indexOf('mfg-gallery') !== -1 ? 90 : 140);
       });
     });
 
@@ -275,13 +540,38 @@
           items.push(el);
         });
       }
-      if (!items.length) return;
-      grid.setAttribute('data-reveal-group', '');
-      items.forEach(function (el, i) {
-        el.setAttribute('data-reveal-child', '');
-        el.setAttribute('data-reveal-grouped', '');
-        el.style.setProperty('--reveal-delay', Math.min(i * 140, 700) + 'ms');
+      tagCascade(grid, items, 140);
+    });
+
+    /* Manufacturing journey: portrait + story copy */
+    document.querySelectorAll('.mfg-story__grid').forEach(function (grid) {
+      var items = [];
+      var portrait = grid.querySelector('.mfg-story__portrait');
+      if (portrait) items.push(portrait);
+      var copy = grid.querySelector('.mfg-story__copy');
+      if (copy) {
+        Array.prototype.forEach.call(copy.children, function (el) {
+          items.push(el);
+        });
+      }
+      tagCascade(grid, items, 140);
+    });
+
+    /* Manufacturing hero copy entrance (CSS heroRise + reveal) */
+    document.querySelectorAll('.mfg-hero__copy').forEach(function (copy) {
+      var items = [];
+      Array.prototype.forEach.call(copy.children, function (el) {
+        items.push(el);
       });
+      tagCascade(copy, items, 100);
+    });
+
+    /* Journal article body blocks */
+    document.querySelectorAll('.article__header, .article__body, .article__cta').forEach(function (block, i) {
+      tagChild(block, Math.min(i * 100, 300));
+    });
+    document.querySelectorAll('.article__body > *').forEach(function (el, i) {
+      tagChild(el, Math.min(80 + i * 70, 560));
     });
 
     /* Before you reserve / how to measure: intro + steps + link */
@@ -296,13 +586,7 @@
           items.push(el);
         }
       });
-      if (!items.length) return;
-      inner.setAttribute('data-reveal-group', '');
-      items.forEach(function (el, i) {
-        el.setAttribute('data-reveal-child', '');
-        el.setAttribute('data-reveal-grouped', '');
-        el.style.setProperty('--reveal-delay', Math.min(i * 120, 720) + 'ms');
-      });
+      tagCascade(inner, items, 120);
     });
 
     /* All section headings + intro copy (hero keeps its own entrance) */
@@ -310,7 +594,7 @@
       tagChild(el, Math.min(i * 50, 250));
     });
     document.querySelectorAll('main .section__eyebrow, main .section__lede, main .gold-rule').forEach(function (el, i) {
-      if (el.closest('.benefit, .award, .offer__item, .ugc__card, .media-feature__card, .faq__item, .press__logo')) return;
+      if (el.closest('.benefit, .award, .offer__item, .ugc__card, .media-feature__card, .faq__item, .press__logo, .mfg-split__card, .blog-card, .mfg-gallery__item')) return;
       tagChild(el, Math.min(i * 40, 200));
     });
 
@@ -319,7 +603,9 @@
       '.media-feature__split-media',
       '.big-idea__copy',
       '.big-idea__media',
-      '.offer__cta'
+      '.offer__cta',
+      '.article__hero',
+      '.mfg-cta .btn'
     ];
     soloSelectors.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el, i) {
@@ -388,6 +674,7 @@
       requestAnimationFrame(sweepVisible);
     });
     setTimeout(sweepVisible, 80);
+    setTimeout(showAll, 900);
 
     var sticky = document.querySelector('[data-sticky-reserve]');
     if (sticky && 'MutationObserver' in window) {
@@ -396,8 +683,30 @@
     }
   }
 
+  function initSectionWipes() {
+    /* Do not clip dark sections. clip-path: inset(0 100% 0 0) hid Offer and
+       Swap on the storefront after Customizer save; the editor iframe often
+       skipped the observer so they looked fine until publish. */
+  }
+
+  function applyPreviewTopsFlag() {
+    var params;
+    try {
+      params = new URLSearchParams(location.search);
+    } catch (e) {
+      return;
+    }
+    if (params.get('tops') !== '1') return;
+    document.querySelectorAll('[data-comfort-top-cta]').forEach(function (el) {
+      el.hidden = false;
+    });
+    document.querySelectorAll('[data-comfort-tops-enabled], [data-size-reserve]').forEach(function (el) {
+      el.setAttribute('data-comfort-tops-enabled', 'true');
+    });
+  }
+
   function initScrollProgress() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!motionAllowed()) return;
     var bar = document.createElement('div');
     bar.className = 'scroll-progress';
     bar.setAttribute('aria-hidden', 'true');
@@ -416,21 +725,31 @@
   }
 
   function initParallax() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!motionAllowed()) return;
     if (window.matchMedia('(max-width: 899px)').matches) return;
-    /* Light heroes are stacked (Apple-style) - parallax only on dark lifestyle overlays */
-    var media = document.querySelector('.hero--dark .hero__media');
-    if (!media) return;
-    media.setAttribute('data-parallax', '');
-    var img = media.querySelector('img, video');
-    if (!img) return;
+    /* Dark heroes + manufacturing hero: soft media drift */
+    var targets = [];
+    var darkHero = document.querySelector('.hero--dark .hero__media');
+    if (darkHero) targets.push({ media: darkHero, amount: 36, scale: 1.06 });
+    var mfgHero = document.querySelector('.mfg-hero');
+    if (mfgHero) targets.push({ media: mfgHero, amount: 28, scale: 1.05 });
+    if (!targets.length) return;
+
+    targets.forEach(function (t) {
+      t.media.setAttribute('data-parallax', '');
+      t.img = t.media.querySelector('img, video');
+    });
 
     function update() {
-      var rect = media.getBoundingClientRect();
       var vh = window.innerHeight || 1;
-      if (rect.bottom < 0 || rect.top > vh) return;
-      var progress = (vh / 2 - (rect.top + rect.height / 2)) / vh;
-      img.style.transform = 'translate3d(0,' + (progress * 36).toFixed(2) + 'px,0) scale(1.06)';
+      targets.forEach(function (t) {
+        if (!t.img) return;
+        var rect = t.media.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > vh) return;
+        var progress = (vh / 2 - (rect.top + rect.height / 2)) / vh;
+        t.img.style.transform =
+          'translate3d(0,' + (progress * t.amount).toFixed(2) + 'px,0) scale(' + t.scale + ')';
+      });
     }
 
     window.addEventListener('scroll', update, { passive: true });
@@ -488,42 +807,80 @@
   var OrderStore = {
     KEY: 'valtora_order_lines',
     LAST_KEY: 'valtora_last_order',
-    read: function () {
+    parseBasket: function (raw) {
+      if (!raw) return null;
       try {
-        var sessRaw = sessionStorage.getItem(this.KEY);
-        var localRaw = null;
-        try {
-          localRaw = localStorage.getItem(this.KEY);
-        } catch (e) {}
-        var sessData = sessRaw ? JSON.parse(sessRaw) : null;
-        var localData = localRaw ? JSON.parse(localRaw) : null;
-        var sessLines = sessData && Array.isArray(sessData.lines) ? sessData.lines : [];
-        var localLines = localData && Array.isArray(localData.lines) ? localData.lines : [];
-        // Prefer the fuller basket so a stale session cannot hide lines
-        // still held in localStorage (common after multi-page preview hops).
-        var data =
-          localLines.length > sessLines.length
-            ? localData
-            : sessLines.length
-              ? sessData
-              : localData || sessData;
-        if (!data || !Array.isArray(data.lines)) return { lines: [] };
-        var payload = JSON.stringify(data);
-        sessionStorage.setItem(this.KEY, payload);
-        try {
-          localStorage.setItem(this.KEY, payload);
-        } catch (e2) {}
+        var data = JSON.parse(raw);
+        if (!data || !Array.isArray(data.lines)) return null;
         return data;
       } catch (e) {
-        return { lines: [] };
+        return null;
+      }
+    },
+    stampOf: function (data) {
+      if (!data) return 0;
+      var n = Number(data.updatedAt);
+      return isFinite(n) && n > 0 ? n : 0;
+    },
+    persistBoth: function (data) {
+      var payload = JSON.stringify(data);
+      try {
+        sessionStorage.setItem(this.KEY, payload);
+      } catch (e) {}
+      try {
+        localStorage.setItem(this.KEY, payload);
+      } catch (e2) {}
+      return data;
+    },
+    /**
+     * Pick the newest basket. Never prefer "more lines" - that resurrected
+     * sizes the shopper had already removed when session/local drifted.
+     */
+    chooseFreshest: function (sessData, localData) {
+      var s = this.stampOf(sessData);
+      var l = this.stampOf(localData);
+      if (s && l) return l > s ? localData : sessData;
+      if (s) return sessData;
+      if (l) return localData;
+      // Legacy unstamped payloads.
+      if (sessData && localData) {
+        // Recover basket when this tab's session is empty but local still has
+        // lines (multi-page hop). Never prefer local only because it is fuller —
+        // that resurrected removed sizes.
+        if ((!sessData.lines || !sessData.lines.length) && localData.lines && localData.lines.length) {
+          return localData;
+        }
+        return sessData;
+      }
+      return sessData || localData;
+    },
+    read: function () {
+      try {
+        var sessRaw = null;
+        var localRaw = null;
+        try {
+          sessRaw = sessionStorage.getItem(this.KEY);
+        } catch (e) {}
+        try {
+          localRaw = localStorage.getItem(this.KEY);
+        } catch (e2) {}
+        var sessData = this.parseBasket(sessRaw);
+        var localData = this.parseBasket(localRaw);
+        var data = this.chooseFreshest(sessData, localData);
+        if (!data) return { lines: [], updatedAt: Date.now() };
+        if (!data.updatedAt) data.updatedAt = Date.now();
+        // Keep both stores aligned to the winner so removals cannot bounce back.
+        this.persistBoth(data);
+        return data;
+      } catch (e) {
+        return { lines: [], updatedAt: Date.now() };
       }
     },
     write: function (data) {
-      var payload = JSON.stringify(data);
-      sessionStorage.setItem(this.KEY, payload);
-      try {
-        localStorage.setItem(this.KEY, payload);
-      } catch (e) {}
+      data = data || { lines: [] };
+      if (!Array.isArray(data.lines)) data.lines = [];
+      data.updatedAt = Date.now();
+      this.persistBoth(data);
       syncOrderChrome();
       document.dispatchEvent(new CustomEvent('valtora:order-changed', { detail: data }));
       return data;
@@ -540,15 +897,19 @@
     },
     readLastOrder: function () {
       try {
-        var sessRaw = sessionStorage.getItem(this.LAST_KEY);
+        var sessRaw = null;
         var localRaw = null;
         try {
-          localRaw = localStorage.getItem(this.LAST_KEY);
+          sessRaw = sessionStorage.getItem(this.LAST_KEY);
         } catch (e) {}
+        try {
+          localRaw = localStorage.getItem(this.LAST_KEY);
+        } catch (e2) {}
         var sessData = sessRaw ? JSON.parse(sessRaw) : null;
         var localData = localRaw ? JSON.parse(localRaw) : null;
         var sessLines = sessData && Array.isArray(sessData.lines) ? sessData.lines : [];
         var localLines = localData && Array.isArray(localData.lines) ? localData.lines : [];
+        // Last-order is a snapshot after checkout - prefer whichever has content.
         if (localLines.length > sessLines.length) return localData;
         return sessData || localData;
       } catch (e) {
@@ -564,14 +925,19 @@
         return sum + (parseInt(line.quantity, 10) || 0);
       }, 0);
     },
-    orderValue: function (lines) {
+    orderValueCents: function (lines) {
       lines = lines || this.lines();
       return lines.reduce(function (sum, line) {
-        var unit = parsePriceAmount(line.unitPrice) || 0;
-        return sum + unit * (parseInt(line.quantity, 10) || 0);
+        return sum + linePriceCents(line) * (parseInt(line.quantity, 10) || 0);
       }, 0);
     },
+    orderValue: function (lines) {
+      return this.orderValueCents(lines) / 100;
+    },
     addLine: function (line) {
+      if (line && line.itemType === 'top' && !comfortTopsEnabled()) {
+        return this.read();
+      }
       var data = this.read();
       var existing = data.lines.find(function (l) {
         return l.itemType === line.itemType && l.sizeId === line.sizeId && l.firmness === line.firmness;
@@ -579,6 +945,8 @@
       if (existing) {
         existing.quantity =
           (parseInt(existing.quantity, 10) || 0) + (parseInt(line.quantity, 10) || 1);
+        if (line.priceRaw != null) existing.priceRaw = line.priceRaw;
+        if (line.unitPrice) existing.unitPrice = line.unitPrice;
       } else {
         line.key = line.itemType + '-' + line.sizeId + '-' + Date.now();
         data.lines.push(line);
@@ -601,10 +969,13 @@
         cur.label = line.label || cur.label;
         cur.dims = line.dims || cur.dims;
         cur.unitPrice = line.unitPrice || cur.unitPrice;
+        cur.priceRaw = line.priceRaw != null ? line.priceRaw : cur.priceRaw;
         cur.variantId = line.variantId || cur.variantId;
         cur.firmness = line.firmness || cur.firmness;
         cur.market = line.market || cur.market;
         cur.leadWindow = line.leadWindow || cur.leadWindow;
+        cur.leadMin = line.leadMin != null ? line.leadMin : cur.leadMin;
+        cur.leadMax = line.leadMax != null ? line.leadMax : cur.leadMax;
         cur.itemType = 'mattress';
       } else {
         line.itemType = 'mattress';
@@ -615,8 +986,24 @@
     },
     removeLine: function (key) {
       var data = this.read();
+      if (!key) return this.write(data);
+      var before = data.lines.length;
       data.lines = data.lines.filter(function (l) {
         return l.key !== key;
+      });
+      // Fallback if UI key drifted: also match sizeId.
+      if (data.lines.length === before) {
+        data.lines = data.lines.filter(function (l) {
+          return l.sizeId !== key;
+        });
+      }
+      return this.write(data);
+    },
+    removeMattressSize: function (sizeId) {
+      var data = this.read();
+      data.lines = data.lines.filter(function (l) {
+        if (l.itemType === 'top') return true;
+        return l.sizeId !== sizeId;
       });
       return this.write(data);
     },
@@ -624,6 +1011,130 @@
       return this.write({ lines: [] });
     },
   };
+
+  function comfortTopsEnabled() {
+    var el =
+      document.querySelector('[data-comfort-tops-enabled]') ||
+      document.querySelector('[data-size-reserve]') ||
+      document.querySelector('[data-comfort-top]');
+    if (!el) return false;
+    return el.getAttribute('data-comfort-tops-enabled') === 'true';
+  }
+
+  function resolveCartLeadTime(lines) {
+    var max = 0;
+    var min = 0;
+    (lines || []).forEach(function (l) {
+      var lmax = parseInt(l.leadMax, 10) || 0;
+      var lmin = parseInt(l.leadMin, 10) || 0;
+      if (lmax > max) {
+        max = lmax;
+        min = lmin;
+      }
+    });
+    var types = { mattress: false, top: false };
+    (lines || []).forEach(function (l) {
+      if (l.itemType === 'top') types.top = true;
+      else types.mattress = true;
+    });
+    var mix = 'mattress';
+    if (types.top && types.mattress) mix = 'mixed';
+    else if (types.top) mix = 'top';
+    return {
+      min: min,
+      max: max,
+      display: min === max ? max + ' weeks' : min + ' to ' + max + ' weeks',
+      mix: mix,
+    };
+  }
+
+  function sizesAndPricesHref() {
+    if (document.getElementById('reserve')) return '#reserve';
+    var path = location.pathname || '';
+    if (/\/pages\//.test(path) || /\/blog\//.test(path)) return '../index.html#reserve';
+    if (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.root != null) {
+      var root = String(window.ValtoraTheme.routes.root || '/');
+      if (root.slice(-1) !== '/') root += '/';
+      return root + '#reserve';
+    }
+    return '/#reserve';
+  }
+
+  function resolveCheckoutHref(el) {
+    if (!el) return reviewOrderUrl();
+    var stored = el.getAttribute('data-checkout-href');
+    if (stored) return stored;
+    var href = el.getAttribute('href') || '';
+    if (href && href.charAt(0) !== '#' && /checkout/i.test(href)) {
+      el.setAttribute('data-checkout-href', href);
+      return href;
+    }
+    var fallback = reviewOrderUrl();
+    el.setAttribute('data-checkout-href', fallback);
+    return fallback;
+  }
+
+  function applyOrderCtaLabels(hasLines) {
+    // Side basket on #reserve: hide CTA when empty (already on sizes). With lines → Checkout.
+    // Floating bar: empty → See sizes and prices; lined → Checkout.
+    var sizesHref = sizesAndPricesHref();
+    document.querySelectorAll('[data-reserve-continue]').forEach(function (el) {
+      if (el.hasAttribute('data-float-continue')) return;
+      var wrap = el.closest('[data-order-retail]');
+      if (wrap) {
+        wrap.hidden = !hasLines;
+        if (hasLines) wrap.removeAttribute('hidden');
+        else wrap.setAttribute('hidden', '');
+      }
+      el.textContent = 'Checkout';
+      if (!hasLines) {
+        el.setAttribute('aria-disabled', 'true');
+        return;
+      }
+      var checkoutHref = resolveCheckoutHref(el);
+      if (el.tagName === 'A' || el.tagName === 'a') {
+        el.setAttribute('href', checkoutHref);
+        el.setAttribute('aria-disabled', 'false');
+        el.removeAttribute('disabled');
+      } else {
+        el.disabled = false;
+        el.setAttribute('aria-disabled', 'false');
+      }
+    });
+    document.querySelectorAll('[data-float-continue]').forEach(function (el) {
+      var checkoutHref = resolveCheckoutHref(el);
+      el.textContent = hasLines ? 'Checkout' : 'See sizes and prices';
+      if (el.tagName === 'A' || el.tagName === 'a') {
+        el.setAttribute('href', hasLines ? checkoutHref : sizesHref);
+        el.setAttribute('aria-disabled', 'false');
+        el.removeAttribute('disabled');
+      } else {
+        el.disabled = false;
+        el.setAttribute('aria-disabled', 'false');
+      }
+    });
+  }
+
+  function mattressUnitsFromLines(lines) {
+    return (lines || []).reduce(function (sum, line) {
+      if (line.itemType === 'top') return sum;
+      return sum + (parseInt(line.quantity, 10) || 0);
+    }, 0);
+  }
+
+  function paintFloatBasketFromStore() {
+    var countEl = document.querySelector('[data-float-count]');
+    var totalEl = document.querySelector('[data-float-total]');
+    var continueEls = document.querySelectorAll('[data-float-continue]');
+    if (!countEl && !totalEl && !continueEls.length) return;
+    var lines = OrderStore.lines();
+    var n = mattressUnitsFromLines(lines);
+    var hasLines = lines.length > 0 || n > 0;
+    var totalText = hasLines ? formatOrderTotal(lines) : '';
+    if (countEl) countEl.textContent = hasLines ? (n === 1 ? '1 MATTRESS' : n + ' MATTRESSES') : 'Choose a size';
+    if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
+    applyOrderCtaLabels(hasLines);
+  }
 
   function syncOrderChrome() {
     var lines = OrderStore.lines();
@@ -636,12 +1147,7 @@
       el.textContent = String(lineCount);
       el.hidden = !show;
     });
-  }
-
-  function multiplyPriceText(priceText, qty) {
-    var amount = parsePriceAmount(priceText);
-    if (!amount) return priceText || '';
-    return formatMoneyLike(amount * qty, priceText);
+    paintFloatBasketFromStore();
   }
 
   function reviewOrderUrl() {
@@ -649,8 +1155,15 @@
     if (tagged && tagged.getAttribute('data-checkout-path')) {
       return tagged.getAttribute('data-checkout-path');
     }
-    var link = document.querySelector('[data-reserve-continue][href], [data-float-continue][href]');
-    if (link && link.getAttribute('href')) return link.getAttribute('href');
+    var link = document.querySelector(
+      '[data-float-continue][data-checkout-href], [data-reserve-continue][data-checkout-href], [data-reserve-continue][href], [data-float-continue][href]'
+    );
+    if (link) {
+      var stored = link.getAttribute('data-checkout-href');
+      if (stored) return stored;
+      var href = link.getAttribute('href');
+      if (href && href.charAt(0) !== '#' && /checkout/i.test(href)) return href;
+    }
     if (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.review) {
       return window.ValtoraTheme.routes.review;
     }
@@ -668,8 +1181,12 @@
     if (!root || root.getAttribute('data-reserve-ready') === '1') return;
     root.setAttribute('data-reserve-ready', '1');
 
+    var addLabel = (
+      root.getAttribute('data-add-label') ||
+      (window.ValtoraTheme && window.ValtoraTheme.sizeAddLabel) ||
+      'Add'
+    ).trim() || 'Add';
     var market = root.getAttribute('data-market') || detectMarket();
-    var priceSet = root.getAttribute('data-price-set') || 'control';
     var paymentMode = root.getAttribute('data-payment-mode') || 'full';
     var leadtimePlacement = root.getAttribute('data-leadtime-placement') || 'staged';
     var financeName = root.getAttribute('data-finance-name') || (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
@@ -707,9 +1224,11 @@
     var largeAck = root.querySelector('[data-order-large-ack]');
     var largeCopy = root.querySelector('[data-order-large-copy]');
     var leadWindow = root.getAttribute('data-lead-window') || '8 to 10 weeks';
+    var leadMin = parseInt(root.getAttribute('data-lead-min'), 10) || 8;
+    var leadMax = parseInt(root.getAttribute('data-lead-max'), 10) || 10;
     var comfortTopPrice = root.getAttribute('data-comfort-top-price') || '';
     var comfortTopVariant = root.getAttribute('data-comfort-top-variant') || '';
-    var defaultFirmness = root.getAttribute('data-default-firmness') || 'Medium';
+    var defaultFirmness = root.getAttribute('data-default-firmness') || 'Soft / firm';
     var largeThresholdGb = parseInt(root.getAttribute('data-large-order-threshold-gb'), 10) || 10000;
     var largeThresholdAe = parseInt(root.getAttribute('data-large-order-threshold-ae'), 10) || 47000;
     var unitPriceText = '';
@@ -722,21 +1241,49 @@
       return n;
     }
 
-    function largeOrderThreshold(samplePrice) {
-      var p = String(samplePrice || unitPriceText || '');
-      if (/£|GBP/i.test(p) || market === 'gb') return largeThresholdGb;
-      return largeThresholdAe;
+    function largeOrderThreshold() {
+      return market === 'gb' ? largeThresholdGb : largeThresholdAe;
     }
 
-    function isLargeOrderValue(value, samplePrice) {
-      return value >= largeOrderThreshold(samplePrice);
+    function isLargeOrderValue(value) {
+      return value >= largeOrderThreshold();
     }
 
-    function lineQtyForSize(sizeId) {
+    function normalizeSizeId(value) {
+      return String(value || '')
+        .toLowerCase()
+        .replace(/\(uae\)/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    }
+
+    function lineQtyForSize(sizeId, variantId) {
+      var nid = normalizeSizeId(sizeId);
+      var vid = variantId ? String(variantId) : '';
       var line = OrderStore.lines().find(function (l) {
-        return (l.itemType === 'mattress' || !l.itemType) && l.sizeId === sizeId;
+        if (l.itemType === 'top') return false;
+        if (vid && String(l.variantId || l.variant_id || '') === vid) return true;
+        if (l.sizeId === sizeId) return true;
+        if (normalizeSizeId(l.sizeId) === nid) return true;
+        if (normalizeSizeId(l.label) === nid) return true;
+        return false;
       });
       return line ? parseInt(line.quantity, 10) || 0 : 0;
+    }
+
+    function sizeFromRow(row) {
+      if (!row) return currentSize();
+      return {
+        id: row.getAttribute('data-size-id') || '',
+        label: row.getAttribute('data-size-label') || '',
+        dims: row.getAttribute('data-size-dims') || '',
+        price: row.getAttribute('data-size-price') || '',
+        price_raw: parseInt(row.getAttribute('data-size-price-raw'), 10) || 0,
+        firmness: defaultFirmness,
+        variantId: row.getAttribute('data-size-variant') || '',
+        available: row.getAttribute('data-available') !== 'false' &&
+          row.getAttribute('data-request-size') !== 'true',
+      };
     }
 
     function syncSizeQtyUi() {
@@ -744,27 +1291,38 @@
       list.querySelectorAll('.size-option').forEach(function (btn) {
         var wrap = btn.querySelector('[data-size-qty]');
         var valEl = btn.querySelector('[data-qty-val]');
+        var addBtn = btn.querySelector('[data-qty-add]');
+        var stepper = btn.querySelector('[data-qty-stepper]');
         if (!wrap) return;
         var available = btn.getAttribute('data-available') !== 'false';
         var sizeId = btn.getAttribute('data-size-id');
-        var q = lineQtyForSize(sizeId);
-        if (valEl) valEl.textContent = String(q);
+        var q = lineQtyForSize(sizeId, btn.getAttribute('data-size-variant'));
+        var inBasket = q > 0;
+        btn.classList.toggle('is-in-basket', inBasket);
+        if (valEl) valEl.textContent = String(Math.max(q, 1));
         wrap.hidden = !available;
+        wrap.setAttribute('data-qty-mode', inBasket ? 'stepper' : 'add');
+        if (addBtn) {
+          addBtn.hidden = inBasket;
+          addBtn.setAttribute(
+            'aria-label',
+            addLabel + ' ' + (btn.getAttribute('data-size-label') || 'size')
+          );
+        }
+        if (stepper) stepper.hidden = !inBasket;
         var dec = btn.querySelector('[data-qty-dec]');
         if (dec) dec.disabled = q < 1;
       });
     }
 
     function updateContinueState() {
-      if (!continueBtn) return;
       var hasLines = displayLines().length > 0;
-      continueBtn.disabled = !hasLines;
-      continueBtn.setAttribute('aria-disabled', hasLines ? 'false' : 'true');
+      applyOrderCtaLabels(hasLines);
     }
 
     function upsertActiveMattress(qty, opts) {
       opts = opts || {};
-      var size = currentSize();
+      var size = opts.size || currentSize();
       if (!size.available || !size.id || size.id === 'custom-request') return;
       if (qtyInput) qtyInput.value = String(Math.max(1, qty));
       unitPriceText = size.price || unitPriceText;
@@ -778,10 +1336,13 @@
         dims: size.dims,
         firmness: defaultFirmness,
         unitPrice: size.price,
-        variantId: size.variantId || '',
+        priceRaw: sizePriceRaw(size),
+        variantId: size.variantId || size.variant_id || '',
         quantity: qty,
         market: market,
         leadWindow: leadWindow,
+        leadMin: leadMin,
+        leadMax: leadMax,
       });
       var after = OrderStore.lines().filter(function (l) {
         return l.itemType === 'mattress' || !l.itemType;
@@ -799,10 +1360,6 @@
 
     function refreshTotals() {
       var lines = OrderStore.lines();
-      var sample = unitPriceText || (lines[0] && lines[0].unitPrice) || '';
-      var totalVal = OrderStore.orderValue(lines);
-      var totalText = sample || totalVal ? formatMoneyLike(totalVal, sample || (market === 'gb' ? '£1' : 'AED 1')) : '';
-      updateBnpl(totalText, 1);
       if (qtyService) qtyService.hidden = mattressUnits(lines) <= 4;
       renderOrderPanel();
     }
@@ -816,10 +1373,13 @@
         dims: size.dims,
         firmness: defaultFirmness,
         unitPrice: size.price,
-        variantId: size.variantId || '',
+        priceRaw: sizePriceRaw(size),
+        variantId: size.variantId || size.variant_id || '',
         quantity: getQty(),
         market: market,
         leadWindow: leadWindow,
+        leadMin: leadMin,
+        leadMax: leadMax,
       };
     }
 
@@ -837,19 +1397,21 @@
     function updateFloatBasket(lines, totalText, units) {
       var countEl = document.querySelector('[data-float-count]');
       var totalEl = document.querySelector('[data-float-total]');
-      if (!countEl && !totalEl) return;
+      var continueEls = document.querySelectorAll('[data-float-continue]');
+      if (!countEl && !totalEl && !continueEls.length) return;
       var n = units != null ? units : mattressUnits(lines || []);
       var label = n === 1 ? '1 MATTRESS' : n + ' MATTRESSES';
-      if (countEl) countEl.textContent = label;
-      if (totalEl) totalEl.textContent = totalText || '-';
+      var hasLines = (lines || []).length > 0 || n > 0;
+      if (countEl) countEl.textContent = hasLines ? label : 'Choose a size';
+      if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
+      applyOrderCtaLabels(hasLines);
     }
 
     function renderOrderPanel() {
       var lines = displayLines();
-      var sample = unitPriceText || (lines[0] && lines[0].unitPrice) || '';
       var totalVal = OrderStore.orderValue(lines);
       var units = mattressUnits(lines);
-      var totalText = sample || totalVal ? formatMoneyLike(totalVal, sample || (market === 'gb' ? '£1' : 'AED 1')) : '-';
+      var totalText = totalVal ? formatOrderTotal(lines, market) : '-';
 
       if (lines.length && !sessionFlag('valtora_view_order_summary')) {
         try { sessionStorage.setItem('valtora_view_order_summary', '1'); } catch (e) {}
@@ -867,9 +1429,8 @@
         } else {
           linesList.innerHTML = lines
             .map(function (line) {
-              var unit = parsePriceAmount(line.unitPrice) || 0;
               var qty = parseInt(line.quantity, 10) || 0;
-              var total = formatMoneyLike(unit * qty, line.unitPrice);
+              var total = formatLineTotal(line);
               var title =
                 line.itemType === 'top'
                   ? 'Spare comfort top · ' + (line.label || '')
@@ -905,6 +1466,18 @@
         orderTotalLabel.textContent = units > 1 ? 'Total · ' + units + ' mattresses' : 'Total';
       }
 
+      if (retailWrap) {
+        retailWrap.hidden = !lines.length;
+        if (lines.length) retailWrap.removeAttribute('hidden');
+        else retailWrap.setAttribute('hidden', '');
+      }
+      paintBnplMonthly(bnplEl, {
+        lines: lines,
+        orderVal: totalVal,
+        sample: (lines[0] && lines[0].unitPrice) || '',
+        market: root.getAttribute('data-market') || market || detectMarket(),
+      });
+
       if (stageBSummary) {
         var mattressLines = lines.filter(function (l) { return l.itemType !== 'top'; });
         stageBSummary.textContent = mattressLines
@@ -923,13 +1496,10 @@
 
       if (topSuggest) topSuggest.hidden = true;
 
-      var large = isLargeOrderValue(totalVal, sample);
+      var large = isLargeOrderValue(totalVal);
       if (largeTerms) largeTerms.hidden = !large;
       if (large && largeCopy) {
-        var thrLabel = formatMoneyLike(
-          largeOrderThreshold(sample),
-          sample || (market === 'gb' ? '£1' : 'AED 1')
-        );
+        var thrLabel = formatMoneyFromCents(largeOrderThreshold(market) * 100, market);
         largeCopy.textContent =
           'Orders of ' +
           thrLabel +
@@ -949,10 +1519,6 @@
         if (largeAck) largeAck.checked = false;
       }
       updateContinueState();
-    }
-
-    if (document.body && !document.body.getAttribute('data-price-set')) {
-      document.body.setAttribute('data-price-set', priceSet);
     }
 
     if (stageB) {
@@ -985,23 +1551,10 @@
       } catch (e) {}
     }
     function filterSizesForMarket(mkt) {
-      function currencyOk(price) {
-        var p = String(price || '');
-        if (mkt === 'gb') return /£|GBP/i.test(p) && !/AED/i.test(p);
-        if (mkt === 'ae') return /AED/i.test(p) && !/£/.test(p);
-        return true;
-      }
-      var rows = allRows.filter(function (row) {
-        if (row.price_set && String(row.price_set).toLowerCase() !== String(priceSet).toLowerCase()) {
-          return false;
-        }
+      return allRows.filter(function (row) {
         if (row.market && row.market !== mkt) return false;
-        if (row.price && !currencyOk(row.price)) return false;
-        if (!row.market && !row.price) return false;
         return true;
       });
-      if (!rows.length) return SIZE_MAPS[mkt] || SIZE_MAPS.ae;
-      return rows;
     }
     sizes = filterSizesForMarket(market);
 
@@ -1009,7 +1562,6 @@
       var size = currentSize();
       var base = {
         market: market,
-        price_set: priceSet,
         payment_mode: paymentMode,
         leadtime_placement: leadtimePlacement,
         size: size.id || '',
@@ -1028,6 +1580,19 @@
       if (notifyPanel) notifyPanel.hidden = mode !== 'notify';
       if (requestPanel) requestPanel.hidden = mode !== 'request';
       if (mode !== 'available') collapseStageB(true);
+      // Unavailable / request: move the basket to the bottom float bar (sidebar
+      // is taken over by notify / request forms). Available again: float can hide
+      // while #reserve is in view — the side cart represents the order.
+      try {
+        document.documentElement.setAttribute(
+          'data-float-basket-force',
+          mode === 'notify' || mode === 'request' ? '1' : '0'
+        );
+        document.dispatchEvent(
+          new CustomEvent('valtora:float-basket-mode', { detail: { mode: mode } })
+        );
+        paintFloatBasketFromStore();
+      } catch (e) {}
     }
 
     function collapseStageB(silent) {
@@ -1036,6 +1601,14 @@
       if (continueBtn) continueBtn.setAttribute('aria-expanded', 'false');
       var stageA = root.querySelector('[data-reserve-stage-a]');
       if (stageA) stageA.hidden = false;
+      root.classList.remove('is-confirming');
+      try {
+        var url = new URL(window.location.href);
+        if (url.searchParams.get('step') === 'confirm') {
+          url.searchParams.delete('step');
+          history.replaceState({ valtoraStep: 'basket' }, '', url.toString());
+        }
+      } catch (e) {}
     }
 
     function expandStageB() {
@@ -1045,6 +1618,38 @@
       if (continueBtn) continueBtn.setAttribute('aria-expanded', 'true');
       var stageA = root.querySelector('[data-reserve-stage-a]');
       if (stageA) stageA.hidden = true;
+      // Do not use is-confirming single-column mode — keep sizes + panel layout.
+      root.classList.remove('is-confirming');
+      try {
+        var url = new URL(window.location.href);
+        if (url.searchParams.get('step') !== 'confirm') {
+          url.searchParams.set('step', 'confirm');
+          history.pushState({ valtoraStep: 'confirm' }, '', url.toString());
+        }
+      } catch (e) {}
+      if (!sessionFlag('valtora_view_leadtime_' + (root.getAttribute('data-reserve-instance') || '1'))) {
+        try {
+          sessionStorage.setItem(
+            'valtora_view_leadtime_' + (root.getAttribute('data-reserve-instance') || '1'),
+            '1'
+          );
+        } catch (e) {}
+        vTrackOnce('view_leadtime', eventParams({
+          line_count: OrderStore.lines().length,
+          units: OrderStore.units(),
+          order_value: OrderStore.orderValue(),
+        }));
+      }
+      if (payLabel) {
+        var linesNow = OrderStore.lines();
+        var sampleNow = unitPriceText || (linesNow[0] && linesNow[0].unitPrice) || '';
+        var totalNow = OrderStore.orderValue(linesNow);
+        var totalTextNow = totalNow ? formatOrderTotal(linesNow, market) : '';
+        if (totalTextNow) payLabel.textContent = 'Pay ' + totalTextNow;
+        else if (!payLabel.textContent || !String(payLabel.textContent).trim()) {
+          payLabel.textContent = 'Pay';
+        }
+      }
       try {
         stageB.focus({ preventScroll: true });
       } catch (e) {
@@ -1055,20 +1660,8 @@
       stageB.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    function updateBnpl(priceText, qty) {
-      if (!bnplEl) return;
-      qty = qty || getQty();
-      var amount = parsePriceAmount(priceText);
-      var monthly = amount ? (amount * qty) / 12 : null;
-      if (monthly) {
-        bnplEl.textContent =
-          'or from ' + formatMoneyLike(monthly, priceText) + '/month with ' + financeName;
-      }
-    }
-
-    function syncSticky(btn) {
-      /* Float basket totals are owned by renderOrderPanel / updateFloatBasket */
-      if (!btn) updateFloatBasket([], '-', 0);
+    function syncSticky() {
+      paintFloatBasketFromStore();
     }
 
     function updateRequestWhatsApp() {
@@ -1108,16 +1701,25 @@
       unitPriceText = isRequest ? '' : priceText;
       if (!opts.silent) collapseStageB(true);
       setMode(isRequest ? 'request' : available ? 'available' : 'notify');
-      syncSticky(isRequest ? null : btn);
+      syncSticky();
       if (isRequest) {
         if (priceEl) priceEl.textContent = priceText;
+        refreshTotals();
       } else if (available) {
-        var existingQty = lineQtyForSize(btn.getAttribute('data-size-id'));
+        var existingQty = lineQtyForSize(
+          btn.getAttribute('data-size-id'),
+          btn.getAttribute('data-size-variant')
+        );
         if (qtyInput) qtyInput.value = String(existingQty > 0 ? existingQty : 1);
         syncSizeQtyUi();
         refreshTotals();
         if (!opts.silent) {
-          vTrack('select_size', eventParams({ quantity: existingQty, price: parsePriceAmount(priceText) || undefined }));
+          vTrack('select_size', eventParams({
+            size: btn.getAttribute('data-size-label') || btn.getAttribute('data-size-id') || '',
+            quantity: existingQty > 0 ? existingQty : 1,
+            value: sizePriceRaw(currentSize()) / 100 || undefined,
+            price: sizePriceRaw(currentSize()) / 100 || undefined,
+          }));
         }
       } else {
         syncSizeQtyUi();
@@ -1137,16 +1739,14 @@
       }
       if (notifyBodyInput) {
         notifyBodyInput.value =
-          'Please notify me when this size is available.\n\nSize: ' +
+          'Please notify me when this size opens in the allocation.\n\nSize: ' +
           sizeLabel +
           ' - ' +
           sizeDims +
           '\nSize ID: ' +
           sizeId +
           '\nMarket: ' +
-          String(market).toUpperCase() +
-          '\nPrice set: ' +
-          priceSet;
+          String(market).toUpperCase();
       }
     }
 
@@ -1176,6 +1776,13 @@
       sizes.forEach(function (s, i) {
         var available = s.available !== false;
         var popular = !!s.popular;
+        var dims = s.dims;
+        if (!dims) {
+          var mapped = (SIZE_MAPS[market] || []).filter(function (row) {
+            return row.id === s.id;
+          })[0];
+          dims = mapped && mapped.dims ? mapped.dims : '';
+        }
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className =
@@ -1186,10 +1793,13 @@
         btn.setAttribute('aria-selected', 'false');
         btn.setAttribute('data-size-id', s.id);
         btn.setAttribute('data-size-label', s.label);
-        btn.setAttribute('data-size-dims', s.dims);
+        btn.setAttribute('data-size-dims', dims);
         btn.setAttribute('data-size-price', s.price || '');
+        btn.setAttribute('data-size-price-raw', String(sizePriceRaw(s)));
         btn.setAttribute('data-size-firmness', s.firmness || 'Medium');
-        if (s.variant_id) btn.setAttribute('data-size-variant', String(s.variant_id));
+        if (s.variant_id || s.variantId) {
+          btn.setAttribute('data-size-variant', String(s.variant_id || s.variantId));
+        }
         btn.setAttribute('data-available', available ? 'true' : 'false');
         btn.innerHTML =
           '<span class="size-option__marker" aria-hidden="true"></span>' +
@@ -1201,15 +1811,20 @@
             : '') +
           '</span>' +
           '<span class="size-option__dims">' +
-          s.dims +
-          (available ? '' : ' · Not yet available') +
+          dims +
+          (available ? '' : ' · Not in this allocation') +
           '</span>' +
           '</span>' +
           (available
-            ? '<span class="size-option__qty" data-size-qty>' +
+            ? '<span class="size-option__qty" data-size-qty data-qty-mode="add">' +
+              '<button type="button" class="size-option__add" data-qty-add>' +
+              addLabel.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') +
+              '</button>' +
+              '<span class="size-option__stepper" data-qty-stepper hidden>' +
               '<button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease quantity">−</button>' +
-              '<span class="size-option__qty-val" data-qty-val>0</span>' +
+              '<span class="size-option__qty-val" data-qty-val>1</span>' +
               '<button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase quantity">+</button>' +
+              '</span>' +
               '</span>'
             : '<span class="size-option__qty size-option__qty--spacer" aria-hidden="true"></span>') +
           (available && s.price
@@ -1220,6 +1835,7 @@
         list.appendChild(btn);
         if (i === defaultIdx) applySelection(btn, { silent: true });
       });
+      syncSizeQtyUi();
     }
 
     if (list && !list.children.length) {
@@ -1231,7 +1847,6 @@
 
     root._valtoraOnMarketChange = function () {
       market = root.getAttribute('data-market') || detectMarket();
-      priceSet = root.getAttribute('data-price-set') || priceSet || 'control';
       paymentMode = root.getAttribute('data-payment-mode') || paymentMode || 'full';
       leadtimePlacement = root.getAttribute('data-leadtime-placement') || leadtimePlacement || 'staged';
       financeName =
@@ -1247,13 +1862,25 @@
         (list && list.querySelector('.size-option.is-active')) ||
         (requestTrigger && requestTrigger.classList.contains('is-active') ? requestTrigger : null);
       var fallback = sizes[0] || { id: '', label: '', dims: '', price: '', available: true };
+      var id = active ? active.getAttribute('data-size-id') : fallback.id;
+      var fromList =
+        sizes.find(function (s) {
+          return s.id === id;
+        }) || fallback;
       return {
-        id: active ? active.getAttribute('data-size-id') : fallback.id,
+        id: id,
         label: active ? active.getAttribute('data-size-label') : fallback.label,
         dims: active ? active.getAttribute('data-size-dims') : fallback.dims,
         price: active ? active.getAttribute('data-size-price') : fallback.price || '',
+        price_raw:
+          parseInt(active && active.getAttribute('data-size-price-raw'), 10) ||
+          sizePriceRaw(fromList),
         firmness: defaultFirmness,
-        variantId: active ? active.getAttribute('data-size-variant') || '' : '',
+        variantId:
+          (active && active.getAttribute('data-size-variant')) ||
+          fromList.variant_id ||
+          fromList.variantId ||
+          '',
         available: active
           ? active.getAttribute('data-available') !== 'false' &&
             active.getAttribute('data-request-size') !== 'true'
@@ -1263,25 +1890,25 @@
 
     if (list) {
       list.addEventListener('click', function (e) {
+        var add = e.target.closest('[data-qty-add]');
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
-        if (dec || inc) {
+        if (add || dec || inc) {
           e.preventDefault();
           e.stopPropagation();
           var row = e.target.closest('.size-option');
-          if (!row) return;
+          if (!row || row.getAttribute('data-available') === 'false') return;
+          // Size edits always return to Stage A — never leave Stage B open on a stale summary.
+          collapseStageB(true);
           var sizeId = row.getAttribute('data-size-id');
-          var q = lineQtyForSize(sizeId);
+          var q = lineQtyForSize(sizeId, row.getAttribute('data-size-variant'));
+          if (add) q = 1;
           if (dec) q -= 1;
-          if (inc) q = Math.min(999, q + 1);
+          if (inc) q = q + 1;
           if (q < 1) {
-            var existing = OrderStore.lines().find(function (l) {
-              return (l.itemType === 'mattress' || !l.itemType) && l.sizeId === sizeId;
-            });
-            if (existing && existing.key) OrderStore.removeLine(existing.key);
+            OrderStore.removeMattressSize(sizeId);
             if (qtyInput) qtyInput.value = '1';
             if (!row.classList.contains('is-active')) {
-              // Keep focus on this size without re-adding it
               list.querySelectorAll('.size-option').forEach(function (b) {
                 b.classList.toggle('is-active', b === row);
                 b.setAttribute('aria-selected', b === row ? 'true' : 'false');
@@ -1292,8 +1919,8 @@
             updateContinueState();
             return;
           }
-          if (!row.classList.contains('is-active')) applySelection(row, { silent: true });
-          upsertActiveMattress(q);
+          applySelection(row, { silent: true });
+          upsertActiveMattress(q, { size: sizeFromRow(row) });
           updateContinueState();
           return;
         }
@@ -1343,27 +1970,122 @@
         }
         if (!OrderStore.lines().length) {
           e.preventDefault();
+          var reserve = document.querySelector('[data-reserve-section], #reserve, [id^="reserve"]');
+          if (reserve) reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
-        vTrack('reserve_intent', eventParams());
-        var href = continueBtn.getAttribute('href') || reviewOrderUrl();
-        if (continueBtn.tagName !== 'A' || !continueBtn.getAttribute('href')) {
+        // V8: fire intent, then navigate to /pages/checkout (payment page).
+        vTrackOnce('reserve_intent', eventParams({
+          value: OrderStore.orderValue(),
+          line_count: OrderStore.lines().length,
+          units: OrderStore.units(),
+          order_value: OrderStore.orderValue(),
+        }));
+        var href = resolveCheckoutHref(continueBtn) || reviewOrderUrl();
+        continueBtn.setAttribute('href', href);
+        if (continueBtn.tagName !== 'A') {
           e.preventDefault();
           window.location.href = href;
+          return;
         }
+        // Force navigation even if the anchor still pointed at #reserve.
+        e.preventDefault();
+        window.location.href = href;
       });
     }
 
     if (backBtn) {
       backBtn.addEventListener('click', function () {
         collapseStageB(true);
+        try {
+          var url = new URL(window.location.href);
+          if (url.searchParams.get('step') === 'confirm') {
+            url.searchParams.delete('step');
+            history.pushState({ valtoraStep: 'basket' }, '', url.toString());
+          }
+        } catch (e) {}
         var stageA = root.querySelector('[data-reserve-stage-a]');
         if (stageA) stageA.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     }
 
+    var stagePayBtn = root.querySelector('[data-checkout-pay]');
+    if (stagePayBtn) {
+      stagePayBtn.addEventListener('click', function () {
+        var lines = displayLines();
+        if (!lines.length) {
+          if (statusEl) {
+            statusEl.hidden = false;
+            statusEl.textContent = 'Select a size to continue.';
+          }
+          return;
+        }
+        var sample = unitPriceText || (lines[0] && lines[0].unitPrice) || '';
+        var totalVal = OrderStore.orderValue(lines);
+        if (isLargeOrderValue(totalVal) && largeAck && !largeAck.checked) {
+          if (statusEl) {
+            statusEl.hidden = false;
+            statusEl.textContent = 'Please confirm the larger-order terms before checkout.';
+          }
+          if (largeTerms) largeTerms.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          return;
+        }
+        var previewPay =
+          root.getAttribute('data-preview') === 'true' ||
+          /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ||
+          location.protocol === 'file:';
+        if (previewPay) {
+          vTrack('begin_checkout', {
+            value: totalVal,
+            order_value: totalVal,
+            line_count: lines.length,
+            units: OrderStore.units(lines),
+            size: checkoutSizeParam(lines),
+          });
+          var snapshot = {
+            lines: lines.map(function (line) {
+              return {
+                key: line.key,
+                itemType: line.itemType,
+                sizeId: line.sizeId,
+                label: line.label,
+                dims: line.dims,
+                quantity: parseInt(line.quantity, 10) || 0,
+                unitPrice: line.unitPrice,
+                market: line.market,
+                leadWindow: line.leadWindow || leadWindow,
+              };
+            }),
+            total: formatOrderTotal(lines, market),
+            units: OrderStore.units(lines),
+            line_count: lines.length,
+            order_id: 'PREVIEW-' + Date.now(),
+            currency: /£|GBP/i.test(sample) ? 'GBP' : /AED/i.test(sample) ? 'AED' : '',
+            value: totalVal,
+          };
+          OrderStore.saveLastOrder(snapshot);
+          OrderStore.clear();
+          var confirmed =
+            root.getAttribute('data-confirmed-path') ||
+            './pages/order-confirmed.html';
+          window.location.href = confirmed;
+          return;
+        }
+        if (statusEl) {
+          statusEl.hidden = false;
+          statusEl.textContent = 'Taking you to checkout…';
+        }
+        checkoutLines(lines).catch(function () {
+          if (statusEl) statusEl.textContent = 'Something went wrong. Please try again.';
+        });
+      });
+    }
+
     observeDwell(priceEl, 1000, 'valtora_view_price', function () {
-      vTrack('view_price', eventParams());
+      vTrackOnce('view_price', eventParams({
+        value: OrderStore.orderValue(),
+        line_count: OrderStore.lines().length,
+      }));
     });
 
     // Basket line remove + size-row quantity (V4.1 mockup).
@@ -1376,7 +2098,12 @@
         var removed = OrderStore.lines().find(function (l) {
           return l.key === key;
         });
-        OrderStore.removeLine(key);
+        collapseStageB(true);
+        if (removed && removed.sizeId) {
+          OrderStore.removeMattressSize(removed.sizeId);
+        } else {
+          OrderStore.removeLine(key);
+        }
         syncSizeQtyUi();
         var size = currentSize();
         if (removed && size && size.id === removed.sizeId) {
@@ -1388,7 +2115,9 @@
     }
 
     document.addEventListener('valtora:order-changed', function () {
+      syncSizeQtyUi();
       renderOrderPanel();
+      updateContinueState();
     });
 
     function buildCartPayload(line, variantId, large) {
@@ -1401,10 +2130,11 @@
           Firmness: line.firmness || defaultFirmness,
           Price: line.unitPrice || '',
           Market: String(market).toUpperCase(),
-          'Price set': priceSet,
           'Payment mode': paymentMode,
           'Lead time placement': leadtimePlacement,
           'Item type': line.itemType === 'top' ? 'Spare comfort top' : 'Mattress',
+          _lead_min: String(line.leadMin != null ? line.leadMin : leadMin),
+          _lead_max: String(line.leadMax != null ? line.leadMax : leadMax),
         },
       };
       if (line.itemType === 'top') {
@@ -1430,14 +2160,14 @@
       if (missing) {
         if (statusEl) {
           statusEl.hidden = false;
-          statusEl.textContent = 'Connect a checkout product in the section settings, then try again.';
+          statusEl.textContent = 'Assign the mattress product in Size + price + reserve so each size has a Shopify variant.';
         }
         return Promise.reject(new Error('No variant'));
       }
       var units = OrderStore.units(lines);
       var orderValue = OrderStore.orderValue(lines);
       var sample = (lines[0] && lines[0].unitPrice) || unitPriceText;
-      var large = isLargeOrderValue(orderValue, sample);
+      var large = isLargeOrderValue(orderValue);
       if (large) {
         if (largeTerms) largeTerms.hidden = false;
         if (!largeAck || !largeAck.checked) {
@@ -1457,12 +2187,36 @@
         });
       }
       vTrack('begin_checkout', {
+        value: orderValue,
         order_value: orderValue,
         line_count: lines.length,
         units: units,
+        size: checkoutSizeParam(lines),
       });
       if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
       if (typeof ttq !== 'undefined' && ttq.track) ttq.track('InitiateCheckout');
+
+      var mattressLines = lines.filter(function (l) { return l.itemType !== 'top'; });
+      var primary = mattressLines[0] || lines[0] || {};
+      var cartLead = resolveCartLeadTime(lines);
+      var orderAttrs = {
+        order_stage: '1',
+        stage_updated_at: new Date().toISOString(),
+        delivery_window: cartLead.display || primary.leadWindow || leadWindow || '8 to 10 weeks',
+        size_label: mattressLines
+          .map(function (l) { return l.label; })
+          .filter(Boolean)
+          .join(', ') || primary.label || '',
+        size_dims: mattressLines
+          .map(function (l) { return l.dims; })
+          .filter(Boolean)
+          .join(', ') || primary.dims || '',
+      };
+      if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
+        Object.keys(orderAttrs).forEach(function (k) {
+          window.ValtoraUTM.setAttribute(k, orderAttrs[k]);
+        });
+      }
 
       var sync = window.ValtoraUTM ? window.ValtoraUTM.syncCartAttributes() : Promise.resolve();
       return sync
@@ -1470,19 +2224,19 @@
           return fetch('/cart/clear.js', { method: 'POST', headers: { Accept: 'application/json' } });
         })
         .then(function () {
-          if (!large) return null;
+          var attrs = Object.assign({}, orderAttrs);
+          if (large) {
+            attrs.large_order = 'true';
+            attrs.large_order_terms_acknowledged = 'true';
+            attrs.large_order_value = String(Math.round(orderValue));
+            attrs.production_commit_window = 'Within 5 working days of order';
+            attrs.admin_flag = 'Review before factory order';
+            attrs.large_order_review = 'true';
+          }
           return fetch('/cart/update.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({
-              attributes: {
-                large_order: 'true',
-                large_order_terms_acknowledged: 'true',
-                large_order_value: String(Math.round(orderValue)),
-                production_commit_window: 'Within 5 working days of order',
-                admin_flag: 'Fraud check before factory order',
-              },
-            }),
+            body: JSON.stringify({ attributes: attrs }),
           });
         })
         .then(function () {
@@ -1556,6 +2310,7 @@
     var countEl = page.querySelector('[data-cart-item-count]');
     var checkoutBtn = page.querySelector('[data-cart-checkout]');
     var statusEl = page.querySelector('[data-cart-status]');
+    var bnplEl = page.querySelector('[data-bnpl-monthly]');
 
     function paint() {
       var lines = OrderStore.lines();
@@ -1565,45 +2320,54 @@
       if (!linesEl) return;
       if (!has) {
         linesEl.innerHTML = '';
+        paintBnplMonthly(bnplEl, { lines: [], orderVal: 0 });
         return;
       }
       linesEl.innerHTML = lines
         .map(function (line) {
-          var unit = parsePriceAmount(line.unitPrice) || 0;
           var qty = parseInt(line.quantity, 10) || 0;
-          var total = formatMoneyLike(unit * qty, line.unitPrice);
-          var title =
+          var total = formatLineTotal(line);
+          var label =
             line.itemType === 'top'
               ? 'Spare comfort top · ' + (line.label || '')
-              : (line.label || '') + ' · ' + qty;
+              : line.label || 'Mattress';
           return (
-            '<li class="cart-line order-basket__line" data-cart-line data-order-line-key="' +
+            '<li class="cart-line" data-cart-line data-order-line-key="' +
             (line.key || '') +
             '">' +
-            '<span class="order-basket__line-l">' +
-            title +
-            (line.dims ? '<small>' + line.dims + '</small>' : '') +
-            '</span>' +
-            '<span class="order-basket__line-r">' +
+            '<div class="cart-line__copy">' +
+            '<p class="cart-line__title">' +
+            label +
+            '<span class="cart-line__qty-inline"> · ' +
+            qty +
+            '</span></p>' +
+            (line.dims ? '<p class="cart-line__meta">' + line.dims + '</p>' : '') +
+            '</div>' +
+            '<div class="cart-line__aside">' +
+            '<p class="cart-line__total">' +
             total +
+            '</p>' +
             (line.key
-              ? '<button type="button" class="order-basket__remove" data-order-remove="' +
+              ? '<button type="button" class="cart-line__remove" data-order-remove="' +
                 line.key +
                 '">Remove</button>'
               : '') +
-            '</span>' +
+            '</div>' +
             '</li>'
           );
         })
         .join('');
       if (subtotalEl) {
-        var sample = (lines[0] && lines[0].unitPrice) || '';
-        subtotalEl.textContent = formatMoneyLike(OrderStore.orderValue(lines), sample);
+        subtotalEl.textContent = formatOrderTotal(lines);
       }
       if (countEl) {
         var units = OrderStore.units(lines);
         countEl.textContent = units === 1 ? '1 unit' : units + ' units';
       }
+      paintBnplMonthly(bnplEl, {
+        lines: lines,
+        sample: (lines[0] && lines[0].unitPrice) || '',
+      });
     }
 
     paint();
@@ -1613,7 +2377,12 @@
       linesEl.addEventListener('click', function (e) {
         var btn = e.target.closest('[data-order-remove]');
         if (!btn) return;
-        OrderStore.removeLine(btn.getAttribute('data-order-remove'));
+        var key = btn.getAttribute('data-order-remove');
+        var removed = OrderStore.lines().find(function (l) {
+          return l.key === key;
+        });
+        if (removed && removed.sizeId) OrderStore.removeMattressSize(removed.sizeId);
+        else OrderStore.removeLine(key);
         paint();
         syncOrderChrome();
       });
@@ -1629,7 +2398,7 @@
           }
           return;
         }
-        vTrack('reserve_intent', {
+        vTrackOnce('reserve_intent', {
           line_count: lines.length,
           units: OrderStore.units(lines),
           order_value: OrderStore.orderValue(lines),
@@ -1653,7 +2422,7 @@
         if (isCheckout) {
           e.preventDefault();
           var lines = OrderStore.lines();
-          vTrack('reserve_intent', {
+          vTrackOnce('reserve_intent', {
             line_count: lines.length,
             units: OrderStore.units(lines),
             order_value: OrderStore.orderValue(lines),
@@ -1693,6 +2462,8 @@
       page.getAttribute('data-finance-name') ||
       (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
     var leadWindow = page.getAttribute('data-lead-window') || '8 to 10 weeks';
+    var leadMinDefault = parseInt(page.getAttribute('data-lead-min'), 10) || 8;
+    var leadMaxDefault = parseInt(page.getAttribute('data-lead-max'), 10) || 10;
     var thresholdGb = parseInt(page.getAttribute('data-large-order-threshold-gb'), 10) || 10000;
     var thresholdAe = parseInt(page.getAttribute('data-large-order-threshold-ae'), 10) || 47000;
     var previewMode = page.getAttribute('data-checkout-preview') === 'true';
@@ -1705,9 +2476,36 @@
     } catch (e) {}
     if (leadLabel) leadLabel.textContent = leadWindow;
 
-    function thresholdFor(sample) {
-      if (/£|GBP/i.test(String(sample || '')) || market === 'gb') return thresholdGb;
-      return thresholdAe;
+    function applyLeadCopy(resolved) {
+      var mattressCopy = page.querySelector('[data-leadtime-copy]');
+      var topCopy = page.querySelector('[data-leadtime-copy-top]');
+      var mixedCopy = page.querySelector('[data-leadtime-copy-mixed]');
+      var explain = page.querySelector('[data-leadtime-explain]');
+      if (leadLabel) leadLabel.textContent = resolved.display || leadWindow;
+      if (mattressCopy) mattressCopy.hidden = resolved.mix !== 'mattress';
+      if (topCopy) topCopy.hidden = resolved.mix !== 'top';
+      if (mixedCopy) {
+        mixedCopy.hidden = resolved.mix !== 'mixed';
+        if (resolved.mix === 'mixed') {
+          mixedCopy.textContent =
+            'Your order includes a mattress and a comfort top. We use the longer window (' +
+            resolved.display +
+            ') so everything can arrive together.';
+        }
+      }
+      if (explain) {
+        if (resolved.mix === 'top') {
+          explain.textContent = 'Sent by courier. Unroll and give it a few hours to recover its full height.';
+        } else if (resolved.mix === 'mixed') {
+          explain.textContent = 'Delivery is charged once. The longer window applies to the whole order.';
+        } else {
+          explain.textContent = 'Most orders arrive sooner. Built after you order and flown to your market.';
+        }
+      }
+    }
+
+    function thresholdFor() {
+      return market === 'gb' ? thresholdGb : thresholdAe;
     }
 
     function paint() {
@@ -1717,6 +2515,7 @@
       if (flowEl) flowEl.hidden = !has;
       if (!has) {
         if (linesEl) linesEl.innerHTML = '';
+        paintBnplMonthly(bnplEl, { lines: [], orderVal: 0, market: market });
         return;
       }
       if (lines[0] && lines[0].market) {
@@ -1727,14 +2526,13 @@
       }
       var sample = (lines[0] && lines[0].unitPrice) || '';
       var totalVal = OrderStore.orderValue(lines);
-      var totalText = formatMoneyLike(totalVal, sample || (market === 'gb' ? '£1' : 'AED 1'));
+      var totalText = formatOrderTotal(lines, market);
       var units = OrderStore.units(lines);
       if (linesEl) {
         linesEl.innerHTML = lines
           .map(function (line) {
-            var unit = parsePriceAmount(line.unitPrice) || 0;
             var qty = parseInt(line.quantity, 10) || 0;
-            var total = formatMoneyLike(unit * qty, line.unitPrice);
+            var total = formatLineTotal(line);
             var title =
               line.itemType === 'top'
                 ? 'Spare comfort top · ' + (line.label || '')
@@ -1764,17 +2562,21 @@
           .join(', ');
       }
       if (payLabel) payLabel.textContent = 'Pay ' + totalText;
-      if (bnplEl && totalVal) {
-        bnplEl.textContent =
-          'or from ' + formatMoneyLike(totalVal / 12, sample) + '/month with ' + financeName;
+      if (bnplEl) {
+        paintBnplMonthly(bnplEl, {
+          lines: lines,
+          orderVal: totalVal,
+          sample: sample,
+          market: market,
+        });
       }
-      if (leadLabel && lines[0] && lines[0].leadWindow) {
-        leadLabel.textContent = lines[0].leadWindow;
+      if (leadLabel) {
+        applyLeadCopy(resolveCartLeadTime(lines));
       }
-      var large = totalVal >= thresholdFor(sample);
+      var large = totalVal >= thresholdFor();
       if (largeTerms) largeTerms.hidden = !large;
       if (large && largeCopy) {
-        var thrLabel = formatMoneyLike(thresholdFor(sample), sample || (market === 'gb' ? '£1' : 'AED 1'));
+        var thrLabel = formatMoneyFromCents(thresholdFor() * 100, market);
         largeCopy.textContent =
           'Orders of ' +
           thrLabel +
@@ -1784,7 +2586,7 @@
 
     paint();
     document.addEventListener('valtora:order-changed', paint);
-    vTrack('view_leadtime', {
+    vTrackOnce('view_leadtime', {
       line_count: OrderStore.lines().length,
       units: OrderStore.units(),
       order_value: OrderStore.orderValue(),
@@ -1811,9 +2613,11 @@
           return;
         }
         vTrack('begin_checkout', {
+          value: totalVal,
           order_value: totalVal,
           line_count: lines.length,
           units: OrderStore.units(lines),
+          size: checkoutSizeParam(lines),
         });
         if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
         if (typeof ttq !== 'undefined' && ttq.track) ttq.track('InitiateCheckout');
@@ -1832,13 +2636,19 @@
                 dims: line.dims,
                 quantity: parseInt(line.quantity, 10) || 0,
                 unitPrice: line.unitPrice,
+                priceRaw: line.priceRaw,
                 market: line.market,
                 leadWindow: line.leadWindow,
+                leadMin: line.leadMin,
+                leadMax: line.leadMax,
               };
             }),
-            total: formatMoneyLike(totalVal, sample),
+            total: formatOrderTotal(lines, market),
             units: OrderStore.units(lines),
             line_count: lines.length,
+            order_id: 'PREVIEW-' + Date.now(),
+            currency: market === 'gb' ? 'GBP' : 'AED',
+            value: totalVal,
           };
           OrderStore.saveLastOrder(snapshot);
           OrderStore.clear();
@@ -1848,20 +2658,53 @@
         var shopifyCheckout =
           (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.checkout) ||
           '/checkout';
-        var defaultVariant = (lines[0] && lines[0].variantId) || '';
         var missing = lines.some(function (line) {
-          return !(line.variantId || defaultVariant);
+          return !line.variantId;
         });
         if (missing) {
           if (statusEl) {
-            statusEl.textContent = 'Connect a checkout product in the theme, then try again.';
+            statusEl.textContent = 'Assign the mattress product in the theme so each size has a Shopify variant.';
           }
           return;
         }
         var sync = window.ValtoraUTM ? window.ValtoraUTM.syncCartAttributes() : Promise.resolve();
+        var mattressLines = lines.filter(function (l) { return l.itemType !== 'top'; });
+        var primary = mattressLines[0] || lines[0] || {};
+        var cartLead = resolveCartLeadTime(lines);
+        var orderAttrs = {
+          order_stage: '1',
+          stage_updated_at: new Date().toISOString(),
+          delivery_window: cartLead.display || primary.leadWindow || leadWindow || '8 to 10 weeks',
+          size_label: mattressLines
+            .map(function (l) { return l.label; })
+            .filter(Boolean)
+            .join(', ') || primary.label || '',
+          size_dims: mattressLines
+            .map(function (l) { return l.dims; })
+            .filter(Boolean)
+            .join(', ') || primary.dims || '',
+        };
+        if (totalVal >= thresholdFor(sample)) {
+          orderAttrs.large_order = 'true';
+          orderAttrs.large_order_review = 'true';
+          orderAttrs.admin_flag = 'Review before factory order';
+          orderAttrs.large_order_value = String(Math.round(totalVal));
+        }
+        if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
+          Object.keys(orderAttrs).forEach(function (k) {
+            window.ValtoraUTM.setAttribute(k, orderAttrs[k]);
+          });
+        }
         sync
           .then(function () {
             return fetch('/cart/clear.js', { method: 'POST', headers: { Accept: 'application/json' } });
+          })
+          .then(function () {
+            return fetch('/cart/update.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({ attributes: orderAttrs }),
+            });
           })
           .then(function () {
             var chain = Promise.resolve();
@@ -1877,6 +2720,8 @@
                       Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
                       Market: String(line.market || market).toUpperCase(),
                       'Item type': line.itemType === 'top' ? 'Spare comfort top' : 'Mattress',
+                      _lead_min: String(line.leadMin != null ? line.leadMin : leadMinDefault),
+                      _lead_max: String(line.leadMax != null ? line.leadMax : leadMaxDefault),
                     },
                   }),
                 }).then(function (res) {
@@ -1893,6 +2738,155 @@
           .catch(function () {
             if (statusEl) statusEl.textContent = 'Something went wrong. Please try again.';
           });
+      });
+    }
+  }
+
+  function initComfortTop() {
+    var root = document.querySelector('[data-comfort-top]');
+    if (!root) return;
+    var params = new URLSearchParams(location.search);
+    var orderRef = params.get('order') || '';
+    var preSize = (params.get('size') || '').toLowerCase();
+    var preFirm = params.get('firmness') || '';
+    var known = !!orderRef;
+    var market = document.documentElement.getAttribute('data-market') || detectMarket();
+    var sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+    var sizeBox = root.querySelector('[data-top-sizes]');
+    var selectedSize = null;
+    var selectedFirm = preFirm
+      ? preFirm.charAt(0).toUpperCase() + preFirm.slice(1).toLowerCase()
+      : '';
+    var leadMin = parseInt(root.getAttribute('data-lead-min'), 10) || 2;
+    var leadMax = parseInt(root.getAttribute('data-lead-max'), 10) || 3;
+    var leadWindow = root.getAttribute('data-lead-window') || '2 to 3 weeks';
+    var priceText =
+      (root.querySelector('[data-top-price]') && root.querySelector('[data-top-price]').textContent) ||
+      (market === 'gb' ? '£250' : 'AED 1,200');
+
+    vTrackOnce('top_page_view', {
+      entry_point: topEntryPoint(),
+      state: known ? 'known' : 'unknown',
+      days_since_delivery: params.get('days') || '',
+    });
+
+    root.querySelectorAll('[data-top-unknown]').forEach(function (el) {
+      el.hidden = known;
+    });
+    var knownLine = root.querySelector('[data-top-known]');
+    var findOrder = root.querySelector('[data-top-find-order]');
+    if (findOrder) findOrder.hidden = known;
+    if (sizeBox) {
+      sizeBox.innerHTML = sizes
+        .map(function (s) {
+          return (
+            '<button type="button" class="size-chip" role="option" data-top-size="' +
+            s.id +
+            '" data-size-label="' +
+            s.label +
+            '" data-size-dims="' +
+            s.dims +
+            '">' +
+            s.label +
+            '<small>' +
+            s.dims +
+            '</small></button>'
+          );
+        })
+        .join('');
+    }
+    function selectSize(id, fromPrefill) {
+      selectedSize = sizes.filter(function (s) { return s.id === id; })[0] || null;
+      if (!selectedSize) return;
+      root.querySelectorAll('[data-top-size]').forEach(function (btn) {
+        btn.setAttribute('aria-selected', btn.getAttribute('data-top-size') === id ? 'true' : 'false');
+      });
+      if (known) {
+        root.querySelectorAll('[data-top-size]').forEach(function (btn) {
+          btn.disabled = btn.getAttribute('data-top-size') !== id;
+        });
+      }
+      vTrack('top_size_selected', { size: selectedSize.id, prefilled: !!fromPrefill });
+    }
+    if (sizeBox) {
+      sizeBox.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-top-size]');
+        if (!btn || btn.disabled) return;
+        selectSize(btn.getAttribute('data-top-size'), false);
+      });
+    }
+    if (preSize) {
+      var match = sizes.filter(function (s) {
+        return s.id === preSize || s.label.toLowerCase() === preSize;
+      })[0];
+      if (match) selectSize(match.id, true);
+    }
+    if (known && knownLine && selectedSize) {
+      knownLine.hidden = false;
+      knownLine.textContent = 'This replaces the module in your ' + selectedSize.label + '.';
+    }
+
+    root.querySelectorAll('[data-top-firmness]').forEach(function (btn) {
+      if (selectedFirm && btn.getAttribute('data-top-firmness') === selectedFirm) {
+        btn.setAttribute('aria-selected', 'true');
+      }
+      btn.addEventListener('click', function () {
+        selectedFirm = btn.getAttribute('data-top-firmness');
+        root.querySelectorAll('[data-top-firmness]').forEach(function (b) {
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+        vTrack('top_firmness_selected', {
+          firmness: selectedFirm,
+          same_as_current: !!(preFirm && selectedFirm.toLowerCase() === preFirm.toLowerCase()),
+        });
+      });
+    });
+    var currentFeel = root.querySelector('[data-top-current-feel]');
+    if (known && preFirm && currentFeel) {
+      currentFeel.hidden = false;
+      currentFeel.textContent = 'You currently have ' + selectedFirm + '.';
+    }
+
+    var addBtn = root.querySelector('[data-top-add]');
+    var status = root.querySelector('[data-top-status]');
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        if (!comfortTopsEnabled()) return;
+        if (!selectedSize || !selectedFirm) {
+          if (status) {
+            status.hidden = false;
+            status.textContent = 'Choose a size and a feel.';
+          }
+          return;
+        }
+        OrderStore.addLine({
+          itemType: 'top',
+          sizeId: selectedSize.id,
+          label: selectedSize.label,
+          dims: selectedSize.dims,
+          firmness: selectedFirm,
+          unitPrice: priceText,
+          priceRaw: parseInt(
+            root.getAttribute('data-top-price-raw-' + market) ||
+              root.getAttribute('data-top-price-raw'),
+            10
+          ),
+          variantId: root.getAttribute('data-variant-id') || '',
+          quantity: 1,
+          market: market,
+          leadWindow: leadWindow,
+          leadMin: leadMin,
+          leadMax: leadMax,
+        });
+        vTrack('top_add_to_cart', {
+          size: selectedSize.id,
+          firmness: selectedFirm,
+          entry_point: topEntryPoint(),
+        });
+        if (status) {
+          status.hidden = false;
+          status.textContent = 'Added. Continue to checkout when you are ready.';
+        }
       });
     }
   }
@@ -1932,11 +2926,12 @@
         }
       }
       if (leadEl) {
-        var lead =
+        var cartLead = resolveCartLeadTime(lines);
+        leadEl.textContent =
+          cartLead.display ||
           (lines[0] && lines[0].leadWindow) ||
           page.getAttribute('data-lead-window') ||
           '8 to 10 weeks';
-        leadEl.textContent = lead;
       }
 
       if (linesEl) {
@@ -1946,8 +2941,7 @@
           linesEl.innerHTML = lines
             .map(function (line) {
               var qty = parseInt(line.quantity, 10) || 0;
-              var unit = parsePriceAmount(line.unitPrice) || 0;
-              var lineTotal = formatMoneyLike(unit * qty, line.unitPrice || (data && data.total) || '');
+              var lineTotal = formatLineTotal(line);
               var title =
                 line.itemType === 'top'
                   ? 'Spare comfort top · ' + (line.label || '')
@@ -1968,8 +2962,8 @@
         }
       }
       if (countEl) {
-        var units = data && data.units != null ? data.units : OrderStore.units(lines);
-        countEl.textContent = units === 1 ? '1 mattress' : units + ' mattresses';
+        countEl.textContent = '';
+        countEl.hidden = true;
       }
       if (totalEl) totalEl.textContent = (data && data.total) || '';
       if (summary) {
@@ -1985,17 +2979,20 @@
         }
       }
     } catch (e) {}
-    if (!sessionFlag('valtora_purchase')) {
-      setSessionFlag('valtora_purchase');
-      var tracked = OrderStore.readLastOrder() || {};
-      vTrack('purchase', {
-        line_count: tracked.line_count || ((tracked.lines && tracked.lines.length) || 0),
-        units: tracked.units || 0,
-        order_value: tracked.total || '',
-      });
-      if (typeof fbq === 'function') fbq('track', 'Purchase');
-      if (typeof ttq !== 'undefined' && ttq.track) ttq.track('CompletePayment');
-    }
+    var tracked = OrderStore.readLastOrder() || {};
+    var orderId =
+      tracked.order_id ||
+      (document.querySelector('[data-order-name]') &&
+        document.querySelector('[data-order-name]').textContent) ||
+      'preview';
+    firePurchaseOnce({
+      order_id: String(orderId).replace(/^#/, '') || 'preview',
+      value: tracked.value || undefined,
+      currency: tracked.currency || '',
+      line_count: tracked.line_count || ((tracked.lines && tracked.lines.length) || 0),
+      units: tracked.units || 0,
+      order_value: tracked.total || tracked.value || '',
+    });
   }
 
   function reinitReservesForMarket() {
@@ -2174,10 +3171,17 @@
 
   function initStickyReserve() {
     var bar = document.querySelector('[data-sticky-reserve]');
+    if (!bar) return;
+
     var hero = document.getElementById('hero');
     var heroCta = document.querySelector('[data-hero-cta]') || (hero && hero.querySelector('.hero__cta .btn'));
     var reserve = document.getElementById('reserve');
-    if (!bar || !reserve) return;
+    var path = (location.pathname || '') + ' ' + (document.body.getAttribute('data-page') || '');
+    // Hide on funnel pages where the bar would compete with the page CTA.
+    var suppressPage =
+      /cart|checkout|order-confirmed|thank_you|thank-you|order-status/i.test(path) ||
+      document.body.classList.contains('template-cart') ||
+      document.body.classList.contains('template-checkout');
 
     var heroCtaPassed = !heroCta;
     var reserveVisible = false;
@@ -2186,16 +3190,36 @@
       return el && !el.hidden && el.getAttribute('aria-hidden') !== 'true';
     }
 
+    function forceFloatBasket() {
+      return document.documentElement.getAttribute('data-float-basket-force') === '1';
+    }
+
     function update() {
-      if (!sectionOn(reserve)) {
+      if (suppressPage) {
         bar.hidden = true;
         document.body.classList.remove('has-sticky-reserve');
         return;
       }
-      // Suppress until the in-hero primary CTA has left the viewport.
-      var show = heroCtaPassed && !reserveVisible;
-      bar.hidden = !show;
-      document.body.classList.toggle('has-sticky-reserve', show);
+      // Unavailable size / request-a-size: keep the basket at the bottom even
+      // while #reserve is on screen (sidebar shows notify / request UI).
+      if (forceFloatBasket()) {
+        bar.hidden = false;
+        bar.removeAttribute('hidden');
+        document.body.classList.add('has-sticky-reserve');
+        return;
+      }
+      // Homepage / pages with #reserve: hide while reserve panel is in view,
+      // and suppress until the in-hero primary CTA has left the viewport.
+      if (reserve && sectionOn(reserve)) {
+        var show = heroCtaPassed && !reserveVisible;
+        bar.hidden = !show;
+        document.body.classList.toggle('has-sticky-reserve', show);
+        return;
+      }
+      // All other pages: always show the floating basket.
+      bar.hidden = false;
+      bar.removeAttribute('hidden');
+      document.body.classList.add('has-sticky-reserve');
     }
 
     function checkVisibility() {
@@ -2206,17 +3230,17 @@
         heroCtaPassed = ctaRect.bottom < 0;
       }
 
-      if (!sectionOn(reserve)) {
+      if (reserve && sectionOn(reserve)) {
+        var rect = reserve.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        reserveVisible = rect.top < vh * 0.85 && rect.bottom > vh * 0.15;
+      } else {
         reserveVisible = false;
-        update();
-        return;
       }
-
-      var rect = reserve.getBoundingClientRect();
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      reserveVisible = rect.top < vh * 0.85 && rect.bottom > vh * 0.15;
       update();
     }
+
+    paintFloatBasketFromStore();
 
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(
@@ -2227,34 +3251,46 @@
       );
       if (hero) io.observe(hero);
       if (heroCta) io.observe(heroCta);
-      io.observe(reserve);
+      if (reserve) io.observe(reserve);
     }
 
     window.addEventListener('scroll', checkVisibility, { passive: true });
     window.addEventListener('resize', checkVisibility);
+    document.addEventListener('valtora:float-basket-mode', checkVisibility);
     checkVisibility();
 
     bar.addEventListener('click', function (e) {
+      var cont = e.target.closest('[data-float-continue]');
+      if (cont) {
+        if (!OrderStore.lines().length) {
+          e.preventDefault();
+          if (reserve) {
+            reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            window.location.href = sizesAndPricesHref();
+          }
+          return;
+        }
+        vTrackOnce('reserve_intent', {
+          value: OrderStore.orderValue(),
+          line_count: OrderStore.lines().length,
+          units: OrderStore.units(),
+          order_value: OrderStore.orderValue(),
+        });
+        var href = resolveCheckoutHref(cont) || reviewOrderUrl();
+        cont.setAttribute('href', href);
+        e.preventDefault();
+        window.location.href = href;
+        return;
+      }
       var link = e.target.closest('a[href="#reserve"]');
       if (link) {
         e.preventDefault();
-        reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return;
-      }
-      var cont = e.target.closest('[data-float-continue]');
-      if (!cont) return;
-      if (!OrderStore.lines().length) {
-        e.preventDefault();
-        return;
-      }
-      vTrack('reserve_intent', {
-        line_count: OrderStore.lines().length,
-        units: OrderStore.units(),
-        order_value: OrderStore.orderValue(),
-      });
-      if (cont.tagName !== 'A' || !cont.getAttribute('href')) {
-        e.preventDefault();
-        window.location.href = reviewOrderUrl();
+        if (reserve) {
+          reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.location.href = sizesAndPricesHref();
+        }
       }
     });
   }
@@ -2271,7 +3307,7 @@
       });
     }
     observeDwell(swap, 1000, 'valtora_view_proposition', function () {
-      vTrack('view_proposition', {});
+      vTrackOnce('view_proposition', {});
     });
 
     document.querySelectorAll('section[id], [data-admin-section]').forEach(function (sec) {
@@ -2290,23 +3326,136 @@
       /thank_you|thank-you|order-confirmed/.test(document.body.className + ' ' + path) ||
       (window.Shopify && window.Shopify.Checkout && window.Shopify.Checkout.step === 'thank_you');
     if (isThanks) {
-      if (!sessionFlag('valtora_purchase')) {
-        setSessionFlag('valtora_purchase');
-        vTrack('purchase', {});
-      }
+      var tracked = OrderStore.readLastOrder() || {};
+      firePurchaseOnce({
+        order_id: tracked.order_id || 'thanks',
+        value: tracked.value || undefined,
+        currency: tracked.currency || '',
+        line_count: tracked.line_count || ((tracked.lines && tracked.lines.length) || 0),
+        units: tracked.units || 0,
+        order_value: tracked.total || tracked.value || '',
+      });
     }
   }
+
+  var EXIT_LOG_KEY = 'valtora_exit_intent_log';
+
+  function readExitIntentLog() {
+    try {
+      var log = JSON.parse(localStorage.getItem(EXIT_LOG_KEY) || '[]');
+      return Array.isArray(log) ? log : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function appendExitIntentLog(entry) {
+    var log = readExitIntentLog();
+    log.push(entry);
+    if (log.length > 100) log = log.slice(-100);
+    try {
+      localStorage.setItem(EXIT_LOG_KEY, JSON.stringify(log));
+    } catch (e) {}
+    return log;
+  }
+
+  function resolveExitIntentConfig(panel) {
+    var themeCfg = (window.ValtoraTheme && window.ValtoraTheme.exitIntent) || {};
+    var enabledAttr = panel ? panel.getAttribute('data-exit-enabled') : null;
+    var enabled =
+      enabledAttr != null
+        ? enabledAttr === '1' || enabledAttr === 'true'
+        : themeCfg.enabled === true;
+
+    var delayRaw =
+      (panel && panel.getAttribute('data-exit-delay')) ||
+      themeCfg.delaySeconds ||
+      30;
+    var delaySec = parseInt(delayRaw, 10);
+    if (!isFinite(delaySec) || delaySec < 0) delaySec = 30;
+
+    try {
+      var previewOn = localStorage.getItem('valtoraPreviewExitIntent');
+      if (previewOn === '0') enabled = false;
+      if (previewOn === '1') enabled = true;
+      var previewDelay = localStorage.getItem('valtoraPreviewExitIntentDelay');
+      if (previewDelay != null && previewDelay !== '') {
+        var n = parseInt(previewDelay, 10);
+        if (isFinite(n) && n >= 0) delaySec = n;
+      }
+    } catch (e) {}
+
+    return { enabled: enabled, delaySeconds: delaySec };
+  }
+
+  function persistExitIntentResponse(reason, dismissed) {
+    var entry = {
+      reason: reason || null,
+      dismissed: !!dismissed,
+      at: new Date().toISOString(),
+      path: location.pathname || '',
+      href: location.href || '',
+      market: detectMarket(),
+    };
+
+    try {
+      sessionStorage.setItem('valtora_exit_reason', reason || (dismissed ? 'dismissed' : 'unknown'));
+      sessionStorage.setItem('valtora_exit_intent_at', entry.at);
+    } catch (e) {}
+
+    appendExitIntentLog(entry);
+
+    if (reason) {
+      vTrack('exit_intent_response', { reason: reason });
+      if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
+        window.ValtoraUTM.setAttribute('exit_intent_reason', reason);
+        window.ValtoraUTM.setAttribute('exit_intent_at', entry.at);
+      } else if (window.fetch) {
+        fetch('/cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            attributes: {
+              exit_intent_reason: reason,
+              exit_intent_at: entry.at,
+            },
+          }),
+        }).catch(function () {});
+      }
+    } else {
+      vTrack('exit_intent_dismiss', {});
+    }
+
+    return entry;
+  }
+
+  window.ValtoraExitIntent = {
+    getLog: readExitIntentLog,
+    clearLog: function () {
+      try {
+        localStorage.removeItem(EXIT_LOG_KEY);
+      } catch (e) {}
+    },
+    exportJson: function () {
+      return JSON.stringify(readExitIntentLog(), null, 2);
+    },
+  };
 
   function initExitIntent() {
     var panel = document.querySelector('[data-exit-intent]');
     if (!panel) return;
+
+    var cfg = resolveExitIntentConfig(panel);
+    if (!cfg.enabled) return;
     if (sessionFlag('valtora_exit_intent')) return;
 
     var thanks = panel.querySelector('[data-exit-thanks]');
     var open = false;
+    var readyAt = Date.now() + cfg.delaySeconds * 1000;
 
     function show() {
       if (open || sessionFlag('valtora_exit_intent')) return;
+      if (Date.now() < readyAt) return;
       open = true;
       panel.hidden = false;
       document.body.classList.add('has-exit-intent');
@@ -2320,19 +3469,7 @@
 
     function storeReason(reason) {
       setSessionFlag('valtora_exit_intent');
-      try {
-        sessionStorage.setItem('valtora_exit_reason', reason);
-      } catch (e) {}
-      vTrack('exit_intent', { reason: reason });
-      if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
-        window.ValtoraUTM.setAttribute('exit_intent_reason', reason);
-      } else if (window.fetch) {
-        fetch('/cart/update.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ attributes: { exit_intent_reason: reason } }),
-        }).catch(function () {});
-      }
+      persistExitIntentResponse(reason, false);
       if (thanks) {
         thanks.hidden = false;
         setTimeout(hide, 900);
@@ -2350,6 +3487,7 @@
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
         setSessionFlag('valtora_exit_intent');
+        persistExitIntentResponse(null, true);
         hide();
       });
     }
@@ -2436,14 +3574,86 @@
     });
   }
 
+  function applyShareMeta(brandName, brandLine, tagline, shareTemplate) {
+    var name = (brandName || 'Aligna').trim() || 'Aligna';
+    var line = brandLine == null ? '' : String(brandLine).trim();
+    var site = line ? name + ' ' + line : name;
+    var tone = (tagline || 'Premium Sleep, Engineered for the Gulf').trim();
+    var template =
+      (shareTemplate && String(shareTemplate).trim()) ||
+      'Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.';
+    var desc = template
+      .split('[Brand]')
+      .join(name)
+      .split('[Line]')
+      .join(line)
+      .split('[Tagline]')
+      .join(tone)
+      .replace(/\s+/g, ' ')
+      .trim();
+    var titleEl = document.querySelector('title');
+    if (titleEl) {
+      var currentTitle = titleEl.textContent || '';
+      // Keep page titles like "Manufacturing · Brand"; only rewrite bare homepage titles.
+      if (/ · /.test(currentTitle)) {
+        titleEl.textContent = currentTitle.replace(/Aligna|Sattva|Valtora/gi, name);
+      } else if (/preview|aligna|mattres|valtora|sattva/i.test(currentTitle)) {
+        titleEl.textContent = site;
+      }
+    }
+    function setMeta(selector, value) {
+      var el = document.querySelector(selector);
+      if (el) el.setAttribute('content', value);
+    }
+    setMeta('meta[name="application-name"]', name);
+    setMeta('meta[name="apple-mobile-web-app-title"]', name);
+    setMeta('meta[property="og:site_name"]', name);
+    setMeta('meta[property="og:title"]', site);
+    setMeta('meta[property="og:description"]', desc);
+    setMeta('meta[property="og:image:alt"]', site);
+    setMeta('meta[name="twitter:title"]', site);
+    setMeta('meta[name="twitter:description"]', desc);
+    setMeta('meta[name="twitter:image:alt"]', site);
+    if (!document.querySelector('meta[name="description"]')) return;
+    setMeta('meta[name="description"]', desc);
+  }
+
+  function formatLeadLine(template, lead) {
+    var DEFAULT_LINE =
+      'Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.';
+    var text = template == null || String(template).trim() === '' ? DEFAULT_LINE : String(template);
+    lead = lead == null ? '' : String(lead).trim();
+    if (!lead) {
+      return text
+        .replace(/\s*Current window:\s*\[lead\]\.?/gi, '')
+        .replace(/\s*Current window:\s*\[X-Y\]\.?/gi, '')
+        .replace(/\s{2,}/g, ' ')
+        .replace(/\.\s*\./g, '.')
+        .trim();
+    }
+    return text.split('[lead]').join(lead).split('[X-Y]').join(lead);
+  }
+
+  function isPreviewHost() {
+    try {
+      return (
+        location.port === '5173' ||
+        location.port === '5190' ||
+        /\/(preview|share)\//.test(location.pathname)
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
   function initPreviewBrandChrome() {
-    // Apply homepage preview controls (brand, line, fonts, scheme) on every
-    // preview page so checkout/cart wordmarks match configuration.
-    var previewHost =
-      location.port === '5173' ||
-      location.port === '5190' ||
-      /\/(preview|share)\//.test(location.pathname);
-    if (!previewHost && !document.querySelector('[data-brand-text]')) return;
+    // Preview: apply homepage controls (brand, fonts, scheme) on every page.
+    // Live Shopify: trust server-rendered settings - never override with
+    // preview localStorage or JS defaults (that caused theme blinks).
+    var previewHost = isPreviewHost();
+    if (!previewHost) {
+      return;
+    }
 
     var fonts = {
       modern:
@@ -2464,11 +3674,12 @@
       v2_cool: '#1A1A1A',
     };
 
-    var name = 'Aligna';
-    var line = 'Mattresses';
-    var guidelines = 'v1';
-    var fontSet = 'modern';
-    var scheme = 'signature';
+    var boot = window.__valtoraPreviewBoot || {};
+    var name = boot.name || 'Aligna';
+    var line = typeof boot.line === 'string' ? boot.line : 'Mattresses';
+    var guidelines = boot.guidelines || 'v1';
+    var fontSet = boot.fontSet || 'modern';
+    var scheme = boot.scheme || 'signature';
     try {
       name = localStorage.getItem('valtoraPreviewBrand') || name;
       var savedLine = localStorage.getItem('valtoraPreviewBrandLine');
@@ -2478,9 +3689,7 @@
       scheme = localStorage.getItem('valtoraPreviewColorScheme') || scheme;
     } catch (e) {}
 
-    if (window.ValtoraTheme && window.ValtoraTheme.brandName && !previewHost) {
-      name = window.ValtoraTheme.brandName;
-    } else if (window.ValtoraTheme && previewHost) {
+    if (window.ValtoraTheme) {
       window.ValtoraTheme.brandName = name;
     }
 
@@ -2494,6 +3703,27 @@
     document.querySelectorAll('.wordmark').forEach(function (a) {
       a.setAttribute('aria-label', line ? name + ' ' + line : name);
     });
+    document.documentElement.setAttribute('data-brand-hydrated', '1');
+
+    try {
+      var email = localStorage.getItem('valtoraPreviewBusinessEmail');
+      if (email) {
+        document.querySelectorAll('[data-business-email]').forEach(function (el) {
+          el.textContent = email;
+          if (el.tagName === 'A' || el.tagName === 'a') {
+            el.setAttribute('href', 'mailto:' + email);
+          }
+        });
+      }
+    } catch (e) {}
+
+    var tagline = 'Premium Sleep, Engineered for the Gulf';
+    var shareCopy = '';
+    try {
+      tagline = localStorage.getItem('valtoraPreviewTagline') || tagline;
+      shareCopy = localStorage.getItem('valtoraPreviewShareCopy') || '';
+    } catch (e) {}
+    applyShareMeta(name, line, tagline, shareCopy);
 
     if (guidelines === 'v1' || guidelines === 'v2') {
       document.documentElement.setAttribute('data-brand-guidelines', guidelines);
@@ -2506,6 +3736,30 @@
       document.documentElement.setAttribute('data-font-set', fontSet);
     }
     if (scheme) document.documentElement.setAttribute('data-color-scheme', scheme);
+
+    window.__valtoraPreviewBoot = {
+      name: name,
+      line: line,
+      guidelines: guidelines,
+      fontSet: fontSet,
+      scheme: scheme,
+      market: (boot && boot.market) || '',
+    };
+    if (typeof window.__valtoraInjectPreviewScheme === 'function') {
+      window.__valtoraInjectPreviewScheme(window.__valtoraPreviewBoot);
+    }
+    if (typeof window.__valtoraApplyBrandFavicon === 'function') {
+      window.__valtoraApplyBrandFavicon(window.__valtoraPreviewBoot);
+    }
+
+    try {
+      var leadWindow = localStorage.getItem('valtoraPreviewLeadWindow');
+      if (leadWindow === null) leadWindow = '8 to 10 weeks';
+      var leadTemplate = localStorage.getItem('valtoraPreviewLeadLine');
+      document.querySelectorAll('[data-lead-line]').forEach(function (el) {
+        el.textContent = formatLeadLine(leadTemplate, leadWindow);
+      });
+    } catch (e) {}
 
     var fontLink =
       document.getElementById('PreviewFontLink') ||
@@ -2524,10 +3778,11 @@
     }
 
     var title = document.querySelector('title');
-    if (title && previewHost) {
+    if (title) {
       var page = document.body && document.body.getAttribute('data-page');
       if (page === 'checkout') title.textContent = 'Checkout · ' + name;
       else if (page === 'order-confirmed') title.textContent = 'Order confirmed · ' + name;
+      else if (page === 'cart') title.textContent = 'Order · ' + name;
       else if (/ · /.test(title.textContent) || /Aligna|Sattva|Valtora/i.test(title.textContent)) {
         title.textContent = title.textContent.replace(/Aligna|Sattva|Valtora/gi, name);
       }
@@ -2544,6 +3799,152 @@
     });
   }
 
+  function setClaimVisibility(selector, on) {
+    document.querySelectorAll(selector).forEach(function (el) {
+      if (on) {
+        el.hidden = false;
+        el.removeAttribute('hidden');
+        el.classList.remove('is-claim-off');
+        el.removeAttribute('aria-hidden');
+      } else {
+        el.hidden = true;
+        el.setAttribute('hidden', '');
+        el.classList.add('is-claim-off');
+        el.setAttribute('aria-hidden', 'true');
+      }
+    });
+    syncCertStripVisibility();
+  }
+
+  function syncCertStripVisibility() {
+    document.querySelectorAll('.cert-strip').forEach(function (strip) {
+      var items = strip.querySelectorAll('.cert-strip__item, [data-claim-chemicals], [data-claim-oeko], [data-oeko-claim]');
+      var anyOn = false;
+      if (!items.length) {
+        items = strip.children;
+      }
+      Array.prototype.forEach.call(items, function (it) {
+        if (it.hidden || it.hasAttribute('hidden') || it.classList.contains('is-claim-off')) return;
+        if (it.getAttribute('aria-hidden') === 'true') return;
+        anyOn = true;
+      });
+      strip.hidden = !anyOn;
+      if (anyOn) {
+        strip.removeAttribute('hidden');
+        strip.classList.remove('is-empty');
+      } else {
+        strip.setAttribute('hidden', '');
+        strip.classList.add('is-empty');
+      }
+      var wrap = strip.parentElement;
+      if (wrap && wrap.classList.contains('page-width')) {
+        wrap.setAttribute('data-cert-strip-wrap', '');
+        wrap.hidden = !anyOn;
+        if (anyOn) {
+          wrap.removeAttribute('hidden');
+          wrap.classList.remove('is-empty');
+        } else {
+          wrap.setAttribute('hidden', '');
+          wrap.classList.add('is-empty');
+        }
+      }
+    });
+  }
+
+  function initPreviewClaimToggles() {
+    if (!isPreviewHost()) return;
+    var chemOn = false;
+    var oekoOn = false;
+    var oekoCert = '';
+    try {
+      chemOn = localStorage.getItem('valtoraPreviewClaimChemicals') === '1';
+      oekoOn = localStorage.getItem('valtoraPreviewClaimOeko') === '1';
+      oekoCert = String(localStorage.getItem('valtoraPreviewOekoCert') || '').trim();
+    } catch (e) {}
+    oekoOn = oekoOn && !!oekoCert;
+    document.querySelectorAll('[data-oeko-cert-no]').forEach(function (el) {
+      el.textContent = oekoOn ? oekoCert : '';
+    });
+    setClaimVisibility('[data-claim-chemicals]', chemOn);
+    setClaimVisibility('[data-claim-oeko]', oekoOn);
+    setClaimVisibility('[data-oeko-claim]', chemOn && oekoOn);
+    syncCertStripVisibility();
+  }
+
+  function initPreviewAnnouncement() {
+    if (!isPreviewHost()) return;
+
+    var DEFAULT_AE = 'Cancel any time before dispatch · 100-night trial · Made to order';
+    var DEFAULT_GB = 'Cancel any time before dispatch · 100-night trial · Spread with Klarna';
+    var textAe = DEFAULT_AE;
+    var textGb = DEFAULT_GB;
+    var enabled = true;
+    try {
+      var savedAe = localStorage.getItem('valtoraPreviewAnnouncementAe');
+      var savedGb = localStorage.getItem('valtoraPreviewAnnouncementGb');
+      var savedOn = localStorage.getItem('valtoraPreviewAnnouncementOn');
+      if (savedAe !== null) textAe = savedAe;
+      if (savedGb !== null) textGb = savedGb;
+      if (savedOn === '0') enabled = false;
+    } catch (e) {}
+
+    var bar = document.querySelector('[data-announcement-bar], .announcement');
+    if (!bar) {
+      var header = document.querySelector('header.site-header, .site-header');
+      var chrome = document.querySelector('.preview-banner');
+      bar = document.createElement('div');
+      bar.className = 'announcement';
+      bar.setAttribute('role', 'region');
+      bar.setAttribute('aria-label', 'Announcement');
+      bar.setAttribute('data-announcement-bar', '');
+      bar.innerHTML =
+        '<p style="margin:0" data-market-announcement>' +
+        '<span data-market-only="ae"></span>' +
+        '<span data-market-only="gb" hidden></span>' +
+        '</p>';
+      if (chrome && chrome.parentNode) {
+        chrome.parentNode.insertBefore(bar, chrome.nextSibling);
+      } else if (header && header.parentNode) {
+        header.parentNode.insertBefore(bar, header);
+      } else if (document.body) {
+        document.body.insertBefore(bar, document.body.firstChild);
+      }
+    } else {
+      bar.setAttribute('data-announcement-bar', '');
+    }
+
+    var aeEl =
+      bar.querySelector('[data-market-only="ae"]') ||
+      bar.querySelector('[data-announcement-ae]');
+    var gbEl =
+      bar.querySelector('[data-market-only="gb"]') ||
+      bar.querySelector('[data-announcement-gb]');
+    var plain = bar.querySelector('[data-market-announcement]') || bar.querySelector('p, a');
+
+    if (aeEl) aeEl.textContent = textAe;
+    if (gbEl) gbEl.textContent = textGb;
+    if (!aeEl && !gbEl && plain) {
+      var market = detectMarket();
+      plain.textContent = market === 'gb' ? textGb : textAe;
+    }
+
+    bar.hidden = !enabled;
+    if (enabled) bar.removeAttribute('hidden');
+    else bar.setAttribute('hidden', '');
+
+    applyMarketOnlyVisibility(detectMarket());
+  }
+
+  function syncChromeOffsets() {
+    var header = document.querySelector('header.site-header, .site-header');
+    if (header) {
+      var headerH = Math.round(header.getBoundingClientRect().height);
+      if (headerH > 0) {
+        document.documentElement.style.setProperty('--header-height', headerH + 'px');
+      }
+    }
+  }
+
   function boot() {
     initPreviewBrandChrome();
     var market = detectMarket();
@@ -2552,8 +3953,12 @@
       document.body.setAttribute('data-market', market);
     }
     applyMarketOnlyVisibility(market);
+    initPreviewAnnouncement();
+    applyPreviewTopsFlag();
     initReveal();
+    initSectionWipes();
     initTrustMarquee();
+    initPreviewClaimToggles();
     initScrollProgress();
     initParallax();
     initInViewVideo();
@@ -2562,13 +3967,25 @@
     initFaq();
     initAllReserves();
     initMobileNav();
+    syncChromeOffsets();
+    window.addEventListener('resize', syncChromeOffsets);
     initStickyReserve();
     initCartPage();
     initCheckoutPage();
     initOrderConfirmed();
+    initComfortTop();
     initReviews();
     initFunnelTracking();
     initExitIntent();
+    // Cross-tab / cross-page: when localStorage basket changes, refresh UI from
+    // the freshest stamped payload (never resurrect a fuller stale copy).
+    window.addEventListener('storage', function (e) {
+      if (!e || e.key !== OrderStore.KEY) return;
+      OrderStore.read();
+      document.dispatchEvent(
+        new CustomEvent('valtora:order-changed', { detail: OrderStore.read() })
+      );
+    });
   }
 
   if (document.readyState === 'loading') {

@@ -1,0 +1,9 @@
+# Valtora public preview (updated by scripts/deploy-preview.sh)
+updated=2026-08-13T22:13:31Z
+hub=https://deep-adults-roll.loca.lt/
+v4=https://deep-adults-roll.loca.lt/v4/
+reserve=https://deep-adults-roll.loca.lt/v4/#reserve
+checkout=https://deep-adults-roll.loca.lt/v4/pages/checkout.html
+thank_you=https://deep-adults-roll.loca.lt/v4/pages/order-confirmed.html
+local_preview=http://127.0.0.1:5173/
+local_hub=http://127.0.0.1:5190/

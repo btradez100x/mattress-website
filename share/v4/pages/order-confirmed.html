@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1">
+  <head>
+    <meta charset="utf-8">
+    <script src="../brand-boot.js?v=wo-v9-brandfunnel1" data-valtora-brand-boot></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#1F3A5F">
+    <title>ORDER CONFIRMED · Aligna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../base.css?v=wo-v9-brandfunnel1">
+    <style>
+      /* Layout helpers only — brand colours / fonts come from base.css + brand-boot data-* */
+      :root {
+        --space-section: clamp(5.5rem, 12vw, 9rem);
+        --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
+        --max-width: 72rem;
+        --max-width-narrow: 40rem;
+        --radius: 0;
+        --radius-control: 0.35rem;
+        --transition: 560ms cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      .preview-banner {
+        background: var(--brand-primary);
+        color: var(--brand-on-dark);
+        text-align: center;
+        font-size: 0.8125rem;
+        letter-spacing: 0.04em;
+        padding: 0.55rem 1rem;
+      }
+      .site-header--solid {
+        position: sticky; top: 0; z-index: 40;
+        background: color-mix(in srgb, var(--brand-bg) 92%, transparent);
+        border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+        backdrop-filter: blur(8px);
+      }
+      .site-header--solid .site-header__inner {
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        padding: 0.85rem 0;
+      }
+    </style>
+  </head>
+  <body data-page="order-confirmed" class="template-thank-you" data-force-motion="true">
+    <div class="preview-banner" data-preview-chrome><strong>Local theme preview</strong></div>
+    <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
+      <p style="margin:0" data-market-announcement>
+        <span data-market-only="ae">Cancel any time before dispatch · 100-night trial · Made to order</span>
+        <span data-market-only="gb" hidden>Cancel any time before dispatch · 100-night trial · Spread with Klarna</span>
+      </p>
+    </div>
+
+    <header class="site-header site-header--solid">
+      <div class="page-width site-header__inner">
+        <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
+          <span class="wordmark__lockup">
+            <span class="wordmark__text" data-brand-text>Aligna</span>
+            <span class="wordmark__product" data-brand-product-line>Mattresses</span>
+          </span>
+        </a>
+      </div>
+    </header>
+
+    <main data-order-confirmed>
+      <section class="thanks-hero section--dark" data-reveal>
+        <div class="page-width thanks-hero__inner">
+          <p class="section__eyebrow">ORDER CONFIRMED</p>
+          <h1 class="thanks-hero__title">Thank you.</h1>
+          <p class="thanks-hero__lede">
+            Your order is in and production starts this week. Allow 8 to 10 weeks - most orders arrive sooner, and we will email you at every stage so you are never wondering.
+          </p>
+          <p class="thanks-hero__window">
+            Expected delivery
+            <strong data-confirmed-lead>8 to 10 weeks</strong>
+          </p>
+          <p class="thanks-hero__remedy">
+            If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
+          </p>
+        </div>
+      </section>
+
+      <section class="thanks-order" data-reveal>
+        <div class="page-width page-width--narrow">
+          <p class="section__eyebrow">Your order</p>
+          <hr class="gold-rule">
+          <ul class="thanks-order__lines" role="list" data-confirmed-lines></ul>
+          <p class="thanks-order__total">
+            <span>Total</span>
+            <strong data-confirmed-total></strong>
+          </p>
+          <p class="thanks-order__summary" data-confirmed-summary hidden></p>
+        </div>
+      </section>
+
+      <section class="thanks-journey section--dark" data-reveal>
+        <div class="page-width page-width--narrow">
+          <p class="section__eyebrow">What happens next</p>
+          <h2 class="thanks-journey__title">We will keep you posted.</h2>
+          <p class="thanks-journey__lede">A confirmation is on its way to your email. The next email comes when your mattress goes into production.</p>
+          <ol class="thanks-stages" data-confirmed-stages>
+            <li class="thanks-stage thanks-stage--now" data-stage="confirmed">
+              <span class="thanks-stage__dot" aria-hidden="true"></span>
+              <span class="thanks-stage__name">ORDER CONFIRMED</span>
+              <span class="thanks-stage__date" data-stage-date>Today</span>
+            </li>
+            <li class="thanks-stage" data-stage="production">
+              <span class="thanks-stage__dot" aria-hidden="true"></span>
+              <span class="thanks-stage__name">In production</span>
+              <span class="thanks-stage__date"></span>
+            </li>
+            <li class="thanks-stage" data-stage="quality">
+              <span class="thanks-stage__dot" aria-hidden="true"></span>
+              <span class="thanks-stage__name">Quality checked</span>
+              <span class="thanks-stage__date"></span>
+            </li>
+            <li class="thanks-stage" data-stage="transit">
+              <span class="thanks-stage__dot" aria-hidden="true"></span>
+              <span class="thanks-stage__name">In transit</span>
+              <span class="thanks-stage__date"></span>
+            </li>
+            <li class="thanks-stage" data-stage="arrived">
+              <span class="thanks-stage__dot" aria-hidden="true"></span>
+              <span class="thanks-stage__name" data-stage-arrived-label>Arrived in your market</span>
+              <span class="thanks-stage__date"></span>
+            </li>
+            <li class="thanks-stage" data-stage="delivered">
+              <span class="thanks-stage__dot" aria-hidden="true"></span>
+              <span class="thanks-stage__name">Delivered</span>
+              <span class="thanks-stage__date"></span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="thanks-media" aria-label="Product atmosphere" data-reveal>
+        <img
+          class="thanks-media__img"
+          src="../assets/lifestyle-suite.jpg"
+          alt=""
+          width="1600"
+          height="900"
+          loading="lazy"
+        >
+      </section>
+
+      <section class="thanks-close" data-reveal>
+        <div class="page-width page-width--narrow">
+          <p class="section__eyebrow">Meanwhile</p>
+          <hr class="gold-rule">
+          <h2 class="thanks-close__title">Change your mind before dispatch and we refund you in full, no questions asked.</h2>
+          <div class="thanks-close__actions">
+            <a class="btn" href="./order-status.html">Track your order</a>
+            <a class="btn btn--ghost" data-whatsapp-link href="#" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+            <a class="btn btn--ghost" href="./contact.html">Contact us</a>
+          </div>
+          <p class="thanks-close__inbox">
+            Questions? WhatsApp us ·
+            <a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a>
+            · or use the contacts in the footer.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width site-footer__grid">
+        <div class="site-footer__brand">
+          <a class="wordmark wordmark--dark" href="../index.html" aria-label="Aligna Mattresses">
+            <span class="wordmark__lockup">
+              <span class="wordmark__text" data-brand-text>Aligna</span>
+              <span class="wordmark__product" data-brand-product-line>Mattresses</span>
+            </span>
+          </a>
+          <div class="site-footer__contact">
+            <p class="site-footer__company"><strong>Valtora FZE</strong></p>
+            <p>Sun-Thu, 9am-6pm GST</p>
+            <p class="site-footer__response">We reply within one working day.</p>
+            <p data-business-email-wrap><a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a></p>
+          </div>
+        </div>
+        <div>
+          <h3>Policies</h3>
+          <ul>
+            <li><a href="./trial.html">100-night trial</a></li>
+            <li><a href="./warranty.html">Warranty</a></li>
+            <li><a href="./refunds.html">Refunds &amp; cancellations</a></li>
+            <li><a href="./delivery.html">Delivery &amp; lead time</a></li>
+            <li><a href="./size-guide.html">Size guide</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./order-status.html">Order status</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-width site-footer__bottom">
+        <span>&copy; 2026 <span data-brand-text>Aligna</span>.</span>
+        <span><a href="../index.html">Back to home</a></span>
+      </div>
+    </footer>
+
+    <script>
+      window.ValtoraTheme = { brandName: 'Aligna', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '../index.html' }, debugTrack: true };
+    </script>
+    <div class="float-basket" data-float-basket data-sticky-reserve hidden>
+      <span class="float-basket__count" data-float-count>Choose a size</span>
+      <strong class="float-basket__total" data-float-total data-sticky-price></strong>
+      <a class="float-basket__btn" data-float-continue data-checkout-href="./checkout.html" href="../index.html#reserve">See sizes and prices</a>
+    </div>
+
+    <script src="../theme.js?v=wo-v9-brandfunnel1"></script>
+  </body>
+</html>

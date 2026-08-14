@@ -1,20 +1,21 @@
-<section class="section cart-page order-page" data-cart-page data-order-page>
-  <div class="page-width page-width--narrow">
-    <p class="section__eyebrow">Order</p>
-    <hr class="gold-rule">
-    <h1 class="cart-page__title">Your order</h1>
+<section class="cart-page order-page" data-cart-page data-order-page>
+  <div class="page-width cart-page__wrap">
+    <div class="cart-panel" data-reveal>
+      <p class="section__eyebrow cart-panel__eyebrow">Order</p>
+      <hr class="gold-rule">
+      <h1 class="cart-page__title">Your order</h1>
+      <p class="cart-page__lede">Review sizes, then continue to checkout. Cancel any time before dispatch.</p>
 
-    {%- if cart.item_count == 0 -%}
-      <div class="cart-empty">
-        <p>Your order is empty.</p>
-        <a class="btn" href="{{ routes.root_url }}#reserve">See sizes and prices</a>
-      </div>
-    {%- else -%}
-      <form action="{{ routes.cart_url }}" method="post" class="cart-form" data-cart-form>
-        <ul class="cart-lines order-lines__list" role="list">
-          {%- for item in cart.items -%}
-            <li class="cart-line" data-cart-line data-key="{{ item.key | escape }}">
-              <div class="cart-line__main">
+      {%- if cart.item_count == 0 -%}
+        <div class="cart-empty">
+          <p>Your order is empty.</p>
+          <a class="btn" href="{{ routes.root_url }}#reserve">See sizes and prices</a>
+        </div>
+      {%- else -%}
+        <form action="{{ routes.cart_url }}" method="post" class="cart-form" data-cart-form>
+          <ul class="cart-lines order-lines__list" role="list">
+            {%- for item in cart.items -%}
+              <li class="cart-line" data-cart-line data-key="{{ item.key | escape }}">
                 <div class="cart-line__copy">
                   <p class="cart-line__title">
                     {%- if item.properties.Size != blank -%}
@@ -22,61 +23,44 @@
                     {%- else -%}
                       {{ item.product.title }}
                     {%- endif -%}
+                    <span class="cart-line__qty-inline"> · {{ item.quantity }}</span>
                   </p>
                   {%- if item.properties.Firmness != blank -%}
-                    <p class="cart-line__variant">Firmness: {{ item.properties.Firmness }}</p>
+                    <p class="cart-line__meta">Feel: {{ item.properties.Firmness }}</p>
                   {%- endif -%}
                   {%- if item.properties['Item type'] != blank -%}
-                    <p class="cart-line__variant">{{ item.properties['Item type'] }}</p>
+                    <p class="cart-line__meta">{{ item.properties['Item type'] }}</p>
                   {%- endif -%}
-                  {%- if item.properties.size > 0 -%}
-                    <ul class="cart-line__props">
-                      {%- for p in item.properties -%}
-                        {%- if p.last != blank and p.first.first != '_' -%}
-                          {%- unless p.first == 'Size' or p.first == 'Firmness' or p.first == 'Item type' -%}
-                            <li><span>{{ p.first }}:</span> {{ p.last }}</li>
-                          {%- endunless -%}
-                        {%- endif -%}
-                      {%- endfor -%}
-                    </ul>
-                  {%- endif -%}
-                  <p class="cart-line__unit">{{ item.final_price | money }} each</p>
+                  <p class="cart-line__meta cart-line__unit">{{ item.final_price | money }} each</p>
                 </div>
-
-                <div class="cart-line__qty">
-                  <span class="order-line__qty-label">Qty {{ item.quantity }}</span>
+                <div class="cart-line__aside">
+                  <p class="cart-line__total" data-line-total>{{ item.final_line_price | money }}</p>
+                  <a class="cart-line__remove" href="{{ item.url_to_remove }}">Remove</a>
                 </div>
+              </li>
+            {%- endfor -%}
+          </ul>
 
-                <p class="cart-line__total" data-line-total>{{ item.final_line_price | money }}</p>
-              </div>
-
-              <div class="cart-line__actions">
-                <a class="cart-line__remove" href="{{ routes.root_url }}#reserve">Edit in order builder</a>
-                <a class="cart-line__remove" href="{{ item.url_to_remove }}">Remove</a>
-              </div>
-            </li>
-          {%- endfor -%}
-        </ul>
-
-        <div class="cart-summary order-summary is-visible">
-          <div class="cart-summary__row">
-            <span>{{ cart.item_count }} {{ cart.item_count | pluralize: 'unit', 'units' }} · {{ cart.items.size }} {{ cart.items.size | pluralize: 'line', 'lines' }}</span>
-            <strong data-cart-subtotal>{{ cart.total_price | money }}</strong>
+          <div class="cart-summary order-summary is-visible">
+            <div class="cart-summary__row">
+              <span>{{ cart.item_count }} {{ cart.item_count | pluralize: 'unit', 'units' }}</span>
+              <strong data-cart-subtotal>{{ cart.total_price | money }}</strong>
+            </div>
+            <p class="cart-summary__note">
+              Delivery is charged once per order. Cancel any time before dispatch for a full refund.
+              {%- if cart.attributes.large_order == 'true' -%}
+                This order is flagged as high value: refundable until production is committed (typically within 5 working days), then non-refundable.
+              {%- endif -%}
+            </p>
+            <div class="cart-summary__actions">
+              <button class="btn" type="submit" name="checkout" data-cart-checkout>Checkout</button>
+              <a class="btn btn--ghost" href="{{ routes.root_url }}#reserve">Add another size</a>
+            </div>
+            <p class="cart-status" data-cart-status hidden role="status"></p>
           </div>
-          <p class="cart-summary__note">
-            Delivery is charged once per order. Cancel any time before dispatch for a full refund.
-            {%- if cart.attributes.large_order == 'true' -%}
-              This order is flagged as high value: refundable until production is committed (typically within 5 working days), then non-refundable.
-            {%- endif -%}
-          </p>
-          <div class="cart-summary__actions">
-            <a class="btn btn--ghost" href="{{ routes.root_url }}#reserve">Add another size</a>
-            <button class="btn" type="submit" name="checkout" data-cart-checkout>Checkout</button>
-          </div>
-          <p class="cart-status" data-cart-status hidden role="status"></p>
-        </div>
-      </form>
-    {%- endif -%}
+        </form>
+      {%- endif -%}
+    </div>
   </div>
 </section>
 

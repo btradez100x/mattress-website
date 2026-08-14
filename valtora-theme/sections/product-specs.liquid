@@ -1,3 +1,4 @@
+{%- if section.settings.enable_section -%}
 <section class="section" id="specs" data-reveal>
   <div class="page-width specs__grid">
     <div>
@@ -10,11 +11,11 @@
 
       <ul class="specs__list">
         {%- for block in section.blocks -%}
-          <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+          <li {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 90 }}ms">{{ block.settings.text }}</li>
         {%- endfor -%}
       </ul>
     </div>
-    <div class="big-idea__media">
+    <div class="specs__media" data-reveal-child style="--reveal-delay: 120ms">
       {% render 'theme-image',
         image: section.settings.image,
         fallback: 'product-side.jpg',
@@ -23,12 +24,39 @@
       %}
     </div>
   </div>
+  {%- if section.settings.show_cert_strip -%}
+    {%- if settings.show_chemicals_claim or settings.show_oeko_tex_claim and settings.oeko_tex_certificate_no != blank -%}
+    <div class="page-width" data-cert-strip-wrap>
+      <div class="cert-strip cert-strip--specs">
+        {%- if settings.show_chemicals_claim -%}
+        <p class="cert-strip__item" data-claim-chemicals data-reveal-child style="--reveal-delay: 0ms">
+          <strong>{{ section.settings.cert_one_title | default: 'Free from harmful chemicals' }}</strong>
+          <span>{{ section.settings.cert_one_caption | default: 'Materials chosen for cleaner sleep' }}</span>
+        </p>
+        {%- endif -%}
+        {%- if settings.show_oeko_tex_claim and settings.oeko_tex_certificate_no != blank -%}
+        <p class="cert-strip__item" data-claim-oeko data-reveal-child style="--reveal-delay: 120ms">
+          <strong>{{ section.settings.cert_two_title | default: 'OEKO-TEX® STANDARD 100' }}</strong>
+          <span>{{ section.settings.cert_two_caption | default: 'Textiles independently tested for harmful substances' }} · {{ settings.oeko_tex_certificate_no }}</span>
+        </p>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- endif -%}
+  {%- endif -%}
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Product specs",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -39,18 +67,49 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "37cm. Hotel-grade depth."
+      "default": "Every layer, stated."
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Substantial enough to feel considered — deeper than standard UK sheets, engineered as a system you refresh rather than replace."
+      "default": "Measured at 37cm made up. Below is the full construction, layer by layer, with densities. Most brands do not publish this. You are spending a lot of money on something you cannot open, so you should be able to see what is inside it."
     },
     {
       "type": "image_picker",
       "id": "image",
       "label": "Diagram / product image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cert_strip",
+      "label": "Show certification strip",
+      "default": false,
+      "info": "Each cert line also requires its theme toggle: Free from harmful chemicals and/or OEKO-TEX."
+    },
+    {
+      "type": "text",
+      "id": "cert_one_title",
+      "label": "Cert 1 title",
+      "default": "Free from harmful chemicals"
+    },
+    {
+      "type": "text",
+      "id": "cert_one_caption",
+      "label": "Cert 1 caption",
+      "default": "Materials chosen for cleaner sleep"
+    },
+    {
+      "type": "text",
+      "id": "cert_two_title",
+      "label": "Cert 2 title",
+      "default": "OEKO-TEX® STANDARD 100"
+    },
+    {
+      "type": "text",
+      "id": "cert_two_caption",
+      "label": "Cert 2 caption",
+      "default": "Textiles independently tested for harmful substances"
     }
   ],
   "blocks": [
@@ -62,7 +121,7 @@
           "type": "text",
           "id": "text",
           "label": "Spec line",
-          "default": "37cm full height — substantial, hotel-grade depth"
+          "default": "Height - 37cm measured made up"
         }
       ]
     }
@@ -71,13 +130,16 @@
     {
       "name": "Product specs",
       "blocks": [
-        { "type": "spec", "settings": { "text": "37cm full height — substantial, hotel-grade depth" } },
-        { "type": "spec", "settings": { "text": "Cover — 400gsm cool-knit, breathable" } },
-        { "type": "spec", "settings": { "text": "Comfort top — gel-infused memory foam, ~5cm, zip-replaceable (soft / medium / firm)" } },
-        { "type": "spec", "settings": { "text": "Transition — high-density comfort foam" } },
-        { "type": "spec", "settings": { "text": "Core — 20cm, 7-zone pocket springs" } },
-        { "type": "spec", "settings": { "text": "Base — high-density encased support foam" } },
-        { "type": "spec", "settings": { "text": "Underside — anti-slip base" } }
+        { "type": "spec", "settings": { "text": "Height - 37cm measured made up" } },
+        { "type": "spec", "settings": { "text": "Assembly - Hand-assembled, made to order" } },
+        { "type": "spec", "settings": { "text": "Cover - 400g cool-knit, black zip access" } },
+        { "type": "spec", "settings": { "text": "Gel memory foam - 1cm, 28 density. Contours without trapping heat" } },
+        { "type": "spec", "settings": { "text": "Comfort foam - 1.5cm, 20 density. The give you feel first" } },
+        { "type": "spec", "settings": { "text": "Wave-profile foam - 2.5cm, 20 density. Channels air through the comfort layers" } },
+        { "type": "spec", "settings": { "text": "Flippable comfort module - 10cm, 25 density. Soft one side, firm the other, behind its own zip" } },
+        { "type": "spec", "settings": { "text": "Pocket spring core - 20cm, 7 zones, 1.9mm and 2.0mm wire. Individually pocketed so movement does not travel" } },
+        { "type": "spec", "settings": { "text": "Encased perimeter - 7cm, 35 density. Holds the edge" } },
+        { "type": "spec", "settings": { "text": "Underside - anti-slip base" } }
       ]
     }
   ]

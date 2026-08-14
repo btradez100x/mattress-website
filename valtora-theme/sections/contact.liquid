@@ -1,3 +1,10 @@
+{%- liquid
+  assign brand = settings.brand_name | default: 'Aligna'
+  assign legal_name = settings.legal_entity_name_ae
+  assign legal_address = settings.registered_address_ae
+-%}
+{%- capture contact_phone -%}{% render 'contact-phone' %}{%- endcapture -%}
+{%- assign contact_phone = contact_phone | strip -%}
 <section class="section">
   <div class="page-width" style="max-width:40rem;">
     <p class="section__eyebrow">Contact</p>
@@ -5,23 +12,65 @@
     <h1 style="font-size:clamp(2.25rem,4vw,3rem);">{{ section.settings.heading }}</h1>
     <p class="section__lede">{{ section.settings.body }}</p>
 
-    <ul class="contact-details" style="list-style:none;padding:0;margin:2rem 0;display:grid;gap:0.85rem;">
-      {%- if settings.contact_email != blank -%}
-        <li><strong>Email</strong> — <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></li>
+    <ul class="contact-details" role="list">
+      {%- if legal_name != blank -%}
+        <li>
+          <strong>Company</strong>
+          <span>{{ legal_name }}</span>
+        </li>
       {%- endif -%}
-      {%- if settings.contact_phone != blank -%}
-        <li><strong>Phone</strong> — <a href="tel:{{ settings.contact_phone }}">{{ settings.contact_phone }}</a></li>
+      {%- if brand != blank and brand != legal_name -%}
+        <li>
+          <strong>Trading as</strong>
+          <span>{{ brand }}</span>
+        </li>
+      {%- endif -%}
+      {%- if settings.trade_licence_no != blank -%}
+        <li>
+          <strong>Trade licence</strong>
+          <span>{{ settings.trade_licence_no }}</span>
+        </li>
+      {%- endif -%}
+      {%- if legal_address != blank -%}
+        <li>
+          <strong>Location</strong>
+          <span>{{ legal_address | newline_to_br }}</span>
+        </li>
+      {%- endif -%}
+      {%- if settings.contact_email != blank -%}
+        <li>
+          <strong>Email</strong>
+          <span><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></span>
+        </li>
+      {%- endif -%}
+      {%- if contact_phone != blank -%}
+        <li>
+          <strong>Phone</strong>
+          <span><a href="tel:{{ contact_phone | replace: ' ', '' }}">{{ contact_phone }}</a></span>
+        </li>
       {%- endif -%}
       {%- if settings.contact_hours != blank -%}
-        <li><strong>Hours</strong> — {{ settings.contact_hours }}</li>
+        <li>
+          <strong>Hours</strong>
+          <span>{{ settings.contact_hours }}</span>
+        </li>
       {%- endif -%}
       {%- if settings.response_time_note != blank -%}
-        <li><strong>Response</strong> — {{ settings.response_time_note }}</li>
+        <li>
+          <strong>Response</strong>
+          <span>{{ settings.response_time_note }}</span>
+        </li>
       {%- endif -%}
     </ul>
 
     {%- if settings.whatsapp_enabled -%}
-      {% render 'whatsapp-button', variant: 'inline' %}
+      <div class="contact-whatsapp">
+        {% render 'whatsapp-button', variant: 'inline' %}
+        {%- capture wa_check -%}{% render 'whatsapp-number' %}{%- endcapture -%}
+        {%- if wa_check == blank -%}
+          <p class="contact-whatsapp__hint">Add your WhatsApp number in Theme settings → Business details (UAE or UK) to activate chat.</p>
+        {%- endif -%}
+      </div>
     {%- endif -%}
 
     {%- if page.content != blank -%}
@@ -44,7 +93,7 @@
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Questions about sizing, the deposit, or lead times — we reply within one working day."
+      "default": "Questions about sizing, lead times, or your order - we reply within one working day. WhatsApp is usually fastest."
     }
   ]
 }

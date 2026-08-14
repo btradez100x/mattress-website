@@ -1,7 +1,8 @@
 {%- liquid
-  assign brand = settings.brand_name | default: 'Valtora'
-  assign body = section.settings.body | replace: '[Brand]', brand
+  assign brand = settings.brand_name | default: 'Aligna'
+  assign body = section.settings.body | replace: '[Brand]', brand | replace: 'Aligna', brand
 -%}
+{%- if section.settings.enable_section -%}
 <section class="section" id="swap" data-reveal>
   <div class="page-width big-idea__grid">
     <div class="big-idea__copy">
@@ -15,24 +16,32 @@
       {%- endif -%}
     </div>
     <div class="big-idea__media">
-      {%- if section.settings.video != blank -%}
-        {{ section.settings.video | video_tag: image_size: '1200x', controls: true }}
-      {%- else -%}
-        {% render 'theme-image',
-          image: section.settings.image,
-          fallback: 'lifestyle-airy.jpg',
-          alt: section.settings.heading,
-          sizes: '(min-width: 900px) 45vw, 100vw'
-        %}
-      {%- endif -%}
+      {% render 'theme-video',
+        video: section.settings.video,
+        fallback: 'swap-zip.mp4',
+        poster: section.settings.image,
+        poster_fallback: 'handle-detail.jpg',
+        autoplay: true,
+        muted: true,
+        loop: true,
+        controls: false,
+        class: 'theme-video theme-video--cover'
+      %}
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Big idea / Swap System",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -49,18 +58,19 @@
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Most mattresses get replaced because the top wears out — while the springs beneath have years left. [Brand] separates the two. Unzip the comfort top, swap in a new one, and your bed feels new again. Change firmness as life changes. Keep the bed for decades.",
-      "info": "Use [Brand] — it is replaced by the global brand name setting."
+      "default": "Most mattresses get replaced because the top wears out - while the springs beneath have years left. [Brand] separates the two. Unzip the comfort top, swap in a new one, and your bed feels new again. Flip the comfort module to change firmness. Keep the bed for decades.",
+      "info": "Use [Brand] - it is replaced by the global brand name setting."
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Image"
+      "label": "Poster image (optional)"
     },
     {
       "type": "video",
       "id": "video",
-      "label": "Video (optional)"
+      "label": "Zip video (Shopify hosted)",
+      "info": "Shows the zip / unzip action. Theme falls back to swap-zip.mp4 (muted) when empty."
     }
   ],
   "presets": [{ "name": "Big idea / Swap System" }]

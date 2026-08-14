@@ -1,0 +1,196 @@
+{%- liquid
+  assign ugc_count = 0
+  if section.settings.enable_section
+    for block in section.blocks
+      if block.type == 'clip' and block.settings.enabled
+        if block.settings.shopify_video != blank or block.settings.poster != blank
+          assign ugc_count = ugc_count | plus: 1
+        endif
+      endif
+    endfor
+  endif
+-%}
+{%- if section.settings.enable_section and ugc_count > 0 -%}
+<section class="section" id="ugc" data-reveal data-ugc>
+  <div class="page-width">
+    <div class="ugc__header">
+      <div>
+        <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="section__lede">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="ugc__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'clip' and block.settings.enabled -%}
+          {%- if block.settings.shopify_video == blank and block.settings.poster == blank -%}
+            {%- continue -%}
+          {%- endif -%}
+          <article class="ugc__card" {{ block.shopify_attributes }} data-platform="{{ block.settings.platform }}">
+            <div class="ugc__media">
+              {%- if block.settings.shopify_video != blank -%}
+                {{ block.settings.shopify_video | video_tag: image_size: '900x', controls: true, class: 'ugc__video' }}
+              {%- elsif block.settings.embed_url != blank -%}
+                <div class="ugc__embed" data-ugc-embed data-embed-url="{{ block.settings.embed_url | escape }}">
+                  {%- if block.settings.poster != blank -%}
+                    {{
+                      block.settings.poster
+                      | image_url: width: 900
+                      | image_tag: loading: 'lazy', class: 'ugc__poster', widths: '400,700,900', alt: block.settings.caption
+                    }}
+                  {%- else -%}
+                    <div class="ugc__poster ugc__poster--empty" aria-hidden="true"></div>
+                  {%- endif -%}
+                  <a class="ugc__play" href="{{ block.settings.embed_url }}" target="_blank" rel="noopener">
+                    <span>Watch on {{ block.settings.platform | capitalize }}</span>
+                  </a>
+                </div>
+              {%- elsif block.settings.poster != blank -%}
+                {{
+                  block.settings.poster
+                  | image_url: width: 900
+                  | image_tag: loading: 'lazy', class: 'ugc__poster', widths: '400,700,900', alt: block.settings.caption
+                }}
+              {%- else -%}
+                <div class="ugc__poster ugc__poster--empty" aria-hidden="true"></div>
+              {%- endif -%}
+              <span class="ugc__platform">{{ block.settings.platform }}</span>
+            </div>
+            {%- if block.settings.caption != blank or block.settings.handle != blank -%}
+              <div class="ugc__meta">
+                {%- if block.settings.handle != blank -%}
+                  <p class="ugc__handle">@{{ block.settings.handle | remove: '@' }}</p>
+                {%- endif -%}
+                {%- if block.settings.caption != blank -%}
+                  <p class="ugc__caption">{{ block.settings.caption }}</p>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "UGC social videos",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "From social"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Seen in real homes."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Short clips from TikTok and Instagram."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "clip",
+      "name": "Social clip",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enabled",
+          "label": "Show this clip",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "platform",
+          "label": "Platform",
+          "options": [
+            { "value": "tiktok", "label": "TikTok" },
+            { "value": "instagram", "label": "Instagram" }
+          ],
+          "default": "tiktok"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Creator handle",
+          "default": "aligna"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Unboxing the swap top"
+        },
+        {
+          "type": "url",
+          "id": "embed_url",
+          "label": "TikTok / Instagram URL",
+          "info": "Opens the original post. Prefer uploading a Shopify video for on-page play."
+        },
+        {
+          "type": "video",
+          "id": "shopify_video",
+          "label": "Shopify-hosted video (preferred)"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Poster / cover image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UGC social videos",
+      "blocks": [
+        {
+          "type": "clip",
+          "settings": {
+            "enabled": true,
+            "platform": "tiktok",
+            "handle": "aligna",
+            "caption": "First night on the cool-knit cover"
+          }
+        },
+        {
+          "type": "clip",
+          "settings": {
+            "enabled": true,
+            "platform": "instagram",
+            "handle": "aligna",
+            "caption": "Unzip. Lift. Swap."
+          }
+        },
+        {
+          "type": "clip",
+          "settings": {
+            "enabled": true,
+            "platform": "tiktok",
+            "handle": "aligna",
+            "caption": "Delivery day"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,27 @@
+{%- comment -%}
+  Exit-intent capture for paid-test diagnosis.
+  Theme settings: exit_intent_enabled, exit_intent_delay_seconds.
+  Desktop: mouseleave top. Mobile: rapid scroll-up.
+  Answers: sessionStorage, localStorage log, cart attributes, vTrack.
+{%- endcomment -%}
+{%- if settings.exit_intent_enabled -%}
+  <div
+    class="exit-intent"
+    data-exit-intent
+    data-exit-enabled="1"
+    data-exit-delay="{{ settings.exit_intent_delay_seconds | default: 30 }}"
+    hidden
+  >
+    <div class="exit-intent__dialog" role="dialog" aria-modal="true" aria-labelledby="ExitIntentTitle">
+      <button type="button" class="exit-intent__close" data-exit-close aria-label="Close">&times;</button>
+      <p class="exit-intent__title" id="ExitIntentTitle">Before you go - what stopped you today?</p>
+      <div class="exit-intent__options" data-exit-options>
+        <button type="button" class="exit-intent__option" data-exit-reason="price">Price</button>
+        <button type="button" class="exit-intent__option" data-exit-reason="delivery_time">Delivery time</button>
+        <button type="button" class="exit-intent__option" data-exit-reason="not_sure">Not sure it suits me</button>
+        <button type="button" class="exit-intent__option" data-exit-reason="browsing">Just browsing</button>
+      </div>
+      <p class="exit-intent__thanks" data-exit-thanks hidden>Thank you - that helps.</p>
+    </div>
+  </div>
+{%- endif -%}

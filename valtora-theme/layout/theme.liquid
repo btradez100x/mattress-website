@@ -1,34 +1,57 @@
+{%- liquid
+  assign html_market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign html_market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign html_market = 'ae'
+  endif
+  assign splitit_live = false
+  if settings.splitit_enabled and settings.splitit_merchant_id != blank and html_market == 'gb'
+    assign splitit_live = true
+  endif
+-%}
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
+<html class="no-js" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}">
   <head>
     {% render 'meta-tags' %}
     {% render 'css-variables' %}
 
-    {%- comment -%} Google Fonts: one serif + one sans (Brand Guidelines §4) {%- endcomment -%}
+    {%- comment -%} Google Fonts - V1 serif/sans pairs, or V2 Instrument Sans + Inter + Geist Mono {%- endcomment -%}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     {%- liquid
-      case settings.font_serif
-        when 'fraunces'
-          assign serif_family = 'Fraunces:opsz,wght@9..144,400;500'
-        when 'playfair'
-          assign serif_family = 'Playfair+Display:wght@400;500'
+      assign guidelines = settings.brand_guidelines | default: 'v1'
+      if guidelines == 'v2'
+        assign font_href = 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap'
+      else
+        assign font_set = settings.font_set | default: 'modern'
+        if font_set == 'classic'
+          assign serif_family = 'Cormorant+Garamond:wght@400;500;600'
+          assign sans_family = 'Manrope:wght@400;500;600;700'
         else
-          assign serif_family = 'Cormorant+Garamond:wght@400;500'
-      endcase
-      case settings.font_sans
-        when 'work_sans'
-          assign sans_family = 'Work+Sans:wght@400;500;600'
-        when 'inter'
-          assign sans_family = 'Inter:wght@400;500;600'
-        else
-          assign sans_family = 'Manrope:wght@400;500;600'
-      endcase
+          case settings.font_serif
+            when 'fraunces'
+              assign serif_family = 'Fraunces:opsz,wght@9..144,400;500;600'
+            when 'playfair'
+              assign serif_family = 'Playfair+Display:wght@400;500;600'
+            else
+              assign serif_family = 'Cormorant+Garamond:wght@400;500;600'
+          endcase
+          case settings.font_sans
+            when 'work_sans'
+              assign sans_family = 'Work+Sans:wght@400;500;600;700'
+            when 'inter'
+              assign sans_family = 'Inter:wght@400;500;600;700'
+            when 'manrope'
+              assign sans_family = 'Manrope:wght@400;500;600;700'
+            else
+              assign sans_family = 'Outfit:wght@400;500;600;700'
+          endcase
+        endif
+        assign font_href = 'https://fonts.googleapis.com/css2?family=' | append: serif_family | append: '&family=' | append: sans_family | append: '&display=swap'
+      endif
     -%}
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family={{ serif_family }}&family={{ sans_family }}&display=swap"
-    >
+    <link rel="stylesheet" href="{{ font_href }}">
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
@@ -37,6 +60,25 @@
 
     {% render 'tracking-pixels' %}
 
+    {%- if settings.klarna_client_id != blank and html_market == 'gb' -%}
+      <script
+        async
+        data-environment="production"
+        src="https://js.klarna.com/web-sdk/v1/klarna.js"
+        data-client-id="{{ settings.klarna_client_id | escape }}"
+      ></script>
+    {%- endif -%}
+    {%- if settings.splitit_enabled and settings.splitit_merchant_id != blank and html_market == 'gb' -%}
+      <script
+        async
+        src="https://web-components.splitit.com/v2/upstream.js?api-key={{ settings.splitit_merchant_id | url_encode }}&lang=en-GB"
+      ></script>
+    {%- endif -%}
+
+    {%- if template.suffix == 'comfort-top' and settings.comfort_tops_enabled != true -%}
+      <meta name="robots" content="noindex,nofollow">
+    {%- endif -%}
+
     {{ content_for_header }}
 
     <script>
@@ -44,16 +86,32 @@
       window.ValtoraTheme = window.ValtoraTheme || {};
       window.ValtoraTheme.brandName = {{ settings.brand_name | json }};
       window.ValtoraTheme.defaultMarket = {{ settings.default_market | json }};
+      window.ValtoraTheme.sizeAddLabel = {{ settings.size_add_label | default: 'Add' | json }};
+      window.ValtoraTheme.splititEnabled = {{ splitit_live | json }};
       window.ValtoraTheme.moneyFormat = {{ shop.money_format | json }};
+      window.ValtoraTheme.exitIntent = {
+        enabled: {{ settings.exit_intent_enabled | json }},
+        delaySeconds: {{ settings.exit_intent_delay_seconds | default: 30 | json }}
+      };
       window.ValtoraTheme.routes = {
         cartAdd: {{ routes.cart_add_url | json }},
         cart: {{ routes.cart_url | json }},
+        checkout: {{ routes.root_url | append: 'checkout' | json }},
+        review: {{ pages['checkout'].url | default: '/pages/checkout' | json }},
         root: {{ routes.root_url | json }}
       };
     </script>
   </head>
 
-  <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+  <body
+    class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}"
+    data-market="{{ html_market }}"
+    data-payment-mode="{{ settings.payment_mode | default: 'full' }}"
+  >
+    {%- if settings.gtm_container_id != blank -%}
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ settings.gtm_container_id }}"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    {%- endif -%}
     <a class="skip-link" href="#MainContent">Skip to content</a>
 
     {% sections 'header-group' %}
@@ -64,6 +122,8 @@
 
     {% sections 'footer-group' %}
 
+    {% render 'sticky-reserve-bar' %}
+    {% render 'exit-intent' %}
     {% render 'whatsapp-button', variant: 'floating' %}
   </body>
 </html>

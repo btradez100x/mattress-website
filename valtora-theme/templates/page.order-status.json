@@ -2,7 +2,10 @@
   "sections": {
     "main": {
       "type": "order-status",
-      "settings": {}
+      "settings": {
+        "heading": "Where is my mattress?",
+        "body": "Updated by hand as your mattress moves through production. Enter your order number and email and we will send a link if they match an order."
+      }
     }
   },
   "order": [

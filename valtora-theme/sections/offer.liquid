@@ -1,43 +1,183 @@
+{%- liquid
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+  assign payment_mode = settings.payment_mode | default: 'full'
+  if market == 'gb'
+    assign top_price = section.settings.replacement_top_price_gb | default: 'A replacement comfort top is £250. A new mattress is not.'
+  else
+    assign top_price = section.settings.replacement_top_price_ae | default: 'A replacement comfort top is AED 1,200. A new mattress is not.'
+  endif
+  if payment_mode == 'full'
+    assign cta_note_default = 'Pay in full today. Cancel any time before dispatch for a full refund.'
+  else
+    assign cta_note_default = 'Pay the first instalment today. Balance due before dispatch.'
+  endif
+-%}
+{%- if section.settings.enable_section -%}
 <section class="section section--dark" id="offer" data-reveal>
   <div class="page-width">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2>{{ section.settings.heading }}</h2>
-    {%- if section.settings.body != blank -%}
+    {%- if market == 'ae' and section.settings.body_ae != blank -%}
+      <p class="section__lede">{{ section.settings.body_ae }}</p>
+    {%- elsif market == 'gb' and section.settings.body_gb != blank -%}
+      <p class="section__lede">{{ section.settings.body_gb }}</p>
+    {%- elsif section.settings.body != blank -%}
       <p class="section__lede">{{ section.settings.body }}</p>
+    {%- endif -%}
+    {%- if section.settings.replacement_frame != blank -%}
+      <div class="rte section__lede offer__frame">{{ section.settings.replacement_frame }}</div>
+    {%- endif -%}
+    {%- if top_price != blank -%}
+      <p class="offer__top-price">{{ top_price }}</p>
     {%- endif -%}
 
     <div class="offer__items">
       {%- for block in section.blocks -%}
-        <div class="offer__item" {{ block.shopify_attributes }}>
-          <strong>{{ block.settings.title }}</strong>
-          <span>{{ block.settings.text }}</span>
-        </div>
+        {%- liquid
+          assign show_item = true
+          assign visibility = block.settings.market_visibility | default: 'all'
+          if visibility == 'ae' and market != 'ae'
+            assign show_item = false
+          endif
+          if visibility == 'gb' and market != 'gb'
+            assign show_item = false
+          endif
+          assign block_mode = block.settings.payment_mode_visibility | default: 'all'
+          if block_mode == 'full' and payment_mode != 'full'
+            assign show_item = false
+          endif
+          if block_mode == 'split' and payment_mode != 'split'
+            assign show_item = false
+          endif
+          assign title_down = block.settings.title | downcase
+          assign text_down = block.settings.text | downcase
+          assign is_chemicals_claim = false
+          assign is_oeko_claim = false
+          if title_down contains 'harmful chemicals'
+            assign is_chemicals_claim = true
+          endif
+          if title_down contains 'oeko' or text_down contains 'oeko'
+            assign is_oeko_claim = true
+          endif
+          if is_chemicals_claim and is_oeko_claim
+            if settings.show_chemicals_claim != true or settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+              assign show_item = false
+            endif
+          elsif is_chemicals_claim
+            if settings.show_chemicals_claim != true
+              assign show_item = false
+            endif
+          elsif is_oeko_claim
+            if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
+              assign show_item = false
+            endif
+          endif
+        -%}
+        {%- if show_item -%}
+          <div class="offer__item" {{ block.shopify_attributes }}>
+            <strong>{{ block.settings.title }}</strong>
+            <span>{{ block.settings.text }}{% if is_oeko_claim %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</span>
+          </div>
+        {%- endif -%}
       {%- endfor -%}
     </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="offer__cta" data-reveal-child style="--reveal-delay: 160ms">
+        <a class="btn" href="{{ section.settings.cta_link | default: '#reserve' }}">
+          {{ section.settings.cta_label }}
+        </a>
+        <p class="offer__cta-note">
+          {{ section.settings.cta_note | default: cta_note_default }}
+        </p>
+      </div>
+    {%- endif -%}
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Offer",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Founding allocation"
+      "default": "Buy with confidence"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Reserve with confidence."
+      "default": "Order with confidence."
     },
     {
       "type": "textarea",
       "id": "body",
-      "label": "Body",
-      "default": "Made to order. Fully refundable deposit. Honest lead times."
+      "label": "Body (fallback)",
+      "default": "Made to order. Cancel any time before dispatch. Honest lead times."
+    },
+    {
+      "type": "textarea",
+      "id": "body_ae",
+      "label": "Body (UAE)",
+      "default": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout."
+    },
+    {
+      "type": "textarea",
+      "id": "body_gb",
+      "label": "Body (UK)",
+      "default": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout."
+    },
+    {
+      "type": "richtext",
+      "id": "replacement_frame",
+      "label": "Replacement-frequency frame (optional)",
+      "default": "<p>Most mattresses get replaced every seven or eight years because the top layer wears out. Ours is built so you replace the layer instead.</p>",
+      "info": "Anchors on replacement frequency, not competitor price. Leave blank to hide."
+    },
+    {
+      "type": "text",
+      "id": "replacement_top_price_gb",
+      "label": "Replacement top price line (UK)",
+      "default": "A replacement comfort top is £250. A new mattress is not."
+    },
+    {
+      "type": "text",
+      "id": "replacement_top_price_ae",
+      "label": "Replacement top price line (UAE)",
+      "default": "A replacement comfort top is AED 1,200. A new mattress is not."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "See sizes and prices"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "CTA link",
+      "default": "#reserve",
+      "info": "Use a path or in-page anchor such as #reserve. Must stay a text setting, not a URL picker."
+    },
+    {
+      "type": "text",
+      "id": "cta_note",
+      "label": "CTA note override",
+      "info": "Leave blank for payment-mode default."
     }
   ],
   "blocks": [
@@ -56,10 +196,33 @@
           "id": "text",
           "label": "Supporting text",
           "default": "Sleep on it. Decide at home."
+        },
+        {
+          "type": "select",
+          "id": "market_visibility",
+          "label": "Show in market",
+          "options": [
+            { "value": "all", "label": "All markets" },
+            { "value": "ae", "label": "UAE only" },
+            { "value": "gb", "label": "UK only" }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "select",
+          "id": "payment_mode_visibility",
+          "label": "Show for payment mode",
+          "options": [
+            { "value": "all", "label": "All modes" },
+            { "value": "full", "label": "Full payment only" },
+            { "value": "split", "label": "Split payment only" }
+          ],
+          "default": "all"
         }
       ]
     }
   ],
+  "max_blocks": 50,
   "presets": [
     {
       "name": "Offer",
@@ -74,11 +237,26 @@
         },
         {
           "type": "offer_item",
-          "settings": { "title": "White-glove delivery", "text": "Free delivery and setup." }
+          "settings": {
+            "title": "Handmade to order",
+            "text": "Built after you order it, never from stock."
+          }
         },
         {
           "type": "offer_item",
-          "settings": { "title": "Founding allocation", "text": "Limited units per size." }
+          "settings": {
+            "title": "Cancel before dispatch",
+            "text": "Full refund any time before your mattress ships.",
+            "payment_mode_visibility": "full"
+          }
+        },
+        {
+          "type": "offer_item",
+          "settings": {
+            "title": "Pay part today",
+            "text": "First payment now, balance before dispatch.",
+            "payment_mode_visibility": "split"
+          }
         }
       ]
     }

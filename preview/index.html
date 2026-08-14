@@ -2,13 +2,30 @@
 <html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="brand-boot.js?v=wo-v9-review1" data-valtora-brand-boot></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#1F3A5F">
-    <title>Aligna - Preview</title>
+    <title>Aligna Mattresses</title>
+    <meta name="description" content="Premium Sleep, Engineered for the Gulf · Aligna. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.">
+    <meta name="application-name" content="Aligna">
+    <meta name="apple-mobile-web-app-title" content="Aligna">
+    <meta property="og:site_name" content="Aligna">
+    <meta property="og:title" content="Aligna Mattresses">
+    <meta property="og:description" content="Premium Sleep, Engineered for the Gulf · Aligna. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="./">
+    <meta property="og:image" content="./assets/hero-mattress.jpg">
+    <meta property="og:image:alt" content="Aligna Mattresses">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aligna Mattresses">
+    <meta name="twitter:description" content="Premium Sleep, Engineered for the Gulf · Aligna. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.">
+    <meta name="twitter:image" content="./assets/hero-mattress.jpg">
+    <meta name="twitter:image:alt" content="Aligna Mattresses">
+    <script type="application/json" id="ShareBrandData">{"brand":"Aligna","line":"Mattresses","tagline":"Premium Sleep, Engineered for the Gulf","description":"Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.","image":"assets/hero-mattress.jpg"}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./base.css?v=wo-v4-nofirm1">
+    <link rel="stylesheet" href="./base.css?v=wo-v9-basketux2">
     <style>
       :root {
         --brand-primary: #1F3A5F;
@@ -223,16 +240,16 @@
         position: sticky;
         top: 0;
         z-index: 60;
-        background: #1F3A5F;
-        color: #F7F5F1;
+        background: var(--brand-primary);
+        color: var(--brand-on-dark);
         text-align: center;
         font-size: 0.8125rem;
         letter-spacing: 0.04em;
         padding: 0.55rem 1rem;
       }
       html[data-brand-guidelines="v2"] .preview-banner {
-        background: #1A1A1A;
-        color: #F5F4F1;
+        background: var(--brand-primary);
+        color: var(--brand-on-dark);
       }
       .preview-banner strong { font-weight: 600; }
       .preview-banner select,
@@ -241,18 +258,18 @@
         margin-left: 0.35rem;
         padding: 0.2rem 0.45rem;
         border: 0;
-        background: #F7F5F1;
-        color: #000;
+        background: var(--brand-bg);
+        color: var(--brand-ink);
         font: inherit;
-        caret-color: #000;
+        caret-color: var(--brand-ink);
       }
       .preview-banner input[type="text"]::placeholder,
       .preview-banner input:not([type="checkbox"])::placeholder {
-        color: #444;
+        color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
         opacity: 1;
       }
       .preview-banner input[type="checkbox"] {
-        accent-color: #8A6D3B;
+        accent-color: var(--brand-accent);
       }
 
 
@@ -264,6 +281,34 @@
         color: #000;
         font: inherit;
         cursor: pointer;
+      }
+      .preview-banner[hidden],
+      .preview-banner.is-collapsed {
+        display: none !important;
+      }
+      .preview-config-fab {
+        position: fixed;
+        top: max(0.75rem, env(safe-area-inset-top, 0px));
+        right: max(0.75rem, env(safe-area-inset-right, 0px));
+        z-index: 80;
+        padding: 0.7rem 1rem;
+        border: 2px solid #1F3A5F;
+        border-radius: 0.25rem;
+        background: #F7F5F1;
+        color: #1F3A5F;
+        font: 700 0.8125rem/1.1 var(--font-sans, system-ui, sans-serif);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+      }
+      .preview-config-fab[hidden] {
+        display: none !important;
+      }
+      html[data-brand-guidelines="v2"] .preview-config-fab {
+        border-color: #1A1A1A;
+        background: #F5F4F1;
+        color: #1A1A1A;
       }
       .preview-sections {
         position: sticky;
@@ -303,12 +348,14 @@
       }
     </style>
   </head>
-  <body class="template-index" data-market="ae" data-payment-mode="full" data-price-set="control">
+  <body class="template-index" data-market="ae" data-payment-mode="full">
     <div class="preview-banner">
       <strong>Local theme preview</strong>
       <span style="display:inline-flex;flex-wrap:wrap;gap:0.65rem 1rem;align-items:center;margin-left:0.75rem;justify-content:center;">
         <label>Brand <input id="PreviewBrandName" type="text" value="Aligna" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
         <label>Line <input id="PreviewBrandLine" type="text" value="Mattresses" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
+        <label title="Link preview / Open Graph description. Tokens: [Brand] [Line] [Tagline]">Share copy <input id="PreviewShareCopy" type="text" value="Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:22rem;color:#000;background:#F7F5F1;"></label>
+        <button type="button" id="PreviewShareBrandSave" class="preview-banner__btn" title="Download share-brand.json so phone link previews use this brand and share copy">Save share card</button>
         <label>Market
           <select id="PreviewMarket" aria-label="Market">
             <option value="ae" selected>UAE</option>
@@ -342,13 +389,82 @@
         <button type="button" id="PreviewSectionsToggle" class="preview-banner__btn" aria-expanded="false" aria-controls="PreviewSectionsPanel">Sections</button>
         <label style="cursor:pointer;"><input type="checkbox" id="PreviewReviewsEntries" checked> Show reviews</label>
         <label style="cursor:pointer;"><input type="checkbox" id="PreviewReviewsSubmit" checked> Write review</label>
+        <label>Lead window <input id="PreviewLeadWindow" type="text" value="8 to 10 weeks" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
+        <label>Lead line <input id="PreviewLeadLine" type="text" value="Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:18rem;color:#000;background:#F7F5F1;" title="Use [lead] for the lead window"></label>
+        <label style="cursor:pointer;" title="Theme setting: Free from harmful chemicals (off until verified)"><input type="checkbox" id="PreviewChemicalsClaim"> Free from harmful chemicals</label>
+        <label style="cursor:pointer;" title="Theme setting: OEKO-TEX STANDARD 100 (off until a certificate number is entered)"><input type="checkbox" id="PreviewOekoClaim"> OEKO-TEX</label>
+        <label title="Required to show the OEKO-TEX claim">OEKO cert <input id="PreviewOekoCert" type="text" value="" placeholder="certificate no." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8rem;color:#000;background:#F7F5F1;"></label>
+        <label style="cursor:pointer;" title="Show site announcement bar on every page"><input type="checkbox" id="PreviewAnnouncementOn" checked> Announcement</label>
+        <label title="Announcement bar copy (UAE)">Banner UAE <input id="PreviewAnnouncementAe" type="text" value="Cancel any time before dispatch · 100-night trial · Made to order" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
+        <label title="Announcement bar copy (UK)">Banner UK <input id="PreviewAnnouncementGb" type="text" value="Cancel any time before dispatch · 100-night trial · Spread with Klarna" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
+        <label style="cursor:pointer;" title="Exit-intent leave prompt (off by default)"><input type="checkbox" id="PreviewExitIntent"> Exit prompt</label>
+        <label title="Seconds on page before exit prompt can appear">Exit delay <input id="PreviewExitIntentDelay" type="number" min="0" max="120" step="5" value="30" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;width:3.5rem;color:#000;background:#F7F5F1;"></label>
+        <button type="button" id="PreviewExitIntentExport" class="preview-banner__btn" title="Download local exit-intent responses">Exit log</button>
         <label style="cursor:pointer;" title="Overrides macOS Reduce Motion so scroll fades stay visible"><input type="checkbox" id="PreviewForceMotion" checked> Scroll fades</label>
         <label>Business <input id="PreviewBusinessName" type="text" value="Valtora FZE" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8rem;color:#000;background:#F7F5F1;"></label>
         <label>Trade licence <input id="PreviewTradeLicence" type="text" value="" placeholder="e.g. 123456" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
         <label>Email <input id="PreviewBusinessEmail" type="email" value="hello@aligna.com" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:9rem;color:#000;background:#F7F5F1;"></label>
         <label>Address <input id="PreviewBusinessAddress" type="text" value="Business Centre, Sharjah Publishing City Free Zone, Sharjah, UAE" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:14rem;color:#000;background:#F7F5F1;"></label>
+        <button type="button" id="PreviewConfigHide" class="preview-banner__btn" title="Hide this config bar for a clean share view">Hide config</button>
       </span>
     </div>
+    <button type="button" id="PreviewConfigShow" class="preview-config-fab" hidden aria-label="Show preview config">Show config</button>
+    <script>
+      (function () {
+        var KEY = 'valtoraPreviewConfigVisible';
+        var banner = document.querySelector('.preview-banner');
+        var fab = document.getElementById('PreviewConfigShow');
+        var params = new URLSearchParams(location.search);
+        var host = location.hostname || '';
+        var port = location.port || '';
+        var path = location.pathname || '';
+        var shareHost =
+          port === '5190' ||
+          /\.loca\.lt$/i.test(host) ||
+          /localtunnel|ngrok|trycloudflare/i.test(host) ||
+          /\/(share|v4)\//.test(path) ||
+          /\/v4\/?$/.test(path);
+        var force = params.get('config');
+        var visible;
+        if (force === '1' || force === 'true') visible = true;
+        else if (force === '0' || force === 'false' || params.get('clean') === '1') visible = false;
+        else {
+          try {
+            var saved = localStorage.getItem(KEY);
+            if (saved === '1') visible = true;
+            else if (saved === '0') visible = false;
+            else visible = !shareHost;
+          } catch (e) {
+            visible = !shareHost;
+          }
+        }
+        function apply(on) {
+          if (banner) {
+            banner.hidden = !on;
+            banner.classList.toggle('is-collapsed', !on);
+          }
+          if (fab) fab.hidden = on;
+          var panel = document.getElementById('PreviewSectionsPanel');
+          if (!on && panel) {
+            panel.hidden = true;
+            var toggle = document.getElementById('PreviewSectionsToggle');
+            if (toggle) toggle.setAttribute('aria-expanded', 'false');
+          }
+          document.documentElement.setAttribute('data-preview-config', on ? 'on' : 'off');
+          try {
+            localStorage.setItem(KEY, on ? '1' : '0');
+          } catch (e) {}
+          try {
+            window.dispatchEvent(new Event('resize'));
+          } catch (e) {}
+        }
+        window.__valtoraSetPreviewConfig = apply;
+        apply(visible);
+        var hideBtn = document.getElementById('PreviewConfigHide');
+        if (hideBtn) hideBtn.addEventListener('click', function () { apply(false); });
+        if (fab) fab.addEventListener('click', function () { apply(true); });
+      })();
+    </script>
 
     <div class="preview-sections" id="PreviewSectionsPanel" hidden>
       <div class="preview-sections__inner">
@@ -362,9 +478,9 @@
       </div>
     </div>
 
-    <div class="announcement" role="region" aria-label="Announcement">
+    <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
       <p style="margin:0" data-market-announcement>
-        <span data-market-only="ae">Cancel any time before dispatch · 100-night trial · White-glove delivery (UAE only)</span>
+        <span data-market-only="ae">Cancel any time before dispatch · 100-night trial · Made to order</span>
         <span data-market-only="gb" hidden>Cancel any time before dispatch · 100-night trial · Spread with Klarna</span>
       </p>
     </div>
@@ -386,8 +502,9 @@
           <a href="./blog/index.html">Journal</a>
           <a href="#founder">Founder</a>
           <a href="#faq">FAQ</a>
+          <a href="./pages/order-status.html">Order status</a>
         </nav>
-        <div class="site-header__actions"><a class="site-header__order" href="./pages/cart.html" data-order-link hidden aria-label="Order"><span class="site-header__order-label">Order</span><span class="site-header__order-count" data-order-count hidden>0</span></a>
+        <div class="site-header__actions"><a class="site-header__order" href="./pages/cart.html" data-order-link hidden aria-label="Order"><span class="site-header__order-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" focusable="false"><path d="M5 8h14l-1.1 10.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span><span class="site-header__order-label">Order</span><span class="site-header__order-count" data-order-count hidden>0</span></a>
           <a class="btn" href="#reserve">Reserve yours</a>
           <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="MobileNav" aria-label="Open menu">
             <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -403,6 +520,7 @@
         <a href="./blog/index.html">Journal</a>
         <a href="#founder">Founder</a>
         <a href="#faq">FAQ</a>
+        <a href="./pages/order-status.html">Order status</a>
         <a href="#reserve">Reserve yours</a>
       </div>
     </header>
@@ -412,12 +530,12 @@
             <section class="hero hero--light" id="hero" data-admin-section="hero">
         <div class="hero__content">
           <h1>Made to order. Made to last.</h1>
-          <p class="hero__sub">A 37cm premium hybrid, built after you order it. Seven-zone pocket springs, a breathable knitted cover, and a comfort top you can replace instead of replacing the mattress.</p>
+          <p class="hero__sub">A 37cm handmade hybrid, built after you order it. Seven-zone pocket springs, a breathable knitted cover, and a comfort top you replace instead of replacing the mattress.</p>
           <div class="hero__cta">
             <a class="btn" href="#reserve" data-hero-cta>See sizes and prices</a>
             <a class="btn btn--ghost hero__secondary" href="#swap">How the swap system works</a>
           </div>
-          <p class="hero__assurance">Cancel any time before dispatch · 100-night trial · 15-year warranty · <span data-market-only="ae">Spread the cost with Tabby or Tamara</span><span data-market-only="gb" hidden>Spread the cost with Klarna</span></p>
+          <p class="hero__assurance">Cancel any time before dispatch · 100-night trial · 15-year warranty</p>
         </div>
         <div class="hero__media">
           <img src="./assets/hero-mattress.jpg" alt="Aligna mattress" data-brand-alt-suffix=" mattress" width="2000" height="1500">
@@ -431,20 +549,22 @@
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item" data-market-only="ae"><a class="trust-bar__link" href="./pages/delivery.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">White-glove delivery &amp; setup · UAE only</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item" data-claim-oeko hidden><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">OEKO-TEX® STANDARD 100</strong><span class="trust-bar__sub">Textiles independently tested</span><span class="trust-bar__sub" data-oeko-cert-no></span><span class="trust-bar__sub" data-oeko-cert-no></span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
             </ul>
             <ul class="trust-bar__list" role="list" aria-hidden="true">
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item" data-market-only="ae"><a class="trust-bar__link" href="./pages/delivery.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">White-glove delivery &amp; setup · UAE only</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item" data-claim-oeko hidden><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">OEKO-TEX® STANDARD 100</strong><span class="trust-bar__sub">Textiles independently tested</span><span class="trust-bar__sub" data-oeko-cert-no></span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
             </ul>
           </div>
         </div>
         <div class="page-width">
-          <p class="trust-bar__lead">Made to order. Current window: 8 to 10 weeks. Cancel any time before dispatch for a full refund.</p>
+          <p class="trust-bar__lead" data-lead-line>Made to order. Current window: 8 to 10 weeks. Cancel any time before dispatch for a full refund.</p>
         </div>
       </section>
 
@@ -456,7 +576,7 @@
             <hr class="gold-rule">
             <h2>A better bed, for life.</h2>
             <div class="section__lede rte">
-              Most mattresses get replaced because the top wears out - while the springs beneath have years left. <span data-brand-text>Aligna</span> separates the two. Unzip the comfort top, swap in a new one, and your bed feels new again. Change firmness as life changes. Keep the bed for decades.
+              Most mattresses get replaced because the top wears out - while the springs beneath have years left. <span data-brand-text>Aligna</span> separates the two. Unzip the comfort top, swap in a new one, and your bed feels new again. Flip the comfort module to change firmness. Keep the bed for decades.
             </div>
           </div>
           <div class="big-idea__media">
@@ -472,7 +592,14 @@
         <div class="page-width" style="text-align:center; max-width: 48rem; margin-inline: auto;">
           <p class="section__eyebrow">How it works</p>
           <h2>Unzip. Lift out. Swap in.</h2>
-          <p class="section__lede" style="margin-inline:auto;">Tops come in soft, medium and firm. Change comfort as life changes - keep the engineered core for decades.</p>
+    <p class="section__lede" style="margin-inline:auto;">A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort top can be unzipped, lifted out and replaced.</p>
+          <p class="section__lede" style="margin-inline:auto;">When the comfort layer wears, unzip it, lift it out and swap in a new one. Keep the engineered core for decades.</p>
+            <p class="section__lede" style="margin-inline:auto;" data-market-only="gb" hidden>A comfort top costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
+            <p class="section__lede" style="margin-inline:auto;">The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>
+            <p class="section__lede" style="margin-inline:auto;" data-comfort-top-cta hidden>
+              <a class="btn" href="./pages/comfort-top.html?tops=1">See the comfort top</a>
+            </p>
+            <p class="section__lede" style="margin-inline:auto;" data-market-only="ae">A comfort top costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
         </div>
         <div class="page-width" style="margin-top: 2.5rem;">
           <div class="big-idea__media big-idea__media--wide big-idea__media--player" style="aspect-ratio: 16 / 9; max-width: 56rem; margin-inline: auto;">
@@ -489,22 +616,24 @@
 
 <script type="application/json" data-size-price-config>
 [
-  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","available":true,"price_set":"control"},
-  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","available":true,"popular":true,"price_set":"control"},
-  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","available":true,"price_set":"control"},
-  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","available":false,"price_set":"control"},
-  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","available":true,"price_set":"control"},
-  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","available":true,"price_set":"control"},
-  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","available":true,"popular":true,"price_set":"control"},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,499","available":false,"price_set":"control"}
+  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true},
+  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true},
+  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
+  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
+  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
+  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
+  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false}
 ]
 </script>
-<div class="page-width size-reserve__layout" data-size-reserve data-market="ae" data-price-set="control" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-comfort-top-price="AED 1,200" data-default-firmness="Medium" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
+<div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Soft / firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
           <div>
             <p class="section__eyebrow">Sizes and prices</p>
             <hr class="gold-rule">
             <h2>Choose your size.</h2>
             <p class="section__lede">Select your size - price updates for your market. Dimensions always shown in centimetres.</p>
+          <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
             <div class="size-picker">
             <div class="size-list" data-size-list role="listbox" aria-label="Mattress size"></div>
             </div>
@@ -549,14 +678,14 @@
                 Ordering several? We can sequence delivery to suit you.
                 <a href="./pages/contact.html">Talk to us</a>
               </p>
-              <p class="order-basket__finance" data-bnpl-monthly>
-                or from <span data-bnpl-amount>[X]</span>/month with Tabby or Tamara
-              </p>
-              <div data-order-retail>
-                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue href="./pages/checkout.html">Continue</a>
+              <p class="order-basket__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
+              <div data-order-retail hidden>
+                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./pages/checkout.html" href="./pages/checkout.html">Checkout</a>
                 <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
               </div>
             </div>
+
+
           </div>
 
           <div data-reserve-notify hidden>
@@ -601,7 +730,8 @@
           <div class="media-feature__intro">
             <p class="section__eyebrow">The changeable top</p>
             <h2>Unzip. Lift out. Swap in.</h2>
-            <p class="section__lede">A visual walkthrough of the replaceable comfort top - soft, medium, or firm as life changes.</p>
+    <p class="section__lede" style="margin-inline:auto;">A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort top can be unzipped, lifted out and replaced.</p>
+            <p class="section__lede">A visual walkthrough of the replaceable comfort top - swap it when worn, keep the engineered core.</p>
           </div>
           <div class="media-feature__grid">
             <article class="media-feature__card">
@@ -631,7 +761,7 @@
               <div class="media-feature__copy">
                 <p class="media-feature__step">03</p>
                 <h3>Swap in</h3>
-                <p>Fit soft, medium, or firm - keep the engineered core.</p>
+                <p>Fit a new top when the comfort layer is worn - keep the engineered core.</p>
               </div>
             </article>
           </div>
@@ -641,9 +771,12 @@
       <!-- Cool touch -->
       <section class="section" id="cool-touch" data-preview-cool-touch data-reveal data-admin-section="cool-touch">
         <div class="page-width media-feature__split">
-          <div class="media-feature__split-media">
-            <img src="./assets/cover-macro.jpg" alt="Cool-knit cover detail" width="1400" height="1750" loading="lazy">
-          </div>
+          <figure class="cool-touch__main">
+            <div class="media-feature__split-media">
+              <img src="./assets/cover-macro.jpg" alt="Cool-knit cover detail" width="1400" height="1750" loading="lazy">
+            </div>
+            <figcaption>Cool-knit cover detail</figcaption>
+          </figure>
           <div class="media-feature__split-copy">
             <p class="section__eyebrow">Cool touch</p>
             <hr class="gold-rule">
@@ -673,31 +806,34 @@
           <div>
             <p class="section__eyebrow">The mattress</p>
             <hr class="gold-rule">
-            <h2>37cm. Hotel-grade depth.</h2>
-            <p class="section__lede">Substantial enough to feel considered - deeper than standard UK sheets, engineered as a system you refresh rather than replace.</p>
+            <h2>Every layer, stated.</h2>
+            <p class="section__lede">Measured at 37cm made up. Below is the full construction, layer by layer, with densities. Most brands do not publish this. You are spending a lot of money on something you cannot open, so you should be able to see what is inside it.</p>
             <ul class="specs__list">
-              <li data-reveal-child style="--reveal-delay: 0ms">37cm full height - substantial, hotel-grade depth</li>
-              <li data-reveal-child style="--reveal-delay: 90ms">400gsm cool-knit cover</li>
-              <li data-reveal-child style="--reveal-delay: 180ms">Gel-infused memory foam comfort layer</li>
-              <li data-reveal-child style="--reveal-delay: 270ms">Replaceable comfort top (zip access)</li>
-              <li data-reveal-child style="--reveal-delay: 360ms">20cm 7-zone pocket-spring core</li>
-              <li data-reveal-child style="--reveal-delay: 450ms">High-density encased support base</li>
-              <li data-reveal-child style="--reveal-delay: 540ms">Anti-slip base</li>
+              <li data-reveal-child style="--reveal-delay: 0ms">Height - 37cm measured made up</li>
+              <li data-reveal-child style="--reveal-delay: 90ms">Assembly - Hand-assembled, made to order</li>
+              <li data-reveal-child style="--reveal-delay: 180ms">Cover - 400g cool-knit, black zip access</li>
+              <li data-reveal-child style="--reveal-delay: 270ms">Gel memory foam - 1cm, 28 density. Contours without trapping heat</li>
+              <li data-reveal-child style="--reveal-delay: 360ms">Comfort foam - 1.5cm, 20 density. The give you feel first</li>
+              <li data-reveal-child style="--reveal-delay: 450ms">Wave-profile foam - 2.5cm, 20 density. Channels air through the comfort layers</li>
+              <li data-reveal-child style="--reveal-delay: 540ms">Flippable comfort module - 10cm, 25 density. Soft one side, firm the other, behind its own zip</li>
+              <li data-reveal-child style="--reveal-delay: 630ms">Pocket spring core - 20cm, 7 zones, 1.9mm and 2.0mm wire. Individually pocketed so movement does not travel</li>
+              <li data-reveal-child style="--reveal-delay: 720ms">Encased perimeter - 7cm, 35 density. Holds the edge</li>
+              <li data-reveal-child style="--reveal-delay: 810ms">Underside - anti-slip base</li>
             </ul>
           </div>
           <div class="specs__media" data-reveal-child style="--reveal-delay: 120ms">
             <img src="./assets/product-side.jpg" alt="Mattress side profile 37cm depth" width="1600" height="1200" loading="lazy">
           </div>
         </div>
-        <div class="page-width">
+        <div class="page-width" data-cert-strip-wrap hidden>
           <div class="cert-strip cert-strip--specs">
-            <p class="cert-strip__item" data-reveal-child style="--reveal-delay: 0ms">
+            <p class="cert-strip__item" data-claim-chemicals hidden data-reveal-child style="--reveal-delay: 0ms">
               <strong>Free from harmful chemicals</strong>
               <span>Materials chosen for cleaner sleep</span>
             </p>
-            <p class="cert-strip__item" data-reveal-child style="--reveal-delay: 120ms">
+            <p class="cert-strip__item" data-claim-oeko hidden data-reveal-child style="--reveal-delay: 120ms">
               <strong>OEKO-TEX® STANDARD 100</strong>
-              <span>Textiles independently tested for harmful substances</span>
+              <span>Textiles independently tested for harmful substances<span data-oeko-cert-no></span></span>
             </p>
           </div>
         </div>
@@ -707,27 +843,37 @@
       <section class="section section--surface" id="benefits" data-reveal data-admin-section="benefits">
         <div class="page-width">
           <p class="section__eyebrow">Why it matters</p>
-          <h2>Engineered for how you live.</h2>
+          <h2>Two firmnesses. One mattress.</h2>
           <div class="benefits__grid">
             <article class="benefit" data-reveal-child style="--reveal-delay: 0ms">
               <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 14h16M8 14V8l4-3 4 3v6" stroke="currentColor" stroke-width="1.25"/></svg>
-              <h3>A bed that adapts</h3>
-              <p>Swap the top to change firmness - as your body, your partner, or your preferences change.</p>
+              <h3>Too firm? Flip it.</h3>
+              <p>Inside your mattress, behind a second zip, is a comfort layer with a soft side and a firm side. If the feel is not right, open it, turn it over and close it again. Two minutes, no tools, no cost, as many times as you like.</p>
             </article>
             <article class="benefit" data-reveal-child style="--reveal-delay: 120ms">
               <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v18M5 7l14 10M5 17L19 7" stroke="currentColor" stroke-width="1.25"/></svg>
               <h3>Cool by design</h3>
-              <p>A breathable cool-knit cover and gel-infused comfort layer, made for warm nights.</p>
+              <p>A 400g cool-knit cover over gel memory foam and a wave-profile layer that channels air through the mattress rather than trapping it.</p>
             </article>
-            <article class="benefit" data-reveal-child style="--reveal-delay: 360ms">
+            <article class="benefit" data-reveal-child style="--reveal-delay: 240ms">
               <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16h16M6 16V9a6 6 0 0 1 12 0v7" stroke="currentColor" stroke-width="1.25"/></svg>
               <h3>Deep, engineered support</h3>
-              <p>A 20cm, 7-zone pocket-spring core and high-density base keep your spine aligned.</p>
+              <p>A 20cm pocket-spring core with seven zones and two wire gauges - firmer under your hips, softer at your shoulders.</p>
             </article>
             <article class="benefit" data-reveal-child style="--reveal-delay: 360ms">
               <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 8v4l2.5 2.5" stroke="currentColor" stroke-width="1.25"/></svg>
               <h3>Built to keep</h3>
               <p>Refresh the top instead of replacing the mattress - less waste, less cost over time.</p>
+            </article>
+            <article class="benefit" data-reveal-child style="--reveal-delay: 200ms">
+              <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16h16M6 16V9a6 6 0 0 1 12 0v7" stroke="currentColor" stroke-width="1.25"/></svg>
+              <h3>Sit on the edge</h3>
+              <p>A 35-density foam perimeter wraps the spring unit, so the edge holds its shape and you can sit on it without rolling off.</p>
+            </article>
+            <article class="benefit" data-reveal-child style="--reveal-delay: 250ms">
+              <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16h16M6 16V9a6 6 0 0 1 12 0v7" stroke="currentColor" stroke-width="1.25"/></svg>
+              <h3>They turn over. You sleep on.</h3>
+              <p>Every spring is individually pocketed, so movement stays where it happens. If your partner gets up at five, reads late, or turns over twenty times a night, it does not travel across the bed to you.</p>
             </article>
           </div>
         </div>
@@ -960,7 +1106,7 @@
               </div>
               <div class="ugc__meta">
                 <p class="ugc__handle">@aligna</p>
-                <p class="ugc__caption">White-glove delivery day · UAE</p>
+                <p class="ugc__caption">Delivery day</p>
               </div>
             </article>
           </div>
@@ -994,12 +1140,11 @@
         <div class="page-width">
           <p class="section__eyebrow">Buy with confidence</p>
           <h2>Order with confidence.</h2>
-          <p class="section__lede offer__anchor">
-            <span data-market-only="ae">Premium mattresses in the UAE typically run AED 6,000 to AED 15,000. Ours is made to order, and the comfort top is replaceable.</span>
-            <span data-market-only="gb" hidden>Premium hybrid mattresses from established UK brands typically run £1,399 to £2,399. Ours is made to order, and the comfort top is replaceable.</span>
+          <p class="section__lede offer__frame">
+            Most mattresses get replaced every seven or eight years because the top layer wears out. Ours is built so you replace the layer instead.
           </p>
           <p class="section__lede">
-            <span data-market-only="ae">Cancel any time before dispatch. Honest lead times. White-glove delivery and setup (UAE only).</span>
+            <span data-market-only="ae">Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.</span>
             <span data-market-only="gb" hidden>Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.</span>
           </p>
           <p class="offer__top-price">
@@ -1009,9 +1154,10 @@
           <div class="offer__items">
             <div class="offer__item"><strong>100-night trial</strong><span>Sleep on it. Decide at home.</span></div>
             <div class="offer__item"><strong>15-year warranty</strong><span>On the spring core.</span></div>
-            <div class="offer__item" data-market-only="ae"><strong>White-glove delivery · UAE only</strong><span>Free delivery and setup in the UAE.</span></div>
+            <div class="offer__item"><strong>Handmade to order</strong><span>Built after you order it, never from stock.</span></div>
             <div class="offer__item"><strong>Cancel before dispatch</strong><span>Full refund any time before your mattress ships.</span></div>
-            <div class="offer__item"><strong>Free from harmful chemicals</strong><span>OEKO-TEX® STANDARD 100 certified textiles.</span></div>
+            <div class="offer__item" data-claim-chemicals hidden><strong>Free from harmful chemicals</strong><span>Materials chosen for cleaner sleep.</span></div>
+            <div class="offer__item" data-claim-oeko hidden><strong>OEKO-TEX® STANDARD 100</strong><span>Textiles independently tested for harmful substances. <span data-oeko-cert-no></span></span></div>
           </div>
           <div class="offer__cta" data-reveal-child style="--reveal-delay: 160ms">
             <a class="btn" href="#reserve">See sizes and prices</a>
@@ -1026,22 +1172,24 @@
 
 <script type="application/json" data-size-price-config>
 [
-  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","available":true,"price_set":"control"},
-  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","available":true,"popular":true,"price_set":"control"},
-  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","available":true,"price_set":"control"},
-  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","available":false,"price_set":"control"},
-  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","available":true,"price_set":"control"},
-  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","available":true,"price_set":"control"},
-  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","available":true,"popular":true,"price_set":"control"},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,499","available":false,"price_set":"control"}
+  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true},
+  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true},
+  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
+  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
+  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
+  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
+  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false}
 ]
 </script>
-<div class="page-width size-reserve__layout" data-size-reserve data-market="ae" data-price-set="control" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-comfort-top-price="AED 1,200" data-default-firmness="Medium" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
+<div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Soft / firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
           <div>
             <p class="section__eyebrow">Sizes and prices</p>
             <hr class="gold-rule">
             <h2>Choose your size.</h2>
             <p class="section__lede">Select your size - price updates for your market. Dimensions always shown in centimetres.</p>
+          <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
             <div class="size-picker">
             <div class="size-list" data-size-list role="listbox" aria-label="Mattress size"></div>
             </div>
@@ -1086,14 +1234,14 @@
                 Ordering several? We can sequence delivery to suit you.
                 <a href="./pages/contact.html">Talk to us</a>
               </p>
-              <p class="order-basket__finance" data-bnpl-monthly>
-                or from <span data-bnpl-amount>[X]</span>/month with Tabby or Tamara
-              </p>
-              <div data-order-retail>
-                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue href="./pages/checkout.html">Continue</a>
+              <p class="order-basket__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
+              <div data-order-retail hidden>
+                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./pages/checkout.html" href="./pages/checkout.html">Checkout</a>
                 <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
               </div>
             </div>
+
+
           </div>
 
           <div data-reserve-notify hidden>
@@ -1140,7 +1288,35 @@
           <div class="faq__list" data-faq>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Why does it take 8 to 10 weeks?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">Because nothing is made until you order it. Your mattress is built to your chosen size and firmness, flown to your market, cleared, and delivered into your room by a two-person team. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.</div>
+              <div class="faq__panel">Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger>
+                <span>What does it feel like?</span>
+                <span class="faq__icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq__panel">You choose. The comfort module inside has a softer face and a firmer face - flip it to change. Soft suits side sleepers and lighter frames; firm suits back and front sleepers and heavier frames. If you are used to a very soft mattress, either setting will feel firmer for the first week or so while your body adjusts.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger>
+                <span>How do I change the firmness?</span>
+                <span class="faq__icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq__panel">Open the zip on the side of the mattress, lift out the comfort module, turn it over and put it back. Two minutes, no tools. One side is softer, the other is firmer. You can do it as often as you like and it costs nothing.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger>
+                <span>What if my partner and I want different firmnesses?</span>
+                <span class="faq__icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq__panel">The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your 100 nights and we will collect it and refund you in full.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger>
+                <span>Will my mattress look exactly like the photographs?</span>
+                <span class="faq__icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq__panel">Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.<br><br>What never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.<br><br>If yours arrives and you are not happy with it for any reason, including how it looks, you have 100 nights to tell us and we will collect it and refund you in full.</div>
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Can I change my mind after ordering?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1155,8 +1331,20 @@
               <div class="faq__panel">You have 100 nights to decide. If it is not right we collect it and refund you.</div>
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
-              <button class="faq__trigger" type="button" data-faq-trigger><span>How much is a replacement top?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">The comfort top is replaceable - that is the point of the bed. Spare tops are not sold separately at launch.</div>
+              <button class="faq__trigger" type="button" data-faq-trigger><span>How much is a comfort top?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.<br><br>The same top works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>Will I feel my partner moving?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">Much less than on a conventional sprung mattress. Every spring is individually wrapped in its own pocket, so it compresses on its own rather than pulling its neighbours with it. Add 10cm of foam above that and most movement is absorbed before it reaches you.<br><br>It is not complete isolation - no sprung mattress is - but if you are currently woken every time your partner turns over, this will be a noticeable change.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>Can I use a comfort top on a different mattress?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">Yes. It is 10cm of the same foam we build our own mattress with, in a quilted cover, in standard bed sizes. On our mattress it goes inside, behind the zip. On any other mattress it sits on top as a topper.<br><br>It will not fix a mattress that has failed. If yours has dipped or the springs have gone, a topper masks that for a while rather than solving it. On a mattress that is still sound, it changes how it feels.</div>
+            </div>
+            <div class="faq__item" data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>Will it fit my sheets?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">Our mattress is 37cm, which is deeper than standard fitted sheets allow for. You will need deep-fitted sheets, sold as 35cm or 40cm depth.<br><br>If you are using a comfort top on your own mattress, add 10cm to whatever your mattress measures now and check against that.</div>
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is the price negotiable?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1172,15 +1360,19 @@
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>How does the replaceable top work?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">Unzip, lift out, swap in. Tops come in soft, medium and firm.</div>
+              <div class="faq__panel">Unzip, lift out, swap in when the comfort layer is worn. To change firmness, flip the module inside - you do not need a new top.</div>
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What is the warranty?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">15-year warranty on the spring core. Full terms: <a href="./pages/warranty.html">Warranty</a>.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" data-claim-chemicals hidden data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is it free from harmful chemicals?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">Yes. Materials are selected to be free from harmful chemicals, and relevant textiles are OEKO-TEX® STANDARD 100 certified - independently tested against a strict catalogue of criteria.</div>
+              <div class="faq__panel">Yes. Materials are selected to be free from harmful chemicals for cleaner sleep.</div>
+            </div>
+            <div class="faq__item" data-claim-oeko hidden data-faq-item aria-expanded="false">
+              <button class="faq__trigger" type="button" data-faq-trigger><span>Is it OEKO-TEX® certified?</span><span class="faq__icon" aria-hidden="true"></span></button>
+              <div class="faq__panel">Relevant textiles are OEKO-TEX® STANDARD 100 certified - independently tested against a strict catalogue of criteria. <span data-oeko-cert-no></span></div>
             </div>
           </div>
         </div>
@@ -1265,6 +1457,9 @@
             <li><a href="./pages/size-guide.html">Size guide</a></li>
             <li><a href="./pages/contact.html">Contact</a></li>
             <li><a href="./pages/order-status.html">Order status</a></li>
+            <li><a href="./pages/privacy.html">Privacy</a></li>
+            <li><a href="./pages/terms.html">Terms</a></li>
+            <li><a href="./pages/cookies.html">Cookies</a></li>
           </ul>
         </div>
       </div>
@@ -1296,7 +1491,7 @@
       <span class="whatsapp-float__label">WhatsApp</span>
     </a>
 
-    <div class="exit-intent" data-exit-intent hidden>
+    <div class="exit-intent" data-exit-intent data-exit-enabled="0" data-exit-delay="30" hidden>
       <div class="exit-intent__dialog" role="dialog" aria-modal="true" aria-labelledby="ExitIntentTitle">
         <button type="button" class="exit-intent__close" data-exit-close aria-label="Close">&times;</button>
         <p class="exit-intent__title" id="ExitIntentTitle">Before you go - what stopped you today?</p>
@@ -1313,21 +1508,44 @@
         <div class="float-basket" data-float-basket data-sticky-reserve hidden>
       <span class="float-basket__count" data-float-count>1 mattress</span>
       <strong class="float-basket__total" data-float-total data-sticky-price>-</strong>
-      <a class="float-basket__btn" data-float-continue href="./pages/checkout.html">Continue</a>
+      <a class="float-basket__btn" data-float-continue data-checkout-href="./pages/checkout.html" href="#reserve">See sizes and prices</a>
     </div>
 
     <script>
       window.ValtoraTheme = { brandName: 'Aligna', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '#' }, debugTrack: true };
     </script>
-    <script src="./theme.js?v=wo-v4-nofirm1"></script>
+    <script>
+      window.ValtoraTheme = window.ValtoraTheme || {};
+      window.ValtoraTheme.exitIntent = { enabled: false, delaySeconds: 30 };
+    </script>
+    <script src="./theme.js?v=wo-v9-review1"></script>
 
     <script>
       (function () {
         var nameInput = document.getElementById('PreviewBrandName');
         var lineInput = document.getElementById('PreviewBrandLine');
+        var shareCopyInput = document.getElementById('PreviewShareCopy');
+        var DEFAULT_SHARE =
+          'Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.';
+
+        function expandShareCopy(template, name, line, tagline) {
+          var text = (template && String(template).trim()) || DEFAULT_SHARE;
+          return text
+            .split('[Brand]').join(name || '')
+            .split('[Line]').join(line || '')
+            .split('[Tagline]').join(tagline || '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+
         function applyBrand() {
           var name = (nameInput && nameInput.value.trim()) || 'Aligna';
           var line = lineInput ? lineInput.value.trim() : 'Mattresses';
+          document.documentElement.setAttribute('data-brand-hydrated', '1');
+          window.__valtoraPreviewBoot = Object.assign({}, window.__valtoraPreviewBoot || {}, {
+            name: name,
+            line: line
+          });
           document.querySelectorAll('[data-brand-text]').forEach(function (el) { el.textContent = name; });
           document.querySelectorAll('[data-brand-product-line]').forEach(function (el) {
             el.textContent = line;
@@ -1346,22 +1564,95 @@
             var suffix = el.getAttribute('data-brand-alt-suffix') || '';
             el.setAttribute('alt', prefix + name + suffix);
           });
+          var site = line ? name + ' ' + line : name;
+          var tagline = 'Premium Sleep, Engineered for the Gulf';
+          var shareTemplate = DEFAULT_SHARE;
+          try {
+            tagline = localStorage.getItem('valtoraPreviewTagline') || tagline;
+            shareTemplate =
+              (shareCopyInput && shareCopyInput.value) ||
+              localStorage.getItem('valtoraPreviewShareCopy') ||
+              DEFAULT_SHARE;
+          } catch (e) {}
+          if (shareCopyInput && !shareCopyInput.value) shareCopyInput.value = shareTemplate;
+          var desc = expandShareCopy(shareTemplate, name, line, tagline);
           var title = document.querySelector('title');
-          if (title) title.textContent = name + ' - Preview';
+          if (title) title.textContent = site;
+          function setMeta(selector, value) {
+            var el = document.querySelector(selector);
+            if (el) el.setAttribute('content', value);
+          }
+          setMeta('meta[name="description"]', desc);
+          setMeta('meta[name="application-name"]', name);
+          setMeta('meta[name="apple-mobile-web-app-title"]', name);
+          setMeta('meta[property="og:site_name"]', name);
+          setMeta('meta[property="og:title"]', site);
+          setMeta('meta[property="og:description"]', desc);
+          setMeta('meta[property="og:image:alt"]', site);
+          setMeta('meta[name="twitter:title"]', site);
+          setMeta('meta[name="twitter:description"]', desc);
+          setMeta('meta[name="twitter:image:alt"]', site);
           if (window.ValtoraTheme) window.ValtoraTheme.brandName = name;
+          if (typeof window.__valtoraApplyBrandFavicon === 'function') {
+            window.__valtoraApplyBrandFavicon(window.__valtoraPreviewBoot);
+          }
           try {
             localStorage.setItem('valtoraPreviewBrand', name);
             localStorage.setItem('valtoraPreviewBrandLine', line);
+            localStorage.setItem('valtoraPreviewShareCopy', shareTemplate);
+            localStorage.setItem(
+              'valtoraPreviewShareBrand',
+              JSON.stringify({
+                brand: name,
+                line: line,
+                tagline: tagline,
+                description: shareTemplate,
+                image: 'assets/hero-mattress.jpg'
+              })
+            );
           } catch (e) {}
+          var shareData = document.getElementById('ShareBrandData');
+          if (shareData) {
+            shareData.textContent = JSON.stringify({
+              brand: name,
+              line: line,
+              tagline: tagline,
+              description: shareTemplate,
+              image: 'assets/hero-mattress.jpg'
+            });
+          }
         }
         try {
           var saved = localStorage.getItem('valtoraPreviewBrand');
           var savedLine = localStorage.getItem('valtoraPreviewBrandLine');
+          var savedShare = localStorage.getItem('valtoraPreviewShareCopy');
           if (nameInput && saved) nameInput.value = saved;
           if (lineInput && savedLine !== null) lineInput.value = savedLine;
+          if (shareCopyInput && savedShare) shareCopyInput.value = savedShare;
         } catch (e) {}
         if (nameInput) nameInput.addEventListener('input', applyBrand);
         if (lineInput) lineInput.addEventListener('input', applyBrand);
+        if (shareCopyInput) shareCopyInput.addEventListener('input', applyBrand);
+        var shareSave = document.getElementById('PreviewShareBrandSave');
+        if (shareSave) {
+          shareSave.addEventListener('click', function () {
+            applyBrand();
+            var payload = null;
+            try {
+              payload = localStorage.getItem('valtoraPreviewShareBrand');
+            } catch (e) {}
+            if (!payload) {
+              var el = document.getElementById('ShareBrandData');
+              payload = el ? el.textContent : '{}';
+            }
+            var blob = new Blob([payload], { type: 'application/json' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'share-brand.json';
+            a.click();
+            URL.revokeObjectURL(a.href);
+          });
+        }
         applyBrand();
       })();
     </script>
@@ -1414,11 +1705,11 @@
         }
 
         try {
-          if (entriesToggle && localStorage.getItem('valtoraPreviewReviewsEntries') === '0') {
-            entriesToggle.checked = false;
+          if (entriesToggle) {
+            entriesToggle.checked = localStorage.getItem('valtoraPreviewReviewsEntries') !== '0';
           }
-          if (submitToggle && localStorage.getItem('valtoraPreviewReviewsSubmit') === '0') {
-            submitToggle.checked = false;
+          if (submitToggle) {
+            submitToggle.checked = localStorage.getItem('valtoraPreviewReviewsSubmit') !== '0';
           }
         } catch (e) {}
 
@@ -1430,6 +1721,7 @@
         document.addEventListener('preview:sections-changed', apply);
         applyEntries();
         apply();
+        setTimeout(function () { applyEntries(); apply(); }, 0);
 
         if (form) {
           form.addEventListener('submit', function (e) {
@@ -1509,9 +1801,6 @@
             if (!document.body.getAttribute('data-payment-mode')) {
               document.body.setAttribute('data-payment-mode', 'full');
             }
-            if (!document.body.getAttribute('data-price-set')) {
-              document.body.setAttribute('data-price-set', 'control');
-            }
           }
           document.querySelectorAll('[data-size-reserve]').forEach(function (el) {
             el.setAttribute('data-market', market);
@@ -1542,6 +1831,10 @@
           document.documentElement.setAttribute('data-font-set', set);
           if (fontLink && fonts[set]) fontLink.href = fonts[set];
           try { localStorage.setItem('valtoraPreviewFontSet', set); } catch (e) {}
+          window.__valtoraPreviewBoot = Object.assign({}, window.__valtoraPreviewBoot || {}, { fontSet: set });
+          if (typeof window.__valtoraApplyBrandFavicon === 'function') {
+            window.__valtoraApplyBrandFavicon(window.__valtoraPreviewBoot);
+          }
         }
 
         function applyScheme() {
@@ -1559,6 +1852,16 @@
             themeMeta.setAttribute('content', schemeThemeColors[scheme] || '#1F3A5F');
           }
           try { localStorage.setItem('valtoraPreviewColorScheme', scheme); } catch (e) {}
+          window.__valtoraPreviewBoot = Object.assign({}, window.__valtoraPreviewBoot || {}, {
+            scheme: scheme,
+            guidelines: currentGuidelines(),
+            fontSet: (fontSelect && fontSelect.value) || (window.__valtoraPreviewBoot && window.__valtoraPreviewBoot.fontSet) || 'modern'
+          });
+          if (typeof window.__valtoraInjectPreviewScheme === 'function') {
+            window.__valtoraInjectPreviewScheme(window.__valtoraPreviewBoot);
+          } else if (typeof window.__valtoraApplyBrandFavicon === 'function') {
+            window.__valtoraApplyBrandFavicon(window.__valtoraPreviewBoot);
+          }
         }
 
         function applyGuidelines() {
@@ -1570,6 +1873,9 @@
             if (savedScheme) preferred = savedScheme;
           } catch (e) {}
           fillSchemeOptions(guidelines, preferred);
+          window.__valtoraPreviewBoot = Object.assign({}, window.__valtoraPreviewBoot || {}, {
+            guidelines: guidelines
+          });
           applyFont();
           applyScheme();
           try { localStorage.setItem('valtoraPreviewBrandGuidelines', guidelines); } catch (e) {}
@@ -1863,6 +2169,253 @@
               history.replaceState({}, '', location.pathname + location.hash);
             }
           } catch (e) {}
+        })();
+
+        (function wireLeadLinePreview() {
+          var windowInput = document.getElementById('PreviewLeadWindow');
+          var lineInput = document.getElementById('PreviewLeadLine');
+          var targets = document.querySelectorAll('[data-lead-line]');
+          var DEFAULT_LINE = 'Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.';
+
+          function formatLeadLine(template, lead) {
+            var text = template == null || String(template).trim() === '' ? DEFAULT_LINE : String(template);
+            lead = lead == null ? '' : String(lead).trim();
+            if (!lead) {
+              return text
+                .replace(/\s*Current window:\s*\[lead\]\.?/gi, '')
+                .replace(/\s*Current window:\s*\[X-Y\]\.?/gi, '')
+                .replace(/\s{2,}/g, ' ')
+                .replace(/\.\s*\./g, '.')
+                .trim();
+            }
+            return text.split('[lead]').join(lead).split('[X-Y]').join(lead);
+          }
+
+          function apply() {
+            var lead = windowInput ? windowInput.value.trim() : '8 to 10 weeks';
+            var template = lineInput ? lineInput.value : DEFAULT_LINE;
+            var text = formatLeadLine(template, lead);
+            targets.forEach(function (el) { el.textContent = text; });
+            try {
+              localStorage.setItem('valtoraPreviewLeadWindow', lead);
+              localStorage.setItem('valtoraPreviewLeadLine', template == null ? DEFAULT_LINE : String(template));
+            } catch (e) {}
+          }
+
+          try {
+            var savedWindow = localStorage.getItem('valtoraPreviewLeadWindow');
+            var savedLine = localStorage.getItem('valtoraPreviewLeadLine');
+            if (windowInput && savedWindow !== null) windowInput.value = savedWindow;
+            if (lineInput && savedLine !== null) lineInput.value = savedLine;
+          } catch (e) {}
+
+          if (windowInput) {
+            windowInput.addEventListener('input', apply);
+            windowInput.addEventListener('change', apply);
+          }
+          if (lineInput) {
+            lineInput.addEventListener('input', apply);
+            lineInput.addEventListener('change', apply);
+          }
+          apply();
+        })();
+
+        (function wireClaimTogglesPreview() {
+          var chem = document.getElementById('PreviewChemicalsClaim');
+          var oeko = document.getElementById('PreviewOekoClaim');
+          var oekoCert = document.getElementById('PreviewOekoCert');
+          function certNo() {
+            return oekoCert ? String(oekoCert.value || '').trim() : '';
+          }
+          function paintCert() {
+            var n = certNo();
+            document.querySelectorAll('[data-oeko-cert-no]').forEach(function (el) {
+              el.textContent = n ? n : '';
+            });
+          }
+          function setAll(sel, on) {
+            document.querySelectorAll(sel).forEach(function (el) {
+              if (on) {
+                el.hidden = false;
+                el.removeAttribute('hidden');
+                el.classList.remove('is-claim-off');
+                el.removeAttribute('aria-hidden');
+              } else {
+                el.hidden = true;
+                el.setAttribute('hidden', '');
+                el.classList.add('is-claim-off');
+                el.setAttribute('aria-hidden', 'true');
+              }
+            });
+          }
+          function syncCertStrips() {
+            document.querySelectorAll('.cert-strip').forEach(function (strip) {
+              var anyOn = false;
+              strip.querySelectorAll('.cert-strip__item').forEach(function (it) {
+                if (!(it.hidden || it.hasAttribute('hidden') || it.classList.contains('is-claim-off'))) anyOn = true;
+              });
+              strip.hidden = !anyOn;
+              if (anyOn) {
+                strip.removeAttribute('hidden');
+                strip.classList.remove('is-empty');
+              } else {
+                strip.setAttribute('hidden', '');
+                strip.classList.add('is-empty');
+              }
+              var wrap = strip.closest('[data-cert-strip-wrap]') || strip.parentElement;
+              if (wrap && (wrap.hasAttribute('data-cert-strip-wrap') || wrap.classList.contains('page-width'))) {
+                wrap.setAttribute('data-cert-strip-wrap', '');
+                wrap.hidden = !anyOn;
+                if (anyOn) {
+                  wrap.removeAttribute('hidden');
+                  wrap.classList.remove('is-empty');
+                } else {
+                  wrap.setAttribute('hidden', '');
+                  wrap.classList.add('is-empty');
+                }
+              }
+            });
+          }
+          function apply() {
+            var chemOn = !!(chem && chem.checked);
+            var oekoOn = !!(oeko && oeko.checked && certNo());
+            paintCert();
+            setAll('[data-claim-chemicals]', chemOn);
+            setAll('[data-claim-oeko]', oekoOn);
+            setAll('[data-oeko-claim]', oekoOn && chemOn);
+            syncCertStrips();
+            try {
+              localStorage.setItem('valtoraPreviewClaimChemicals', chemOn ? '1' : '0');
+              localStorage.setItem('valtoraPreviewClaimOeko', oeko && oeko.checked ? '1' : '0');
+              localStorage.setItem('valtoraPreviewOekoCert', certNo());
+              localStorage.removeItem('valtoraPreviewChemicalsClaim');
+              localStorage.removeItem('valtoraPreviewOekoClaim');
+            } catch (e) {}
+          }
+          try {
+            if (chem) chem.checked = localStorage.getItem('valtoraPreviewClaimChemicals') === '1';
+            if (oeko) oeko.checked = localStorage.getItem('valtoraPreviewClaimOeko') === '1';
+            if (oekoCert) {
+              var savedCert = localStorage.getItem('valtoraPreviewOekoCert');
+              if (savedCert) oekoCert.value = savedCert;
+            }
+          } catch (e) {}
+          if (chem) chem.addEventListener('change', apply);
+          if (oeko) oeko.addEventListener('change', apply);
+          if (oekoCert) {
+            oekoCert.addEventListener('input', apply);
+            oekoCert.addEventListener('change', apply);
+          }
+          apply();
+          // Re-apply after marquee/clone passes that may run late.
+          setTimeout(apply, 0);
+          setTimeout(apply, 250);
+        })();
+
+        (function wireAnnouncementPreview() {
+          var onToggle = document.getElementById('PreviewAnnouncementOn');
+          var aeInput = document.getElementById('PreviewAnnouncementAe');
+          var gbInput = document.getElementById('PreviewAnnouncementGb');
+          var DEFAULT_AE = 'Cancel any time before dispatch · 100-night trial · Made to order';
+          var DEFAULT_GB = 'Cancel any time before dispatch · 100-night trial · Spread with Klarna';
+
+          function apply() {
+            var enabled = !onToggle || onToggle.checked;
+            var textAe = aeInput ? aeInput.value : DEFAULT_AE;
+            var textGb = gbInput ? gbInput.value : DEFAULT_GB;
+            try {
+              localStorage.setItem('valtoraPreviewAnnouncementOn', enabled ? '1' : '0');
+              localStorage.setItem('valtoraPreviewAnnouncementAe', textAe);
+              localStorage.setItem('valtoraPreviewAnnouncementGb', textGb);
+            } catch (e) {}
+            document.querySelectorAll('[data-announcement-bar], .announcement').forEach(function (bar) {
+              bar.hidden = !enabled;
+              if (enabled) bar.removeAttribute('hidden');
+              else bar.setAttribute('hidden', '');
+              var aeEl = bar.querySelector('[data-market-only="ae"]');
+              var gbEl = bar.querySelector('[data-market-only="gb"]');
+              if (aeEl) aeEl.textContent = textAe;
+              if (gbEl) gbEl.textContent = textGb;
+            });
+          }
+
+          try {
+            var savedOn = localStorage.getItem('valtoraPreviewAnnouncementOn');
+            var savedAe = localStorage.getItem('valtoraPreviewAnnouncementAe');
+            var savedGb = localStorage.getItem('valtoraPreviewAnnouncementGb');
+            if (onToggle && savedOn === '0') onToggle.checked = false;
+            if (onToggle && savedOn === '1') onToggle.checked = true;
+            if (aeInput && savedAe !== null) aeInput.value = savedAe;
+            if (gbInput && savedGb !== null) gbInput.value = savedGb;
+          } catch (e) {}
+
+          if (onToggle) onToggle.addEventListener('change', apply);
+          if (aeInput) {
+            aeInput.addEventListener('input', apply);
+            aeInput.addEventListener('change', apply);
+          }
+          if (gbInput) {
+            gbInput.addEventListener('input', apply);
+            gbInput.addEventListener('change', apply);
+          }
+          apply();
+        })();
+
+        (function wireExitIntentPreview() {
+          var toggle = document.getElementById('PreviewExitIntent');
+          var delayInput = document.getElementById('PreviewExitIntentDelay');
+          var exportBtn = document.getElementById('PreviewExitIntentExport');
+          var panel = document.querySelector('[data-exit-intent]');
+
+          function syncAttrs() {
+            var on = !!(toggle && toggle.checked);
+            var delay = delayInput ? parseInt(delayInput.value, 10) : 30;
+            if (!isFinite(delay) || delay < 0) delay = 30;
+            if (delayInput) delayInput.value = String(delay);
+            if (panel) {
+              panel.setAttribute('data-exit-enabled', on ? '1' : '0');
+              panel.setAttribute('data-exit-delay', String(delay));
+            }
+            try {
+              localStorage.setItem('valtoraPreviewExitIntent', on ? '1' : '0');
+              localStorage.setItem('valtoraPreviewExitIntentDelay', String(delay));
+            } catch (e) {}
+          }
+
+          try {
+            if (toggle && localStorage.getItem('valtoraPreviewExitIntent') === '1') toggle.checked = true;
+            var savedDelay = localStorage.getItem('valtoraPreviewExitIntentDelay');
+            if (delayInput && savedDelay != null && savedDelay !== '') delayInput.value = savedDelay;
+          } catch (e) {}
+
+          syncAttrs();
+
+          if (toggle) {
+            toggle.addEventListener('change', function () {
+              syncAttrs();
+              location.reload();
+            });
+          }
+          if (delayInput) {
+            delayInput.addEventListener('change', function () {
+              syncAttrs();
+              if (toggle && toggle.checked) location.reload();
+            });
+          }
+          if (exportBtn) {
+            exportBtn.addEventListener('click', function () {
+              var json =
+                (window.ValtoraExitIntent && window.ValtoraExitIntent.exportJson()) ||
+                localStorage.getItem('valtora_exit_intent_log') ||
+                '[]';
+              var blob = new Blob([json], { type: 'application/json' });
+              var a = document.createElement('a');
+              a.href = URL.createObjectURL(blob);
+              a.download = 'exit-intent-log.json';
+              a.click();
+              URL.revokeObjectURL(a.href);
+            });
+          }
         })();
 
         (function wireForceMotion() {

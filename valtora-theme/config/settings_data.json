@@ -1,33 +1,72 @@
 {
   "current": {
-    "brand_name": "Valtora",
+    "brand_name": "Aligna",
+    "brand_product_line": "Mattresses",
     "brand_tagline": "Premium Sleep, Engineered for the Gulf",
-    "wordmark_tracking": 15,
+    "share_description": "Premium Sleep, Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.",
+    "wordmark_tracking": 18,
+    "color_scheme": "signature",
+    "brand_guidelines": "v1",
     "color_primary": "#1F3A5F",
     "color_accent": "#8A6D3B",
     "color_bg": "#F7F5F1",
     "color_surface": "#EAE6DF",
     "color_ink": "#222222",
     "color_on_dark": "#F7F5F1",
-    "font_serif": "cormorant",
-    "font_sans": "manrope",
+    "font_set": "modern",
+    "font_serif": "fraunces",
+    "font_sans": "outfit",
+    "wordmark_font": "sans",
+    "headline_font": "sans",
     "default_market": "ae",
+    "size_add_label": "Add",
     "deposit_amount_label": "AED 200",
-    "bnpl_microcopy": "or from AED [X]/month with Tabby or Tamara",
-    "lead_time_window": "6–8 weeks",
+    "klarna_client_id": "",
+    "splitit_enabled": false,
+    "splitit_merchant_id": "",
+    "bnpl_microcopy": "",
+    "lead_time_window": "8 to 10 weeks",
+    "lead_time_mattress_min": 8,
+    "lead_time_mattress_max": 10,
+    "lead_time_top_min": 2,
+    "lead_time_top_max": 3,
+    "lead_time_default_min": 8,
+    "lead_time_default_max": 10,
+    "lead_time_line": "Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.",
+    "order_lookup_enabled": false,
+    "order_lookup_endpoint": "/apps/order",
     "warranty_years": "15",
-    "contact_email": "hello@valtora.com",
+    "reviews_enabled": true,
+    "reviews_allow_submissions": true,
+    "reviews_require_purchase": true,
+    "contact_email": "hello@aligna.com",
+    "contact_phone_ae": "",
+    "whatsapp_number_ae": "",
+    "contact_phone_gb": "",
+    "whatsapp_number_gb": "",
+    "exit_intent_enabled": false,
+    "exit_intent_delay_seconds": 30,
     "whatsapp_enabled": true,
     "whatsapp_prefill": "Hi - I have a question about reserving a mattress.",
-    "contact_hours": "Sun–Thu, 9am–6pm GST",
+    "contact_hours": "Sun-Thu, 9am-6pm GST",
     "response_time_note": "We reply within one working day.",
-    "legal_entity_name_ae": "[Company] FZ-LLC",
+    "legal_entity_name_ae": "Valtora FZE",
+    "trade_licence_no": "",
+    "registered_address_ae": "Business Centre, Sharjah Publishing City Free Zone\nSharjah, United Arab Emirates",
+    "tax_reg_no_ae": "",
+    "legal_entity_name_gb": "",
+    "company_no_gb": "",
+    "registered_address_gb": "",
+    "tax_reg_no_gb": "",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "text": "First allocation now reserving — limited units per size.",
-          "link": ""
+          "enable_section": true,
+          "text": "Cancel any time before dispatch \u00b7 100-night trial",
+          "link": "",
+          "text_ae": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Made to order",
+          "text_gb": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Spread with Klarna"
         }
       },
       "header": {
@@ -50,13 +89,23 @@
             }
           }
         },
-        "block_order": ["policies"],
+        "block_order": [
+          "policies"
+        ],
         "settings": {
           "show_payment_icons": false,
           "copyright_text": ""
         }
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "payment_mode": "full",
+    "split_percent": 50,
+    "show_oeko_tex_claim": false,
+    "oeko_tex_certificate_no": "",
+    "show_chemicals_claim": false,
+    "firmness_label": "Medium-firm",
+    "firmness_note": "Suits most sleepers",
+    "variation_notice": "Handmade, so natural variation in fabric shade is possible. The construction is identical every time."
   }
 }

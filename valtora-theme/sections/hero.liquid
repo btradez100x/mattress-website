@@ -10,13 +10,58 @@
     endif
   endif
   assign tone = section.settings.tone | default: 'light'
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+  assign payment_mode = settings.payment_mode | default: 'full'
+  if section.settings.assurance != blank
+    assign assurance_line = section.settings.assurance
+  elsif payment_mode == 'split'
+    assign assurance_line = 'Pay '
+    assign assurance_line = assurance_line | append: settings.split_percent | default: 50 | append: '% today · balance when it ships'
+    if market == 'gb'
+      assign assurance_line = assurance_line | append: ' · Spread with Klarna'
+    else
+      assign assurance_line = assurance_line | append: ' · Spread with Tabby or Tamara'
+    endif
+  else
+    assign assurance_line = 'Cancel any time before dispatch · 100-night trial · '
+    assign assurance_line = assurance_line | append: settings.warranty_years | default: '15' | append: '-year warranty'
+  endif
 -%}
+{%- if section.settings.enable_section -%}
 <section
   class="hero hero--{{ tone }}"
   id="hero"
   {% if style != blank %}style="{{ style }}"{% endif %}
 >
-  <div class="hero__media" aria-hidden="true">
+  {%- comment -%} Copy first so the product image stays clear (Apple-style stack on light) {%- endcomment -%}
+  <div class="hero__content">
+    {%- if section.settings.heading != blank -%}
+      <h1>{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="hero__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    <div class="hero__cta">
+      <a class="btn" href="{{ section.settings.cta_link | default: '#reserve' }}" data-hero-cta>
+        {{ section.settings.cta_label | default: 'See sizes and prices' }}
+      </a>
+      {%- if section.settings.secondary_cta_label != blank -%}
+        <a class="btn btn--ghost hero__secondary" href="{{ section.settings.secondary_cta_link | default: '#swap-video' }}">
+          {{ section.settings.secondary_cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+    {%- if assurance_line != blank -%}
+      <p class="hero__assurance">{{ assurance_line }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="hero__media">
     {%- if section.settings.video != blank -%}
       {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: '1920x' }}
     {%- else -%}
@@ -28,36 +73,23 @@
       %}
     {%- endif -%}
   </div>
-  <div class="hero__scrim" aria-hidden="true"></div>
-
-  <div class="hero__content">
-    <div class="hero__brand">
-      {% render 'wordmark',
-        brand_name_override: brand,
-        dark: false,
-        class: 'wordmark--hero',
-        link: routes.root_url
-      %}
-    </div>
-    {%- if section.settings.heading != blank -%}
-      <h1>{{ section.settings.heading }}</h1>
-    {%- endif -%}
-    {%- if section.settings.subheading != blank -%}
-      <p class="hero__sub">{{ section.settings.subheading }}</p>
-    {%- endif -%}
-    <div class="hero__cta">
-      <a class="btn" href="{{ section.settings.cta_link | default: '#reserve' }}">
-        {{ section.settings.cta_label | default: 'Reserve yours' }}
-      </a>
-    </div>
-  </div>
+  {%- if tone == 'dark' -%}
+    <div class="hero__scrim" aria-hidden="true"></div>
+  {%- endif -%}
 </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Hero",
   "tag": "section",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
     {
       "type": "header",
       "content": "Copy (positioning test surface)"
@@ -66,30 +98,50 @@
       "type": "text",
       "id": "brand_name_override",
       "label": "Brand name override",
-      "info": "For name A/B variants on duplicated pages."
+      "info": "For name A/B variants on duplicated pages. Logo stays in the header only."
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Headline",
-      "default": "Change your comfort, not your mattress."
+      "default": "Made to order. Made to last."
     },
     {
       "type": "textarea",
       "id": "subheading",
       "label": "Subhead",
-      "default": "The premium hybrid with a replaceable comfort top — unzip, swap, and make it feel new again."
+      "default": "A 37cm handmade hybrid, built after you order it. Seven-zone pocket springs, a breathable knitted cover, and a comfort top you replace instead of replacing the mattress."
     },
     {
       "type": "text",
       "id": "cta_label",
       "label": "CTA label",
-      "default": "Reserve yours"
+      "default": "See sizes and prices"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "cta_link",
-      "label": "CTA link"
+      "label": "CTA link",
+      "info": "Use a path or in-page anchor such as #reserve."
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_label",
+      "label": "Secondary CTA label",
+      "default": "How the swap system works"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_link",
+      "label": "Secondary CTA link",
+      "info": "Use a path or in-page anchor such as #swap."
+    },
+    {
+      "type": "text",
+      "id": "assurance",
+      "label": "Assurance line override",
+      "info": "Leave blank for: Cancel any time before dispatch · 100-night trial · 15-year warranty (full payment). Split mode still uses pay-today defaults.",
+      "default": "Cancel any time before dispatch · 100-night trial · 15-year warranty"
     },
     {
       "type": "header",
@@ -104,7 +156,7 @@
         { "value": "dark", "label": "Dark overlay (lifestyle)" }
       ],
       "default": "light",
-      "info": "Light matches Brand Guidelines A2 studio hero. Dark for lifestyle photography."
+      "info": "Light = Apple-style stack (copy above, product shines below). Dark = Nike-style lifestyle with bottom copy."
     },
     {
       "type": "image_picker",

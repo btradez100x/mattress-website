@@ -1,0 +1,27 @@
+name = "valtora-order-status"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+# Shopify App Proxy:
+#   Subpath prefix: apps
+#   Subpath: order
+#   Proxy URL: https://<this-worker>/
+#
+# Storefront then calls:
+#   GET  /apps/order?t=TOKEN
+#   POST /apps/order/lookup
+
+[vars]
+SHOPIFY_SHOP = "your-shop.myshopify.com"
+STATUS_PAGE_URL = "https://your-shop.com/pages/order-status"
+EMAIL_FROM = "Aligna <hello@your-domain.com>"
+TOKEN_TTL_DAYS = "90"
+# Local only. Never set this in production.
+# ALLOW_UNSIGNED = "1"
+
+# Secrets (wrangler secret put):
+#   SHOPIFY_API_SECRET      App client secret — proxy signature + fallback HMAC
+#   SHOPIFY_ADMIN_TOKEN     Admin API access token (read_orders, read_files)
+#   TOKEN_SECRET            HMAC secret for email tokens (optional; falls back to API secret)
+#   NOTIFY_SECRET           Shared secret for Flow → POST /notify
+#   RESEND_API_KEY          Optional; without it, lookup still returns the generic message

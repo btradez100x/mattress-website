@@ -3,16 +3,22 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "heading": "Change your comfort, not your mattress.",
-        "subheading": "The premium hybrid with a replaceable comfort top \u2014 unzip, swap, and make it feel new again.",
-        "cta_label": "Reserve yours",
+        "enable_section": true,
+        "heading": "Made to order. Made to last.",
+        "subheading": "A 37cm handmade hybrid, built after you order it. Seven-zone pocket springs, a breathable knitted cover, and a comfort top you replace instead of replacing the mattress.",
+        "cta_label": "See sizes and prices",
         "cta_link": "#reserve",
-        "tone": "light"
+        "tone": "light",
+        "secondary_cta_label": "How the swap system works",
+        "secondary_cta_link": "#swap",
+        "assurance": "Cancel any time before dispatch · 100-night trial · 15-year warranty"
       }
     },
     "big-idea": {
       "type": "big-idea",
-      "settings": {}
+      "settings": {
+        "enable_section": true
+      }
     },
     "benefits": {
       "type": "benefits",
@@ -21,8 +27,8 @@
           "type": "benefit",
           "settings": {
             "icon": "adapt",
-            "heading": "A bed that adapts",
-            "text": "Swap the top to change firmness \u2014 as your body, your partner, or your preferences change."
+            "heading": "Too firm? Flip it.",
+            "text": "Inside your mattress, behind a second zip, is a comfort layer with a soft side and a firm side. If the feel is not right, open it, turn it over and close it again. Two minutes, no tools, no cost, as many times as you like."
           }
         },
         "b2": {
@@ -30,7 +36,7 @@
           "settings": {
             "icon": "cool",
             "heading": "Cool by design",
-            "text": "A breathable cool-knit cover and gel-infused comfort layer, made for warm nights."
+            "text": "A 400g cool-knit cover over gel memory foam and a wave-profile layer that channels air through the mattress rather than trapping it."
           }
         },
         "b3": {
@@ -38,7 +44,7 @@
           "settings": {
             "icon": "support",
             "heading": "Deep, engineered support",
-            "text": "A 20cm, 7-zone pocket-spring core and high-density base keep your spine aligned."
+            "text": "A 20cm pocket-spring core with seven zones and two wire gauges - firmer under your hips, softer at your shoulders."
           }
         },
         "b4": {
@@ -46,7 +52,23 @@
           "settings": {
             "icon": "enduring",
             "heading": "Built to keep",
-            "text": "Refresh the top instead of replacing the mattress \u2014 less waste, less cost over time."
+            "text": "Refresh the top instead of replacing the mattress - less waste, less cost over time."
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "icon": "stability",
+            "heading": "Sit on the edge",
+            "text": "A 35-density foam perimeter wraps the spring unit, so the edge holds its shape and you can sit on it without rolling off."
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "icon": "stability",
+            "heading": "They turn over. You sleep on.",
+            "text": "Every spring is individually pocketed, so movement stays where it happens. If your partner gets up at five, reads late, or turns over twenty times a night, it does not travel across the bed to you."
           }
         }
       },
@@ -54,8 +76,14 @@
         "b1",
         "b2",
         "b3",
-        "b4"
-      ]
+        "b4",
+        "b5",
+        "b6"
+      ],
+      "settings": {
+        "enable_section": true,
+        "heading": "Two firmnesses. One mattress."
+      }
     },
     "product-specs": {
       "type": "product-specs",
@@ -63,67 +91,133 @@
         "s1": {
           "type": "spec",
           "settings": {
-            "text": "37cm full height \u2014 substantial, hotel-grade depth"
+            "text": "Height - 37cm measured made up"
+          }
+        },
+        "s_asm": {
+          "type": "spec",
+          "settings": {
+            "text": "Assembly - Hand-assembled, made to order"
           }
         },
         "s2": {
           "type": "spec",
           "settings": {
-            "text": "400gsm cool-knit cover"
+            "text": "Cover - 400g cool-knit, black zip access"
           }
         },
         "s3": {
           "type": "spec",
           "settings": {
-            "text": "Gel-infused memory foam comfort layer"
+            "text": "Gel memory foam - 1cm, 28 density. Contours without trapping heat"
           }
         },
         "s4": {
           "type": "spec",
           "settings": {
-            "text": "Replaceable comfort top (zip access)"
+            "text": "Comfort foam - 1.5cm, 20 density. The give you feel first"
           }
         },
         "s5": {
           "type": "spec",
           "settings": {
-            "text": "20cm 7-zone pocket-spring core"
+            "text": "Wave-profile foam - 2.5cm, 20 density. Channels air through the comfort layers"
           }
         },
         "s6": {
           "type": "spec",
           "settings": {
-            "text": "High-density encased support base"
+            "text": "Flippable comfort module - 10cm, 25 density. Soft one side, firm the other, behind its own zip"
           }
         },
         "s7": {
           "type": "spec",
           "settings": {
-            "text": "Anti-slip base"
+            "text": "Pocket spring core - 20cm, 7 zones, 1.9mm and 2.0mm wire. Individually pocketed so movement does not travel"
+          }
+        },
+        "s8": {
+          "type": "spec",
+          "settings": {
+            "text": "Encased perimeter - 7cm, 35 density. Holds the edge"
+          }
+        },
+        "s9": {
+          "type": "spec",
+          "settings": {
+            "text": "Underside - anti-slip base"
           }
         }
       },
       "block_order": [
         "s1",
+        "s_asm",
         "s2",
         "s3",
         "s4",
         "s5",
         "s6",
-        "s7"
-      ]
+        "s7",
+        "s8",
+        "s9"
+      ],
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "The mattress",
+        "heading": "Every layer, stated.",
+        "body": "Measured at 37cm made up. Below is the full construction, layer by layer, with densities. Most brands do not publish this. You are spending a lot of money on something you cannot open, so you should be able to see what is inside it.",
+        "show_cert_strip": false
+      }
     },
     "swap-explainer": {
       "type": "swap-explainer",
-      "settings": {}
-    },
-    "cooling-support": {
-      "type": "cooling-support",
-      "settings": {}
+      "settings": {
+        "enable_section": true,
+        "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort top can be unzipped, lifted out and replaced.</p>",
+        "ownership_cost_gb": "<p>A comfort top costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
+        "ownership_cost_ae": "<p>A comfort top costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
+        "dual_use": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>",
+        "top_cta_label": "See the comfort top"
+      }
     },
     "social-proof": {
       "type": "social-proof",
-      "settings": {}
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "Customer reviews",
+        "heading": "What owners say.",
+        "subheading": "Verified purchase reviews from the founding allocations.",
+        "empty_text": "Reviews will appear here shortly.",
+        "load_more_label": "Show more reviews",
+        "page_size": 6,
+        "enable_reviews": true,
+        "enable_submissions": true,
+        "require_purchase": true,
+        "write_cta": "Write a review",
+        "form_heading": "Write a review",
+        "form_lede": "Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear.",
+        "submit_label": "Submit review"
+      },
+      "blocks": {
+        "oeko": {
+          "type": "proof",
+          "settings": {
+            "caption": "Free from harmful chemicals",
+            "link": ""
+          }
+        },
+        "proof_oeko": {
+          "type": "proof",
+          "settings": {
+            "caption": "OEKO-TEX® STANDARD 100",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "oeko",
+        "proof_oeko"
+      ]
     },
     "offer": {
       "type": "offer",
@@ -145,15 +239,36 @@
         "o3": {
           "type": "offer_item",
           "settings": {
-            "title": "White-glove delivery",
-            "text": "Free delivery and setup."
+            "title": "Handmade to order",
+            "text": "Built after you order it, never from stock.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
           }
         },
         "o4": {
           "type": "offer_item",
           "settings": {
-            "title": "Founding allocation",
-            "text": "Limited units per size."
+            "title": "Cancel before dispatch",
+            "text": "Full refund any time before your mattress ships.",
+            "payment_mode_visibility": "full"
+          }
+        },
+        "oeko": {
+          "type": "offer_item",
+          "settings": {
+            "title": "Free from harmful chemicals",
+            "text": "Materials chosen for cleaner sleep.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "offer_oeko": {
+          "type": "offer_item",
+          "settings": {
+            "title": "OEKO-TEX® STANDARD 100",
+            "text": "Textiles independently tested for harmful substances.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
           }
         }
       },
@@ -161,292 +276,197 @@
         "o1",
         "o2",
         "o3",
-        "o4"
-      ]
+        "o4",
+        "oeko",
+        "offer_oeko"
+      ],
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "Buy with confidence",
+        "heading": "Order with confidence.",
+        "body": "Made to order. Cancel any time before dispatch. Honest lead times.",
+        "cta_label": "See sizes and prices",
+        "cta_link": "#reserve",
+        "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
+        "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
+        "replacement_top_price_gb": "A replacement comfort top is £250. A new mattress is not.",
+        "replacement_top_price_ae": "A replacement comfort top is AED 1,200. A new mattress is not.",
+        "replacement_frame": "<p>Most mattresses get replaced every seven or eight years because the top layer wears out. Ours is built so you replace the layer instead.</p>"
+      }
     },
     "size-reserve": {
       "type": "size-reserve",
-      "blocks": {
-        "sp1": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "ae",
-            "size_id": "single",
-            "label": "Single",
-            "dims": "90\u2013100 \u00d7 200 cm",
-            "price_display": "AED 8,999",
-            "available": true
-          }
-        },
-        "sp2": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "ae",
-            "size_id": "queen",
-            "label": "Queen",
-            "dims": "160 \u00d7 200 cm",
-            "price_display": "AED 11,999",
-            "available": true
-          }
-        },
-        "sp3": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "ae",
-            "size_id": "king",
-            "label": "King",
-            "dims": "180 \u00d7 200 cm",
-            "price_display": "AED 14,999",
-            "available": true
-          }
-        },
-        "sp4": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "ae",
-            "size_id": "super-king",
-            "label": "Super King",
-            "dims": "200 \u00d7 200 cm",
-            "price_display": "AED 14,999",
-            "available": false
-          }
-        },
-        "sp5": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "gb",
-            "size_id": "single",
-            "label": "Single",
-            "dims": "90 \u00d7 190 cm",
-            "price_display": "\u00a31,999",
-            "available": true
-          }
-        },
-        "sp6": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "gb",
-            "size_id": "double",
-            "label": "Double",
-            "dims": "135 \u00d7 190 cm",
-            "price_display": "\u00a32,499",
-            "available": true
-          }
-        },
-        "sp7": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "gb",
-            "size_id": "king",
-            "label": "King",
-            "dims": "150 \u00d7 200 cm",
-            "price_display": "\u00a32,999",
-            "available": true
-          }
-        },
-        "sp8": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "control",
-            "market": "gb",
-            "size_id": "super-king",
-            "label": "Super King",
-            "dims": "180 \u00d7 200 cm",
-            "price_display": "\u00a32,999",
-            "available": false
-          }
-        },
-        "sp9": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "ae",
-            "size_id": "single",
-            "label": "Single",
-            "dims": "90\u2013100 \u00d7 200 cm",
-            "price_display": "AED 7,999",
-            "available": true
-          }
-        },
-        "sp10": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "ae",
-            "size_id": "queen",
-            "label": "Queen",
-            "dims": "160 \u00d7 200 cm",
-            "price_display": "AED 9,999",
-            "available": true
-          }
-        },
-        "sp11": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "ae",
-            "size_id": "king",
-            "label": "King",
-            "dims": "180 \u00d7 200 cm",
-            "price_display": "AED 12,999",
-            "available": true
-          }
-        },
-        "sp12": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "ae",
-            "size_id": "super-king",
-            "label": "Super King",
-            "dims": "200 \u00d7 200 cm",
-            "price_display": "AED 12,999",
-            "available": false
-          }
-        },
-        "sp13": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "gb",
-            "size_id": "single",
-            "label": "Single",
-            "dims": "90 \u00d7 190 cm",
-            "price_display": "\u00a31,799",
-            "available": true
-          }
-        },
-        "sp14": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "gb",
-            "size_id": "double",
-            "label": "Double",
-            "dims": "135 \u00d7 190 cm",
-            "price_display": "\u00a32,199",
-            "available": true
-          }
-        },
-        "sp15": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "gb",
-            "size_id": "king",
-            "label": "King",
-            "dims": "150 \u00d7 200 cm",
-            "price_display": "\u00a32,699",
-            "available": true
-          }
-        },
-        "sp16": {
-          "type": "size_price",
-          "settings": {
-            "price_set": "test-a",
-            "market": "gb",
-            "size_id": "super-king",
-            "label": "Super King",
-            "dims": "180 \u00d7 200 cm",
-            "price_display": "\u00a32,699",
-            "available": false
-          }
-        }
-      },
-      "block_order": [
-        "sp1",
-        "sp2",
-        "sp3",
-        "sp4",
-        "sp5",
-        "sp6",
-        "sp7",
-        "sp8",
-        "sp9",
-        "sp10",
-        "sp11",
-        "sp12",
-        "sp13",
-        "sp14",
-        "sp15",
-        "sp16"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {
-        "body": "Select your size \u2014 price updates for your market. Dimensions always shown in centimetres.",
+        "enable_section": true,
+        "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
+        "firmness_line": "Soft one side, firm the other. Unzip and flip whenever you want a different feel.",
         "market_force": "auto",
-        "button_label": "Reserve my size",
-        "active_price_set": "control"
+        "heading": "Choose your size.",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "anchor_id": "reserve",
+        "leadtime_placement": "staged",
+        "stage_b_heading": "Before you order",
+        "eyebrow": "Sizes and prices",
+        "continue_label_full": "Continue",
+        "button_label_full": "Buy now"
       }
     },
     "faq": {
       "type": "faq",
       "blocks": {
-        "f1": {
+        "faq_1": {
           "type": "item",
           "settings": {
-            "question": "What does the deposit do?",
-            "answer": "It reserves your mattress in the current allocation. Fully refundable any time before dispatch."
+            "question": "Why does it take 8 to 10 weeks?",
+            "answer": "Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.",
+            "payment_mode_visibility": "all"
           }
         },
-        "f2": {
+        "faq_2": {
           "type": "item",
           "settings": {
-            "question": "When will it ship?",
-            "answer": "Each mattress is made to order. Current window: [X-Y]. We confirm your date before dispatch."
+            "question": "Can I change my mind after ordering?",
+            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have 100 nights.",
+            "payment_mode_visibility": "all"
           }
         },
-        "f3": {
+        "faq_3": {
+          "type": "item",
+          "settings": {
+            "question": "What if it is late?",
+            "answer": "We give a delivery window rather than a single date because international freight can move. If we are going to miss the window we will tell you before you find out, and you can cancel for a full refund at any point before dispatch.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_4": {
+          "type": "item",
+          "settings": {
+            "question": "What if I do not like it?",
+            "answer": "You have 100 nights to decide. If it is not right we collect it and refund you.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_5": {
+          "type": "item",
+          "settings": {
+            "question": "How much is a comfort top?",
+            "answer": "GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same top works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_6": {
+          "type": "item",
+          "settings": {
+            "question": "Is the price negotiable?",
+            "answer": "No. We sell direct and price the same for everyone, which is how the price stays where it is.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_7": {
+          "type": "item",
+          "settings": {
+            "question": "Do I pay in full today?",
+            "answer": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna, Tabby or Tamara where available. Cancel any time before dispatch for a full refund.",
+            "payment_mode_visibility": "full"
+          }
+        },
+        "faq_8": {
+          "type": "item",
+          "settings": {
+            "question": "How does the split payment work?",
+            "answer": "You pay part today to place the order. The balance is due before dispatch. Cancel any time before dispatch for a full refund of amounts paid.",
+            "payment_mode_visibility": "split"
+          }
+        },
+        "faq_9": {
           "type": "item",
           "settings": {
             "question": "Which size should I choose?",
-            "answer": "Use the size selector \u2014 dimensions always shown in cm. UAE and UK sizes differ."
+            "answer": "Use the size selector on this page - dimensions are always shown in cm. UAE and UK sizes differ (a UAE King is wider than a UK King). See the size guide for a full comparison.",
+            "payment_mode_visibility": "all"
           }
         },
-        "f4": {
+        "faq_10": {
           "type": "item",
           "settings": {
             "question": "How does the replaceable top work?",
-            "answer": "Unzip, lift out, swap in. Tops come in soft, medium and firm."
+            "answer": "Unzip, lift out, swap in when the comfort layer is worn. To change firmness, flip the module inside - you do not need a new top.",
+            "payment_mode_visibility": "all"
           }
         },
-        "f5": {
-          "type": "item",
-          "settings": {
-            "question": "What if it is not right for me?",
-            "answer": "You have a 100-night trial per the active offer terms."
-          }
-        },
-        "f6": {
+        "faq_11": {
           "type": "item",
           "settings": {
             "question": "What is the warranty?",
-            "answer": "[X]-year warranty on the spring core."
+            "answer": "[X]-year warranty on the spring core.",
+            "payment_mode_visibility": "all"
           }
         },
-        "f7": {
+        "faq_feel": {
           "type": "item",
           "settings": {
-            "question": "Can I pay cash on delivery?",
-            "answer": "Because each mattress is made to order, we take a small refundable deposit to reserve your size. The balance is due only once we confirm your dispatch date \u2014 and the deposit is refundable in full at any point before dispatch."
+            "question": "What does it feel like?",
+            "answer": "You choose. The comfort module inside has a softer face and a firmer face - flip it to change. Soft suits side sleepers and lighter frames; firm suits back and front sleepers and heavier frames. If you are used to a very soft mattress, either setting will feel firmer for the first week or so while your body adjusts.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_flip": {
+          "type": "item",
+          "settings": {
+            "question": "How do I change the firmness?",
+            "answer": "Open the zip on the side of the mattress, lift out the comfort module, turn it over and put it back. Two minutes, no tools. One side is softer, the other is firmer. You can do it as often as you like and it costs nothing.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_partner": {
+          "type": "item",
+          "settings": {
+            "question": "What if my partner and I want different firmnesses?",
+            "answer": "The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your 100 nights and we will collect it and refund you in full.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_look": {
+          "type": "item",
+          "settings": {
+            "question": "Will my mattress look exactly like the photographs?",
+            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have 100 nights to tell us and we will collect it and refund you in full.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_motion": {
+          "type": "item",
+          "settings": {
+            "question": "Will I feel my partner moving?",
+            "answer": "Much less than on a conventional sprung mattress. Every spring is individually wrapped in its own pocket, so it compresses on its own rather than pulling its neighbours with it. Add 10cm of foam above that and most movement is absorbed before it reaches you.\n\nIt is not complete isolation - no sprung mattress is - but if you are currently woken every time your partner turns over, this will be a noticeable change.",
+            "payment_mode_visibility": "all"
           }
         }
       },
       "block_order": [
-        "f1",
-        "f2",
-        "f3",
-        "f4",
-        "f5",
-        "f6",
-        "f7"
-      ]
+        "faq_1",
+        "faq_look",
+        "faq_feel",
+        "faq_flip",
+        "faq_partner",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "faq_9",
+        "faq_10",
+        "faq_11",
+        "faq_motion"
+      ],
+      "settings": {
+        "enable_section": true
+      }
     },
     "trust-bar-top": {
       "type": "trust-bar",
@@ -455,8 +475,9 @@
           "type": "item",
           "settings": {
             "icon": "deposit",
-            "label": "Fully refundable deposit",
-            "sublabel": "Refund any time before dispatch"
+            "label": "Cancel before dispatch",
+            "sublabel": "Refund any time before dispatch",
+            "link": "/pages/refunds-deposit"
           }
         },
         "tb2": {
@@ -464,23 +485,46 @@
           "settings": {
             "icon": "trial",
             "label": "100-night trial",
-            "sublabel": "Sleep on it properly"
+            "sublabel": "Sleep on it properly",
+            "link": "/pages/100-night-trial"
           }
         },
         "tb3": {
           "type": "item",
           "settings": {
             "icon": "warranty",
-            "label": "{{ settings.warranty_years }}-year core warranty",
-            "sublabel": "On the spring core"
+            "label": "15-year core warranty",
+            "sublabel": "On the spring core",
+            "link": "/pages/warranty"
           }
         },
         "tb4": {
           "type": "item",
           "settings": {
-            "icon": "delivery",
-            "label": "White-glove delivery & setup",
-            "sublabel": "We bring it in and set it up"
+            "icon": "craft",
+            "label": "Handmade to order",
+            "sublabel": "Built after you order it, never from stock",
+            "link": "/pages/manufacturing"
+          }
+        },
+        "oeko": {
+          "type": "item",
+          "settings": {
+            "icon": "chemicals",
+            "label": "Free from harmful chemicals",
+            "sublabel": "Materials chosen for cleaner sleep",
+            "link": "#specs",
+            "market_visibility": "all"
+          }
+        },
+        "oeko_tex": {
+          "type": "item",
+          "settings": {
+            "icon": "oeko",
+            "label": "OEKO-TEX® STANDARD 100",
+            "sublabel": "Textiles independently tested",
+            "link": "#specs",
+            "market_visibility": "all"
           }
         }
       },
@@ -488,80 +532,521 @@
         "tb1",
         "tb2",
         "tb3",
-        "tb4"
+        "tb4",
+        "oeko",
+        "oeko_tex"
       ],
       "settings": {
+        "enable_section": true,
         "surface": false,
         "show_lead_line": true,
-        "anchor_id": "trust-top"
-      }
-    },
-    "trust-bar-reserve": {
-      "type": "trust-bar",
-      "blocks": {
-        "tb1": {
-          "type": "item",
-          "settings": {
-            "icon": "deposit",
-            "label": "Fully refundable deposit",
-            "sublabel": "Refund any time before dispatch"
-          }
-        },
-        "tb2": {
-          "type": "item",
-          "settings": {
-            "icon": "trial",
-            "label": "100-night trial",
-            "sublabel": "Sleep on it properly"
-          }
-        },
-        "tb3": {
-          "type": "item",
-          "settings": {
-            "icon": "warranty",
-            "label": "{{ settings.warranty_years }}-year core warranty",
-            "sublabel": "On the spring core"
-          }
-        },
-        "tb4": {
-          "type": "item",
-          "settings": {
-            "icon": "delivery",
-            "label": "White-glove delivery & setup",
-            "sublabel": "We bring it in and set it up"
-          }
-        }
-      },
-      "block_order": [
-        "tb1",
-        "tb2",
-        "tb3",
-        "tb4"
-      ],
-      "settings": {
-        "surface": true,
-        "show_lead_line": true,
-        "anchor_id": "trust-reserve"
+        "anchor_id": "trust-top",
+        "enable_marquee": true,
+        "marquee_duration": 40,
+        "pause_on_hover": true
       }
     },
     "founder-note": {
       "type": "founder-note",
-      "settings": {}
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "A note from the founder",
+        "heading": "Built from years of studying sleep.",
+        "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort top you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
+        "name": "Benjamin Maxwell",
+        "role": "Founder"
+      }
+    },
+    "measure-size": {
+      "type": "measure-size",
+      "blocks": {
+        "m1": {
+          "type": "step",
+          "settings": {
+            "title": "Measure the sleeping surface",
+            "body": "<p>Strip the sheets. Measure the mattress itself — width × length — with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+          }
+        },
+        "m2": {
+          "type": "step",
+          "settings": {
+            "title": "Or measure the base",
+            "body": "<p>If you are buying for a new bed, measure the usable bed base or slatted area (inside the rails). That is the footprint your mattress must fill.</p>"
+          }
+        },
+        "m3": {
+          "type": "step",
+          "settings": {
+            "title": "Match width × length",
+            "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree — order by the numbers.</p>"
+          }
+        },
+        "m4": {
+          "type": "step",
+          "settings": {
+            "title": "Between sizes or custom?",
+            "body": "<p>If nothing lines up, use <strong>Request a size</strong> and we will discuss options, lead time, and pricing with you on WhatsApp.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4"
+      ],
+      "settings": {
+        "enable_section": true,
+        "surface": false,
+        "anchor_id": "measure",
+        "eyebrow": "Before you reserve",
+        "heading": "Measure in centimetres. Order the size that matches.",
+        "lede": "Size names differ by market. A UAE King is not a UK King. Always trust the centimetre dimensions — not the label on the tag.",
+        "guide_label": "Full size guide (UAE vs UK)",
+        "guide_link": "/pages/size-guide"
+      }
+    },
+    "press-logos": {
+      "type": "press-logos",
+      "blocks": {
+        "p1": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "ae",
+            "name": "The National",
+            "fallback_asset": "press-the-national.svg",
+            "link": "https://www.thenationalnews.com"
+          }
+        },
+        "p2": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "ae",
+            "name": "Gulf News",
+            "fallback_asset": "press-gulf-news.svg",
+            "link": "https://gulfnews.com"
+          }
+        },
+        "p3": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "ae",
+            "name": "Arabian Business",
+            "fallback_asset": "press-arabian-business.svg",
+            "link": "https://www.arabianbusiness.com"
+          }
+        },
+        "p4": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "ae",
+            "name": "Time Out Dubai",
+            "fallback_asset": "press-time-out-dubai.svg",
+            "link": "https://www.timeoutdubai.com"
+          }
+        },
+        "p5": {
+          "type": "logo",
+          "settings": {
+            "enabled": false,
+            "market_visibility": "all",
+            "name": "Wallpaper*",
+            "fallback_asset": "press-wallpaper.png",
+            "link": "https://www.wallpaper.com"
+          }
+        },
+        "p6": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "ae",
+            "name": "Design Middle East",
+            "fallback_asset": "press-design-middle-east.svg",
+            "link": "https://www.designmiddleeast.com"
+          }
+        },
+        "uk1": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "gb",
+            "name": "The Times",
+            "fallback_asset": "press-the-times.svg",
+            "link": "https://www.thetimes.com"
+          }
+        },
+        "uk2": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "gb",
+            "name": "Financial Times",
+            "fallback_asset": "press-financial-times.svg",
+            "link": "https://www.ft.com"
+          }
+        },
+        "uk3": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "gb",
+            "name": "Evening Standard",
+            "fallback_asset": "press-evening-standard.svg",
+            "link": "https://www.standard.co.uk"
+          }
+        },
+        "uk4": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "gb",
+            "name": "Wallpaper*",
+            "fallback_asset": "press-wallpaper-wordmark.svg",
+            "link": "https://www.wallpaper.com"
+          }
+        },
+        "uk5": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "gb",
+            "name": "Dezeen",
+            "fallback_asset": "press-dezeen.svg",
+            "link": "https://www.dezeen.com"
+          }
+        },
+        "uk6": {
+          "type": "logo",
+          "settings": {
+            "enabled": true,
+            "market_visibility": "gb",
+            "name": "Ideal Home",
+            "fallback_asset": "press-ideal-home.svg",
+            "link": "https://www.idealhome.co.uk"
+          }
+        },
+        "award_a1": {
+          "type": "award",
+          "settings": {
+            "enabled": true,
+            "year": "2026",
+            "title": "Innovation in Home",
+            "org": "Design Middle East Awards",
+            "text": ""
+          }
+        },
+        "award_a2": {
+          "type": "award",
+          "settings": {
+            "enabled": true,
+            "year": "2026",
+            "title": "Editors' Choice - Sleep",
+            "org": "Gulf Lifestyle Review",
+            "text": ""
+          }
+        },
+        "award_a3": {
+          "type": "award",
+          "settings": {
+            "enabled": false,
+            "year": "2025",
+            "title": "Sustainable Product Shortlist",
+            "org": "Green Interiors",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "uk1",
+        "uk2",
+        "uk3",
+        "uk4",
+        "uk5",
+        "uk6",
+        "award_a1",
+        "award_a2",
+        "award_a3"
+      ],
+      "settings": {
+        "enable_section": true,
+        "eyebrow": "As seen on",
+        "heading": "Press & recognition.",
+        "subheading": "Selected coverage, mentions, and distinctions.",
+        "awards_heading": "Awards"
+      }
+    },
+    "ugc-social": {
+      "type": "ugc-social",
+      "blocks": {
+        "u1": {
+          "type": "clip",
+          "settings": {
+            "enabled": true,
+            "platform": "tiktok",
+            "handle": "aligna",
+            "caption": "First night on the cool-knit cover",
+            "embed_url": "https://www.tiktok.com/"
+          }
+        },
+        "u2": {
+          "type": "clip",
+          "settings": {
+            "enabled": true,
+            "platform": "instagram",
+            "handle": "aligna",
+            "caption": "Unzip. Lift. Swap.",
+            "embed_url": "https://www.instagram.com/"
+          }
+        },
+        "u3": {
+          "type": "clip",
+          "settings": {
+            "enabled": true,
+            "platform": "tiktok",
+            "handle": "aligna",
+            "caption": "Delivery day",
+            "embed_url": "https://www.tiktok.com/"
+          }
+        }
+      },
+      "block_order": [
+        "u1",
+        "u2",
+        "u3"
+      ],
+      "settings": {
+        "enable_section": false,
+        "eyebrow": "From social",
+        "heading": "Seen in real homes.",
+        "subheading": "Short clips from TikTok and Instagram."
+      }
+    },
+    "swap-process": {
+      "type": "swap-process",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "enabled": true,
+            "step_label": "01",
+            "title": "Unzip",
+            "text": "Open the perimeter zip - hardware built for repeated use.",
+            "fallback_asset": "handle-detail.jpg"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "enabled": true,
+            "step_label": "02",
+            "title": "Lift out",
+            "text": "Remove the comfort top as a single layer.",
+            "fallback_asset": "swap-poster.jpg"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "enabled": true,
+            "step_label": "03",
+            "title": "Swap in",
+            "text": "Fit a new top when the comfort layer is worn - keep the engineered core.",
+            "fallback_asset": "cover-macro.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "enable_section": true,
+        "dark": false,
+        "anchor_id": "swap-process",
+        "eyebrow": "The changeable top",
+        "heading": "Unzip. Lift out. Swap in.",
+        "body": "A visual walkthrough of the replaceable comfort top - swap it when worn, keep the engineered core.",
+        "surface": true
+      }
+    },
+    "cool-touch": {
+      "type": "cool-touch",
+      "blocks": {
+        "c1": {
+          "type": "point",
+          "settings": {
+            "enabled": true,
+            "title": "Cool-knit cover",
+            "text": "400gsm, breathable hand-feel"
+          }
+        },
+        "c2": {
+          "type": "point",
+          "settings": {
+            "enabled": true,
+            "title": "Gel-infused comfort",
+            "text": "Designed for a cooler first touch"
+          }
+        },
+        "c3": {
+          "type": "media",
+          "settings": {
+            "enabled": true,
+            "caption": "Cover knit",
+            "fallback_asset": "cover-macro.jpg"
+          }
+        },
+        "c4": {
+          "type": "media",
+          "settings": {
+            "enabled": true,
+            "caption": "Surface detail",
+            "fallback_asset": "handle-detail.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "enable_section": true,
+        "surface": false,
+        "gallery_enabled": true,
+        "anchor_id": "cool-touch",
+        "eyebrow": "Cool touch",
+        "heading": "Engineered to sleep cool.",
+        "body": "A breathable cool-knit cover and gel-infused comfort layer - made for warm nights without overclaiming miracles.",
+        "image_caption": "Cool-knit cover detail"
+      }
+    },
+    "lifestyle-collage": {
+      "type": "lifestyle-collage",
+      "blocks": {
+        "img1": {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "lifestyle-airy.jpg",
+            "span": "wide",
+            "caption": "Soft morning light"
+          }
+        },
+        "img2": {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "lifestyle-luxury.jpg",
+            "span": "tall",
+            "caption": "Navy suite calm"
+          }
+        },
+        "img3": {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "lifestyle-city.jpg",
+            "span": "mid",
+            "caption": "City apartment rest"
+          }
+        },
+        "img4": {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "lifestyle-suite.jpg",
+            "span": "tall",
+            "caption": "Depth in place"
+          }
+        },
+        "img5": {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "lifestyle-warm.jpg",
+            "span": "mid",
+            "caption": "Warm evening light"
+          }
+        },
+        "img6": {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "lifestyle-edge.jpg",
+            "span": "square",
+            "caption": "Hotel-grade edge"
+          }
+        }
+      },
+      "block_order": [
+        "img1",
+        "img2",
+        "img3",
+        "img4",
+        "img5",
+        "img6"
+      ],
+      "settings": {
+        "enable_section": true,
+        "surface": true,
+        "anchor_id": "lifestyle",
+        "eyebrow": "",
+        "heading": "Styled by [Brand]",
+        "body": "Soft light. Quiet rooms. Hotel-grade depth in real homes - not a showroom aisle."
+      }
+    },
+    "size-reserve-2": {
+      "type": "size-reserve",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "enable_section": true,
+        "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
+        "firmness_line": "Soft one side, firm the other. Unzip and flip whenever you want a different feel.",
+        "market_force": "auto",
+        "heading": "Choose your size.",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "anchor_id": "reserve-late",
+        "leadtime_placement": "staged",
+        "stage_b_heading": "Before you order",
+        "eyebrow": "Sizes and prices",
+        "continue_label_full": "Continue",
+        "button_label_full": "Buy now"
+      }
     }
   },
   "order": [
     "hero",
     "trust-bar-top",
     "big-idea",
-    "benefits",
-    "product-specs",
     "swap-explainer",
-    "cooling-support",
+    "size-reserve",
+    "swap-process",
+    "cool-touch",
+    "product-specs",
+    "benefits",
+    "measure-size",
     "social-proof",
+    "press-logos",
+    "ugc-social",
     "founder-note",
     "offer",
-    "trust-bar-reserve",
-    "size-reserve",
-    "faq"
+    "size-reserve-2",
+    "faq",
+    "lifestyle-collage"
   ]
 }

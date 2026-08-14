@@ -1,0 +1,90 @@
+{%- comment -%}
+  Tab icon from theme settings.
+  Uploaded image wins. Otherwise SVG initials from brand_name + colour scheme.
+{%- endcomment -%}
+{%- liquid
+  assign brand = settings.brand_name | default: 'Aligna' | strip
+  assign guidelines = settings.brand_guidelines | default: 'v1'
+  assign font_set = settings.font_set | default: 'modern'
+  assign scheme = settings.color_scheme | default: 'signature'
+
+  if guidelines == 'v2'
+    if scheme != 'v2_carbon' and scheme != 'v2_graphite' and scheme != 'v2_warm' and scheme != 'v2_cool'
+      assign scheme = 'v2_carbon'
+    endif
+  else
+    if scheme == 'v2_carbon' or scheme == 'v2_graphite' or scheme == 'v2_warm' or scheme == 'v2_cool'
+      assign scheme = 'signature'
+    endif
+  endif
+
+  assign fav_bg = '#1F3A5F'
+  assign fav_fg = '#F7F5F1'
+  if guidelines == 'v2'
+    assign fav_fg = '#F5F4F1'
+    if scheme == 'v2_graphite'
+      assign fav_bg = '#3A3A3C'
+    elsif scheme == 'v2_warm'
+      assign fav_bg = '#1A1A1A'
+      assign fav_fg = '#F7F4EE'
+    elsif scheme == 'v2_cool'
+      assign fav_bg = '#1A1A1A'
+      assign fav_fg = '#F3F4F3'
+    else
+      assign fav_bg = '#1A1A1A'
+    endif
+  else
+    if scheme == 'warm_charcoal'
+      assign fav_bg = '#2F2C28'
+      assign fav_fg = '#F5F1EA'
+    elsif scheme == 'cool_graphite'
+      assign fav_bg = '#1E2A32'
+      assign fav_fg = '#F3F4F3'
+    endif
+  endif
+
+  assign fav_serif = false
+  if guidelines != 'v2' and font_set == 'classic'
+    assign fav_serif = true
+  endif
+
+  assign fav_initials = ''
+  assign brand_words = brand | split: ' '
+  for word in brand_words
+    if fav_initials.size >= 2
+      break
+    endif
+    assign piece = word | strip
+    assign w = piece | downcase
+    if piece != blank and w != 'the' and w != 'and' and w != 'of' and w != 'for' and w != 'a' and w != 'an'
+      assign ch = piece | slice: 0
+      assign fav_initials = fav_initials | append: ch
+    endif
+  endfor
+  if fav_initials == blank
+    assign fav_initials = brand | slice: 0
+  endif
+  assign fav_initials = fav_initials | upcase
+  if fav_initials == blank
+    assign fav_initials = 'A'
+  endif
+
+  assign fav_size = '18'
+  if fav_initials.size > 1
+    assign fav_size = '13'
+  endif
+
+  assign fav_font = 'system-ui, -apple-system, Segoe UI, sans-serif'
+  if fav_serif
+    assign fav_font = 'Georgia, Times New Roman, serif'
+  endif
+-%}
+{%- if settings.favicon != blank -%}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+{%- else -%}
+  {%- capture favicon_svg -%}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="{{ fav_bg }}"/><text x="16" y="21" text-anchor="middle" font-family="{{ fav_font }}" font-size="{{ fav_size }}" font-weight="600" fill="{{ fav_fg }}">{{ fav_initials | escape }}</text></svg>
+  {%- endcapture -%}
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,{{ favicon_svg | strip | url_encode }}">
+{%- endif -%}
