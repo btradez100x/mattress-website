@@ -228,6 +228,38 @@ def check_theme_js() -> None:
             bad(f"{rel}: wipe still clips sections to zero width")
         else:
             ok(f"{rel}: wipe does not clip sections")
+        hide = re.search(
+            r"html\.js-ready(?::not\(\.shopify-design-mode\))?\s+\[data-reveal-child\]:not\(\.is-visible\)\s*\{[^}]*opacity:\s*0",
+            css_text,
+        )
+        if hide:
+            ok(f"{rel}: storefront hides reveal children until visible")
+        else:
+            bad(f"{rel}: storefront reveal children are not hide-until-visible")
+        if re.search(
+            r"html\.shopify-design-mode[^{]*\{[^}]*opacity:\s*1",
+            css_text,
+        ):
+            ok(f"{rel}: design-mode keeps reveal children visible")
+        else:
+            bad(f"{rel}: missing shopify-design-mode opacity 1 failsafe")
+
+    for rel in ("preview/theme.js", "valtora-theme/assets/theme.js"):
+        js_text = (ROOT / rel).read_text(encoding="utf-8", errors="replace")
+        if re.search(r"setTimeout\(\s*showAll\s*,\s*900\s*\)", js_text):
+            ok(f"{rel}: showAll failsafe present")
+        else:
+            bad(f"{rel}: missing ~900ms showAll failsafe")
+        if "shopify-design-mode" in js_text and "designMode" in js_text:
+            ok(f"{rel}: design-mode skips hide-until-visible")
+        else:
+            bad(f"{rel}: missing shopify-design-mode / designMode failsafe")
+
+    theme_liquid = (ROOT / "valtora-theme" / "layout" / "theme.liquid").read_text(encoding="utf-8")
+    if "request.design_mode" in theme_liquid and "shopify-design-mode" in theme_liquid:
+        ok("theme.liquid marks shopify-design-mode on first paint")
+    else:
+        bad("theme.liquid missing request.design_mode class (editor can look empty)")
 
     if not (ROOT / "preview" / "brand-boot.js").exists():
         bad("preview/brand-boot.js missing")

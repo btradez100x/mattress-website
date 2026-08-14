@@ -1,3 +1,53 @@
+# Regression results — 2026-08-15 (single Brand name source)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: Removed Header "Brand name override" and "Product line override". Line 1 + line 2 now come only from Theme settings → Brand (`brand_name`, `brand_product_line`). Footer Trading as is one plain line (e.g. Trading as Aligna Mattresses), same type as the surrounding legal sentence - not a two-line gold/navy lockup. Header wordmark stays the styled two-line lockup. Luxury reveal, overlays, basket dots, hours, taglines, legal entity, nav, and Reserve-off-menu left alone. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (luxury staggered reveals restored)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: Storefront luxury reveals are back (fade + slight rise, `--dur-wipe` + `cubic-bezier(0.22, 1, 0.36, 1)`). Not a Theme setting. Editor / reduced-motion stay opacity 1; 900ms `showAll` failsafe kept. Wipe `clip-path: inset(0 100%)` stays banned so Offer/Swap cannot clip away. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (cool-touch main caption overlay)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: Cool-touch main caption “Cool-knit cover detail” is now a hover/tap overlay on the large left image (same pattern as collage, founder, and specs). Gallery thumbs Cover knit / Surface detail use the same overlay. Customize setting stays `image_caption`. No caption line under the main photo. Luxury reveal, basket dots, other overlays, wordmark, footer, hours, and nav left alone. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (size radio dots follow basket)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 507 passed, 0 failed
+- Scope note: Size radio dots and the strong blue row border now fill only when that size is in the basket (`is-in-basket`, qty > 0, matching variantId). Click-to-read / `is-active` no longer checks the radio or paints selected chrome. Keyboard keeps a lighter `:focus-visible` ring. Multiple in-basket sizes = multiple filled dots; empty basket = none. Stage A Add-to-qty, floating basket, and checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (remove checkout contract line)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 507 passed, 0 failed
+- Scope note: Removed "Your contract is with …" from checkout Stage B terms (`main-checkout`, preview checkout, reserve-stage-b fallbacks, size-reserve terms defaults). Legal name stays on Privacy, Terms, Cookies, and footer copyright. Trading as unchanged. Checkout markers (`data-checkout-page`, `checkout-stage__terms`, terms checkbox, Stage B) kept. No version bump.
+
+---
+
 # Regression results — 2026-08-14 (remove Reserve from header menu)
 
 ## Smoke

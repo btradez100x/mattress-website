@@ -107,19 +107,20 @@ else
   fail "wordmark does not render brand_name text"
 fi
 
-if grep -q '"type": "textarea"' "$THEME/sections/header.liquid" \
-  && grep -q 'brand_name_override' "$THEME/sections/header.liquid"; then
-  pass "header brand name override is textarea (2-line A/B)"
+if ! grep -q 'brand_name_override' "$THEME/sections/header.liquid" \
+  && ! grep -q 'brand_product_line_override' "$THEME/sections/header.liquid"; then
+  pass "header has no brand name / product line overrides"
 else
-  fail "header brand name override is not a textarea"
+  fail "header still has a second pair of brand name fields"
 fi
 
-if grep -q 'brand_product_line_override' "$THEME/sections/header.liquid" \
-  && grep -q 'product_line_override' "$THEME/snippets/wordmark.liquid" \
-  && grep -q 'newline_to_br' "$THEME/snippets/wordmark.liquid"; then
-  pass "header product line override wired; wordmark splits textarea newlines"
+if grep -q 'settings.brand_name' "$THEME/snippets/wordmark.liquid" \
+  && grep -q 'settings.brand_product_line' "$THEME/snippets/wordmark.liquid" \
+  && ! grep -q 'brand_name_override' "$THEME/snippets/wordmark.liquid" \
+  && ! grep -q 'product_line_override' "$THEME/snippets/wordmark.liquid"; then
+  pass "wordmark reads only Theme settings Brand name + Product line"
 else
-  fail "header two-line wordmark override is not wired"
+  fail "wordmark still accepts a second brand name source"
 fi
 
 if grep -q -- "--wordmark-line-2" "$THEME/assets/base.css" \
@@ -132,12 +133,15 @@ else
 fi
 
 if grep -q 'settings.brand_product_line' "$THEME/sections/footer.liquid" \
-  && grep -q 'site-footer__trading-line' "$THEME/sections/footer.liquid" \
-  && grep -q 'site-footer__trading-name' "$THEME/sections/footer.liquid" \
-  && grep -q 'var(--wordmark-line-2-on-dark' "$THEME/assets/base.css"; then
-  pass "footer Trading as uses brand name + product line lockup"
+  && grep -q 'Trading as {{ trading_as }}' "$THEME/sections/footer.liquid" \
+  && ! grep -q 'site-footer__trading-lockup' "$THEME/sections/footer.liquid" \
+  && ! grep -q 'site-footer__trading-name' "$THEME/sections/footer.liquid" \
+  && ! grep -q 'site-footer__trading-line' "$THEME/sections/footer.liquid" \
+  && ! grep -q 'site-footer__trading-name' "$THEME/assets/base.css" \
+  && ! grep -q 'site-footer__trading-line' "$THEME/assets/base.css"; then
+  pass "footer Trading as is one plain line from Brand settings"
 else
-  fail "footer Trading as does not use both wordmark lines"
+  fail "footer Trading as is still a styled two-line lockup"
 fi
 
 if grep -q "render 'favicon'" "$THEME/snippets/meta-tags.liquid" \
@@ -152,6 +156,15 @@ if grep -q "brand_name" "$THEME/config/settings_schema.json"; then
   pass "brand_name is a theme setting"
 else
   fail "brand_name missing from settings"
+fi
+
+if grep -q 'Brand name (only place to edit)' "$THEME/config/settings_schema.json" \
+  && grep -q 'Brand name (line 1)' "$THEME/config/settings_schema.json" \
+  && grep -q 'Product line (line 2)' "$THEME/config/settings_schema.json" \
+  && ! grep -q 'Header can override' "$THEME/config/settings_schema.json"; then
+  pass "Theme settings Brand is the only place to edit names"
+else
+  fail "settings_schema still implies a second brand name source"
 fi
 
 # --- Design tokens ---

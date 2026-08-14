@@ -25,25 +25,25 @@
     "settings": [
       {
         "type": "header",
-        "content": "Brand name (swappable)"
+        "content": "Brand name (only place to edit)"
       },
       {
         "type": "paragraph",
-        "content": "The wordmark is rendered from this setting - change the name without uploading a logo. See Spec S13."
+        "content": "These two fields are the only place to set the store name. Header wordmark, footer wordmark, Trading as, contact, and share meta all read from here. Change the name without uploading a logo."
       },
       {
         "type": "text",
         "id": "brand_name",
-        "label": "Brand name",
+        "label": "Brand name (line 1)",
         "default": "Aligna",
-        "info": "Line 1 of the header wordmark, plus [Brand] copy tokens. Trading as in the footer/contact uses this plus Product line (line 2) below."
+        "info": "Line 1 of the header and footer wordmark, plus [Brand] copy tokens. Trading as uses this plus Product line on one plain line."
       },
       {
         "type": "text",
         "id": "brand_product_line",
-        "label": "Product line under wordmark",
+        "label": "Product line (line 2)",
         "default": "Mattresses",
-        "info": "Line 2 of the live header wordmark (e.g. Mattresses or The Mattress). Also line 2 of Trading as in the footer/contact. Leave blank to hide. Header can override the wordmark for A/B tests."
+        "info": "Line 2 of the header and footer wordmark (e.g. Mattresses or The Mattress). Trading as and contact append this on the same line (e.g. Aligna Mattresses). Leave blank to hide line 2."
       },
       {
         "type": "text",

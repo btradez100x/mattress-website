@@ -1,6 +1,10 @@
 {%- liquid
   assign brand = settings.brand_name | default: 'Aligna' | strip
   assign product_line = settings.brand_product_line | default: '' | strip
+  assign trading_as = brand
+  if product_line != blank
+    assign trading_as = brand | append: ' ' | append: product_line
+  endif
   assign market = settings.default_market
   if localization.country.iso_code == 'GB'
     assign market = 'gb'
@@ -62,15 +66,7 @@
           <p class="site-footer__company"><strong>{{ legal_name }}</strong></p>
         {%- endif -%}
         {%- if brand != blank and brand != legal_name -%}
-          <p class="site-footer__trading">
-            <span class="site-footer__trading-label">Trading as</span>
-            <span class="site-footer__trading-lockup">
-              <span class="site-footer__trading-name">{{ brand }}</span>
-              {%- if product_line != blank -%}
-                <span class="site-footer__trading-line">{{ product_line }}</span>
-              {%- endif -%}
-            </span>
-          </p>
+          <p class="site-footer__trading">Trading as {{ trading_as }}</p>
         {%- endif -%}
         {%- if legal_address != blank -%}
           <p class="site-footer__address-inline">{{ legal_address | newline_to_br }}</p>

@@ -654,7 +654,7 @@
             <p class="section__lede">Select your size - price updates for your market. Dimensions always shown in centimetres.</p>
           <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
             <div class="size-picker">
-            <div class="size-list" data-size-list role="listbox" aria-label="Mattress size"></div>
+            <div class="size-list" data-size-list role="listbox" aria-multiselectable="true" aria-label="Mattress size"></div>
             </div>
             <div class="size-request-entry">
             <button
@@ -793,8 +793,8 @@
           <figure class="cool-touch__main">
             <div class="media-feature__split-media cool-touch__thumb-frame">
               <img src="./assets/cover-macro.jpg" alt="Cool-knit cover detail" width="1400" height="1750" loading="lazy">
+              <figcaption class="cool-touch__caption">Cool-knit cover detail</figcaption>
             </div>
-            <figcaption class="cool-touch__caption">Cool-knit cover detail</figcaption>
           </figure>
           <div class="media-feature__split-copy">
             <p class="section__eyebrow">Cool touch</p>
@@ -809,14 +809,14 @@
               <figure class="cool-touch__thumb">
                 <div class="cool-touch__thumb-frame">
                 <img src="./assets/cover-macro.jpg" alt="Cover knit" width="600" height="600" loading="lazy">
-                </div>
                 <figcaption class="cool-touch__caption">Cover knit</figcaption>
+                </div>
               </figure>
               <figure class="cool-touch__thumb">
                 <div class="cool-touch__thumb-frame">
                 <img src="./assets/handle-detail.jpg" alt="Surface detail" width="600" height="600" loading="lazy">
-                </div>
                 <figcaption class="cool-touch__caption">Surface detail</figcaption>
+                </div>
               </figure>
             </div>
           </div>
@@ -1220,7 +1220,7 @@
             <p class="section__lede">Select your size - price updates for your market. Dimensions always shown in centimetres.</p>
           <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
             <div class="size-picker">
-            <div class="size-list" data-size-list role="listbox" aria-label="Mattress size"></div>
+            <div class="size-list" data-size-list role="listbox" aria-multiselectable="true" aria-label="Mattress size"></div>
             </div>
             <div class="size-request-entry">
             <button
@@ -1468,7 +1468,7 @@
           <p><span data-brand-tagline>Premium Sleep, Engineered for the Gulf</span>. A better bed, for life. Refresh it, don't replace it.</p>
           <div class="site-footer__contact">
             <p class="site-footer__company"><strong data-business-name>Valtora FZE</strong></p>
-            <p class="site-footer__trading" data-trading-as-wrap>Trading as <span data-trading-as>Aligna</span></p>
+            <p class="site-footer__trading" data-trading-as-wrap>Trading as Aligna Mattresses</p>
             <p class="site-footer__address-inline" data-business-address>Business Centre, Sharjah Publishing City Free Zone<br>Sharjah, United Arab Emirates</p>
             <p data-business-email-wrap><a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a></p>
             <p data-business-phone-wrap hidden><a href="tel:" data-business-phone></a></p>
@@ -2573,12 +2573,10 @@
             var line = (document.getElementById('PreviewBrandLine') && document.getElementById('PreviewBrandLine').value.trim()) || '';
 
             setText('[data-business-name]', name);
-            document.querySelectorAll('[data-trading-as]').forEach(function (el) { el.textContent = brand; });
-            document.querySelectorAll('[data-trading-as-line]').forEach(function (el) {
-              el.textContent = line;
-              el.hidden = !line;
-            });
+            var tradingName = line ? (brand + ' ' + line) : brand;
+            document.querySelectorAll('[data-trading-as]').forEach(function (el) { el.textContent = tradingName; });
             document.querySelectorAll('[data-trading-as-wrap]').forEach(function (el) {
+              el.textContent = tradingName ? ('Trading as ' + tradingName) : '';
               el.hidden = !brand || brand === name;
             });
 

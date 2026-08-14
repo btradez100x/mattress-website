@@ -1160,7 +1160,7 @@ body.has-sticky-reserve {
 @keyframes revealRise {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translate3d(0, 0.75rem, 0);
   }
   to {
     opacity: 1;
@@ -1168,7 +1168,8 @@ body.has-sticky-reserve {
   }
 }
 
-/* Section shells stay visible; children fade/rise as they enter the viewport */
+/* Section shells stay visible so Offer/Swap never clip or vanish.
+   Children fade and rise as they enter the viewport. */
 [data-reveal] {
   opacity: 1;
   transform: none;
@@ -1179,19 +1180,21 @@ body.has-sticky-reserve {
   transform: none;
 }
 
-/* Copy stays readable if JS, the editor iframe, or the observer never fires.
-   Motion is additive: .is-visible may rise in; it must not start from opacity 0. */
-html.js-ready [data-reveal-child]:not(.is-visible) {
-  opacity: 1;
-  transform: none;
+/* Storefront: hide until IntersectionObserver (or the 900ms showAll failsafe).
+   Without .js-ready, copy stays visible. Design mode never hides. */
+html.js-ready:not(.shopify-design-mode) [data-reveal-child]:not(.is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 0.75rem, 0);
 }
 
-html.js-ready [data-reveal-child].is-visible {
+html.js-ready:not(.shopify-design-mode) [data-reveal-child].is-visible {
   opacity: 1;
   transform: none;
+  animation: revealRise var(--dur-wipe) var(--ease) var(--reveal-delay, 0ms) backwards;
   will-change: auto;
 }
 
+html.shopify-design-mode [data-reveal],
 html.shopify-design-mode [data-reveal-child],
 html.shopify-design-mode [data-reveal-child]:not(.is-visible) {
   opacity: 1 !important;
@@ -1375,7 +1378,7 @@ html.shopify-design-mode [data-reveal-child]:not(.is-visible) {
     box-shadow: 0 10px 28px color-mix(in srgb, var(--brand-primary) 6%, transparent);
   }
 
-  .size-option.is-active:hover {
+  .size-option.is-in-basket:hover {
     background: var(--brand-surface);
     border-color: var(--brand-primary);
     box-shadow: 0 12px 32px color-mix(in srgb, var(--brand-primary) 8%, transparent);
@@ -2028,13 +2031,13 @@ video[controls],
   background: #fff;
 }
 
-.size-option.is-active {
+.size-option.is-in-basket {
   background: var(--brand-surface);
   border-color: var(--brand-primary);
   box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
 }
 
-.section--surface .size-option.is-active {
+.section--surface .size-option.is-in-basket {
   background: #fff;
 }
 
@@ -2063,19 +2066,12 @@ video[controls],
   transition: transform var(--dur-fast) var(--ease);
 }
 
-.size-option.is-active .size-option__marker,
 .size-option.is-in-basket .size-option__marker {
   border-color: var(--brand-primary);
 }
 
-.size-option.is-active .size-option__marker::after,
 .size-option.is-in-basket .size-option__marker::after {
   transform: scale(1);
-}
-
-.size-option.is-in-basket:not(.is-active) {
-  border-color: color-mix(in srgb, var(--brand-primary) 55%, transparent);
-  background: color-mix(in srgb, var(--brand-surface) 70%, #fff);
 }
 
 .size-option__main {
@@ -3615,49 +3611,6 @@ video[controls],
   letter-spacing: 0.02em;
 }
 
-.site-footer__trading {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 0.35rem 0.5rem;
-  margin: 0.15rem 0 0;
-  font-size: 0.875rem;
-}
-
-.site-footer__trading-label {
-  opacity: 0.8;
-  padding-top: 0.08em;
-}
-
-.site-footer__trading-lockup {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.22em;
-  line-height: 1;
-}
-
-.site-footer__trading-name {
-  font-family: var(--font-wordmark, var(--font-sans));
-  font-weight: 600;
-  font-size: 0.8125rem;
-  letter-spacing: var(--wordmark-tracking, 0.08em);
-  text-transform: uppercase;
-  line-height: 1;
-  color: var(--brand-on-dark);
-}
-
-.site-footer__trading-line {
-  display: block;
-  font-family: var(--font-sans);
-  font-size: 0.5rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--wordmark-line-2-on-dark, var(--brand-accent));
-  line-height: 1;
-}
-
 .site-footer__address-inline {
   max-width: 18rem;
   line-height: 1.45;
@@ -3714,29 +3667,6 @@ video[controls],
 .contact-details span {
   color: var(--brand-ink);
   line-height: 1.5;
-}
-
-.contact-details .contact-trading {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.22em;
-  line-height: 1.2;
-}
-
-.contact-details .contact-trading__name {
-  font-family: var(--font-wordmark, var(--font-sans));
-  font-weight: 600;
-  letter-spacing: var(--wordmark-tracking, 0.08em);
-  text-transform: uppercase;
-}
-
-.contact-details .contact-trading__line {
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--wordmark-line-2, var(--brand-accent));
 }
 
 .contact-whatsapp {
@@ -4070,7 +4000,7 @@ video[controls],
   vertical-align: middle;
 }
 
-.size-option--popular.is-active {
+.size-option--popular.is-in-basket {
   box-shadow: inset 0 0 0 1px var(--brand-primary);
 }
 
@@ -4770,16 +4700,46 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 .cool-touch__caption,
 .cool-touch__main figcaption,
 .cool-touch__thumb figcaption {
-  display: block;
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1;
-  flex-shrink: 0;
-  margin-top: 0.4rem;
+  margin: 0;
+  padding: 1.75rem 0.85rem 0.7rem;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--brand-ink);
-  opacity: 0.7;
+  color: var(--brand-on-dark);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--brand-primary) 55%, transparent),
+    transparent
+  );
+  opacity: 0;
+  transform: translate3d(0, 0.35rem, 0);
+  transition:
+    opacity var(--dur-wipe) var(--ease),
+    transform var(--dur-wipe) var(--ease);
+  pointer-events: none;
+}
+
+.cool-touch__main.is-caption-open .cool-touch__caption,
+.cool-touch__main:focus-within .cool-touch__caption,
+.cool-touch__thumb.is-caption-open .cool-touch__caption,
+.cool-touch__thumb:focus-within .cool-touch__caption {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cool-touch__main:hover .cool-touch__caption,
+  [data-reveal].is-visible .cool-touch__main:hover .cool-touch__caption,
+  .cool-touch__thumb:hover .cool-touch__caption,
+  [data-reveal].is-visible .cool-touch__thumb:hover .cool-touch__caption {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .cool-touch__points {
@@ -4821,6 +4781,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 }
 
 .cool-touch__thumb-frame {
+  position: relative;
   overflow: hidden;
   background: var(--brand-surface);
 }
