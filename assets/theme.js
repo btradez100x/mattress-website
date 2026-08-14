@@ -702,7 +702,8 @@
   }
 
   function initReveal() {
-    if (window.Shopify && window.Shopify.designMode) {
+    var designMode = !!(window.Shopify && window.Shopify.designMode);
+    if (designMode) {
       document.documentElement.classList.add('shopify-design-mode');
     }
     document.documentElement.classList.add('js-ready');
@@ -739,6 +740,13 @@
       ['.mfg-split__grid', '.mfg-split__card'],
       ['.blog-index__grid', '.blog-card']
     ];
+    document.querySelectorAll('.trust-bar:not(.trust-bar--marquee) .trust-bar__list').forEach(function (root) {
+      var items = directMatches(root, '.trust-bar__item').filter(function (el) {
+        return !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true';
+      });
+      if (!items.length) return;
+      tagCascade(root, items, 110);
+    });
     staggerRoots.forEach(function (pair) {
       document.querySelectorAll(pair[0]).forEach(function (root) {
         var items = directMatches(root, pair[1]).filter(function (el) {
@@ -844,7 +852,7 @@
       });
     }
 
-    if (!motionAllowed() || !('IntersectionObserver' in window)) {
+    if (designMode || !motionAllowed() || !('IntersectionObserver' in window)) {
       showAll();
       return;
     }
@@ -1451,6 +1459,7 @@
     var leadtimePlacement = root.getAttribute('data-leadtime-placement') || 'staged';
     var financeName = root.getAttribute('data-finance-name') || (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
     var list = root.querySelector('[data-size-list]');
+    if (list) list.setAttribute('aria-multiselectable', 'true');
     var selected = root.querySelector('[data-selected-size]');
     var selectedDims = root.querySelector('[data-selected-dims]');
     var form = root.querySelector('[data-reserve-form]');
@@ -1553,12 +1562,13 @@
         var valEl = btn.querySelector('[data-qty-val]');
         var addBtn = btn.querySelector('[data-qty-add]');
         var stepper = btn.querySelector('[data-qty-stepper]');
-        if (!wrap) return;
         var available = btn.getAttribute('data-available') !== 'false';
         var sizeId = btn.getAttribute('data-size-id');
         var q = lineQtyForSize(sizeId, btn.getAttribute('data-size-variant'));
-        var inBasket = q > 0;
+        var inBasket = q > 0 && btn.getAttribute('data-request-size') !== 'true';
         btn.classList.toggle('is-in-basket', inBasket);
+        btn.setAttribute('aria-selected', inBasket ? 'true' : 'false');
+        if (!wrap) return;
         if (valEl) valEl.textContent = String(Math.max(q, 1));
         wrap.hidden = !available;
         wrap.setAttribute('data-qty-mode', inBasket ? 'stepper' : 'add');
@@ -1951,7 +1961,6 @@
       if (list) {
         list.querySelectorAll('.size-option').forEach(function (b) {
           b.classList.toggle('is-active', b === btn);
-          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
         });
       }
       if (requestTrigger) {
@@ -2177,7 +2186,6 @@
             if (!row.classList.contains('is-active')) {
               list.querySelectorAll('.size-option').forEach(function (b) {
                 b.classList.toggle('is-active', b === row);
-                b.setAttribute('aria-selected', b === row ? 'true' : 'false');
               });
             }
             syncSizeQtyUi();
@@ -3289,7 +3297,9 @@
   document.addEventListener('preview:market-changed', paintContactHours);
 
   function initLifestyleCaptions() {
-    var items = document.querySelectorAll('.lifestyle-collage__item, .founder-note__media, .specs__figure');
+    var items = document.querySelectorAll(
+      '.lifestyle-collage__item, .founder-note__media, .specs__figure, .cool-touch__main, .cool-touch__thumb'
+    );
     if (!items.length) return;
     var fineHover =
       window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -4017,6 +4027,13 @@
     });
     document.querySelectorAll('.wordmark').forEach(function (a) {
       a.setAttribute('aria-label', line ? name + ' ' + line : name);
+    });
+    var tradingName = line ? name + ' ' + line : name;
+    document.querySelectorAll('[data-trading-as]').forEach(function (el) {
+      el.textContent = tradingName;
+    });
+    document.querySelectorAll('[data-trading-as-wrap]').forEach(function (el) {
+      el.textContent = tradingName ? 'Trading as ' + tradingName : '';
     });
     document.documentElement.setAttribute('data-brand-hydrated', '1');
 

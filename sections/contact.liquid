@@ -1,6 +1,10 @@
 {%- liquid
   assign brand = settings.brand_name | default: 'Aligna' | strip
   assign product_line = settings.brand_product_line | default: '' | strip
+  assign trading_as = brand
+  if product_line != blank
+    assign trading_as = brand | append: ' ' | append: product_line
+  endif
 -%}
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}
@@ -33,12 +37,7 @@
       {%- if brand != blank and brand != legal_name -%}
         <li>
           <strong>Trading as</strong>
-          <span class="contact-trading">
-            <span class="contact-trading__name">{{ brand }}</span>
-            {%- if product_line != blank -%}
-              <span class="contact-trading__line">{{ product_line }}</span>
-            {%- endif -%}
-          </span>
+          <span>{{ trading_as }}</span>
         </li>
       {%- endif -%}
       {%- if settings.trade_licence_no != blank -%}

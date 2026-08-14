@@ -19,8 +19,10 @@
             sizes: '(min-width: 900px) 50vw, 100vw'
           %}
         {%- endif -%}
+        {%- if main_caption != blank -%}
+          <figcaption class="cool-touch__caption">{{ main_caption }}</figcaption>
+        {%- endif -%}
       </div>
-      <figcaption class="cool-touch__caption">{{ main_caption }}</figcaption>
     </figure>
     <div class="media-feature__split-copy">
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -68,8 +70,10 @@
                     sizes: '30vw'
                   %}
                 {%- endif -%}
+                  {%- if media_caption != blank -%}
+                    <figcaption class="cool-touch__caption">{{ media_caption }}</figcaption>
+                  {%- endif -%}
                 </div>
-                <figcaption class="cool-touch__caption">{{ media_caption }}</figcaption>
               </figure>
             {%- endif -%}
           {%- endfor -%}

@@ -1,7 +1,3 @@
-{%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
-{%- assign legal_name = legal_name | strip -%}
-{%- capture company_no -%}{% render 'company-number' %}{%- endcapture -%}
-{%- assign company_no = company_no | strip -%}
 {%- liquid
   assign warranty = settings.warranty_years | default: '15'
   assign payment_mode = settings.payment_mode | default: 'full'
@@ -116,9 +112,6 @@
 
       {%- assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.' -%}
       <ul class="checkout-stage__terms">
-        {%- if legal_name != blank -%}
-          <li>Your contract is with {{ legal_name }}{% if company_no != blank %} (company number {{ company_no }}){% endif %}.</li>
-        {%- endif -%}
         {%- if payment_mode == 'full' -%}
           <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>

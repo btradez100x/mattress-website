@@ -1,6 +1,4 @@
 {%- liquid
-  assign brand_override = section.settings.brand_name_override
-  assign line_override = section.settings.brand_product_line_override
   assign order_status_url = pages['order-status'].url | default: '/pages/order-status'
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
   assign journal_url = blogs['journal'].url | default: '/blogs/journal'
@@ -49,7 +47,7 @@
 {%- endcapture -%}
 <header class="site-header">
   <div class="site-header__inner">
-    {% render 'wordmark', brand_name_override: brand_override, product_line_override: line_override %}
+    {% render 'wordmark' %}
 
     <nav class="site-header__nav" aria-label="Primary">
       {{ header_nav_links }}
@@ -112,18 +110,6 @@
 {
   "name": "Header",
   "settings": [
-    {
-      "type": "textarea",
-      "id": "brand_name_override",
-      "label": "Brand name override (name A/B)",
-      "info": "Line 1 of the header wordmark. Press Return for a second line (that becomes the product line unless you fill the field below). Leave blank to use Theme settings → Brand."
-    },
-    {
-      "type": "text",
-      "id": "brand_product_line_override",
-      "label": "Product line override (line 2)",
-      "info": "Line 2 under the name (e.g. The Mattress). Leave blank to use the second line of the box above, or Theme settings → Product line under wordmark."
-    },
     {
       "type": "link_list",
       "id": "menu",
