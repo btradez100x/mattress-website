@@ -1,0 +1,55 @@
+{%- comment -%}
+  Registered company identity (not the consumer brand).
+  format: block (Who we are) | line (contract sentence) | email (plain text)
+{%- endcomment -%}
+{%- liquid
+  assign format = format | default: 'block'
+-%}
+{%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
+{%- assign legal_name = legal_name | strip -%}
+{%- capture company_no -%}{% render 'company-number' %}{%- endcapture -%}
+{%- assign company_no = company_no | strip -%}
+{%- capture legal_address -%}{% render 'legal-address' %}{%- endcapture -%}
+{%- assign legal_address = legal_address | strip -%}
+
+{%- if format == 'line' -%}
+  {%- if legal_name != blank -%}
+    Your contract is with {{ legal_name }}{% if company_no != blank %} (company number {{ company_no }}){% endif %}.
+  {%- endif -%}
+{%- elsif format == 'email' -%}
+  {%- if legal_name != blank -%}This website is operated by {{ legal_name }}.
+{%- endif -%}
+  {%- if company_no != blank -%}
+Company number: {{ company_no }}
+{%- endif -%}
+  {%- if legal_address != blank -%}
+Registered address: {{ legal_address }}
+{%- endif -%}
+{%- elsif legal_name != blank or company_no != blank or legal_address != blank -%}
+  <div class="legal-entity" data-legal-entity>
+    {%- if legal_name != blank -%}
+      <h2>Who we are</h2>
+      <p>This website is operated by {{ legal_name }}.</p>
+    {%- endif -%}
+    <ul class="contact-details legal-entity__fields" role="list">
+      {%- if legal_name != blank -%}
+        <li>
+          <strong>Legal name</strong>
+          <span>{{ legal_name }}</span>
+        </li>
+      {%- endif -%}
+      {%- if company_no != blank -%}
+        <li>
+          <strong>Company number</strong>
+          <span>{{ company_no }}</span>
+        </li>
+      {%- endif -%}
+      {%- if legal_address != blank -%}
+        <li>
+          <strong>Registered address</strong>
+          <span>{{ legal_address | newline_to_br }}</span>
+        </li>
+      {%- endif -%}
+    </ul>
+  </div>
+{%- endif -%}

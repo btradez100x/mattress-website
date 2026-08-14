@@ -1,5 +1,6 @@
 {%- liquid
-  assign brand = settings.brand_name | default: 'Aligna'
+  assign brand = settings.brand_name | default: 'Aligna' | strip
+  assign product_line = settings.brand_product_line | default: '' | strip
   assign market = settings.default_market
   if localization.country.iso_code == 'GB'
     assign market = 'gb'
@@ -8,18 +9,41 @@
   endif
 
   if market == 'gb'
-    assign legal_name = settings.legal_entity_name_gb
     assign legal_address = settings.registered_address_gb
+    if legal_address == blank
+      assign legal_address = settings.registered_address
+    endif
     assign tax_no = settings.tax_reg_no_gb
     assign company_no = settings.company_no_gb
+    if company_no == blank
+      assign company_no = settings.company_number
+    endif
   else
-    assign legal_name = settings.legal_entity_name_ae
     assign legal_address = settings.registered_address_ae
+    if legal_address == blank
+      assign legal_address = settings.registered_address
+    endif
     assign tax_no = settings.tax_reg_no_ae
-    assign company_no = blank
+    assign company_no = settings.company_number
   endif
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
+  assign journal_url = blogs['journal'].url | default: '/blogs/journal'
+  assign home_hash = ''
+  unless template.name == 'index'
+    assign home_hash = routes.root_url
+  endunless
+  assign trial_url = section.settings.trial_link | default: pages['100-night-trial'].url | default: '/pages/100-night-trial'
+  assign warranty_url = section.settings.warranty_link | default: pages['warranty'].url | default: '/pages/warranty'
+  assign refund_url = section.settings.refund_link | default: pages['refunds-deposit'].url | default: '/pages/refunds-deposit'
+  assign delivery_url = section.settings.delivery_link | default: pages['delivery-lead-time'].url | default: '/pages/delivery-lead-time'
+  assign size_guide_url = section.settings.size_guide_link | default: pages['size-guide'].url | default: '/pages/size-guide'
+  assign contact_url = section.settings.contact_link | default: pages['contact'].url | default: '/pages/contact'
+  assign privacy_url = section.settings.privacy_link | default: pages['privacy'].url | default: '/pages/privacy'
+  assign terms_url = section.settings.terms_link | default: pages['terms'].url | default: '/pages/terms'
+  assign cookies_url = section.settings.cookies_link | default: pages['cookies'].url | default: '/pages/cookies'
 -%}
+{%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
+{%- assign legal_name = legal_name | strip -%}
 {%- capture contact_phone -%}{% render 'contact-phone' %}{%- endcapture -%}
 {%- assign contact_phone = contact_phone | strip -%}
 {%- assign order_status_url = pages['order-status'].url | default: '/pages/order-status' -%}
@@ -31,14 +55,22 @@
     <div class="site-footer__brand">
       {% render 'wordmark', dark: true %}
       <p>
-        {{ settings.brand_tagline }}. A better bed, for life. Refresh it, don't replace it.
+        {% render 'market-tagline' %}. A better bed, for life. Refresh it, don't replace it.
       </p>
       <div class="site-footer__contact">
         {%- if legal_name != blank -%}
           <p class="site-footer__company"><strong>{{ legal_name }}</strong></p>
         {%- endif -%}
         {%- if brand != blank and brand != legal_name -%}
-          <p class="site-footer__trading">Trading as {{ brand }}</p>
+          <p class="site-footer__trading">
+            <span class="site-footer__trading-label">Trading as</span>
+            <span class="site-footer__trading-lockup">
+              <span class="site-footer__trading-name">{{ brand }}</span>
+              {%- if product_line != blank -%}
+                <span class="site-footer__trading-line">{{ product_line }}</span>
+              {%- endif -%}
+            </span>
+          </p>
         {%- endif -%}
         {%- if legal_address != blank -%}
           <p class="site-footer__address-inline">{{ legal_address | newline_to_br }}</p>
@@ -49,8 +81,10 @@
         {%- if contact_phone != blank -%}
           <p><a href="tel:{{ contact_phone | replace: ' ', '' }}">{{ contact_phone }}</a></p>
         {%- endif -%}
-        {%- if settings.contact_hours != blank -%}
-          <p>{{ settings.contact_hours }}</p>
+        {%- capture contact_hours_html -%}{% render 'contact-hours' %}{%- endcapture -%}
+        {%- assign contact_hours_html = contact_hours_html | strip -%}
+        {%- if contact_hours_html != blank -%}
+          <p>{{ contact_hours_html }}</p>
         {%- endif -%}
         {%- if settings.response_time_note != blank -%}
           <p class="site-footer__response">{{ settings.response_time_note }}</p>
@@ -64,16 +98,14 @@
     <div>
       <h3>Explore</h3>
       <ul>
-        <li><a href="#swap">The Swap System</a></li>
-        <li><a href="#specs">Specs</a></li>
+        <li><a href="{{ home_hash }}#swap">The Swap System</a></li>
+        <li><a href="{{ home_hash }}#specs">Specs</a></li>
         <li><a href="{{ manufacturing_url }}">Manufacturing</a></li>
-        <li><a href="#lifestyle">Lifestyle</a></li>
-        <li><a href="#reserve">Reserve</a></li>
-        <li><a href="/blogs/journal">Journal</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        {%- if section.settings.size_guide_link != blank -%}
-          <li><a href="{{ section.settings.size_guide_link }}">Size guide</a></li>
-        {%- endif -%}
+        <li><a href="{{ home_hash }}#lifestyle">Lifestyle</a></li>
+        <li><a href="{{ home_hash }}#reserve">Reserve</a></li>
+        <li><a href="{{ journal_url }}">Journal</a></li>
+        <li><a href="{{ home_hash }}#faq">FAQ</a></li>
+        <li><a href="{{ size_guide_url }}">Size guide</a></li>
       </ul>
     </div>
 
@@ -92,40 +124,18 @@
             <li><a href="{{ order_status_url }}">Order status</a></li>
           {%- endunless -%}
         {%- else -%}
-          {%- if section.settings.trial_link != blank -%}
-            <li><a href="{{ section.settings.trial_link }}">100-night trial</a></li>
-          {%- endif -%}
-          {%- if section.settings.warranty_link != blank -%}
-            <li><a href="{{ section.settings.warranty_link }}">Warranty</a></li>
-          {%- endif -%}
-          {%- if section.settings.refund_link != blank -%}
-            <li><a href="{{ section.settings.refund_link }}">Refunds &amp; cancellations</a></li>
-          {%- endif -%}
-          {%- if section.settings.delivery_link != blank -%}
-            <li><a href="{{ section.settings.delivery_link }}">Delivery &amp; lead time</a></li>
-          {%- endif -%}
+          <li><a href="{{ trial_url }}">100-night trial</a></li>
+          <li><a href="{{ warranty_url }}">Warranty</a></li>
+          <li><a href="{{ refund_url }}">Refunds &amp; cancellations</a></li>
+          <li><a href="{{ delivery_url }}">Delivery &amp; lead time</a></li>
           {%- if section.settings.lead_time_link != blank -%}
             <li><a href="{{ section.settings.lead_time_link }}">Lead times</a></li>
           {%- endif -%}
-          {%- if section.settings.contact_link != blank -%}
-            <li><a href="{{ section.settings.contact_link }}">Contact</a></li>
-          {%- endif -%}
+          <li><a href="{{ contact_url }}">Contact</a></li>
           <li><a href="{{ order_status_url }}">Order status</a></li>
-          {%- if section.settings.privacy_link != blank -%}
-            <li><a href="{{ section.settings.privacy_link }}">Privacy</a></li>
-          {%- else -%}
-            <li><a href="/pages/privacy">Privacy</a></li>
-          {%- endif -%}
-          {%- if section.settings.terms_link != blank -%}
-            <li><a href="{{ section.settings.terms_link }}">Terms</a></li>
-          {%- else -%}
-            <li><a href="/pages/terms">Terms</a></li>
-          {%- endif -%}
-          {%- if section.settings.cookies_link != blank -%}
-            <li><a href="{{ section.settings.cookies_link }}">Cookies</a></li>
-          {%- else -%}
-            <li><a href="/pages/cookies">Cookies</a></li>
-          {%- endif -%}
+          <li><a href="{{ privacy_url }}">Privacy</a></li>
+          <li><a href="{{ terms_url }}">Terms</a></li>
+          <li><a href="{{ cookies_url }}">Cookies</a></li>
         {%- endif -%}
       </ul>
     </div>
@@ -151,7 +161,7 @@
 
   <div class="page-width site-footer__bottom" data-footer-copyright>
     <span>
-      © {{ 'now' | date: '%Y' }} {{ brand }}. All rights reserved.
+      © {{ 'now' | date: '%Y' }} {% if legal_name != blank %}{{ legal_name }}{% else %}{{ brand }}{% endif %}. All rights reserved.
       {%- if section.settings.copyright_text != blank %} {{ section.settings.copyright_text }}{% endif -%}
     </span>
   </div>

@@ -1,7 +1,18 @@
 {%- comment -%}
   Policy / trust pages - S15.1.3
   Uses page.content when authored in admin; otherwise shows section fallback copy.
+  Contracting party is Brand → Legal name ([Legal] token or issued-by line).
 {%- endcomment -%}
+{%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
+{%- assign legal_name = legal_name | strip -%}
+{%- if page.content != blank -%}
+  {%- assign policy_body = page.content -%}
+{%- else -%}
+  {%- assign policy_body = section.settings.fallback_content -%}
+{%- endif -%}
+{%- if legal_name != blank -%}
+  {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
+{%- endif -%}
 <section class="section">
   <div class="page-width">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -13,12 +24,10 @@
       <p class="section__lede">{{ section.settings.intro }}</p>
     {%- endif -%}
 
+    {% render 'legal-entity', format: 'block' %}
+
     <div class="rte trust-policy__body" style="margin-top:1.75rem;">
-      {%- if page.content != blank -%}
-        {{ page.content }}
-      {%- else -%}
-        {{ section.settings.fallback_content }}
-      {%- endif -%}
+      {{ policy_body }}
     </div>
 
     {%- if section.settings.cta_label != blank -%}

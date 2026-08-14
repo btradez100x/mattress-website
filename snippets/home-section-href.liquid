@@ -1,0 +1,28 @@
+{%- comment -%}
+  Homepage section hashes (#swap, #reserve, …) only exist on the index template.
+  Off-homepage they must go to the store root + hash, not stay on this page.
+  Pass href: a path, a hash, or a full URL.
+{%- endcomment -%}
+{%- liquid
+  assign src = href | default: ''
+  assign out = src
+  if template.name != 'index' and src != blank
+    assign hash_part = ''
+    assign path_part = src
+    if src contains '#'
+      assign hash_part = src | split: '#' | last
+      assign path_part = src | split: '#' | first
+    endif
+    assign is_home = false
+    case hash_part
+      when 'swap', 'swap-video', 'specs', 'lifestyle', 'reserve', 'founder', 'faq', 'cool-touch', 'measure'
+        assign is_home = true
+    endcase
+    if is_home
+      if path_part == blank or path_part == '/' or path_part == routes.root_url
+        assign out = routes.root_url | append: '#' | append: hash_part
+      endif
+    endif
+  endif
+-%}
+{{- out -}}

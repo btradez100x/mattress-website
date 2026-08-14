@@ -1,0 +1,19 @@
+{%- comment -%}
+  Company number for legal copy. Brand → Company number is the default.
+  UK Business details → Company number (UK) overrides when filled.
+  Echoes nothing when blank so callers can hide the row.
+{%- endcomment -%}
+{%- liquid
+  assign m = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign m = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign m = 'ae'
+  endif
+
+  assign num = settings.company_number
+  if m == 'gb' and settings.company_no_gb != blank
+    assign num = settings.company_no_gb
+  endif
+  echo num
+-%}

@@ -2,6 +2,15 @@
   assign brand = settings.brand_name | default: 'Aligna'
   assign note = section.settings.note | replace: '[Brand]', brand | replace: 'Aligna', brand
   assign portrait_alt = section.settings.name | append: ', founder of ' | append: brand
+  assign founder_caption = section.settings.name
+  if section.settings.role != blank
+    assign role_label = section.settings.role | strip | downcase
+    if founder_caption != blank
+      assign founder_caption = founder_caption | append: ', ' | append: role_label
+    else
+      assign founder_caption = role_label
+    endif
+  endif
 -%}
 {%- if section.settings.enable_section -%}
 <section class="section founder-note" id="founder" data-reveal>
@@ -22,6 +31,9 @@
           height="800"
           loading="lazy"
         >
+      {%- endif -%}
+      {%- if founder_caption != blank -%}
+        <figcaption class="founder-note__caption">{{ founder_caption | escape }}</figcaption>
       {%- endif -%}
       </div>
     </figure>

@@ -1,0 +1,61 @@
+{%- comment -%}
+  Maps localization.country.iso_code to one tagline setting.
+  GB → UK, AE → UAE, US → USA, GH → Ghana, NG → Nigeria,
+  European countries including Albania (AL) → Europe.
+  GB is UK, not Europe. Unlisted countries → Default, then UK.
+{%- endcomment -%}
+{%- liquid
+  assign iso = localization.country.iso_code | upcase | strip
+  assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
+  assign tagline_key = 'default'
+
+  if iso == blank
+    assign dm = settings.default_market | default: 'ae'
+    if dm == 'gb'
+      assign tagline_key = 'gb'
+    elsif dm == 'ae'
+      assign tagline_key = 'ae'
+    endif
+  elsif iso == 'GB'
+    assign tagline_key = 'gb'
+  elsif iso == 'AE'
+    assign tagline_key = 'ae'
+  elsif iso == 'US'
+    assign tagline_key = 'us'
+  elsif iso == 'GH'
+    assign tagline_key = 'gh'
+  elsif iso == 'NG'
+    assign tagline_key = 'ng'
+  else
+    assign iso_token = '|' | append: iso | append: '|'
+    if europe_isos contains iso_token
+      assign tagline_key = 'eu'
+    endif
+  endif
+
+  assign resolved = settings.brand_tagline
+  if tagline_key == 'gb' and settings.brand_tagline_gb != blank
+    assign resolved = settings.brand_tagline_gb
+  elsif tagline_key == 'ae' and settings.brand_tagline_ae != blank
+    assign resolved = settings.brand_tagline_ae
+  elsif tagline_key == 'us' and settings.brand_tagline_us != blank
+    assign resolved = settings.brand_tagline_us
+  elsif tagline_key == 'eu' and settings.brand_tagline_eu != blank
+    assign resolved = settings.brand_tagline_eu
+  elsif tagline_key == 'gh' and settings.brand_tagline_gh != blank
+    assign resolved = settings.brand_tagline_gh
+  elsif tagline_key == 'ng' and settings.brand_tagline_ng != blank
+    assign resolved = settings.brand_tagline_ng
+  endif
+
+  if resolved == blank
+    assign resolved = settings.brand_tagline
+  endif
+  if resolved == blank
+    assign resolved = settings.brand_tagline_gb
+  endif
+  if resolved == blank
+    assign resolved = 'Premium Sleep, Engineered for the Gulf'
+  endif
+-%}
+{{- resolved -}}

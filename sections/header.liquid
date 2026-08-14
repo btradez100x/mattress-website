@@ -3,29 +3,48 @@
   assign line_override = section.settings.brand_product_line_override
   assign order_status_url = pages['order-status'].url | default: '/pages/order-status'
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
+  assign journal_url = blogs['journal'].url | default: '/blogs/journal'
+  assign home_hash = ''
+  unless template.name == 'index'
+    assign home_hash = routes.root_url
+  endunless
+  assign reserve_src = section.settings.reserve_link
+  if reserve_src == blank
+    assign reserve_src = '#reserve'
+  endif
 -%}
+{%- capture reserve_href -%}{% render 'home-section-href', href: reserve_src %}{%- endcapture -%}
+{%- assign reserve_href = reserve_href | strip -%}
 {%- capture header_nav_links -%}
   {%- if section.settings.menu != blank -%}
     {%- assign order_status_in_menu = false -%}
     {%- for link in section.settings.menu.links -%}
-      <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- assign link_title_down = link.title | strip | downcase -%}
+      {%- if link_title_down == 'reserve' or link.url contains '#reserve' -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- capture nav_href -%}{% render 'home-section-href', href: link.url %}{%- endcapture -%}
+      {%- assign nav_href = nav_href | strip -%}
+      {%- if link.title == 'Journal' or link.url contains '/pages/journal' -%}
+        {%- assign nav_href = journal_url -%}
+      {%- endif -%}
+      <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
       {%- if link.url contains 'order-status' -%}
         {%- assign order_status_in_menu = true -%}
       {%- endif -%}
     {%- endfor -%}
     {%- unless order_status_in_menu -%}
-      <a href="{{ order_status_url }}">Order status</a>
+      <a href="{{ order_status_url }}"{% if request.path contains 'order-status' %} aria-current="page"{% endif %}>Order status</a>
     {%- endunless -%}
   {%- else -%}
-    <a href="#swap">The Swap System</a>
-    <a href="#specs">Specs</a>
-    <a href="{{ manufacturing_url }}">Manufacturing</a>
-    <a href="#lifestyle">Lifestyle</a>
-    <a href="#reserve">Reserve</a>
-    <a href="/blogs/journal">Journal</a>
-    <a href="#founder">Founder</a>
-    <a href="#faq">FAQ</a>
-    <a href="{{ order_status_url }}">Order status</a>
+    <a href="{{ home_hash }}#swap">The Swap System</a>
+    <a href="{{ home_hash }}#specs">Specs</a>
+    <a href="{{ manufacturing_url }}"{% if template.suffix == 'manufacturing' %} aria-current="page"{% endif %}>Manufacturing</a>
+    <a href="{{ home_hash }}#lifestyle">Lifestyle</a>
+    <a href="{{ journal_url }}">Journal</a>
+    <a href="{{ home_hash }}#founder">Founder</a>
+    <a href="{{ home_hash }}#faq">FAQ</a>
+    <a href="{{ order_status_url }}"{% if request.path contains 'order-status' %} aria-current="page"{% endif %}>Order status</a>
   {%- endif -%}
 {%- endcapture -%}
 <header class="site-header">
@@ -55,7 +74,7 @@
         <span class="site-header__order-count" data-order-count{% unless order_line_count > 1 %} hidden{% endunless %}>{{ order_line_count }}</span>
       </a>
       {%- if section.settings.show_reserve_cta -%}
-        <a class="btn" href="{{ section.settings.reserve_link | default: '#reserve' }}">
+        <a class="btn" href="{{ reserve_href }}">
           {{ section.settings.reserve_label | default: 'See sizes and prices' }}
         </a>
       {%- endif -%}
@@ -79,7 +98,7 @@
   <div class="nav-panel" id="MobileNav" data-nav-panel aria-hidden="true">
     {{ header_nav_links }}
     {%- if section.settings.show_reserve_cta -%}
-      <a href="{{ section.settings.reserve_link | default: '#reserve' }}">
+      <a href="{{ reserve_href }}">
         {{ section.settings.reserve_label | default: 'See sizes and prices' }}
       </a>
     {%- endif -%}

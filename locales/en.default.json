@@ -1,6 +1,7 @@
 {
   "general": {
-    "brand_name": "Aligna"
+    "brand_name": "Aligna",
+    "legal_name": "Valtora FZE"
   },
   "accessibility": {
     "skip_to_content": "Skip to content"

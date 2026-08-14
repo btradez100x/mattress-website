@@ -16,6 +16,12 @@
     assign fly_to = 'the UAE'
   endif
   assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.'
+-%}
+{%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
+{%- assign legal_name = legal_name | strip -%}
+{%- capture company_no -%}{% render 'company-number' %}{%- endcapture -%}
+{%- assign company_no = company_no | strip -%}
+{%- liquid
   if payment_mode == 'full'
     assign terms_title = order_terms_title_full | default: 'Order terms'
     assign terms_body = order_terms_full
@@ -60,10 +66,21 @@
   <div class="deposit-terms">
     <p class="deposit-terms__title">{{ terms_title }}</p>
     <div class="rte reserve-stage-b__terms-body">
+      {%- if legal_name != blank and terms_body != blank -%}
+        {%- assign terms_body = terms_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
+      {%- endif -%}
+      {%- if legal_name != blank -%}
+        {%- unless terms_body contains legal_name -%}
+          <p>Your contract is with {{ legal_name }}{% if company_no != blank %} (company number {{ company_no }}){% endif %}.</p>
+        {%- endunless -%}
+      {%- endif -%}
       {%- if terms_body != blank -%}
         {{ terms_body }}
       {%- else -%}
         <ul class="reserve-stage-b__terms">
+          {%- if legal_name != blank -%}
+            <li>Your contract is with {{ legal_name }}{% if company_no != blank %} (company number {{ company_no }}){% endif %}.</li>
+          {%- endif -%}
           <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
           <li>Refunds returned to the original payment method within 5-10 business days.</li>

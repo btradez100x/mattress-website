@@ -8,32 +8,30 @@
   assign video_fallback = section.settings.fallback_video | default: 'swap-explainer.mp4'
 -%}
 {%- if section.settings.enable_section -%}
-<section class="section section--dark" id="swap-video" data-reveal>
-  <div class="page-width" style="text-align:center; max-width: 48rem; margin-inline: auto;">
+<section class="section section--dark swap-explainer" id="swap-video" data-reveal>
+  <div class="page-width swap-explainer__column">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2>{{ section.settings.heading }}</h2>
     {%- if section.settings.handmade_link != blank -%}
-      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.handmade_link }}</div>
+      <div class="section__lede rte">{{ section.settings.handmade_link }}</div>
     {%- endif -%}
     {%- if section.settings.body != blank -%}
-      <p class="section__lede" style="margin-inline:auto;">{{ section.settings.body }}</p>
+      <p class="section__lede">{{ section.settings.body }}</p>
     {%- endif -%}
     {%- if section.settings.dual_use != blank -%}
-      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.dual_use }}</div>
+      <div class="section__lede rte">{{ section.settings.dual_use }}</div>
     {%- endif -%}
     {%- if settings.comfort_tops_enabled and section.settings.top_cta_label != blank -%}
-      <p style="margin-top:1.5rem;">
+      <p class="swap-explainer__cta">
         <a class="btn" href="{{ section.settings.top_cta_url | default: '/products/comfort-top' }}">{{ section.settings.top_cta_label }}</a>
       </p>
     {%- endif -%}
     {%- if market == 'gb' and section.settings.ownership_cost_gb != blank -%}
-      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.ownership_cost_gb }}</div>
+      <div class="section__lede rte">{{ section.settings.ownership_cost_gb }}</div>
     {%- elsif market != 'gb' and section.settings.ownership_cost_ae != blank -%}
-      <div class="section__lede rte" style="margin-inline:auto;">{{ section.settings.ownership_cost_ae }}</div>
+      <div class="section__lede rte">{{ section.settings.ownership_cost_ae }}</div>
     {%- endif -%}
-  </div>
-  <div class="page-width" style="margin-top: 2.5rem;">
-    <div class="big-idea__media big-idea__media--wide big-idea__media--player" style="aspect-ratio: 16 / 9; max-width: 56rem; margin-inline: auto;">
+    <div class="big-idea__media big-idea__media--wide big-idea__media--player swap-explainer__media">
       {% render 'theme-video',
         video: section.settings.video,
         fallback: video_fallback,

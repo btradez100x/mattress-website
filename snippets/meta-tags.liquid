@@ -1,7 +1,11 @@
+{%- capture tagline -%}{% render 'market-tagline' %}{%- endcapture -%}
 {%- liquid
   assign brand = settings.brand_name | default: 'Aligna'
   assign line = settings.brand_product_line | default: ''
-  assign tagline = settings.brand_tagline | default: 'A better bed, for life.'
+  assign tagline = tagline | strip
+  if tagline == blank
+    assign tagline = settings.brand_tagline | default: 'A better bed, for life.'
+  endif
   assign site_label = brand
   if line != blank
     assign site_label = brand | append: ' ' | append: line

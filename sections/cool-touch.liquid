@@ -8,7 +8,7 @@
       endif
     -%}
     <figure class="cool-touch__main">
-      <div class="media-feature__split-media">
+      <div class="media-feature__split-media cool-touch__thumb-frame">
         {%- if section.settings.video != blank -%}
           {{ section.settings.video | video_tag: image_size: '1400x', controls: true }}
         {%- else -%}
