@@ -16,6 +16,12 @@
   assign deposit_product = section.settings.deposit_product
   assign mattress = section.settings.mattress_product
   if mattress == blank
+    assign mattress = all_products['the-mattress']
+  endif
+  if mattress == blank
+    assign mattress = all_products['mattress']
+  endif
+  if mattress == blank
     assign mattress = product
   endif
   assign leadtime_placement = section.settings.leadtime_placement | default: 'staged'
@@ -198,7 +204,7 @@
       </p>
       {%- if mattress == blank -%}
         <p class="reserve-panel__note" style="color:var(--brand-accent);">
-          Theme editor: select the mattress product in this section so sizes and prices load from Shopify variants.
+          Theme editor: select The Mattress in Mattress product on this section so sizes and prices load. The theme also looks for a product whose handle is the-mattress or mattress.
         </p>
       {%- elsif first_out -%}
         <p class="reserve-panel__note" style="color:var(--brand-accent);">
@@ -420,7 +426,7 @@
       "type": "product",
       "id": "mattress_product",
       "label": "Mattress product",
-      "info": "Variants are filtered by custom.market for the current market. Falls back to the page product if blank."
+      "info": "Variants are filtered by custom.market for the current market. If blank, the theme looks up handle the-mattress, then mattress, then the page product."
     },
     {
       "type": "text",

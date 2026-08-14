@@ -1,4 +1,11 @@
-{%- assign product = section.settings.product | default: product -%}
+{%- liquid
+  assign product = section.settings.product | default: product
+  assign ptype = product.type | downcase
+  assign is_mattress = false
+  if ptype == 'mattress' or product.tags contains 'mattress' or product.handle == 'the-mattress' or product.handle == 'mattress'
+    assign is_mattress = true
+  endif
+-%}
 <section class="section product-form">
   <div class="page-width" style="display:grid;gap:2.5rem;">
     {%- if product != blank -%}
@@ -17,44 +24,55 @@
         <div>
           <p class="section__eyebrow">{{ settings.brand_name }}</p>
           <h1 style="font-size:clamp(2rem,4vw,2.75rem);">{{ product.title }}</h1>
-          <p class="reserve-panel__price">{{ product.selected_or_first_available_variant.price | money }}</p>
+          {%- unless is_mattress -%}
+            <p class="reserve-panel__price">{{ product.selected_or_first_available_variant.price | money }}</p>
+          {%- endunless -%}
           <div class="rte">{{ product.description }}</div>
-          <form method="post" action="{{ routes.cart_add_url }}" style="margin-top:1.5rem;" id="ProductForm-{{ section.id }}">
-            {%- if product.has_only_default_variant -%}
-              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-            {%- else -%}
-              <div style="margin-bottom:1rem;">
-                <label for="Variant-{{ section.id }}" style="display:block;margin-bottom:0.5rem;font-size:0.8125rem;letter-spacing:0.08em;text-transform:uppercase;">
-                  Options
-                </label>
-                <select name="id" id="Variant-{{ section.id }}" style="width:100%;padding:0.85rem;border:1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);background:var(--brand-bg);">
-                  {%- for variant in product.variants -%}
-                    <option
-                      value="{{ variant.id }}"
-                      {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
-                      {% unless variant.available %}disabled{% endunless %}
-                    >
-                      {{ variant.title }} - {{ variant.price | money }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-              </div>
-            {%- endif -%}
-            <button class="btn" type="submit" name="add">
-              {%- if product.type == 'Replacement top' or product.tags contains 'replacement-top' -%}
-                Add replacement top
+          {%- if is_mattress -%}
+            <p style="margin-top:1.5rem;">
+              <a class="btn" href="#reserve">Choose your size</a>
+            </p>
+            <p class="cart-attributes-note">
+              Sizes, prices and checkout are on this page. Pick your size, then continue.
+            </p>
+          {%- else -%}
+            <form method="post" action="{{ routes.cart_add_url }}" style="margin-top:1.5rem;" id="ProductForm-{{ section.id }}">
+              {%- if product.has_only_default_variant -%}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
               {%- else -%}
-                Add to cart
+                <div style="margin-bottom:1rem;">
+                  <label for="Variant-{{ section.id }}" style="display:block;margin-bottom:0.5rem;font-size:0.8125rem;letter-spacing:0.08em;text-transform:uppercase;">
+                    Options
+                  </label>
+                  <select name="id" id="Variant-{{ section.id }}" style="width:100%;padding:0.85rem;border:1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);background:var(--brand-bg);">
+                    {%- for variant in product.variants -%}
+                      <option
+                        value="{{ variant.id }}"
+                        {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                        {% unless variant.available %}disabled{% endunless %}
+                      >
+                        {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                </div>
               {%- endif -%}
-            </button>
-          </form>
-          <p class="cart-attributes-note">
-            Size dimensions are shown on the landing reserve flow. For replacement tops, choose the firmness and market-correct size variant.
-          </p>
+              <button class="btn" type="submit" name="add">
+                {%- if product.type == 'Replacement top' or product.tags contains 'replacement-top' -%}
+                  Add replacement top
+                {%- else -%}
+                  Add to cart
+                {%- endif -%}
+              </button>
+            </form>
+            <p class="cart-attributes-note">
+              Size dimensions are shown on the landing reserve flow. For replacement tops, choose the firmness and market-correct size variant.
+            </p>
+          {%- endif -%}
         </div>
       </div>
     {%- else -%}
-      <p>Product unavailable.</p>
+      <p>Product unavailable. If this is the mattress, open the home page and choose a size there, or select The Mattress in the Size + price + reserve section.</p>
     {%- endif -%}
   </div>
 </section>

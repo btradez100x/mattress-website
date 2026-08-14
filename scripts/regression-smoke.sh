@@ -65,6 +65,8 @@ REQUIRED_PATHS=(
   "templates/cart.json"
   "templates/page.checkout.json"
   "sections/main-checkout.liquid"
+  "templates/page.manufacturing.json"
+  "sections/manufacturing.liquid"
   "templates/product.json"
   "locales/en.default.json"
 )

@@ -2,10 +2,6 @@
   assign brand = settings.brand_name | default: 'Aligna'
   assign note = section.settings.note | replace: '[Brand]', brand | replace: 'Aligna', brand
   assign portrait_alt = section.settings.name | append: ', founder of ' | append: brand
-  assign portrait_caption = section.settings.portrait_caption
-  if portrait_caption == blank
-    assign portrait_caption = section.settings.name
-  endif
 -%}
 {%- if section.settings.enable_section -%}
 <section class="section founder-note" id="founder" data-reveal>
@@ -28,7 +24,6 @@
         >
       {%- endif -%}
       </div>
-      <figcaption class="founder-note__caption">{{ portrait_caption }}</figcaption>
     </figure>
     <div class="founder-note__copy">
       <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 120ms">{{ section.settings.eyebrow }}</p>
@@ -95,12 +90,6 @@
       "id": "name",
       "label": "Name",
       "default": "Benjamin Maxwell"
-    },
-    {
-      "type": "text",
-      "id": "portrait_caption",
-      "label": "Portrait caption",
-      "default": "Benjamin Maxwell, founder"
     },
     {
       "type": "text",

@@ -1557,6 +1557,9 @@
       });
     }
     sizes = filterSizesForMarket(market);
+    if (!sizes.length && root.getAttribute('data-preview') === 'true') {
+      sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+    }
 
     function eventParams(extra) {
       var size = currentSize();
@@ -1852,6 +1855,9 @@
       financeName =
         root.getAttribute('data-finance-name') || (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
       sizes = filterSizesForMarket(market);
+      if (!sizes.length && root.getAttribute('data-preview') === 'true') {
+        sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+      }
       rebuildSizeButtons();
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
       if (typeof refreshTotals === 'function') refreshTotals();
@@ -3021,6 +3027,23 @@
 
   document.addEventListener('preview:market-changed', reinitReservesForMarket);
 
+  function initLifestyleCaptions() {
+    var items = document.querySelectorAll('.lifestyle-collage__item');
+    if (!items.length) return;
+    var fineHover =
+      window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (fineHover) return;
+    items.forEach(function (item) {
+      item.addEventListener('click', function () {
+        var open = item.classList.contains('is-caption-open');
+        items.forEach(function (other) {
+          other.classList.remove('is-caption-open');
+        });
+        if (!open) item.classList.add('is-caption-open');
+      });
+    });
+  }
+
   function initAllReserves() {
     document.querySelectorAll('[data-size-reserve]').forEach(initSizeReserve);
   }
@@ -3994,6 +4017,7 @@
     initTiltCards();
     initFaq();
     initAllReserves();
+    initLifestyleCaptions();
     initMobileNav();
     syncChromeOffsets();
     window.addEventListener('resize', syncChromeOffsets);

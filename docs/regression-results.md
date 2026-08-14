@@ -1,3 +1,13 @@
+# Regression results — 2026-08-14 (collage hover / mattress / founder / manufacturing)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 453 passed, 0 failed
+- Scope note: Lifestyle collage captions are hover/tap overlays again (not always-on under the photos). Founder photo caption removed. Size-reserve looks up The Mattress by handle and product.json includes the reserve flow. Manufacturing theme files present; storefront 404 still needs an Admin Page. Checkout markers unchanged. No version bump.
+
+---
+
 # Regression results — 2026-08-14 (Visa / basket / captions)
 
 ## Smoke
