@@ -3,6 +3,9 @@
 #   SHOPIFY_STORE            e.g. 7dbr1b-1q.myshopify.com
 #   SHOPIFY_CLI_THEME_TOKEN  Theme Access password (Shopify Admin → Settings → Apps)
 #   SHOPIFY_THEME_ID         Theme id from Online Store → Themes → … → Copy theme ID
+#
+# Missing secrets skip the push and exit 0 so GitHub does not email a failure.
+# Git push still succeeded; Shopify Connect on shopify-theme can sync independently.
 name: Deploy Shopify theme
 
 on:
@@ -17,11 +20,47 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Check Action secrets
+        id: secrets
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+          SHOPIFY_THEME_ID: ${{ secrets.SHOPIFY_THEME_ID }}
+        run: |
+          missing=0
+          if [ -z "$SHOPIFY_STORE" ]; then
+            echo "SHOPIFY_STORE is not set"
+            missing=1
+          fi
+          if [ -z "$SHOPIFY_CLI_THEME_TOKEN" ]; then
+            echo "SHOPIFY_CLI_THEME_TOKEN is not set"
+            missing=1
+          fi
+          if [ -z "$SHOPIFY_THEME_ID" ]; then
+            echo "SHOPIFY_THEME_ID is not set"
+            missing=1
+          fi
+          if [ "$missing" = "1" ]; then
+            echo ""
+            echo "Skipping shopify theme push. Add the secrets above under"
+            echo "Settings → Secrets and variables → Actions, or use Shopify"
+            echo "Connect from GitHub on the shopify-theme branch."
+            echo "This is not a git-push failure — the files are already on GitHub."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.secrets.outputs.skip != 'true'
+
       - uses: actions/setup-node@v4
+        if: steps.secrets.outputs.skip != 'true'
         with:
           node-version: '20'
+
       - name: Push theme
+        if: steps.secrets.outputs.skip != 'true'
         working-directory: valtora-theme
         env:
           SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_STORE }}
