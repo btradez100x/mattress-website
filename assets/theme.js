@@ -845,6 +845,19 @@
     var solos = document.querySelectorAll('[data-reveal-child]:not([data-reveal-grouped])');
 
     function showAll() {
+      /* Storefront + motion: only unstick nodes already on screen. Below-fold
+         stays hidden so scroll can play the stagger. Design mode, reduced-motion,
+         and missing IO still reveal everything. */
+      var storefrontMotion = !designMode && motionAllowed() && ('IntersectionObserver' in window);
+      if (storefrontMotion) {
+        groups.forEach(function (g) {
+          if (!g.classList.contains('is-visible') && revealIfInView(g)) revealGroup(g);
+        });
+        solos.forEach(function (n) {
+          if (!n.classList.contains('is-visible') && revealIfInView(n)) revealChild(n);
+        });
+        return;
+      }
       groups.forEach(function (g) { revealGroup(g); });
       solos.forEach(function (n) { revealChild(n); });
       document.querySelectorAll('[data-reveal]').forEach(function (n) {
