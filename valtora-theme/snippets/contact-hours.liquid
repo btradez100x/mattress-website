@@ -1,0 +1,141 @@
+{%- comment -%}
+  Contact hours (time only) plus automatic timezone abbreviation.
+  Usage: {% render 'contact-hours' %}
+  GB = Europe/London (BST or GMT). AE = Asia/Dubai (GST). GB is not Europe.
+{%- endcomment -%}
+{%- liquid
+  assign iso = localization.country.iso_code | upcase | strip
+  assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
+  assign hours_key = 'default'
+  assign dm = settings.default_market | default: 'ae'
+
+  if iso == blank
+    if dm == 'gb' or dm == 'ae' or dm == 'us' or dm == 'eu' or dm == 'gh' or dm == 'ng'
+      assign hours_key = dm
+    else
+      assign hours_key = 'ae'
+    endif
+  elsif iso == 'GB'
+    assign hours_key = 'gb'
+  elsif iso == 'AE'
+    assign hours_key = 'ae'
+  elsif iso == 'US'
+    assign hours_key = 'us'
+  elsif iso == 'GH'
+    assign hours_key = 'gh'
+  elsif iso == 'NG'
+    assign hours_key = 'ng'
+  else
+    assign iso_token = '|' | append: iso | append: '|'
+    if europe_isos contains iso_token
+      assign hours_key = 'eu'
+    elsif dm == 'gb' or dm == 'ae' or dm == 'us' or dm == 'eu' or dm == 'gh' or dm == 'ng'
+      assign hours_key = dm
+    endif
+  endif
+
+  assign hours_raw = settings.contact_hours
+  if hours_key == 'gb' and settings.contact_hours_gb != blank
+    assign hours_raw = settings.contact_hours_gb
+  elsif hours_key == 'ae' and settings.contact_hours_ae != blank
+    assign hours_raw = settings.contact_hours_ae
+  elsif hours_key == 'us' and settings.contact_hours_us != blank
+    assign hours_raw = settings.contact_hours_us
+  elsif hours_key == 'eu' and settings.contact_hours_eu != blank
+    assign hours_raw = settings.contact_hours_eu
+  elsif hours_key == 'gh' and settings.contact_hours_gh != blank
+    assign hours_raw = settings.contact_hours_gh
+  elsif hours_key == 'ng' and settings.contact_hours_ng != blank
+    assign hours_raw = settings.contact_hours_ng
+  endif
+
+  assign hours_txt = hours_raw | strip
+  assign hours_txt = hours_txt | replace: ' CEST', '' | replace: ' CET', ''
+  assign hours_txt = hours_txt | replace: ' EDT', '' | replace: ' EST', ''
+  assign hours_txt = hours_txt | replace: ' CDT', '' | replace: ' CST', ''
+  assign hours_txt = hours_txt | replace: ' MDT', '' | replace: ' MST', ''
+  assign hours_txt = hours_txt | replace: ' PDT', '' | replace: ' PST', ''
+  assign hours_txt = hours_txt | replace: ' GST', '' | replace: ' BST', '' | replace: ' WAT', ''
+  assign hours_txt = hours_txt | replace: ' GMT+4', '' | replace: ' GMT+1', '' | replace: ' GMT', ''
+  assign hours_txt = hours_txt | replace: ' UTC', ''
+  assign hours_txt = hours_txt | strip
+
+  assign month = 'now' | date: '%m' | plus: 0
+  assign day = 'now' | date: '%d' | plus: 0
+  assign eu_summer = false
+  if month >= 4 and month <= 9
+    assign eu_summer = true
+  elsif month == 3 and day >= 25
+    assign eu_summer = true
+  elsif month == 10 and day < 25
+    assign eu_summer = true
+  endif
+  assign us_summer = false
+  if month >= 4 and month <= 10
+    assign us_summer = true
+  elsif month == 3 and day >= 8
+    assign us_summer = true
+  elsif month == 11 and day < 8
+    assign us_summer = true
+  endif
+
+  assign zone_key = hours_key
+  if zone_key == 'default'
+    assign zone_key = dm
+  endif
+
+  assign tz_iana = 'Asia/Dubai'
+  assign tz_fallback = 'GST'
+  if zone_key == 'gb'
+    assign tz_iana = 'Europe/London'
+    if eu_summer
+      assign tz_fallback = 'BST'
+    else
+      assign tz_fallback = 'GMT'
+    endif
+  elsif zone_key == 'us'
+    assign tz_iana = settings.contact_hours_us_timezone | default: 'America/New_York'
+    if tz_iana == 'America/Chicago'
+      if us_summer
+        assign tz_fallback = 'CDT'
+      else
+        assign tz_fallback = 'CST'
+      endif
+    elsif tz_iana == 'America/Denver'
+      if us_summer
+        assign tz_fallback = 'MDT'
+      else
+        assign tz_fallback = 'MST'
+      endif
+    elsif tz_iana == 'America/Los_Angeles'
+      if us_summer
+        assign tz_fallback = 'PDT'
+      else
+        assign tz_fallback = 'PST'
+      endif
+    else
+      assign tz_iana = 'America/New_York'
+      if us_summer
+        assign tz_fallback = 'EDT'
+      else
+        assign tz_fallback = 'EST'
+      endif
+    endif
+  elsif zone_key == 'eu'
+    assign tz_iana = 'Europe/Berlin'
+    if eu_summer
+      assign tz_fallback = 'CEST'
+    else
+      assign tz_fallback = 'CET'
+    endif
+  elsif zone_key == 'gh'
+    assign tz_iana = 'Africa/Accra'
+    assign tz_fallback = 'GMT'
+  elsif zone_key == 'ng'
+    assign tz_iana = 'Africa/Lagos'
+    assign tz_fallback = 'WAT'
+  endif
+-%}
+{%- if hours_txt != blank -%}
+<span class="contact-hours" data-business-hours data-hours="{{ hours_txt | escape }}" data-hours-market="{{ hours_key | escape }}" data-tz-iana="{{ tz_iana | escape }}" data-tz-fallback="{{ tz_fallback | escape }}">{{ hours_txt }} <span data-hours-tz>{{ tz_fallback }}</span></span>
+{%- endif -%}

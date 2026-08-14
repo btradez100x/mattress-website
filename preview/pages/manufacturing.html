@@ -40,23 +40,9 @@
         letter-spacing: 0.04em;
         padding: 0.55rem 1rem;
       }
-      .site-header--solid {
-        position: sticky; top: 0; z-index: 40;
-        background: color-mix(in srgb, var(--brand-bg) 92%, transparent);
-        border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
-        backdrop-filter: blur(8px);
-      }
-      .site-header--solid .site-header__inner {
-        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-        padding: 0.85rem 0;
-      }
-      .site-header--solid .site-header__nav { display: none; gap: 1.25rem; }
-      @media (min-width: 900px) {
-        .site-header--solid .site-header__nav { display: flex; }
-      }
     </style>
   </head>
-  <body data-page="manufacturing">
+  <body class="template-page-manufacturing" data-page="manufacturing">
     <div class="preview-banner" data-preview-chrome><strong>Local theme preview</strong></div>
     <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
       <p style="margin:0" data-market-announcement>
@@ -65,25 +51,41 @@
       </p>
     </div>
 
-    <header class="site-header site-header--solid">
-      <div class="page-width site-header__inner">
+    <header class="site-header">
+      <div class="site-header__inner">
         <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
           <span class="wordmark__lockup">
             <span class="wordmark__text" data-brand-text>Aligna</span>
             <span class="wordmark__product" data-brand-product-line>Mattresses</span>
           </span>
         </a>
-                <nav class="site-header__nav" aria-label="Primary">
+        <nav class="site-header__nav" aria-label="Primary">
           <a href="../index.html#swap">The Swap System</a>
           <a href="../index.html#specs">Specs</a>
-          <a href="./manufacturing.html" aria-current="page">Manufacturing</a>
+          <a href="../pages/manufacturing.html" aria-current="page">Manufacturing</a>
           <a href="../index.html#lifestyle">Lifestyle</a>
-          <a href="../index.html#reserve">Reserve</a>
           <a href="../blog/index.html">Journal</a>
           <a href="../index.html#founder">Founder</a>
           <a href="../index.html#faq">FAQ</a>
+          <a href="../pages/order-status.html">Order status</a>
         </nav>
-        <a class="btn" href="../index.html#reserve">Reserve yours</a>
+        <div class="site-header__actions"><a class="site-header__order" href="./cart.html" data-order-link hidden aria-label="Order"><span class="site-header__order-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" focusable="false"><path d="M5 8h14l-1.1 10.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span><span class="site-header__order-label">Order</span><span class="site-header__order-count" data-order-count hidden>0</span></a>
+          <a class="btn" href="../index.html#reserve">Reserve yours</a>
+          <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="MobileNav" aria-label="Open menu">
+            <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          </button>
+        </div>
+      </div>
+      <div class="nav-panel" id="MobileNav" data-nav-panel aria-hidden="true">
+        <a href="../index.html#swap">The Swap System</a>
+        <a href="../index.html#specs">Specs</a>
+        <a href="../pages/manufacturing.html" aria-current="page">Manufacturing</a>
+        <a href="../index.html#lifestyle">Lifestyle</a>
+        <a href="../blog/index.html">Journal</a>
+        <a href="../index.html#founder">Founder</a>
+        <a href="../index.html#faq">FAQ</a>
+        <a href="../pages/order-status.html">Order status</a>
+        <a href="../index.html#reserve">Reserve yours</a>
       </div>
     </header>
 
@@ -187,28 +189,35 @@
               <span class="wordmark__product" data-brand-product-line>Mattresses</span>
             </span>
           </a>
-          <p>Premium Sleep, Engineered for the Gulf. A better bed, for life.</p>
+          <p><span data-brand-tagline>Premium Sleep, Engineered for the Gulf</span>. A better bed, for life.</p>
         </div>
         <div>
           <h3>Explore</h3>
           <ul>
             <li><a href="../index.html#swap">The Swap System</a></li>
-            <li><a href="./manufacturing.html">Manufacturing</a></li>
+            <li><a href="../index.html#specs">Specs</a></li>
+            <li><a href="../pages/manufacturing.html">Manufacturing</a></li>
+            <li><a href="../index.html#lifestyle">Lifestyle</a></li>
             <li><a href="../index.html#reserve">Reserve</a></li>
+            <li><a href="../blog/index.html">Journal</a></li>
+            <li><a href="../index.html#founder">Founder</a></li>
             <li><a href="../index.html#faq">FAQ</a></li>
+            <li><a href="../pages/size-guide.html">Size guide</a></li>
           </ul>
         </div>
         <div>
           <h3>Policies</h3>
           <ul>
-            <li><a href="./trial.html">100-night trial</a></li>
-            <li><a href="./warranty.html">Warranty</a></li>
-            <li><a href="./refunds.html">Refunds &amp; cancellations</a></li>
-            <li><a href="./delivery.html">Delivery &amp; lead time</a></li>
-            <li><a href="./contact.html">Contact</a></li>
-            <li><a href="./privacy.html">Privacy</a></li>
-            <li><a href="./terms.html">Terms</a></li>
-            <li><a href="./cookies.html">Cookies</a></li>
+            <li><a href="../pages/trial.html">100-night trial</a></li>
+            <li><a href="../pages/warranty.html">Warranty</a></li>
+            <li><a href="../pages/refunds.html">Refunds &amp; cancellations</a></li>
+            <li><a href="../pages/delivery.html">Delivery &amp; lead time</a></li>
+            <li><a href="../pages/size-guide.html">Size guide</a></li>
+            <li><a href="../pages/contact.html">Contact</a></li>
+            <li><a href="../pages/order-status.html">Order status</a></li>
+            <li><a href="../pages/privacy.html">Privacy</a></li>
+            <li><a href="../pages/terms.html">Terms</a></li>
+            <li><a href="../pages/cookies.html">Cookies</a></li>
           </ul>
         </div>
       </div>

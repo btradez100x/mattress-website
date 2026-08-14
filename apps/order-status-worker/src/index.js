@@ -484,14 +484,19 @@ function formatDate(iso) {
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 }
 
+const LEGAL_EMAIL_FOOTER =
+  "This website is operated by Valtora FZE.\n" +
+  "Registered address: Business Centre, Sharjah Publishing City Free Zone, Sharjah, United Arab Emirates.";
+
 function linkEmail(order, link) {
   const ref = String(order.name || "").replace(/^#/, "");
   return {
-    subject: `Your order ${ref} — view status`,
+    subject: `Your order ${ref} - view status`,
     text:
       `Here is the link to your mattress order ${ref}.\n\n${link}\n\n` +
       `This page is updated by hand as your mattress moves through production. It is not live tracking.\n` +
-      `The link works for 90 days. If it expires, enter your order number and email on the same page and we will send a new one.`,
+      `The link works for 90 days. If it expires, enter your order number and email on the same page and we will send a new one.\n\n` +
+      LEGAL_EMAIL_FOOTER,
   };
 }
 
@@ -499,11 +504,12 @@ function stageEmail(order, link, presented) {
   const ref = String(order.name || "").replace(/^#/, "");
   const name = (presented.order && presented.order.stage_name) || "updated";
   return {
-    subject: `Order ${ref} — ${name}`,
+    subject: `Order ${ref} - ${name}`,
     text:
       `An update on your mattress (order ${ref}): ${name}.\n\n` +
       `${(presented.order && presented.order.next) || ""}\n\n` +
-      `View status (updated by hand, not live tracking):\n${link}\n`,
+      `View status (updated by hand, not live tracking):\n${link}\n\n` +
+      LEGAL_EMAIL_FOOTER,
   };
 }
 

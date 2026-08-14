@@ -6,7 +6,7 @@
         "eyebrow": "Policies",
         "heading": "Cookies",
         "intro": "What we store in your browser and why.",
-        "fallback_content": "<h2>Essential</h2><p>We use cookies and local storage to keep your basket, market, and theme preference. These are required for the site to work.</p><h2>Analytics</h2><p>If analytics is enabled, we measure page views and checkout steps so we can see what is broken. We do not use that data to advertise to you on other sites.</p><h2>Choices</h2><p>You can block non-essential cookies in your browser. The basket may not persist if essential storage is blocked.</p><p>Replace this fallback with the full policy from Shopify Settings → Policies when you publish.</p>",
+        "fallback_content": "<p>This cookie notice is issued by [Legal].</p><h2>Essential</h2><p>We use cookies and local storage to keep your basket, market, and theme preference. These are required for the site to work.</p><h2>Analytics</h2><p>If analytics is enabled, we measure page views and checkout steps so we can see what is broken. We do not use that data to advertise to you on other sites.</p><h2>Choices</h2><p>You can block non-essential cookies in your browser. The basket may not persist if essential storage is blocked.</p><p>Replace this fallback with the full policy from Shopify Settings → Policies when you publish.</p>",
         "cta_label": "Reserve your size",
         "cta_link": "/#reserve"
       }

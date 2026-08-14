@@ -1,0 +1,22 @@
+{%- comment -%}
+  Registered address for legal copy. Brand → Registered address is the default.
+  UAE/UK Business details override when filled.
+{%- endcomment -%}
+{%- liquid
+  assign m = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign m = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign m = 'ae'
+  endif
+
+  assign addr = settings.registered_address
+  if m == 'gb' and settings.registered_address_gb != blank
+    assign addr = settings.registered_address_gb
+  elsif m == 'ae' and settings.registered_address_ae != blank
+    assign addr = settings.registered_address_ae
+  elsif addr == blank
+    assign addr = settings.registered_address_ae
+  endif
+  echo addr
+-%}

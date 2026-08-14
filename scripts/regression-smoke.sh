@@ -122,6 +122,24 @@ else
   fail "header two-line wordmark override is not wired"
 fi
 
+if grep -q -- "--wordmark-line-2" "$THEME/assets/base.css" \
+  && grep -q -- "--wordmark-line-2" "$THEME/snippets/css-variables.liquid" \
+  && grep -q 'var(--wordmark-line-2' "$THEME/assets/base.css" \
+  && ! grep -q "Single-colour lockup" "$THEME/assets/base.css"; then
+  pass "wordmark line 2 uses scheme token --wordmark-line-2"
+else
+  fail "wordmark line 2 is not a distinct scheme colour"
+fi
+
+if grep -q 'settings.brand_product_line' "$THEME/sections/footer.liquid" \
+  && grep -q 'site-footer__trading-line' "$THEME/sections/footer.liquid" \
+  && grep -q 'site-footer__trading-name' "$THEME/sections/footer.liquid" \
+  && grep -q 'var(--wordmark-line-2-on-dark' "$THEME/assets/base.css"; then
+  pass "footer Trading as uses brand name + product line lockup"
+else
+  fail "footer Trading as does not use both wordmark lines"
+fi
+
 if grep -q "render 'favicon'" "$THEME/snippets/meta-tags.liquid" \
   && grep -q "brand_name" "$THEME/snippets/favicon.liquid" \
   && grep -q "image/svg+xml" "$THEME/snippets/favicon.liquid"; then
@@ -314,7 +332,12 @@ else
 fi
 
 if grep -q "whatsapp_enabled" "$THEME/config/settings_schema.json" \
-  && grep -q "trade_licence_no" "$THEME/config/settings_schema.json"; then
+  && grep -q "trade_licence_no" "$THEME/config/settings_schema.json" \
+  && grep -q '"id": "legal_name"' "$THEME/config/settings_schema.json" \
+  && grep -q '"id": "company_number"' "$THEME/config/settings_schema.json" \
+  && grep -q '"id": "registered_address"' "$THEME/config/settings_schema.json" \
+  && grep -q "legal-entity" "$THEME/sections/trust-policy.liquid" \
+  && grep -q "checkout-stage__terms" "$THEME/sections/main-checkout.liquid"; then
   pass "WhatsApp + legal entity settings present"
 else
   fail "WhatsApp / legal entity settings missing"
@@ -655,6 +678,29 @@ if grep -q '"id": "size_add_label"' "$THEME/config/settings_schema.json" \
   pass "size Add label is a theme setting"
 else
   fail "size Add label setting missing"
+fi
+
+if grep -q '"id": "brand_tagline_gb"' "$SCHEMA" \
+  && grep -q '"id": "brand_tagline_ae"' "$SCHEMA" \
+  && grep -q '"id": "brand_tagline_us"' "$SCHEMA" \
+  && grep -q '"id": "brand_tagline_eu"' "$SCHEMA" \
+  && grep -q '"id": "brand_tagline_gh"' "$SCHEMA" \
+  && grep -q '"id": "brand_tagline_ng"' "$SCHEMA" \
+  && grep -q 'Tagline (Europe, including Albania)' "$SCHEMA"; then
+  pass "per-market tagline settings present"
+else
+  fail "per-market tagline settings missing from schema"
+fi
+
+if grep -q "render 'market-tagline'" "$THEME/sections/footer.liquid" \
+  && grep -q "render 'market-tagline'" "$THEME/snippets/meta-tags.liquid" \
+  && grep -q "render 'market-tagline'" "$THEME/layout/password.liquid" \
+  && grep -q '|AL|' "$THEME/snippets/market-tagline.liquid" \
+  && grep -q "iso == 'GB'" "$THEME/snippets/market-tagline.liquid" \
+  && grep -q "iso == 'US'" "$THEME/snippets/market-tagline.liquid"; then
+  pass "market-tagline helper wired (includes AL; GB is UK)"
+else
+  fail "market-tagline helper missing, unwired, or missing AL/GB/US"
 fi
 
 info "----------------------------------------"

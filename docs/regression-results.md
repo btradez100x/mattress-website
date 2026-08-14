@@ -1,3 +1,123 @@
+# Regression results — 2026-08-14 (specs side-profile overlay)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 466 passed, 0 failed
+- Scope note: Product-specs “Side profile” is a hover/tap overlay on the photo (same pattern as lifestyle collage), not a line under the image. Founder overlay, collage hover, wordmark line-2, footer Trading as, and checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (manufacturing menu links)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 466 passed, 0 failed
+- Scope note: Off-homepage header/footer hashes now go to store root + hash (`/#swap`). theme.js no longer maps Shopify `/pages/` to `../index.html` (that 404'd). Preview manufacturing uses `../index.html#…` and `../pages/…`. Footer Trading as, taglines, hours, legal entity kept. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (cool-touch main image hover)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 466 passed, 0 failed
+- Scope note: Cool-touch main image no longer Ken Burns-zooms on hover of the whole split. It uses the same tile scale (1.035, --dur-fast) + inner image zoom (1.05, --dur-wipe) as Cover knit / Surface detail thumbs, only when hovering that figure. Ease still cubic-bezier(0.22, 1, 0.36, 1). Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (founder portrait hover overlay)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 458 passed, 0 failed
+- Scope note: Founder name/role is a hover (desktop) / tap (touch) overlay on the portrait, same pattern as lifestyle collage captions. Text comes from section Name + Role ("Benjamin Maxwell, founder"). Not a line under the photo. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (legal entity on legal copy)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 458 passed, 0 failed
+- Scope note: Privacy, Terms, Cookies, refunds, trial, warranty, delivery, contact, footer copyright, checkout terms, Stage B, and email snippets now use the registered company (legal name, company number if filled, registered address) instead of the brand wordmark. Empty company-number rows stay hidden. Trading as / wordmark / market taglines / contact-hours unchanged. Checkout markers kept. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (legal name on policies)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 458 passed, 0 failed
+- Scope note: Privacy, Terms, Cookies, refunds, trial, warranty, delivery, checkout terms, and footer copyright use Brand → Legal name (`legal_name`). Trading as still uses both brand lines. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (Journal blog URL)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 458 passed, 0 failed
+- Scope note: Journal is a Shopify blog (`/blogs/journal`), not a Page. Header + footer now use `blogs['journal'].url` with that fallback. Homepage hashes still go to `routes.root_url#…` when not on index. Checkout markers unchanged. 404 is because Admin has no blog with handle `journal`. No version bump.
+
+---
+
+
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 458 passed, 0 failed
+- Scope note: Contact hours are time-only per market (UK / UAE / USA / Europe / Ghana / Nigeria). Theme appends the time zone (UK BST in summer, GMT after the clocks change; UAE GST). UK no longer shows GST. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (footer Trading as both wordmark lines)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 458 passed, 0 failed
+- Scope note: Footer (and contact) Trading as now uses Brand name + Product line from theme settings, stacked like the header wordmark. Blank line 2 hides so there is no stray trailing space. Line 2 uses `--wordmark-line-2-on-dark` on the footer. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (wordmark line-2 colour)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 456 passed, 0 failed
+- Scope note: Wordmark line 2 (product line) no longer inherits the name colour. Each guideline × scheme sets `--wordmark-line-2` (complementary navy/gold or carbon/ember). Two-line textarea override unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (per-market taglines)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 458 passed, 0 failed
+- Scope note: Separate Theme setting taglines for UK, UAE, USA, Europe (including Albania), Ghana, and Nigeria. One Liquid helper maps country ISO → tagline; GB uses UK not Europe; unlisted countries use Default then UK. Wired in footer, password page, and share [Tagline] token. Preview market switcher can preview each. Placeholders only — owner must type real slogans. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (remove specs SIDE PROFILE caption)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 453 passed, 0 failed
+- Scope note: Product-specs figcaption "Side profile" (CSS uppercase SIDE PROFILE) removed. Caption only renders if a custom value is set; "Side profile" is treated as empty so it does not take space. Preview figcaption removed. Image is HTML caption, not baked into the JPG. No version bump.
+
+---
+
 # Regression results — 2026-08-14 (collage hover / mattress / founder / manufacturing)
 
 ## Smoke

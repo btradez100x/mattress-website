@@ -20,6 +20,9 @@
     ],
   };
 
+  var DEFAULT_TAGLINE = 'Premium Sleep, Engineered for the Gulf';
+  var TAGLINE_MARKETS = { ae: 1, gb: 1, us: 1, eu: 1, gh: 1, ng: 1 };
+
   function detectMarket() {
     // Preview: honour the market the shopper last chose so cart/checkout
     // pages (hardcoded data-market) do not wipe the other market's basket.
@@ -54,6 +57,223 @@
 
     return theme.defaultMarket || 'ae';
   }
+
+  function detectTaglineMarket() {
+    try {
+      var saved = localStorage.getItem('valtoraPreviewTaglineMarket');
+      if (saved && TAGLINE_MARKETS[saved]) return saved;
+      var legacy = localStorage.getItem('valtoraPreviewMarket');
+      if (legacy && TAGLINE_MARKETS[legacy]) return legacy;
+    } catch (e) {}
+    var attr =
+      (document.documentElement && document.documentElement.getAttribute('data-tagline-market')) ||
+      (document.documentElement && document.documentElement.getAttribute('data-market'));
+    if (attr && TAGLINE_MARKETS[attr]) return attr;
+    return detectMarket();
+  }
+
+  function readPreviewTaglineMap() {
+    var map = {
+      default: DEFAULT_TAGLINE,
+      ae: DEFAULT_TAGLINE,
+      gb: DEFAULT_TAGLINE,
+      us: DEFAULT_TAGLINE,
+      eu: DEFAULT_TAGLINE,
+      gh: DEFAULT_TAGLINE,
+      ng: DEFAULT_TAGLINE,
+    };
+    try {
+      var raw = localStorage.getItem('valtoraPreviewTaglines');
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          Object.keys(map).forEach(function (k) {
+            if (typeof parsed[k] === 'string' && parsed[k].trim()) map[k] = parsed[k].trim();
+          });
+        }
+      }
+    } catch (e) {}
+    return map;
+  }
+
+  function resolvePreviewTagline(key) {
+    key = key && TAGLINE_MARKETS[key] ? key : detectTaglineMarket();
+    var map = readPreviewTaglineMap();
+    var text = (map[key] || '').trim();
+    if (!text) text = (map.default || '').trim();
+    if (!text) text = (map.gb || '').trim();
+    if (!text) {
+      try {
+        text = (localStorage.getItem('valtoraPreviewTagline') || '').trim();
+      } catch (e) {}
+    }
+    return text || DEFAULT_TAGLINE;
+  }
+
+  function applyPreviewTagline(key) {
+    var text = resolvePreviewTagline(key);
+    document.querySelectorAll('[data-brand-tagline]').forEach(function (el) {
+      el.textContent = text;
+    });
+    try {
+      localStorage.setItem('valtoraPreviewTagline', text);
+    } catch (e) {}
+    if (typeof paintContactHours === 'function') paintContactHours();
+    return text;
+  }
+
+  function savePreviewTagline(key, text) {
+    key = key && TAGLINE_MARKETS[key] ? key : 'default';
+    text = (text || '').trim() || DEFAULT_TAGLINE;
+    var map = readPreviewTaglineMap();
+    map[key] = text;
+    try {
+      localStorage.setItem('valtoraPreviewTaglines', JSON.stringify(map));
+      localStorage.setItem('valtoraPreviewTagline', text);
+    } catch (e) {}
+    return text;
+  }
+
+  window.__valtoraResolvePreviewTagline = resolvePreviewTagline;
+  window.__valtoraApplyPreviewTagline = applyPreviewTagline;
+  window.__valtoraSavePreviewTagline = savePreviewTagline;
+
+  var EUROPE_HOUR_ISOS = {
+    AT: 1, BE: 1, BG: 1, HR: 1, CY: 1, CZ: 1, DK: 1, EE: 1, FI: 1, FR: 1, DE: 1,
+    GR: 1, HU: 1, IE: 1, IT: 1, LV: 1, LT: 1, LU: 1, MT: 1, NL: 1, PL: 1, PT: 1,
+    RO: 1, SK: 1, SI: 1, ES: 1, SE: 1, AL: 1, IS: 1, LI: 1, NO: 1, CH: 1, MK: 1,
+    ME: 1, RS: 1, BA: 1, XK: 1, MD: 1, UA: 1, BY: 1
+  };
+  var HOURS_IANA = {
+    gb: 'Europe/London',
+    ae: 'Asia/Dubai',
+    us: 'America/New_York',
+    eu: 'Europe/Berlin',
+    gh: 'Africa/Accra',
+    ng: 'Africa/Lagos'
+  };
+  var HOURS_FALLBACK = {
+    gb: 'GMT',
+    ae: 'GST',
+    us: 'EST',
+    eu: 'CET',
+    gh: 'GMT',
+    ng: 'WAT'
+  };
+  var DEFAULT_CONTACT_HOURS = '9:00-17:00';
+  var TZ_ABBREV = {
+    'Europe/London': { std: 'GMT', dst: 'BST' },
+    'Europe/Berlin': { std: 'CET', dst: 'CEST' },
+    'America/New_York': { std: 'EST', dst: 'EDT' },
+    'America/Chicago': { std: 'CST', dst: 'CDT' },
+    'America/Denver': { std: 'MST', dst: 'MDT' },
+    'America/Los_Angeles': { std: 'PST', dst: 'PDT' },
+    'Asia/Dubai': { std: 'GST', dst: 'GST' },
+    'Africa/Accra': { std: 'GMT', dst: 'GMT' },
+    'Africa/Lagos': { std: 'WAT', dst: 'WAT' }
+  };
+
+  function countryToHoursMarket(code) {
+    var c = String(code || '').toUpperCase();
+    if (c === 'GB' || c === 'UK') return 'gb';
+    if (c === 'AE') return 'ae';
+    if (c === 'US') return 'us';
+    if (c === 'GH') return 'gh';
+    if (c === 'NG') return 'ng';
+    if (EUROPE_HOUR_ISOS[c]) return 'eu';
+    return '';
+  }
+
+  function detectHoursMarket() {
+    var tagged = document.querySelector('[data-business-hours][data-hours-market]');
+    if (tagged) {
+      var marked = tagged.getAttribute('data-hours-market');
+      if (marked && (HOURS_IANA[marked] || marked === 'default')) return marked;
+    }
+    var country =
+      (document.documentElement && document.documentElement.getAttribute('data-country')) ||
+      (window.Shopify && window.Shopify.country) ||
+      '';
+    var fromCountry = countryToHoursMarket(country);
+    if (fromCountry) return fromCountry;
+    var market = detectMarket();
+    if (market && HOURS_IANA[market]) return market;
+    if (typeof detectTaglineMarket === 'function') {
+      var taglineKey = detectTaglineMarket();
+      if (taglineKey && HOURS_IANA[taglineKey]) return taglineKey;
+    }
+    return 'ae';
+  }
+
+  function zoneOffsetMs(iana, date) {
+    var parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: iana,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h23'
+    }).formatToParts(date);
+    var map = {};
+    var i;
+    for (i = 0; i < parts.length; i++) map[parts[i].type] = parts[i].value;
+    return Date.UTC(+map.year, +map.month - 1, +map.day, +map.hour, +map.minute, +map.second) - date.getTime();
+  }
+
+  function zoneIsDst(iana) {
+    try {
+      var y = new Date().getFullYear();
+      return zoneOffsetMs(iana, new Date()) !== zoneOffsetMs(iana, new Date(Date.UTC(y, 0, 1)));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function shortTimeZoneName(iana, fallback) {
+    iana = iana || '';
+    try {
+      var parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: iana,
+        timeZoneName: 'short'
+      }).formatToParts(new Date());
+      var name = '';
+      var i;
+      for (i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'timeZoneName') name = parts[i].value;
+      }
+      if (name && !/^(GMT|UTC)[+-]/.test(name) && name !== 'UTC') return name;
+    } catch (e) {}
+    var row = TZ_ABBREV[iana];
+    if (row) return zoneIsDst(iana) ? row.dst : row.std;
+    return fallback || '';
+  }
+
+  function paintContactHours() {
+    var nodes = document.querySelectorAll('[data-business-hours]');
+    if (!nodes.length) return;
+    var market = detectHoursMarket();
+    nodes.forEach(function (el) {
+      var hours = (el.getAttribute('data-hours') || '').trim();
+      if (!hours) hours = DEFAULT_CONTACT_HOURS;
+      var iana = (el.getAttribute('data-tz-iana') || '').trim() || HOURS_IANA[market] || HOURS_IANA.ae;
+      var fallback = (el.getAttribute('data-tz-fallback') || '').trim() || HOURS_FALLBACK[market] || '';
+      var tz = shortTimeZoneName(iana, fallback);
+      var tzEl = el.querySelector('[data-hours-tz]');
+      if (tzEl) {
+        tzEl.textContent = tz;
+        var node = el.firstChild;
+        if (node && node.nodeType === 3) {
+          node.textContent = hours + (tz ? ' ' : '');
+        }
+      } else {
+        el.textContent = hours + (tz ? ' ' + tz : '');
+      }
+    });
+  }
+
+  window.__valtoraPaintContactHours = paintContactHours;
 
   function vTrack(name, params) {
     params = params || {};
@@ -600,7 +820,7 @@
 
     var soloSelectors = [
       '.specs__media',
-      '.media-feature__split-media',
+      '.cool-touch__main',
       '.big-idea__copy',
       '.big-idea__media',
       '.offer__cta',
@@ -1048,16 +1268,56 @@
     };
   }
 
-  function sizesAndPricesHref() {
-    if (document.getElementById('reserve')) return '#reserve';
-    var path = location.pathname || '';
-    if (/\/pages\//.test(path) || /\/blog\//.test(path)) return '../index.html#reserve';
-    if (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.root != null) {
-      var root = String(window.ValtoraTheme.routes.root || '/');
-      if (root.slice(-1) !== '/') root += '/';
-      return root + '#reserve';
+  var HOME_SECTION_IDS = {
+    swap: 1,
+    'swap-video': 1,
+    specs: 1,
+    lifestyle: 1,
+    reserve: 1,
+    founder: 1,
+    faq: 1,
+    'cool-touch': 1,
+    measure: 1,
+    journal: 1,
+  };
+
+  function homeRootHref() {
+    var routes = (window.ValtoraTheme && window.ValtoraTheme.routes) || {};
+    if (routes.root != null && String(routes.root) !== '') {
+      return String(routes.root);
     }
-    return '/#reserve';
+    var path = location.pathname || '';
+    if (/\.html$/i.test(path) && (/\/pages\//.test(path) || /\/blog\//.test(path))) {
+      return '../index.html';
+    }
+    return '/';
+  }
+
+  function homeSectionHref(hash) {
+    var id = String(hash || '').replace(/^#/, '').split('?')[0];
+    if (!id) return homeRootHref();
+    if (document.getElementById(id)) return '#' + id;
+    var root = homeRootHref();
+    if (/\.html$/i.test(root)) return root + '#' + id;
+    if (root.charAt(root.length - 1) !== '/') root += '/';
+    return root + '#' + id;
+  }
+
+  function sizesAndPricesHref() {
+    return homeSectionHref('reserve');
+  }
+
+  function rewriteHomeSectionLinks() {
+    var anchors = document.querySelectorAll('a[href]');
+    for (var i = 0; i < anchors.length; i++) {
+      var a = anchors[i];
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) !== '#') continue;
+      var id = href.slice(1).split('?')[0];
+      if (!HOME_SECTION_IDS[id]) continue;
+      if (document.getElementById(id)) continue;
+      a.setAttribute('href', homeSectionHref(id));
+    }
   }
 
   function resolveCheckoutHref(el) {
@@ -3026,9 +3286,10 @@
   }
 
   document.addEventListener('preview:market-changed', reinitReservesForMarket);
+  document.addEventListener('preview:market-changed', paintContactHours);
 
   function initLifestyleCaptions() {
-    var items = document.querySelectorAll('.lifestyle-collage__item');
+    var items = document.querySelectorAll('.lifestyle-collage__item, .founder-note__media, .specs__figure');
     if (!items.length) return;
     var fineHover =
       window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -3334,13 +3595,16 @@
         window.location.href = href;
         return;
       }
-      var link = e.target.closest('a[href="#reserve"]');
+      var link = e.target.closest('a[href^="#"]');
       if (link) {
+        var id = (link.getAttribute('href') || '').slice(1).split('?')[0];
+        if (!HOME_SECTION_IDS[id]) return;
         e.preventDefault();
-        if (reserve) {
-          reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        var target = document.getElementById(id) || (id === 'reserve' ? reserve : null);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
-          window.location.href = sizesAndPricesHref();
+          window.location.href = homeSectionHref(id);
         }
       }
     });
@@ -3766,12 +4030,18 @@
           }
         });
       }
+      var legal = localStorage.getItem('valtoraPreviewBusinessName');
+      if (legal) {
+        document.querySelectorAll('[data-business-name]').forEach(function (el) {
+          el.textContent = legal;
+        });
+        if (window.ValtoraTheme) window.ValtoraTheme.legalName = legal;
+      }
     } catch (e) {}
 
-    var tagline = 'Premium Sleep, Engineered for the Gulf';
+    var tagline = applyPreviewTagline(detectTaglineMarket());
     var shareCopy = '';
     try {
-      tagline = localStorage.getItem('valtoraPreviewTagline') || tagline;
       shareCopy = localStorage.getItem('valtoraPreviewShareCopy') || '';
     } catch (e) {}
     applyShareMeta(name, line, tagline, shareCopy);
@@ -3788,9 +4058,14 @@
     }
     if (scheme) document.documentElement.setAttribute('data-color-scheme', scheme);
 
+    var businessName = (boot && boot.business) || '';
+    try {
+      businessName = localStorage.getItem('valtoraPreviewBusinessName') || businessName;
+    } catch (e2) {}
     window.__valtoraPreviewBoot = {
       name: name,
       line: line,
+      business: businessName,
       guidelines: guidelines,
       fontSet: fontSet,
       scheme: scheme,
@@ -3848,6 +4123,7 @@
       el.hidden = !show;
       if (show) el.removeAttribute('hidden');
     });
+    paintContactHours();
   }
 
   function setClaimVisibility(selector, on) {
@@ -4019,6 +4295,7 @@
     initAllReserves();
     initLifestyleCaptions();
     initMobileNav();
+    rewriteHomeSectionLinks();
     syncChromeOffsets();
     window.addEventListener('resize', syncChromeOffsets);
     initStickyReserve();

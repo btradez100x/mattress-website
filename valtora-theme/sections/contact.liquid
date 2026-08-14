@@ -1,8 +1,13 @@
 {%- liquid
-  assign brand = settings.brand_name | default: 'Aligna'
-  assign legal_name = settings.legal_entity_name_ae
-  assign legal_address = settings.registered_address_ae
+  assign brand = settings.brand_name | default: 'Aligna' | strip
+  assign product_line = settings.brand_product_line | default: '' | strip
 -%}
+{%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
+{%- assign legal_name = legal_name | strip -%}
+{%- capture company_no -%}{% render 'company-number' %}{%- endcapture -%}
+{%- assign company_no = company_no | strip -%}
+{%- capture legal_address -%}{% render 'legal-address' %}{%- endcapture -%}
+{%- assign legal_address = legal_address | strip -%}
 {%- capture contact_phone -%}{% render 'contact-phone' %}{%- endcapture -%}
 {%- assign contact_phone = contact_phone | strip -%}
 <section class="section">
@@ -19,10 +24,21 @@
           <span>{{ legal_name }}</span>
         </li>
       {%- endif -%}
+      {%- if company_no != blank -%}
+        <li>
+          <strong>Company number</strong>
+          <span>{{ company_no }}</span>
+        </li>
+      {%- endif -%}
       {%- if brand != blank and brand != legal_name -%}
         <li>
           <strong>Trading as</strong>
-          <span>{{ brand }}</span>
+          <span class="contact-trading">
+            <span class="contact-trading__name">{{ brand }}</span>
+            {%- if product_line != blank -%}
+              <span class="contact-trading__line">{{ product_line }}</span>
+            {%- endif -%}
+          </span>
         </li>
       {%- endif -%}
       {%- if settings.trade_licence_no != blank -%}
@@ -33,7 +49,7 @@
       {%- endif -%}
       {%- if legal_address != blank -%}
         <li>
-          <strong>Location</strong>
+          <strong>Registered address</strong>
           <span>{{ legal_address | newline_to_br }}</span>
         </li>
       {%- endif -%}
@@ -49,10 +65,12 @@
           <span><a href="tel:{{ contact_phone | replace: ' ', '' }}">{{ contact_phone }}</a></span>
         </li>
       {%- endif -%}
-      {%- if settings.contact_hours != blank -%}
+      {%- capture contact_hours_html -%}{% render 'contact-hours' %}{%- endcapture -%}
+      {%- assign contact_hours_html = contact_hours_html | strip -%}
+      {%- if contact_hours_html != blank -%}
         <li>
           <strong>Hours</strong>
-          <span>{{ settings.contact_hours }}</span>
+          <span>{{ contact_hours_html }}</span>
         </li>
       {%- endif -%}
       {%- if settings.response_time_note != blank -%}

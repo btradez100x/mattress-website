@@ -206,6 +206,48 @@ p:last-child {
   color: var(--brand-ink);
 }
 
+/* Swap explainer: one centered measure for eyebrow, heading, ledes, richtext, CTA, video */
+.swap-explainer {
+  text-align: center;
+}
+
+.swap-explainer__column {
+  max-width: 48rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.swap-explainer .section__eyebrow,
+.swap-explainer h2,
+.swap-explainer .section__lede,
+.swap-explainer .rte,
+.swap-explainer .rte p,
+.swap-explainer p,
+.swap-explainer__cta {
+  max-width: none;
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.swap-explainer .section__lede + .section__lede,
+.swap-explainer .section__lede + .swap-explainer__cta,
+.swap-explainer__cta + .section__lede {
+  margin-top: 1.15rem;
+}
+
+.swap-explainer__cta {
+  margin-top: 1.5rem;
+}
+
+.swap-explainer__media {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  margin-top: 2.5rem;
+}
+
 /* Preview: hide wordmark until saved brand text is applied (prevents name blink) */
 html[data-preview-host]:not([data-brand-hydrated]) [data-brand-text],
 html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
@@ -224,6 +266,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #222222;
       --brand-on-dark: #F7F5F1;
       --wordmark-color: #8A6D3B;
+      --wordmark-line-2: #1F3A5F;
+      --wordmark-line-2-on-dark: #8A6D3B;
       --heading-color: #222222;
       --eyebrow-color: #8A6D3B;
       --eyebrow-on-dark: #8A6D3B;
@@ -248,6 +292,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #222222;
       --brand-on-dark: #F7F5F1;
       --wordmark-color: #1F3A5F;
+      --wordmark-line-2: #8A6D3B;
+      --wordmark-line-2-on-dark: #8A6D3B;
       --heading-color: #1F3A5F;
       --eyebrow-color: #1F3A5F;
       --eyebrow-on-dark: #8A6D3B;
@@ -260,6 +306,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #1A1917;
       --brand-on-dark: #F5F1EA;
       --wordmark-color: #9A7344;
+      --wordmark-line-2: #2F2C28;
+      --wordmark-line-2-on-dark: #9A7344;
       --heading-color: #1A1917;
       --eyebrow-color: #9A7344;
       --eyebrow-on-dark: #9A7344;
@@ -272,6 +320,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #1C2124;
       --brand-on-dark: #F3F4F3;
       --wordmark-color: #6E8494;
+      --wordmark-line-2: #1E2A32;
+      --wordmark-line-2-on-dark: #6E8494;
       --heading-color: #1C2124;
       --eyebrow-color: #6E8494;
       --eyebrow-on-dark: #6E8494;
@@ -302,6 +352,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-on-dark: #F5F4F1;
       --brand-slate: #6B6B70;
       --wordmark-color: #1A1A1A;
+      --wordmark-line-2: #8A6D3B;
+      --wordmark-line-2-on-dark: #8A6D3B;
       --heading-color: #1A1A1A;
       --eyebrow-color: #6B6B70;
       --eyebrow-on-dark: #9A9A9F;
@@ -326,6 +378,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #1A1A1A;
       --brand-on-dark: #F5F4F1;
       --wordmark-color: #1A1A1A;
+      --wordmark-line-2: #8A6D3B;
+      --wordmark-line-2-on-dark: #8A6D3B;
       --heading-color: #1A1A1A;
       --eyebrow-color: #6B6B70;
       --eyebrow-on-dark: #9A9A9F;
@@ -338,6 +392,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #3A3A3C;
       --brand-on-dark: #F5F4F1;
       --wordmark-color: #3A3A3C;
+      --wordmark-line-2: #8A6D3B;
+      --wordmark-line-2-on-dark: #8A6D3B;
       --heading-color: #3A3A3C;
       --eyebrow-color: #6B6B70;
       --eyebrow-on-dark: #9A9A9F;
@@ -350,6 +406,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #1A1A1A;
       --brand-on-dark: #F7F4EE;
       --wordmark-color: #1A1A1A;
+      --wordmark-line-2: #9A7344;
+      --wordmark-line-2-on-dark: #9A7344;
       --heading-color: #1A1A1A;
       --eyebrow-color: #7A6A55;
       --eyebrow-on-dark: #C4B49A;
@@ -362,6 +420,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-ink: #1A1A1A;
       --brand-on-dark: #F3F4F3;
       --wordmark-color: #1A1A1A;
+      --wordmark-line-2: #6E8494;
+      --wordmark-line-2-on-dark: #6E8494;
       --heading-color: #1A1A1A;
       --eyebrow-color: #6B6B70;
       --eyebrow-on-dark: #9A9A9F;
@@ -471,16 +531,16 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  /* Single-colour lockup: same gold as name */
-  color: inherit;
-  opacity: 0.78;
+  /* Line 2 uses the complementary scheme colour, not the name ink */
+  color: var(--wordmark-line-2, var(--brand-accent));
+  opacity: 1;
   line-height: 1;
   padding-left: 0.02em;
 }
 
 .wordmark--dark .wordmark__product {
-  color: inherit;
-  opacity: 0.78;
+  color: var(--wordmark-line-2-on-dark, var(--brand-accent));
+  opacity: 1;
 }
 
 .site-header .wordmark__product {
@@ -735,9 +795,11 @@ body.nav-open {
   padding: 0;
 }
 
-/* Homepage / landing: hero flush under header (no gap) */
+/* Homepage / landing / manufacturing: same header chrome */
 .template-index .site-header,
-.template-page-landing .site-header {
+.template-page-landing .site-header,
+.template-page-manufacturing .site-header,
+body[data-page="manufacturing"] .site-header {
   border-bottom-color: transparent;
   background: color-mix(in srgb, var(--brand-bg) 55%, transparent);
 }
@@ -3333,9 +3395,46 @@ video[controls],
 }
 
 .site-footer__trading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.35rem 0.5rem;
   margin: 0.15rem 0 0;
   font-size: 0.875rem;
+}
+
+.site-footer__trading-label {
   opacity: 0.8;
+  padding-top: 0.08em;
+}
+
+.site-footer__trading-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.22em;
+  line-height: 1;
+}
+
+.site-footer__trading-name {
+  font-family: var(--font-wordmark, var(--font-sans));
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: var(--wordmark-tracking, 0.08em);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--brand-on-dark);
+}
+
+.site-footer__trading-line {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--wordmark-line-2-on-dark, var(--brand-accent));
+  line-height: 1;
 }
 
 .site-footer__address-inline {
@@ -3394,6 +3493,29 @@ video[controls],
 .contact-details span {
   color: var(--brand-ink);
   line-height: 1.5;
+}
+
+.contact-details .contact-trading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.22em;
+  line-height: 1.2;
+}
+
+.contact-details .contact-trading__name {
+  font-family: var(--font-wordmark, var(--font-sans));
+  font-weight: 600;
+  letter-spacing: var(--wordmark-tracking, 0.08em);
+  text-transform: uppercase;
+}
+
+.contact-details .contact-trading__line {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--wordmark-line-2, var(--brand-accent));
 }
 
 .contact-whatsapp {

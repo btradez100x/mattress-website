@@ -35,6 +35,8 @@
         --brand-ink: #222222;
         --brand-on-dark: #F7F5F1;
         --wordmark-color: #8A6D3B;
+        --wordmark-line-2: #1F3A5F;
+        --wordmark-line-2-on-dark: #8A6D3B;
         --heading-color: #222222;
         --eyebrow-color: #8A6D3B;
         --eyebrow-on-dark: #8A6D3B;
@@ -65,6 +67,8 @@
         --brand-ink: #222222;
         --brand-on-dark: #F7F5F1;
         --wordmark-color: #1F3A5F;
+        --wordmark-line-2: #8A6D3B;
+        --wordmark-line-2-on-dark: #8A6D3B;
         --heading-color: #1F3A5F;
         --eyebrow-color: #1F3A5F;
         --eyebrow-on-dark: #8A6D3B;
@@ -77,6 +81,8 @@
         --brand-ink: #1A1917;
         --brand-on-dark: #F5F1EA;
         --wordmark-color: #9A7344;
+        --wordmark-line-2: #2F2C28;
+        --wordmark-line-2-on-dark: #9A7344;
         --heading-color: #1A1917;
         --eyebrow-color: #9A7344;
         --eyebrow-on-dark: #9A7344;
@@ -89,6 +95,8 @@
         --brand-ink: #1C2124;
         --brand-on-dark: #F3F4F3;
         --wordmark-color: #6E8494;
+        --wordmark-line-2: #1E2A32;
+        --wordmark-line-2-on-dark: #6E8494;
         --heading-color: #1C2124;
         --eyebrow-color: #6E8494;
         --eyebrow-on-dark: #6E8494;
@@ -119,6 +127,8 @@
         --brand-on-dark: #F5F4F1;
         --brand-slate: #6B6B70;
         --wordmark-color: #1A1A1A;
+        --wordmark-line-2: #8A6D3B;
+        --wordmark-line-2-on-dark: #8A6D3B;
         --heading-color: #1A1A1A;
         --eyebrow-color: #6B6B70;
         --eyebrow-on-dark: #9A9A9F;
@@ -143,6 +153,8 @@
         --brand-ink: #1A1A1A;
         --brand-on-dark: #F5F4F1;
         --wordmark-color: #1A1A1A;
+        --wordmark-line-2: #8A6D3B;
+        --wordmark-line-2-on-dark: #8A6D3B;
         --heading-color: #1A1A1A;
         --eyebrow-color: #6B6B70;
         --eyebrow-on-dark: #9A9A9F;
@@ -155,6 +167,8 @@
         --brand-ink: #3A3A3C;
         --brand-on-dark: #F5F4F1;
         --wordmark-color: #3A3A3C;
+        --wordmark-line-2: #8A6D3B;
+        --wordmark-line-2-on-dark: #8A6D3B;
         --heading-color: #3A3A3C;
         --eyebrow-color: #6B6B70;
         --eyebrow-on-dark: #9A9A9F;
@@ -167,6 +181,8 @@
         --brand-ink: #1A1A1A;
         --brand-on-dark: #F7F4EE;
         --wordmark-color: #1A1A1A;
+        --wordmark-line-2: #9A7344;
+        --wordmark-line-2-on-dark: #9A7344;
         --heading-color: #1A1A1A;
         --eyebrow-color: #7A6A55;
         --eyebrow-on-dark: #C4B49A;
@@ -179,6 +195,8 @@
         --brand-ink: #1A1A1A;
         --brand-on-dark: #F3F4F3;
         --wordmark-color: #1A1A1A;
+        --wordmark-line-2: #6E8494;
+        --wordmark-line-2-on-dark: #6E8494;
         --heading-color: #1A1A1A;
         --eyebrow-color: #6B6B70;
         --eyebrow-on-dark: #9A9A9F;
@@ -354,12 +372,17 @@
       <span style="display:inline-flex;flex-wrap:wrap;gap:0.65rem 1rem;align-items:center;margin-left:0.75rem;justify-content:center;">
         <label>Brand <input id="PreviewBrandName" type="text" value="Aligna" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
         <label>Line <input id="PreviewBrandLine" type="text" value="Mattresses" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
+        <label title="On-site tagline for the selected market (footer and share [Tagline] token). Type a different slogan per market to preview.">Tagline <input id="PreviewTagline" type="text" value="Premium Sleep, Engineered for the Gulf" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:18rem;color:#000;background:#F7F5F1;"></label>
         <label title="Link preview / Open Graph description. Tokens: [Brand] [Line] [Tagline]">Share copy <input id="PreviewShareCopy" type="text" value="Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:22rem;color:#000;background:#F7F5F1;"></label>
         <button type="button" id="PreviewShareBrandSave" class="preview-banner__btn" title="Download share-brand.json so phone link previews use this brand and share copy">Save share card</button>
         <label>Market
           <select id="PreviewMarket" aria-label="Market">
             <option value="ae" selected>UAE</option>
             <option value="gb">UK</option>
+            <option value="us">USA</option>
+            <option value="eu">Europe (incl. Albania)</option>
+            <option value="gh">Ghana</option>
+            <option value="ng">Nigeria</option>
           </select>
         </label>
         <label>Guidelines
@@ -401,7 +424,7 @@
         <label title="Seconds on page before exit prompt can appear">Exit delay <input id="PreviewExitIntentDelay" type="number" min="0" max="120" step="5" value="30" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;width:3.5rem;color:#000;background:#F7F5F1;"></label>
         <button type="button" id="PreviewExitIntentExport" class="preview-banner__btn" title="Download local exit-intent responses">Exit log</button>
         <label style="cursor:pointer;" title="Overrides macOS Reduce Motion so scroll fades stay visible"><input type="checkbox" id="PreviewForceMotion" checked> Scroll fades</label>
-        <label>Business <input id="PreviewBusinessName" type="text" value="Valtora FZE" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8rem;color:#000;background:#F7F5F1;"></label>
+        <label>Legal name <input id="PreviewBusinessName" type="text" value="Valtora FZE" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8rem;color:#000;background:#F7F5F1;"></label>
         <label>Trade licence <input id="PreviewTradeLicence" type="text" value="" placeholder="e.g. 123456" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
         <label>Email <input id="PreviewBusinessEmail" type="email" value="hello@aligna.com" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:9rem;color:#000;background:#F7F5F1;"></label>
         <label>Address <input id="PreviewBusinessAddress" type="text" value="Business Centre, Sharjah Publishing City Free Zone, Sharjah, UAE" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:14rem;color:#000;background:#F7F5F1;"></label>
@@ -498,7 +521,6 @@
           <a href="#specs">Specs</a>
           <a href="./pages/manufacturing.html">Manufacturing</a>
           <a href="#lifestyle">Lifestyle</a>
-          <a href="#reserve">Reserve</a>
           <a href="./blog/index.html">Journal</a>
           <a href="#founder">Founder</a>
           <a href="#faq">FAQ</a>
@@ -516,7 +538,6 @@
         <a href="#specs">Specs</a>
         <a href="./pages/manufacturing.html">Manufacturing</a>
         <a href="#lifestyle">Lifestyle</a>
-        <a href="#reserve">Reserve</a>
         <a href="./blog/index.html">Journal</a>
         <a href="#founder">Founder</a>
         <a href="#faq">FAQ</a>
@@ -588,21 +609,19 @@
       </section>
 
       <!-- Swap video -->
-      <section class="section section--dark" id="swap-video" data-reveal data-admin-section="swap-video" data-section-tone="dark">
-        <div class="page-width" style="text-align:center; max-width: 48rem; margin-inline: auto;">
+      <section class="section section--dark swap-explainer" id="swap-video" data-reveal data-admin-section="swap-video" data-section-tone="dark">
+        <div class="page-width swap-explainer__column">
           <p class="section__eyebrow">How it works</p>
           <h2>Unzip. Lift out. Swap in.</h2>
-    <p class="section__lede" style="margin-inline:auto;">A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort top can be unzipped, lifted out and replaced.</p>
-          <p class="section__lede" style="margin-inline:auto;">When the comfort layer wears, unzip it, lift it out and swap in a new one. Keep the engineered core for decades.</p>
-            <p class="section__lede" style="margin-inline:auto;" data-market-only="gb" hidden>A comfort top costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
-            <p class="section__lede" style="margin-inline:auto;">The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>
-            <p class="section__lede" style="margin-inline:auto;" data-comfort-top-cta hidden>
-              <a class="btn" href="./pages/comfort-top.html?tops=1">See the comfort top</a>
-            </p>
-            <p class="section__lede" style="margin-inline:auto;" data-market-only="ae">A comfort top costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
-        </div>
-        <div class="page-width" style="margin-top: 2.5rem;">
-          <div class="big-idea__media big-idea__media--wide big-idea__media--player" style="aspect-ratio: 16 / 9; max-width: 56rem; margin-inline: auto;">
+          <p class="section__lede">A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort top can be unzipped, lifted out and replaced.</p>
+          <p class="section__lede">When the comfort layer wears, unzip it, lift it out and swap in a new one. Keep the engineered core for decades.</p>
+          <p class="section__lede" data-market-only="gb" hidden>A comfort top costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
+          <p class="section__lede">The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>
+          <p class="swap-explainer__cta" data-comfort-top-cta hidden>
+            <a class="btn" href="./pages/comfort-top.html?tops=1">See the comfort top</a>
+          </p>
+          <p class="section__lede" data-market-only="ae">A comfort top costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
+          <div class="big-idea__media big-idea__media--wide big-idea__media--player swap-explainer__media">
             <video class="theme-video theme-video--player" autoplay muted loop playsinline controls preload="metadata" poster="./assets/swap-poster.jpg">
               <source src="./assets/swap-explainer.mp4" type="video/mp4">
             </video>
@@ -772,7 +791,7 @@
       <section class="section" id="cool-touch" data-preview-cool-touch data-reveal data-admin-section="cool-touch">
         <div class="page-width media-feature__split">
           <figure class="cool-touch__main">
-            <div class="media-feature__split-media">
+            <div class="media-feature__split-media cool-touch__thumb-frame">
               <img src="./assets/cover-macro.jpg" alt="Cool-knit cover detail" width="1400" height="1750" loading="lazy">
             </div>
             <figcaption class="cool-touch__caption">Cool-knit cover detail</figcaption>
@@ -828,8 +847,8 @@
           <figure class="specs__figure" data-reveal-child style="--reveal-delay: 120ms">
             <div class="specs__media">
             <img src="./assets/product-side.jpg" alt="Side profile" width="1600" height="1200" loading="lazy">
+            <figcaption class="specs__caption-overlay">Side profile</figcaption>
             </div>
-            <figcaption class="specs__caption">Side profile</figcaption>
           </figure>
         </div>
         <div class="page-width" data-cert-strip-wrap hidden>
@@ -1126,6 +1145,7 @@
           <figure class="founder-note__media" data-reveal-child style="--reveal-delay: 0ms">
             <div class="founder-note__portrait">
             <img src="./assets/founder-ben.jpg" alt="Benjamin Maxwell, founder of Aligna" data-brand-alt-prefix="Benjamin Maxwell, founder of " width="800" height="800" loading="lazy">
+            <figcaption class="founder-note__caption">Benjamin Maxwell, founder</figcaption>
             </div>
           </figure>
           <div class="founder-note__copy">
@@ -1445,14 +1465,14 @@
             <span class="wordmark__product" data-brand-product-line>Mattresses</span>
           </span>
         </a>
-          <p>Premium Sleep, Engineered for the Gulf. A better bed, for life. Refresh it, don't replace it.</p>
+          <p><span data-brand-tagline>Premium Sleep, Engineered for the Gulf</span>. A better bed, for life. Refresh it, don't replace it.</p>
           <div class="site-footer__contact">
             <p class="site-footer__company"><strong data-business-name>Valtora FZE</strong></p>
             <p class="site-footer__trading" data-trading-as-wrap>Trading as <span data-trading-as>Aligna</span></p>
             <p class="site-footer__address-inline" data-business-address>Business Centre, Sharjah Publishing City Free Zone<br>Sharjah, United Arab Emirates</p>
             <p data-business-email-wrap><a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a></p>
             <p data-business-phone-wrap hidden><a href="tel:" data-business-phone></a></p>
-            <p data-business-hours>Sun-Thu, 9am-6pm GST</p>
+            <p data-business-hours>9:00-17:00 <span data-hours-tz>GST</span></p>
             <p class="site-footer__response" data-business-response>We reply within one working day.</p>
             <p class="site-footer__whatsapp"><a class="btn btn--whatsapp" data-whatsapp-link href="#" target="_blank" rel="noopener noreferrer"><span class="btn--whatsapp__icon" aria-hidden="true"><svg class="whatsapp-icon" viewBox="0 0 32 32" width="20" height="20"><path fill="currentColor" d="M16.02 3C9.4 3 4.03 8.36 4.03 14.98c0 2.37.7 4.58 1.9 6.45L4 29l7.74-2.03a12.9 12.9 0 0 0 4.28.72h.01c6.62 0 11.99-5.36 11.99-11.98C28.02 8.36 22.65 3 16.02 3zm7.02 16.96c-.3.83-1.7 1.52-2.34 1.62-.61.09-1.38.12-2.23-.14-.51-.16-1.18-.39-2.03-.76-3.56-1.54-5.9-5.14-6.08-5.37-.18-.24-1.45-1.94-1.45-3.7 0-1.76.92-2.62 1.25-2.98.33-.36.72-.45.96-.45h.69c.22 0 .51-.08.8.61.29.7 1 2.43 1.08 2.61.09.18.14.39.03.63-.12.24-.18.39-.36.6-.18.21-.38.46-.54.62-.18.18-.37.37-.16.72.2.34.92 1.52 1.98 2.46 1.36 1.22 2.51 1.6 2.86 1.78.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.09.98 2.45 1.16.36.18.6.27.69.42.09.15.09.86-.2 1.69z"/></svg></span>Chat on WhatsApp</a></p>
           </div>
@@ -1504,7 +1524,7 @@
         <span class="site-footer__address" data-business-address>Business Centre, Sharjah Publishing City Free Zone<br>Sharjah, United Arab Emirates</span>
       </div>
       <div class="page-width site-footer__bottom" data-footer-copyright>
-        <span>© 2026 <span data-brand-text>Aligna</span>. All rights reserved.</span>
+        <span>© 2026 <span data-business-name>Valtora FZE</span>. All rights reserved.</span>
       </div>
     </footer>
 
@@ -1559,6 +1579,7 @@
       (function () {
         var nameInput = document.getElementById('PreviewBrandName');
         var lineInput = document.getElementById('PreviewBrandLine');
+        var taglineInput = document.getElementById('PreviewTagline');
         var shareCopyInput = document.getElementById('PreviewShareCopy');
         var DEFAULT_SHARE =
           'Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.';
@@ -1573,7 +1594,7 @@
             .trim();
         }
 
-        function applyBrand() {
+        function applyBrand(opts) {
           var name = (nameInput && nameInput.value.trim()) || 'Aligna';
           var line = lineInput ? lineInput.value.trim() : 'Mattresses';
           document.documentElement.setAttribute('data-brand-hydrated', '1');
@@ -1602,13 +1623,31 @@
           var site = line ? name + ' ' + line : name;
           var tagline = 'Premium Sleep, Engineered for the Gulf';
           var shareTemplate = DEFAULT_SHARE;
+          var taglineKey = 'ae';
           try {
-            tagline = localStorage.getItem('valtoraPreviewTagline') || tagline;
+            taglineKey =
+              document.documentElement.getAttribute('data-tagline-market') ||
+              localStorage.getItem('valtoraPreviewTaglineMarket') ||
+              'ae';
+            if (opts && opts.saveTagline && taglineInput && taglineInput.value.trim()) {
+              tagline = taglineInput.value.trim();
+              if (typeof window.__valtoraSavePreviewTagline === 'function') {
+                window.__valtoraSavePreviewTagline(taglineKey, tagline);
+              }
+            } else if (typeof window.__valtoraResolvePreviewTagline === 'function') {
+              tagline = window.__valtoraResolvePreviewTagline(taglineKey);
+            } else {
+              tagline = localStorage.getItem('valtoraPreviewTagline') || tagline;
+            }
             shareTemplate =
               (shareCopyInput && shareCopyInput.value) ||
               localStorage.getItem('valtoraPreviewShareCopy') ||
               DEFAULT_SHARE;
           } catch (e) {}
+          if (taglineInput && (!taglineInput.value || !(opts && opts.saveTagline))) taglineInput.value = tagline;
+          document.querySelectorAll('[data-brand-tagline]').forEach(function (el) {
+            el.textContent = tagline;
+          });
           if (shareCopyInput && !shareCopyInput.value) shareCopyInput.value = shareTemplate;
           var desc = expandShareCopy(shareTemplate, name, line, tagline);
           var title = document.querySelector('title');
@@ -1667,6 +1706,7 @@
         } catch (e) {}
         if (nameInput) nameInput.addEventListener('input', applyBrand);
         if (lineInput) lineInput.addEventListener('input', applyBrand);
+        if (taglineInput) taglineInput.addEventListener('input', function () { applyBrand({ saveTagline: true }); });
         if (shareCopyInput) shareCopyInput.addEventListener('input', applyBrand);
         var shareSave = document.getElementById('PreviewShareBrandSave');
         if (shareSave) {
@@ -1828,9 +1868,11 @@
         }
 
         function applyMarket() {
-          var market = (marketSelect && marketSelect.value) || 'ae';
+          var selected = (marketSelect && marketSelect.value) || 'ae';
+          var market = selected === 'ae' ? 'ae' : 'gb';
           var finance = market === 'gb' ? 'Klarna' : 'Tabby or Tamara';
           document.documentElement.setAttribute('data-market', market);
+          document.documentElement.setAttribute('data-tagline-market', selected);
           if (document.body) {
             document.body.setAttribute('data-market', market);
             if (!document.body.getAttribute('data-payment-mode')) {
@@ -1849,7 +1891,18 @@
             el.hidden = !show;
             if (show) el.removeAttribute('hidden');
           });
-          try { localStorage.setItem('valtoraPreviewMarket', market); } catch (e) {}
+          try {
+            localStorage.setItem('valtoraPreviewMarket', market);
+            localStorage.setItem('valtoraPreviewTaglineMarket', selected);
+          } catch (e) {}
+          var taglineInput = document.getElementById('PreviewTagline');
+          var nextTagline = 'Premium Sleep, Engineered for the Gulf';
+          if (typeof window.__valtoraApplyPreviewTagline === 'function') {
+            nextTagline = window.__valtoraApplyPreviewTagline(selected);
+          } else if (typeof window.__valtoraResolvePreviewTagline === 'function') {
+            nextTagline = window.__valtoraResolvePreviewTagline(selected);
+          }
+          if (taglineInput) taglineInput.value = nextTagline;
           document.dispatchEvent(new CustomEvent('preview:market-changed'));
         }
 
@@ -1923,8 +1976,20 @@
           }
           var saved = localStorage.getItem('valtoraPreviewFontSet');
           if (fontSelect && (saved === 'modern' || saved === 'classic')) fontSelect.value = saved;
-          var savedMarket = localStorage.getItem('valtoraPreviewMarket');
-          if (marketSelect && (savedMarket === 'ae' || savedMarket === 'gb')) marketSelect.value = savedMarket;
+          var savedTaglineMarket =
+            localStorage.getItem('valtoraPreviewTaglineMarket') ||
+            localStorage.getItem('valtoraPreviewMarket');
+          if (
+            marketSelect &&
+            (savedTaglineMarket === 'ae' ||
+              savedTaglineMarket === 'gb' ||
+              savedTaglineMarket === 'us' ||
+              savedTaglineMarket === 'eu' ||
+              savedTaglineMarket === 'gh' ||
+              savedTaglineMarket === 'ng')
+          ) {
+            marketSelect.value = savedTaglineMarket;
+          }
         } catch (e) {}
 
         if (guidelinesSelect) guidelinesSelect.addEventListener('change', applyGuidelines);
@@ -2505,9 +2570,14 @@
             var phone = activePhone();
             var address = (fields.address && fields.address.value.trim()) || '';
             var brand = (document.getElementById('PreviewBrandName') && document.getElementById('PreviewBrandName').value.trim()) || 'Aligna';
+            var line = (document.getElementById('PreviewBrandLine') && document.getElementById('PreviewBrandLine').value.trim()) || '';
 
             setText('[data-business-name]', name);
             document.querySelectorAll('[data-trading-as]').forEach(function (el) { el.textContent = brand; });
+            document.querySelectorAll('[data-trading-as-line]').forEach(function (el) {
+              el.textContent = line;
+              el.hidden = !line;
+            });
             document.querySelectorAll('[data-trading-as-wrap]').forEach(function (el) {
               el.hidden = !brand || brand === name;
             });

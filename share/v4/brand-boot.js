@@ -42,6 +42,8 @@
       ink: '#222222',
       onDark: '#F7F5F1',
       wordmark: '#8A6D3B',
+      wordmarkLine2: '#1F3A5F',
+      wordmarkLine2OnDark: '#8A6D3B',
       heading: '#222222',
       eyebrow: '#8A6D3B',
       eyebrowOnDark: '#8A6D3B',
@@ -54,6 +56,8 @@
       ink: '#222222',
       onDark: '#F7F5F1',
       wordmark: '#1F3A5F',
+      wordmarkLine2: '#8A6D3B',
+      wordmarkLine2OnDark: '#8A6D3B',
       heading: '#1F3A5F',
       eyebrow: '#1F3A5F',
       eyebrowOnDark: '#8A6D3B',
@@ -66,6 +70,8 @@
       ink: '#1A1917',
       onDark: '#F5F1EA',
       wordmark: '#9A7344',
+      wordmarkLine2: '#2F2C28',
+      wordmarkLine2OnDark: '#9A7344',
       heading: '#1A1917',
       eyebrow: '#9A7344',
       eyebrowOnDark: '#9A7344',
@@ -78,6 +84,8 @@
       ink: '#1C2124',
       onDark: '#F3F4F3',
       wordmark: '#6E8494',
+      wordmarkLine2: '#1E2A32',
+      wordmarkLine2OnDark: '#6E8494',
       heading: '#1C2124',
       eyebrow: '#6E8494',
       eyebrowOnDark: '#6E8494',
@@ -90,6 +98,8 @@
       ink: '#1A1A1A',
       onDark: '#F5F4F1',
       wordmark: '#1A1A1A',
+      wordmarkLine2: '#8A6D3B',
+      wordmarkLine2OnDark: '#8A6D3B',
       heading: '#1A1A1A',
       eyebrow: '#6B6B70',
       eyebrowOnDark: '#9A9A9F',
@@ -102,6 +112,8 @@
       ink: '#3A3A3C',
       onDark: '#F5F4F1',
       wordmark: '#3A3A3C',
+      wordmarkLine2: '#8A6D3B',
+      wordmarkLine2OnDark: '#8A6D3B',
       heading: '#3A3A3C',
       eyebrow: '#6B6B70',
       eyebrowOnDark: '#9A9A9F',
@@ -114,6 +126,8 @@
       ink: '#1A1A1A',
       onDark: '#F7F4EE',
       wordmark: '#1A1A1A',
+      wordmarkLine2: '#9A7344',
+      wordmarkLine2OnDark: '#9A7344',
       heading: '#1A1A1A',
       eyebrow: '#7A6A55',
       eyebrowOnDark: '#C4B49A',
@@ -126,6 +140,8 @@
       ink: '#1A1A1A',
       onDark: '#F3F4F3',
       wordmark: '#1A1A1A',
+      wordmarkLine2: '#6E8494',
+      wordmarkLine2OnDark: '#6E8494',
       heading: '#1A1A1A',
       eyebrow: '#6B6B70',
       eyebrowOnDark: '#9A9A9F',
@@ -246,6 +262,12 @@
       ';' +
       '--wordmark-color:' +
       tokens.wordmark +
+      ';' +
+      '--wordmark-line-2:' +
+      (tokens.wordmarkLine2 || tokens.accent) +
+      ';' +
+      '--wordmark-line-2-on-dark:' +
+      (tokens.wordmarkLine2OnDark || tokens.accent) +
       ';' +
       '--heading-color:' +
       tokens.heading +

@@ -17,8 +17,9 @@
     </div>
     {%- liquid
       assign specs_caption = section.settings.image_caption
-      if specs_caption == blank
-        assign specs_caption = 'Side profile'
+      assign specs_alt = specs_caption
+      if specs_alt == blank
+        assign specs_alt = 'The mattress'
       endif
     -%}
     <figure class="specs__figure" data-reveal-child style="--reveal-delay: 120ms">
@@ -26,11 +27,13 @@
       {% render 'theme-image',
         image: section.settings.image,
         fallback: 'product-side.jpg',
-        alt: specs_caption,
+        alt: specs_alt,
         sizes: '(min-width: 900px) 45vw, 100vw'
       %}
+      {%- if specs_caption != blank -%}
+        <figcaption class="specs__caption-overlay">{{ specs_caption }}</figcaption>
+      {%- endif -%}
       </div>
-      <figcaption class="specs__caption">{{ specs_caption }}</figcaption>
     </figure>
   </div>
   {%- if section.settings.show_cert_strip -%}

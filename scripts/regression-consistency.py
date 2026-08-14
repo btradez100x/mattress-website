@@ -107,6 +107,12 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
             else:
                 ok(f"{rel}: announcement bar present")
 
+    nav_chunk = re.search(r'<nav class="site-header__nav"[^>]*>([\s\S]*?)</nav>', text)
+    if nav_chunk and re.search(r'>Reserve</a>', nav_chunk.group(1)):
+        bad(f"{rel}: header nav still includes Reserve")
+    elif nav_chunk:
+        ok(f"{rel}: header nav omits Reserve")
+
     # Manufacturing / journey story must use brand tokens in copy
     if path.name == "manufacturing.html":
         brand_spans = len(re.findall(r"data-brand-text", text))
@@ -116,6 +122,23 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
             ok(f"{rel}: manufacturing brand tokens present ({brand_spans})")
         if "theme.js" not in text:
             bad(f"{rel}: manufacturing missing theme.js (theme settings will not apply)")
+        if re.search(r'href="#(swap|specs|lifestyle|reserve|founder|faq|cool-touch|swap-video)"', text):
+            bad(f"{rel}: homepage section links are in-page hashes (need homepage + hash)")
+        else:
+            ok(f"{rel}: homepage section links point off-page")
+        if 'href="../index.html#swap"' not in text or 'href="../pages/order-status.html"' not in text:
+            bad(f"{rel}: menu must use ../index.html#… and ../pages/…")
+        else:
+            ok(f"{rel}: menu uses homepage hash + /pages/ URLs")
+        if "site-header--solid" in text:
+            bad(f"{rel}: manufacturing header still uses site-header--solid (must match homepage chrome)")
+        else:
+            ok(f"{rel}: manufacturing header uses homepage chrome")
+        nav_chunk = re.search(r'<nav class="site-header__nav"[^>]*>([\s\S]*?)</nav>', text)
+        if nav_chunk and re.search(r'>Reserve</a>', nav_chunk.group(1)):
+            bad(f"{rel}: manufacturing nav still includes Reserve")
+        else:
+            ok(f"{rel}: manufacturing nav omits Reserve")
 
 
 def check_theme_js() -> None:
@@ -165,6 +188,31 @@ def check_theme_js() -> None:
             ok(f"preview/theme.js has {needle}")
 
     theme_js_text = theme_js.read_text(encoding="utf-8", errors="replace")
+    if "function homeSectionHref" in js and "function homeRootHref" in js:
+        ok("preview/theme.js homeSectionHref prefers routes.root")
+    else:
+        bad("preview/theme.js missing homeSectionHref (Shopify /pages/ 404s on ../index.html)")
+    if "function homeSectionHref" in theme_js_text and "function homeRootHref" in theme_js_text:
+        ok("theme.js homeSectionHref prefers routes.root")
+    else:
+        bad("theme.js missing homeSectionHref (Shopify /pages/ 404s on ../index.html)")
+    header_liquid = (ROOT / "valtora-theme" / "sections" / "header.liquid").read_text(encoding="utf-8")
+    if "home_hash" in header_liquid and "home-section-href" in header_liquid:
+        ok("header.liquid prefixes homepage hashes off index")
+    else:
+        bad("header.liquid still uses bare in-page hashes on inner pages")
+    if re.search(r'<a href="\{\{\s*home_hash\s*\}\}#reserve">Reserve</a>', header_liquid):
+        bad("header.liquid fallback still includes Reserve as a nav item")
+    elif "link_title_down == 'reserve'" in header_liquid or 'link_title_down == "reserve"' in header_liquid:
+        ok("header.liquid omits Reserve from fallback and skips it in assigned menus")
+    else:
+        bad("header.liquid must skip Reserve when a Shopify menu still lists it")
+    footer_liquid = (ROOT / "valtora-theme" / "sections" / "footer.liquid").read_text(encoding="utf-8")
+    if "home_hash" in footer_liquid and "/pages/" in footer_liquid:
+        ok("footer.liquid prefixes Explore hashes and keeps /pages/ policy URLs")
+    else:
+        bad("footer.liquid missing homepage hash prefix or /pages/ policy fallbacks")
+
     if "sec.classList.add('section--wipe')" in js or 'sec.classList.add("section--wipe")' in js:
         bad("preview/theme.js still applies section--wipe (clips Offer/Swap off-screen)")
     else:
@@ -190,6 +238,35 @@ def check_theme_js() -> None:
             ok("preview/brand-boot.js generates initials favicon")
         else:
             bad("preview/brand-boot.js missing initials favicon helper")
+        if "data-brand-tagline" in boot and "valtoraPreviewTaglineMarket" in boot:
+            ok("preview/brand-boot.js applies per-market tagline")
+        else:
+            bad("preview/brand-boot.js missing per-market tagline wiring")
+
+    helper = ROOT / "valtora-theme" / "snippets" / "market-tagline.liquid"
+    if helper.exists() and "|AL|" in helper.read_text(encoding="utf-8") and "brand_tagline_eu" in helper.read_text(
+        encoding="utf-8"
+    ):
+        ok("market-tagline.liquid maps Europe including Albania")
+    else:
+        bad("market-tagline.liquid missing or does not include AL / Europe")
+
+    home = (ROOT / "preview" / "index.html").read_text(encoding="utf-8", errors="replace")
+    if 'data-brand-tagline' in home and 'value="us"' in home and 'value="eu"' in home:
+        ok("preview homepage has tagline token and USA/Europe markets")
+    else:
+        bad("preview homepage missing data-brand-tagline or USA/Europe market options")
+        if "wordmarkLine2" in boot and "--wordmark-line-2:" in boot:
+            ok("preview/brand-boot.js injects wordmark line-2 colour")
+        else:
+            bad("preview/brand-boot.js missing wordmark line-2 colour token")
+
+    for rel in ("preview/base.css", "valtora-theme/assets/base.css"):
+        css_text = (ROOT / rel).read_text(encoding="utf-8", errors="replace")
+        if "var(--wordmark-line-2" in css_text and "Single-colour lockup" not in css_text:
+            ok(f"{rel}: wordmark line 2 uses --wordmark-line-2")
+        else:
+            bad(f"{rel}: wordmark line 2 still inherits name colour")
 
 
 

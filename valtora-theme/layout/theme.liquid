@@ -11,7 +11,7 @@
   endif
 -%}
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}">
+<html class="no-js" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}">
   <head>
     {% render 'meta-tags' %}
     {% render 'css-variables' %}
@@ -81,10 +81,12 @@
 
     {{ content_for_header }}
 
+    {%- capture valtora_legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
       window.ValtoraTheme = window.ValtoraTheme || {};
       window.ValtoraTheme.brandName = {{ settings.brand_name | json }};
+      window.ValtoraTheme.legalName = {{ valtora_legal_name | strip | json }};
       window.ValtoraTheme.defaultMarket = {{ settings.default_market | json }};
       window.ValtoraTheme.sizeAddLabel = {{ settings.size_add_label | default: 'Add' | json }};
       window.ValtoraTheme.splititEnabled = {{ splitit_live | json }};

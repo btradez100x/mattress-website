@@ -36,21 +36,91 @@
         "id": "brand_name",
         "label": "Brand name",
         "default": "Aligna",
-        "info": "Line 1 of the header wordmark, plus [Brand] copy tokens and Trading as in the footer/contact. Line 2 is Product line under wordmark below."
+        "info": "Line 1 of the header wordmark, plus [Brand] copy tokens. Trading as in the footer/contact uses this plus Product line (line 2) below."
       },
       {
         "type": "text",
         "id": "brand_product_line",
         "label": "Product line under wordmark",
         "default": "Mattresses",
-        "info": "Line 2 of the live header wordmark (e.g. Mattresses or The Mattress). Leave blank to hide. Header can override this for A/B tests."
+        "info": "Line 2 of the live header wordmark (e.g. Mattresses or The Mattress). Also line 2 of Trading as in the footer/contact. Leave blank to hide. Header can override the wordmark for A/B tests."
+      },
+      {
+        "type": "text",
+        "id": "legal_name",
+        "label": "Legal name",
+        "default": "Valtora FZE",
+        "info": "Registered company on Privacy, Terms, Cookies, checkout terms, and copyright. Not the wordmark. Trading as still uses Brand name and Product line. UK can override under Business details."
+      },
+      {
+        "type": "text",
+        "id": "company_number",
+        "label": "Company number",
+        "info": "Shown on Privacy, Terms, Cookies, contact, and the footer when filled. Leave blank to hide the row. UK can override under Business details → Company number (UK)."
+      },
+      {
+        "type": "textarea",
+        "id": "registered_address",
+        "label": "Registered address",
+        "default": "Business Centre, Sharjah Publishing City Free Zone\nSharjah, United Arab Emirates",
+        "info": "Shown on Privacy, Terms, Cookies, and contact. UAE/UK addresses under Business details override this when filled."
+      },
+      {
+        "type": "header",
+        "content": "Taglines by market"
+      },
+      {
+        "type": "paragraph",
+        "content": "Each country uses one of these taglines (footer, password page, and the [Tagline] share-card token). Shopify Markets must include the country so the storefront knows which one to show. Type the real slogan for each market \u2014 the defaults are placeholders."
       },
       {
         "type": "text",
         "id": "brand_tagline",
-        "label": "Tagline",
+        "label": "Default tagline",
         "default": "Premium Sleep, Engineered for the Gulf",
-        "info": "On-site tagline (footer, etc.). Share-card copy is separate below."
+        "info": "Used when the visitor\u2019s country is not UK, UAE, USA, Europe, Ghana, or Nigeria. Also used if a market tagline below is left blank."
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline_gb",
+        "label": "Tagline (UK)",
+        "default": "Premium Sleep, Engineered for the Gulf",
+        "info": "United Kingdom (GB) only. Other European countries use the Europe tagline."
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline_ae",
+        "label": "Tagline (UAE)",
+        "default": "Premium Sleep, Engineered for the Gulf",
+        "info": "United Arab Emirates (AE)."
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline_us",
+        "label": "Tagline (USA)",
+        "default": "Premium Sleep, Engineered for the Gulf",
+        "info": "United States (US)."
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline_eu",
+        "label": "Tagline (Europe, including Albania)",
+        "default": "Premium Sleep, Engineered for the Gulf",
+        "info": "EU, EEA, Switzerland, and nearby European countries including Albania (AL). Not the UK \u2014 GB uses Tagline (UK)."
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline_gh",
+        "label": "Tagline (Ghana)",
+        "default": "Premium Sleep, Engineered for the Gulf",
+        "info": "Ghana (GH)."
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline_ng",
+        "label": "Tagline (Nigeria)",
+        "default": "Premium Sleep, Engineered for the Gulf",
+        "info": "Nigeria (NG)."
       },
       {
         "type": "textarea",
@@ -614,7 +684,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "These fields power the footer, contact page, and legal line. Edit here in Theme settings (not in the footer section)."
+        "content": "These fields power the footer, contact page, Privacy, Terms, Cookies, and the legal line. Legal name, company number, and registered address also live under Brand. Edit here in Theme settings (not in the footer section)."
       },
       {
         "type": "header",
@@ -632,10 +702,86 @@
         "content": "Phone and WhatsApp are set per country under UAE / UK below. The storefront uses the visitor\u2019s market (or Default market)."
       },
       {
+        "type": "header",
+        "content": "Contact hours"
+      },
+      {
+        "type": "paragraph",
+        "content": "Type the clock times only (for example 9:00-17:00). You can include days (Mon-Fri) if you want. Do not type GST, BST, or GMT - the theme adds the right abbreviation for that country, and it changes with summer time where that applies."
+      },
+      {
+        "type": "text",
+        "id": "contact_hours_gb",
+        "label": "Hours (UK)",
+        "default": "9:00-17:00",
+        "info": "United Kingdom (GB) only. Time zone is BST in summer and GMT after the clocks change."
+      },
+      {
+        "type": "text",
+        "id": "contact_hours_ae",
+        "label": "Hours (UAE)",
+        "default": "9:00-17:00",
+        "info": "United Arab Emirates (AE). Time zone is GST (no summer time)."
+      },
+      {
+        "type": "text",
+        "id": "contact_hours_us",
+        "label": "Hours (USA)",
+        "default": "9:00-17:00",
+        "info": "United States (US). Abbreviation follows the USA time zone setting below (Eastern by default: EDT / EST)."
+      },
+      {
+        "type": "select",
+        "id": "contact_hours_us_timezone",
+        "label": "USA time zone (abbreviation only)",
+        "info": "Does not change the clock times you typed. Only picks EST/EDT, CST/CDT, MST/MDT, or PST/PDT.",
+        "options": [
+          {
+            "value": "America/New_York",
+            "label": "Eastern (New York) - EST / EDT"
+          },
+          {
+            "value": "America/Chicago",
+            "label": "Central (Chicago) - CST / CDT"
+          },
+          {
+            "value": "America/Denver",
+            "label": "Mountain (Denver) - MST / MDT"
+          },
+          {
+            "value": "America/Los_Angeles",
+            "label": "Pacific (Los Angeles) - PST / PDT"
+          }
+        ],
+        "default": "America/New_York"
+      },
+      {
+        "type": "text",
+        "id": "contact_hours_eu",
+        "label": "Hours (Europe, including Albania)",
+        "default": "9:00-17:00",
+        "info": "EU, EEA, Switzerland, and nearby European countries including Albania (AL). Not the UK. Time zone is CEST in summer and CET in winter."
+      },
+      {
+        "type": "text",
+        "id": "contact_hours_gh",
+        "label": "Hours (Ghana)",
+        "default": "9:00-17:00",
+        "info": "Ghana (GH). Time zone is GMT (no summer time)."
+      },
+      {
+        "type": "text",
+        "id": "contact_hours_ng",
+        "label": "Hours (Nigeria)",
+        "default": "9:00-17:00",
+        "info": "Nigeria (NG). Time zone is WAT (no summer time)."
+      },
+      {
         "type": "text",
         "id": "contact_hours",
-        "label": "Contact hours",
-        "default": "Sun-Thu, 9am-6pm GST"
+        "label": "Fallback hours (other countries)",
+        "default": "9:00-17:00",
+        "info": "Used when the visitor country is not UK, UAE, USA, Europe, Ghana, or Nigeria, or if that market field is blank. Time zone follows Default market."
       },
       {
         "type": "text",
@@ -696,9 +842,9 @@
       {
         "type": "text",
         "id": "legal_entity_name_ae",
-        "label": "Business / legal name (UAE)",
+        "label": "Legal name (UAE)",
         "default": "Valtora FZE",
-        "info": "Registered company name (e.g. Valtora FZE). \u201cTrading as\u201d always uses Brand \u2192 Brand name."
+        "info": "Fallback if Brand → Legal name is blank. Trading as still uses Brand name + Product line."
       },
       {
         "type": "text",
@@ -741,8 +887,8 @@
       {
         "type": "text",
         "id": "legal_entity_name_gb",
-        "label": "Business / legal name (UK)",
-        "info": "\u201cTrading as\u201d uses Brand \u2192 Brand name (same as UAE)."
+        "label": "Legal name (UK)",
+        "info": "Overrides Brand → Legal name for UK visitors. Leave blank to use Legal name. Trading as still uses Brand name + Product line."
       },
       {
         "type": "text",

@@ -9,6 +9,6 @@
     class="float-basket__btn"
     data-float-continue
     data-checkout-href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
-    href="#reserve"
+    href="{% if template.name == 'index' %}#reserve{% else %}{{ routes.root_url }}#reserve{% endif %}"
   >See sizes and prices</a>
 </div>

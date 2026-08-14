@@ -1,0 +1,21 @@
+{%- comment -%}
+  Registered company for legal copy (policies, checkout terms, copyright).
+  Brand → Legal name is the default. UK Business details overrides when filled.
+  Legacy legal_entity_name_ae is used only if Legal name is blank.
+{%- endcomment -%}
+{%- liquid
+  assign m = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign m = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign m = 'ae'
+  endif
+
+  assign name = settings.legal_name
+  if m == 'gb' and settings.legal_entity_name_gb != blank
+    assign name = settings.legal_entity_name_gb
+  elsif name == blank
+    assign name = settings.legal_entity_name_ae
+  endif
+  echo name
+-%}
