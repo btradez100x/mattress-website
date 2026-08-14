@@ -88,27 +88,38 @@
         {%- if section.blocks.size > 0 -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'gallery_image' -%}
+              {%- liquid
+                assign gallery_caption = block.settings.caption
+                if gallery_caption == blank
+                  assign gallery_caption = 'Craft detail'
+                endif
+              -%}
               <figure class="mfg-gallery__item" {{ block.shopify_attributes }}>
+                <div class="mfg-gallery__frame">
                 {%- if block.settings.image != blank -%}
                   {{
                     block.settings.image
                     | image_url: width: 1400
-                    | image_tag: loading: 'lazy', widths: '480,800,1200,1400', sizes: '(min-width: 900px) 30vw, 90vw', alt: block.settings.caption | default: brand
+                    | image_tag: loading: 'lazy', widths: '480,800,1200,1400', sizes: '(min-width: 900px) 30vw, 90vw', alt: gallery_caption
                   }}
                 {%- else -%}
                   {%- assign fallback = defaults[forloop.index0] | default: 'manufacturing-cover.jpg' -%}
-                  <img src="{{ fallback | asset_url }}" alt="{{ block.settings.caption | default: brand | escape }}" loading="lazy" width="1200" height="800">
+                  <img src="{{ fallback | asset_url }}" alt="{{ gallery_caption | escape }}" loading="lazy" width="1200" height="800">
                 {%- endif -%}
-                {%- if block.settings.caption != blank -%}
-                  <figcaption>{{ block.settings.caption }}</figcaption>
-                {%- endif -%}
+                </div>
+                <figcaption>{{ gallery_caption }}</figcaption>
               </figure>
             {%- endif -%}
           {%- endfor -%}
         {%- else -%}
+          {%- assign default_captions = 'Cool-knit cover,Reinforced handle,Hotel-grade depth,Edge detail,Side construction,Finish,Profile,In the room' | split: ',' -%}
           {%- for file in defaults -%}
+            {%- assign gallery_caption = default_captions[forloop.index0] | default: 'Craft detail' -%}
             <figure class="mfg-gallery__item">
-              <img src="{{ file | asset_url }}" alt="{{ brand | escape }} craftsmanship" loading="lazy" width="1200" height="800">
+              <div class="mfg-gallery__frame">
+                <img src="{{ file | asset_url }}" alt="{{ gallery_caption | escape }}" loading="lazy" width="1200" height="800">
+              </div>
+              <figcaption>{{ gallery_caption }}</figcaption>
             </figure>
           {%- endfor -%}
         {%- endif -%}
@@ -264,7 +275,8 @@
         {
           "type": "text",
           "id": "caption",
-          "label": "Caption (optional)"
+          "label": "Caption",
+          "default": "Craft detail"
         }
       ]
     }

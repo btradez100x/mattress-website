@@ -775,7 +775,7 @@
             <div class="media-feature__split-media">
               <img src="./assets/cover-macro.jpg" alt="Cool-knit cover detail" width="1400" height="1750" loading="lazy">
             </div>
-            <figcaption>Cool-knit cover detail</figcaption>
+            <figcaption class="cool-touch__caption">Cool-knit cover detail</figcaption>
           </figure>
           <div class="media-feature__split-copy">
             <p class="section__eyebrow">Cool touch</p>
@@ -788,12 +788,16 @@
             </ul>
             <div class="cool-touch__gallery">
               <figure class="cool-touch__thumb">
+                <div class="cool-touch__thumb-frame">
                 <img src="./assets/cover-macro.jpg" alt="Cover knit" width="600" height="600" loading="lazy">
-                <figcaption>Cover knit</figcaption>
+                </div>
+                <figcaption class="cool-touch__caption">Cover knit</figcaption>
               </figure>
               <figure class="cool-touch__thumb">
+                <div class="cool-touch__thumb-frame">
                 <img src="./assets/handle-detail.jpg" alt="Surface detail" width="600" height="600" loading="lazy">
-                <figcaption>Surface detail</figcaption>
+                </div>
+                <figcaption class="cool-touch__caption">Surface detail</figcaption>
               </figure>
             </div>
           </div>
@@ -821,9 +825,12 @@
               <li data-reveal-child style="--reveal-delay: 810ms">Underside - anti-slip base</li>
             </ul>
           </div>
-          <div class="specs__media" data-reveal-child style="--reveal-delay: 120ms">
-            <img src="./assets/product-side.jpg" alt="Mattress side profile 37cm depth" width="1600" height="1200" loading="lazy">
-          </div>
+          <figure class="specs__figure" data-reveal-child style="--reveal-delay: 120ms">
+            <div class="specs__media">
+            <img src="./assets/product-side.jpg" alt="Side profile" width="1600" height="1200" loading="lazy">
+            </div>
+            <figcaption class="specs__caption">Side profile</figcaption>
+          </figure>
         </div>
         <div class="page-width" data-cert-strip-wrap hidden>
           <div class="cert-strip cert-strip--specs">
@@ -1116,9 +1123,12 @@
       <!-- Founder note -->
       <section class="section founder-note" id="founder" data-reveal data-preview-founder-section data-admin-section="founder">
         <div class="page-width founder-note__grid">
-          <div class="founder-note__portrait" data-reveal-child style="--reveal-delay: 0ms">
+          <figure class="founder-note__media" data-reveal-child style="--reveal-delay: 0ms">
+            <div class="founder-note__portrait">
             <img src="./assets/founder-ben.jpg" alt="Benjamin Maxwell, founder of Aligna" data-brand-alt-prefix="Benjamin Maxwell, founder of " width="800" height="800" loading="lazy">
-          </div>
+            </div>
+            <figcaption class="founder-note__caption">Benjamin Maxwell, founder</figcaption>
+          </figure>
           <div class="founder-note__copy">
             <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 120ms">A note from the founder</p>
             <hr class="gold-rule" data-reveal-child style="--reveal-delay: 180ms">
@@ -1385,28 +1395,40 @@
           <h2>Styled by <span data-brand-text>Aligna</span></h2>
           <p class="section__lede">Soft light. Quiet rooms. Hotel-grade depth in real homes - not a showroom aisle.</p>
           <div class="lifestyle-collage__masonry" role="list">
-            <figure class="lifestyle-collage__item lifestyle-collage__item--wide" role="listitem" data-reveal-child style="--reveal-delay: 0ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 0ms">
+              <div class="lifestyle-collage__frame lifestyle-collage__item--wide">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-airy.jpg" alt="Mattress in an airy bedroom with soft morning light" width="1600" height="1200" loading="lazy">
+              </div>
               <figcaption class="lifestyle-collage__caption">Soft morning light</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item lifestyle-collage__item--tall" role="listitem" data-reveal-child style="--reveal-delay: 90ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 90ms">
+              <div class="lifestyle-collage__frame lifestyle-collage__item--tall">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-luxury.jpg" alt="Mattress in a navy suite bedroom" width="1200" height="1600" loading="lazy">
+              </div>
               <figcaption class="lifestyle-collage__caption">Navy suite calm</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item lifestyle-collage__item--mid" role="listitem" data-reveal-child style="--reveal-delay: 180ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 180ms">
+              <div class="lifestyle-collage__frame lifestyle-collage__item--mid">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-city.jpg" alt="Mattress in a city apartment bedroom" width="1400" height="1750" loading="lazy">
+              </div>
               <figcaption class="lifestyle-collage__caption">City apartment rest</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item lifestyle-collage__item--tall" role="listitem" data-reveal-child style="--reveal-delay: 270ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 270ms">
+              <div class="lifestyle-collage__frame lifestyle-collage__item--tall">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-suite.jpg" alt="Mattress depth in a cream suite bedroom" width="1200" height="1600" loading="lazy">
+              </div>
               <figcaption class="lifestyle-collage__caption">Depth in place</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item lifestyle-collage__item--mid" role="listitem" data-reveal-child style="--reveal-delay: 360ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 360ms">
+              <div class="lifestyle-collage__frame lifestyle-collage__item--mid">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-warm.jpg" alt="Mattress edge in a warm panelled bedroom" width="1400" height="1750" loading="lazy">
+              </div>
               <figcaption class="lifestyle-collage__caption">Warm evening light</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item lifestyle-collage__item--square" role="listitem" data-reveal-child style="--reveal-delay: 450ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 450ms">
+              <div class="lifestyle-collage__frame lifestyle-collage__item--square">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-edge.jpg" alt="Hotel-grade mattress edge detail" width="1200" height="1200" loading="lazy">
+              </div>
               <figcaption class="lifestyle-collage__caption">Hotel-grade edge</figcaption>
             </figure>
           </div>
@@ -1463,12 +1485,26 @@
           </ul>
         </div>
       </div>
+      <div class="page-width site-footer__payments">
+        <div class="payment-marks" aria-label="Accepted payment methods">
+          <ul class="payment-marks__list" role="list">
+            <li class="payment-marks__item payment-marks__item--visa"><span class="payment-marks__pill">Visa</span></li>
+            <li class="payment-marks__item payment-marks__item--master"><span class="payment-marks__pill">Mastercard</span></li>
+            <li class="payment-marks__item payment-marks__item--american_express"><span class="payment-marks__pill">Amex</span></li>
+            <li class="payment-marks__item payment-marks__item--apple_pay"><span class="payment-marks__pill">Apple Pay</span></li>
+            <li class="payment-marks__item" data-market-only="gb"><span class="payment-marks__pill payment-marks__pill--bnpl">Klarna</span></li>
+            <li class="payment-marks__item" data-market-only="gb"><span class="payment-marks__pill payment-marks__pill--bnpl">Clearpay</span></li>
+            <li class="payment-marks__item" data-market-only="ae"><span class="payment-marks__pill payment-marks__pill--bnpl">Tabby</span></li>
+            <li class="payment-marks__item" data-market-only="ae"><span class="payment-marks__pill payment-marks__pill--bnpl">Tamara</span></li>
+          </ul>
+        </div>
+      </div>
       <div class="page-width site-footer__legal">
         <span data-business-name>Valtora FZE</span>
         <span data-trade-licence-wrap hidden>Trade licence <span data-trade-licence></span></span>
         <span class="site-footer__address" data-business-address>Business Centre, Sharjah Publishing City Free Zone<br>Sharjah, United Arab Emirates</span>
       </div>
-      <div class="page-width site-footer__bottom">
+      <div class="page-width site-footer__bottom" data-footer-copyright>
         <span>© 2026 <span data-brand-text>Aligna</span>. All rights reserved.</span>
       </div>
     </footer>

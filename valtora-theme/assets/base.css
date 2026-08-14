@@ -42,6 +42,10 @@ html[data-market='gb'] span[data-market-only='gb'] {
   color: color-mix(in srgb, var(--brand-on-dark) 55%, var(--brand-accent));
 }
 
+html {
+  overscroll-behavior-y: none;
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -52,6 +56,8 @@ body {
   background: var(--brand-bg);
   -webkit-font-smoothing: antialiased;
   --header-height: 3.75rem;
+  --float-basket-space: 5.5rem;
+  overscroll-behavior-y: none;
 }
 
 img,
@@ -1496,6 +1502,8 @@ html.shopify-design-mode [data-reveal-child]:not(.is-visible) {
   .ugc__card,
   .founder-note__portrait,
   .cool-touch__thumb-frame,
+  .lifestyle-collage__frame,
+  .mfg-gallery__frame,
   .big-idea__media:not(.big-idea__media--player),
   .specs__media {
     overflow: hidden;
@@ -1766,6 +1774,11 @@ video[controls],
   }
 }
 
+.specs__figure {
+  margin: 0;
+  overflow: visible;
+}
+
 .specs__media {
   overflow: hidden;
   aspect-ratio: 4 / 5;
@@ -1777,6 +1790,15 @@ video[controls],
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.specs__caption {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  opacity: 0.7;
 }
 
 /* Offer strip */
@@ -2832,6 +2854,11 @@ video[controls],
   margin-top: 0.55rem;
 }
 
+.site-footer .payment-marks__list li,
+.site-footer .payment-marks__list li + li {
+  margin-top: 0;
+}
+
 .site-footer__bottom {
   margin-top: 3rem;
   padding-top: 1.25rem;
@@ -3179,6 +3206,7 @@ video[controls],
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.4rem;
   justify-content: center;
 }
@@ -3187,12 +3215,43 @@ video[controls],
   justify-content: flex-start;
 }
 
+.payment-marks__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  height: 24px;
+}
+
+.payment-marks__icon,
+.payment-marks svg {
+  display: block;
+  width: 38px;
+  height: 24px;
+  max-height: 24px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* Shopify Visa artwork sits low in the 38x24 viewBox - lock the box to match peers */
+.payment-marks__item--visa,
+.payment-marks__item--visa svg,
+.payment-marks svg[aria-labelledby='pi-visa'] {
+  height: 24px;
+  width: 38px;
+}
+
 .payment-marks__pill {
-  display: inline-block;
-  padding: 0.35rem 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 24px;
+  padding: 0 0.55rem;
   border: 1px solid color-mix(in srgb, var(--brand-primary) 18%, transparent);
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
+  line-height: 1;
   text-transform: uppercase;
   opacity: 0.8;
 }
@@ -3322,6 +3381,11 @@ video[controls],
   }
 }
 
+.founder-note__media {
+  margin: 0;
+  overflow: visible;
+}
+
 .founder-note__portrait {
   overflow: hidden;
   aspect-ratio: 4 / 5;
@@ -3334,6 +3398,15 @@ video[controls],
   object-fit: cover;
   object-position: center 18%;
   display: block;
+}
+
+.founder-note__caption {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  opacity: 0.7;
 }
 
 .founder-note__body {
@@ -3931,11 +4004,30 @@ video[controls],
 }
 
 body.has-sticky-reserve {
-  padding-bottom: 5.5rem;
+  padding-bottom: 0;
+}
+
+body.has-sticky-reserve .site-footer {
+  padding-bottom: var(--float-basket-space, 5.5rem);
 }
 
 body.has-sticky-reserve .whatsapp-float {
   bottom: 5.75rem;
+}
+
+body.float-basket-at-footer .float-basket {
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.has-sticky-reserve.float-basket-at-footer .site-footer {
+  padding-bottom: 2.25rem;
+}
+
+body.float-basket-at-footer .whatsapp-float,
+body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
+  bottom: 1.25rem;
 }
 
 @media (min-width: 900px) {
@@ -3965,7 +4057,11 @@ body.has-sticky-reserve .whatsapp-float {
   }
 
   body.has-sticky-reserve {
-    padding-bottom: 5.75rem;
+    padding-bottom: 0;
+  }
+
+  body.has-sticky-reserve .site-footer {
+    padding-bottom: var(--float-basket-space, 5.75rem);
   }
 
   body.has-sticky-reserve .whatsapp-float {
@@ -4100,15 +4196,19 @@ body.has-sticky-reserve .whatsapp-float {
 .lifestyle-collage__item {
   break-inside: avoid;
   margin: 0 0 0.75rem;
-  position: relative;
-  overflow: hidden;
-  background: var(--brand-surface);
+  overflow: visible;
+  background: transparent;
 }
 
 @media (min-width: 720px) {
   .lifestyle-collage__item {
     margin-bottom: 0.9rem;
   }
+}
+
+.lifestyle-collage__frame {
+  overflow: hidden;
+  background: var(--brand-surface);
 }
 
 .lifestyle-collage__item--tall {
@@ -4136,25 +4236,17 @@ body.has-sticky-reserve .whatsapp-float {
 }
 
 .lifestyle-collage__caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  padding: 1.75rem 0.85rem 0.7rem;
+  display: block;
+  position: static;
+  margin: 0.4rem 0 0;
+  padding: 0;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
-  color: var(--brand-on-dark);
-  background: linear-gradient(
-    to top,
-    color-mix(in srgb, var(--brand-primary) 55%, transparent),
-    transparent
-  );
-  opacity: 0;
-  transform: translate3d(0, 0.35rem, 0);
-  transition:
-    opacity var(--dur-fast) var(--ease),
-    transform var(--dur-fast) var(--ease);
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  opacity: 0.7;
+  background: none;
+  transform: none;
   pointer-events: none;
 }
 
@@ -4164,24 +4256,18 @@ body.has-sticky-reserve .whatsapp-float {
     transform: none;
   }
 
-  .lifestyle-collage__item img,
+  .lifestyle-collage__frame img,
   .lifestyle-collage__img {
     transition: transform var(--dur-wipe) var(--ease);
     transform: scale(1);
     transform-origin: center center;
   }
 
-  .lifestyle-collage__item:hover img,
+  .lifestyle-collage__item:hover .lifestyle-collage__frame img,
   .lifestyle-collage__item:hover .lifestyle-collage__img,
-  [data-reveal].is-visible .lifestyle-collage__item:hover img,
+  [data-reveal].is-visible .lifestyle-collage__item:hover .lifestyle-collage__frame img,
   [data-reveal].is-visible .lifestyle-collage__item:hover .lifestyle-collage__img {
     transform: scale(var(--hover-scale-media, 1.05));
-  }
-
-  .lifestyle-collage__item:hover .lifestyle-collage__caption,
-  [data-reveal].is-visible .lifestyle-collage__item:hover .lifestyle-collage__caption {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -4436,11 +4522,20 @@ body.has-sticky-reserve .whatsapp-float {
 
 .cool-touch__main {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   overflow: visible;
+  min-width: 0;
 }
 
+.cool-touch__caption,
 .cool-touch__main figcaption,
 .cool-touch__thumb figcaption {
+  display: block;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
   margin-top: 0.4rem;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
@@ -4830,10 +4925,14 @@ body.has-sticky-reserve .whatsapp-float {
   margin: 0;
   background: #fff;
   border: 1px solid rgba(31, 58, 95, 0.1);
-  overflow: hidden;
+  overflow: visible;
 }
 .section--surface .mfg-gallery__item,
 .mfg-gallery .mfg-gallery__item { background: var(--brand-bg); }
+.mfg-gallery__frame {
+  overflow: hidden;
+  background: var(--brand-surface);
+}
 .mfg-gallery__item img {
   width: 100%;
   aspect-ratio: 4 / 3;

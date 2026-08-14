@@ -1,4 +1,14 @@
-# Regression results — 2026-08-14 (two-line header wordmark)
+# Regression results — 2026-08-14 (Visa / basket / captions)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 453 passed, 0 failed
+- Scope note: Footer Visa marks flex-centered with locked 24px SVG height; sticky basket padding moved onto the footer (copyright stays above the bar, no extra scroll gap); image captions always render under cool-touch, lifestyle, manufacturing, founder, specs, and UGC. Checkout markers unchanged. No version bump.
+
+---
+
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
