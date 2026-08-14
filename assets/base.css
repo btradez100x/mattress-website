@@ -4196,6 +4196,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 .lifestyle-collage__item {
   break-inside: avoid;
   margin: 0 0 0.75rem;
+  position: relative;
   overflow: visible;
   background: transparent;
 }
@@ -4236,18 +4237,34 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 }
 
 .lifestyle-collage__caption {
-  display: block;
-  position: static;
-  margin: 0.4rem 0 0;
-  padding: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 1.75rem 0.85rem 0.7rem;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--brand-ink);
-  opacity: 0.7;
-  background: none;
-  transform: none;
+  color: var(--brand-on-dark);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--brand-primary) 55%, transparent),
+    transparent
+  );
+  opacity: 0;
+  transform: translate3d(0, 0.35rem, 0);
+  transition:
+    opacity var(--dur-wipe) var(--ease),
+    transform var(--dur-wipe) var(--ease);
   pointer-events: none;
+}
+
+.lifestyle-collage__item.is-caption-open .lifestyle-collage__caption,
+.lifestyle-collage__item:focus-within .lifestyle-collage__caption {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -4268,6 +4285,12 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   [data-reveal].is-visible .lifestyle-collage__item:hover .lifestyle-collage__frame img,
   [data-reveal].is-visible .lifestyle-collage__item:hover .lifestyle-collage__img {
     transform: scale(var(--hover-scale-media, 1.05));
+  }
+
+  .lifestyle-collage__item:hover .lifestyle-collage__caption,
+  [data-reveal].is-visible .lifestyle-collage__item:hover .lifestyle-collage__caption {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 

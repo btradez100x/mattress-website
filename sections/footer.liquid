@@ -18,6 +18,7 @@
     assign tax_no = settings.tax_reg_no_ae
     assign company_no = blank
   endif
+  assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
 -%}
 {%- capture contact_phone -%}{% render 'contact-phone' %}{%- endcapture -%}
 {%- assign contact_phone = contact_phone | strip -%}
@@ -65,7 +66,7 @@
       <ul>
         <li><a href="#swap">The Swap System</a></li>
         <li><a href="#specs">Specs</a></li>
-        <li><a href="/pages/manufacturing">Manufacturing</a></li>
+        <li><a href="{{ manufacturing_url }}">Manufacturing</a></li>
         <li><a href="#lifestyle">Lifestyle</a></li>
         <li><a href="#reserve">Reserve</a></li>
         <li><a href="/blogs/journal">Journal</a></li>

@@ -307,6 +307,7 @@
       "block_order": [],
       "settings": {
         "enable_section": true,
+        "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
@@ -612,8 +613,7 @@
         "heading": "Built from years of studying sleep.",
         "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort top you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
         "name": "Benjamin Maxwell",
-        "role": "Founder",
-        "portrait_caption": "Benjamin Maxwell, founder"
+        "role": "Founder"
       }
     },
     "press-logos": {
@@ -1013,7 +1013,6 @@
         "enable_section": true,
         "surface": true,
         "anchor_id": "lifestyle",
-        "eyebrow": "",
         "heading": "Styled by [Brand]",
         "body": "Soft light. Quiet rooms. Hotel-grade depth in real homes - not a showroom aisle."
       }
@@ -1024,6 +1023,7 @@
       "block_order": [],
       "settings": {
         "enable_section": true,
+        "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",

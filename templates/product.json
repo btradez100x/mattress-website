@@ -3,7 +3,24 @@
     "main": {
       "type": "main-product",
       "settings": {}
+    },
+    "size-reserve": {
+      "type": "size-reserve",
+      "settings": {
+        "enable_section": true,
+        "mattress_product": "the-mattress",
+        "eyebrow": "Sizes and prices",
+        "heading": "Choose your size.",
+        "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
+        "firmness_line": "Soft one side, firm the other. Unzip and flip whenever you want a different feel.",
+        "market_force": "auto",
+        "request_size_enabled": true,
+        "anchor_id": "reserve",
+        "leadtime_placement": "staged",
+        "continue_label_full": "Continue",
+        "button_label_full": "Buy now"
+      }
     }
   },
-  "order": ["main"]
+  "order": ["main", "size-reserve"]
 }

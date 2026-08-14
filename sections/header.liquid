@@ -2,6 +2,7 @@
   assign brand_override = section.settings.brand_name_override
   assign line_override = section.settings.brand_product_line_override
   assign order_status_url = pages['order-status'].url | default: '/pages/order-status'
+  assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
 -%}
 {%- capture header_nav_links -%}
   {%- if section.settings.menu != blank -%}
@@ -18,7 +19,7 @@
   {%- else -%}
     <a href="#swap">The Swap System</a>
     <a href="#specs">Specs</a>
-    <a href="/pages/manufacturing">Manufacturing</a>
+    <a href="{{ manufacturing_url }}">Manufacturing</a>
     <a href="#lifestyle">Lifestyle</a>
     <a href="#reserve">Reserve</a>
     <a href="/blogs/journal">Journal</a>
