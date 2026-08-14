@@ -1,3 +1,23 @@
+# Regression results — 2026-08-14 (remove Reserve from header menu)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 507 passed, 0 failed
+- Scope note: Reserve removed from header nav (desktop, mobile panel, fallback list, and assigned Shopify menus). Header CTA "Reserve yours" stays. Manufacturing header now uses the same chrome as the homepage (no site-header--solid, same actions/mobile panel, same nav gap and wordmark alignment). Homepage section hashes on manufacturing still go to /#…. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-14 (swap explainer alignment)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 507 passed, 0 failed
+- Scope note: Swap explainer dark band now uses one 48rem centered column for eyebrow, heading, ledes, richtext, CTA, and video. Removed leftover inline max-widths (34rem / 40rem / 56rem) that left heading centered and body off-axis. Checkout markers unchanged. No version bump.
+
+---
+
 # Regression results — 2026-08-14 (specs side-profile overlay)
 
 ## Smoke
