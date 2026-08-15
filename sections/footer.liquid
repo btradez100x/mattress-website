@@ -31,7 +31,7 @@
     assign company_no = settings.company_number
   endif
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
-  assign journal_url = blogs['journal'].url | default: '/blogs/journal'
+  assign journal_url = blogs['journal'].url | default: pages['journal'].url | default: '/pages/journal'
   assign home_hash = ''
   unless template.name == 'index'
     assign home_hash = routes.root_url

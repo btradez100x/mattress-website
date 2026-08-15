@@ -1,7 +1,7 @@
 {%- liquid
   assign order_status_url = pages['order-status'].url | default: '/pages/order-status'
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
-  assign journal_url = blogs['journal'].url | default: '/blogs/journal'
+  assign journal_url = blogs['journal'].url | default: pages['journal'].url | default: '/pages/journal'
   assign home_hash = ''
   unless template.name == 'index'
     assign home_hash = routes.root_url
@@ -23,7 +23,7 @@
       {%- endif -%}
       {%- capture nav_href -%}{% render 'home-section-href', href: link.url %}{%- endcapture -%}
       {%- assign nav_href = nav_href | strip -%}
-      {%- if link.title == 'Journal' or link.url contains '/pages/journal' -%}
+      {%- if link_title_down == 'journal' or link.url contains '/pages/journal' or link.url contains '/blogs/journal' -%}
         {%- assign nav_href = journal_url -%}
       {%- endif -%}
       <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
@@ -39,7 +39,7 @@
     <a href="{{ home_hash }}#specs">Specs</a>
     <a href="{{ manufacturing_url }}"{% if template.suffix == 'manufacturing' %} aria-current="page"{% endif %}>Manufacturing</a>
     <a href="{{ home_hash }}#lifestyle">Lifestyle</a>
-    <a href="{{ journal_url }}">Journal</a>
+    <a href="{{ journal_url }}"{% if template.suffix == 'journal' or request.path contains '/journal' %} aria-current="page"{% endif %}>Journal</a>
     <a href="{{ home_hash }}#founder">Founder</a>
     <a href="{{ home_hash }}#faq">FAQ</a>
     <a href="{{ order_status_url }}"{% if request.path contains 'order-status' %} aria-current="page"{% endif %}>Order status</a>
