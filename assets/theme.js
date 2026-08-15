@@ -20,7 +20,27 @@
     ],
   };
 
-  var DEFAULT_TAGLINE = 'Premium Sleep, Engineered for the Gulf';
+  var DEFAULT_TAGLINE = 'A better bed, for life.';
+  var SHARE_DESC_GB =
+    'A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.';
+  var SHARE_DESC_AE =
+    'Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.';
+  var PHONE_DIAL = {
+    gb: '+44',
+    ae: '+971',
+    us: '+1',
+    gh: '+233',
+    ng: '+234'
+  };
+  var EUROPE_DIAL = {
+    AT: '+43', BE: '+32', BG: '+359', HR: '+385', CY: '+357', CZ: '+420',
+    DK: '+45', EE: '+372', FI: '+358', FR: '+33', DE: '+49', GR: '+30',
+    HU: '+36', IE: '+353', IT: '+39', LV: '+371', LT: '+370', LU: '+352',
+    MT: '+356', NL: '+31', PL: '+48', PT: '+351', RO: '+40', SK: '+421',
+    SI: '+386', ES: '+34', SE: '+46', AL: '+355', IS: '+354', LI: '+423',
+    NO: '+47', CH: '+41', MK: '+389', ME: '+382', RS: '+381', BA: '+387',
+    XK: '+383', MD: '+373', UA: '+380', BY: '+375'
+  };
   var TAGLINE_MARKETS = { ae: 1, gb: 1, us: 1, eu: 1, gh: 1, ng: 1 };
 
   function detectMarket() {
@@ -1049,11 +1069,19 @@
   function applySectionGroundClass(el, ground) {
     if (!el || el.classList.contains('hero')) return;
     var isTrust = el.classList.contains('trust-bar');
-    el.classList.remove('section--dark', 'section--surface', 'trust-bar--dark', 'trust-bar--surface');
+    el.classList.remove(
+      'section--dark',
+      'section--surface',
+      'section--bg',
+      'trust-bar--dark',
+      'trust-bar--surface'
+    );
     if (ground === 'dark') {
       el.classList.add(isTrust ? 'trust-bar--dark' : 'section--dark');
     } else if (ground === 'surface') {
       el.classList.add(isTrust ? 'trust-bar--surface' : 'section--surface');
+    } else if (ground === 'bg') {
+      if (!isTrust) el.classList.add('section--bg');
     }
   }
 
@@ -1303,11 +1331,40 @@
     });
   }
 
+  function openFaqItem(item) {
+    if (!item) return;
+    var root = item.closest('[data-faq]');
+    if (root) {
+      root.querySelectorAll('[data-faq-item]').forEach(function (el) {
+        el.setAttribute('aria-expanded', 'false');
+      });
+    }
+    item.setAttribute('aria-expanded', 'true');
+  }
+
+  function trackSpecOpened(panel) {
+    if (!panel || panel.getAttribute('data-spec-tracked') === 'true') return;
+    panel.setAttribute('data-spec-tracked', 'true');
+    if (window.vTrack) {
+      window.vTrack('spec_opened', {
+        spec_id: panel.dataset.specId,
+        page: window.location.pathname
+      });
+    }
+  }
+
+  function openSpecPanel(panel) {
+    if (!panel) return;
+    var trigger = panel.querySelector('.vspec__trigger');
+    panel.dataset.open = 'true';
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    trackSpecOpened(panel);
+  }
+
   function initSpecPanel() {
     document.querySelectorAll('[data-spec-panel]').forEach(function (panel) {
       var trigger = panel.querySelector('.vspec__trigger');
       if (!trigger) return;
-      var openedOnce = false;
       var openedAt = 0;
       var page = window.location.pathname;
 
@@ -1318,12 +1375,7 @@
 
         if (!isOpen) {
           openedAt = Date.now();
-          if (!openedOnce) {
-            openedOnce = true;
-            if (window.vTrack) {
-              window.vTrack('spec_opened', { spec_id: panel.dataset.specId, page: page });
-            }
-          }
+          trackSpecOpened(panel);
         } else if (openedAt && window.vTrack) {
           window.vTrack('spec_dwell', {
             spec_id: panel.dataset.specId,
@@ -1344,6 +1396,54 @@
         }
       });
     });
+  }
+
+  function stickyHeaderOffset() {
+    var raw = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
+    var n = parseFloat(raw);
+    if (!n || n < 1) {
+      var header = document.querySelector('.site-header');
+      n = header ? header.getBoundingClientRect().height : 60;
+    }
+    return n + 8;
+  }
+
+  function scrollToEl(el) {
+    if (!el) return;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - stickyHeaderOffset();
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  }
+
+  function applyHashTarget(hash) {
+    var id = String(hash || '').replace(/^#/, '').split('?')[0];
+    if (!id) return;
+    if (id === 'specs' || id.indexOf('specs-') === 0) {
+      var specSection = document.getElementById('specs') || document.querySelector('[data-spec-panel]');
+      var panel = specSection && specSection.hasAttribute('data-spec-panel')
+        ? specSection
+        : document.querySelector('[data-spec-panel]');
+      if (panel) openSpecPanel(panel);
+      scrollToEl(specSection || panel);
+      return;
+    }
+    if (id === 'faq' || id.indexOf('faq-') === 0) {
+      var faqSection = document.getElementById('faq');
+      var faqItem = id.indexOf('faq-') === 0 ? document.getElementById(id) : null;
+      if (faqItem && faqItem.hasAttribute('data-faq-item')) {
+        openFaqItem(faqItem);
+        window.setTimeout(function () {
+          scrollToEl(faqItem);
+        }, 280);
+        return;
+      }
+      scrollToEl(faqSection);
+      return;
+    }
+    var target =
+      document.getElementById(id) ||
+      (id === 'reserve' ? document.getElementById('reserve') : null) ||
+      (id === 'swap' ? document.getElementById('swap') || document.getElementById('swap-video') : null);
+    if (target) scrollToEl(target);
   }
 
 
@@ -3993,18 +4093,104 @@
     document.querySelectorAll('[data-size-reserve]').forEach(initSizeReserve);
   }
 
+  function unlockMobileNav() {
+    var toggle = document.querySelector('[data-nav-toggle]');
+    var panel = document.querySelector('[data-nav-panel]');
+    if (panel) panel.setAttribute('aria-hidden', 'true');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+    }
+    document.documentElement.classList.remove('nav-open');
+    document.body.classList.remove('nav-open');
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+
+  function isInPageHashHref(href) {
+    if (!href) return false;
+    if (href.charAt(0) === '#') return href.length > 1;
+    try {
+      var url = new URL(href, window.location.href);
+      if (url.origin !== window.location.origin) return false;
+      if (!url.hash || url.hash === '#') return false;
+      var here = window.location.pathname.replace(/\/$/, '') || '/';
+      var there = url.pathname.replace(/\/$/, '') || '/';
+      return here === there;
+    } catch (e) {
+      return href.indexOf('#') !== -1;
+    }
+  }
+
+  function hashFromHref(href) {
+    if (!href) return '';
+    if (href.charAt(0) === '#') return href;
+    try {
+      return new URL(href, window.location.href).hash || '';
+    } catch (e) {
+      var i = href.indexOf('#');
+      return i >= 0 ? href.slice(i) : '';
+    }
+  }
+
   function initMobileNav() {
     var toggle = document.querySelector('[data-nav-toggle]');
     var panel = document.querySelector('[data-nav-panel]');
     if (!toggle || !panel) return;
-    toggle.addEventListener('click', function () {
-      var open = panel.getAttribute('aria-hidden') === 'false';
-      var nextOpen = !open;
+
+    function setOpen(nextOpen) {
       panel.setAttribute('aria-hidden', nextOpen ? 'false' : 'true');
       toggle.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
       toggle.setAttribute('aria-label', nextOpen ? 'Close menu' : 'Open menu');
+      document.documentElement.classList.toggle('nav-open', nextOpen);
       document.body.classList.toggle('nav-open', nextOpen);
+      if (!nextOpen) {
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+      }
+    }
+
+    toggle.addEventListener('click', function () {
+      var open = panel.getAttribute('aria-hidden') === 'false';
+      setOpen(!open);
     });
+
+    function onHashNavClick(e) {
+      var link = e.target.closest('a[href]');
+      if (!link) return;
+      var href = link.getAttribute('href') || '';
+      if (!isInPageHashHref(href)) return;
+      var hash = hashFromHref(href);
+      if (!hash || hash === '#') return;
+      e.preventDefault();
+      unlockMobileNav();
+      if (window.location.hash === hash) {
+        applyHashTarget(hash);
+        return;
+      }
+      if (history && history.replaceState) {
+        history.replaceState(null, '', hash);
+      } else {
+        window.location.hash = hash;
+      }
+      applyHashTarget(hash);
+    }
+
+    panel.addEventListener('click', onHashNavClick);
+    var headerNav = document.querySelector('.site-header__nav');
+    if (headerNav) headerNav.addEventListener('click', onHashNavClick);
+
+    window.addEventListener('hashchange', function () {
+      unlockMobileNav();
+      applyHashTarget(window.location.hash);
+    });
+    window.addEventListener('pageshow', function () {
+      unlockMobileNav();
+    });
+
+    if (window.location.hash) {
+      applyHashTarget(window.location.hash);
+    }
   }
 
   function initReviews() {
@@ -4573,14 +4759,78 @@
     });
   }
 
+  function resolvePhoneDial(market, iso) {
+    var country = String(iso || '').toUpperCase();
+    if (country === 'GB' || country === 'UK') return '+44';
+    if (country === 'AE') return '+971';
+    if (country === 'US') return '+1';
+    if (country === 'GH') return '+233';
+    if (country === 'NG') return '+234';
+    if (EUROPE_DIAL[country]) return EUROPE_DIAL[country];
+    var m = String(market || '').toLowerCase();
+    if (PHONE_DIAL[m]) return PHONE_DIAL[m];
+    return '';
+  }
+
+  function initRequestPhoneCodes() {
+    document.querySelectorAll('[data-phone-cc]').forEach(function (select) {
+      var wrap = select.closest('[data-size-reserve]') || select.closest('form') || document;
+      var input = wrap.querySelector('[data-request-phone-input]');
+      var combined = wrap.querySelector('[data-request-phone-combined]');
+      var market =
+        (wrap.getAttribute && wrap.getAttribute('data-market')) ||
+        document.documentElement.getAttribute('data-market') ||
+        detectMarket();
+      var iso =
+        document.documentElement.getAttribute('data-country') ||
+        (window.Shopify && window.Shopify.country) ||
+        '';
+      var code = resolvePhoneDial(market, iso);
+      if (code) {
+        var has = false;
+        Array.prototype.forEach.call(select.options, function (opt) {
+          if (opt.value === code) has = true;
+        });
+        if (!has) {
+          var extra = document.createElement('option');
+          extra.value = code;
+          extra.textContent = code;
+          select.appendChild(extra);
+        }
+        select.value = code;
+      }
+      function syncPhone() {
+        var local = input ? String(input.value || '').replace(/^\s+/, '') : '';
+        local = local.replace(/^\+\d{1,4}\s*/, '');
+        var prefix = select.value || '';
+        if (combined) combined.value = local ? prefix + ' ' + local : '';
+        if (input && input.getAttribute('name') === 'contact[phone]') {
+          input.setAttribute('data-phone-local', local);
+        }
+      }
+      select.addEventListener('change', syncPhone);
+      if (input) {
+        input.addEventListener('input', syncPhone);
+        input.placeholder = 'Phone number';
+      }
+      syncPhone();
+    });
+  }
+
   function applyShareMeta(brandName, brandLine, tagline, shareTemplate) {
     var name = (brandName || 'Aligna').trim() || 'Aligna';
     var line = brandLine == null ? '' : String(brandLine).trim();
     var site = line ? name + ' ' + line : name;
-    var tone = (tagline || 'Premium Sleep, Engineered for the Gulf').trim();
-    var template =
-      (shareTemplate && String(shareTemplate).trim()) ||
-      'Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.';
+    var market = document.documentElement.getAttribute('data-market') || detectMarket();
+    var tone = (tagline || (market === 'ae' ? 'Engineered for the Gulf' : DEFAULT_TAGLINE)).trim();
+    var fallbackShare = market === 'gb' ? SHARE_DESC_GB : SHARE_DESC_AE;
+    var template = (shareTemplate && String(shareTemplate).trim()) || fallbackShare;
+    if (market === 'gb' && /Gulf|Premium Sleep|UAE|expat/i.test(template)) {
+      template = SHARE_DESC_GB;
+    }
+    if (market === 'ae' && !/Gulf|Tabby|Tamara|UAE/i.test(template) && template === SHARE_DESC_GB) {
+      template = SHARE_DESC_AE;
+    }
     var desc = template
       .split('[Brand]')
       .join(name)
@@ -4988,6 +5238,8 @@
     initAllReserves();
     initLifestyleCaptions();
     initMobileNav();
+    if (window.location.hash) applyHashTarget(window.location.hash);
+    initRequestPhoneCodes();
     rewriteHomeSectionLinks();
     syncChromeOffsets();
     window.addEventListener('resize', syncChromeOffsets);
@@ -5010,6 +5262,7 @@
     });
     restoreBasketUi();
     window.addEventListener('pageshow', function () {
+      unlockMobileNav();
       if (isSuccessfulOrderSurface(location.pathname + location.search)) {
         try {
           var lines = OrderStore.lines();

@@ -12,22 +12,36 @@
 
   <div class="section section--surface policy-body">
     <div class="page-width">
-      <div class="table-wrap policy-table">
+      <div class="table-wrap policy-table" data-market-only="gb">
         <table class="size-table">
           <thead>
             <tr>
-              <th>UAE size</th>
-              <th>W × L (cm)</th>
               <th>UK size</th>
               <th>W × L (cm)</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>Single</td><td>90-100 × 200</td><td>Single</td><td>90 × 190</td></tr>
-            <tr><td>Queen</td><td>160 × 200</td><td>Double</td><td>135 × 190</td></tr>
-            <tr><td>King</td><td>180 × 200</td><td>King</td><td>150 × 200</td></tr>
-            <tr><td></td><td></td><td>Super King</td><td>180 × 200</td></tr>
-            <tr><td>Super King</td><td>200 × 200</td><td>Emperor</td><td>200 × 200</td></tr>
+            <tr><td>Single</td><td>90 × 190</td></tr>
+            <tr><td>Double</td><td>135 × 190</td></tr>
+            <tr><td>King</td><td>150 × 200</td></tr>
+            <tr><td>Super King</td><td>180 × 200</td></tr>
+            <tr><td>Emperor</td><td>200 × 200</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap policy-table" data-market-only="ae">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>UAE size</th>
+              <th>W × L (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Single</td><td>90-100 × 200</td></tr>
+            <tr><td>Queen</td><td>160 × 200</td></tr>
+            <tr><td>King</td><td>180 × 200</td></tr>
+            <tr><td>Super King</td><td>200 × 200</td></tr>
           </tbody>
         </table>
       </div>
@@ -37,12 +51,6 @@
   <div class="section policy-body">
     <div class="page-width page-width--narrow">
       <div class="policy-articles">
-        <article class="policy-article">
-          <h2>{{ section.settings.note_heading }}</h2>
-          <div class="policy-article__body rte trust-policy__body">
-            <p>{{ section.settings.note_body }}</p>
-          </div>
-        </article>
         <article class="policy-article">
           <h2>{{ section.settings.depth_heading }}</h2>
           <div class="policy-article__body rte trust-policy__body">
@@ -83,18 +91,18 @@
       "type": "textarea",
       "id": "intro",
       "label": "Intro",
-      "default": "UAE and UK use different size names and dimensions. Always order by centimetres."
+      "default": "Always order by centimetres."
     },
     {
       "type": "text",
       "id": "note_heading",
-      "label": "Expat note heading",
+      "label": "Note heading (unused on storefront)",
       "default": "For expats"
     },
     {
       "type": "textarea",
       "id": "note_body",
-      "label": "Expat note",
+      "label": "Note body (unused on storefront)",
       "default": "UAE sizes differ from UK sizes - a UAE King is wider than a UK King. A UK King (150cm) is closer to a UAE Queen (160cm)."
     },
     {
@@ -107,7 +115,7 @@
       "type": "textarea",
       "id": "depth_body",
       "label": "Depth body",
-      "default": "Our mattress is 37cm deep - substantial, hotel-grade, and deeper than typical UK sheets (25-30cm). Plan for deep-fitted sheets."
+      "default": "Our mattress is 37cm deep - substantial, and deeper than typical UK sheets (25-30cm). Plan for deep-fitted sheets."
     }
   ],
   "presets": [{ "name": "Size guide" }]

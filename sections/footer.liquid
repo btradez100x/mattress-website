@@ -58,8 +58,14 @@
   <div class="page-width site-footer__grid">
     <div class="site-footer__brand">
       {% render 'wordmark', dark: true %}
+      {%- capture tagline -%}{% render 'market-tagline' %}{%- endcapture -%}
+      {%- assign tagline = tagline | strip -%}
       <p>
-        {% render 'market-tagline' %}. A better bed, for life. Refresh it, don't replace it.
+        {%- if market == 'ae' -%}
+          {{ tagline }}. A better bed, for life. Refresh it, do not replace it.
+        {%- else -%}
+          {{ tagline }} Refresh it, do not replace it.
+        {%- endif -%}
       </p>
       <div class="site-footer__contact">
         {%- if legal_name != blank -%}

@@ -402,7 +402,9 @@
           "type": "item",
           "settings": {
             "question": "Do I pay in full today?",
-            "answer": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna, Tabby or Tamara where available. Cancel any time before dispatch for a full refund.",
+            "answer": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna. Cancel any time before dispatch for a full refund.",
+            "answer_gb": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna. Cancel any time before dispatch for a full refund.",
+            "answer_ae": "Yes. You pay the full mattress price at checkout. You can spread the cost with Tabby or Tamara. Cancel any time before dispatch for a full refund.",
             "payment_mode_visibility": "full"
           }
         },
@@ -418,7 +420,7 @@
           "type": "item",
           "settings": {
             "question": "Which size should I choose?",
-            "answer": "Use the size selector on this page - dimensions are always shown in cm. UAE and UK sizes differ (a UAE King is wider than a UK King). See the size guide for a full comparison.",
+            "answer": "Use the size selector on this page. Dimensions are always shown in centimetres, so measure your bed and match the numbers rather than the name. The size guide has every size in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -587,7 +589,7 @@
         "enable_section": true,
         "eyebrow": "A note from the founder",
         "heading": "Built from years of studying sleep.",
-        "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort layer you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
+        "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a surface that does not hold heat, and a layer you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
         "name": "Benjamin Maxwell",
         "role": "Founder",
         "ground": "auto"
@@ -600,7 +602,7 @@
           "type": "step",
           "settings": {
             "title": "Measure the sleeping surface",
-            "body": "<p>Strip the sheets. Measure the mattress itself \u2014 width \u00d7 length \u2014 with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+            "body": "<p>Strip the sheets. Measure the mattress itself - width \u00d7 length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
           }
         },
         "m2": {
@@ -614,7 +616,7 @@
           "type": "step",
           "settings": {
             "title": "Match width \u00d7 length",
-            "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree \u2014 order by the numbers.</p>"
+            "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>"
           }
         },
         "m4": {
@@ -637,8 +639,8 @@
         "anchor_id": "measure",
         "eyebrow": "Before you reserve",
         "heading": "Measure in centimetres. Order the size that matches.",
-        "lede": "Size names differ by market. A UAE King is not a UK King. Always trust the centimetre dimensions \u2014 not the label on the tag.",
-        "guide_label": "Full size guide (UAE vs UK)",
+        "lede": "Bed sizes vary between manufacturers. Always trust the centimetre dimensions, not the name on the label.",
+        "guide_label": "Full size guide",
         "guide_link": "/pages/size-guide",
         "ground": "auto"
       }
@@ -1028,7 +1030,7 @@
             "enabled": true,
             "fallback_asset": "lifestyle-edge.jpg",
             "span": "square",
-            "caption": "Hotel-grade edge"
+            "caption": "Edge support"
           }
         }
       },
@@ -1045,7 +1047,7 @@
         "surface": true,
         "anchor_id": "lifestyle",
         "heading": "Styled by [Brand]",
-        "body": "Soft light. Quiet rooms. Hotel-grade depth in real homes - not a showroom aisle.",
+        "body": "Soft light. Quiet rooms. Real homes, not a showroom aisle.",
         "ground": "auto"
       }
     },
