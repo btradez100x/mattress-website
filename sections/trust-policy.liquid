@@ -13,31 +13,79 @@
 {%- if legal_name != blank -%}
   {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
 {%- endif -%}
-<section class="section">
-  <div class="page-width">
-    <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
-    <hr class="gold-rule">
-    <h1 style="font-size:clamp(2.25rem,4vw,3rem);">
-      {{ section.settings.heading | default: page.title }}
-    </h1>
-    {%- if section.settings.intro != blank -%}
-      <p class="section__lede">{{ section.settings.intro }}</p>
-    {%- endif -%}
+{%- assign policy_heading = section.settings.heading | default: page.title -%}
+{%- assign cta_href = section.settings.cta_link | default: '/#reserve' -%}
 
-    {% render 'legal-entity', format: 'block' %}
-
-    <div class="rte trust-policy__body" style="margin-top:1.75rem;">
-      {{ policy_body }}
+<section class="policy-page">
+  <div class="section section--dark policy-hero">
+    <div class="page-width policy-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <hr class="gold-rule">
+      <h1>{{ policy_heading }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <p class="section__lede policy-hero__lede">{{ section.settings.intro }}</p>
+      {%- endif -%}
     </div>
-
-    {%- if section.settings.cta_label != blank -%}
-      <p style="margin-top:2rem;">
-        <a class="btn" href="{{ section.settings.cta_link | default: '/#reserve' }}">
-          {{ section.settings.cta_label }}
-        </a>
-      </p>
-    {%- endif -%}
   </div>
+
+  <div class="section section--surface policy-legal-band">
+    <div class="page-width page-width--narrow">
+      <div class="policy-legal">
+        {% render 'legal-entity', format: 'block' %}
+      </div>
+    </div>
+  </div>
+
+  <div class="section policy-body">
+    <div class="page-width page-width--narrow">
+      {%- assign policy_chunks = policy_body | split: '<h2>' -%}
+      {%- for chunk in policy_chunks -%}
+        {%- if forloop.first -%}
+          {%- assign intro_html = chunk | strip -%}
+          {%- if intro_html != blank -%}
+            <div class="policy-intro rte trust-policy__body">{{ intro_html }}</div>
+          {%- endif -%}
+        {%- else -%}
+          {%- assign chunk_parts = chunk | split: '</h2>' -%}
+          {%- assign heading_raw = chunk_parts.first | strip -%}
+          {%- if heading_raw contains '>' -%}
+            {%- assign heading_bits = heading_raw | split: '>' -%}
+            {%- assign article_title = heading_bits.last | strip -%}
+          {%- else -%}
+            {%- assign article_title = heading_raw -%}
+          {%- endif -%}
+          {%- assign article_html = '' -%}
+          {%- if chunk_parts.size > 1 -%}
+            {%- assign article_html = chunk_parts[1] -%}
+          {%- endif -%}
+          {%- if forloop.index == 2 -%}
+            <div class="policy-articles">
+          {%- endif -%}
+          <article class="policy-article">
+            <h2>{{ article_title }}</h2>
+            <div class="policy-article__body rte trust-policy__body">{{ article_html }}</div>
+          </article>
+          {%- if forloop.last -%}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.settings.cta_label != blank -%}
+    <div class="section section--dark policy-cta">
+      <div class="page-width policy-cta__inner">
+        <p class="section__eyebrow">Next</p>
+        <hr class="gold-rule">
+        <p class="policy-cta__action">
+          <a class="btn" href="{{ cta_href }}">{{ section.settings.cta_label }}</a>
+        </p>
+      </div>
+    </div>
+  {%- endif -%}
 </section>
 
 {% schema %}

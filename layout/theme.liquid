@@ -13,6 +13,20 @@
 <!doctype html>
 <html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}">
   <head>
+    <script>
+      (function () {
+        var html = document.documentElement;
+        if (/[?&]force-motion=1(?:&|$)/.test(location.search)) {
+          html.setAttribute('data-force-motion', 'true');
+        }
+        if (html.classList.contains('shopify-design-mode')) return;
+        html.classList.add('js-ready');
+        setTimeout(function () {
+          if (html.getAttribute('data-reveal-booted') === '1') return;
+          html.classList.remove('js-ready');
+        }, 900);
+      })();
+    </script>
     {% render 'meta-tags' %}
     {% render 'css-variables' %}
 
