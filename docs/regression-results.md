@@ -4,7 +4,7 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 569 passed, 0 failed
-- Scope note: Full combined pass — mobile size-row, no customer-facing em-dashes, full-width spec rules, request-a-size card, how-it-works `--max-width`, phone country-code by market, section-ground class space, size-guide fit + market tables, spec hover, one `--ease`, `#specs` opens panel, all mobile menu anchors unlock, YOUR ORDER card fill, product pages (flags OFF), `11-MARKET-COPY-AUDIT.md` FROM→TO. Footer rewired through `market-tagline`. No VERSION bump. Checkpoint: `checkpoints/9.3.0-market-copy-and-storefront-fixes/`.
+- Scope note: Full combined pass — mobile size-row, no customer-facing em-dashes, full-width spec rules, request-a-size card, how-it-works `--max-width`, phone country-code by market, section-ground class space, size-guide fit + market tables, spec hover, one `--ease`, `#specs` opens panel, all mobile menu anchors unlock, YOUR ORDER card fill, product pages (flags OFF), `11-MARKET-COPY-AUDIT.md` FROM→TO. Footer rewired through `market-tagline`. No VERSION bump. Checkpoint: `checkpoints/9.3.0-market-copy-and-storefront-fixes/`. Deploy: `v9` `521389d`, `shopify-theme` `a5bf48d`.
 
 ---
 

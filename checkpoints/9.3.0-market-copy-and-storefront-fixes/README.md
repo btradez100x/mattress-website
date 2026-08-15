@@ -7,8 +7,8 @@
 
 | Tree | SHA | What it is |
 |---|---|---|
-| Feature / `v9` | `PENDING` | Full combined storefront + market-copy pass |
-| Connect / `shopify-theme` | `PENDING` | Subtree of `valtora-theme/` at this deploy |
+| Feature / `v9` | `521389d` | Full combined storefront + market-copy pass |
+| Connect / `shopify-theme` | `a5bf48d` | Subtree of `valtora-theme/` at this deploy |
 
 ## What shipped
 
