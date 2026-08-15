@@ -2,15 +2,15 @@
 <section class="section measure-size{% render 'section-ground' %}" id="{{ section.settings.anchor_id | default: 'measure' }}" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width measure-size__inner">
     <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 0ms">{{ section.settings.eyebrow }}</p>
-    <hr class="gold-rule" data-reveal-child style="--reveal-delay: 100ms">
-    <h2 data-reveal-child style="--reveal-delay: 160ms">{{ section.settings.heading }}</h2>
+    <hr class="gold-rule" data-reveal-child style="--reveal-delay: 50ms">
+    <h2 data-reveal-child style="--reveal-delay: 100ms">{{ section.settings.heading }}</h2>
     {%- if section.settings.lede != blank -%}
-      <p class="section__lede" data-reveal-child style="--reveal-delay: 220ms">{{ section.settings.lede }}</p>
+      <p class="section__lede" data-reveal-child style="--reveal-delay: 150ms">{{ section.settings.lede }}</p>
     {%- endif -%}
 
     <ol class="measure-size__steps">
       {%- for block in section.blocks -%}
-        <li class="measure-size__step" {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 80 | plus: 280 }}ms">
+        <li class="measure-size__step" {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 50 | plus: 200 }}ms">
           <span class="measure-size__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
           <div>
             <h3>{{ block.settings.title }}</h3>
@@ -21,7 +21,7 @@
     </ol>
 
     {%- if section.settings.guide_label != blank -%}
-      <p class="measure-size__link" data-reveal-child style="--reveal-delay: 600ms">
+      <p class="measure-size__link" data-reveal-child style="--reveal-delay: 400ms">
         <a href="{{ section.settings.guide_link | default: '/pages/size-guide' }}">{{ section.settings.guide_label }}</a>
       </p>
     {%- endif -%}

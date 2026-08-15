@@ -22,10 +22,10 @@
   <div class="section section--dark policy-hero" data-reveal>
     <div class="page-width policy-hero__copy">
       <p class="section__eyebrow" data-reveal-child data-reveal-first style="--reveal-delay: 0ms">{{ eyebrow }}</p>
-      <hr class="gold-rule" data-reveal-child data-reveal-first style="--reveal-delay: 80ms">
-      <h1 data-reveal-child data-reveal-first style="--reveal-delay: 140ms">{{ heading }}</h1>
+      <hr class="gold-rule" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">
+      <h1 data-reveal-child data-reveal-first style="--reveal-delay: 100ms">{{ heading }}</h1>
       {%- if lede != blank -%}
-        <p class="section__lede policy-hero__lede" data-reveal-child data-reveal-first style="--reveal-delay: 220ms">{{ lede }}</p>
+        <p class="section__lede policy-hero__lede" data-reveal-child data-reveal-first style="--reveal-delay: 150ms">{{ lede }}</p>
       {%- endif -%}
     </div>
   </div>
@@ -39,7 +39,7 @@
       {%- if journal_blog.articles.size > 0 -%}
         <ul class="blog-index__grid" role="list">
           {%- for article in journal_blog.articles limit: 12 -%}
-            <li class="blog-card" data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 70 }}ms">
+            <li class="blog-card" data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 50 }}ms">
               <a class="blog-card__link" href="{{ article.url }}">
                 {%- if article.image -%}
                   <div class="blog-card__media">
@@ -79,7 +79,7 @@
           {%- endfor -%}
         </ul>
       {%- else -%}
-        <div class="journal-empty policy-article" data-reveal-child style="--reveal-delay: 80ms">
+        <div class="journal-empty policy-article" data-reveal-child style="--reveal-delay: 50ms">
           <h2>{{ empty_heading }}</h2>
           <p>{{ empty_body }}</p>
         </div>
@@ -91,8 +91,8 @@
     <div class="section section--dark policy-cta" data-reveal data-section-ground="dark">
       <div class="page-width policy-cta__inner">
         <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 0ms">Next</p>
-        <hr class="gold-rule" data-reveal-child style="--reveal-delay: 80ms">
-        <p class="policy-cta__action" data-reveal-child style="--reveal-delay: 160ms">
+        <hr class="gold-rule" data-reveal-child style="--reveal-delay: 50ms">
+        <p class="policy-cta__action" data-reveal-child style="--reveal-delay: 100ms">
           <a class="btn" href="{{ cta_href }}">{{ cta_label }}</a>
         </p>
       </div>

@@ -36,6 +36,8 @@
       <p class="offer__top-price">{{ top_price }}</p>
     {%- endif -%}
 
+    <hr class="gold-rule gold-rule--measure">
+
     <div class="offer__items">
       {%- for block in section.blocks -%}
         {%- liquid
@@ -88,7 +90,7 @@
     </div>
 
     {%- if section.settings.cta_label != blank -%}
-      <div class="offer__cta" data-reveal-child style="--reveal-delay: 160ms">
+      <div class="offer__cta" data-reveal-child style="--reveal-delay: 50ms">
         <a class="btn" href="{{ section.settings.cta_link | default: '#reserve' }}">
           {{ section.settings.cta_label }}
         </a>
