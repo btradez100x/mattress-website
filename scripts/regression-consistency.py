@@ -247,6 +247,28 @@ def check_theme_js() -> None:
 
     for rel in ("preview/base.css", "valtora-theme/assets/base.css"):
         css_text = (ROOT / rel).read_text(encoding="utf-8", errors="replace")
+        if "--ease: cubic-bezier(0.22, 1, 0.36, 1)" not in css_text:
+            bad(f"{rel}: --ease must be cubic-bezier(0.22, 1, 0.36, 1)")
+        else:
+            ok(f"{rel}: one --ease curve 0.22, 1, 0.36, 1")
+        leftover_ease = re.findall(
+            r"animation:\s*(?:revealRise|heroRise|heroMediaIn|sectionWipe)\s+[^;]+",
+            css_text,
+        )
+        bad_named = [
+            decl
+            for decl in leftover_ease
+            if "var(--ease)" not in decl
+            or re.search(r"\bease-out\b|\bease-in\b|\blinear\b|(?<!var\(--)\bease\b", decl)
+        ]
+        if leftover_ease and not bad_named:
+            ok(f"{rel}: reveal/wipe/hero load use var(--ease)")
+        else:
+            bad(f"{rel}: reveal/wipe/hero load must use var(--ease), not named easing: {bad_named}")
+        if re.search(r"(?<![\w-])ease-out(?![\w-])", css_text):
+            bad(f"{rel}: leftover ease-out (second curve)")
+        else:
+            ok(f"{rel}: no leftover ease-out")
         if "@keyframes sectionWipe" not in css_text or "var(--dur-wipe)" not in css_text:
             bad(f"{rel}: missing 600ms sectionWipe")
         else:

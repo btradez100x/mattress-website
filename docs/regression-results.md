@@ -1,3 +1,83 @@
+# Regression results — 15 Aug 2026 (FAQ menu unlock + hash scroll)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Menu FAQ (`#faq`, not `/pages/faq`) closes the mobile nav and clears `body.nav-open` overflow lock before landing. Hash/query items (e.g. `#faq-warranty`) open the targeted accordion and scroll it into view past sticky header + basket after the 280ms `--dur-panel` expand. Same-page `#faq` clicks still scroll after the menu collapses. Copy unchanged. Preview in sync. No version bump.
+
+---
+
+# Regression results — 15 Aug 2026 (mobile FAQ scroll unlock)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Mobile FAQ no longer inherits leftover `body.nav-open { overflow: hidden }` after the menu FAQ link. Opening an item expands 280ms (`--ease`) then scrolls the question + answer into view past the sticky header and basket. Cards grow (`overflow: visible`); no inner FAQ scrollport. Reduced-motion still opens and scrolls. Copy unchanged. Preview in sync. No version bump.
+
+---
+
+# Regression results — Saturday 15 Aug 2026 (card fills + request-a-size + inverse CTA)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Card surfaces now read as filled cards (size rows, Request a size, press, measure steps, policy, specs, benefits, reviews, awards, FAQ, journal). Request a size is a white card with readable copy (no dashed-only / crushed wrap). Late reserve is stone vs FAQ off-white. Homepage section colours stay explicit. Dark-band primary `.btn` stays inverse Snow on Carbon. Sibling work left intact (spec hash-open, mobile size-row tap/center, size-guide unclip, FAQ scroll, `--dur-*` / `--ease`). Preview in sync. No version bump. No deploy.
+
+---
+
+# Regression results — 15 Aug 2026 (size-guide unclip + inverse CTA re-verify)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Re-verified after sibling CSS edits. Size-guide table still `overflow: visible` / `min-width: 0` (no inner scrollbar). Dark-ground primary `.btn` still inverse `--brand-on-dark` / `--brand-primary`. No further CSS change. No version bump.
+
+---
+
+# Regression results — 15 Aug 2026 (specs menu opens panel)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Existing `#specs` menu/footer href now opens the collapsed Full specification panel on arrival (first load and in-page hash), fires `spec_opened` once, and scrolls past the sticky header. No new label or copy. Preview in sync. No version bump.
+
+---
+
+# Regression results — 15 Aug 2026 (size-guide table unclip + dark CTA)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Size-guide table frame no longer an inner scrollport (`overflow: visible`, `min-width` unset) so all rows including Emperor show on page scroll. Dark-band primary `.btn` uses inverse `--brand-on-dark` fill / `--brand-primary` text (Snow on Carbon). Preview in sync. No version bump.
+
+---
+
+# Regression results — Saturday 15 Aug 2026 (mobile size-row UX)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Mobile-only size-reserve UX — tap row/dot adds to basket; Request a size uses a 3-column row (spacer removed so copy is not crushed); Add/−/+ centred between size text and price. Desktop Add unchanged. Dots still fill only when in basket. Preview in sync. No version bump.
+
+---
+
+# Regression results — 15 Aug 2026 (one loading/reveal easing curve)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Brand `--ease: cubic-bezier(0.22, 1, 0.36, 1)` applied to loading, reveal, wipe, and leftover hover/panel `ease-out` (never a second curve). Four durations unchanged (120 / 280 / 450 / 600). Wipe and reveals kept. Preview in sync. No version bump.
+
+---
+
 # Regression results — 15 Aug 2026 (homepage dark-band layout)
 
 ## Smoke
