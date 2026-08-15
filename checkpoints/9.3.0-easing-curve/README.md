@@ -9,7 +9,8 @@
 |---|---|---|
 | Feature / `v9` snapshot | `35a221f` | Last deploy before the aesthetic-fix ask (~02:42, 15 Aug 2026) |
 | Connect / `shopify-theme` snapshot | `e205c49` | Subtree of `valtora-theme/` at that moment |
-| This freeze | *this deploy commit* | `35a221f` **plus** the one easing-curve token only |
+| This freeze (`v9`) | `c535af6` | `35a221f` **plus** the one easing-curve token only |
+| This freeze (Connect) | `a4e8bf7` | Same `valtora-theme/` tree as `c535af6` |
 
 `35a221f` message: *Fix homepage dark-band layout and keep the four brand durations.*
 
