@@ -1,4 +1,5 @@
 /* Valtora theme - modern premium (conversion-led restraint) */
+/* motion-cache-bust: 2026-08-15-hero-first-paint */
 
 *,
 *::before,
@@ -892,7 +893,6 @@ body[data-page="manufacturing"] .site-header {
   display: block;
   margin-inline: auto;
   transform: none;
-  animation: heroMediaIn var(--dur-base) var(--ease) both;
 }
 
 .hero__media-placeholder {
@@ -959,7 +959,6 @@ body[data-page="manufacturing"] .site-header {
   letter-spacing: -0.03em;
   line-height: 1.02;
   margin-bottom: 0.75rem;
-  animation: heroRise var(--dur-base) var(--ease) both;
 }
 
 .hero__sub {
@@ -969,7 +968,6 @@ body[data-page="manufacturing"] .site-header {
   margin-inline: auto;
   margin-bottom: 1.35rem;
   color: var(--brand-ink);
-  animation: heroRise var(--dur-base) var(--ease) 120ms both;
 }
 
 .hero--dark .hero__sub {
@@ -984,7 +982,6 @@ body[data-page="manufacturing"] .site-header {
   align-items: center;
   justify-content: center;
   gap: 0.75rem 1rem;
-  animation: heroRise var(--dur-base) var(--ease) 220ms both;
 }
 
 .hero--dark .hero__cta {
@@ -1044,6 +1041,10 @@ body[data-page="manufacturing"] .site-header {
     padding: 1rem 0 0.25rem;
   }
 
+  body:has([data-float-total]:empty) .hero--light .hero__content {
+    padding-bottom: 1.5rem;
+  }
+
   .hero--light h1 {
     font-size: clamp(1.85rem, 8vw, 2.45rem);
   }
@@ -1076,6 +1077,10 @@ body[data-page="manufacturing"] .site-header {
 
   .hero--light .hero__content {
     padding: 1.5rem 0 0.75rem;
+  }
+
+  body:has([data-float-total]:empty) .hero--light .hero__content {
+    padding-bottom: 1.75rem;
   }
 
   .hero--light .hero__media {
@@ -1123,7 +1128,10 @@ body[data-page="manufacturing"] .site-header {
   .hero h1,
   .hero__sub,
   .hero__cta,
-  .hero--light .hero__media img {
+  .hero__assurance,
+  .hero__media,
+  .hero--light .hero__media img,
+  [data-reveal-first] {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
@@ -1193,9 +1201,23 @@ html.js-ready:not(.shopify-design-mode) [data-reveal-child].is-visible {
   animation: revealRise 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) backwards;
 }
 
+/* Homepage hero: first-paint stagger (not scroll). CSS runs before JS so
+   "Made to order" / CTAs / mattress photo ease in on load. Design mode only
+   is the editor exception — do not disable storefront motion to fix Customize. */
+html:not(.shopify-design-mode) [data-reveal-first] {
+  animation: revealRise 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
+}
+
+html.js-ready:not(.shopify-design-mode) [data-reveal-child][data-reveal-first]:not(.is-visible) {
+  opacity: unset !important;
+  transform: unset !important;
+  animation: revealRise 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both !important;
+}
+
 html.shopify-design-mode [data-reveal],
 html.shopify-design-mode [data-reveal-child],
-html.shopify-design-mode [data-reveal-child]:not(.is-visible) {
+html.shopify-design-mode [data-reveal-child]:not(.is-visible),
+html.shopify-design-mode [data-reveal-first] {
   opacity: 1 !important;
   transform: none !important;
   animation: none !important;
@@ -1235,6 +1257,8 @@ html.shopify-design-mode [data-reveal-child]:not(.is-visible) {
   .cool-touch__main,
   .cool-touch__thumb,
   .faq__item,
+  .policy-article,
+  .contact-details--cards li,
   .trust-bar__link,
   .whatsapp-float {
     transform: scale(1);
@@ -1335,6 +1359,8 @@ html.shopify-design-mode [data-reveal-child]:not(.is-visible) {
   [data-reveal].is-visible .cool-touch__main:hover,
   [data-reveal].is-visible .cool-touch__thumb:hover,
   [data-reveal].is-visible .faq__item:hover,
+  [data-reveal].is-visible .policy-article:hover,
+  [data-reveal].is-visible .contact-details--cards li:hover,
   .benefit:hover,
   .award:hover,
   .offer__item:hover,
@@ -1342,7 +1368,9 @@ html.shopify-design-mode [data-reveal-child]:not(.is-visible) {
   .ugc__card:hover,
   .cool-touch__main:hover,
   .cool-touch__thumb:hover,
-  .faq__item:hover {
+  .faq__item:hover,
+  .policy-article:hover,
+  .contact-details--cards li:hover {
     transform: scale(var(--hover-scale-tile));
     transition:
       transform var(--dur-fast) var(--ease),
@@ -2304,6 +2332,11 @@ video[controls],
 
 .reserve-panel [data-reserve-stage-a][hidden] {
   display: none !important;
+}
+
+/* Empty Your order: Checkout is hidden - keep a floor so the panel does not collapse into the next band. */
+.reserve-panel:has([data-order-retail][hidden]) {
+  padding-bottom: clamp(2.75rem, 5.5vw, 3.65rem);
 }
 
 .reserve-panel .reserve-stage-b {
@@ -3782,6 +3815,11 @@ video[controls],
   justify-content: center;
 }
 
+/* Empty basket: keep the first homepage CTA off the next band / viewport. */
+body:has([data-float-total]:empty) .hero__cta {
+  margin-bottom: 1.5rem;
+}
+
 .hero__secondary {
   min-height: 3.15rem;
 }
@@ -3795,7 +3833,6 @@ video[controls],
   opacity: 0.88;
   max-width: 28rem;
   text-align: center;
-  animation: heroRise var(--dur-base) var(--ease) 280ms both;
 }
 
 .hero--dark .hero__assurance {
@@ -5453,7 +5490,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 
 .order-basket__empty {
   margin: 0;
-  padding: 0.85rem 0;
+  padding: 0.85rem 0 1.35rem;
   font-size: 0.875rem;
   color: color-mix(in srgb, var(--brand-ink) 62%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
@@ -5713,6 +5750,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   display: grid;
   gap: 1rem;
   justify-items: start;
+  padding-bottom: 2.25rem;
 }
 .cart-empty[hidden] {
   display: none !important;
@@ -5893,7 +5931,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 }
 .cart-page .cart-empty {
   margin-top: 1.75rem;
-  padding: 1.5rem 0 0.25rem;
+  padding: 1.5rem 0 2.25rem;
   justify-items: stretch;
   text-align: left;
 }
@@ -6245,6 +6283,7 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
 }
 .checkout-page .cart-empty {
   color: var(--brand-ink);
+  padding-bottom: 2.25rem;
 }
 html[data-brand-guidelines="v2"] .checkout-stage {
   box-shadow: none;
@@ -6632,6 +6671,185 @@ html[data-brand-guidelines="v2"] .thanks-media::after {
   opacity: 0.75;
   font-weight: 400;
 }
+
+/* -- Footer / policy pages (brand, not a legal dump) -- */
+.policy-hero {
+  padding-block: clamp(4.25rem, 11vw, 7.5rem);
+}
+.policy-hero__copy {
+  max-width: 40rem;
+}
+.policy-hero h1 {
+  font-size: clamp(2.4rem, 5.2vw, 3.75rem);
+  margin: 0;
+  color: var(--brand-on-dark);
+}
+.policy-hero__lede,
+.policy-hero .section__lede {
+  margin-top: 1.1rem;
+  max-width: 34rem;
+  color: var(--brand-on-dark);
+  opacity: 0.92;
+}
+.policy-legal-band {
+  padding-block: clamp(3.25rem, 7vw, 5rem);
+}
+.policy-legal {
+  background: var(--brand-bg);
+  padding: 1.75rem 1.85rem 1.9rem;
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+}
+.policy-legal .legal-entity {
+  margin: 0;
+  max-width: none;
+}
+.policy-legal .legal-entity h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  margin: 0 0 0.55rem;
+}
+.policy-legal .legal-entity > p {
+  margin: 0 0 1.15rem;
+  max-width: 34rem;
+}
+.policy-legal .legal-entity__fields,
+.policy-legal .contact-details {
+  margin: 0;
+  gap: 0.85rem;
+}
+.policy-intro {
+  margin: 0 0 2rem;
+  max-width: 40rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+.policy-intro p,
+.trust-policy__body p {
+  margin-top: 0.65rem;
+  max-width: 40rem;
+}
+.policy-intro p:first-child,
+.trust-policy__body p:first-child {
+  margin-top: 0;
+}
+.policy-articles {
+  display: grid;
+  gap: 1.15rem;
+}
+.policy-article {
+  background: var(--brand-bg);
+  padding: 1.7rem 1.85rem 1.85rem;
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+}
+.section--surface .policy-article,
+.section--surface .policy-table {
+  background: var(--brand-bg);
+}
+.policy-article h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  margin: 0 0 0.55rem;
+}
+.policy-article h2::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  margin-top: 0.75rem;
+  background: var(--brand-accent);
+}
+.policy-article__body,
+.policy-article .trust-policy__body {
+  margin: 0;
+}
+.policy-article__body p,
+.policy-article .trust-policy__body p {
+  margin-top: 0.65rem;
+  max-width: 40rem;
+  line-height: 1.65;
+}
+.policy-article__body p:first-child,
+.policy-article .trust-policy__body p:first-child {
+  margin-top: 0;
+}
+.policy-article__body ul,
+.policy-article .trust-policy__body ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1.15rem;
+  max-width: 40rem;
+}
+.policy-cta {
+  text-align: center;
+  padding-block: clamp(3.5rem, 8vw, 5.5rem);
+}
+.policy-cta__inner {
+  max-width: 36rem;
+  margin-inline: auto;
+}
+.policy-cta .gold-rule {
+  margin-inline: auto;
+}
+.policy-cta .section__lede {
+  margin-inline: auto;
+}
+.policy-cta__action {
+  margin: 1.75rem 0 0;
+}
+.contact-details--cards {
+  margin: 0;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .contact-details--cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .contact-details--cards li:has(strong) {
+    min-height: 100%;
+  }
+}
+.contact-details--cards li {
+  background: var(--brand-bg);
+  padding: 1.25rem 1.35rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  gap: 0.35rem;
+}
+.contact-page .contact-whatsapp {
+  margin-top: 1.75rem;
+}
+.contact-page .policy-intro {
+  margin-top: 2rem;
+}
+.policy-table {
+  overflow-x: auto;
+  background: var(--brand-bg);
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  padding: 0.35rem 0.5rem;
+}
+.policy-table .size-table,
+.policy-table .size-guide-table {
+  margin: 0;
+  width: 100%;
+}
+.size-guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+.size-guide-table th,
+.size-guide-table td {
+  text-align: left;
+  padding: 0.9rem 0.85rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
+}
+.size-guide-table th {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--brand-primary);
+}
+.size-guide-page .policy-table + .policy-table {
+  margin-top: 1.15rem;
+}
+
 [data-lead-window-label],
 [data-leadtime-copy],
 [data-leadtime-copy-top],

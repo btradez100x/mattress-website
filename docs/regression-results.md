@@ -1,3 +1,33 @@
+# Regression results — 2026-08-15 (empty-basket first CTA space)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: Empty basket now leaves space below the first CTA - homepage hero "See sizes and prices", and Your order / checkout empty "See sizes and prices". Lined basket keeps existing footer / float-basket padding so copyright is not covered. Persist, luxury reveal, and checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (basket persists on Back)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: OrderStore still uses `valtora_order_lines` in sessionStorage + localStorage. Pay no longer clears the basket when opening Shopify `/checkout` - Back from cart, Stage B, or hosted checkout restores Your order + filled dots via `pageshow` / `restoreBasketUi`. Clear only after preview order-confirmed or Shopify `thank_you`. Theme settings still cannot set the hosted checkout store name. Luxury reveal, checkout markers, and no version bump.
+
+---
+
+# Regression results — 2026-08-15 (live storefront first-paint reveal)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: Live URL already had hide+rise CSS. Head now adds `js-ready` on first paint (not Customize). JS no longer copies `Shopify.designMode` onto the live storefront, so the GitHub admin bar cannot flatten motion. `?force-motion=1` overrides Reduce motion. 900ms failsafe kept. Wipe clip-path still banned. No version bump.
+
+---
+
 # Regression results — 2026-08-15 (storefront reveal visible)
 
 ## Smoke

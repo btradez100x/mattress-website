@@ -1,35 +1,65 @@
-<section class="section">
-  <div class="page-width">
-    <p class="section__eyebrow">Sizing</p>
-    <hr class="gold-rule">
-    <h1 style="font-size:clamp(2.25rem,4vw,3rem);">{{ section.settings.heading }}</h1>
-    <p class="section__lede">{{ section.settings.intro }}</p>
-
-    <div class="table-wrap">
-      <table class="size-table">
-        <thead>
-          <tr>
-            <th>UAE size</th>
-            <th>W × L (cm)</th>
-            <th>UK size</th>
-            <th>W × L (cm)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Single</td><td>90-100 × 200</td><td>Single</td><td>90 × 190</td></tr>
-          <tr><td>Queen</td><td>160 × 200</td><td>Double</td><td>135 × 190</td></tr>
-          <tr><td>King</td><td>180 × 200</td><td>King</td><td>150 × 200</td></tr>
-          <tr><td></td><td></td><td>Super King</td><td>180 × 200</td></tr>
-          <tr><td>Super King</td><td>200 × 200</td><td>Emperor</td><td>200 × 200</td></tr>
-        </tbody>
-      </table>
+<section class="policy-page size-guide-page">
+  <div class="section section--dark policy-hero">
+    <div class="page-width policy-hero__copy">
+      <p class="section__eyebrow">Sizing</p>
+      <hr class="gold-rule">
+      <h1>{{ section.settings.heading }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <p class="section__lede policy-hero__lede">{{ section.settings.intro }}</p>
+      {%- endif -%}
     </div>
+  </div>
 
-    <div class="rte" style="margin-top:2rem;">
-      <h2>{{ section.settings.note_heading }}</h2>
-      <p>{{ section.settings.note_body }}</p>
-      <h2>{{ section.settings.depth_heading }}</h2>
-      <p>{{ section.settings.depth_body }}</p>
+  <div class="section section--surface policy-body">
+    <div class="page-width">
+      <div class="table-wrap policy-table">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>UAE size</th>
+              <th>W × L (cm)</th>
+              <th>UK size</th>
+              <th>W × L (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Single</td><td>90-100 × 200</td><td>Single</td><td>90 × 190</td></tr>
+            <tr><td>Queen</td><td>160 × 200</td><td>Double</td><td>135 × 190</td></tr>
+            <tr><td>King</td><td>180 × 200</td><td>King</td><td>150 × 200</td></tr>
+            <tr><td></td><td></td><td>Super King</td><td>180 × 200</td></tr>
+            <tr><td>Super King</td><td>200 × 200</td><td>Emperor</td><td>200 × 200</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section policy-body">
+    <div class="page-width page-width--narrow">
+      <div class="policy-articles">
+        <article class="policy-article">
+          <h2>{{ section.settings.note_heading }}</h2>
+          <div class="policy-article__body rte trust-policy__body">
+            <p>{{ section.settings.note_body }}</p>
+          </div>
+        </article>
+        <article class="policy-article">
+          <h2>{{ section.settings.depth_heading }}</h2>
+          <div class="policy-article__body rte trust-policy__body">
+            <p>{{ section.settings.depth_body }}</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--dark policy-cta">
+    <div class="page-width policy-cta__inner">
+      <p class="section__eyebrow">Next</p>
+      <hr class="gold-rule">
+      <p class="policy-cta__action">
+        <a class="btn" href="/#reserve">Reserve your size</a>
+      </p>
     </div>
   </div>
 </section>
@@ -42,7 +72,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Size guide"
+      "default": "Sizes in centimetres"
     },
     {
       "type": "textarea",

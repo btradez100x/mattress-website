@@ -682,11 +682,47 @@
   function tagChild(el, delayMs) {
     if (!el || el.hasAttribute('data-reveal-grouped')) return;
     if (skipMotion(el)) return;
+    if (el.hasAttribute('data-reveal-first')) return;
     if (el.closest && el.closest('.hero, .mfg-hero')) return;
     el.setAttribute('data-reveal-child', '');
     if (delayMs != null && !el.style.getPropertyValue('--reveal-delay')) {
       el.style.setProperty('--reveal-delay', Math.min(delayMs, 50) + 'ms');
     }
+  }
+
+  function tagHeroFirstPaint() {
+    document.querySelectorAll('.hero').forEach(function (hero) {
+      var sequence = [
+        [hero.querySelector('h1'), 0],
+        [hero.querySelector('.hero__sub'), 70],
+        [hero.querySelector('.hero__media'), 90],
+        [hero.querySelector('.hero__cta'), 160],
+        [hero.querySelector('.hero__assurance'), 240]
+      ];
+      sequence.forEach(function (pair) {
+        var el = pair[0];
+        if (!el || skipMotion(el)) return;
+        el.setAttribute('data-reveal-child', '');
+        el.setAttribute('data-reveal-first', '');
+        if (!el.style.getPropertyValue('--reveal-delay')) {
+          el.style.setProperty('--reveal-delay', pair[1] + 'ms');
+        }
+      });
+    });
+    document.querySelectorAll('.mfg-hero__copy > *, .mfg-hero__img').forEach(function (el, i) {
+      if (skipMotion(el)) return;
+      el.setAttribute('data-reveal-child', '');
+      el.setAttribute('data-reveal-first', '');
+      if (!el.style.getPropertyValue('--reveal-delay')) {
+        el.style.setProperty('--reveal-delay', Math.min(i * 80, 240) + 'ms');
+      }
+    });
+  }
+
+  function revealFirstPaint() {
+    document.querySelectorAll('[data-reveal-first]').forEach(function (el) {
+      el.classList.add('is-visible');
+    });
   }
 
   function tagCascade(root, items, stepMs) {
@@ -702,10 +738,15 @@
   }
 
   function initReveal() {
-    var designMode = !!(window.Shopify && window.Shopify.designMode);
-    if (designMode) {
-      document.documentElement.classList.add('shopify-design-mode');
+    /* Liquid request.design_mode already set shopify-design-mode on Customize.
+       Do not copy window.Shopify.designMode onto the live storefront — the
+       GitHub admin bar / Preview must still play the stagger. */
+    var designMode = document.documentElement.classList.contains('shopify-design-mode');
+    void (window.Shopify && window.Shopify.designMode);
+    if (/[?&]force-motion=1(?:&|$)/.test(location.search)) {
+      document.documentElement.setAttribute('data-force-motion', 'true');
     }
+    document.documentElement.setAttribute('data-reveal-booted', '1');
     document.documentElement.classList.add('js-ready');
 
     document
@@ -840,6 +881,9 @@
         tagChild(el, Math.min(i * 80, 320));
       });
     });
+
+    tagHeroFirstPaint();
+    revealFirstPaint();
 
     var groups = document.querySelectorAll('[data-reveal-group]');
     var solos = document.querySelectorAll('[data-reveal-child]:not([data-reveal-grouped])');
@@ -1252,6 +1296,26 @@
       return this.write({ lines: [] });
     },
   };
+
+  function isSuccessfulOrderSurface(url) {
+    var s = String(url || '');
+    return /thank_you/i.test(s) || /\/checkouts\/[^/?#]+\/thank/i.test(s);
+  }
+
+  /**
+   * Re-read valtora_order_lines and paint chrome. Safe on bfcache Back
+   * (pageshow), first paint, and return from /cart or /pages/checkout.
+   * Does not write empty - read() only aligns the freshest stamped payload.
+   */
+  function restoreBasketUi() {
+    var data = { lines: [] };
+    try {
+      data = OrderStore.read();
+    } catch (e) {}
+    syncOrderChrome();
+    document.dispatchEvent(new CustomEvent('valtora:order-changed', { detail: data }));
+    return data;
+  }
 
   function comfortTopsEnabled() {
     var el =
@@ -2544,7 +2608,8 @@
           return chain;
         })
         .then(function () {
-          OrderStore.clear();
+          // Keep OrderStore through Shopify /checkout so Back still has the basket.
+          // Clear only after a successful order (thank_you / order-confirmed).
           window.location.href = (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.checkout) || '/checkout';
         });
     }
@@ -2582,6 +2647,7 @@
     }
 
     refreshTotals();
+    syncSizeQtyUi();
     syncOrderChrome();
   }
 
@@ -3019,7 +3085,7 @@
             return chain;
           })
           .then(function () {
-            OrderStore.clear();
+            // Do not wipe the theme basket when opening hosted checkout.
             window.location.href = shopifyCheckout;
           })
           .catch(function () {
@@ -4340,10 +4406,26 @@
     // the freshest stamped payload (never resurrect a fuller stale copy).
     window.addEventListener('storage', function (e) {
       if (!e || e.key !== OrderStore.KEY) return;
-      OrderStore.read();
-      document.dispatchEvent(
-        new CustomEvent('valtora:order-changed', { detail: OrderStore.read() })
-      );
+      restoreBasketUi();
+    });
+    restoreBasketUi();
+    window.addEventListener('pageshow', function () {
+      if (isSuccessfulOrderSurface(location.pathname + location.search)) {
+        try {
+          var lines = OrderStore.lines();
+          if (lines && lines.length) {
+            OrderStore.saveLastOrder({
+              lines: lines,
+              units: OrderStore.units(lines),
+              line_count: lines.length,
+              value: OrderStore.orderValue(lines),
+              order_id: 'SHOPIFY',
+            });
+            OrderStore.clear();
+          }
+        } catch (err) {}
+      }
+      restoreBasketUi();
     });
   }
 
