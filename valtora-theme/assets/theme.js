@@ -2522,6 +2522,10 @@
       };
     }
 
+    function sizeRowTapAddsToBasket() {
+      return window.matchMedia && window.matchMedia('(max-width: 899px)').matches;
+    }
+
     if (list) {
       list.addEventListener('click', function (e) {
         var add = e.target.closest('[data-qty-add]');
@@ -2559,6 +2563,26 @@
         }
         var btn = e.target.closest('.size-option');
         if (!btn) return;
+        // Mobile: tap the row / radio to add. Desktop still uses Add.
+        if (
+          sizeRowTapAddsToBasket() &&
+          btn.getAttribute('data-request-size') !== 'true' &&
+          btn.getAttribute('data-available') !== 'false'
+        ) {
+          var existingQty = lineQtyForSize(
+            btn.getAttribute('data-size-id'),
+            btn.getAttribute('data-size-variant')
+          );
+          if (existingQty > 0) {
+            applySelection(btn);
+            return;
+          }
+          collapseStageB(true);
+          applySelection(btn, { silent: true });
+          upsertActiveMattress(1, { size: sizeFromRow(btn) });
+          updateContinueState();
+          return;
+        }
         applySelection(btn);
       });
     }

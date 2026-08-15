@@ -1,3 +1,13 @@
+# Regression results — 15 Aug 2026 (size-guide CTA + table + mobile qty)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Surgical only on 35a221f + easing (`c535af6`). Inverse dark-ground primary `.btn` (Snow fill / primary text). Size-guide `.table-wrap` / `.policy-table` overflow visible, no max-height clip. Mobile ≤899px size rows: centred Add/−/+ track with a real gap; Request-a-size hides qty spacer and uses a 3-column text track; mobile row/dot tap adds once. No FAQ/spec/section-ground/padding campaign. Product flags OFF. No version bump. Checkpoint: `checkpoints/9.3.0-size-guide-and-mobile-qty/`.
+
+---
+
 # Regression results — 15 Aug 2026 (35a221f + one easing curve)
 
 ## Smoke
