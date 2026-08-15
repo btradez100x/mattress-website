@@ -336,7 +336,7 @@
       }
       if (med === 'social' || /instagram|facebook|tiktok|meta/.test(src)) return 'social';
       var ref = document.referrer || '';
-      if (/comfort-top|swap/.test(location.pathname)) {
+      if (/comfort-top|comfort-layer|bed-sheets|pillows|swap/.test(location.pathname)) {
         if (/reserve|#swap|index/.test(ref)) return 'mattress_page';
       }
       if (!ref) return 'direct';
@@ -348,6 +348,53 @@
       return 'direct';
     } catch (err) {
       return 'direct';
+    }
+  }
+
+  function isMattressLine(line) {
+    return !line || !line.itemType || line.itemType === 'mattress';
+  }
+
+  function isAccessoryType(type) {
+    return type === 'top' || type === 'sheets' || type === 'pillows';
+  }
+
+  function flagEnabled(attr) {
+    var el =
+      document.body ||
+      document.documentElement ||
+      document.querySelector('[' + attr + ']');
+    if (!el) return false;
+    return el.getAttribute(attr) === 'true';
+  }
+
+  function accessoryAllowed(type) {
+    if (type === 'top') return flagEnabled('data-comfort-tops-enabled') || comfortTopsEnabled();
+    if (type === 'sheets') return flagEnabled('data-sheets-enabled');
+    if (type === 'pillows') return flagEnabled('data-pillows-enabled');
+    return true;
+  }
+
+  function orderLineTitle(line) {
+    var qty = parseInt(line && line.quantity, 10) || 0;
+    if (!line) return '';
+    if (line.itemType === 'top') return 'Comfort layer · ' + (line.label || '');
+    if (line.itemType === 'sheets') {
+      return 'Bed sheets · ' + (line.label || '') + (line.colour ? ' · ' + line.colour : '');
+    }
+    if (line.itemType === 'pillows') {
+      return 'Pillows · ' + (line.label || '');
+    }
+    return (line.label || '') + ' · ' + qty;
+  }
+
+  function parseAccessoryPrices(root) {
+    var el = root && root.querySelector('[data-accessory-prices]');
+    if (!el) return {};
+    try {
+      return JSON.parse(el.textContent.trim()) || {};
+    } catch (e) {
+      return {};
     }
   }
 
@@ -373,17 +420,34 @@
     // Strip internal UTM bookkeeping keys from the event payload.
     delete payload._captured_at;
     delete payload._landing_path;
-    vTrack('purchase', payload);
     var last = OrderStore.readLastOrder && OrderStore.readLastOrder();
     var lastLines = (last && last.lines) || params.lines || [];
+    var containsMattress = lastLines.some(isMattressLine);
+    payload.contains_mattress = containsMattress;
+    payload.accessory_only = !containsMattress && lastLines.length > 0;
+    vTrack('purchase', payload);
     lastLines.forEach(function (line) {
-      if (line.itemType !== 'top') return;
-      vTrack('top_purchase', {
-        size: line.sizeId || line.label || '',
-        firmness: line.firmness || '',
-        entry_point: topEntryPoint(),
-        owns_mattress: lastLines.some(function (l) { return l.itemType !== 'top'; }),
-      });
+      if (line.itemType === 'top') {
+        vTrack('top_purchase', {
+          size: line.sizeId || line.label || '',
+          firmness: line.firmness || '',
+          entry_point: topEntryPoint(),
+          owns_mattress: containsMattress,
+        });
+      }
+      if (line.itemType === 'sheets') {
+        vTrack('sheets_purchase', {
+          size: line.sizeId || line.label || '',
+          colour: line.colour || '',
+          owns_mattress: containsMattress,
+        });
+      }
+      if (line.itemType === 'pillows') {
+        vTrack('pillows_purchase', {
+          sleep: line.sleep || '',
+          owns_mattress: containsMattress,
+        });
+      }
     });
   }
   window.firePurchaseOnce = firePurchaseOnce;
@@ -483,7 +547,7 @@
   function checkoutSizeParam(lines) {
     return (lines || [])
       .filter(function (line) {
-        return line.itemType !== 'top';
+        return isMattressLine(line);
       })
       .map(function (line) {
         return line.sizeId || line.label || '';
@@ -496,9 +560,7 @@
     if (!el) return;
     opts = opts || {};
     var lines = opts.lines || OrderStore.lines();
-    var mattressLines = (lines || []).filter(function (line) {
-      return line.itemType !== 'top';
-    });
+    var mattressLines = (lines || []).filter(isMattressLine);
     var cents = opts.cents != null ? opts.cents : OrderStore.orderValueCents(lines);
     var units = mattressLines.reduce(function (sum, line) {
       return sum + (parseInt(line.quantity, 10) || 0);
@@ -683,7 +745,7 @@
     if (!el || el.hasAttribute('data-reveal-grouped')) return;
     if (skipMotion(el)) return;
     if (el.hasAttribute('data-reveal-first')) return;
-    if (el.closest && el.closest('.hero, .mfg-hero')) return;
+    if (el.closest && el.closest('.hero, .mfg-hero, .policy-hero')) return;
     el.setAttribute('data-reveal-child', '');
     if (delayMs != null && !el.style.getPropertyValue('--reveal-delay')) {
       el.style.setProperty('--reveal-delay', Math.min(delayMs, 50) + 'ms');
@@ -779,7 +841,9 @@
       ['.layer-stack', 'li'],
       ['.mfg-gallery__grid', '.mfg-gallery__item'],
       ['.mfg-split__grid', '.mfg-split__card'],
-      ['.blog-index__grid', '.blog-card']
+      ['.blog-index__grid', '.blog-card'],
+      ['.policy-articles', '.policy-article'],
+      ['.contact-details--cards', 'li']
     ];
     document.querySelectorAll('.trust-bar:not(.trust-bar--marquee) .trust-bar__list').forEach(function (root) {
       var items = directMatches(root, '.trust-bar__item').filter(function (el) {
@@ -827,7 +891,7 @@
     });
 
     /* Manufacturing hero copy entrance (CSS heroRise + reveal) */
-    document.querySelectorAll('.mfg-hero__copy').forEach(function (copy) {
+    document.querySelectorAll('.mfg-hero__copy, .policy-hero__copy').forEach(function (copy) {
       var items = [];
       Array.prototype.forEach.call(copy.children, function (el) {
         items.push(el);
@@ -860,10 +924,11 @@
 
     /* All section headings + intro copy (hero keeps its own entrance) */
     document.querySelectorAll('main h1, main h2').forEach(function (el, i) {
+      if (el.closest('.policy-article, .policy-legal, .faq__item, .mfg-split__card')) return;
       tagChild(el, Math.min(i * 50, 250));
     });
     document.querySelectorAll('main .section__eyebrow, main .section__lede, main .gold-rule').forEach(function (el, i) {
-      if (el.closest('.benefit, .award, .offer__item, .ugc__card, .media-feature__card, .faq__item, .press__logo, .mfg-split__card, .blog-card, .mfg-gallery__item')) return;
+      if (el.closest('.benefit, .award, .offer__item, .ugc__card, .media-feature__card, .faq__item, .press__logo, .mfg-split__card, .blog-card, .mfg-gallery__item, .policy-article, .policy-hero')) return;
       tagChild(el, Math.min(i * 40, 200));
     });
 
@@ -874,7 +939,10 @@
       '.big-idea__media',
       '.offer__cta',
       '.article__hero',
-      '.mfg-cta .btn'
+      '.mfg-cta .btn',
+      '.policy-legal',
+      '.policy-intro',
+      '.policy-cta .btn'
     ];
     soloSelectors.forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el, i) {
@@ -981,13 +1049,39 @@
     } catch (e) {
       return;
     }
-    if (params.get('tops') !== '1') return;
-    document.querySelectorAll('[data-comfort-top-cta]').forEach(function (el) {
-      el.hidden = false;
-    });
-    document.querySelectorAll('[data-comfort-tops-enabled], [data-size-reserve]').forEach(function (el) {
-      el.setAttribute('data-comfort-tops-enabled', 'true');
-    });
+    if (params.get('tops') === '1') {
+      document.querySelectorAll('[data-comfort-top-cta]').forEach(function (el) {
+        el.hidden = false;
+      });
+      document.querySelectorAll('[data-comfort-tops-enabled], [data-size-reserve]').forEach(function (el) {
+        el.setAttribute('data-comfort-tops-enabled', 'true');
+      });
+      if (document.body) document.body.setAttribute('data-comfort-tops-enabled', 'true');
+    }
+    if (params.get('sheets') === '1') {
+      document.querySelectorAll('[data-sheets-enabled]').forEach(function (el) {
+        el.setAttribute('data-sheets-enabled', 'true');
+      });
+      if (document.body) document.body.setAttribute('data-sheets-enabled', 'true');
+      document.querySelectorAll('[data-sheets-discover]').forEach(function (el) {
+        el.hidden = false;
+      });
+    }
+    if (params.get('pillows') === '1') {
+      document.querySelectorAll('[data-pillows-enabled]').forEach(function (el) {
+        el.setAttribute('data-pillows-enabled', 'true');
+      });
+      if (document.body) document.body.setAttribute('data-pillows-enabled', 'true');
+      document.querySelectorAll('[data-pillows-discover]').forEach(function (el) {
+        el.hidden = false;
+      });
+    }
+    if (params.get('accessories') === '1') {
+      document.querySelectorAll('[data-footer-accessories]').forEach(function (el) {
+        el.hidden = false;
+      });
+      if (document.body) document.body.setAttribute('data-footer-accessories-enabled', 'true');
+    }
   }
 
   function initScrollProgress() {
@@ -1088,6 +1182,49 @@
     });
   }
 
+  function initSpecPanel() {
+    document.querySelectorAll('[data-spec-panel]').forEach(function (panel) {
+      var trigger = panel.querySelector('.vspec__trigger');
+      if (!trigger) return;
+      var openedOnce = false;
+      var openedAt = 0;
+      var page = window.location.pathname;
+
+      trigger.addEventListener('click', function () {
+        var isOpen = panel.dataset.open === 'true';
+        panel.dataset.open = isOpen ? 'false' : 'true';
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+
+        if (!isOpen) {
+          openedAt = Date.now();
+          if (!openedOnce) {
+            openedOnce = true;
+            if (window.vTrack) {
+              window.vTrack('spec_opened', { spec_id: panel.dataset.specId, page: page });
+            }
+          }
+        } else if (openedAt && window.vTrack) {
+          window.vTrack('spec_dwell', {
+            spec_id: panel.dataset.specId,
+            page: page,
+            seconds: Math.round((Date.now() - openedAt) / 1000)
+          });
+          openedAt = 0;
+        }
+      });
+
+      window.addEventListener('beforeunload', function () {
+        if (openedAt && window.vTrack) {
+          window.vTrack('spec_dwell', {
+            spec_id: panel.dataset.specId,
+            page: page,
+            seconds: Math.round((Date.now() - openedAt) / 1000)
+          });
+        }
+      });
+    });
+  }
+
 
   var OrderStore = {
     KEY: 'valtora_order_lines',
@@ -1154,6 +1291,12 @@
         var data = this.chooseFreshest(sessData, localData);
         if (!data) return { lines: [], updatedAt: Date.now() };
         if (!data.updatedAt) data.updatedAt = Date.now();
+        var before = data.lines.length;
+        data.lines = data.lines.filter(function (l) {
+          if (!isAccessoryType(l.itemType)) return true;
+          return accessoryAllowed(l.itemType);
+        });
+        if (data.lines.length !== before) data.updatedAt = Date.now();
         // Keep both stores aligned to the winner so removals cannot bounce back.
         this.persistBoth(data);
         return data;
@@ -1220,12 +1363,18 @@
       return this.orderValueCents(lines) / 100;
     },
     addLine: function (line) {
-      if (line && line.itemType === 'top' && !comfortTopsEnabled()) {
+      if (line && isAccessoryType(line.itemType) && !accessoryAllowed(line.itemType)) {
         return this.read();
       }
       var data = this.read();
       var existing = data.lines.find(function (l) {
-        return l.itemType === line.itemType && l.sizeId === line.sizeId && l.firmness === line.firmness;
+        return (
+          l.itemType === line.itemType &&
+          l.sizeId === line.sizeId &&
+          l.firmness === line.firmness &&
+          (l.colour || '') === (line.colour || '') &&
+          (l.sleep || '') === (line.sleep || '')
+        );
       });
       if (existing) {
         existing.quantity =
@@ -1287,7 +1436,7 @@
     removeMattressSize: function (sizeId) {
       var data = this.read();
       data.lines = data.lines.filter(function (l) {
-        if (l.itemType === 'top') return true;
+        if (isAccessoryType(l.itemType)) return true;
         return l.sizeId !== sizeId;
       });
       return this.write(data);
@@ -1319,6 +1468,7 @@
 
   function comfortTopsEnabled() {
     var el =
+      document.body ||
       document.querySelector('[data-comfort-tops-enabled]') ||
       document.querySelector('[data-size-reserve]') ||
       document.querySelector('[data-comfort-top]');
@@ -1326,29 +1476,42 @@
     return el.getAttribute('data-comfort-tops-enabled') === 'true';
   }
 
+  function lineLeadDays(line) {
+    var max = parseInt(line && line.leadMax, 10) || 0;
+    if ((line && line.leadUnit) === 'days') return max;
+    return max * 7;
+  }
+
   function resolveCartLeadTime(lines) {
-    var max = 0;
-    var min = 0;
+    var winner = null;
+    var winnerDays = 0;
     (lines || []).forEach(function (l) {
-      var lmax = parseInt(l.leadMax, 10) || 0;
-      var lmin = parseInt(l.leadMin, 10) || 0;
-      if (lmax > max) {
-        max = lmax;
-        min = lmin;
+      var days = lineLeadDays(l);
+      if (days >= winnerDays) {
+        winnerDays = days;
+        winner = l;
       }
     });
-    var types = { mattress: false, top: false };
+    var types = { mattress: false, top: false, parcel: false };
     (lines || []).forEach(function (l) {
       if (l.itemType === 'top') types.top = true;
+      else if (l.itemType === 'sheets' || l.itemType === 'pillows') types.parcel = true;
       else types.mattress = true;
     });
     var mix = 'mattress';
-    if (types.top && types.mattress) mix = 'mixed';
+    if (types.mattress && (types.top || types.parcel)) mix = 'mixed';
+    else if (types.top && types.parcel) mix = 'mixed';
     else if (types.top) mix = 'top';
+    else if (types.parcel) mix = 'parcel';
+    var unit = (winner && winner.leadUnit) || 'weeks';
+    var min = winner ? parseInt(winner.leadMin, 10) || 0 : 0;
+    var max = winner ? parseInt(winner.leadMax, 10) || 0 : 0;
+    var display = min === max ? max + ' ' + unit : min + ' to ' + max + ' ' + unit;
     return {
       min: min,
       max: max,
-      display: min === max ? max + ' weeks' : min + ' to ' + max + ' weeks',
+      unit: unit,
+      display: display,
       mix: mix,
     };
   }
@@ -1462,7 +1625,7 @@
 
   function mattressUnitsFromLines(lines) {
     return (lines || []).reduce(function (sum, line) {
-      if (line.itemType === 'top') return sum;
+      if (isAccessoryType(line.itemType)) return sum;
       return sum + (parseInt(line.quantity, 10) || 0);
     }, 0);
   }
@@ -1779,9 +1942,7 @@
               var qty = parseInt(line.quantity, 10) || 0;
               var total = formatLineTotal(line);
               var title =
-                line.itemType === 'top'
-                  ? 'Spare comfort top · ' + (line.label || '')
-                  : (line.label || '') + ' · ' + qty;
+                orderLineTitle(line);
               var meta = line.dims || '';
               var remove =
                 line.key
@@ -1826,7 +1987,7 @@
       });
 
       if (stageBSummary) {
-        var mattressLines = lines.filter(function (l) { return l.itemType !== 'top'; });
+        var mattressLines = lines.filter(isMattressLine);
         stageBSummary.textContent = mattressLines
           .map(function (l) {
             return (l.label || '') + ' · ' + (parseInt(l.quantity, 10) || 0);
@@ -2483,13 +2644,20 @@
           Market: String(market).toUpperCase(),
           'Payment mode': paymentMode,
           'Lead time placement': leadtimePlacement,
-          'Item type': line.itemType === 'top' ? 'Spare comfort top' : 'Mattress',
+          'Item type':
+            line.itemType === 'top'
+              ? 'Comfort layer'
+              : line.itemType === 'sheets'
+                ? 'Bed sheets'
+                : line.itemType === 'pillows'
+                  ? 'Pillows'
+                  : 'Mattress',
           _lead_min: String(line.leadMin != null ? line.leadMin : leadMin),
           _lead_max: String(line.leadMax != null ? line.leadMax : leadMax),
         },
       };
       if (line.itemType === 'top') {
-        payload.properties.Note = 'Spare comfort top - not a replacement for the included top';
+        payload.properties.Note = 'Comfort layer - not a replacement for the included layer';
       }
       if (large) {
         payload.properties['Order terms'] =
@@ -2680,10 +2848,7 @@
         .map(function (line) {
           var qty = parseInt(line.quantity, 10) || 0;
           var total = formatLineTotal(line);
-          var label =
-            line.itemType === 'top'
-              ? 'Spare comfort top · ' + (line.label || '')
-              : line.label || 'Mattress';
+          var label = orderLineTitle(line);
           return (
             '<li class="cart-line" data-cart-line data-order-line-key="' +
             (line.key || '') +
@@ -2832,16 +2997,18 @@
     function applyLeadCopy(resolved) {
       var mattressCopy = page.querySelector('[data-leadtime-copy]');
       var topCopy = page.querySelector('[data-leadtime-copy-top]');
+      var parcelCopy = page.querySelector('[data-leadtime-copy-parcel]');
       var mixedCopy = page.querySelector('[data-leadtime-copy-mixed]');
       var explain = page.querySelector('[data-leadtime-explain]');
       if (leadLabel) leadLabel.textContent = resolved.display || leadWindow;
       if (mattressCopy) mattressCopy.hidden = resolved.mix !== 'mattress';
       if (topCopy) topCopy.hidden = resolved.mix !== 'top';
+      if (parcelCopy) parcelCopy.hidden = resolved.mix !== 'parcel';
       if (mixedCopy) {
         mixedCopy.hidden = resolved.mix !== 'mixed';
         if (resolved.mix === 'mixed') {
           mixedCopy.textContent =
-            'Your order includes a mattress and a comfort top. We use the longer window (' +
+            'Your order includes items with different lead times. We use the longer window (' +
             resolved.display +
             ') so everything can arrive together.';
         }
@@ -2849,6 +3016,8 @@
       if (explain) {
         if (resolved.mix === 'top') {
           explain.textContent = 'Sent by courier. Unroll and give it a few hours to recover its full height.';
+        } else if (resolved.mix === 'parcel') {
+          explain.textContent = 'Sent by courier.';
         } else if (resolved.mix === 'mixed') {
           explain.textContent = 'Delivery is charged once. The longer window applies to the whole order.';
         } else {
@@ -2887,9 +3056,7 @@
             var qty = parseInt(line.quantity, 10) || 0;
             var total = formatLineTotal(line);
             var title =
-              line.itemType === 'top'
-                ? 'Spare comfort top · ' + (line.label || '')
-                : (line.label || '') + ' · ' + qty;
+            orderLineTitle(line);
             return (
               '<li class="cart-line order-basket__line">' +
               '<span class="order-basket__line-l">' +
@@ -2908,7 +3075,7 @@
       if (countEl) countEl.textContent = units === 1 ? '1 unit' : units + ' units';
       if (summaryEl) {
         summaryEl.textContent = lines
-          .filter(function (l) { return l.itemType !== 'top'; })
+          .filter(isMattressLine)
           .map(function (l) {
             return (l.label || '') + ' · ' + (parseInt(l.quantity, 10) || 0);
           })
@@ -3021,7 +3188,7 @@
           return;
         }
         var sync = window.ValtoraUTM ? window.ValtoraUTM.syncCartAttributes() : Promise.resolve();
-        var mattressLines = lines.filter(function (l) { return l.itemType !== 'top'; });
+        var mattressLines = lines.filter(isMattressLine);
         var primary = mattressLines[0] || lines[0] || {};
         var cartLead = resolveCartLeadTime(lines);
         var orderAttrs = {
@@ -3072,7 +3239,14 @@
                     properties: {
                       Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
                       Market: String(line.market || market).toUpperCase(),
-                      'Item type': line.itemType === 'top' ? 'Spare comfort top' : 'Mattress',
+                      'Item type':
+            line.itemType === 'top'
+              ? 'Comfort layer'
+              : line.itemType === 'sheets'
+                ? 'Bed sheets'
+                : line.itemType === 'pillows'
+                  ? 'Pillows'
+                  : 'Mattress',
                       _lead_min: String(line.leadMin != null ? line.leadMin : leadMinDefault),
                       _lead_max: String(line.leadMax != null ? line.leadMax : leadMaxDefault),
                     },
@@ -3095,6 +3269,37 @@
     }
   }
 
+  function initPdpSpecs() {
+    document.querySelectorAll('[data-pdp-spec]').forEach(function (el) {
+      var btn = el.querySelector('[data-pdp-spec-toggle]');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var open = el.classList.toggle('is-open');
+        if (open && window.vTrack) {
+          window.vTrack('spec_opened', { page: el.id || 'pdp-spec' });
+        }
+      });
+    });
+  }
+
+  function lookupAccessoryPrice(root, keys, fallbackText, fallbackRaw) {
+    var map = parseAccessoryPrices(root);
+    var i;
+    for (i = 0; i < keys.length; i++) {
+      if (map[keys[i]]) return map[keys[i]];
+    }
+    return { price: fallbackText || '', raw: fallbackRaw || 0, id: '' };
+  }
+
+  function paintPdpBuy(root, lineText, priceText) {
+    var lineEl = root.querySelector('[data-buy-line]');
+    var priceEl = root.querySelector('[data-top-price], [data-sheet-price], [data-pillow-price]');
+    var totalEl = root.querySelector('[data-buy-total]');
+    if (lineEl) lineEl.innerHTML = lineText;
+    if (priceEl && priceText) priceEl.textContent = priceText;
+    if (totalEl && priceText) totalEl.textContent = priceText;
+  }
+
   function initComfortTop() {
     var root = document.querySelector('[data-comfort-top]');
     if (!root) return;
@@ -3113,9 +3318,36 @@
     var leadMin = parseInt(root.getAttribute('data-lead-min'), 10) || 2;
     var leadMax = parseInt(root.getAttribute('data-lead-max'), 10) || 3;
     var leadWindow = root.getAttribute('data-lead-window') || '2 to 3 weeks';
-    var priceText =
+    var fallbackRaw = parseInt(
+      root.getAttribute('data-top-price-raw-' + market) ||
+        root.getAttribute('data-top-price-raw'),
+      10
+    );
+    var fallbackText =
       (root.querySelector('[data-top-price]') && root.querySelector('[data-top-price]').textContent) ||
-      (market === 'gb' ? '£250' : 'AED 1,200');
+      '';
+
+    function currentPrice() {
+      if (!selectedSize) return { price: fallbackText, raw: fallbackRaw, id: '' };
+      return lookupAccessoryPrice(
+        root,
+        [selectedSize.id, selectedSize.label.toLowerCase(), selectedSize.id + '-' + (selectedFirm || '').toLowerCase()],
+        fallbackText,
+        fallbackRaw
+      );
+    }
+
+    function paint() {
+      if (!selectedSize) return;
+      var pr = currentPrice();
+      var line =
+        selectedSize.label +
+        (selectedFirm ? ' · ' + selectedFirm : '') +
+        '<br><span class="pdp-opt__sub">' +
+        selectedSize.dims +
+        '</span>';
+      paintPdpBuy(root, line, pr.price);
+    }
 
     vTrackOnce('top_page_view', {
       entry_point: topEntryPoint(),
@@ -3132,18 +3364,23 @@
     if (sizeBox) {
       sizeBox.innerHTML = sizes
         .map(function (s) {
+          var pr = lookupAccessoryPrice(root, [s.id, s.label.toLowerCase()], '', fallbackRaw);
           return (
-            '<button type="button" class="size-chip" role="option" data-top-size="' +
+            '<button type="button" class="pdp-opt" role="option" data-top-size="' +
             s.id +
             '" data-size-label="' +
             s.label +
             '" data-size-dims="' +
             s.dims +
             '">' +
+            '<span class="pdp-opt__rd" aria-hidden="true"></span>' +
+            '<span><span class="pdp-opt__nm">' +
             s.label +
-            '<small>' +
+            '</span><span class="pdp-opt__sub">' +
             s.dims +
-            '</small></button>'
+            '</span></span>' +
+            (pr.price ? '<span class="pdp-opt__pr">' + pr.price + '</span>' : '') +
+            '</button>'
           );
         })
         .join('');
@@ -3152,13 +3389,16 @@
       selectedSize = sizes.filter(function (s) { return s.id === id; })[0] || null;
       if (!selectedSize) return;
       root.querySelectorAll('[data-top-size]').forEach(function (btn) {
-        btn.setAttribute('aria-selected', btn.getAttribute('data-top-size') === id ? 'true' : 'false');
+        var on = btn.getAttribute('data-top-size') === id;
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        btn.classList.toggle('is-on', on);
       });
       if (known) {
         root.querySelectorAll('[data-top-size]').forEach(function (btn) {
           btn.disabled = btn.getAttribute('data-top-size') !== id;
         });
       }
+      paint();
       vTrack('top_size_selected', { size: selectedSize.id, prefilled: !!fromPrefill });
     }
     if (sizeBox) {
@@ -3176,18 +3416,22 @@
     }
     if (known && knownLine && selectedSize) {
       knownLine.hidden = false;
-      knownLine.textContent = 'This replaces the module in your ' + selectedSize.label + '.';
+      knownLine.textContent = 'This replaces the layer in your ' + selectedSize.label + '.';
     }
 
     root.querySelectorAll('[data-top-firmness]').forEach(function (btn) {
       if (selectedFirm && btn.getAttribute('data-top-firmness') === selectedFirm) {
         btn.setAttribute('aria-selected', 'true');
+        btn.classList.add('is-on');
       }
       btn.addEventListener('click', function () {
         selectedFirm = btn.getAttribute('data-top-firmness');
         root.querySelectorAll('[data-top-firmness]').forEach(function (b) {
-          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+          var on = b === btn;
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+          b.classList.toggle('is-on', on);
         });
+        paint();
         vTrack('top_firmness_selected', {
           firmness: selectedFirm,
           same_as_current: !!(preFirm && selectedFirm.toLowerCase() === preFirm.toLowerCase()),
@@ -3212,30 +3456,238 @@
           }
           return;
         }
+        var pr = currentPrice();
         OrderStore.addLine({
           itemType: 'top',
           sizeId: selectedSize.id,
           label: selectedSize.label,
           dims: selectedSize.dims,
           firmness: selectedFirm,
-          unitPrice: priceText,
-          priceRaw: parseInt(
-            root.getAttribute('data-top-price-raw-' + market) ||
-              root.getAttribute('data-top-price-raw'),
-            10
-          ),
-          variantId: root.getAttribute('data-variant-id') || '',
+          unitPrice: pr.price,
+          priceRaw: pr.raw || fallbackRaw,
+          variantId: pr.id || root.getAttribute('data-variant-id') || '',
           quantity: 1,
           market: market,
           leadWindow: leadWindow,
           leadMin: leadMin,
           leadMax: leadMax,
+          leadUnit: root.getAttribute('data-lead-unit') || 'weeks',
         });
         vTrack('top_add_to_cart', {
           size: selectedSize.id,
           firmness: selectedFirm,
           entry_point: topEntryPoint(),
         });
+        if (status) {
+          status.hidden = false;
+          status.textContent = 'Added. Continue to checkout when you are ready.';
+        }
+      });
+    }
+  }
+
+  function initBedSheets() {
+    var root = document.querySelector('[data-bed-sheets]');
+    if (!root) return;
+    var market = document.documentElement.getAttribute('data-market') || detectMarket();
+    var sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+    var sizeBox = root.querySelector('[data-sheet-sizes]');
+    var selectedSize = null;
+    var selectedColour = 'Bone';
+    var leadMin = parseInt(root.getAttribute('data-lead-min'), 10) || 3;
+    var leadMax = parseInt(root.getAttribute('data-lead-max'), 10) || 5;
+    var leadWindow = root.getAttribute('data-lead-window') || '3 to 5 days';
+    var fallbackRaw = parseInt(root.getAttribute('data-sheets-price-raw'), 10);
+    var fallbackText =
+      (root.querySelector('[data-sheet-price]') && root.querySelector('[data-sheet-price]').textContent) ||
+      '';
+
+    function currentPrice() {
+      if (!selectedSize) return { price: fallbackText, raw: fallbackRaw, id: '' };
+      return lookupAccessoryPrice(
+        root,
+        [
+          selectedSize.id,
+          selectedSize.label.toLowerCase(),
+          selectedSize.id + '-' + selectedColour.toLowerCase(),
+        ],
+        fallbackText,
+        fallbackRaw
+      );
+    }
+
+    function paint() {
+      if (!selectedSize) return;
+      var pr = currentPrice();
+      var line =
+        selectedSize.label +
+        (selectedColour ? ' · ' + selectedColour : '') +
+        '<br><span class="pdp-opt__sub">' +
+        selectedSize.dims +
+        '</span>';
+      paintPdpBuy(root, line, pr.price);
+    }
+
+    if (sizeBox) {
+      sizeBox.innerHTML = sizes
+        .map(function (s) {
+          var pr = lookupAccessoryPrice(root, [s.id, s.label.toLowerCase()], '', fallbackRaw);
+          return (
+            '<button type="button" class="pdp-opt" role="option" data-sheet-size="' +
+            s.id +
+            '">' +
+            '<span class="pdp-opt__rd" aria-hidden="true"></span>' +
+            '<span><span class="pdp-opt__nm">' +
+            s.label +
+            '</span><span class="pdp-opt__sub">' +
+            s.dims +
+            ' · 40cm depth</span></span>' +
+            (pr.price ? '<span class="pdp-opt__pr">' + pr.price + '</span>' : '') +
+            '</button>'
+          );
+        })
+        .join('');
+      sizeBox.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-sheet-size]');
+        if (!btn) return;
+        var id = btn.getAttribute('data-sheet-size');
+        selectedSize = sizes.filter(function (s) { return s.id === id; })[0] || null;
+        root.querySelectorAll('[data-sheet-size]').forEach(function (b) {
+          var on = b === btn;
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+          b.classList.toggle('is-on', on);
+        });
+        paint();
+      });
+    }
+
+    root.querySelectorAll('[data-sheet-colour]').forEach(function (btn) {
+      if (btn.getAttribute('data-sheet-colour') === selectedColour) {
+        btn.classList.add('is-on');
+        btn.setAttribute('aria-selected', 'true');
+      }
+      btn.addEventListener('click', function () {
+        selectedColour = btn.getAttribute('data-sheet-colour');
+        root.querySelectorAll('[data-sheet-colour]').forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        paint();
+      });
+    });
+
+    var addBtn = root.querySelector('[data-sheet-add]');
+    var status = root.querySelector('[data-sheet-status]');
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        if (!accessoryAllowed('sheets')) return;
+        if (!selectedSize) {
+          if (status) {
+            status.hidden = false;
+            status.textContent = 'Choose a size.';
+          }
+          return;
+        }
+        var pr = currentPrice();
+        OrderStore.addLine({
+          itemType: 'sheets',
+          sizeId: selectedSize.id,
+          label: selectedSize.label,
+          dims: selectedSize.dims,
+          colour: selectedColour,
+          unitPrice: pr.price,
+          priceRaw: pr.raw || fallbackRaw,
+          variantId: pr.id || root.getAttribute('data-variant-id') || '',
+          quantity: 1,
+          market: market,
+          leadWindow: leadWindow,
+          leadMin: leadMin,
+          leadMax: leadMax,
+          leadUnit: root.getAttribute('data-lead-unit') || 'days',
+        });
+        vTrack('sheets_add_to_cart', { size: selectedSize.id, colour: selectedColour });
+        if (status) {
+          status.hidden = false;
+          status.textContent = 'Added. Continue to checkout when you are ready.';
+        }
+      });
+    }
+  }
+
+  function initPillows() {
+    var root = document.querySelector('[data-pillows]');
+    if (!root) return;
+    var market = document.documentElement.getAttribute('data-market') || detectMarket();
+    var selected = null;
+    var leadMin = parseInt(root.getAttribute('data-lead-min'), 10) || 3;
+    var leadMax = parseInt(root.getAttribute('data-lead-max'), 10) || 5;
+    var leadWindow = root.getAttribute('data-lead-window') || '3 to 5 days';
+    var fallbackRaw = parseInt(root.getAttribute('data-pillow-price-raw'), 10);
+    var fallbackText =
+      (root.querySelector('[data-pillow-price]') && root.querySelector('[data-pillow-price]').textContent) ||
+      '';
+    var dims = root.getAttribute('data-pillow-dims') || '';
+
+    function paint() {
+      if (!selected) return;
+      var name = selected.getAttribute('data-pillow-label') || selected.querySelector('.pdp-opt__nm').textContent;
+      var loft = selected.getAttribute('data-pillow-loft') || '';
+      var line =
+        name +
+        (dims ? '<br><span class="pdp-opt__sub">' + dims + '</span>' : loft ? '<br><span class="pdp-opt__sub">' + loft + '</span>' : '');
+      paintPdpBuy(root, line, fallbackText);
+    }
+
+    root.querySelectorAll('[data-pillow-sleep]').forEach(function (btn) {
+      if (!btn.getAttribute) return;
+      var sleep = btn.getAttribute('data-pillow-sleep');
+      if (!sleep || btn.tagName !== 'BUTTON') return;
+      var nm = btn.querySelector('.pdp-opt__nm');
+      if (nm) btn.setAttribute('data-pillow-label', nm.textContent);
+      btn.addEventListener('click', function () {
+        selected = btn;
+        root.querySelectorAll('button[data-pillow-sleep]').forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        paint();
+      });
+    });
+
+    var addBtn = root.querySelector('[data-pillow-add]');
+    var status = root.querySelector('[data-pillow-status]');
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        if (!accessoryAllowed('pillows')) return;
+        if (!selected) {
+          if (status) {
+            status.hidden = false;
+            status.textContent = 'Choose how you sleep.';
+          }
+          return;
+        }
+        var sleep = selected.getAttribute('data-pillow-sleep');
+        var name = selected.getAttribute('data-pillow-label') || '';
+        OrderStore.addLine({
+          itemType: 'pillows',
+          sizeId: sleep,
+          label: name,
+          dims: dims,
+          sleep: sleep,
+          firmness: sleep,
+          unitPrice: fallbackText,
+          priceRaw: fallbackRaw,
+          variantId: root.getAttribute('data-variant-id') || '',
+          quantity: 1,
+          market: market,
+          leadWindow: leadWindow,
+          leadMin: leadMin,
+          leadMax: leadMax,
+          leadUnit: root.getAttribute('data-lead-unit') || 'days',
+        });
+        vTrack('pillows_add_to_cart', { sleep: sleep });
         if (status) {
           status.hidden = false;
           status.textContent = 'Added. Continue to checkout when you are ready.';
@@ -3296,9 +3748,7 @@
               var qty = parseInt(line.quantity, 10) || 0;
               var lineTotal = formatLineTotal(line);
               var title =
-                line.itemType === 'top'
-                  ? 'Spare comfort top · ' + (line.label || '')
-                  : (line.label || '') + ' · ' + qty;
+                orderLineTitle(line);
               return (
                 '<li class="checkout-confirmed__line thanks-order__line">' +
                 '<span>' +
@@ -3985,7 +4435,7 @@
     var tone = (tagline || 'Premium Sleep, Engineered for the Gulf').trim();
     var template =
       (shareTemplate && String(shareTemplate).trim()) ||
-      'Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.';
+      'Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.';
     var desc = template
       .split('[Brand]')
       .join(name)
@@ -4388,6 +4838,7 @@
     initMagneticButtons();
     initTiltCards();
     initFaq();
+    initSpecPanel();
     initAllReserves();
     initLifestyleCaptions();
     initMobileNav();
@@ -4399,6 +4850,9 @@
     initCheckoutPage();
     initOrderConfirmed();
     initComfortTop();
+    initBedSheets();
+    initPillows();
+    initPdpSpecs();
     initReviews();
     initFunnelTracking();
     initExitIntent();
