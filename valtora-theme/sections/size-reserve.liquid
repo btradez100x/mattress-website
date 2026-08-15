@@ -188,7 +188,6 @@
             <span class="size-option__label">{{ section.settings.request_size_label | default: 'Request a size' }}</span>
             <span class="size-option__dims">{{ section.settings.request_size_sublabel | default: 'Tell us what you need - we will discuss it with you' }}</span>
           </span>
-          <span class="size-option__qty size-option__qty--spacer" aria-hidden="true"></span>
           <span class="size-option__price size-option__price--request">Custom</span>
         </button>
         </div>
@@ -214,7 +213,7 @@
       {%- endif -%}
     </div>
 
-    <aside class="reserve-panel" data-reserve-panel>
+    <aside class="reserve-panel order-panel" data-reserve-panel>
       {%- comment -%} Available path - Stage A basket / Stage B lead time {%- endcomment -%}
       <div data-reserve-available>
         {%- comment -%} Stage A: basket summary only (V4.1) {%- endcomment -%}
@@ -337,7 +336,7 @@
               class="notify-form__input notify-form__textarea"
               name="contact[body]"
               rows="3"
-              placeholder="Anything we should know - bed base, split preference, delivery notes…"
+              placeholder="Anything we should know - bed base, split preference, delivery notes"
               data-request-notes-input
             ></textarea>
 
@@ -353,15 +352,29 @@
             >
 
             <label class="notify-form__label" for="RequestPhone-{{ section.id }}">Phone / WhatsApp (optional)</label>
-            <input
-              id="RequestPhone-{{ section.id }}"
-              class="notify-form__input"
-              type="tel"
-              name="contact[phone]"
-              autocomplete="tel"
-              placeholder="+971 …"
-              data-request-phone-input
-            >
+            <div class="phone-cc-row">
+              <select
+                id="RequestPhoneCode-{{ section.id }}"
+                class="notify-form__input"
+                data-phone-cc
+                aria-label="Country code"
+              >
+                <option value="+44">+44</option>
+                <option value="+971">+971</option>
+                <option value="+1">+1</option>
+                <option value="+233">+233</option>
+                <option value="+234">+234</option>
+              </select>
+              <input
+                id="RequestPhone-{{ section.id }}"
+                class="notify-form__input"
+                type="tel"
+                autocomplete="tel"
+                placeholder="Phone number"
+                data-request-phone-input
+              >
+            </div>
+            <input type="hidden" name="contact[phone]" data-request-phone-combined value="">
 
             <button class="btn" type="submit" style="width:100%;margin-top:0.75rem;">
               {{ section.settings.request_size_button | default: 'Send size request' }}

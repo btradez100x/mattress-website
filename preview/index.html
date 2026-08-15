@@ -6,22 +6,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#1F3A5F">
     <title>Aligna Mattresses</title>
-    <meta name="description" content="Premium Sleep, Engineered for the Gulf · Aligna. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.">
+    <meta name="description" content="A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.">
     <meta name="application-name" content="Aligna">
     <meta name="apple-mobile-web-app-title" content="Aligna">
     <meta property="og:site_name" content="Aligna">
     <meta property="og:title" content="Aligna Mattresses">
-    <meta property="og:description" content="Premium Sleep, Engineered for the Gulf · Aligna. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.">
+    <meta property="og:description" content="A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="./">
     <meta property="og:image" content="./assets/hero-mattress.jpg">
     <meta property="og:image:alt" content="Aligna Mattresses">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Aligna Mattresses">
-    <meta name="twitter:description" content="Premium Sleep, Engineered for the Gulf · Aligna. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.">
+    <meta name="twitter:description" content="A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.">
     <meta name="twitter:image" content="./assets/hero-mattress.jpg">
     <meta name="twitter:image:alt" content="Aligna Mattresses">
-    <script type="application/json" id="ShareBrandData">{"brand":"Aligna","line":"Mattresses","tagline":"Premium Sleep, Engineered for the Gulf","description":"Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.","image":"assets/hero-mattress.jpg"}</script>
+    <script type="application/json" id="ShareBrandData">{"brand":"Aligna","line":"Mattresses","tagline":"A better bed, for life.","description":"A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.","image":"assets/hero-mattress.jpg"}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -372,8 +372,8 @@
       <span style="display:inline-flex;flex-wrap:wrap;gap:0.65rem 1rem;align-items:center;margin-left:0.75rem;justify-content:center;">
         <label>Brand <input id="PreviewBrandName" type="text" value="Aligna" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
         <label>Line <input id="PreviewBrandLine" type="text" value="Mattresses" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
-        <label title="On-site tagline for the selected market (footer and share [Tagline] token). Type a different slogan per market to preview.">Tagline <input id="PreviewTagline" type="text" value="Premium Sleep, Engineered for the Gulf" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:18rem;color:#000;background:#F7F5F1;"></label>
-        <label title="Link preview / Open Graph description. Tokens: [Brand] [Line] [Tagline]">Share copy <input id="PreviewShareCopy" type="text" value="Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:22rem;color:#000;background:#F7F5F1;"></label>
+        <label title="On-site tagline for the selected market (footer and share [Tagline] token). Type a different slogan per market to preview.">Tagline <input id="PreviewTagline" type="text" value="A better bed, for life." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:18rem;color:#000;background:#F7F5F1;"></label>
+        <label title="Link preview / Open Graph description. Tokens: [Brand] [Line] [Tagline]">Share copy <input id="PreviewShareCopy" type="text" value="A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:22rem;color:#000;background:#F7F5F1;"></label>
         <button type="button" id="PreviewShareBrandSave" class="preview-banner__btn" title="Download share-brand.json so phone link previews use this brand and share copy">Save share card</button>
         <label>Market
           <select id="PreviewMarket" aria-label="Market">
@@ -682,7 +682,7 @@
             </div>
             <p class="size-guide-link"><a href="#measure">How to measure your size</a> · <a href="./pages/size-guide.html">Size guide</a></p>
           </div>
-          <aside class="reserve-panel" data-reserve-panel>
+          <aside class="reserve-panel order-panel" data-reserve-panel>
 <div data-reserve-available>
             <div data-reserve-stage-a>
               <p class="order-basket__eyebrow">Your order</p>
@@ -729,7 +729,17 @@
               <label class="notify-form__label">Email</label>
               <input class="notify-form__input" type="email" required placeholder="you@email.com">
               <label class="notify-form__label">Phone / WhatsApp (optional)</label>
-              <input class="notify-form__input" type="tel" placeholder="+971 …" data-request-phone-input>
+              <div class="phone-cc-row">
+                <select class="notify-form__input" data-phone-cc aria-label="Country code">
+                  <option value="+44">+44</option>
+                  <option value="+971">+971</option>
+                  <option value="+1">+1</option>
+                  <option value="+233">+233</option>
+                  <option value="+234">+234</option>
+                </select>
+                <input class="notify-form__input" type="tel" placeholder="Phone number" data-request-phone-input>
+              </div>
+              <input type="hidden" name="contact[phone]" data-request-phone-combined value="">
               <button class="btn" type="submit" style="width:100%;margin-top:0.75rem;">Send size request</button>
             </form>
             <p class="request-size-whatsapp">
@@ -870,7 +880,7 @@
           <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 0ms">Before you reserve</p>
           <hr class="gold-rule" data-reveal-child style="--reveal-delay: 50ms">
           <h2 data-reveal-child style="--reveal-delay: 100ms">Measure in centimetres. Order the size that matches.</h2>
-          <p class="section__lede" data-reveal-child style="--reveal-delay: 150ms">Size names differ by market. A UAE King is not a UK King. Always trust the centimetre dimensions - not the label on the tag.</p>
+          <p class="section__lede" data-reveal-child style="--reveal-delay: 150ms">Bed sizes vary between manufacturers. Always trust the centimetre dimensions, not the name on the label.</p>
           <ol class="measure-size__steps">
             <li class="measure-size__step" data-reveal-child style="--reveal-delay: 200ms">
               <span class="measure-size__num" aria-hidden="true">01</span>
@@ -901,7 +911,7 @@
               </div>
             </li>
           </ol>
-          <p class="measure-size__link" data-reveal-child style="--reveal-delay: 400ms"><a href="./pages/size-guide.html">Full size guide (UAE vs UK)</a></p>
+          <p class="measure-size__link" data-reveal-child style="--reveal-delay: 400ms"><a href="./pages/size-guide.html">Full size guide</a></p>
         </div>
       </section>
 
@@ -919,7 +929,7 @@
             <hr class="gold-rule" data-reveal-child style="--reveal-delay: 100ms">
             <h2 data-reveal-child style="--reveal-delay: 150ms">Built from years of studying sleep.</h2>
             <div class="founder-note__body rte" data-reveal-child style="--reveal-delay: 200ms">
-              <p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. <span data-brand-text>Aligna</span> is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort layer you can refresh instead of replacing the whole bed.</p>
+              <p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. <span data-brand-text>Aligna</span> is the mattress that came from that work: deep support, a surface that does not hold heat, and a layer you can refresh instead of replacing the whole bed.</p>
               <p>Each one is made to order. Pay in full today - cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>
               <p class="pdp-discover" data-pillows-discover hidden><a href="./pages/pillows.html?pillows=1">The right height for how you sleep.</a></p>
             </div>
@@ -1231,7 +1241,7 @@
       </section>
 
       <!-- Reserve (late) -->
-      <section data-reserve-section class="section" id="reserve-late" data-reveal data-admin-section="reserve-late" data-section-ground="auto">
+      <section data-reserve-section class="section section--surface" id="reserve-late" data-reveal data-admin-section="reserve-late" data-section-ground="surface">
         
 
 <script type="application/json" data-size-price-config>
@@ -1282,7 +1292,7 @@
             </div>
             <p class="size-guide-link"><a href="#measure">How to measure your size</a> · <a href="./pages/size-guide.html">Size guide</a></p>
           </div>
-          <aside class="reserve-panel" data-reserve-panel>
+          <aside class="reserve-panel order-panel" data-reserve-panel>
 <div data-reserve-available>
             <div data-reserve-stage-a>
               <p class="order-basket__eyebrow">Your order</p>
@@ -1329,7 +1339,17 @@
               <label class="notify-form__label">Email</label>
               <input class="notify-form__input" type="email" required placeholder="you@email.com">
               <label class="notify-form__label">Phone / WhatsApp (optional)</label>
-              <input class="notify-form__input" type="tel" placeholder="+971 …" data-request-phone-input>
+              <div class="phone-cc-row">
+                <select class="notify-form__input" data-phone-cc aria-label="Country code">
+                  <option value="+44">+44</option>
+                  <option value="+971">+971</option>
+                  <option value="+1">+1</option>
+                  <option value="+233">+233</option>
+                  <option value="+234">+234</option>
+                </select>
+                <input class="notify-form__input" type="tel" placeholder="Phone number" data-request-phone-input>
+              </div>
+              <input type="hidden" name="contact[phone]" data-request-phone-combined value="">
               <button class="btn" type="submit" style="width:100%;margin-top:0.75rem;">Send size request</button>
             </form>
             <p class="request-size-whatsapp">
@@ -1350,91 +1370,91 @@
           <p class="section__eyebrow">Questions</p>
           <h2>Clear answers.</h2>
           <div class="faq__list" data-faq>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-1" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Why does it take 8 to 10 weeks?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-2" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger>
                 <span>What does it feel like?</span>
                 <span class="faq__icon" aria-hidden="true"></span>
               </button>
               <div class="faq__panel">You choose. The comfort module inside has a softer face and a firmer face - flip it to change. Soft suits side sleepers and lighter frames; firm suits back and front sleepers and heavier frames. If you are used to a very soft mattress, either setting will feel firmer for the first week or so while your body adjusts.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-3" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger>
                 <span>How do I change the firmness?</span>
                 <span class="faq__icon" aria-hidden="true"></span>
               </button>
               <div class="faq__panel">Open the zip on the side of the mattress, lift out the comfort module, turn it over and put it back. Two minutes, no tools. One side is softer, the other is firmer. You can do it as often as you like and it costs nothing.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-4" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger>
                 <span>What if my partner and I want different firmnesses?</span>
                 <span class="faq__icon" aria-hidden="true"></span>
               </button>
               <div class="faq__panel">The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your 100 nights and we will collect it and refund you in full.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-5" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger>
                 <span>Will my mattress look exactly like the photographs?</span>
                 <span class="faq__icon" aria-hidden="true"></span>
               </button>
               <div class="faq__panel">Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.<br><br>What never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.<br><br>If yours arrives and you are not happy with it for any reason, including how it looks, you have 100 nights to tell us and we will collect it and refund you in full.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-6" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Can I change my mind after ordering?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have 100 nights.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-7" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What if it is late?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">We give a delivery window rather than a single date because international freight can move. If we are going to miss the window we will tell you before you find out, and you can cancel for a full refund at any point before dispatch.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-8" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What if I do not like it?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">You have 100 nights to decide. If it is not right we collect it and refund you.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-9" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>How much is a comfort layer?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.<br><br>The same layer works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-10" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Will I feel my partner moving?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Much less than on a conventional sprung mattress. Every spring is individually wrapped in its own pocket, so it compresses on its own rather than pulling its neighbours with it. Add 10cm of foam above that and most movement is absorbed before it reaches you.<br><br>It is not complete isolation - no sprung mattress is - but if you are currently woken every time your partner turns over, this will be a noticeable change.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-11" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Can I use a comfort layer on a different mattress?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Yes. It is 10cm of the same foam we build our own mattress with, in a quilted cover, in standard bed sizes. On our mattress it goes inside, behind the zip. On any other mattress it sits on top as a topper.<br><br>It will not fix a mattress that has failed. If yours has dipped or the springs have gone, a topper masks that for a while rather than solving it. On a mattress that is still sound, it changes how it feels.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-12" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Will it fit my sheets?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Our mattress is 37cm, which is deeper than standard fitted sheets allow for. You will need deep-fitted sheets, sold as 35cm or 40cm depth.<br><br>If you are using a comfort layer on your own mattress, add 10cm to whatever your mattress measures now and check against that.<span data-sheets-discover hidden><br><br><a href="./pages/bed-sheets.html?sheets=1">Sheets that fit.</a></span></div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-13" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is the price negotiable?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">No. We sell direct and price the same for everyone, which is how the price stays where it is.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-14" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Do I pay in full today?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna, Tabby or Tamara where available. Cancel any time before dispatch for a full refund.</div>
+              <div class="faq__panel">Yes. You pay the full mattress price at checkout. <span data-market-only="gb">You can spread the cost with Klarna.</span><span data-market-only="ae">You can spread the cost with Tabby or Tamara.</span> Cancel any time before dispatch for a full refund.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-15" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Which size should I choose?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">Use the size selector on this page - dimensions are always shown in cm. UAE and UK sizes differ (a UAE King is wider than a UK King). See the size guide for a full comparison.</div>
+              <div class="faq__panel">Use the size selector on this page. Dimensions are always shown in centimetres, so measure your bed and match the numbers rather than the name. The size guide has every size in full.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-16" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>How does the replaceable layer work?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Unzip, lift out, swap in when the comfort layer is worn. To change firmness, flip the module inside - you do not need a new layer.</div>
             </div>
-            <div class="faq__item" data-faq-item aria-expanded="false">
+            <div class="faq__item" id="faq-17" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What is the warranty?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">15-year warranty on the spring core. Full terms: <a href="./pages/warranty.html">Warranty</a>.</div>
             </div>
-            <div class="faq__item" data-claim-chemicals hidden data-faq-item aria-expanded="false">
+            <div class="faq__item" data-claim-chemicals hidden id="faq-18" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is it free from harmful chemicals?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Yes. Materials are selected to be free from harmful chemicals for cleaner sleep.</div>
             </div>
-            <div class="faq__item" data-claim-oeko hidden data-faq-item aria-expanded="false">
+            <div class="faq__item" data-claim-oeko hidden id="faq-19" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is it OEKO-TEX® certified?</span><span class="faq__icon" aria-hidden="true"></span></button>
               <div class="faq__panel">Relevant textiles are OEKO-TEX® STANDARD 100 certified - independently tested against a strict catalogue of criteria. <span data-oeko-cert-no></span></div>
             </div>
@@ -1447,7 +1467,7 @@
         <div class="page-width">
           <hr class="gold-rule">
           <h2>Styled by <span data-brand-text>Aligna</span></h2>
-          <p class="section__lede">Soft light. Quiet rooms. Hotel-grade depth in real homes - not a showroom aisle.</p>
+          <p class="section__lede">Soft light. Quiet rooms. Real homes, not a showroom aisle.</p>
           <div class="lifestyle-collage__masonry" role="list">
             <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 0ms">
               <div class="lifestyle-collage__frame lifestyle-collage__item--wide">
@@ -1481,9 +1501,9 @@
             </figure>
             <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 250ms">
               <div class="lifestyle-collage__frame lifestyle-collage__item--square">
-              <img class="lifestyle-collage__img" src="./assets/lifestyle-edge.jpg" alt="Hotel-grade mattress edge detail" width="1200" height="1200" loading="lazy">
+              <img class="lifestyle-collage__img" src="./assets/lifestyle-edge.jpg" alt="Edge support" width="1200" height="1200" loading="lazy">
               </div>
-              <figcaption class="lifestyle-collage__caption">Hotel-grade edge</figcaption>
+              <figcaption class="lifestyle-collage__caption">Edge support</figcaption>
             </figure>
           </div>
         </div>
@@ -1500,7 +1520,7 @@
             <span class="wordmark__product" data-brand-product-line>Mattresses</span>
           </span>
         </a>
-          <p><span data-brand-tagline>Premium Sleep, Engineered for the Gulf</span>. A better bed, for life. Refresh it, don't replace it.</p>
+          <p><span data-market-only="gb">A better bed, for life. Refresh it, do not replace it.</span><span data-market-only="ae">Engineered for the Gulf. A better bed, for life. Refresh it, do not replace it.</span></p>
           <div class="site-footer__contact">
             <p class="site-footer__company"><strong data-business-name>Valtora FZE</strong></p>
             <p class="site-footer__trading" data-trading-as-wrap>Trading as Aligna Mattresses</p>
@@ -1624,7 +1644,7 @@
         var taglineInput = document.getElementById('PreviewTagline');
         var shareCopyInput = document.getElementById('PreviewShareCopy');
         var DEFAULT_SHARE =
-          'Premium Sleep, Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.';
+          'A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.';
 
         function expandShareCopy(template, name, line, tagline) {
           var text = (template && String(template).trim()) || DEFAULT_SHARE;
@@ -1663,7 +1683,7 @@
             el.setAttribute('alt', prefix + name + suffix);
           });
           var site = line ? name + ' ' + line : name;
-          var tagline = 'Premium Sleep, Engineered for the Gulf';
+          var tagline = 'A better bed, for life.';
           var shareTemplate = DEFAULT_SHARE;
           var taglineKey = 'ae';
           try {
@@ -1938,7 +1958,7 @@
             localStorage.setItem('valtoraPreviewTaglineMarket', selected);
           } catch (e) {}
           var taglineInput = document.getElementById('PreviewTagline');
-          var nextTagline = 'Premium Sleep, Engineered for the Gulf';
+          var nextTagline = 'A better bed, for life.';
           if (typeof window.__valtoraApplyPreviewTagline === 'function') {
             nextTagline = window.__valtoraApplyPreviewTagline(selected);
           } else if (typeof window.__valtoraResolvePreviewTagline === 'function') {

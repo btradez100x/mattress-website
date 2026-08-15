@@ -18,16 +18,34 @@
     endunless
   endif
 
+  assign share_market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign share_market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign share_market = 'ae'
+  endif
+  assign share_gb = settings.share_description_gb
+  assign share_ae = settings.share_description_ae
+  if share_gb == blank
+    assign share_gb = 'A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.'
+  endif
+  if share_ae == blank
+    assign share_ae = 'Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.'
+  endif
   if page_description != blank
     assign og_description = page_description
+  elsif share_market == 'gb' and share_gb != blank
+    assign og_description = share_gb
+  elsif share_market == 'ae' and share_ae != blank
+    assign og_description = share_ae
   elsif settings.share_description != blank
     assign og_description = settings.share_description
-    assign og_description = og_description | replace: '[Brand]', brand
-    assign og_description = og_description | replace: '[Line]', line
-    assign og_description = og_description | replace: '[Tagline]', tagline
   else
-    assign og_description = tagline | append: ' · ' | append: brand | append: '. A better bed, for life. Refresh it, do not replace it.'
+    assign og_description = share_gb
   endif
+  assign og_description = og_description | replace: '[Brand]', brand
+  assign og_description = og_description | replace: '[Line]', line
+  assign og_description = og_description | replace: '[Tagline]', tagline
 
   assign share_image = page_image
   if share_image == blank and settings.brand_mark != blank

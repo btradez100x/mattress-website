@@ -1,5 +1,5 @@
 {%- comment -%}
-  Section colour arrangement — existing brand grounds only.
+  Section colour arrangement - existing brand grounds only.
   Off-white (--brand-bg), stone (--brand-surface), dark (--brand-primary).
 
   Usage:
@@ -10,6 +10,9 @@
     fallback: 'dark' | 'surface' | 'bg' | 'auto'  (when ground is unset)
     prefix: 'trust-bar'  (emits trust-bar--surface / trust-bar--dark)
     ignore_legacy: true  (do not read old dark/surface checkboxes)
+
+  Leading space is emitted via a filter so Shopify whitespace stripping
+  cannot join "section" + "section--dark" into "sectionsection--dark".
 {%- endcomment -%}
 {%- liquid
   assign g = section.settings.ground | default: ''
@@ -30,7 +33,9 @@
 {%- if as == 'value' -%}
 {{- g -}}
 {%- elsif g == 'dark' -%}
- {{ prefix }}--dark
+{{- prefix | prepend: ' ' | append: '--dark' -}}
 {%- elsif g == 'surface' -%}
- {{ prefix }}--surface
+{{- prefix | prepend: ' ' | append: '--surface' -}}
+{%- elsif g == 'bg' -%}
+{{- prefix | prepend: ' ' | append: '--bg' -}}
 {%- endif -%}

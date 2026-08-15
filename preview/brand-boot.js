@@ -354,7 +354,7 @@
       el.textContent = boot.line;
       el.hidden = !boot.line;
     });
-    var taglineText = 'Premium Sleep, Engineered for the Gulf';
+    var taglineText = 'A better bed, for life.';
     try {
       var taglineKey =
         d.getAttribute('data-tagline-market') ||

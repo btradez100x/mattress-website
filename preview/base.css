@@ -152,6 +152,10 @@ p:last-child {
   padding-block: var(--space-section);
 }
 
+.section--bg {
+  background: var(--brand-bg);
+}
+
 .section--surface {
   background: var(--brand-surface);
 }
@@ -192,13 +196,11 @@ p:last-child {
 }
 
 /* Auto grounds: first-paint stripe so neighbours do not blend before JS. */
-#MainContent > .shopify-section [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark),
-#MainContent [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
+#MainContent > .shopify-section [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
   background: var(--brand-bg);
 }
 
-#MainContent > .shopify-section:nth-child(even) [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark),
-#MainContent > [data-section-ground="auto"]:nth-of-type(even):not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
+#MainContent > .shopify-section:nth-child(even) [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
   background: var(--brand-surface);
 }
 
@@ -267,13 +269,13 @@ p:last-child {
   color: var(--brand-ink);
 }
 
-/* Swap explainer: one 48rem centered column; type starts left within that measure */
+/* Swap explainer: same measure as other homepage dark sections */
 .swap-explainer {
   text-align: start;
 }
 
 .swap-explainer__column {
-  max-width: 48rem;
+  max-width: var(--max-width);
   margin-inline: auto;
   text-align: start;
 }
@@ -890,6 +892,7 @@ a[data-reserve-continue][aria-disabled="true"] {
   }
 }
 
+html.nav-open,
 body.nav-open {
   overflow: hidden;
 }
@@ -1917,14 +1920,15 @@ video[controls],
   color: var(--brand-ink);
 }
 
-/* Specs panel — full-width rule, expands in place */
+/* Specs panel - full-width rules on the cream band, expands in place */
 .section--vspec {
   padding-block: 0;
+  border-top: 1px solid var(--hairline, #D6D2CA);
+  border-bottom: 1px solid var(--hairline, #D6D2CA);
 }
 
 .vspec {
-  border-top: 1px solid var(--hairline, #D6D2CA);
-  border-bottom: 1px solid var(--hairline, #D6D2CA);
+  border: 0;
 }
 
 .vspec__trigger {
@@ -1940,6 +1944,19 @@ video[controls],
   font-family: var(--font-sans);
   text-align: left;
   color: inherit;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vspec__trigger:hover {
+    opacity: 0.72;
+  }
+
+  .vspec__trigger:hover .vspec__label,
+  .vspec__trigger:hover .vspec__hint {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
 }
 
 .vspec__trigger:focus-visible {
@@ -2462,20 +2479,33 @@ video[controls],
   font-variant-numeric: tabular-nums;
 }
 
-/* Mobile: room between size copy and Add/stepper; controls share one centered track. */
+/* Mobile: radio left, price right; Add/−/+ centred in the gap between copy and price. */
 @media (max-width: 899px) {
   .size-option:not(.size-option--request) {
-    grid-template-columns: 1rem minmax(0, 1fr) minmax(6.75rem, 1fr) auto;
-    column-gap: 1rem;
+    grid-template-columns: 1.25rem minmax(0, max-content) minmax(7.25rem, 1fr) auto;
+    column-gap: 0.75rem;
+    align-items: center;
+  }
+
+  .size-option:not(.size-option--request) .size-option__main {
+    min-width: 0;
+    max-width: 11.5rem;
+  }
+
+  .size-option:not(.size-option--request) .size-option__label,
+  .size-option:not(.size-option--request) .size-option__dims {
+    white-space: normal;
   }
 
   .size-option:not(.size-option--request) .size-option__qty {
     justify-content: center;
-    min-width: 6.75rem;
+    justify-self: stretch;
+    min-width: 7.25rem;
   }
 
   .size-option:not(.size-option--request) .size-option__price {
     width: auto;
+    min-width: 5.5rem;
   }
 }
 
@@ -2530,15 +2560,24 @@ video[controls],
   accent-color: var(--brand-primary);
 }
 
-.reserve-panel {
+.reserve-panel,
+.order-panel {
   background: var(--brand-surface);
   border: 1px solid rgba(31, 58, 95, 0.12);
   border-radius: var(--radius-control, 0.35rem);
   padding: clamp(2.15rem, 4.8vw, 2.85rem) clamp(1.6rem, 4vw, 2.4rem);
 }
 
-.section--surface .reserve-panel {
+.section--surface .reserve-panel,
+.section--surface .order-panel {
   background: var(--brand-bg);
+}
+
+.section--bg .reserve-panel,
+.section--bg .order-panel,
+.section:not(.section--surface):not(.section--dark) .reserve-panel,
+.section:not(.section--surface):not(.section--dark) .order-panel {
+  background: var(--brand-surface);
 }
 
 .reserve-panel__price {
@@ -3265,7 +3304,6 @@ video[controls],
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
-  min-width: 32rem;
 }
 
 .size-table th,
@@ -4024,11 +4062,11 @@ video[controls],
 .size-option--request {
   margin-top: 0;
   width: 100%;
-  border-style: dashed;
-  border-color: rgba(31, 58, 95, 0.28);
+  border-style: solid;
+  border-color: rgba(31, 58, 95, 0.14);
   background: #fff;
   overflow: visible;
-  grid-template-columns: 1rem minmax(10rem, 1fr) auto;
+  grid-template-columns: 1.25rem minmax(0, 1fr) auto;
 }
 
 .size-option--request .size-option__qty,
@@ -4046,6 +4084,14 @@ video[controls],
   white-space: normal;
   overflow-wrap: break-word;
   word-break: normal;
+}
+
+@media (max-width: 899px) {
+  .size-option--request {
+    grid-template-columns: 1.25rem minmax(0, 1fr) auto;
+    column-gap: 0.75rem;
+    align-items: center;
+  }
 }
 
 .size-option--request:hover {
@@ -4082,6 +4128,22 @@ video[controls],
   margin-top: 0.35rem;
   display: grid;
   gap: 0.15rem;
+}
+
+.phone-cc-row {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.5rem;
+}
+
+.phone-cc-row select {
+  width: 100%;
+  padding: 0.85rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);
+  background: var(--brand-bg);
+  color: var(--brand-ink);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
 }
 
 .request-size-whatsapp {
@@ -7167,6 +7229,14 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 .size-guide-page .size-table {
   min-width: 0;
+  width: 100%;
+  table-layout: auto;
+}
+.size-guide-page .size-table th,
+.size-guide-page .size-table td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 [data-lead-window-label],

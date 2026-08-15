@@ -112,7 +112,7 @@
             {%- endif -%}
           {%- endfor -%}
         {%- else -%}
-          {%- assign default_captions = 'Cool-knit cover,Reinforced handle,Hotel-grade depth,Edge detail,Side construction,Finish,Profile,In the room' | split: ',' -%}
+          {%- assign default_captions = 'Cool-knit cover,Reinforced handle,Depth,Edge detail,Side construction,Finish,Profile,In the room' | split: ',' -%}
           {%- for file in defaults -%}
             {%- assign gallery_caption = default_captions[forloop.index0] | default: 'Craft detail' -%}
             <figure class="mfg-gallery__item">
@@ -287,7 +287,7 @@
       "blocks": [
         { "type": "gallery_image", "settings": { "caption": "Cool-knit cover" } },
         { "type": "gallery_image", "settings": { "caption": "Reinforced handle" } },
-        { "type": "gallery_image", "settings": { "caption": "Hotel-grade depth" } },
+        { "type": "gallery_image", "settings": { "caption": "Depth" } },
         { "type": "gallery_image", "settings": { "caption": "Edge detail" } },
         { "type": "gallery_image", "settings": { "caption": "Side construction" } },
         { "type": "gallery_image", "settings": { "caption": "Finish" } },

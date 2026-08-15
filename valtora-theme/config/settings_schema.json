@@ -77,57 +77,69 @@
         "type": "text",
         "id": "brand_tagline",
         "label": "Default tagline",
-        "default": "Premium Sleep, Engineered for the Gulf",
+        "default": "A better bed, for life.",
         "info": "Used when the visitor\u2019s country is not UK, UAE, USA, Europe, Ghana, or Nigeria. Also used if a market tagline below is left blank."
       },
       {
         "type": "text",
         "id": "brand_tagline_gb",
         "label": "Tagline (UK)",
-        "default": "Premium Sleep, Engineered for the Gulf",
+        "default": "A better bed, for life.",
         "info": "United Kingdom (GB) only. Other European countries use the Europe tagline."
       },
       {
         "type": "text",
         "id": "brand_tagline_ae",
         "label": "Tagline (UAE)",
-        "default": "Premium Sleep, Engineered for the Gulf",
+        "default": "Engineered for the Gulf",
         "info": "United Arab Emirates (AE)."
       },
       {
         "type": "text",
         "id": "brand_tagline_us",
         "label": "Tagline (USA)",
-        "default": "Premium Sleep, Engineered for the Gulf",
+        "default": "A better bed, for life.",
         "info": "United States (US)."
       },
       {
         "type": "text",
         "id": "brand_tagline_eu",
         "label": "Tagline (Europe, including Albania)",
-        "default": "Premium Sleep, Engineered for the Gulf",
-        "info": "EU, EEA, Switzerland, and nearby European countries including Albania (AL). Not the UK \u2014 GB uses Tagline (UK)."
+        "default": "A better bed, for life.",
+        "info": "EU, EEA, Switzerland, and nearby European countries including Albania (AL). Not the UK - GB uses Tagline (UK)."
       },
       {
         "type": "text",
         "id": "brand_tagline_gh",
         "label": "Tagline (Ghana)",
-        "default": "Premium Sleep, Engineered for the Gulf",
+        "default": "A better bed, for life.",
         "info": "Ghana (GH)."
       },
       {
         "type": "text",
         "id": "brand_tagline_ng",
         "label": "Tagline (Nigeria)",
-        "default": "Premium Sleep, Engineered for the Gulf",
+        "default": "A better bed, for life.",
         "info": "Nigeria (NG)."
       },
       {
         "type": "textarea",
         "id": "share_description",
-        "label": "Share / link-preview copy",
-        "default": "Premium Sleep, Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.",
-        "info": "Shown when someone shares the URL (WhatsApp, iMessage, etc.). Use [Brand], [Line], or [Tagline] as tokens."
+        "label": "Share / link-preview copy (fallback)",
+        "default": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.",
+        "info": "Fallback if a market-specific share field below is blank. Use [Brand], [Line], or [Tagline] as tokens."
+      },
+      {
+        "type": "textarea",
+        "id": "share_description_gb",
+        "label": "Share / link-preview copy (UK)",
+        "default": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order."
+      },
+      {
+        "type": "textarea",
+        "id": "share_description_ae",
+        "label": "Share / link-preview copy (UAE)",
+        "default": "Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress."
       },
       {
         "type": "image_picker",
