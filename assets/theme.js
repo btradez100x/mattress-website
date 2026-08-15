@@ -1288,161 +1288,8 @@
     /* Disabled: tiles use a single in-place scale - no pointer tilt/wobble */
   }
 
-  function unlockPageScroll() {
-    document.body.classList.remove('nav-open');
-    document.body.style.removeProperty('overflow');
-    document.documentElement.style.removeProperty('overflow');
-  }
-
-  function faqChromeOffset() {
-    var header = document.querySelector('header.site-header, .site-header');
-    var offset = header ? Math.round(header.getBoundingClientRect().height) : 0;
-    var sticky = parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue('--sticky-offset')
-    );
-    if (isFinite(sticky) && sticky > 0) offset += sticky;
-    return offset;
-  }
-
-  function faqBasketOffset() {
-    if (!document.body.classList.contains('has-sticky-reserve')) return 0;
-    var bar = document.querySelector('.float-basket:not([hidden]), .sticky-reserve:not([hidden])');
-    if (bar) return Math.round(bar.getBoundingClientRect().height);
-    var reserveOff = parseFloat(
-      getComputedStyle(document.body).getPropertyValue('--sticky-reserve-offset')
-    );
-    return isFinite(reserveOff) && reserveOff > 0 ? reserveOff : 0;
-  }
-
-  function scrollFaqItemIntoView(item) {
-    if (!item) return;
-    var topLimit = faqChromeOffset() + 8;
-    var basket = faqBasketOffset();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    var bottomLimit = vh - basket - 8;
-    var rect = item.getBoundingClientRect();
-    var available = bottomLimit - topLimit;
-    var y = window.pageYOffset;
-    var next = y;
-    if (rect.height > available || rect.top < topLimit) {
-      next = y + rect.top - topLimit;
-    } else if (rect.bottom > bottomLimit) {
-      next = y + (rect.bottom - bottomLimit);
-    } else {
-      return;
-    }
-    window.scrollTo({
-      top: Math.max(0, next),
-      behavior: motionAllowed() ? 'smooth' : 'auto',
-    });
-  }
-
-  function wrapFaqPanels(root) {
-    root.querySelectorAll('.faq__panel').forEach(function (panel) {
-      if (panel.firstElementChild && panel.firstElementChild.classList.contains('faq__panel-inner')) return;
-      var inner = document.createElement('div');
-      inner.className = 'faq__panel-inner';
-      while (panel.firstChild) inner.appendChild(panel.firstChild);
-      panel.appendChild(inner);
-    });
-  }
-
-  function faqSlug(text) {
-    return String(text || '')
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  }
-
-  function faqQueryKey() {
-    try {
-      return String(new URL(location.href).searchParams.get('faq') || '');
-    } catch (e) {
-      return '';
-    }
-  }
-
-  function hashLooksLikeFaq(raw) {
-    var id = specHashId(raw);
-    return id === 'faq' || !!(id && id.indexOf('faq-') === 0);
-  }
-
-  function isFaqArrival(raw) {
-    return hashLooksLikeFaq(raw) || !!faqQueryKey();
-  }
-
-  function ensureFaqItemId(item) {
-    if (!item || item.id) return item && item.id;
-    var trigger = item.querySelector('[data-faq-trigger]');
-    var slug = faqSlug(trigger ? trigger.textContent : '');
-    if (slug) item.id = 'faq-' + slug;
-    return item.id;
-  }
-
-  function findFaqItemForHash(raw) {
-    var id = specHashId(raw);
-    var query = faqQueryKey();
-    var keys = [];
-    if (id && id !== 'faq') keys.push(id);
-    if (query) keys.push(query);
-    if (!keys.length) return null;
-    var items = document.querySelectorAll('[data-faq-item]');
-    var i;
-    for (i = 0; i < items.length; i++) ensureFaqItemId(items[i]);
-    for (i = 0; i < keys.length; i++) {
-      var key = keys[i];
-      var el = document.getElementById(key);
-      if (el && el.hasAttribute('data-faq-item')) return el;
-      el = document.getElementById('faq-' + String(key).replace(/^faq-/, ''));
-      if (el && el.hasAttribute('data-faq-item')) return el;
-    }
-    for (i = 0; i < items.length; i++) {
-      var item = items[i];
-      var slug = faqSlug((item.id || '').replace(/^faq-/, ''));
-      var qEl = item.querySelector('[data-faq-trigger]');
-      var qSlug = faqSlug(qEl ? qEl.textContent : '');
-      for (var k = 0; k < keys.length; k++) {
-        var needle = faqSlug(String(keys[k]).replace(/^faq-/, ''));
-        if (!needle) continue;
-        if (slug === needle || qSlug === needle) return item;
-        if (slug.indexOf(needle) !== -1 || qSlug.indexOf(needle) !== -1) return item;
-      }
-    }
-    return null;
-  }
-
-  function revealFaqFromLocation(raw) {
-    closeMobileNav();
-    unlockPageScroll();
-    var item = findFaqItemForHash(raw);
-    var section = document.getElementById('faq');
-    if (item) {
-      var root = item.closest('[data-faq]');
-      if (root) {
-        root.querySelectorAll('[data-faq-item]').forEach(function (el) {
-          el.setAttribute('aria-expanded', el === item ? 'true' : 'false');
-        });
-      } else {
-        item.setAttribute('aria-expanded', 'true');
-      }
-      var delay = motionAllowed() ? 280 : 0;
-      window.setTimeout(function () {
-        if (item.getAttribute('aria-expanded') !== 'true') return;
-        scrollFaqItemIntoView(item);
-      }, delay);
-      return;
-    }
-    if (section && (specHashId(raw) === 'faq' || !specHashId(raw))) {
-      requestAnimationFrame(function () {
-        scrollFaqItemIntoView(section);
-      });
-    }
-  }
-
   function initFaq() {
-    document.querySelectorAll('[data-faq-item]').forEach(ensureFaqItemId);
     document.querySelectorAll('[data-faq]').forEach(function (root) {
-      wrapFaqPanels(root);
       root.addEventListener('click', function (e) {
         var btn = e.target.closest('[data-faq-trigger]');
         if (!btn || !root.contains(btn)) return;
@@ -1451,86 +1298,9 @@
         root.querySelectorAll('[data-faq-item]').forEach(function (el) {
           el.setAttribute('aria-expanded', 'false');
         });
-        closeMobileNav();
-        unlockPageScroll();
-        if (!open) {
-          item.setAttribute('aria-expanded', 'true');
-          var delay = motionAllowed() ? 280 : 0;
-          window.setTimeout(function () {
-            if (item.getAttribute('aria-expanded') !== 'true') return;
-            scrollFaqItemIntoView(item);
-          }, delay);
-        }
+        if (!open) item.setAttribute('aria-expanded', 'true');
       });
     });
-
-    if (isFaqArrival()) revealFaqFromLocation();
-    window.addEventListener('hashchange', function () {
-      if (document.body.classList.contains('nav-open')) closeMobileNav();
-      if (isFaqArrival()) revealFaqFromLocation();
-    });
-    window.addEventListener('pageshow', function () {
-      closeMobileNav();
-    });
-
-    document.addEventListener('click', function (e) {
-      var a = e.target.closest('a[href]');
-      if (!a) return;
-      var href = a.getAttribute('href') || '';
-      var hashIdx = href.indexOf('#');
-      if (hashIdx === -1) return;
-      var hash = href.slice(hashIdx);
-      if (!hashLooksLikeFaq(hash)) return;
-      var path = href.slice(0, hashIdx);
-      if (path) {
-        try {
-          var url = new URL(href, location.href);
-          if (url.pathname !== location.pathname) return;
-        } catch (err) {
-          return;
-        }
-      }
-      e.preventDefault();
-      if (location.hash !== hash) {
-        if (history.pushState) history.pushState(null, '', hash);
-        else location.hash = hash;
-      }
-      revealFaqFromLocation(hash);
-    });
-  }
-
-  function specHashId(raw) {
-    return String(raw == null ? location.hash : raw).replace(/^#/, '').split('?')[0];
-  }
-
-  function specChromeOffset() {
-    var header = document.querySelector('header.site-header, .site-header');
-    var offset = header ? Math.round(header.getBoundingClientRect().height) : 0;
-    var sticky = parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue('--sticky-offset')
-    );
-    if (isFinite(sticky) && sticky > 0) offset += sticky;
-    return offset;
-  }
-
-  function scrollSpecIntoView(el) {
-    if (!el) return;
-    var top = el.getBoundingClientRect().top + window.pageYOffset - specChromeOffset() - 8;
-    window.scrollTo({
-      top: Math.max(0, top),
-      behavior: motionAllowed() ? 'smooth' : 'auto',
-    });
-  }
-
-  function closeMobileNav() {
-    var toggle = document.querySelector('[data-nav-toggle]');
-    var nav = document.querySelector('[data-nav-panel]');
-    if (nav) nav.setAttribute('aria-hidden', 'true');
-    if (toggle) {
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Open menu');
-    }
-    unlockPageScroll();
   }
 
   function initSpecPanel() {
@@ -1541,34 +1311,20 @@
       var openedAt = 0;
       var page = window.location.pathname;
 
-      function hashTargetsPanel(hash) {
-        var id = specHashId(hash);
-        if (!id) return false;
-        var section = panel.closest('[id]');
-        if (section && section.id === id) return true;
-        if (panel.id && panel.id === id) return true;
-        if (panel.getAttribute('data-spec-id') === id) return true;
-        return false;
-      }
+      trigger.addEventListener('click', function () {
+        var isOpen = panel.dataset.open === 'true';
+        panel.dataset.open = isOpen ? 'false' : 'true';
+        trigger.setAttribute('aria-expanded', String(!isOpen));
 
-      function openPanel() {
-        if (panel.dataset.open === 'true') return;
-        panel.dataset.open = 'true';
-        trigger.setAttribute('aria-expanded', 'true');
-        openedAt = Date.now();
-        if (!openedOnce) {
-          openedOnce = true;
-          if (window.vTrack) {
-            window.vTrack('spec_opened', { spec_id: panel.dataset.specId, page: page });
+        if (!isOpen) {
+          openedAt = Date.now();
+          if (!openedOnce) {
+            openedOnce = true;
+            if (window.vTrack) {
+              window.vTrack('spec_opened', { spec_id: panel.dataset.specId, page: page });
+            }
           }
-        }
-      }
-
-      function closePanel() {
-        if (panel.dataset.open !== 'true') return;
-        panel.dataset.open = 'false';
-        trigger.setAttribute('aria-expanded', 'false');
-        if (openedAt && window.vTrack) {
+        } else if (openedAt && window.vTrack) {
           window.vTrack('spec_dwell', {
             spec_id: panel.dataset.specId,
             page: page,
@@ -1576,49 +1332,6 @@
           });
           openedAt = 0;
         }
-      }
-
-      function openFromHash() {
-        if (!hashTargetsPanel()) return;
-        openPanel();
-        closeMobileNav();
-        requestAnimationFrame(function () {
-          scrollSpecIntoView(panel.closest('[id]') || panel);
-        });
-      }
-
-      trigger.addEventListener('click', function () {
-        if (panel.dataset.open === 'true') closePanel();
-        else openPanel();
-      });
-
-      openFromHash();
-
-      window.addEventListener('hashchange', openFromHash);
-
-      document.addEventListener('click', function (e) {
-        var a = e.target.closest('a[href]');
-        if (!a) return;
-        var href = a.getAttribute('href') || '';
-        var hashIdx = href.indexOf('#');
-        if (hashIdx === -1) return;
-        var hash = href.slice(hashIdx);
-        if (!hashTargetsPanel(hash)) return;
-        var path = href.slice(0, hashIdx);
-        if (path) {
-          try {
-            var url = new URL(href, location.href);
-            if (url.pathname !== location.pathname) return;
-          } catch (err) {
-            return;
-          }
-        }
-        e.preventDefault();
-        if (location.hash !== hash) {
-          if (history.pushState) history.pushState(null, '', hash);
-          else location.hash = hash;
-        }
-        openFromHash();
       });
 
       window.addEventListener('beforeunload', function () {
@@ -2809,10 +2522,6 @@
       };
     }
 
-    function sizeRowTapAddsToBasket() {
-      return window.matchMedia && window.matchMedia('(max-width: 899px)').matches;
-    }
-
     if (list) {
       list.addEventListener('click', function (e) {
         var add = e.target.closest('[data-qty-add]');
@@ -2850,26 +2559,6 @@
         }
         var btn = e.target.closest('.size-option');
         if (!btn) return;
-        // Mobile: tap the row / radio to add. Desktop still uses Add.
-        if (
-          sizeRowTapAddsToBasket() &&
-          btn.getAttribute('data-request-size') !== 'true' &&
-          btn.getAttribute('data-available') !== 'false'
-        ) {
-          var existingQty = lineQtyForSize(
-            btn.getAttribute('data-size-id'),
-            btn.getAttribute('data-size-variant')
-          );
-          if (existingQty > 0) {
-            applySelection(btn);
-            return;
-          }
-          collapseStageB(true);
-          applySelection(btn, { silent: true });
-          upsertActiveMattress(1, { size: sizeFromRow(btn) });
-          updateContinueState();
-          return;
-        }
         applySelection(btn);
       });
     }
@@ -4291,15 +3980,6 @@
       toggle.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
       toggle.setAttribute('aria-label', nextOpen ? 'Close menu' : 'Open menu');
       document.body.classList.toggle('nav-open', nextOpen);
-    });
-    panel.addEventListener('click', function (e) {
-      if (e.target.closest('a[href]')) closeMobileNav();
-    });
-    window.addEventListener('hashchange', function () {
-      if (document.body.classList.contains('nav-open')) closeMobileNav();
-    });
-    window.addEventListener('pageshow', function () {
-      if (document.body.classList.contains('nav-open')) closeMobileNav();
     });
   }
 

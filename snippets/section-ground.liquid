@@ -30,7 +30,7 @@
 {%- if as == 'value' -%}
 {{- g -}}
 {%- elsif g == 'dark' -%}
-{{- prefix | prepend: ' ' | append: '--dark' -}}
+ {{ prefix }}--dark
 {%- elsif g == 'surface' -%}
-{{- prefix | prepend: ' ' | append: '--surface' -}}
+ {{ prefix }}--surface
 {%- endif -%}
