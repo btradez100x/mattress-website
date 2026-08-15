@@ -6860,3 +6860,60 @@ html[data-brand-guidelines="v2"] .thanks-media::after {
   animation: none !important;
   transition: none !important;
 }
+
+/* Journal page - same family as policy pages */
+.journal-page .journal-index {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+.journal-page .blog-card {
+  background: var(--brand-bg);
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  overflow: hidden;
+  height: 100%;
+}
+.journal-page .blog-card__link {
+  gap: 0;
+}
+.journal-page .blog-card__body {
+  padding: 1.25rem 1.35rem 1.5rem;
+}
+.journal-page .blog-card__title::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  margin-top: 0.7rem;
+  background: var(--brand-accent);
+}
+.journal-empty {
+  max-width: 36rem;
+}
+.journal-empty p {
+  margin: 0.85rem 0 0;
+  max-width: 32rem;
+  line-height: 1.65;
+}
+@media (min-width: 1100px) {
+  .journal-page .blog-index__grid > li:first-child {
+    grid-column: 1 / -1;
+  }
+  .journal-page .blog-index__grid > li:first-child .blog-card__link {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+  .journal-page .blog-index__grid > li:first-child .blog-card__media,
+  .journal-page .blog-index__grid > li:first-child .blog-card__media--empty {
+    aspect-ratio: auto;
+    min-height: 18rem;
+  }
+  .journal-page .blog-index__grid > li:first-child .blog-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 2.25rem;
+  }
+  .journal-page .blog-index__grid > li:first-child .blog-card__title {
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  }
+}

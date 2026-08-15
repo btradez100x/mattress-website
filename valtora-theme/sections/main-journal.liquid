@@ -1,0 +1,150 @@
+{%- comment -%}
+  Journal index as a Page (Admin: Pages → template journal → handle journal).
+  Lists blogs.journal.articles when that blog exists; otherwise a brand empty state.
+{%- endcomment -%}
+{%- liquid
+  assign journal_blog = blogs['journal']
+  assign eyebrow = section.settings.eyebrow | default: 'Journal'
+  assign heading = section.settings.heading | default: 'Journal'
+  assign lede = section.settings.lede
+  assign empty_heading = section.settings.empty_heading | default: 'New notes, in time'
+  assign empty_body = section.settings.empty_body | default: 'Articles appear here when a Journal post is published. Until then, this page is the index.'
+  assign cta_label = section.settings.cta_label | default: 'Reserve your size'
+  assign cta_src = section.settings.cta_link
+  if cta_src == blank
+    assign cta_src = '/#reserve'
+  endif
+-%}
+{%- capture cta_href -%}{% render 'home-section-href', href: cta_src %}{%- endcapture -%}
+{%- assign cta_href = cta_href | strip -%}
+
+<section class="policy-page journal-page">
+  <div class="section section--dark policy-hero" data-reveal>
+    <div class="page-width policy-hero__copy">
+      <p class="section__eyebrow" data-reveal-child data-reveal-first style="--reveal-delay: 0ms">{{ eyebrow }}</p>
+      <hr class="gold-rule" data-reveal-child data-reveal-first style="--reveal-delay: 80ms">
+      <h1 data-reveal-child data-reveal-first style="--reveal-delay: 140ms">{{ heading }}</h1>
+      {%- if lede != blank -%}
+        <p class="section__lede policy-hero__lede" data-reveal-child data-reveal-first style="--reveal-delay: 220ms">{{ lede }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="section section--surface journal-index" data-reveal>
+    <div class="page-width">
+      {%- if page.content != blank -%}
+        <div class="policy-intro rte trust-policy__body" data-reveal-child style="--reveal-delay: 0ms">{{ page.content }}</div>
+      {%- endif -%}
+
+      {%- if journal_blog.articles.size > 0 -%}
+        <ul class="blog-index__grid" role="list">
+          {%- for article in journal_blog.articles limit: 12 -%}
+            <li class="blog-card" data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 70 }}ms">
+              <a class="blog-card__link" href="{{ article.url }}">
+                {%- if article.image -%}
+                  <div class="blog-card__media">
+                    {{
+                      article.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '400,800,1200',
+                        sizes: '(min-width: 1100px) 30vw, 90vw',
+                        alt: article.image.alt | default: article.title
+                    }}
+                  </div>
+                {%- else -%}
+                  <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
+                {%- endif -%}
+                <div class="blog-card__body">
+                  {%- if article.tags.size > 0 -%}
+                    <p class="blog-card__tag">{{ article.tags.first }}</p>
+                  {%- endif -%}
+                  <h2 class="blog-card__title">{{ article.title }}</h2>
+                  {%- if article.excerpt != blank -%}
+                    <p class="blog-card__excerpt">{{ article.excerpt | strip_html | truncate: 160 }}</p>
+                  {%- else -%}
+                    <p class="blog-card__excerpt">{{ article.content | strip_html | truncate: 160 }}</p>
+                  {%- endif -%}
+                  <p class="blog-card__meta">
+                    <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                      {{ article.published_at | date: '%-d %b %Y' }}
+                    </time>
+                    <span aria-hidden="true"> · </span>
+                    <span>Read</span>
+                  </p>
+                </div>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <div class="journal-empty policy-article" data-reveal-child style="--reveal-delay: 80ms">
+          <h2>{{ empty_heading }}</h2>
+          <p>{{ empty_body }}</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if cta_label != blank -%}
+    <div class="section section--dark policy-cta" data-reveal>
+      <div class="page-width policy-cta__inner">
+        <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 0ms">Next</p>
+        <hr class="gold-rule" data-reveal-child style="--reveal-delay: 80ms">
+        <p class="policy-cta__action" data-reveal-child style="--reveal-delay: 160ms">
+          <a class="btn" href="{{ cta_href }}">{{ cta_label }}</a>
+        </p>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Journal",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Journal"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Journal"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Intro",
+      "default": "Clear, practical writing on comfort, cool sleep, support and how to choose a mattress that fits how you actually rest - without the hype."
+    },
+    {
+      "type": "text",
+      "id": "empty_heading",
+      "label": "Empty-state heading",
+      "default": "New notes, in time"
+    },
+    {
+      "type": "textarea",
+      "id": "empty_body",
+      "label": "Empty-state body",
+      "default": "Articles appear here when a Journal post is published. Until then, this page is the index."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Reserve your size"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    }
+  ]
+}
+{% endschema %}

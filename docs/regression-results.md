@@ -1,3 +1,23 @@
+# Regression results — 2026-08-15 (journal page not 404)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 521 passed, 0 failed
+- Scope note: Journal is now a Page template (`page.journal` / `/pages/journal`) so Admin can create it the same way as Order status. Header/footer use `blogs.journal.url`, then `pages['journal'].url`, then `/pages/journal`. Live `/blogs/journal`, `/pages/journal`, and `/journal` still 404 until that Page exists. Luxury reveals on. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (footer policy pages elevated)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 518 passed, 0 failed
+- Scope note: Footer/policy pages (Refunds, Privacy, Terms, Cookies, Delivery, Trial, Warranty, Contact, Size guide) now use a navy/carbon hero, gold-rule, measured article cards, and homepage header chrome. Storefront luxury reveals stay on (policy-hero + article stagger). Checkout markers unchanged. Manufacturing and homepage not flattened. No version bump.
+
+---
+
 # Regression results — 2026-08-15 (hero first-paint luxury stagger)
 
 ## Smoke

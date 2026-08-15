@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-journal",
+      "settings": {
+        "eyebrow": "Journal",
+        "heading": "Journal",
+        "lede": "Clear, practical writing on comfort, cool sleep, support and how to choose a mattress that fits how you actually rest - without the hype.",
+        "empty_heading": "New notes, in time",
+        "empty_body": "Articles appear here when a Journal post is published. Until then, this page is the index.",
+        "cta_label": "Reserve your size"
+      }
+    }
+  },
+  "order": ["main"]
+}

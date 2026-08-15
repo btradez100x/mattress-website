@@ -1,19 +1,32 @@
-# Journal / Blog (SEO)
+# Journal
 
-Shopify blog handle recommended: `journal` → `/blogs/journal`
+The storefront Journal link prefers a Blog handle `journal` (`/blogs/journal`) if it exists, then a Page handle `journal` (`/pages/journal`). Create the **Page** first - same path as Order status and Manufacturing.
 
-## Publish in Admin
+## 1. Create the Journal page (do this first)
 
-1. **Online Store → Blog posts → Manage blogs** → create blog **Journal** (handle `journal`).
-2. For each file in `docs/blog/articles/*.json` + `*.html`:
-   - Create article with **Title** from JSON
-   - Paste HTML body from the `.html` file into the article editor (HTML view)
-   - Set **Search engine listing** title + description from `seo_title` / `meta`
-   - Add tags from JSON
-   - Set excerpt from JSON
-   - Author: brand or founder name
-3. Theme templates `blog.json` / `article.json` are already in the theme.
-4. Add **Journal** to the header menu pointing to `/blogs/journal` (fallback nav already includes it).
+1. Shopify Admin → **Online Store** → **Pages** → **Add page**
+2. Title: **Journal**
+3. Theme template: **journal**
+4. Handle: **journal** (Search engine listing / URL handle) → `/pages/journal`
+5. Save
+
+Header and footer then resolve to that page. No blog is required for the URL to stop 404ing.
+
+## 2. Optional: add a Journal blog so the page lists articles
+
+1. Shopify Admin → **Content** (or **Online Store**) → **Blog posts** → **Manage blogs**
+2. Create blog **Journal**
+3. Handle: **journal** → `/blogs/journal`
+4. Add a post and publish
+5. The Journal page lists `blogs.journal.articles` automatically. Header/footer then prefer `/blogs/journal`.
+
+Article bodies for paste live in `docs/blog/articles/*.json` + `*.html` (title, excerpt, tags, SEO).
+
+## Theme files
+
+- Page template: `valtora-theme/templates/page.journal.json`
+- Section: `valtora-theme/sections/main-journal.liquid`
+- Blog index (if they open `/blogs/journal`): `templates/blog.json` + `sections/main-blog.liquid`
 
 ## SEO clusters covered
 

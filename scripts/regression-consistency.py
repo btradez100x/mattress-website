@@ -213,6 +213,28 @@ def check_theme_js() -> None:
     else:
         bad("footer.liquid missing homepage hash prefix or /pages/ policy fallbacks")
 
+    journal_fallback = "pages['journal'].url"
+    if journal_fallback in header_liquid and "/pages/journal" in header_liquid:
+        if "| default: '/blogs/journal'" in header_liquid or '| default: "/blogs/journal"' in header_liquid:
+            bad("header.liquid Journal still falls back to /blogs/journal")
+        else:
+            ok("header.liquid Journal prefers blog, then page, then /pages/journal")
+    else:
+        bad("header.liquid Journal missing pages['journal'] / /pages/journal fallback")
+    if journal_fallback in footer_liquid and "/pages/journal" in footer_liquid:
+        if "| default: '/blogs/journal'" in footer_liquid or '| default: "/blogs/journal"' in footer_liquid:
+            bad("footer.liquid Journal still falls back to /blogs/journal")
+        else:
+            ok("footer.liquid Journal prefers blog, then page, then /pages/journal")
+    else:
+        bad("footer.liquid Journal missing pages['journal'] / /pages/journal fallback")
+    journal_tpl = ROOT / "valtora-theme" / "templates" / "page.journal.json"
+    journal_sec = ROOT / "valtora-theme" / "sections" / "main-journal.liquid"
+    if journal_tpl.exists() and journal_sec.exists():
+        ok("page.journal.json + main-journal.liquid present")
+    else:
+        bad("missing page.journal.json or main-journal.liquid")
+
     if "sec.classList.add('section--wipe')" in js or 'sec.classList.add("section--wipe")' in js:
         bad("preview/theme.js still applies section--wipe (clips Offer/Swap off-screen)")
     else:
