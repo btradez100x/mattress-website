@@ -39,7 +39,8 @@ html[data-market='gb'] span[data-market-only='gb'] {
   vertical-align: middle;
 }
 
-.section--dark .market-badge {
+.section--dark .market-badge,
+[data-section-ground="dark"] .market-badge {
   color: color-mix(in srgb, var(--brand-on-dark) 55%, var(--brand-accent));
 }
 
@@ -152,11 +153,13 @@ p:last-child {
   padding-block: var(--space-section);
 }
 
-.section--surface {
+.section--surface,
+[data-section-ground="surface"] {
   background: var(--brand-surface);
 }
 
-.section--dark {
+.section--dark,
+[data-section-ground="dark"] {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
   width: 100%;
@@ -169,6 +172,7 @@ p:last-child {
 /* Dark bands paint their Shopify wrapper so they stay edge-to-edge and
    neighbouring grounds meet (no white hairline / inset card). */
 #MainContent > .shopify-section:has(> .section--dark),
+#MainContent > .shopify-section:has(> [data-section-ground="dark"]),
 #MainContent > .shopify-section:has(> .trust-bar--dark) {
   background: var(--brand-primary);
   margin: 0;
@@ -182,11 +186,13 @@ p:last-child {
 }
 
 #MainContent > .shopify-section + .shopify-section:has(> .section--dark),
+#MainContent > .shopify-section + .shopify-section:has(> [data-section-ground="dark"]),
 #MainContent > .section + .section--dark {
   margin-top: -1px;
 }
 
 #MainContent > .shopify-section + .shopify-section:has(> .section--dark) > .section--dark,
+#MainContent > .shopify-section + .shopify-section:has(> [data-section-ground="dark"]) > [data-section-ground="dark"],
 #MainContent > .section + .section--dark {
   padding-top: calc(var(--space-section) + 1px);
 }
@@ -202,7 +208,10 @@ p:last-child {
 
 .section--dark h1,
 .section--dark h2,
-.section--dark h3 {
+.section--dark h3,
+[data-section-ground="dark"] h1,
+[data-section-ground="dark"] h2,
+[data-section-ground="dark"] h3 {
   color: var(--brand-on-dark);
 }
 
@@ -213,27 +222,39 @@ p:last-child {
 .section--dark .offer__item span,
 .section--dark .offer__cta-note,
 .section--dark p:not(.section__eyebrow),
-.section--dark li {
+.section--dark li,
+[data-section-ground="dark"] .section__lede,
+[data-section-ground="dark"] .offer__item,
+[data-section-ground="dark"] .offer__item strong,
+[data-section-ground="dark"] .offer__item span,
+[data-section-ground="dark"] .offer__cta-note,
+[data-section-ground="dark"] p:not(.section__eyebrow),
+[data-section-ground="dark"] li {
   color: var(--brand-on-dark);
 }
 
-.section--dark .section__lede {
+.section--dark .section__lede,
+[data-section-ground="dark"] .section__lede {
   opacity: 0.92;
 }
 
 .section--dark .offer__item span,
-.section--dark .offer__cta-note {
+.section--dark .offer__cta-note,
+[data-section-ground="dark"] .offer__item span,
+[data-section-ground="dark"] .offer__cta-note {
   color: color-mix(in srgb, var(--brand-on-dark) 92%, var(--brand-primary));
   opacity: 1;
 }
 
-.section--dark .section__eyebrow {
+.section--dark .section__eyebrow,
+[data-section-ground="dark"] .section__eyebrow {
   /* Ember on navy fails AA; mix with Snow (--brand-on-dark) so the gold still reads. */
   color: color-mix(in srgb, var(--brand-on-dark) 55%, var(--eyebrow-on-dark, var(--brand-accent)));
   opacity: 1;
 }
 
-.section--dark .gold-rule {
+.section--dark .gold-rule,
+[data-section-ground="dark"] .gold-rule {
   background: var(--brand-accent);
 }
 
@@ -246,7 +267,8 @@ p:last-child {
   border: 0;
 }
 
-.section--dark .gold-rule--measure {
+.section--dark .gold-rule--measure,
+[data-section-ground="dark"] .gold-rule--measure {
   background: var(--brand-accent);
 }
 
@@ -693,12 +715,14 @@ a[data-reserve-continue][aria-disabled="true"] {
   border-color: var(--brand-primary);
 }
 
-.section--dark .btn--ghost {
+.section--dark .btn--ghost,
+[data-section-ground="dark"] .btn--ghost {
   color: var(--brand-on-dark);
   border-color: color-mix(in srgb, var(--brand-on-dark) 40%, transparent);
 }
 
-.section--dark .btn--ghost:hover {
+.section--dark .btn--ghost:hover,
+[data-section-ground="dark"] .btn--ghost:hover {
   background: color-mix(in srgb, var(--brand-on-dark) 8%, transparent);
 }
 
@@ -2298,7 +2322,8 @@ video[controls],
     box-shadow var(--dur-fast) var(--ease);
 }
 
-.section--surface .size-option {
+.section--surface .size-option,
+[data-section-ground="surface"] .size-option {
   background: var(--brand-bg);
   border-color: rgba(31, 58, 95, 0.12);
 }
@@ -2308,7 +2333,8 @@ video[controls],
   background: var(--brand-surface);
 }
 
-.section--surface .size-option:hover {
+.section--surface .size-option:hover,
+[data-section-ground="surface"] .size-option:hover {
   background: #fff;
 }
 
@@ -2318,7 +2344,8 @@ video[controls],
   box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
 }
 
-.section--surface .size-option.is-in-basket {
+.section--surface .size-option.is-in-basket,
+[data-section-ground="surface"] .size-option.is-in-basket {
   background: #fff;
 }
 
@@ -2814,7 +2841,8 @@ video[controls],
   scroll-margin-bottom: calc(var(--sticky-reserve-offset, 0px) + 0.5rem);
 }
 
-.section--surface .faq__item {
+.section--surface .faq__item,
+[data-section-ground="surface"] .faq__item {
   background: var(--brand-bg);
 }
 
@@ -4091,8 +4119,8 @@ video[controls],
   grid-template-areas: "marker main price";
   align-items: start;
   column-gap: 1.5rem;
-  border-style: dashed;
-  border-color: rgba(31, 58, 95, 0.28);
+  border-style: solid;
+  border-color: rgba(31, 58, 95, 0.14);
   background: #fff;
 }
 
@@ -4120,7 +4148,10 @@ video[controls],
 
 .section--surface .size-option--request,
 .section--surface .size-option--request:hover,
-.section--surface .size-option--request.is-active {
+.section--surface .size-option--request.is-active,
+[data-section-ground="surface"] .size-option--request,
+[data-section-ground="surface"] .size-option--request:hover,
+[data-section-ground="surface"] .size-option--request.is-active {
   background: var(--brand-bg);
 }
 
@@ -4356,7 +4387,8 @@ body:has([data-float-total]:empty) .hero__cta {
   background: #fff;
 }
 
-.section--surface .measure-size__step {
+.section--surface .measure-size__step,
+[data-section-ground="surface"] .measure-size__step {
   background: var(--brand-bg);
 }
 
@@ -4925,7 +4957,8 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   border-radius: var(--radius-control, 0.35rem);
 }
 
-.section--surface .ugc__card {
+.section--surface .ugc__card,
+[data-section-ground="surface"] .ugc__card {
   background: var(--brand-bg);
   border-color: rgba(31, 58, 95, 0.1);
 }

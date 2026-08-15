@@ -1,3 +1,23 @@
+# Regression results — 15 Aug 2026 (visual CSS restore, features kept)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: UI-only — section-ground emits a non-strippable leading space; dark/surface grounds also key off `data-section-ground` so offer/swap stay full-bleed and inverse Snow-on-Carbon CTAs apply on first paint; Request a size matches size-row solid white cards; section padding 72–128px. Spec panel, copy-spec, durations, FAQ unlock, `#specs` hash-open, mobile size-row, size-guide unclip, product flags OFF all left intact. No version bump.
+
+---
+
+# Regression results — 15 Aug 2026 (combined storefront polish deploy)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Deploy-gate re-run of the combined working-tree polish (durations 120/280/450/600 + `--ease`, section grounds, inverse dark CTAs, mobile size-row, size-guide unclip, `#specs` open, FAQ scroll unlock, card fills). Product flags remain off. Preview in sync. No version bump.
+
+---
+
 # Regression results — 15 Aug 2026 (FAQ menu unlock + hash scroll)
 
 ## Smoke
