@@ -1,3 +1,13 @@
+# Regression results — 2026-08-15 (hero first-paint luxury stagger)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 516 passed, 0 failed
+- Scope note: Homepage hero ("Made to order", CTAs, mattress photo) now eases in on first paint (600ms, cubic-bezier(0.22, 1, 0.36, 1), short stagger). Below-fold stays scroll-reveal. Storefront children still start opacity 0. Design-mode exception only — storefront motion not disabled. Checkout markers unchanged. Wipe clip-path still banned. No version bump.
+
+---
+
 # Regression results — 2026-08-15 (empty-basket first CTA space)
 
 ## Smoke
