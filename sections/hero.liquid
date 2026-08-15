@@ -36,6 +36,7 @@
 <section
   class="hero hero--{{ tone }}"
   id="hero"
+  data-section-ground="{% if tone == 'dark' %}dark{% else %}bg{% endif %}"
   {% if style != blank %}style="{{ style }}"{% endif %}
 >
   {%- comment -%} Copy first so the product image stays clear (Apple-style stack on light) {%- endcomment -%}
@@ -110,7 +111,7 @@
       "type": "textarea",
       "id": "subheading",
       "label": "Subhead",
-      "default": "A 37cm handmade hybrid, built after you order it. Seven-zone pocket springs, a breathable knitted cover, and a comfort top you replace instead of replacing the mattress."
+      "default": "Change the feel whenever you want. Replace the layer that wears, not the whole bed."
     },
     {
       "type": "text",

@@ -7,9 +7,9 @@
   endif
   assign payment_mode = settings.payment_mode | default: 'full'
   if market == 'gb'
-    assign top_price = section.settings.replacement_top_price_gb | default: 'A replacement comfort top is £250. A new mattress is not.'
+    assign top_price = section.settings.replacement_top_price_gb | default: 'A replacement comfort layer is £250. A new mattress is not.'
   else
-    assign top_price = section.settings.replacement_top_price_ae | default: 'A replacement comfort top is AED 1,200. A new mattress is not.'
+    assign top_price = section.settings.replacement_top_price_ae | default: 'A replacement comfort layer is AED 1,200. A new mattress is not.'
   endif
   if payment_mode == 'full'
     assign cta_note_default = 'Pay in full today. Cancel any time before dispatch for a full refund.'
@@ -18,7 +18,7 @@
   endif
 -%}
 {%- if section.settings.enable_section -%}
-<section class="section section--dark" id="offer" data-reveal>
+<section class="section{% render 'section-ground', fallback: 'dark' %}" id="offer" data-reveal data-section-ground="{% render 'section-ground', as: 'value', fallback: 'dark' %}">
   <div class="page-width">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2>{{ section.settings.heading }}</h2>
@@ -112,6 +112,31 @@
       "default": true
     },
     {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "dark",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
@@ -152,13 +177,13 @@
       "type": "text",
       "id": "replacement_top_price_gb",
       "label": "Replacement top price line (UK)",
-      "default": "A replacement comfort top is £250. A new mattress is not."
+      "default": "A replacement comfort layer is £250. A new mattress is not."
     },
     {
       "type": "text",
       "id": "replacement_top_price_ae",
       "label": "Replacement top price line (UAE)",
-      "default": "A replacement comfort top is AED 1,200. A new mattress is not."
+      "default": "A replacement comfort layer is AED 1,200. A new mattress is not."
     },
     {
       "type": "text",

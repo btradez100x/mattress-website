@@ -9,6 +9,7 @@
   assign lt_min = nil
   assign lt_max = nil
   assign lt_note = ''
+  assign lt_unit = ''
   assign fmt = format | default: 'display'
 
   if variant and variant.metafields.custom.lead_time_max_weeks != blank
@@ -28,7 +29,15 @@
     if resolved_type == blank and product
       assign resolved_type = product.type | downcase
     endif
-    if resolved_type contains 'top'
+    if resolved_type contains 'sheet'
+      assign lt_min = settings.lead_time_sheets_min | default: 3
+      assign lt_max = settings.lead_time_sheets_max | default: 5
+      assign lt_unit = 'days'
+    elsif resolved_type contains 'pillow'
+      assign lt_min = settings.lead_time_pillows_min | default: 3
+      assign lt_max = settings.lead_time_pillows_max | default: 5
+      assign lt_unit = 'days'
+    elsif resolved_type contains 'top' or resolved_type contains 'layer'
       assign lt_min = settings.lead_time_top_min | default: 2
       assign lt_max = settings.lead_time_top_max | default: 3
     elsif resolved_type contains 'mattress'
@@ -42,12 +51,16 @@
     assign lt_max = settings.lead_time_default_max | default: 10
   endif
 
+  if lt_unit == blank
+    assign lt_unit = 'weeks'
+  endif
+
   if lt_note != blank
     assign lt_display = lt_note
   elsif lt_min == lt_max
-    assign lt_display = lt_max | append: ' weeks'
+    assign lt_display = lt_max | append: ' ' | append: lt_unit
   else
-    assign lt_display = lt_min | append: ' to ' | append: lt_max | append: ' weeks'
+    assign lt_display = lt_min | append: ' to ' | append: lt_max | append: ' ' | append: lt_unit
   endif
 -%}
 {%- case fmt -%}

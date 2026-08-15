@@ -89,7 +89,18 @@
       ></script>
     {%- endif -%}
 
-    {%- if template.suffix == 'comfort-top' and settings.comfort_tops_enabled != true -%}
+    {%- if template.suffix == 'comfort-top' or template.suffix == 'comfort-layer' -%}
+      {%- if settings.comfort_tops_enabled != true -%}
+        <meta name="robots" content="noindex,nofollow">
+      {%- endif -%}
+    {%- endif -%}
+    {%- if template.suffix == 'bed-sheets' and settings.sheets_enabled != true -%}
+      <meta name="robots" content="noindex,nofollow">
+    {%- endif -%}
+    {%- if template.suffix == 'pillows' and settings.pillows_enabled != true -%}
+      <meta name="robots" content="noindex,nofollow">
+    {%- endif -%}
+    {%- if template.name == 'collection' or template.name == 'list-collections' -%}
       <meta name="robots" content="noindex,nofollow">
     {%- endif -%}
 
@@ -123,6 +134,10 @@
     class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}"
     data-market="{{ html_market }}"
     data-payment-mode="{{ settings.payment_mode | default: 'full' }}"
+    data-comfort-tops-enabled="{% if settings.comfort_tops_enabled %}true{% else %}false{% endif %}"
+    data-sheets-enabled="{% if settings.sheets_enabled %}true{% else %}false{% endif %}"
+    data-pillows-enabled="{% if settings.pillows_enabled %}true{% else %}false{% endif %}"
+    data-footer-accessories-enabled="{% if settings.footer_accessories_enabled %}true{% else %}false{% endif %}"
   >
     {%- if settings.gtm_container_id != blank -%}
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ settings.gtm_container_id }}"

@@ -31,9 +31,10 @@
 -%}
 {%- if section.settings.enable_section -%}
 <section
-  class="section section--surface"
+  class="section{% render 'section-ground' %}"
   id="reviews"
   data-reveal
+  data-section-ground="{% render 'section-ground', as: 'value' %}"
   data-reviews
   data-reviews-show-entries="{% if reviews_on %}true{% else %}false{% endif %}"
   data-reviews-url="{% if reviews_on %}{{ reviews_url }}{% endif %}"
@@ -289,6 +290,32 @@
       "id": "enable_section",
       "label": "Show this section",
       "default": true
+    },
+
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
     },
     {
       "type": "checkbox",

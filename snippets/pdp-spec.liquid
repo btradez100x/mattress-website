@@ -1,0 +1,19 @@
+{%- comment -%}
+  Collapsed specification chrome. Caller supplies the table via the
+  spec_inner capture, or leaves the default slot empty and writes markup
+  immediately after the snippet.
+{%- endcomment -%}
+<div class="pdp-spec" id="{{ spec_id | default: 'pdp-spec' }}" data-pdp-spec>
+  <button class="pdp-spec__t" type="button" data-pdp-spec-toggle>
+    <span class="pdp-spec__lbl">{{ heading | default: 'Full specification' }}</span>
+    <span class="pdp-spec__ind" aria-hidden="true">+</span>
+  </button>
+  <div class="pdp-spec__b">
+    <div class="pdp-spec__in">
+      {%- if note != blank -%}
+        <p class="pdp-spec__note">{{ note }}</p>
+      {%- endif -%}
+      {{ spec_inner }}
+    </div>
+  </div>
+</div>

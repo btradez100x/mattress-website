@@ -47,13 +47,18 @@
           <h2>{{ section.settings.depth_heading }}</h2>
           <div class="policy-article__body rte trust-policy__body">
             <p>{{ section.settings.depth_body }}</p>
+            {%- if settings.sheets_enabled -%}
+              <p class="pdp-discover">
+                <a href="{{ all_products['bed-sheets'].url | default: '/products/bed-sheets' }}">Sheets that fit.</a>
+              </p>
+            {%- endif -%}
           </div>
         </article>
       </div>
     </div>
   </div>
 
-  <div class="section section--dark policy-cta">
+  <div class="section section--dark policy-cta" data-section-ground="dark">
     <div class="page-width policy-cta__inner">
       <p class="section__eyebrow">Next</p>
       <hr class="gold-rule">

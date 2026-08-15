@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-bed-sheets",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

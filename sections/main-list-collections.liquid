@@ -1,23 +1,7 @@
-<section class="section">
-  <div class="page-width">
-    <p class="section__eyebrow">Collections</p>
-    <h1 style="font-size:clamp(2rem,4vw,2.5rem);">Collections</h1>
-    <div class="benefits__grid" style="margin-top:2rem;">
-      {%- for collection in collections -%}
-        {%- unless collection.handle == 'frontpage' -%}
-          <a href="{{ collection.url }}" style="text-decoration:none;">
-            {%- if collection.featured_image -%}
-              {{ collection.featured_image | image_url: width: 800 | image_tag: loading: 'lazy' }}
-            {%- else -%}
-              <div class="media-placeholder" style="aspect-ratio:4/3;min-height:0;">{{ collection.title }}</div>
-            {%- endif -%}
-            <h3 style="margin-top:1rem;">{{ collection.title }}</h3>
-          </a>
-        {%- endunless -%}
-      {%- endfor -%}
-    </div>
-  </div>
-</section>
+{%- comment -%}
+  No collections index. Each product has its own page, reached deliberately.
+{%- endcomment -%}
+{% render 'product-absent' %}
 
 {% schema %}
 {

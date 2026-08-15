@@ -1,8 +1,9 @@
 {%- if section.settings.enable_section -%}
 <section
-  class="section{% if section.settings.dark %} section--dark{% elsif section.settings.surface %} section--surface{% endif %}"
+  class="section{% render 'section-ground' %}"
   id="{{ section.settings.anchor_id | default: 'swap-process' }}"
   data-reveal
+  data-section-ground="{% render 'section-ground', as: 'value' %}"
 >
   <div class="page-width">
     <div class="media-feature__intro">
@@ -49,13 +50,38 @@
 
 {% schema %}
 {
-  "name": "Changeable top process",
+  "name": "Changeable layer process",
   "settings": [
     {
       "type": "checkbox",
       "id": "enable_section",
       "label": "Show this section",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
     },
     {
       "type": "checkbox",
@@ -93,7 +119,7 @@
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "A visual walkthrough of the replaceable comfort top - swap it when worn, keep the engineered core."
+      "default": "A visual walkthrough of the replaceable comfort layer - swap it when worn, keep the engineered core."
     }
   ],
   "blocks": [
@@ -123,7 +149,7 @@
           "type": "textarea",
           "id": "text",
           "label": "Text",
-          "default": "Open the perimeter zip to access the comfort top."
+          "default": "Open the perimeter zip to access the comfort layer."
         },
         {
           "type": "image_picker",
@@ -147,7 +173,7 @@
   ],
   "presets": [
     {
-      "name": "Changeable top process",
+      "name": "Changeable layer process",
       "settings": {
         "dark": false,
         "surface": true
@@ -159,7 +185,7 @@
             "enabled": true,
             "step_label": "01",
             "title": "Unzip",
-            "text": "Open the perimeter zip - hardware built for repeated use.",
+            "text": "Open the zip that runs around the mattress.",
             "fallback_asset": "handle-detail.jpg"
           }
         },
@@ -169,7 +195,7 @@
             "enabled": true,
             "step_label": "02",
             "title": "Lift out",
-            "text": "Remove the comfort top as a single layer.",
+            "text": "Remove the comfort layer as a single layer.",
             "fallback_asset": "swap-poster.jpg"
           }
         },
@@ -179,7 +205,7 @@
             "enabled": true,
             "step_label": "03",
             "title": "Swap in",
-            "text": "Fit a new top when the comfort layer is worn - keep the engineered core.",
+            "text": "Fit a new layer when the comfort layer is worn - keep the engineered core.",
             "fallback_asset": "cover-macro.jpg"
           }
         }

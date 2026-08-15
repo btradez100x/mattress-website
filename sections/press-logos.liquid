@@ -28,7 +28,7 @@
 -%}
 {%- if section.settings.enable_section -%}
 {%- if visible_count > 0 or award_count > 0 -%}
-<section class="section section--surface" id="press" data-reveal>
+<section class="section{% render 'section-ground' %}" id="press" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2 class="press__heading">{{ section.settings.heading }}</h2>
@@ -125,6 +125,31 @@
       "label": "Show this section",
       "default": true,
       "info": "Admin only - hide the whole credibility strip here."
+    },
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
     },
     {
       "type": "text",

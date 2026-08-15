@@ -1,138 +1,190 @@
 {%- comment -%}
-  Comfort top PDP. Flag off: 404 UI + noindex. Real HTTP 404 / sitemap exclusion
-  still needs the product unpublished in Admin.
+  Comfort layer PDP. Flag off: 404 UI + noindex. Real HTTP 404 / sitemap
+  exclusion still needs the product unpublished in Admin.
 
-  Admin: product "Comfort Top", type "top", variants = Size × Firmness
-  (GB: Single | Double | King | Super King | Emperor; AE: Single | Queen |
-  King | Super King) × Soft | Medium | Firm. Assign this
-  template. Metafields: custom.lead_time_min_weeks, custom.lead_time_max_weeks,
-  custom.lead_time_note, custom.firmness_number, custom.suits.
+  Admin: product "Comfort Layer", handle comfort-layer, type "top" or
+  "layer", variants = Size × Firmness. Assign product.comfort-layer
+  (or this comfort-top template). The product has been renamed from
+  comfort top — keep the old template so an already-assigned product
+  still renders.
 {%- endcomment -%}
 {%- if settings.comfort_tops_enabled == false -%}
-<section class="section">
-  <div class="page-width page-width--narrow" style="text-align:center;">
-    <p class="section__eyebrow">Not found</p>
-    <h1 style="font-size:clamp(2rem,4vw,2.75rem);">This page does not exist.</h1>
-    <p class="section__lede" style="margin-inline:auto;">Return home to reserve your allocation.</p>
-    <a class="btn" href="{{ routes.root_url }}" style="margin-top:1.5rem;">Back home</a>
-  </div>
-</section>
+  {% render 'product-absent' %}
 {%- else -%}
 {%- capture lt_display -%}{%- render 'lead-time', product: product, product_type: 'top' -%}{%- endcapture -%}
 {%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'top', format: 'min' -%}{%- endcapture -%}
 {%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'top', format: 'max' -%}{%- endcapture -%}
 {%- assign lt_display = lt_display | strip -%}
 {%- assign price = product.price | money -%}
-{%- if localization.country.iso_code == 'GB' -%}
-  {%- assign price_note = section.settings.price_note_gb | default: 'One price per size, whichever feel you choose.' -%}
-{%- else -%}
-  {%- assign price_note = section.settings.price_note_ae | default: 'One price per size, whichever feel you choose.' -%}
-{%- endif -%}
 <section
-  class="section comfort-top"
+  class="pdp pdp--layer"
   data-comfort-top
+  data-comfort-layer
   data-comfort-tops-enabled="true"
   data-product-handle="{{ product.handle | escape }}"
   data-variant-id="{{ product.selected_or_first_available_variant.id }}"
   data-lead-window="{{ lt_display | escape }}"
   data-lead-min="{{ lt_min | strip }}"
   data-lead-max="{{ lt_max | strip }}"
+  data-lead-unit="weeks"
   data-top-price-raw="{{ product.price }}"
   data-status-path="{{ pages['order-status'].url | default: '/pages/order-status' }}"
 >
-  <div class="page-width comfort-top__hero">
-    {%- if section.settings.image != blank -%}
-      <img class="comfort-top__img" src="{{ section.settings.image | image_url: width: 1800 }}" alt="{{ section.settings.heading | escape }}" width="1800" height="1200">
+  <script type="application/json" data-accessory-prices>
+    {%- if product != blank and product.variants.size > 0 -%}
+      {
+        {%- assign first_v = true -%}
+        {%- for v in product.variants -%}
+          {%- unless first_v -%},{%- endunless -%}
+          {{ v.title | handleize | json }}: { "price": {{ v.price | money | json }}, "raw": {{ v.price }}, "id": {{ v.id }} }
+          {%- assign first_v = false -%}
+        {%- endfor -%}
+      }
     {%- else -%}
-      <img class="comfort-top__img" src="{{ 'manufacturing-cover.jpg' | asset_url }}" alt="{{ section.settings.heading | escape }}" width="1800" height="1200">
+      {}
     {%- endif -%}
-    <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
-    <h1 class="comfort-top__heading">{{ section.settings.heading }}</h1>
-    <div class="section__lede rte">{{ section.settings.body }}</div>
+  </script>
+
+  <div class="section">
+    <div class="page-width">
+      <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="pdp__heading">{{ section.settings.heading }}</h1>
+      <div class="section__lede rte pdp__lede">{{ section.settings.body }}</div>
+      <div class="pdp__himg">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 1800 }}" alt="{{ section.settings.image_caption | default: section.settings.heading | escape }}" width="1800" height="900">
+        {%- elsif product.featured_image != blank -%}
+          <img src="{{ product.featured_image | image_url: width: 1800 }}" alt="{{ section.settings.image_caption | default: section.settings.heading | escape }}" width="1800" height="900">
+        {%- endif -%}
+        {%- if section.settings.image_caption != blank -%}
+          <span class="pdp__himg-cap">{{ section.settings.image_caption }}</span>
+        {%- endif -%}
+      </div>
+    </div>
   </div>
 
-  <div class="page-width comfort-top__disambig" data-top-disambig>
-    <div class="comfort-top__cols" data-top-unknown>
+  <div class="section section--tight" data-top-disambig>
+    <div class="page-width">
+      <p class="section__eyebrow section__eyebrow--accent">{{ section.settings.disambig_eyebrow }}</p>
+      <div class="pdp-dis" data-top-unknown>
+        <div>
+          <p class="pdp-dis__k">{{ section.settings.col1_kicker }}</p>
+          <h3>{{ section.settings.col1_heading }}</h3>
+          <p>{{ section.settings.col1_body }}</p>
+        </div>
+        <div>
+          <p class="pdp-dis__k">{{ section.settings.col2_kicker }}</p>
+          <h3>{{ section.settings.col2_heading }}</h3>
+          <p>{{ section.settings.col2_body }}</p>
+        </div>
+      </div>
+      <p class="pdp-dis__foot" data-top-unknown>{{ section.settings.disambig_note }}</p>
+      <p class="section__lede" data-top-known hidden></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width pdp-grid">
       <div>
-        <h2>{{ section.settings.col1_heading }}</h2>
-        <p>{{ section.settings.col1_body }}</p>
+        <h2>{{ section.settings.size_heading }}</h2>
+        <p class="pdp__sub">{{ section.settings.size_note }}</p>
+        <div class="pdp-opts" data-top-sizes role="listbox" aria-label="Size"></div>
+        <p class="pdp__sub" data-top-find-order>
+          <a href="{{ pages['order-status'].url | default: '/pages/order-status' }}">Find my order</a>
+        </p>
+
+        <h3 class="pdp__subhead">{{ section.settings.feel_heading }}</h3>
+        <div class="pdp-opts" data-top-feels>
+          <button type="button" class="pdp-opt" data-top-firmness="Soft">
+            <span class="pdp-opt__rd" aria-hidden="true"></span>
+            <span><span class="pdp-opt__nm">Soft</span><span class="pdp-opt__sub">{{ section.settings.feel_soft }}</span></span>
+          </button>
+          <button type="button" class="pdp-opt" data-top-firmness="Medium">
+            <span class="pdp-opt__rd" aria-hidden="true"></span>
+            <span><span class="pdp-opt__nm">Medium</span><span class="pdp-opt__sub">{{ section.settings.feel_medium }}</span></span>
+          </button>
+          <button type="button" class="pdp-opt" data-top-firmness="Firm">
+            <span class="pdp-opt__rd" aria-hidden="true"></span>
+            <span><span class="pdp-opt__nm">Firm</span><span class="pdp-opt__sub">{{ section.settings.feel_firm }}</span></span>
+          </button>
+        </div>
+        <p class="pdp__sub" data-top-current-feel hidden></p>
       </div>
       <div>
-        <h2>{{ section.settings.col2_heading }}</h2>
-        <p>{{ section.settings.col2_body }}</p>
+        <div class="pdp-buy">
+          <p class="section__eyebrow">{{ section.settings.buy_eyebrow }}</p>
+          <div class="pdp-buy__row">
+            <span data-buy-line>Choose a size and a feel</span>
+            <span class="pdp-buy__r" data-top-price>{{ price }}</span>
+          </div>
+          <div class="pdp-buy__tot">
+            <span>Total</span>
+            <span class="pdp-buy__tot-r" data-buy-total>{{ price }}</span>
+          </div>
+          <p class="pdp-buy__lead" data-buy-lead>Delivered in {{ lt_display }}</p>
+          <button class="btn" type="button" data-top-add>{{ section.settings.add_label }}</button>
+          <p class="pdp-buy__reassure">{{ section.settings.reassure }}</p>
+          <p class="pdp__sub" data-top-status hidden></p>
+        </div>
       </div>
     </div>
-    <p class="reserve-panel__note" data-top-unknown>{{ section.settings.disambig_note }}</p>
-    <p class="section__lede" data-top-known hidden></p>
   </div>
 
-  <div class="page-width comfort-top__buy">
-    <h2>{{ section.settings.size_heading }}</h2>
-    <p class="reserve-panel__note">{{ section.settings.size_note }}</p>
-    <div class="comfort-top__sizes" data-top-sizes role="listbox" aria-label="Size"></div>
-    <p class="reserve-panel__note" data-top-find-order>
-      <a href="{{ pages['order-status'].url | default: '/pages/order-status' }}">Find my order</a>
-    </p>
-
-    <h2>{{ section.settings.feel_heading }}</h2>
-    <div class="comfort-top__feels" data-top-feels>
-      <button type="button" class="size-chip" data-top-firmness="Soft">Soft<span>Side sleepers and lighter frames</span></button>
-      <button type="button" class="size-chip" data-top-firmness="Medium">Medium<span>Most people, and couples who disagree</span></button>
-      <button type="button" class="size-chip" data-top-firmness="Firm">Firm<span>Back and front sleepers, and heavier frames</span></button>
-    </div>
-    <p class="reserve-panel__note" data-top-current-feel hidden></p>
-
-    <p class="comfort-top__price" data-top-price>{{ price }}</p>
-    <p class="reserve-panel__note">{{ price_note }}</p>
-    <p class="reserve-panel__note">Lead time: {% render 'lead-time', product: product, product_type: 'top', format: 'span' %}</p>
-    <button class="btn" type="button" data-top-add>Add to order</button>
-    <p class="reserve-panel__note" data-top-status hidden></p>
-  </div>
-
-  <div class="page-width">
-    <h2>{{ section.settings.argument_heading }}</h2>
-    <p class="section__lede">{{ section.settings.argument_body }}</p>
-  </div>
-
-  <div class="page-width comfort-top__how">
-    <div>
-      <h2>{{ section.settings.how_a_heading }}</h2>
-      <ol>
-        <li>Open the zip on the side of the mattress.</li>
-        <li>Lift out the comfort module.</li>
-        <li>Put the new one in.</li>
-        <li>Close the zip.</li>
-      </ol>
-    </div>
-    <div>
-      <h2>{{ section.settings.how_b_heading }}</h2>
-      <ol>
-        <li>Strip the bed.</li>
-        <li>Lay the top on the mattress.</li>
-        <li>Make the bed over it with deep-fitted sheets.</li>
-        <li>That is it.</li>
-      </ol>
+  <div class="section section--dark">
+    <div class="page-width">
+      <h2>{{ section.settings.argument_heading }}</h2>
+      <p class="section__lede">{{ section.settings.argument_body }}</p>
+      <p class="section__eyebrow section__eyebrow--accent" style="margin-top:2.5rem;">{{ section.settings.how_eyebrow }}</p>
+      <div class="pdp-how">
+        <div>
+          <h3>{{ section.settings.how_a_heading }}</h3>
+          <div class="pdp-steps">
+            <div class="pdp-step"><div class="pdp-step__n">01</div><h3>{{ section.settings.step1_title }}</h3><p>{{ section.settings.step1_body }}</p></div>
+            <div class="pdp-step"><div class="pdp-step__n">02</div><h3>{{ section.settings.step2_title }}</h3><p>{{ section.settings.step2_body }}</p></div>
+            <div class="pdp-step"><div class="pdp-step__n">03</div><h3>{{ section.settings.step3_title }}</h3><p>{{ section.settings.step3_body }}</p></div>
+          </div>
+        </div>
+        <div>
+          <h3>{{ section.settings.how_b_heading }}</h3>
+          <ol class="pdp-ol">
+            <li>{{ section.settings.how_b_1 }}</li>
+            <li>{{ section.settings.how_b_2 }}</li>
+            <li>{{ section.settings.how_b_3 }}</li>
+            <li>{{ section.settings.how_b_4 }}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="pdp-note">
+        <p>{{ section.settings.failed_note }}</p>
+      </div>
     </div>
   </div>
 
-  <div class="page-width">
-    <h2>{{ section.settings.depth_heading }}</h2>
-    <p class="section__lede">{{ section.settings.depth_body }}</p>
+  <div class="section">
+    <div class="page-width">
+      <h2>{{ section.settings.depth_heading }}</h2>
+      <p class="section__lede">{{ section.settings.depth_body }}</p>
+    </div>
   </div>
 
-  <div class="page-width" data-faq>
-    <h2>Questions</h2>
-    <div class="faq__item" data-faq-item aria-expanded="false">
-      <button class="faq__trigger" type="button" data-faq-trigger><span>Will this fix a worn-out mattress?</span><span class="faq__icon" aria-hidden="true"></span></button>
-      <div class="faq__panel">No. If your mattress has dipped, or the springs have gone, a topper masks that for a while rather than solving it. On a mattress that is still sound, it changes how it feels.</div>
-    </div>
-    <div class="faq__item" data-faq-item aria-expanded="false">
-      <button class="faq__trigger" type="button" data-faq-trigger><span>Can I return it?</span><span class="faq__icon" aria-hidden="true"></span></button>
-      <div class="faq__panel">Yes. If it is not right, tell us within 100 nights and we will collect it and refund you in full.</div>
-    </div>
-    <div class="faq__item" data-faq-item aria-expanded="false">
-      <button class="faq__trigger" type="button" data-faq-trigger><span>How is it delivered?</span><span class="faq__icon" aria-hidden="true"></span></button>
-      <div class="faq__panel">It arrives compressed and rolled, by courier. Unroll it and give it a few hours to recover its full height before you sleep on it.</div>
+  <div class="section section--tight" data-section-ground="bg">
+    <div class="page-width">
+      {%- capture spec_inner -%}
+        <table class="pdp-spec__table">
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec1_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec1_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec1_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec2_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec2_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec2_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec3_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec3_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec3_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec4_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec4_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec4_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec5_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec5_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec5_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec6_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec6_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec6_does }}</td></tr>
+        </table>
+      {%- endcapture -%}
+      {% render 'pdp-spec',
+        spec_id: 'layer-spec',
+        heading: section.settings.spec_heading,
+        note: section.settings.spec_note,
+        spec_inner: spec_inner
+      %}
     </div>
   </div>
 </section>
@@ -140,26 +192,68 @@
 
 {% schema %}
 {
-  "name": "Comfort top",
+  "name": "Comfort layer",
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Hero image" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The comfort top" },
+    { "type": "text", "id": "image_caption", "label": "Hero image caption", "default": "Layer lifted clear of the mattress" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The comfort layer" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Two jobs. One layer." },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Inside our mattress, the comfort top is the part you replace - unzip, lift out, put a new one in, and the bed feels new again.</p><p>On any other bed, it is a 10cm topper. Deeper than most, in the same foams we build our own mattress with.</p>" },
-    { "type": "text", "id": "col1_heading", "label": "Column 1 heading", "default": "If you own our mattress" },
-    { "type": "textarea", "id": "col1_body", "label": "Column 1 body", "default": "This replaces the module inside it. Unzip, lift the old one out, put the new one in." },
-    { "type": "text", "id": "col2_heading", "label": "Column 2 heading", "default": "If you do not" },
-    { "type": "textarea", "id": "col2_body", "label": "Column 2 body", "default": "This sits on top of your existing mattress as a 10cm topper." },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Inside our mattress, this is the part you replace. On any other bed, it is a 10cm topper in the same foams we build with.</p>" },
+    { "type": "text", "id": "disambig_eyebrow", "label": "Disambiguation eyebrow", "default": "Which one are you" },
+    { "type": "text", "id": "col1_kicker", "label": "Column 1 kicker", "default": "Own our mattress" },
+    { "type": "text", "id": "col1_heading", "label": "Column 1 heading", "default": "This replaces the layer inside it." },
+    { "type": "textarea", "id": "col1_body", "label": "Column 1 body", "default": "Unzip the cover, take the old layer out, put the new one in." },
+    { "type": "text", "id": "col2_kicker", "label": "Column 2 kicker", "default": "Do not" },
+    { "type": "text", "id": "col2_heading", "label": "Column 2 heading", "default": "This sits on top of yours." },
+    { "type": "textarea", "id": "col2_body", "label": "Column 2 body", "default": "A 10cm topper. It will change how a good mattress feels." },
     { "type": "text", "id": "disambig_note", "label": "Disambiguation note", "default": "Same product either way. Choose your size and we will tell you which you need." },
-    { "type": "text", "id": "size_heading", "label": "Size heading", "default": "Which size?" },
-    { "type": "text", "id": "size_note", "label": "Size note", "default": "Match the size of the bed it is going on. Dimensions are in centimetres." },
+    { "type": "text", "id": "size_heading", "label": "Size heading", "default": "Choose your size and feel." },
+    { "type": "text", "id": "size_note", "label": "Size note", "default": "Dimensions in centimetres. Match the bed it is going on." },
     { "type": "text", "id": "feel_heading", "label": "Feel heading", "default": "Which feel?" },
-    { "type": "text", "id": "argument_heading", "label": "Argument heading", "default": "A layer, not a mattress." },
-    { "type": "textarea", "id": "argument_body", "label": "Argument body", "default": "A comfort top costs GBP 250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less." },
+    { "type": "text", "id": "feel_soft", "label": "Soft guidance", "default": "Side sleepers, lighter frames" },
+    { "type": "text", "id": "feel_medium", "label": "Medium guidance", "default": "Most people" },
+    { "type": "text", "id": "feel_firm", "label": "Firm guidance", "default": "Back and front sleepers" },
+    { "type": "text", "id": "buy_eyebrow", "label": "Buy panel eyebrow", "default": "Your order" },
+    { "type": "text", "id": "add_label", "label": "Add button", "default": "Add to order" },
+    { "type": "text", "id": "reassure", "label": "Reassure", "default": "100 nights to change your mind" },
+    { "type": "text", "id": "argument_heading", "label": "Argument heading", "default": "A layer costs £249. A mattress does not." },
+    { "type": "textarea", "id": "argument_body", "label": "Argument body", "default": "Refresh it at year five and year ten and you have spent less than replacing a cheaper bed twice." },
+    { "type": "text", "id": "how_eyebrow", "label": "How-it-works eyebrow", "default": "How it works" },
     { "type": "text", "id": "how_a_heading", "label": "How A heading", "default": "Inside our mattress" },
+    { "type": "text", "id": "step1_title", "label": "Step 1 title", "default": "Unzip" },
+    { "type": "textarea", "id": "step1_body", "label": "Step 1 body", "default": "Open the zip that runs around the mattress." },
+    { "type": "text", "id": "step2_title", "label": "Step 2 title", "default": "Lift out" },
+    { "type": "textarea", "id": "step2_body", "label": "Step 2 body", "default": "Take the old layer out in one piece." },
+    { "type": "text", "id": "step3_title", "label": "Step 3 title", "default": "Swap in" },
+    { "type": "textarea", "id": "step3_body", "label": "Step 3 body", "default": "Put the new one in. Zip it up." },
     { "type": "text", "id": "how_b_heading", "label": "How B heading", "default": "On any other mattress" },
+    { "type": "text", "id": "how_b_1", "label": "How B step 1", "default": "Strip the bed." },
+    { "type": "text", "id": "how_b_2", "label": "How B step 2", "default": "Lay the layer on the mattress." },
+    { "type": "text", "id": "how_b_3", "label": "How B step 3", "default": "Make the bed over it with deep-fitted sheets." },
+    { "type": "text", "id": "how_b_4", "label": "How B step 4", "default": "That is it." },
+    { "type": "textarea", "id": "failed_note", "label": "Failed-mattress note", "default": "It will not fix a mattress that has failed. If yours has dipped or the springs have gone, a topper masks that for a year rather than solving it." },
     { "type": "text", "id": "depth_heading", "label": "Depth heading", "default": "It is 10cm deep." },
     { "type": "textarea", "id": "depth_body", "label": "Depth body", "default": "On our mattress that is already accounted for - it replaces a layer of the same depth. On any other mattress it adds 10cm, which is a noticeable change in height. Your current fitted sheets may not fit. Deep-fitted sheets start at around 35cm." },
+    { "type": "text", "id": "spec_heading", "label": "Spec heading", "default": "Full specification" },
+    { "type": "textarea", "id": "spec_note", "label": "Spec note", "default": "Every layer, stated. You are spending real money on something you cannot open, so you should be able to see inside it." },
+    { "type": "text", "id": "spec1_name", "label": "Spec 1 name", "default": "Depth" },
+    { "type": "text", "id": "spec1_meta", "label": "Spec 1 meta", "default": "10 CM" },
+    { "type": "text", "id": "spec1_does", "label": "Spec 1 does", "default": "Matches the layer it replaces" },
+    { "type": "text", "id": "spec2_name", "label": "Spec 2 name", "default": "Soft face" },
+    { "type": "text", "id": "spec2_meta", "label": "Spec 2 meta", "default": "5 CM · 2540 FOAM · 25 DENSITY" },
+    { "type": "text", "id": "spec2_does", "label": "Spec 2 does", "default": "More give at the shoulder and hip" },
+    { "type": "text", "id": "spec3_name", "label": "Spec 3 name", "default": "Firm face" },
+    { "type": "text", "id": "spec3_meta", "label": "Spec 3 meta", "default": "5 CM · 2580 FOAM · 25 DENSITY" },
+    { "type": "text", "id": "spec3_does", "label": "Spec 3 does", "default": "Holds you higher, less sink" },
+    { "type": "text", "id": "spec4_name", "label": "Spec 4 name", "default": "Cover" },
+    { "type": "text", "id": "spec4_meta", "label": "Spec 4 meta", "default": "QUILTED KNIT" },
+    { "type": "text", "id": "spec4_does", "label": "Spec 4 does", "default": "The surface you sleep on" },
+    { "type": "text", "id": "spec5_name", "label": "Spec 5 name", "default": "Sizes" },
+    { "type": "text", "id": "spec5_meta", "label": "Spec 5 meta", "default": "90×190 TO 200×200 CM" },
+    { "type": "text", "id": "spec5_does", "label": "Spec 5 does", "default": "Matches every mattress size we make" },
+    { "type": "text", "id": "spec6_name", "label": "Spec 6 name", "default": "Made" },
+    { "type": "text", "id": "spec6_meta", "label": "Spec 6 meta", "default": "TO ORDER" },
+    { "type": "text", "id": "spec6_does", "label": "Spec 6 does", "default": "Built after you order it" },
     { "type": "text", "id": "price_note_gb", "label": "Price note UK", "default": "One price per size, whichever feel you choose." },
     { "type": "text", "id": "price_note_ae", "label": "Price note UAE", "default": "One price per size, whichever feel you choose." }
   ]

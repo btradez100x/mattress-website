@@ -13,7 +13,7 @@
   endif
 -%}
 {%- if section.settings.enable_section -%}
-<section class="section founder-note" id="founder" data-reveal>
+<section class="section founder-note{% render 'section-ground' %}" id="founder" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width founder-note__grid">
     <figure class="founder-note__media" data-reveal-child style="--reveal-delay: 0ms">
       <div class="founder-note__portrait">
@@ -43,6 +43,11 @@
       <h2 data-reveal-child style="--reveal-delay: 240ms">{{ section.settings.heading }}</h2>
       <div class="founder-note__body rte" data-reveal-child style="--reveal-delay: 320ms">
         {{ note }}
+        {%- if settings.pillows_enabled -%}
+          <p class="pdp-discover">
+            <a href="{{ all_products['pillows'].url | default: '/products/pillows' }}">The right height for how you sleep.</a>
+          </p>
+        {%- endif -%}
       </div>
       <div class="founder-note__signoff" data-reveal-child style="--reveal-delay: 420ms">
         {%- if section.settings.signature_image != blank -%}
@@ -72,6 +77,32 @@
       "label": "Show this section",
       "default": true
     },
+
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -88,7 +119,7 @@
       "type": "richtext",
       "id": "note",
       "label": "Note (~80-120 words)",
-      "default": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort top you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
+      "default": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort layer you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
       "info": "Use [Brand] - it is replaced by the global brand name setting."
     },
     {

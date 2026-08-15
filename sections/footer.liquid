@@ -105,6 +105,36 @@
       </ul>
     </div>
 
+    {%- liquid
+      assign show_accessories = false
+      if settings.footer_accessories_enabled
+        if settings.comfort_tops_enabled or settings.sheets_enabled or settings.pillows_enabled
+          assign show_accessories = true
+        endif
+      endif
+      assign layer_url = all_products['comfort-layer'].url | default: all_products['comfort-top'].url | default: '/products/comfort-layer'
+      assign sheets_url = all_products['bed-sheets'].url | default: '/products/bed-sheets'
+      assign pillows_url = all_products['pillows'].url | default: '/products/pillows'
+    -%}
+    {%- if show_accessories -%}
+    <div class="footer-accessories" data-footer-accessories>
+      {%- if section.settings.accessories_heading != blank -%}
+        <h3>{{ section.settings.accessories_heading }}</h3>
+      {%- endif -%}
+      <ul>
+        {%- if settings.comfort_tops_enabled -%}
+          <li><a href="{{ layer_url }}">The comfort layer</a></li>
+        {%- endif -%}
+        {%- if settings.sheets_enabled -%}
+          <li><a href="{{ sheets_url }}">Bed sheets</a></li>
+        {%- endif -%}
+        {%- if settings.pillows_enabled -%}
+          <li><a href="{{ pillows_url }}">Pillows</a></li>
+        {%- endif -%}
+      </ul>
+    </div>
+    {%- endif -%}
+
     <div>
       <h3>{{ section.settings.policies_heading | default: 'Policies' }}</h3>
       <ul>
@@ -170,6 +200,12 @@
     {
       "type": "paragraph",
       "content": "Business name, address, email, phone, and trade licence are edited in Theme settings → Business details."
+    },
+    {
+      "type": "text",
+      "id": "accessories_heading",
+      "label": "Accessories group heading",
+      "info": "Optional. Leave blank for no heading. Only shown when the footer accessories flag is on, and only lists products whose own flags are on."
     },
     {
       "type": "text",

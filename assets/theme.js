@@ -1036,6 +1036,64 @@
     }
   }
 
+  function sectionGroundVisible(el) {
+    if (!el || el.hidden || el.getAttribute('hidden') !== null) return false;
+    var wrap = el.closest('.shopify-section');
+    if (wrap && (wrap.hidden || wrap.getAttribute('hidden') !== null)) return false;
+    try {
+      var style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden') return false;
+    } catch (e) {}
+    return true;
+  }
+
+  function applySectionGroundClass(el, ground) {
+    if (!el || el.classList.contains('hero')) return;
+    var isTrust = el.classList.contains('trust-bar');
+    el.classList.remove('section--dark', 'section--surface', 'trust-bar--dark', 'trust-bar--surface');
+    if (ground === 'dark') {
+      el.classList.add(isTrust ? 'trust-bar--dark' : 'section--dark');
+    } else if (ground === 'surface') {
+      el.classList.add(isTrust ? 'trust-bar--surface' : 'section--surface');
+    }
+  }
+
+  function applySectionGrounds() {
+    var root = document.getElementById('MainContent') || document.querySelector('main') || document.body;
+    if (!root) return;
+    var nodes = root.querySelectorAll('[data-section-ground]');
+    var prev = null;
+    nodes.forEach(function (el) {
+      if (!sectionGroundVisible(el)) return;
+      var mode = el.getAttribute('data-section-ground') || 'auto';
+      if (el.classList.contains('hero')) {
+        prev = mode === 'dark' ? 'dark' : 'bg';
+        return;
+      }
+      if (mode === 'auto') {
+        var next = prev === 'bg' ? 'surface' : 'bg';
+        applySectionGroundClass(el, next);
+        prev = next;
+        return;
+      }
+      if (mode === 'bg' || mode === 'surface' || mode === 'dark') {
+        applySectionGroundClass(el, mode);
+        prev = mode;
+      }
+    });
+  }
+
+  function initSectionGrounds() {
+    applySectionGrounds();
+    window.ValtoraTheme = window.ValtoraTheme || {};
+    window.ValtoraTheme.applySectionGrounds = applySectionGrounds;
+    ['shopify:section:load', 'shopify:section:unload', 'shopify:section:reorder', 'shopify:section:select'].forEach(
+      function (evt) {
+        document.addEventListener(evt, applySectionGrounds);
+      }
+    );
+  }
+
   function initSectionWipes() {
     /* Do not clip dark sections. clip-path: inset(0 100% 0 0) hid Offer and
        Swap on the storefront after Customizer save; the editor iframe often
@@ -3293,11 +3351,11 @@
 
   function paintPdpBuy(root, lineText, priceText) {
     var lineEl = root.querySelector('[data-buy-line]');
-    var priceEl = root.querySelector('[data-top-price], [data-sheet-price], [data-pillow-price]');
-    var totalEl = root.querySelector('[data-buy-total]');
     if (lineEl) lineEl.innerHTML = lineText;
-    if (priceEl && priceText) priceEl.textContent = priceText;
-    if (totalEl && priceText) totalEl.textContent = priceText;
+    if (!priceText) return;
+    root.querySelectorAll('[data-top-price], [data-sheet-price], [data-pillow-price], [data-buy-total]').forEach(function (el) {
+      el.textContent = priceText;
+    });
   }
 
   function initComfortTop() {
@@ -4829,6 +4887,7 @@
     initPreviewAnnouncement();
     applyPreviewTopsFlag();
     initReveal();
+    initSectionGrounds();
     initSectionWipes();
     initTrustMarquee();
     initPreviewClaimToggles();

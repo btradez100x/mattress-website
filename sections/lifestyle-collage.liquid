@@ -4,9 +4,10 @@
 -%}
 {%- if section.settings.enable_section -%}
 <section
-  class="section lifestyle-collage{% if section.settings.surface %} section--surface{% endif %}"
+  class="section lifestyle-collage{% render 'section-ground' %}"
   id="{{ section.settings.anchor_id | default: 'lifestyle' }}"
   data-reveal
+  data-section-ground="{% render 'section-ground', as: 'value' %}"
 >
   <div class="page-width">
     {%- if section.settings.eyebrow != blank -%}
@@ -67,6 +68,31 @@
       "id": "enable_section",
       "label": "Show this section",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
     },
     {
       "type": "checkbox",

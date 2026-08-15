@@ -1,0 +1,36 @@
+{%- comment -%}
+  Section colour arrangement — existing brand grounds only.
+  Off-white (--brand-bg), stone (--brand-surface), dark (--brand-primary).
+
+  Usage:
+    class="section{% render 'section-ground' %}"
+    data-section-ground="{% render 'section-ground', as: 'value' %}"
+
+  Optional:
+    fallback: 'dark' | 'surface' | 'bg' | 'auto'  (when ground is unset)
+    prefix: 'trust-bar'  (emits trust-bar--surface / trust-bar--dark)
+    ignore_legacy: true  (do not read old dark/surface checkboxes)
+{%- endcomment -%}
+{%- liquid
+  assign g = section.settings.ground | default: ''
+  if g == blank
+    if ignore_legacy != true
+      if section.settings.dark
+        assign g = 'dark'
+      elsif section.settings.surface
+        assign g = 'surface'
+      endif
+    endif
+  endif
+  if g == blank
+    assign g = fallback | default: 'auto'
+  endif
+  assign prefix = prefix | default: 'section'
+-%}
+{%- if as == 'value' -%}
+{{- g -}}
+{%- elsif g == 'dark' -%}
+ {{ prefix }}--dark
+{%- elsif g == 'surface' -%}
+ {{ prefix }}--surface
+{%- endif -%}

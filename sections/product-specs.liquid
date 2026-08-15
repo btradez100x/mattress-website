@@ -17,7 +17,7 @@
     assign vspec_class = 'vspec vspec--dark'
   endif
 -%}
-<section class="section section--vspec" id="{{ spec_anchor }}" data-reveal>
+<section class="section section--vspec{% render 'section-ground', ignore_legacy: true %}" id="{{ spec_anchor }}" data-reveal data-section-ground="{% render 'section-ground', as: 'value', ignore_legacy: true %}">
   <div class="page-width">
     <div class="{{ vspec_class }}" data-open="false" data-spec-panel data-spec-id="{{ spec_id | escape }}">
       <button
@@ -85,6 +85,31 @@
       "default": true
     },
     {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
+    },
+    {
       "type": "text",
       "id": "label",
       "label": "Trigger label",
@@ -118,8 +143,9 @@
     {
       "type": "checkbox",
       "id": "dark",
-      "label": "Dark ground",
-      "default": false
+      "label": "Dark specification panel",
+      "default": false,
+      "info": "Colours the specification panel only. Use Section colour for the band behind it."
     }
   ],
   "blocks": [

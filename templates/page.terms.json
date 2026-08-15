@@ -6,7 +6,7 @@
         "eyebrow": "Policies",
         "heading": "Terms",
         "intro": "How ordering, lead time, cancellation, and the trial work.",
-        "fallback_content": "<p>These terms are the contract between you and [Legal].</p><h2>Made to order</h2><p>Mattresses are built after you order. The current delivery window is 8 to 10 weeks. We give a window rather than a single date because freight can move.</p><h2>Cancellation</h2><p>Cancel any time before dispatch for a full refund, no questions asked.</p><h2>100-night trial</h2><p>Once your mattress arrives you have 100 nights. If it is not right, tell us within that period and we collect it and refund you.</p><h2>Comfort tops</h2><p>A comfort top has its own lead time and the same 100-night trial. Delivery is charged once per order.</p><p>Replace this fallback with the full terms from Shopify Settings → Policies when you publish.</p>",
+        "fallback_content": "<p>These terms are the contract between you and [Legal].</p><h2>Made to order</h2><p>Mattresses are built after you order. The current delivery window is 8 to 10 weeks. We give a window rather than a single date because freight can move.</p><h2>Cancellation</h2><p>Cancel any time before dispatch for a full refund, no questions asked.</p><h2>100-night trial</h2><p>Once your mattress arrives you have 100 nights. If it is not right, tell us within that period and we collect it and refund you.</p><h2>Comfort layer</h2><p>A comfort layer has its own lead time and the same 100-night trial. Delivery is charged once per order.</p><p>Replace this fallback with the full terms from Shopify Settings → Policies when you publish.</p>",
         "cta_label": "Reserve your size",
         "cta_link": "/#reserve"
       }
