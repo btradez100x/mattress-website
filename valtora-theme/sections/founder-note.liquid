@@ -38,10 +38,10 @@
       </div>
     </figure>
     <div class="founder-note__copy">
-      <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 120ms">{{ section.settings.eyebrow }}</p>
-      <hr class="gold-rule" data-reveal-child style="--reveal-delay: 180ms">
-      <h2 data-reveal-child style="--reveal-delay: 240ms">{{ section.settings.heading }}</h2>
-      <div class="founder-note__body rte" data-reveal-child style="--reveal-delay: 320ms">
+      <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 50ms">{{ section.settings.eyebrow }}</p>
+      <hr class="gold-rule" data-reveal-child style="--reveal-delay: 100ms">
+      <h2 data-reveal-child style="--reveal-delay: 150ms">{{ section.settings.heading }}</h2>
+      <div class="founder-note__body rte" data-reveal-child style="--reveal-delay: 200ms">
         {{ note }}
         {%- if settings.pillows_enabled -%}
           <p class="pdp-discover">
@@ -49,7 +49,7 @@
           </p>
         {%- endif -%}
       </div>
-      <div class="founder-note__signoff" data-reveal-child style="--reveal-delay: 420ms">
+      <div class="founder-note__signoff" data-reveal-child style="--reveal-delay: 250ms">
         {%- if section.settings.signature_image != blank -%}
           {{
             section.settings.signature_image

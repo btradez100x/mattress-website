@@ -72,7 +72,7 @@ a {
   color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  transition: opacity var(--transition);
+  transition: opacity var(--dur-fast) ease-out;
 }
 
 a:hover {
@@ -159,6 +159,36 @@ p:last-child {
 .section--dark {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Dark bands paint their Shopify wrapper so they stay edge-to-edge and
+   neighbouring grounds meet (no white hairline / inset card). */
+#MainContent > .shopify-section:has(> .section--dark),
+#MainContent > .shopify-section:has(> .trust-bar--dark) {
+  background: var(--brand-primary);
+  margin: 0;
+  padding-inline: 0;
+  width: 100%;
+  max-width: none;
+}
+
+#MainContent > .shopify-section {
+  margin-block: 0;
+}
+
+#MainContent > .shopify-section + .shopify-section:has(> .section--dark),
+#MainContent > .section + .section--dark {
+  margin-top: -1px;
+}
+
+#MainContent > .shopify-section + .shopify-section:has(> .section--dark) > .section--dark,
+#MainContent > .section + .section--dark {
+  padding-top: calc(var(--space-section) + 1px);
 }
 
 /* Auto grounds: first-paint stripe so neighbours do not blend before JS. */
@@ -205,6 +235,19 @@ p:last-child {
   background: var(--brand-accent);
 }
 
+.gold-rule--measure {
+  width: 100%;
+  max-width: none;
+  height: 1px;
+  margin: 2.25rem 0 0;
+  background: var(--brand-accent);
+  border: 0;
+}
+
+.section--dark .gold-rule--measure {
+  background: var(--brand-accent);
+}
+
 .section__eyebrow {
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -222,15 +265,15 @@ p:last-child {
   color: var(--brand-ink);
 }
 
-/* Swap explainer: one centered measure for eyebrow, heading, ledes, richtext, CTA, video */
+/* Swap explainer: one 48rem centered column; type starts left within that measure */
 .swap-explainer {
-  text-align: center;
+  text-align: start;
 }
 
 .swap-explainer__column {
   max-width: 48rem;
   margin-inline: auto;
-  text-align: center;
+  text-align: start;
 }
 
 .swap-explainer .section__eyebrow,
@@ -242,8 +285,8 @@ p:last-child {
 .swap-explainer__cta {
   max-width: none;
   width: 100%;
-  margin-inline: auto;
-  text-align: center;
+  margin-inline: 0;
+  text-align: start;
 }
 
 .swap-explainer .section__lede + .section__lede,
@@ -260,8 +303,15 @@ p:last-child {
   aspect-ratio: 16 / 9;
   width: 100%;
   max-width: 100%;
-  margin-inline: auto;
+  margin-inline: 0;
   margin-top: 2.5rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--brand-primary) 82%, #000);
+}
+
+.swap-explainer__media.big-idea__media--player,
+.swap-explainer__media.big-idea__media--wide {
+  overflow: hidden;
 }
 
 /* Preview: hide wordmark until saved brand text is applied (prevents name blink) */
@@ -482,6 +532,17 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
     html[data-brand-guidelines="v2"] .section--dark .gold-rule {
       border-top-color: var(--hairline-dark, #2E2E30);
     }
+    html[data-brand-guidelines="v2"] .gold-rule.gold-rule--measure {
+      width: 100%;
+      max-width: none;
+      height: 0;
+      background: none;
+      border: 0;
+      border-top: 1px solid var(--brand-accent);
+    }
+    html[data-brand-guidelines="v2"] .section--dark .gold-rule.gold-rule--measure {
+      border-top-color: var(--brand-accent);
+    }
     html[data-brand-guidelines="v2"] .reserve-panel__price,
     html[data-brand-guidelines="v2"] [data-display-price],
     html[data-brand-guidelines="v2"] .cart-line__total,
@@ -595,11 +656,11 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: background var(--dur-fast) var(--ease),
-    color var(--dur-fast) var(--ease),
-    border-color var(--dur-fast) var(--ease),
-    transform var(--dur-fast) var(--ease),
-    box-shadow var(--dur-fast) var(--ease),
+  transition: background var(--dur-fast) ease-out,
+    color var(--dur-fast) ease-out,
+    border-color var(--dur-fast) ease-out,
+    transform var(--dur-fast) ease-out,
+    box-shadow var(--dur-fast) ease-out,
 }
 
 a[data-reserve-continue][aria-disabled="true"] {
@@ -752,7 +813,7 @@ a[data-reserve-continue][aria-disabled="true"] {
   width: 100%;
   height: 1.5px;
   background: currentColor;
-  transition: transform var(--transition), opacity var(--transition);
+  transition: transform var(--dur-panel) ease-out, opacity var(--dur-panel) ease-out;
   transform-origin: center;
 }
 
@@ -1114,7 +1175,7 @@ body[data-page="manufacturing"] .site-header {
 @keyframes heroRise {
   from {
     opacity: 0;
-    transform: translateY(1.1rem);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -1152,9 +1213,11 @@ body[data-page="manufacturing"] .site-header {
     opacity: 1 !important;
     transform: none !important;
   }
-  .section--wipe {
+  .section--wipe,
+  .section--wipe.is-wiping {
     clip-path: none !important;
     transition: none !important;
+    animation: none !important;
   }
 }
 
@@ -1177,7 +1240,7 @@ body.has-sticky-reserve {
 @keyframes revealRise {
   from {
     opacity: 0;
-    transform: translate3d(0, 1.5rem, 0);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
@@ -1202,25 +1265,25 @@ body.has-sticky-reserve {
    Without .js-ready, copy stays visible. Design mode and reduced-motion never hide. */
 html.js-ready:not(.shopify-design-mode) [data-reveal-child]:not(.is-visible) {
   opacity: 0 !important;
-  transform: translate3d(0, 1.5rem, 0) !important;
+  transform: translate3d(0, 20px, 0) !important;
   animation: none !important;
 }
 
 html.js-ready:not(.shopify-design-mode) [data-reveal-child].is-visible {
-  animation: revealRise 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) backwards;
+  animation: revealRise var(--dur-base) var(--ease) var(--reveal-delay, 0ms) backwards;
 }
 
 /* Homepage hero: first-paint stagger (not scroll). CSS runs before JS so
    "Made to order" / CTAs / mattress photo ease in on load. Design mode only
    is the editor exception — do not disable storefront motion to fix Customize. */
 html:not(.shopify-design-mode) [data-reveal-first] {
-  animation: revealRise 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both;
+  animation: revealRise var(--dur-base) var(--ease) var(--reveal-delay, 0ms) both;
 }
 
 html.js-ready:not(.shopify-design-mode) [data-reveal-child][data-reveal-first]:not(.is-visible) {
   opacity: unset !important;
   transform: unset !important;
-  animation: revealRise 600ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms) both !important;
+  animation: revealRise var(--dur-base) var(--ease) var(--reveal-delay, 0ms) both !important;
 }
 
 html.shopify-design-mode [data-reveal],
@@ -1273,14 +1336,14 @@ html.shopify-design-mode [data-reveal-first] {
     transform: scale(1);
     transform-origin: center center;
     transition:
-      transform var(--dur-fast) var(--ease),
-      box-shadow var(--dur-fast) var(--ease),
-      border-color var(--dur-fast) var(--ease),
-      background var(--dur-fast) var(--ease),
-      color var(--dur-fast) var(--ease),
-      opacity var(--dur-fast) var(--ease),
-      filter var(--dur-fast) var(--ease),
-      letter-spacing var(--dur-fast) var(--ease);
+      transform var(--dur-fast) ease-out,
+      box-shadow var(--dur-fast) ease-out,
+      border-color var(--dur-fast) ease-out,
+      background var(--dur-fast) ease-out,
+      color var(--dur-fast) ease-out,
+      opacity var(--dur-fast) ease-out,
+      filter var(--dur-fast) ease-out,
+      letter-spacing var(--dur-fast) ease-out;
   }
 
   /* CTAs - quiet scale + soft light sweep */
@@ -1300,7 +1363,7 @@ html.shopify-design-mode [data-reveal-first] {
       transparent 68%
     );
     transform: translateX(-130%) skewX(-14deg);
-    transition: transform var(--dur-wipe) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
     pointer-events: none;
   }
 
@@ -1317,7 +1380,7 @@ html.shopify-design-mode [data-reveal-first] {
   .btn:active {
     transform: scale(0.995);
     box-shadow: 0 4px 14px color-mix(in srgb, var(--brand-primary) 8%, transparent);
-    transition-duration: 220ms;
+    transition-duration: var(--dur-fast);
   }
 
   .btn--ghost:hover {
@@ -1345,7 +1408,7 @@ html.shopify-design-mode [data-reveal-first] {
     background: currentColor;
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform var(--dur-fast) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
   }
 
   .btn--accent-line:hover::after {
@@ -1382,11 +1445,11 @@ html.shopify-design-mode [data-reveal-first] {
   .contact-details--cards li:hover {
     transform: scale(var(--hover-scale-tile));
     transition:
-      transform var(--dur-fast) var(--ease),
-      box-shadow var(--dur-fast) var(--ease),
-      border-color var(--dur-fast) var(--ease),
-      background var(--dur-fast) var(--ease),
-      opacity var(--dur-fast) var(--ease);
+      transform var(--dur-fast) ease-out,
+      box-shadow var(--dur-fast) ease-out,
+      border-color var(--dur-fast) ease-out,
+      background var(--dur-fast) ease-out,
+      opacity var(--dur-fast) ease-out;
     transition-delay: 0ms;
   }
 
@@ -1441,11 +1504,11 @@ html.shopify-design-mode [data-reveal-first] {
   .cert-strip__item,
   .layer-stack > li {
     transition:
-      color var(--dur-fast) var(--ease),
-      opacity var(--dur-fast) var(--ease),
-      transform var(--dur-fast) var(--ease),
-      letter-spacing var(--dur-fast) var(--ease),
-      border-color var(--dur-fast) var(--ease);
+      color var(--dur-fast) ease-out,
+      opacity var(--dur-fast) ease-out,
+      transform var(--dur-fast) ease-out,
+      letter-spacing var(--dur-fast) ease-out,
+      border-color var(--dur-fast) ease-out;
   }
 
   .section__eyebrow:hover,
@@ -1541,8 +1604,8 @@ html.shopify-design-mode [data-reveal-first] {
 
   .specs__list > li::before {
     transition:
-      transform var(--dur-fast) var(--ease),
-      background var(--dur-fast) var(--ease);
+      transform var(--dur-fast) ease-out,
+      background var(--dur-fast) ease-out;
   }
 
   .cool-touch__points > li:hover strong,
@@ -1554,7 +1617,7 @@ html.shopify-design-mode [data-reveal-first] {
   .cool-touch__points > li strong,
   .measure-size__step h3,
   .cert-strip__item strong {
-    transition: color var(--dur-fast) var(--ease);
+    transition: color var(--dur-fast) ease-out;
   }
 
   .measure-size__step:hover .measure-size__num {
@@ -1565,8 +1628,8 @@ html.shopify-design-mode [data-reveal-first] {
   .measure-size__num {
     display: inline-block;
     transition:
-      color var(--dur-fast) var(--ease),
-      transform var(--dur-fast) var(--ease);
+      color var(--dur-fast) ease-out,
+      transform var(--dur-fast) ease-out;
   }
 
   .measure-size__link a {
@@ -1584,7 +1647,7 @@ html.shopify-design-mode [data-reveal-first] {
     background: currentColor;
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform var(--dur-fast) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
   }
 
   .measure-size__link a:hover,
@@ -1625,7 +1688,7 @@ html.shopify-design-mode [data-reveal-first] {
   .big-idea__media:not(.big-idea__media--player) video:not([controls]),
   .specs__media img,
   .press__logo-img {
-    transition: transform var(--dur-wipe) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
     transform: scale(1);
     transform-origin: center center;
   }
@@ -1649,7 +1712,7 @@ html.shopify-design-mode [data-reveal-first] {
   /* Lists - opacity only (no slide that feels random vs tiles) */
   .spec-row,
   .layer-stack li {
-    transition: opacity var(--dur-fast) var(--ease);
+    transition: opacity var(--dur-fast) ease-out;
   }
 
   .spec-row:hover,
@@ -1664,7 +1727,7 @@ html.shopify-design-mode [data-reveal-first] {
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 0 1px;
-    transition: background-size var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+    transition: background-size var(--dur-fast) ease-out, opacity var(--dur-fast) ease-out;
   }
 
   .site-header__nav a:hover,
@@ -1898,7 +1961,7 @@ video[controls],
   line-height: 1;
   color: var(--brand-slate, var(--eyebrow-color, #6B6B70));
   flex: none;
-  transition: transform var(--dur-panel) var(--ease);
+  transition: transform var(--dur-panel) ease-out;
 }
 
 .vspec[data-open="true"] .vspec__ind {
@@ -1908,7 +1971,7 @@ video[controls],
 .vspec__body {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows var(--dur-panel) var(--ease);
+  transition: grid-template-rows var(--dur-panel) ease-out;
 }
 
 .vspec[data-open="true"] .vspec__body {
@@ -1922,7 +1985,7 @@ video[controls],
 .vspec__inner {
   padding: 2px 0 34px;
   opacity: 0;
-  transition: opacity 200ms var(--ease) 120ms;
+  transition: opacity var(--dur-fast) ease-out 120ms;
 }
 
 .vspec[data-open="true"] .vspec__inner {
@@ -2059,8 +2122,8 @@ video[controls],
   opacity: 0;
   transform: translate3d(0, 0.35rem, 0);
   transition:
-    opacity var(--dur-wipe) var(--ease),
-    transform var(--dur-wipe) var(--ease);
+    opacity var(--dur-fast) ease-out,
+    transform var(--dur-fast) ease-out;
   pointer-events: none;
 }
 
@@ -2079,10 +2142,15 @@ video[controls],
 }
 
 /* Offer strip */
+#offer {
+  padding-block: var(--space-section);
+}
+
 .offer__items {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem 2rem;
   margin-top: 2rem;
+  width: 100%;
 }
 
 @media (min-width: 720px) {
@@ -2092,8 +2160,8 @@ video[controls],
 }
 
 .offer__item {
-  padding-top: 1.15rem;
-  border-top: 1px solid color-mix(in srgb, var(--brand-on-dark) 18%, transparent);
+  padding-top: 0;
+  border-top: 0;
 }
 
 .offer__item strong {
@@ -2180,9 +2248,9 @@ video[controls],
   cursor: pointer;
   transform: none;
   transition:
-    background var(--dur-fast) var(--ease),
-    border-color var(--dur-fast) var(--ease),
-    box-shadow var(--dur-fast) var(--ease);
+    background var(--dur-fast) ease-out,
+    border-color var(--dur-fast) ease-out,
+    box-shadow var(--dur-fast) ease-out;
 }
 
 .section--surface .size-option {
@@ -2221,7 +2289,7 @@ video[controls],
   border: 1.5px solid rgba(31, 58, 95, 0.32);
   position: relative;
   flex-shrink: 0;
-  transition: border-color var(--dur-fast) var(--ease);
+  transition: border-color var(--dur-fast) ease-out;
 }
 
 .size-option__marker::after {
@@ -2231,7 +2299,7 @@ video[controls],
   border-radius: 50%;
   background: var(--brand-primary);
   transform: scale(0);
-  transition: transform var(--dur-fast) var(--ease);
+  transition: transform var(--dur-fast) ease-out;
 }
 
 .size-option.is-in-basket .size-option__marker {
@@ -2308,9 +2376,9 @@ video[controls],
   cursor: pointer;
   border-radius: var(--radius-control, 0.35rem);
   transition:
-    background var(--dur-fast) var(--ease),
-    color var(--dur-fast) var(--ease),
-    border-color var(--dur-fast) var(--ease);
+    background var(--dur-fast) ease-out,
+    color var(--dur-fast) ease-out,
+    border-color var(--dur-fast) ease-out;
 }
 
 .size-option__add:hover {
@@ -2713,7 +2781,7 @@ video[controls],
   content: '';
   position: absolute;
   background: var(--brand-accent);
-  transition: transform var(--transition);
+  transition: transform var(--dur-panel) ease-out;
 }
 
 .faq__icon::before {
@@ -3030,7 +3098,7 @@ video[controls],
   font-size: 1.65rem;
   line-height: 1;
   color: color-mix(in srgb, var(--brand-primary) 22%, transparent);
-  transition: color var(--transition);
+  transition: color var(--dur-fast) ease-out;
 }
 
 .review-form__stars label:hover,
@@ -3198,6 +3266,19 @@ video[controls],
   background: var(--brand-accent);
   margin: 0 0 1.35rem;
   border: none;
+}
+
+.gold-rule.gold-rule--measure {
+  width: 100%;
+  max-width: none;
+  height: 1px;
+  margin: 2.25rem 0 0;
+  background: var(--brand-accent);
+  border: 0;
+}
+
+.section--dark .gold-rule.gold-rule--measure {
+  background: var(--brand-accent);
 }
 
 /* -- S15 Trust layer -- */
@@ -3407,7 +3488,7 @@ video[controls],
   font-weight: 600;
   letter-spacing: 0.01em;
   color: var(--brand-ink);
-  transition: color var(--transition);
+  transition: color var(--dur-fast) ease-out;
 }
 
 .trust-bar__sub {
@@ -3708,8 +3789,8 @@ video[controls],
   opacity: 0;
   transform: translate3d(0, 0.35rem, 0);
   transition:
-    opacity var(--dur-wipe) var(--ease),
-    transform var(--dur-wipe) var(--ease);
+    opacity var(--dur-fast) ease-out,
+    transform var(--dur-fast) ease-out;
   pointer-events: none;
 }
 
@@ -3997,11 +4078,12 @@ body:has([data-float-total]:empty) .hero__cta {
 }
 
 .offer__cta {
-  margin-top: 2.5rem;
+  margin-top: 2.75rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.75rem;
+  gap: 0.85rem;
+  width: 100%;
 }
 
 .offer__cta .btn {
@@ -4028,7 +4110,7 @@ body:has([data-float-total]:empty) .hero__cta {
       transparent 68%
     );
     transform: translateX(-130%) skewX(-14deg);
-    transition: transform var(--dur-wipe) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
     pointer-events: none;
   }
 
@@ -4046,7 +4128,7 @@ body:has([data-float-total]:empty) .hero__cta {
   .offer__cta .btn:active {
     transform: scale(0.995);
     box-shadow: 0 4px 14px color-mix(in srgb, #000 16%, transparent);
-    transition-duration: 220ms;
+    transition-duration: var(--dur-fast);
   }
 }
 
@@ -4225,7 +4307,7 @@ body:has([data-float-total]:empty) .hero__cta {
   background: var(--brand-primary, #1a1a1a);
   color: var(--brand-bg, #f5f4f1);
   transform: translateY(0);
-  transition: transform var(--transition), opacity var(--transition);
+  transition: transform var(--dur-panel) ease-out, opacity var(--dur-panel) ease-out;
 }
 
 .float-basket[hidden] {
@@ -4290,7 +4372,7 @@ body:has([data-float-total]:empty) .hero__cta {
   -webkit-backdrop-filter: saturate(1.2) blur(16px);
   border-top: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
   transform: translateY(0);
-  transition: transform var(--transition), opacity var(--transition);
+  transition: transform var(--dur-panel) ease-out, opacity var(--dur-panel) ease-out;
 }
 
 .sticky-reserve[hidden] {
@@ -4412,8 +4494,16 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 }
 
 /* -- Press / As seen on -- */
+#press {
+  padding-block: var(--space-section);
+}
+
 .press__heading {
   margin-bottom: 0.35rem;
+}
+
+.press__awards-label {
+  margin-top: 2.5rem;
 }
 
 .press__lede {
@@ -4464,7 +4554,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   object-fit: contain;
   filter: grayscale(1);
   opacity: 0.78;
-  transition: filter 420ms var(--ease), opacity 420ms var(--ease), transform 420ms var(--ease);
+  transition: filter var(--dur-fast) ease-out, opacity var(--dur-fast) ease-out, transform var(--dur-fast) ease-out;
 }
 
 .press__logo-link {
@@ -4590,8 +4680,8 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   opacity: 0;
   transform: translate3d(0, 0.35rem, 0);
   transition:
-    opacity var(--dur-wipe) var(--ease),
-    transform var(--dur-wipe) var(--ease);
+    opacity var(--dur-fast) ease-out,
+    transform var(--dur-fast) ease-out;
   pointer-events: none;
 }
 
@@ -4609,7 +4699,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 
   .lifestyle-collage__frame img,
   .lifestyle-collage__img {
-    transition: transform var(--dur-wipe) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
     transform: scale(1);
     transform-origin: center center;
   }
@@ -4735,15 +4825,15 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 /* -- Awards -- */
 .awards__grid {
   list-style: none;
-  margin: 2.25rem 0 0;
+  margin: 1.75rem 0 0;
   padding: 0;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.75rem 2rem;
 }
 
 @media (min-width: 800px) {
   .awards__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   }
 }
 
@@ -4908,8 +4998,8 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   opacity: 0;
   transform: translate3d(0, 0.35rem, 0);
   transition:
-    opacity var(--dur-wipe) var(--ease),
-    transform var(--dur-wipe) var(--ease);
+    opacity var(--dur-fast) ease-out,
+    transform var(--dur-fast) ease-out;
   pointer-events: none;
 }
 
@@ -5352,15 +5442,15 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 }
 .mfg-hero[data-reveal].is-visible .mfg-hero__img,
 .mfg-hero.is-visible .mfg-hero__img {
-  animation: heroMediaIn var(--dur-wipe) var(--ease) both;
+  animation: heroMediaIn var(--dur-base) var(--ease) both;
 }
 .mfg-hero__copy > * {
   animation: heroRise var(--dur-base) var(--ease) both;
 }
-.mfg-hero__copy > *:nth-child(1) { animation-delay: 80ms; }
-.mfg-hero__copy > *:nth-child(2) { animation-delay: 160ms; }
-.mfg-hero__copy > *:nth-child(3) { animation-delay: 240ms; }
-.mfg-hero__copy > *:nth-child(4) { animation-delay: 320ms; }
+.mfg-hero__copy > *:nth-child(1) { animation-delay: 50ms; }
+.mfg-hero__copy > *:nth-child(2) { animation-delay: 100ms; }
+.mfg-hero__copy > *:nth-child(3) { animation-delay: 150ms; }
+.mfg-hero__copy > *:nth-child(4) { animation-delay: 200ms; }
 
 @media (prefers-reduced-motion: reduce) {
   html:not([data-force-motion="true"]) .mfg-hero__img,
@@ -5375,14 +5465,14 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   [data-reveal].is-visible .mfg-gallery__item,
   [data-reveal].is-visible .mfg-split__card,
   [data-reveal].is-visible .blog-card {
-    transition: transform var(--dur-fast) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
   }
   [data-reveal].is-visible .mfg-gallery__item:hover,
   [data-reveal].is-visible .mfg-split__card:hover {
     transform: translateY(-0.2rem);
   }
   [data-reveal].is-visible .mfg-gallery__item img {
-    transition: transform var(--dur-fast) var(--ease);
+    transition: transform var(--dur-fast) ease-out;
   }
   [data-reveal].is-visible .mfg-gallery__item:hover img {
     transform: scale(1.03);
@@ -5398,7 +5488,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 
 .blog-card__media,
 .blog-card__media--empty {
-  transition: transform var(--dur-fast) var(--ease);
+  transition: transform var(--dur-fast) ease-out;
 }
 
 /* Offer anchors */
@@ -5500,7 +5590,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   font: inherit;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: border-color var(--transition, 320ms ease), background var(--transition, 320ms ease);
+  transition: border-color var(--dur-fast) ease-out, background var(--dur-fast) ease-out;
 }
 .order-qty__btn.is-active,
 .order-qty__btn[aria-checked='true'] {
@@ -6145,7 +6235,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   text-decoration: none;
   letter-spacing: 0.02em;
   opacity: 0.55;
-  transition: opacity var(--transition), color var(--transition);
+  transition: opacity var(--dur-fast) ease-out, color var(--dur-fast) ease-out;
 }
 .cart-page .cart-line__remove:hover {
   opacity: 1;
@@ -6770,9 +6860,22 @@ html[data-brand-guidelines="v2"] .thanks-media::after {
   height: auto;
 }
 
-/* Horizontal wipe: light → dark section crossings only. One movement per view. */
+/* Horizontal wipe: light ↔ dark crossings only. Resting state is always visible.
+   Clip exists only while .is-wiping plays (storefront). Editor / reduced-motion never clip. */
+@keyframes sectionWipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
 .section--wipe {
   clip-path: none;
+}
+html.js-ready:not(.shopify-design-mode) .section--wipe.is-wiping {
+  animation: sectionWipe var(--dur-wipe) var(--ease) both;
+}
+html.shopify-design-mode .section--wipe,
+html.shopify-design-mode .section--wipe.is-wiping {
+  clip-path: none !important;
+  animation: none !important;
 }
 
 .comfort-top__heading {
@@ -7174,7 +7277,7 @@ html[data-brand-guidelines="v2"] .thanks-media::after {
   background: var(--brand-surface);
   text-align: left;
   cursor: pointer;
-  transition: border-color 120ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: border-color var(--dur-fast) ease-out;
 }
 .pdp-opt:hover {
   border-color: color-mix(in srgb, var(--brand-ink) 45%, transparent);
@@ -7347,7 +7450,7 @@ html[data-brand-guidelines="v2"] .thanks-media::after {
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 1.15rem;
   line-height: 1;
-  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--dur-panel) ease-out;
 }
 .pdp-spec.is-open .pdp-spec__ind {
   transform: rotate(45deg);
@@ -7355,7 +7458,7 @@ html[data-brand-guidelines="v2"] .thanks-media::after {
 .pdp-spec__b {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: max-height var(--dur-panel) ease-out;
 }
 .pdp-spec.is-open .pdp-spec__b {
   max-height: 1400px;
@@ -7363,7 +7466,7 @@ html[data-brand-guidelines="v2"] .thanks-media::after {
 .pdp-spec__in {
   padding: 0.25rem 0 2.1rem;
   opacity: 0;
-  transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
+  transition: opacity var(--dur-fast) ease-out 120ms;
 }
 .pdp-spec.is-open .pdp-spec__in {
   opacity: 1;

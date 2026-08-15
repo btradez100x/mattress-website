@@ -222,6 +222,17 @@
   .section--dark .gold-rule {
     border-top-color: var(--hairline-dark);
   }
+  .gold-rule.gold-rule--measure {
+    width: 100%;
+    max-width: none;
+    height: 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--brand-accent);
+  }
+  .section--dark .gold-rule.gold-rule--measure {
+    border-top-color: var(--brand-accent);
+  }
   .btn { border-radius: 2px; }
   {% elsif font_set == 'classic' %}
   h1, h2, h3, h4 {

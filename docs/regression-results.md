@@ -1,3 +1,33 @@
+# Regression results — 15 Aug 2026 (homepage dark-band layout)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 563 passed, 0 failed
+- Scope note: Offer, press/awards, and swap-explainer layout only — full-bleed dark bands, no white hairline at section joins, gold rule spans the offer measure, swap text left-aligned in the 48rem column. Duration tokens and wipe restore left untouched. No version bump.
+
+---
+
+# Regression results — 15 Aug 2026 (four brand durations + wipe restore)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 563 passed, 0 failed
+- Scope note: Applied the four brand durations across theme + preview (120 hover / 280 panel / 450 reveal / 600 wipe). Reveal travel 20px; trigger 20% in viewport; stagger 50ms max; hover ease-out. Section wipe restored as a one-shot 600ms keyframe (resting `clip-path: none`; editor / reduced-motion never clip). No version bump.
+
+---
+
+# Regression results — 15 Aug 2026 (brand-guideline reveal timings)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 557 passed, 0 failed
+- Scope note: Loading/reveal durations aligned to brand guidelines — scroll + hero first-paint **450ms** (`--dur-base`) not 600ms; sibling stagger **50ms** max; spec panel content fade **120ms** (height stays 280ms). Reveals kept on. Preview in sync. No version bump.
+
+---
+
 # Regression results — Saturday 15 Aug 2026 (section colour arrangement)
 
 ## Smoke

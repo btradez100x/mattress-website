@@ -235,21 +235,31 @@ def check_theme_js() -> None:
     else:
         bad("missing page.journal.json or main-journal.liquid")
 
-    if "sec.classList.add('section--wipe')" in js or 'sec.classList.add("section--wipe")' in js:
-        bad("preview/theme.js still applies section--wipe (clips Offer/Swap off-screen)")
-    else:
-        ok("preview/theme.js does not clip dark sections with section--wipe")
-    if "sec.classList.add('section--wipe')" in theme_js_text or 'sec.classList.add("section--wipe")' in theme_js_text:
-        bad("valtora-theme/assets/theme.js still applies section--wipe (clips Offer/Swap off-screen)")
-    else:
-        ok("theme.js does not clip dark sections with section--wipe")
+    for rel, js_text in (("preview/theme.js", js), ("valtora-theme/assets/theme.js", theme_js_text)):
+        if "is-wiping" in js_text and "is-wiped" in js_text and "shopify-design-mode" in js_text:
+            ok(f"{rel}: wipe plays once then clears clip")
+        else:
+            bad(f"{rel}: wipe must use is-wiping / is-wiped and skip design mode")
+        if re.search(r"\.style\.clipPath\s*=", js_text) or 'inset(0 100%' in js_text:
+            bad(f"{rel}: wipe must not set a resting clip-path")
+        else:
+            ok(f"{rel}: wipe does not set a resting clip-path")
 
     for rel in ("preview/base.css", "valtora-theme/assets/base.css"):
         css_text = (ROOT / rel).read_text(encoding="utf-8", errors="replace")
-        if "inset(0 100% 0 0)" in css_text:
-            bad(f"{rel}: wipe still clips sections to zero width")
+        if "@keyframes sectionWipe" not in css_text or "var(--dur-wipe)" not in css_text:
+            bad(f"{rel}: missing 600ms sectionWipe")
         else:
-            ok(f"{rel}: wipe does not clip sections")
+            ok(f"{rel}: sectionWipe uses --dur-wipe")
+        if re.search(r"\.section--wipe\s*\{[^}]*clip-path:\s*none", css_text):
+            ok(f"{rel}: wipe resting state is visible")
+        else:
+            bad(f"{rel}: .section--wipe must rest at clip-path: none")
+        stripped = re.sub(r"@keyframes\s+\w+\s*\{(?:[^{}]|\{[^{}]*\})*\}", "", css_text)
+        if "inset(0 100% 0 0)" in stripped:
+            bad(f"{rel}: wipe still clips sections to zero width at rest")
+        else:
+            ok(f"{rel}: wipe clip lives only inside keyframes")
         hide = re.search(
             r"html\.js-ready(?::not\(\.shopify-design-mode\))?\s+\[data-reveal-child\]:not\(\.is-visible\)\s*\{[^}]*opacity:\s*0",
             css_text,

@@ -52,7 +52,7 @@
         --max-width-narrow: 40rem;
         --radius: 0;
         --radius-control: 0.35rem;
-        --transition: 560ms cubic-bezier(0.19, 1, 0.22, 1);
+        --transition: var(--dur-base) var(--ease);
         --sticky-reserve-offset: 0px;
         --hairline: color-mix(in srgb, var(--brand-primary) 12%, transparent);
       }
@@ -140,7 +140,7 @@
         --wordmark-tracking: 0.02em;
         --radius: 0;
         --radius-control: 0;
-        --transition: 450ms cubic-bezier(0.22, 1, 0.36, 1);
+        --transition: var(--dur-base) var(--ease);
         --hairline: #D6D2CA;
         --hairline-dark: #2E2E30;
         font-variant-numeric: tabular-nums;
@@ -551,14 +551,14 @@
             <section class="hero hero--light" id="hero" data-admin-section="hero" data-section-ground="bg">
         <div class="hero__content">
           <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">Made to order. Made to last.</h1>
-          <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 70ms">Change the feel whenever you want. Replace the layer that wears, not the whole bed.</p>
-          <div class="hero__cta" data-reveal-child data-reveal-first style="--reveal-delay: 160ms">
+          <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">Change the feel whenever you want. Replace the layer that wears, not the whole bed.</p>
+          <div class="hero__cta" data-reveal-child data-reveal-first style="--reveal-delay: 150ms">
             <a class="btn" href="#reserve" data-hero-cta>See sizes and prices</a>
             <a class="btn btn--ghost hero__secondary" href="#swap">How the swap system works</a>
           </div>
-          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 240ms">Cancel any time before dispatch · 100-night trial · 15-year warranty</p>
+          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Cancel any time before dispatch · 100-night trial · 15-year warranty</p>
         </div>
-        <div class="hero__media" data-reveal-child data-reveal-first style="--reveal-delay: 90ms">
+        <div class="hero__media" data-reveal-child data-reveal-first style="--reveal-delay: 100ms">
           <img src="./assets/hero-mattress.jpg" alt="Aligna mattress" data-brand-alt-suffix=" mattress" width="2000" height="1500">
         </div>
       </section>
@@ -804,7 +804,7 @@
             <p class="section__lede">Heat is why people give up on a mattress they used to love. This one lets it out.</p>
             <ul class="cool-touch__points" role="list">
               <li data-reveal-child style="--reveal-delay: 0ms"><strong>Cool to the touch</strong><span>It does not feel warm when you get in</span></li>
-              <li data-reveal-child style="--reveal-delay: 140ms"><strong>Contours without trapping</strong><span>It shapes to you. It does not hold the heat</span></li>
+              <li data-reveal-child style="--reveal-delay: 50ms"><strong>Contours without trapping</strong><span>It shapes to you. It does not hold the heat</span></li>
             </ul>
             <div class="cool-touch__gallery">
               <figure class="cool-touch__thumb">
@@ -835,17 +835,17 @@
               <h3>Too firm? Flip it.</h3>
               <p>Unzip the cover. Turn the layer over. Zip it up. Softer on one side, firmer on the other, and you can change your mind as often as you like.</p>
             </article>
-            <article class="benefit" data-reveal-child style="--reveal-delay: 120ms">
+            <article class="benefit" data-reveal-child style="--reveal-delay: 50ms">
               <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v18M5 7l14 10M5 17L19 7" stroke="currentColor" stroke-width="1.25"/></svg>
               <h3>Sleep cool.</h3>
               <p>Air moves through it instead of sitting under you.</p>
             </article>
-            <article class="benefit" data-reveal-child style="--reveal-delay: 240ms">
+            <article class="benefit" data-reveal-child style="--reveal-delay: 100ms">
               <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 16h16M6 16V9a6 6 0 0 1 12 0v7" stroke="currentColor" stroke-width="1.25"/></svg>
               <h3>Wake without the ache.</h3>
               <p>Firm under your hips. Soft at your shoulders. Not the same everywhere, because you are not.</p>
             </article>
-            <article class="benefit" data-reveal-child style="--reveal-delay: 360ms">
+            <article class="benefit" data-reveal-child style="--reveal-delay: 150ms">
               <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 8v4l2.5 2.5" stroke="currentColor" stroke-width="1.25"/></svg>
               <h3>Keep it for decades.</h3>
               <p>Replace the layer that wears. Keep the bed that does not.</p>
@@ -868,32 +868,32 @@
       <section class="section measure-size" id="measure" data-reveal data-admin-section="measure" data-section-ground="auto">
         <div class="page-width measure-size__inner">
           <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 0ms">Before you reserve</p>
-          <hr class="gold-rule" data-reveal-child style="--reveal-delay: 100ms">
-          <h2 data-reveal-child style="--reveal-delay: 160ms">Measure in centimetres. Order the size that matches.</h2>
-          <p class="section__lede" data-reveal-child style="--reveal-delay: 220ms">Size names differ by market. A UAE King is not a UK King. Always trust the centimetre dimensions - not the label on the tag.</p>
+          <hr class="gold-rule" data-reveal-child style="--reveal-delay: 50ms">
+          <h2 data-reveal-child style="--reveal-delay: 100ms">Measure in centimetres. Order the size that matches.</h2>
+          <p class="section__lede" data-reveal-child style="--reveal-delay: 150ms">Size names differ by market. A UAE King is not a UK King. Always trust the centimetre dimensions - not the label on the tag.</p>
           <ol class="measure-size__steps">
-            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 280ms">
+            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 200ms">
               <span class="measure-size__num" aria-hidden="true">01</span>
               <div>
                 <h3>Measure the sleeping surface</h3>
                 <p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>
               </div>
             </li>
-            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 360ms">
+            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 250ms">
               <span class="measure-size__num" aria-hidden="true">02</span>
               <div>
                 <h3>Or measure the base</h3>
                 <p>If you are buying for a new bed, measure the usable bed base or slatted area (inside the rails). That is the footprint your mattress must fill.</p>
               </div>
             </li>
-            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 440ms">
+            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 300ms">
               <span class="measure-size__num" aria-hidden="true">03</span>
               <div>
                 <h3>Match width × length</h3>
                 <p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>
               </div>
             </li>
-            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 520ms">
+            <li class="measure-size__step" data-reveal-child style="--reveal-delay: 350ms">
               <span class="measure-size__num" aria-hidden="true">04</span>
               <div>
                 <h3>Between sizes or custom?</h3>
@@ -901,7 +901,7 @@
               </div>
             </li>
           </ol>
-          <p class="measure-size__link" data-reveal-child style="--reveal-delay: 600ms"><a href="./pages/size-guide.html">Full size guide (UAE vs UK)</a></p>
+          <p class="measure-size__link" data-reveal-child style="--reveal-delay: 400ms"><a href="./pages/size-guide.html">Full size guide (UAE vs UK)</a></p>
         </div>
       </section>
 
@@ -915,15 +915,15 @@
             </div>
           </figure>
           <div class="founder-note__copy">
-            <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 120ms">A note from the founder</p>
-            <hr class="gold-rule" data-reveal-child style="--reveal-delay: 180ms">
-            <h2 data-reveal-child style="--reveal-delay: 240ms">Built from years of studying sleep.</h2>
-            <div class="founder-note__body rte" data-reveal-child style="--reveal-delay: 320ms">
+            <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 50ms">A note from the founder</p>
+            <hr class="gold-rule" data-reveal-child style="--reveal-delay: 100ms">
+            <h2 data-reveal-child style="--reveal-delay: 150ms">Built from years of studying sleep.</h2>
+            <div class="founder-note__body rte" data-reveal-child style="--reveal-delay: 200ms">
               <p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. <span data-brand-text>Aligna</span> is the mattress that came from that work: deep support, a cooler sleep surface for warm climates, and a comfort layer you can refresh instead of replacing the whole bed.</p>
               <p>Each one is made to order. Pay in full today - cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>
               <p class="pdp-discover" data-pillows-discover hidden><a href="./pages/pillows.html?pillows=1">The right height for how you sleep.</a></p>
             </div>
-            <div class="founder-note__signoff" data-reveal-child style="--reveal-delay: 420ms">
+            <div class="founder-note__signoff" data-reveal-child style="--reveal-delay: 250ms">
               <p class="founder-note__name">Benjamin Maxwell</p>
               <p class="founder-note__role">Founder</p>
             </div>
@@ -1078,22 +1078,22 @@
                 <img class="press__logo-img" src="./assets/press-the-national.svg" alt="The National" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 110ms">
+            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 50ms">
               <a class="press__logo-link" href="https://gulfnews.com" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-gulf-news.svg" alt="Gulf News" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 220ms">
+            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 100ms">
               <a class="press__logo-link" href="https://www.arabianbusiness.com" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-arabian-business.svg" alt="Arabian Business" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 330ms">
+            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 150ms">
               <a class="press__logo-link" href="https://www.timeoutdubai.com" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-time-out-dubai.svg" alt="Time Out Dubai" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 440ms">
+            <li class="press__logo" data-market-only="ae" data-reveal-child style="--reveal-delay: 200ms">
               <a class="press__logo-link" href="https://www.designmiddleeast.com" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-design-middle-east.svg" alt="Design Middle East" width="200" height="48" loading="lazy">
               </a>
@@ -1103,33 +1103,33 @@
                 <img class="press__logo-img" src="./assets/press-the-times.svg" alt="The Times" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 110ms">
+            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 50ms">
               <a class="press__logo-link" href="https://www.ft.com" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-financial-times.svg" alt="Financial Times" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 220ms">
+            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 100ms">
               <a class="press__logo-link" href="https://www.standard.co.uk" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-evening-standard.svg" alt="Evening Standard" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 330ms">
+            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 150ms">
               <a class="press__logo-link" href="https://www.wallpaper.com" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-wallpaper-wordmark.svg" alt="Wallpaper*" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 440ms">
+            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 200ms">
               <a class="press__logo-link" href="https://www.dezeen.com" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-dezeen.svg" alt="Dezeen" width="200" height="48" loading="lazy">
               </a>
             </li>
-            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 550ms">
+            <li class="press__logo" data-market-only="gb" hidden data-reveal-child style="--reveal-delay: 250ms">
               <a class="press__logo-link" href="https://www.idealhome.co.uk" target="_blank" rel="noopener">
                 <img class="press__logo-img" src="./assets/press-ideal-home.svg" alt="Ideal Home" width="200" height="48" loading="lazy">
               </a>
             </li>
           </ul>
-          <p class="section__eyebrow" style="margin-top:2.5rem;">Awards</p>
+          <p class="section__eyebrow press__awards-label">Awards</p>
 <ul class="awards__grid" role="list">
             <li class="award">
               <div class="award__copy">
@@ -1214,6 +1214,7 @@
             <span data-market-only="ae">A replacement comfort layer is AED 1,200. A new mattress is not.</span>
             <span data-market-only="gb" hidden>A replacement comfort layer is £250. A new mattress is not.</span>
           </p>
+          <hr class="gold-rule gold-rule--measure">
           <div class="offer__items">
             <div class="offer__item"><strong>100-night trial</strong><span>Sleep on it. Decide at home.</span></div>
             <div class="offer__item"><strong>15-year warranty</strong><span>On the spring core.</span></div>
@@ -1222,7 +1223,7 @@
             <div class="offer__item" data-claim-chemicals hidden><strong>Free from harmful chemicals</strong><span>Materials chosen for cleaner sleep.</span></div>
             <div class="offer__item" data-claim-oeko hidden><strong>OEKO-TEX® STANDARD 100</strong><span>Textiles independently tested for harmful substances. <span data-oeko-cert-no></span></span></div>
           </div>
-          <div class="offer__cta" data-reveal-child style="--reveal-delay: 160ms">
+          <div class="offer__cta" data-reveal-child style="--reveal-delay: 50ms">
             <a class="btn" href="#reserve">See sizes and prices</a>
             <p class="offer__cta-note">Pay in full today. Cancel any time before dispatch for a full refund.</p>
           </div>
@@ -1454,31 +1455,31 @@
               </div>
               <figcaption class="lifestyle-collage__caption">Soft morning light</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 90ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 50ms">
               <div class="lifestyle-collage__frame lifestyle-collage__item--tall">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-luxury.jpg" alt="Mattress in a navy suite bedroom" width="1200" height="1600" loading="lazy">
               </div>
               <figcaption class="lifestyle-collage__caption">Navy suite calm</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 180ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 100ms">
               <div class="lifestyle-collage__frame lifestyle-collage__item--mid">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-city.jpg" alt="Mattress in a city apartment bedroom" width="1400" height="1750" loading="lazy">
               </div>
               <figcaption class="lifestyle-collage__caption">City apartment rest</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 270ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 150ms">
               <div class="lifestyle-collage__frame lifestyle-collage__item--tall">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-suite.jpg" alt="Mattress depth in a cream suite bedroom" width="1200" height="1600" loading="lazy">
               </div>
               <figcaption class="lifestyle-collage__caption">Depth in place</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 360ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 200ms">
               <div class="lifestyle-collage__frame lifestyle-collage__item--mid">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-warm.jpg" alt="Mattress edge in a warm panelled bedroom" width="1400" height="1750" loading="lazy">
               </div>
               <figcaption class="lifestyle-collage__caption">Warm evening light</figcaption>
             </figure>
-            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 450ms">
+            <figure class="lifestyle-collage__item" role="listitem" data-reveal-child style="--reveal-delay: 250ms">
               <div class="lifestyle-collage__frame lifestyle-collage__item--square">
               <img class="lifestyle-collage__img" src="./assets/lifestyle-edge.jpg" alt="Hotel-grade mattress edge detail" width="1200" height="1200" loading="lazy">
               </div>

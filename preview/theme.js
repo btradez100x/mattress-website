@@ -687,9 +687,9 @@
     return Math.min(inset, Math.round(window.innerHeight * 0.16));
   }
 
-  /* Trigger line: well into the viewport, above the sticky bar */
+  /* Trigger at 20% in viewport: element's top has entered the lower 20%. */
   function revealTriggerY() {
-    return window.innerHeight - stickyBottomInset() - Math.round(window.innerHeight * 0.12);
+    return Math.round(window.innerHeight * 0.8);
   }
 
   function motionAllowed() {
@@ -756,10 +756,10 @@
     document.querySelectorAll('.hero').forEach(function (hero) {
       var sequence = [
         [hero.querySelector('h1'), 0],
-        [hero.querySelector('.hero__sub'), 70],
-        [hero.querySelector('.hero__media'), 90],
-        [hero.querySelector('.hero__cta'), 160],
-        [hero.querySelector('.hero__assurance'), 240]
+        [hero.querySelector('.hero__sub'), 50],
+        [hero.querySelector('.hero__media'), 100],
+        [hero.querySelector('.hero__cta'), 150],
+        [hero.querySelector('.hero__assurance'), 200]
       ];
       sequence.forEach(function (pair) {
         var el = pair[0];
@@ -776,7 +776,7 @@
       el.setAttribute('data-reveal-child', '');
       el.setAttribute('data-reveal-first', '');
       if (!el.style.getPropertyValue('--reveal-delay')) {
-        el.style.setProperty('--reveal-delay', Math.min(i * 80, 240) + 'ms');
+        el.style.setProperty('--reveal-delay', Math.min(i * 50, 200) + 'ms');
       }
     });
   }
@@ -850,7 +850,7 @@
         return !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true';
       });
       if (!items.length) return;
-      tagCascade(root, items, 110);
+      tagCascade(root, items, 50);
     });
     staggerRoots.forEach(function (pair) {
       document.querySelectorAll(pair[0]).forEach(function (root) {
@@ -858,7 +858,7 @@
           return !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true';
         });
         if (!items.length) return;
-        tagCascade(root, items, pair[0].indexOf('mfg-gallery') !== -1 ? 90 : 140);
+        tagCascade(root, items, 50);
       });
     });
 
@@ -873,7 +873,7 @@
           items.push(el);
         });
       }
-      tagCascade(grid, items, 140);
+      tagCascade(grid, items, 50);
     });
 
     /* Manufacturing journey: portrait + story copy */
@@ -887,7 +887,7 @@
           items.push(el);
         });
       }
-      tagCascade(grid, items, 140);
+      tagCascade(grid, items, 50);
     });
 
     /* Manufacturing hero copy entrance (CSS heroRise + reveal) */
@@ -896,7 +896,7 @@
       Array.prototype.forEach.call(copy.children, function (el) {
         items.push(el);
       });
-      tagCascade(copy, items, 100);
+      tagCascade(copy, items, 50);
     });
 
     /* Journal article body blocks */
@@ -919,7 +919,7 @@
           items.push(el);
         }
       });
-      tagCascade(inner, items, 120);
+      tagCascade(inner, items, 50);
     });
 
     /* All section headings + intro copy (hero keeps its own entrance) */
@@ -986,7 +986,6 @@
       n.classList.add('is-visible');
     });
 
-    var bottomPad = Math.max(stickyBottomInset(), Math.round(window.innerHeight * 0.14));
     var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (e) {
@@ -998,8 +997,8 @@
         });
       },
       {
-        threshold: [0, 0.08, 0.18, 0.28],
-        rootMargin: '0px 0px -' + bottomPad + 'px 0px'
+        threshold: [0.2],
+        rootMargin: '0px 0px 0px 0px'
       }
     );
 
@@ -1095,9 +1094,73 @@
   }
 
   function initSectionWipes() {
-    /* Do not clip dark sections. clip-path: inset(0 100% 0 0) hid Offer and
-       Swap on the storefront after Customizer save; the editor iframe often
-       skipped the observer so they looked fine until publish. */
+    /* 600ms horizontal wipe at light ↔ dark crossings only. Resting state is
+       always visible (clip-path: none). The inset clip lives only inside the
+       .is-wiping keyframe, then is removed so Offer/Swap cannot stay hidden. */
+    var designMode = document.documentElement.classList.contains('shopify-design-mode');
+
+    function sectionIsDark(el) {
+      return el.classList.contains('section--dark') || el.classList.contains('trust-bar--dark');
+    }
+
+    function markWipes() {
+      var root = document.getElementById('MainContent') || document.querySelector('main') || document.body;
+      if (!root) return;
+      var nodes = root.querySelectorAll('[data-section-ground]');
+      var prevDark = null;
+      nodes.forEach(function (el) {
+        if (!el.classList.contains('is-wiped')) {
+          el.classList.remove('section--wipe', 'is-wiping');
+        }
+        if (!sectionGroundVisible(el)) return;
+        if (el.classList.contains('hero') || el.classList.contains('trust-bar')) {
+          prevDark = sectionIsDark(el);
+          return;
+        }
+        var isDark = sectionIsDark(el);
+        if (prevDark !== null && isDark !== prevDark && !el.classList.contains('is-wiped')) {
+          el.classList.add('section--wipe');
+        }
+        prevDark = isDark;
+      });
+    }
+
+    markWipes();
+    if (designMode || !motionAllowed()) return;
+
+    function finishWipe(el) {
+      if (!el || el.classList.contains('is-wiped')) return;
+      el.classList.remove('is-wiping');
+      el.classList.add('is-wiped');
+    }
+
+    var wipeIO = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target;
+          if (el.classList.contains('is-wiped') || el.classList.contains('is-wiping')) {
+            wipeIO.unobserve(el);
+            return;
+          }
+          el.classList.add('is-wiping');
+          function done() {
+            finishWipe(el);
+            el.removeEventListener('animationend', done);
+          }
+          el.addEventListener('animationend', done);
+          window.setTimeout(function () {
+            finishWipe(el);
+          }, 700);
+          wipeIO.unobserve(el);
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll('.section--wipe').forEach(function (el) {
+      wipeIO.observe(el);
+    });
   }
 
   function applyPreviewTopsFlag() {

@@ -19,7 +19,7 @@
         --max-width-narrow: 40rem;
         --radius: 0;
         --radius-control: 0.35rem;
-        --transition: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+        --transition: var(--dur-base) var(--ease);
       
       }
       .preview-banner {
@@ -124,10 +124,13 @@
               <span data-market-only="gb" hidden>Made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. Your mattress is built after you order it and flown to the UK. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</span>
             </p>
             <p class="checkout-stage__copy" data-leadtime-copy-top hidden>
-              Your comfort top is made to order and sent by courier in 2 to 3 weeks. Unroll it and give it a few hours to recover its full height.
+              Your comfort layer is made to order and sent by courier in 2 to 3 weeks. Unroll it and give it a few hours to recover its full height.
+            </p>
+            <p class="checkout-stage__copy" data-leadtime-copy-parcel hidden>
+              Sent by courier in 3 to 5 days.
             </p>
             <p class="checkout-stage__copy" data-leadtime-copy-mixed hidden>
-              Your order includes a mattress and a comfort top. We use the longer window so everything can arrive together.
+              Your order includes items with different lead times. We use the longer window so everything can arrive together.
             </p>
 
             <ul class="checkout-stage__terms">

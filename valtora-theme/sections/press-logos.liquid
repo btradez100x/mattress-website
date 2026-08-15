@@ -51,7 +51,7 @@
               endif
             -%}
             {%- if show_item -%}
-              <li class="press__logo" {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 70 }}ms">
+              <li class="press__logo" {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 50 }}ms">
                 {%- if block.settings.link != blank -%}
                   <a class="press__logo-link" href="{{ block.settings.link }}" rel="noopener" target="_blank">
                 {%- else -%}
@@ -88,7 +88,7 @@
     {%- endif -%}
 
     {%- if award_count > 0 -%}
-      <p class="section__eyebrow" style="margin-top:2.5rem;">{{ section.settings.awards_heading | default: 'Awards' }}</p>
+      <p class="section__eyebrow press__awards-label">{{ section.settings.awards_heading | default: 'Awards' }}</p>
       <ul class="awards__grid" role="list">
         {%- for block in section.blocks -%}
           {%- if block.type == 'award' and block.settings.enabled -%}
