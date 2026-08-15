@@ -1,61 +1,76 @@
 {%- if section.settings.enable_section -%}
-<section class="section" id="specs" data-reveal>
-  <div class="page-width specs__grid">
-    <div>
-      <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
-      <hr class="gold-rule">
-      <h2>{{ section.settings.heading }}</h2>
-      {%- if section.settings.body != blank -%}
-        <p class="section__lede">{{ section.settings.body }}</p>
-      {%- endif -%}
+{%- liquid
+  assign spec_id = section.settings.spec_id | default: 'mattress' | strip
+  if spec_id == blank
+    assign spec_id = 'mattress'
+  endif
+  assign spec_label = section.settings.label | default: 'Full specification'
+  assign spec_hint = section.settings.hint
+  assign spec_note = section.settings.note
+  assign spec_anchor = section.settings.anchor_id | default: 'specs' | strip
+  if spec_anchor == blank
+    assign spec_anchor = 'specs'
+  endif
+  assign body_id = 'vspec-body-' | append: section.id
+  assign vspec_class = 'vspec'
+  if section.settings.dark
+    assign vspec_class = 'vspec vspec--dark'
+  endif
+-%}
+<section class="section section--vspec" id="{{ spec_anchor }}" data-reveal>
+  <div class="page-width">
+    <div class="{{ vspec_class }}" data-open="false" data-spec-panel data-spec-id="{{ spec_id | escape }}">
+      <button
+        class="vspec__trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="{{ body_id }}"
+      >
+        <span class="vspec__label">{{ spec_label }}</span>
+        {%- if spec_hint != blank -%}
+          <span class="vspec__hint">{{ spec_hint }}</span>
+        {%- endif -%}
+        <span class="vspec__ind" aria-hidden="true">+</span>
+      </button>
 
-      <ul class="specs__list">
-        {%- for block in section.blocks -%}
-          <li {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 90 }}ms">{{ block.settings.text }}</li>
-        {%- endfor -%}
-      </ul>
-    </div>
-    {%- liquid
-      assign specs_caption = section.settings.image_caption
-      assign specs_alt = specs_caption
-      if specs_alt == blank
-        assign specs_alt = 'The mattress'
-      endif
-    -%}
-    <figure class="specs__figure" data-reveal-child style="--reveal-delay: 120ms">
-      <div class="specs__media">
-      {% render 'theme-image',
-        image: section.settings.image,
-        fallback: 'product-side.jpg',
-        alt: specs_alt,
-        sizes: '(min-width: 900px) 45vw, 100vw'
-      %}
-      {%- if specs_caption != blank -%}
-        <figcaption class="specs__caption-overlay">{{ specs_caption }}</figcaption>
-      {%- endif -%}
+      <div class="vspec__body" id="{{ body_id }}" role="region" aria-label="{{ spec_label | escape }}">
+        <div class="vspec__clip">
+          <div class="vspec__inner">
+            {%- if spec_note != blank -%}
+              <p class="vspec__note">{{ spec_note }}</p>
+            {%- endif -%}
+            <table class="vspec__table">
+              <tbody>
+                {%- for block in section.blocks -%}
+                  {%- liquid
+                    assign spec_name = block.settings.name
+                    assign spec_meta = block.settings.meta
+                    assign spec_does = block.settings.does
+                    if spec_name == blank and spec_meta == blank and spec_does == blank
+                      assign spec_name = block.settings.text
+                    endif
+                  -%}
+                  {%- if spec_name != blank or spec_meta != blank or spec_does != blank -%}
+                    <tr {{ block.shopify_attributes }}>
+                      <td>
+                        {%- if spec_name != blank -%}
+                          <div class="vspec__name">{{ spec_name }}</div>
+                        {%- endif -%}
+                        {%- if spec_meta != blank -%}
+                          <div class="vspec__meta">{{ spec_meta }}</div>
+                        {%- endif -%}
+                      </td>
+                      <td class="vspec__does">{{ spec_does }}</td>
+                    </tr>
+                  {%- endif -%}
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </figure>
+    </div>
   </div>
-  {%- if section.settings.show_cert_strip -%}
-    {%- if settings.show_chemicals_claim or settings.show_oeko_tex_claim and settings.oeko_tex_certificate_no != blank -%}
-    <div class="page-width" data-cert-strip-wrap>
-      <div class="cert-strip cert-strip--specs">
-        {%- if settings.show_chemicals_claim -%}
-        <p class="cert-strip__item" data-claim-chemicals data-reveal-child style="--reveal-delay: 0ms">
-          <strong>{{ section.settings.cert_one_title | default: 'Free from harmful chemicals' }}</strong>
-          <span>{{ section.settings.cert_one_caption | default: 'Materials chosen for cleaner sleep' }}</span>
-        </p>
-        {%- endif -%}
-        {%- if settings.show_oeko_tex_claim and settings.oeko_tex_certificate_no != blank -%}
-        <p class="cert-strip__item" data-claim-oeko data-reveal-child style="--reveal-delay: 120ms">
-          <strong>{{ section.settings.cert_two_title | default: 'OEKO-TEX® STANDARD 100' }}</strong>
-          <span>{{ section.settings.cert_two_caption | default: 'Textiles independently tested for harmful substances' }} · {{ settings.oeko_tex_certificate_no }}</span>
-        </p>
-        {%- endif -%}
-      </div>
-    </div>
-    {%- endif -%}
-  {%- endif -%}
 </section>
 {%- endif -%}
 
@@ -71,63 +86,40 @@
     },
     {
       "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "The mattress"
+      "id": "label",
+      "label": "Trigger label",
+      "default": "Full specification"
     },
     {
       "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Every layer, stated."
+      "id": "hint",
+      "label": "Trigger hint",
+      "default": "Every layer, stated"
     },
     {
       "type": "textarea",
-      "id": "body",
-      "label": "Body",
-      "default": "Measured at 37cm made up. Below is the full construction, layer by layer, with densities. Most brands do not publish this. You are spending a lot of money on something you cannot open, so you should be able to see what is inside it."
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Diagram / product image"
+      "id": "note",
+      "label": "Panel note",
+      "default": "You are spending real money on something you cannot open. Here is what is inside it."
     },
     {
       "type": "text",
-      "id": "image_caption",
-      "label": "Image caption",
-      "default": "Side profile"
+      "id": "spec_id",
+      "label": "Specification id (tracking)",
+      "default": "mattress",
+      "info": "Sent with spec_opened and spec_dwell. Use a different id if you add this panel to another product page."
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor id",
+      "default": "specs"
     },
     {
       "type": "checkbox",
-      "id": "show_cert_strip",
-      "label": "Show certification strip",
-      "default": false,
-      "info": "Each cert line also requires its theme toggle: Free from harmful chemicals and/or OEKO-TEX."
-    },
-    {
-      "type": "text",
-      "id": "cert_one_title",
-      "label": "Cert 1 title",
-      "default": "Free from harmful chemicals"
-    },
-    {
-      "type": "text",
-      "id": "cert_one_caption",
-      "label": "Cert 1 caption",
-      "default": "Materials chosen for cleaner sleep"
-    },
-    {
-      "type": "text",
-      "id": "cert_two_title",
-      "label": "Cert 2 title",
-      "default": "OEKO-TEX® STANDARD 100"
-    },
-    {
-      "type": "text",
-      "id": "cert_two_caption",
-      "label": "Cert 2 caption",
-      "default": "Textiles independently tested for harmful substances"
+      "id": "dark",
+      "label": "Dark ground",
+      "default": false
     }
   ],
   "blocks": [
@@ -137,9 +129,21 @@
       "settings": [
         {
           "type": "text",
-          "id": "text",
-          "label": "Spec line",
-          "default": "Height - 37cm measured made up"
+          "id": "name",
+          "label": "What it is",
+          "default": "Height"
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Measurement",
+          "default": "37 CM MADE UP"
+        },
+        {
+          "type": "text",
+          "id": "does",
+          "label": "What it does",
+          "default": "Deeper than most. Deep-fitted sheets needed"
         }
       ]
     }
@@ -148,16 +152,16 @@
     {
       "name": "Product specs",
       "blocks": [
-        { "type": "spec", "settings": { "text": "Height - 37cm measured made up" } },
-        { "type": "spec", "settings": { "text": "Assembly - Hand-assembled, made to order" } },
-        { "type": "spec", "settings": { "text": "Cover - 400g cool-knit, black zip access" } },
-        { "type": "spec", "settings": { "text": "Gel memory foam - 1cm, 28 density. Contours without trapping heat" } },
-        { "type": "spec", "settings": { "text": "Comfort foam - 1.5cm, 20 density. The give you feel first" } },
-        { "type": "spec", "settings": { "text": "Wave-profile foam - 2.5cm, 20 density. Channels air through the comfort layers" } },
-        { "type": "spec", "settings": { "text": "Flippable comfort module - 10cm, 25 density. Soft one side, firm the other, behind its own zip" } },
-        { "type": "spec", "settings": { "text": "Pocket spring core - 20cm, 7 zones, 1.9mm and 2.0mm wire. Individually pocketed so movement does not travel" } },
-        { "type": "spec", "settings": { "text": "Encased perimeter - 7cm, 35 density. Holds the edge" } },
-        { "type": "spec", "settings": { "text": "Underside - anti-slip base" } }
+        { "type": "spec", "settings": { "name": "Height", "meta": "37 CM MADE UP", "does": "Deeper than most. Deep-fitted sheets needed" } },
+        { "type": "spec", "settings": { "name": "Assembly", "meta": "HAND-ASSEMBLED, MADE TO ORDER", "does": "Built after you order it, never from stock" } },
+        { "type": "spec", "settings": { "name": "Cover", "meta": "400 G COOL-KNIT · ZIP ACCESS", "does": "Opens all the way round to reach the comfort layer" } },
+        { "type": "spec", "settings": { "name": "Gel memory foam", "meta": "1 CM · 28 DENSITY", "does": "Contours without trapping heat" } },
+        { "type": "spec", "settings": { "name": "Comfort foam", "meta": "1.5 CM · 20 DENSITY", "does": "The give you feel first" } },
+        { "type": "spec", "settings": { "name": "Wave-profile foam", "meta": "2.5 CM · 20 DENSITY", "does": "Moves air through the comfort layers" } },
+        { "type": "spec", "settings": { "name": "Flippable comfort layer", "meta": "10 CM · 25 DENSITY · 2540 / 2580", "does": "Soft one side, firm the other. Turn it over to change the feel" } },
+        { "type": "spec", "settings": { "name": "Pocket spring core", "meta": "20 CM · 7 ZONES · 1.9 / 2.0 MM WIRE", "does": "Individually pocketed, so movement does not travel" } },
+        { "type": "spec", "settings": { "name": "Encased perimeter", "meta": "7 CM · 35 DENSITY", "does": "Holds the edge. Sit on it without sliding" } },
+        { "type": "spec", "settings": { "name": "Underside", "meta": "ANTI-SLIP", "does": "Stays where you put it" } }
       ]
     }
   ]

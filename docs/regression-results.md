@@ -1,3 +1,33 @@
+# Regression results — 2026-08-15 (specification pattern)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 527 passed, 0 failed
+- Scope note: Converted `product-specs` to the collapsed Full specification panel (`spec_opened` / `spec_dwell`). Homepage order now puts the panel at position 11 (after founder-note, before social-proof). Preview kept in sync. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (copy spec 6-COPY-SPEC)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 521 passed, 0 failed
+- Scope note: Homepage copy from `6-COPY-SPEC.md` — hero subhead, big-idea body, swap-explainer body + flip line, all six benefits, cool-touch body/blocks, swap-process step 1, product-specs module line, specs list collapsed by default with `open_product_specs` tracking. Headings kept where the spec said keep. Luxury reveals on. Checkout markers unchanged. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (review export 9.3.0-storefront-polish-review)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 521 passed, 0 failed
+- Scope note: Review export **9.3.0-storefront-polish-review**. Version **was** bumped (`VERSION` and Shopify `theme_version` are **9.3.0**). Zip `Valtora-Shopify-Theme-9.3.0-storefront-polish-review.zip` in Downloads and `checkpoints/9.3.0-storefront-polish-review/`. Includes storefront polish since 9.2.0 (markets, hours+TZ, legal entity, Trading as, overlays, luxury reveals, journal page template, basket persist, nav). Does not replace the kept 9.2.0 milestone.
+
+---
+
 # Regression results — 2026-08-15 (journal page not 404)
 
 ## Smoke
