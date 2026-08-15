@@ -42,6 +42,7 @@
           assign answer = answer | replace: 'the UK', market_label | replace: 'the UAE', market_label
           assign q_down = block.settings.question | downcase
           assign a_down = block.settings.answer | downcase
+          assign faq_handle = block.settings.question | handleize
           if q_down contains 'oeko' or a_down contains 'oeko'
             if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
               assign show_item = false
@@ -49,12 +50,12 @@
           endif
         -%}
         {%- if show_item -%}
-          <div class="faq__item" data-faq-item aria-expanded="false" {{ block.shopify_attributes }}>
+          <div class="faq__item"{% if faq_handle != blank %} id="faq-{{ faq_handle }}"{% endif %} data-faq-item aria-expanded="false" {{ block.shopify_attributes }}>
             <button class="faq__trigger" type="button" data-faq-trigger>
               <span>{{ block.settings.question }}</span>
               <span class="faq__icon" aria-hidden="true"></span>
             </button>
-            <div class="faq__panel">{{ answer | newline_to_br }}{% if q_down contains 'oeko' %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</div>
+            <div class="faq__panel"><div class="faq__panel-inner">{{ answer | newline_to_br }}{% if q_down contains 'oeko' %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</div></div>
           </div>
         {%- endif -%}
       {%- endfor -%}
