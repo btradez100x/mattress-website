@@ -1,0 +1,22 @@
+---
+description: Write a named checkpoint (folder + README + SHA) on every user-requested deploy
+alwaysApply: true
+---
+
+# Checkpoint on every deploy
+
+When the user asks to **deploy**, **ship**, or **go live**, write a named checkpoint **in the same turn**. Do not treat a git SHA as enough.
+
+## Required
+
+1. Folder: `checkpoints/X.Y.Z-<slug>/` using the current `VERSION` line (do **not** bump VERSION or MAJOR just to name the folder).
+2. `README.md` with: date, deploy commit SHA, `shopify-theme` SHA if Connect was updated, what shipped, what was left out.
+3. `preview-and-theme.tar.gz` of `preview/` + `valtora-theme/` (existing checkpoint pattern).
+4. Append a one-line pointer in `docs/regression-results.md` to that folder.
+
+## Do not
+
+- Skip the checkpoint because a commit already exists
+- Bump MAJOR unless they said **save a version**
+- Bump VERSION unless they said **export**
+- Reuse `V9` / `V9.1` folder names
