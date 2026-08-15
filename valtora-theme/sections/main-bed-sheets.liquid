@@ -1,0 +1,197 @@
+{%- comment -%}
+  Bed sheets PDP. Flag off: 404 UI + noindex. Keep the product draft in
+  Admin so it 404s and stays out of the sitemap.
+
+  Admin: product "Bed Sheets", handle bed-sheets, type "sheets".
+  Variants = Size × Colour (Snow | Bone | Clay | Graphite).
+  Sizes must match the mattress, including Emperor.
+{%- endcomment -%}
+{%- if settings.sheets_enabled == false -%}
+  {% render 'product-absent' %}
+{%- else -%}
+{%- capture lt_display -%}{%- render 'lead-time', product: product, product_type: 'sheets' -%}{%- endcapture -%}
+{%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'sheets', format: 'min' -%}{%- endcapture -%}
+{%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'sheets', format: 'max' -%}{%- endcapture -%}
+{%- assign lt_display = lt_display | strip -%}
+{%- assign price = product.price | money -%}
+<section
+  class="pdp pdp--sheets"
+  data-bed-sheets
+  data-sheets-enabled="true"
+  data-product-handle="{{ product.handle | escape }}"
+  data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  data-lead-window="{{ lt_display | escape }}"
+  data-lead-min="{{ lt_min | strip }}"
+  data-lead-max="{{ lt_max | strip }}"
+  data-lead-unit="days"
+  data-sheets-price-raw="{{ product.price }}"
+>
+  <script type="application/json" data-accessory-prices>
+    {%- if product != blank and product.variants.size > 0 -%}
+      {
+        {%- assign first_v = true -%}
+        {%- for v in product.variants -%}
+          {%- unless first_v -%},{%- endunless -%}
+          {{ v.title | handleize | json }}: { "price": {{ v.price | money | json }}, "raw": {{ v.price }}, "id": {{ v.id }} }
+          {%- assign first_v = false -%}
+        {%- endfor -%}
+      }
+    {%- else -%}
+      {}
+    {%- endif -%}
+  </script>
+
+  <div class="section">
+    <div class="page-width">
+      <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="pdp__heading">{{ section.settings.heading }}</h1>
+      <div class="section__lede rte pdp__lede">{{ section.settings.body }}</div>
+      <div class="pdp__himg">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 1800 }}" alt="{{ section.settings.image_caption | default: section.settings.heading | escape }}" width="1800" height="900">
+        {%- elsif product.featured_image != blank -%}
+          <img src="{{ product.featured_image | image_url: width: 1800 }}" alt="{{ section.settings.image_caption | default: section.settings.heading | escape }}" width="1800" height="900">
+        {%- endif -%}
+        {%- if section.settings.image_caption != blank -%}
+          <span class="pdp__himg-cap">{{ section.settings.image_caption }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--tight">
+    <div class="page-width pdp-cols">
+      <div>
+        <h2>{{ section.settings.material_heading }}</h2>
+        <p class="pdp__sub">{{ section.settings.material_body }}</p>
+      </div>
+      <div>
+        <h3>{{ section.settings.colour_heading }}</h3>
+        <p class="pdp__sub">{{ section.settings.colour_body }}</p>
+        <div class="pdp-swatch" data-sheet-colours>
+          <button type="button" class="pdp-swatch__item" data-sheet-colour="Snow" data-swatch="snow">
+            <i class="pdp-swatch__chip pdp-swatch__chip--snow" aria-hidden="true"></i>
+            <span>Snow</span>
+          </button>
+          <button type="button" class="pdp-swatch__item" data-sheet-colour="Bone" data-swatch="bone">
+            <i class="pdp-swatch__chip pdp-swatch__chip--bone" aria-hidden="true"></i>
+            <span>Bone</span>
+          </button>
+          <button type="button" class="pdp-swatch__item" data-sheet-colour="Clay" data-swatch="clay">
+            <i class="pdp-swatch__chip pdp-swatch__chip--clay" aria-hidden="true"></i>
+            <span>Clay</span>
+          </button>
+          <button type="button" class="pdp-swatch__item" data-sheet-colour="Graphite" data-swatch="graphite">
+            <i class="pdp-swatch__chip pdp-swatch__chip--graphite" aria-hidden="true"></i>
+            <span>Graphite</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width pdp-grid">
+      <div>
+        <h2>{{ section.settings.size_heading }}</h2>
+        <p class="pdp__sub">{{ section.settings.size_note }}</p>
+        <div class="pdp-opts" data-sheet-sizes role="listbox" aria-label="Size"></div>
+        <div class="pdp-note">
+          <p>{{ section.settings.depth_note }}</p>
+        </div>
+      </div>
+      <div>
+        <div class="pdp-buy">
+          <p class="section__eyebrow">{{ section.settings.buy_eyebrow }}</p>
+          <div class="pdp-buy__row">
+            <span data-buy-line>Choose a size</span>
+            <span class="pdp-buy__r" data-sheet-price>{{ price }}</span>
+          </div>
+          <div class="pdp-buy__tot">
+            <span>Total</span>
+            <span class="pdp-buy__tot-r" data-buy-total>{{ price }}</span>
+          </div>
+          <p class="pdp-buy__lead" data-buy-lead>Delivered in {{ lt_display }}</p>
+          <button class="btn" type="button" data-sheet-add>{{ section.settings.add_label }}</button>
+          <p class="pdp-buy__reassure">{{ section.settings.reassure }}</p>
+          <p class="pdp__sub" data-sheet-status hidden></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--tight" data-section-ground="bg">
+    <div class="page-width">
+      {%- capture spec_inner -%}
+        <table class="pdp-spec__table">
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec1_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec1_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec1_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec2_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec2_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec2_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec3_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec3_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec3_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec4_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec4_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec4_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec5_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec5_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec5_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec6_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec6_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec6_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec7_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec7_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec7_does }}</td></tr>
+        </table>
+      {%- endcapture -%}
+      {% render 'pdp-spec',
+        spec_id: 'sheets-spec',
+        heading: section.settings.spec_heading,
+        note: section.settings.spec_note,
+        spec_inner: spec_inner
+      %}
+      {%- if settings.pillows_enabled -%}
+        <p class="pdp-discover">
+          <a href="{{ all_products['pillows'].url | default: '/products/pillows' }}">{{ section.settings.pillows_link }}</a>
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Bed sheets",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "text", "id": "image_caption", "label": "Hero image caption", "default": "Unmade bed, morning light, creases visible" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Bed sheets" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sheets that fit." },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>A 37cm mattress does not fit a standard fitted sheet. We made ours to fit ours.</p>" },
+    { "type": "text", "id": "material_heading", "label": "Material heading", "default": "Washed linen." },
+    { "type": "textarea", "id": "material_body", "label": "Material body", "default": "It breathes, it softens every wash, and it does not need ironing." },
+    { "type": "text", "id": "colour_heading", "label": "Colour heading", "default": "Four colours" },
+    { "type": "textarea", "id": "colour_body", "label": "Colour body", "default": "Chosen to sit with the bed, not compete with it." },
+    { "type": "text", "id": "size_heading", "label": "Size heading", "default": "Choose your size." },
+    { "type": "text", "id": "size_note", "label": "Size note", "default": "Every size we make a mattress in, including Emperor." },
+    { "type": "textarea", "id": "depth_note", "label": "Depth note", "default": "40cm depth, not 37. A sheet cut to the exact depth of the mattress will not stay on it. Ours has enough to tuck." },
+    { "type": "text", "id": "buy_eyebrow", "label": "Buy panel eyebrow", "default": "Your order" },
+    { "type": "text", "id": "add_label", "label": "Add button", "default": "Add to order" },
+    { "type": "text", "id": "reassure", "label": "Reassure", "default": "Free returns within 30 days" },
+    { "type": "text", "id": "spec_heading", "label": "Spec heading", "default": "Materials and dimensions" },
+    { "type": "textarea", "id": "spec_note", "label": "Spec note", "default": "Everything, including the numbers most brands lead with. They are here because they are true, not because they sell." },
+    { "type": "text", "id": "spec1_name", "label": "Spec 1 name", "default": "Material" },
+    { "type": "text", "id": "spec1_meta", "label": "Spec 1 meta", "default": "100% WASHED FLAX LINEN" },
+    { "type": "text", "id": "spec1_does", "label": "Spec 1 does", "default": "Breathes, softens with every wash" },
+    { "type": "text", "id": "spec2_name", "label": "Spec 2 name", "default": "Weight" },
+    { "type": "text", "id": "spec2_meta", "label": "Spec 2 meta", "default": "165 GSM" },
+    { "type": "text", "id": "spec2_does", "label": "Spec 2 does", "default": "Substantial without being heavy" },
+    { "type": "text", "id": "spec3_name", "label": "Spec 3 name", "default": "Weave" },
+    { "type": "text", "id": "spec3_meta", "label": "Spec 3 meta", "default": "PLAIN" },
+    { "type": "text", "id": "spec3_does", "label": "Spec 3 does", "default": "Open structure, moves air" },
+    { "type": "text", "id": "spec4_name", "label": "Spec 4 name", "default": "Fitted depth" },
+    { "type": "text", "id": "spec4_meta", "label": "Spec 4 meta", "default": "40 CM" },
+    { "type": "text", "id": "spec4_does", "label": "Spec 4 does", "default": "Fits a 37cm mattress with room to tuck" },
+    { "type": "text", "id": "spec5_name", "label": "Spec 5 name", "default": "Elastic" },
+    { "type": "text", "id": "spec5_meta", "label": "Spec 5 meta", "default": "FULL PERIMETER" },
+    { "type": "text", "id": "spec5_does", "label": "Spec 5 does", "default": "Stays put on a deep mattress" },
+    { "type": "text", "id": "spec6_name", "label": "Spec 6 name", "default": "Care" },
+    { "type": "text", "id": "spec6_meta", "label": "Spec 6 meta", "default": "40°C · TUMBLE LOW" },
+    { "type": "text", "id": "spec6_does", "label": "Spec 6 does", "default": "No ironing, ever" },
+    { "type": "text", "id": "spec7_name", "label": "Spec 7 name", "default": "Set includes" },
+    { "type": "text", "id": "spec7_meta", "label": "Spec 7 meta", "default": "FITTED · FLAT · 2 CASES" },
+    { "type": "text", "id": "spec7_does", "label": "Spec 7 does", "default": "Everything for one bed" },
+    { "type": "text", "id": "pillows_link", "label": "Pillows discovery link", "default": "The right height for how you sleep." }
+  ]
+}
+{% endschema %}

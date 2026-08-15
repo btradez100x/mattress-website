@@ -1,3 +1,23 @@
+# Regression results — Saturday 15 Aug 2026 (section colour arrangement)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 557 passed, 0 failed
+- Scope note: Per-section **Section colour** toggle (Auto / Off-white / Stone / Dark) plus auto-stripe so reordered neighbours use existing `--brand-bg` / `--brand-surface` and do not blend. Offer and swap-explainer stay Dark by default. No new colours or tokens. Preview kept in sync. No version bump.
+
+---
+
+# Regression results — 2026-08-15 (product pages: layer, sheets, pillows)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 557 passed, 0 failed
+- Scope note: Three product pages from `7-PRODUCT-PAGES-BRIEF.md` + `product-pages.html` — comfort layer, bed sheets, pillows. Four independent flags default off (404 / noindex / no links / cart reject). “Comfort top” renamed to “comfort layer” in customer-facing copy. Homepage 6-COPY-SPEC prices left at £250 / AED 1,200. Preview pages + theme in sync. No version bump.
+
+---
+
 # Regression results — 2026-08-15 (specification pattern)
 
 ## Smoke

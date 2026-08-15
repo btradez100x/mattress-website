@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1">
+<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true">
   <head>
     <meta charset="utf-8">
     <script src="../brand-boot.js?v=wo-v9-favicon1" data-valtora-brand-boot></script>
@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../base.css">
+    <link rel="stylesheet" href="../base.css?v=wo-v9-basketux2">
     <style>
       :root {
         --brand-primary: #1F3A5F;
@@ -18,6 +18,7 @@
         --brand-surface: #EAE6DF;
         --brand-ink: #222222;
         --brand-on-dark: #F7F5F1;
+        --eyebrow-on-dark: #8A6D3B;
         --font-serif: 'Fraunces', Georgia, serif;
         --font-sans: 'Outfit', system-ui, sans-serif;
         --font-wordmark: var(--font-sans);
@@ -39,34 +40,9 @@
         letter-spacing: 0.04em;
         padding: 0.55rem 1rem;
       }
-      .site-header--solid {
-        position: sticky; top: 0; z-index: 40;
-        background: color-mix(in srgb, var(--brand-bg) 92%, transparent);
-        border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
-        backdrop-filter: blur(8px);
-      }
-      .site-header--solid .site-header__inner {
-        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-        padding: 0.85rem 0;
-      }
-      .site-header--solid .site-header__nav { display: none; gap: 1.25rem; }
-      @media (min-width: 900px) {
-        .site-header--solid .site-header__nav { display: flex; }
-      }
-      .trust-policy__body h2 { margin-top: 2rem; font-size: 1.35rem; }
-      .trust-policy__body p { margin-top: 0.65rem; max-width: 40rem; }
-      .contact-details { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1rem; }
-      .contact-details li { display: grid; gap: 0.2rem; }
-      .contact-details strong { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-primary); }
-      .order-stages { margin: 2.5rem 0 0; padding: 0; list-style: none; }
-      .order-stages li { padding: 1rem 0; border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent); display: grid; grid-template-columns: 2rem 1fr; gap: 0.75rem; }
-      .order-status-form { margin-top: 2rem; display: grid; gap: 1rem; max-width: 28rem; }
-      .order-status-form input { width: 100%; padding: 0.85rem 1rem; border: 1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent); background: var(--brand-bg); }
-      .size-guide-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
-      .size-guide-table th, .size-guide-table td { text-align: left; padding: 0.85rem 0.75rem; border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent); }
     </style>
   </head>
-  <body>
+  <body class="template-page-policy" data-page="policy">
     <div class="preview-banner" data-preview-chrome><strong>Local theme preview</strong></div>
     <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
       <p style="margin:0" data-market-announcement>
@@ -75,97 +51,161 @@
       </p>
     </div>
 
-    <header class="site-header site-header--solid">
-      <div class="page-width site-header__inner">
+    <header class="site-header">
+      <div class="site-header__inner">
         <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
           <span class="wordmark__lockup">
             <span class="wordmark__text" data-brand-text>Aligna</span>
             <span class="wordmark__product" data-brand-product-line>Mattresses</span>
           </span>
         </a>
-                <nav class="site-header__nav" aria-label="Primary">
+        <nav class="site-header__nav" aria-label="Primary">
           <a href="../index.html#swap">The Swap System</a>
           <a href="../index.html#specs">Specs</a>
-          <a href="./manufacturing.html">Manufacturing</a>
+          <a href="../pages/manufacturing.html">Manufacturing</a>
           <a href="../index.html#lifestyle">Lifestyle</a>
           <a href="../blog/index.html">Journal</a>
           <a href="../index.html#founder">Founder</a>
           <a href="../index.html#faq">FAQ</a>
+          <a href="../pages/order-status.html">Order status</a>
         </nav>
-        <a class="btn" href="../index.html#reserve">Reserve yours</a>
+        <div class="site-header__actions"><a class="site-header__order" href="./cart.html" data-order-link hidden aria-label="Order"><span class="site-header__order-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" focusable="false"><path d="M5 8h14l-1.1 10.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span><span class="site-header__order-label">Order</span><span class="site-header__order-count" data-order-count hidden>0</span></a>
+          <a class="btn" href="../index.html#reserve">Reserve yours</a>
+          <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="MobileNav" aria-label="Open menu">
+            <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          </button>
+        </div>
+      </div>
+      <div class="nav-panel" id="MobileNav" data-nav-panel aria-hidden="true">
+        <a href="../index.html#swap">The Swap System</a>
+        <a href="../index.html#specs">Specs</a>
+        <a href="../pages/manufacturing.html">Manufacturing</a>
+        <a href="../index.html#lifestyle">Lifestyle</a>
+        <a href="../blog/index.html">Journal</a>
+        <a href="../index.html#founder">Founder</a>
+        <a href="../index.html#faq">FAQ</a>
+        <a href="../pages/order-status.html">Order status</a>
+        <a href="../index.html#reserve">Reserve yours</a>
       </div>
     </header>
+
     <main>
-
-      <section class="section">
-        <div class="page-width">
-          <p class="section__eyebrow">Refunds</p>
-          <hr class="gold-rule">
-          <h1 style="font-size:clamp(2.25rem,4vw,3rem);">Refunds & cancellations</h1>
-          <p class="section__lede">How to cancel a reservation, and how refunds work.</p>
-          <div class="legal-entity" data-legal-entity>
-            <h2>Who we are</h2>
-            <p>This website is operated by Valtora FZE.</p>
-            <ul class="contact-details legal-entity__fields" role="list">
-              <li><strong>Legal name</strong><span>Valtora FZE</span></li>
-              <li><strong>Registered address</strong><span>Business Centre, Sharjah Publishing City Free Zone<br>Sharjah, United Arab Emirates</span></li>
-            </ul>
+      <section class="policy-page">
+        <div class="section section--dark policy-hero">
+          <div class="page-width policy-hero__copy">
+            <p class="section__eyebrow">Refunds</p>
+            <hr class="gold-rule">
+            <h1>Refunds & cancellations</h1>
+            <p class="section__lede policy-hero__lede">How to cancel a reservation, and how refunds work.</p>
           </div>
-          <div class="rte trust-policy__body" style="margin-top:1.75rem;">
+        </div>
+
+      <div class="section section--surface policy-legal-band">
+        <div class="page-width page-width--narrow">
+          <div class="policy-legal">
+            <div class="legal-entity" data-legal-entity>
+              <h2>Who we are</h2>
+              <p>This website is operated by Valtora FZE.</p>
+              <ul class="contact-details legal-entity__fields" role="list">
+                <li><strong>Legal name</strong><span>Valtora FZE</span></li>
+                <li><strong>Registered address</strong><span>Business Centre, Sharjah Publishing City Free Zone<br>Sharjah, United Arab Emirates</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="section policy-body">
+          <div class="page-width page-width--narrow">
+          <div class="policy-intro rte trust-policy__body">
             <p>Refunds and cancellations are handled by <span data-business-name>Valtora FZE</span>.</p>
-            <h2>Cancel before dispatch</h2>
-            <p>You can cancel any time before your mattress is dispatched for a full refund, no questions asked.</p>
-            <h2>How to cancel</h2>
-            <p>Email or WhatsApp us with your order number. No forms designed to slow you down.</p>
-            <h2>Timing &amp; method</h2>
-            <p>Refunds return to the original payment method within 5-10 business days of cancellation confirmation.</p>
-            <h2>Balance</h2>
-            <p>Once it arrives you still have 100 nights to decide. If it is not right we collect it and refund you.</p>
-            <h2>Who to contact</h2>
-            <p>Use the email or WhatsApp on our <a href="./contact.html">contact page</a>. We reply within one working day.</p>
-
           </div>
-      <p style="margin-top:2rem;">
-        <a class="btn" href="../index.html#reserve">Reserve your size</a>
-      </p>
+            <div class="policy-articles">
+            <article class="policy-article">
+              <h2>Cancel before dispatch</h2>
+              <div class="policy-article__body rte trust-policy__body">
+                <p>You can cancel any time before your mattress is dispatched for a full refund, no questions asked.</p>
+              </div>
+            </article>
+            <article class="policy-article">
+              <h2>How to cancel</h2>
+              <div class="policy-article__body rte trust-policy__body">
+                <p>Email or WhatsApp us with your order number. No forms designed to slow you down.</p>
+              </div>
+            </article>
+            <article class="policy-article">
+              <h2>Timing &amp; method</h2>
+              <div class="policy-article__body rte trust-policy__body">
+                <p>Refunds return to the original payment method within 5-10 business days of cancellation confirmation.</p>
+              </div>
+            </article>
+            <article class="policy-article">
+              <h2>After delivery</h2>
+              <div class="policy-article__body rte trust-policy__body">
+                <p>Once it arrives you still have 100 nights to decide. If it is not right we collect it and refund you.</p>
+              </div>
+            </article>
+            <article class="policy-article">
+              <h2>Who to contact</h2>
+              <div class="policy-article__body rte trust-policy__body">
+                <p>Use the email or WhatsApp on our <a href="./contact.html">contact page</a>. We reply within one working day.</p>
+              </div>
+            </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="section section--dark policy-cta" data-section-ground="dark">
+          <div class="page-width policy-cta__inner">
+            <p class="section__eyebrow">Next</p>
+            <hr class="gold-rule">
+            <p class="policy-cta__action">
+              <a class="btn" href="../index.html#reserve">Reserve your size</a>
+            </p>
+          </div>
         </div>
       </section>
-
     </main>
     <footer class="site-footer">
       <div class="page-width site-footer__grid">
         <div class="site-footer__brand">
-          <a class="wordmark wordmark--dark" href="../index.html" aria-label="Aligna Mattresses">
+          <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
             <span class="wordmark__lockup">
               <span class="wordmark__text" data-brand-text>Aligna</span>
               <span class="wordmark__product" data-brand-product-line>Mattresses</span>
             </span>
           </a>
-          <div class="site-footer__contact">
-            <p class="site-footer__company"><strong data-business-name>Valtora FZE</strong></p>
-            <p data-business-hours>9:00-17:00 <span data-hours-tz>GST</span></p>
-            <p class="site-footer__response">We reply within one working day.</p>
-          </div>
+          <p><span data-brand-tagline>Premium Sleep, Engineered for the Gulf</span>. A better bed, for life.</p>
+        </div>
+        <div>
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="../index.html#swap">The Swap System</a></li>
+            <li><a href="../index.html#specs">Specs</a></li>
+            <li><a href="../pages/manufacturing.html">Manufacturing</a></li>
+            <li><a href="../index.html#lifestyle">Lifestyle</a></li>
+            <li><a href="../index.html#reserve">Reserve</a></li>
+            <li><a href="../blog/index.html">Journal</a></li>
+            <li><a href="../index.html#founder">Founder</a></li>
+            <li><a href="../index.html#faq">FAQ</a></li>
+            <li><a href="../pages/size-guide.html">Size guide</a></li>
+          </ul>
         </div>
         <div>
           <h3>Policies</h3>
           <ul>
-            <li><a href="./trial.html">100-night trial</a></li>
-            <li><a href="./warranty.html">Warranty</a></li>
-            <li><a href="./refunds.html">Refunds &amp; cancellations</a></li>
-            <li><a href="./delivery.html">Delivery &amp; lead time</a></li>
-            <li><a href="./size-guide.html">Size guide</a></li>
-            <li><a href="./contact.html">Contact</a></li>
-            <li><a href="./order-status.html">Order status</a></li>
-            <li><a href="./privacy.html">Privacy</a></li>
-            <li><a href="./terms.html">Terms</a></li>
-            <li><a href="./cookies.html">Cookies</a></li>
+            <li><a href="../pages/trial.html">100-night trial</a></li>
+            <li><a href="../pages/warranty.html">Warranty</a></li>
+            <li><a href="../pages/refunds.html">Refunds &amp; cancellations</a></li>
+            <li><a href="../pages/delivery.html">Delivery &amp; lead time</a></li>
+            <li><a href="../pages/size-guide.html">Size guide</a></li>
+            <li><a href="../pages/contact.html">Contact</a></li>
+            <li><a href="../pages/order-status.html">Order status</a></li>
+            <li><a href="../pages/privacy.html">Privacy</a></li>
+            <li><a href="../pages/terms.html">Terms</a></li>
+            <li><a href="../pages/cookies.html">Cookies</a></li>
           </ul>
         </div>
-      </div>
-      <div class="page-width site-footer__bottom">
-        <span>© 2026 <span data-business-name>Valtora FZE</span>.</span>
-        <span><a href="../index.html">Back to home</a></span>
       </div>
     </footer>
       <script>

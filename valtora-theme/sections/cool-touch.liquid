@@ -1,5 +1,5 @@
 {%- if section.settings.enable_section -%}
-<section class="section{% if section.settings.surface %} section--surface{% endif %}" id="{{ section.settings.anchor_id | default: 'cool-touch' }}" data-reveal>
+<section class="section{% render 'section-ground' %}" id="{{ section.settings.anchor_id | default: 'cool-touch' }}" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width media-feature__split">
     {%- liquid
       assign main_caption = section.settings.image_caption
@@ -95,6 +95,31 @@
       "default": true
     },
     {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
+    },
+    {
       "type": "checkbox",
       "id": "surface",
       "label": "Stone surface background",
@@ -128,7 +153,7 @@
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "A breathable cool-knit cover and gel-infused comfort layer - made for warm nights without overclaiming miracles."
+      "default": "Heat is why people give up on a mattress they used to love. This one lets it out."
     },
     {
       "type": "image_picker",
@@ -162,13 +187,13 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Cool-knit cover"
+          "default": "Cool to the touch"
         },
         {
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "400gsm, breathable hand-feel"
+          "default": "It does not feel warm when you get in"
         }
       ]
     },
@@ -215,16 +240,16 @@
           "type": "point",
           "settings": {
             "enabled": true,
-            "title": "Cool-knit cover",
-            "text": "400gsm, breathable hand-feel"
+            "title": "Cool to the touch",
+            "text": "It does not feel warm when you get in"
           }
         },
         {
           "type": "point",
           "settings": {
             "enabled": true,
-            "title": "Gel-infused comfort",
-            "text": "Designed for a cooler first touch"
+            "title": "Contours without trapping",
+            "text": "It shapes to you. It does not hold the heat"
           }
         },
         {

@@ -161,6 +161,17 @@ p:last-child {
   color: var(--brand-on-dark);
 }
 
+/* Auto grounds: first-paint stripe so neighbours do not blend before JS. */
+#MainContent > .shopify-section [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark),
+#MainContent [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
+  background: var(--brand-bg);
+}
+
+#MainContent > .shopify-section:nth-child(even) [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark),
+#MainContent > [data-section-ground="auto"]:nth-of-type(even):not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
+  background: var(--brand-surface);
+}
+
 .section--dark h1,
 .section--dark h2,
 .section--dark h3 {
@@ -3199,8 +3210,20 @@ video[controls],
 }
 
 .trust-bar--surface {
-  background: transparent;
+  background: var(--brand-surface);
   border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 8%, transparent);
+}
+
+.trust-bar--dark {
+  background: var(--brand-primary);
+  color: var(--brand-on-dark);
+  border-bottom-color: color-mix(in srgb, var(--brand-on-dark) 12%, transparent);
+}
+
+.trust-bar--dark .trust-bar__label,
+.trust-bar--dark .trust-bar__sub,
+.trust-bar--dark .trust-bar__link {
+  color: var(--brand-on-dark);
 }
 
 .trust-bar__list {

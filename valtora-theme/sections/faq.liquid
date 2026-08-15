@@ -19,7 +19,7 @@
 {%- capture lead -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
 {%- assign lead = lead | strip -%}
 {%- if section.settings.enable_section -%}
-<section class="section section--surface" id="faq" data-reveal>
+<section class="section{% render 'section-ground' %}" id="faq" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width page-width--narrow" style="max-width:48rem; width:min(100% - (var(--space-gutter) * 2), 48rem);">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2>{{ section.settings.heading }}</h2>
@@ -72,6 +72,32 @@
       "id": "enable_section",
       "label": "Show this section",
       "default": true
+    },
+
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
     },
     {
       "type": "text",
@@ -182,8 +208,8 @@
         {
           "type": "item",
           "settings": {
-            "question": "How much is a comfort top?",
-            "answer": "GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same top works on any other mattress as a 10cm topper, so it is not only useful to people who own ours."
+            "question": "How much is a comfort layer?",
+            "answer": "GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same layer works on any other mattress as a 10cm topper, so it is not only useful to people who own ours."
           }
         },
         {
@@ -219,8 +245,8 @@
         {
           "type": "item",
           "settings": {
-            "question": "How does the replaceable top work?",
-            "answer": "Unzip, lift out, swap in when the comfort layer is worn. To change firmness, flip the module inside - you do not need a new top."
+            "question": "How does the replaceable layer work?",
+            "answer": "Unzip, lift out, swap in when the comfort layer is worn. To change firmness, flip the module inside - you do not need a new layer."
           }
         },
         {

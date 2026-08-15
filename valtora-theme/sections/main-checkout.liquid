@@ -104,10 +104,13 @@
         If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
       </p>
       <p class="checkout-stage__copy" data-leadtime-copy-top hidden>
-        Your comfort top is made to order and sent by courier in {% render 'lead-time', product_type: 'top' %}. Unroll it and give it a few hours to recover its full height.
+        Your comfort layer is made to order and sent by courier in {% render 'lead-time', product_type: 'top' %}. Unroll it and give it a few hours to recover its full height.
+      </p>
+      <p class="checkout-stage__copy" data-leadtime-copy-parcel hidden>
+        Sent by courier in {% render 'lead-time', product_type: 'sheets' %}.
       </p>
       <p class="checkout-stage__copy" data-leadtime-copy-mixed hidden>
-        Your order includes a mattress and a comfort top. We use the longer window so everything can arrive together.
+        Your order includes items with different lead times. We use the longer window so everything can arrive together.
       </p>
 
       {%- assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.' -%}

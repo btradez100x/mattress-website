@@ -14,8 +14,9 @@
 {%- if section.settings.enable_section -%}
 {%- if section.blocks.size > 0 -%}
   <section
-    class="trust-bar{% if section.settings.surface %} trust-bar--surface{% endif %}{% if marquee %} trust-bar--marquee{% endif %}"
+    class="trust-bar{% render 'section-ground', prefix: 'trust-bar' %}{% if marquee %} trust-bar--marquee{% endif %}"
     id="{{ section.settings.anchor_id | default: 'trust' }}-{{ section.id }}"
+    data-section-ground="{% render 'section-ground', as: 'value' %}"
     {% unless marquee %}data-reveal{% endunless %}
     style="{% if marquee %}--trust-marquee-duration: {{ duration }}s;{% endif %}"
   >
@@ -247,6 +248,32 @@
       "id": "enable_section",
       "label": "Show this section",
       "default": true
+    },
+
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
     },
     {
       "type": "checkbox",

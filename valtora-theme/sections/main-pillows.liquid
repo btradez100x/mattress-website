@@ -1,0 +1,208 @@
+{%- comment -%}
+  Pillows PDP. Flag off: 404 UI + noindex. Keep the product draft in
+  Admin so it 404s and stays out of the sitemap.
+
+  Admin: product "Pillows", handle pillows, type "pillows".
+  Variants = sleeping position (Side | Back | Front | Changes).
+  UK size in the HTML is 50 × 75 cm. UAE size is not in the brief —
+  leave the AE size setting blank until it is confirmed.
+{%- endcomment -%}
+{%- if settings.pillows_enabled == false -%}
+  {% render 'product-absent' %}
+{%- else -%}
+{%- capture lt_display -%}{%- render 'lead-time', product: product, product_type: 'pillows' -%}{%- endcapture -%}
+{%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'pillows', format: 'min' -%}{%- endcapture -%}
+{%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'pillows', format: 'max' -%}{%- endcapture -%}
+{%- assign lt_display = lt_display | strip -%}
+{%- assign price = product.price | money -%}
+{%- if localization.country.iso_code == 'GB' -%}
+  {%- assign pillow_dims = section.settings.size_gb -%}
+{%- elsif localization.country.iso_code == 'AE' -%}
+  {%- assign pillow_dims = section.settings.size_ae -%}
+{%- else -%}
+  {%- if settings.default_market == 'gb' -%}
+    {%- assign pillow_dims = section.settings.size_gb -%}
+  {%- else -%}
+    {%- assign pillow_dims = section.settings.size_ae -%}
+  {%- endif -%}
+{%- endif -%}
+<section
+  class="pdp pdp--pillows"
+  data-pillows
+  data-pillows-enabled="true"
+  data-product-handle="{{ product.handle | escape }}"
+  data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  data-lead-window="{{ lt_display | escape }}"
+  data-lead-min="{{ lt_min | strip }}"
+  data-lead-max="{{ lt_max | strip }}"
+  data-lead-unit="days"
+  data-pillow-price-raw="{{ product.price }}"
+  data-pillow-dims="{{ pillow_dims | escape }}"
+>
+  <script type="application/json" data-accessory-prices>
+    {%- if product != blank and product.variants.size > 0 -%}
+      {
+        {%- assign first_v = true -%}
+        {%- for v in product.variants -%}
+          {%- unless first_v -%},{%- endunless -%}
+          {{ v.title | handleize | json }}: { "price": {{ v.price | money | json }}, "raw": {{ v.price }}, "id": {{ v.id }} }
+          {%- assign first_v = false -%}
+        {%- endfor -%}
+      }
+    {%- else -%}
+      {}
+    {%- endif -%}
+  </script>
+
+  <div class="section">
+    <div class="page-width">
+      <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="pdp__heading">{{ section.settings.heading }}</h1>
+      <div class="section__lede rte pdp__lede">{{ section.settings.body }}</div>
+      <div class="pdp__himg">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 1800 }}" alt="{{ section.settings.image_caption | default: section.settings.heading | escape }}" width="1800" height="900">
+        {%- elsif product.featured_image != blank -%}
+          <img src="{{ product.featured_image | image_url: width: 1800 }}" alt="{{ section.settings.image_caption | default: section.settings.heading | escape }}" width="1800" height="900">
+        {%- endif -%}
+        {%- if section.settings.image_caption != blank -%}
+          <span class="pdp__himg-cap">{{ section.settings.image_caption }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--dark">
+    <div class="page-width">
+      <h2>{{ section.settings.neck_heading }}</h2>
+      <p class="section__lede">{{ section.settings.neck_body }}</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="page-width pdp-grid">
+      <div>
+        <h2>{{ section.settings.sleep_heading }}</h2>
+        <p class="pdp__sub">{{ section.settings.sleep_note }}</p>
+        <div class="pdp-opts" data-pillow-sleep>
+          <button type="button" class="pdp-opt" data-pillow-sleep="side" data-pillow-loft="{{ section.settings.loft_high }}">
+            <span class="pdp-opt__rd" aria-hidden="true"></span>
+            <span><span class="pdp-opt__nm">{{ section.settings.opt_side }}</span><span class="pdp-opt__sub">{{ section.settings.opt_side_sub }}</span></span>
+            <span class="pdp-opt__pr" data-pillow-price-label>{{ price }}</span>
+          </button>
+          <button type="button" class="pdp-opt" data-pillow-sleep="back" data-pillow-loft="{{ section.settings.loft_medium }}">
+            <span class="pdp-opt__rd" aria-hidden="true"></span>
+            <span><span class="pdp-opt__nm">{{ section.settings.opt_back }}</span><span class="pdp-opt__sub">{{ section.settings.opt_back_sub }}</span></span>
+            <span class="pdp-opt__pr" data-pillow-price-label>{{ price }}</span>
+          </button>
+          <button type="button" class="pdp-opt" data-pillow-sleep="front" data-pillow-loft="{{ section.settings.loft_low }}">
+            <span class="pdp-opt__rd" aria-hidden="true"></span>
+            <span><span class="pdp-opt__nm">{{ section.settings.opt_front }}</span><span class="pdp-opt__sub">{{ section.settings.opt_front_sub }}</span></span>
+            <span class="pdp-opt__pr" data-pillow-price-label>{{ price }}</span>
+          </button>
+          <button type="button" class="pdp-opt" data-pillow-sleep="changes" data-pillow-loft="{{ section.settings.loft_medium }}">
+            <span class="pdp-opt__rd" aria-hidden="true"></span>
+            <span><span class="pdp-opt__nm">{{ section.settings.opt_changes }}</span><span class="pdp-opt__sub">{{ section.settings.opt_changes_sub }}</span></span>
+            <span class="pdp-opt__pr" data-pillow-price-label>{{ price }}</span>
+          </button>
+        </div>
+        <div class="pdp-note">
+          <p>{{ section.settings.price_note }}</p>
+        </div>
+      </div>
+      <div>
+        <div class="pdp-buy">
+          <p class="section__eyebrow">{{ section.settings.buy_eyebrow }}</p>
+          <div class="pdp-buy__row">
+            <span data-buy-line>Choose how you sleep</span>
+            <span class="pdp-buy__r" data-pillow-price>{{ price }}</span>
+          </div>
+          <div class="pdp-buy__tot">
+            <span>Total</span>
+            <span class="pdp-buy__tot-r" data-buy-total>{{ price }}</span>
+          </div>
+          <p class="pdp-buy__lead" data-buy-lead>Delivered in {{ lt_display }}</p>
+          <button class="btn" type="button" data-pillow-add>{{ section.settings.add_label }}</button>
+          <p class="pdp-buy__reassure">{{ section.settings.reassure }}</p>
+          <p class="pdp__sub" data-pillow-status hidden></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--tight" data-section-ground="bg">
+    <div class="page-width">
+      {%- capture spec_inner -%}
+        <table class="pdp-spec__table">
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec1_name }}</div><div class="pdp-spec__meta">{% if pillow_dims != blank %}{{ pillow_dims }}{% else %}{{ section.settings.spec1_meta }}{% endif %}</div></td><td class="pdp-spec__does">{{ section.settings.spec1_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec2_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec2_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec2_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec3_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec3_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec3_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec4_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec4_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec4_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec5_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec5_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec5_does }}</td></tr>
+          <tr><td><div class="pdp-spec__name">{{ section.settings.spec6_name }}</div><div class="pdp-spec__meta">{{ section.settings.spec6_meta }}</div></td><td class="pdp-spec__does">{{ section.settings.spec6_does }}</td></tr>
+        </table>
+      {%- endcapture -%}
+      {% render 'pdp-spec',
+        spec_id: 'pillows-spec',
+        heading: section.settings.spec_heading,
+        note: section.settings.spec_note,
+        spec_inner: spec_inner
+      %}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Pillows",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "text", "id": "image_caption", "label": "Hero image caption", "default": "Single pillow, raking light, texture visible" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Pillows" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The right height for how you sleep." },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Side sleepers need more. Front sleepers need less. Most people are using whichever one they were given.</p>" },
+    { "type": "text", "id": "neck_heading", "label": "Neck heading", "default": "Your neck should be level with your spine." },
+    { "type": "textarea", "id": "neck_body", "label": "Neck body", "default": "Too high and it bends up. Too low and it drops. Either way you wake up sore and blame the mattress." },
+    { "type": "text", "id": "sleep_heading", "label": "Sleep heading", "default": "How do you sleep?" },
+    { "type": "text", "id": "sleep_note", "label": "Sleep note", "default": "This is the only question that matters. Everything else is detail." },
+    { "type": "text", "id": "opt_side", "label": "Side label", "default": "On your side" },
+    { "type": "text", "id": "opt_side_sub", "label": "Side sub", "default": "High · 14cm loft" },
+    { "type": "text", "id": "opt_back", "label": "Back label", "default": "On your back" },
+    { "type": "text", "id": "opt_back_sub", "label": "Back sub", "default": "Medium · 11cm loft" },
+    { "type": "text", "id": "opt_front", "label": "Front label", "default": "On your front" },
+    { "type": "text", "id": "opt_front_sub", "label": "Front sub", "default": "Low · 8cm loft" },
+    { "type": "text", "id": "opt_changes", "label": "Changes label", "default": "It changes" },
+    { "type": "text", "id": "opt_changes_sub", "label": "Changes sub", "default": "Medium - the safest choice" },
+    { "type": "text", "id": "loft_high", "label": "High loft", "default": "14cm" },
+    { "type": "text", "id": "loft_medium", "label": "Medium loft", "default": "11cm" },
+    { "type": "text", "id": "loft_low", "label": "Low loft", "default": "8cm" },
+    { "type": "textarea", "id": "price_note", "label": "Price note", "default": "One price whichever you choose. We are not charging more for the one that fits you." },
+    { "type": "text", "id": "size_gb", "label": "UK size", "default": "50 × 75 CM" },
+    { "type": "text", "id": "size_ae", "label": "UAE size", "info": "Leave blank until the UAE standard is confirmed. Do not invent a size." },
+    { "type": "text", "id": "buy_eyebrow", "label": "Buy panel eyebrow", "default": "Your order" },
+    { "type": "text", "id": "add_label", "label": "Add button", "default": "Add to order" },
+    { "type": "text", "id": "reassure", "label": "Reassure", "default": "Try it for 30 nights" },
+    { "type": "text", "id": "spec_heading", "label": "Spec heading", "default": "Fill and construction" },
+    { "type": "textarea", "id": "spec_note", "label": "Spec note", "default": "Fill weight and loft, for anyone who wants them. They are not how you should choose a pillow." },
+    { "type": "text", "id": "spec1_name", "label": "Spec 1 name", "default": "Size" },
+    { "type": "text", "id": "spec1_meta", "label": "Spec 1 meta", "default": "50 × 75 CM" },
+    { "type": "text", "id": "spec1_does", "label": "Spec 1 does", "default": "UK standard" },
+    { "type": "text", "id": "spec2_name", "label": "Spec 2 name", "default": "Loft, high" },
+    { "type": "text", "id": "spec2_meta", "label": "Spec 2 meta", "default": "14 CM" },
+    { "type": "text", "id": "spec2_does", "label": "Spec 2 does", "default": "Fills the gap at the shoulder" },
+    { "type": "text", "id": "spec3_name", "label": "Spec 3 name", "default": "Loft, medium" },
+    { "type": "text", "id": "spec3_meta", "label": "Spec 3 meta", "default": "11 CM" },
+    { "type": "text", "id": "spec3_does", "label": "Spec 3 does", "default": "Neutral for most sleepers" },
+    { "type": "text", "id": "spec4_name", "label": "Spec 4 name", "default": "Loft, low" },
+    { "type": "text", "id": "spec4_meta", "label": "Spec 4 meta", "default": "8 CM" },
+    { "type": "text", "id": "spec4_does", "label": "Spec 4 does", "default": "Keeps the neck flat when face down" },
+    { "type": "text", "id": "spec5_name", "label": "Spec 5 name", "default": "Fill" },
+    { "type": "text", "id": "spec5_meta", "label": "Spec 5 meta", "default": "[TO CONFIRM]" },
+    { "type": "text", "id": "spec5_does", "label": "Spec 5 does", "default": "Pending supplier" },
+    { "type": "text", "id": "spec6_name", "label": "Spec 6 name", "default": "Cover" },
+    { "type": "text", "id": "spec6_meta", "label": "Spec 6 meta", "default": "COTTON, REMOVABLE" },
+    { "type": "text", "id": "spec6_does", "label": "Spec 6 does", "default": "Washable at 40°C" }
+  ]
+}
+{% endschema %}

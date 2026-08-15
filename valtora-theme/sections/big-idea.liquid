@@ -3,7 +3,7 @@
   assign body = section.settings.body | replace: '[Brand]', brand | replace: 'Aligna', brand
 -%}
 {%- if section.settings.enable_section -%}
-<section class="section" id="swap" data-reveal>
+<section class="section{% render 'section-ground' %}" id="swap" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width big-idea__grid">
     <div class="big-idea__copy">
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -42,6 +42,32 @@
       "label": "Show this section",
       "default": true
     },
+
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -58,7 +84,7 @@
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Most mattresses get replaced because the top wears out - while the springs beneath have years left. [Brand] separates the two. Unzip the comfort top, swap in a new one, and your bed feels new again. Flip the comfort module to change firmness. Keep the bed for decades.",
+      "default": "Most mattresses are thrown away because one layer wore out. We made that layer the part you replace.",
       "info": "Use [Brand] - it is replaced by the global brand name setting."
     },
     {

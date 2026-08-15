@@ -2,7 +2,7 @@
   {
     "name": "theme_info",
     "theme_name": "Valtora",
-    "theme_version": "9.2.0",
+    "theme_version": "9.3.0",
     "theme_author": "Valtora",
     "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
     "theme_support_url": "https://help.shopify.com/"
@@ -126,7 +126,7 @@
         "type": "textarea",
         "id": "share_description",
         "label": "Share / link-preview copy",
-        "default": "Premium Sleep, Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort top - do not replace the whole mattress.",
+        "default": "Premium Sleep, Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.",
         "info": "Shown when someone shares the URL (WhatsApp, iMessage, etc.). Use [Brand], [Line], or [Tagline] as tokens."
       },
       {
@@ -468,14 +468,38 @@
       {
         "type": "number",
         "id": "lead_time_top_min",
-        "label": "Comfort top lead time - min weeks",
+        "label": "Comfort layer lead time - min weeks",
         "default": 2
       },
       {
         "type": "number",
         "id": "lead_time_top_max",
-        "label": "Comfort top lead time - max weeks",
+        "label": "Comfort layer lead time - max weeks",
         "default": 3
+      },
+      {
+        "type": "number",
+        "id": "lead_time_sheets_min",
+        "label": "Sheets lead time - min days",
+        "default": 3
+      },
+      {
+        "type": "number",
+        "id": "lead_time_sheets_max",
+        "label": "Sheets lead time - max days",
+        "default": 5
+      },
+      {
+        "type": "number",
+        "id": "lead_time_pillows_min",
+        "label": "Pillows lead time - min days",
+        "default": 3
+      },
+      {
+        "type": "number",
+        "id": "lead_time_pillows_max",
+        "label": "Pillows lead time - max days",
+        "default": 5
       },
       {
         "type": "number",
@@ -550,9 +574,30 @@
       {
         "type": "checkbox",
         "id": "comfort_tops_enabled",
-        "label": "Comfort tops available to buy",
+        "label": "Comfort layer available to buy",
         "default": false,
-        "info": "Off at launch. When off, do not link to /products/comfort-top; keep the product draft so it 404s for customers."
+        "info": "Off at launch. When off, the comfort layer page is absent - no link, no sitemap entry, cart rejects the item. Keep the product draft so it 404s. Handle: comfort-layer."
+      },
+      {
+        "type": "checkbox",
+        "id": "sheets_enabled",
+        "label": "Bed sheets available to buy",
+        "default": false,
+        "info": "Independent of the comfort layer and pillows. Off means the page is absent, not disabled. Handle: bed-sheets."
+      },
+      {
+        "type": "checkbox",
+        "id": "pillows_enabled",
+        "label": "Pillows available to buy",
+        "default": false,
+        "info": "Independent of the comfort layer and sheets. Off means the page is absent, not disabled. Handle: pillows."
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_accessories_enabled",
+        "label": "Show accessories group in the footer",
+        "default": false,
+        "info": "Independent of the three product flags. When on, the footer lists only the products whose own flags are also on. No shop link in the main navigation."
       },
       {
         "type": "checkbox",

@@ -68,11 +68,12 @@
 <meta name="valtora-market" content="{{ market }}">
 
 <section
-  class="section"
+  class="section{% render 'section-ground' %}"
   id="{{ reserve_dom_id }}"
   data-reserve-section
   data-reserve-instance="reserve-{{ section.id }}"
   data-reveal
+  data-section-ground="{% render 'section-ground', as: 'value' %}"
 >
 <script type="application/json" data-size-price-config>
   [
@@ -408,6 +409,32 @@
       "label": "Show this section",
       "default": true
     },
+
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
+    },
     {
       "type": "text",
       "id": "anchor_id",
@@ -508,12 +535,12 @@
     },
     {
       "type": "header",
-      "content": "Comfort tops"
+      "content": "Comfort layer"
     },
     {
       "type": "product",
       "id": "comfort_top_product",
-      "label": "Spare comfort top product",
+      "label": "Comfort layer product",
       "info": "Price is read from this product. Used when a spare top is added so checkout charges the top, not the mattress."
     },
     {

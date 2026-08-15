@@ -64,6 +64,12 @@
         <strong data-confirmed-total></strong>
       </p>
       <p class="thanks-order__summary" data-confirmed-summary hidden></p>
+      {%- if settings.sheets_enabled -%}
+        <p class="pdp-discover" data-sheets-confirm>
+          A 37cm mattress does not fit a standard fitted sheet.
+          <a href="{{ all_products['bed-sheets'].url | default: '/products/bed-sheets' }}">Sheets that fit.</a>
+        </p>
+      {%- endif -%}
     </div>
   </section>
 

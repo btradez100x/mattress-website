@@ -2,7 +2,10 @@
   "sections": {
     "size-guide": {
       "type": "size-guide",
-      "settings": {}
+      "settings": {
+        "heading": "Sizes in centimetres",
+        "intro": "UAE and UK size names differ. Always check the cm dimensions."
+      }
     }
   },
   "order": ["size-guide"]

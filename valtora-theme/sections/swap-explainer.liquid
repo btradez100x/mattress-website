@@ -8,7 +8,7 @@
   assign video_fallback = section.settings.fallback_video | default: 'swap-explainer.mp4'
 -%}
 {%- if section.settings.enable_section -%}
-<section class="section section--dark swap-explainer" id="swap-video" data-reveal>
+<section class="section{% render 'section-ground', fallback: 'dark' %} swap-explainer" id="swap-video" data-reveal data-section-ground="{% render 'section-ground', as: 'value', fallback: 'dark' %}">
   <div class="page-width swap-explainer__column">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2>{{ section.settings.heading }}</h2>
@@ -18,12 +18,15 @@
     {%- if section.settings.body != blank -%}
       <p class="section__lede">{{ section.settings.body }}</p>
     {%- endif -%}
+    {%- if section.settings.flip_line != blank -%}
+      <p class="section__lede">{{ section.settings.flip_line }}</p>
+    {%- endif -%}
     {%- if section.settings.dual_use != blank -%}
       <div class="section__lede rte">{{ section.settings.dual_use }}</div>
     {%- endif -%}
     {%- if settings.comfort_tops_enabled and section.settings.top_cta_label != blank -%}
       <p class="swap-explainer__cta">
-        <a class="btn" href="{{ section.settings.top_cta_url | default: '/products/comfort-top' }}">{{ section.settings.top_cta_label }}</a>
+        <a class="btn" href="{{ section.settings.top_cta_url | default: '/products/comfort-layer' }}">{{ section.settings.top_cta_label }}</a>
       </p>
     {%- endif -%}
     {%- if market == 'gb' and section.settings.ownership_cost_gb != blank -%}
@@ -59,6 +62,31 @@
       "default": true
     },
     {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto — keep neighbours distinct"
+        },
+        {
+          "value": "bg",
+          "label": "Off-white"
+        },
+        {
+          "value": "surface",
+          "label": "Stone"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "dark",
+      "info": "Auto alternates off-white and stone when you reorder sections. Dark is for contrast only, used sparingly."
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
@@ -74,13 +102,19 @@
       "type": "richtext",
       "id": "handmade_link",
       "label": "Handmade link (before body)",
-      "default": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort top can be unzipped, lifted out and replaced.</p>"
+      "default": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>"
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "When the comfort layer wears, unzip it, lift it out and swap in a new one. Keep the engineered core for decades."
+      "default": "When the layer wears, replace the layer. The bed underneath has years left in it."
+    },
+    {
+      "type": "textarea",
+      "id": "flip_line",
+      "label": "Flip line (after body)",
+      "default": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes."
     },
     {
       "type": "richtext",
@@ -91,26 +125,26 @@
     {
       "type": "text",
       "id": "top_cta_label",
-      "label": "Comfort top CTA label",
-      "default": "See the comfort top"
+      "label": "Comfort layer CTA label",
+      "default": "See the comfort layer"
     },
     {
       "type": "text",
       "id": "top_cta_url",
-      "label": "Comfort top CTA link",
-      "info": "Path such as /products/comfort-top. Leave blank to hide until comfort tops are on."
+      "label": "Comfort layer CTA link",
+      "info": "Path such as /products/comfort-layer. Leave blank to hide until the comfort layer is on."
     },
     {
       "type": "richtext",
       "id": "ownership_cost_gb",
       "label": "Ownership cost (UK)",
-      "default": "<p>A comfort top costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
+      "default": "<p>A comfort layer costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
     },
     {
       "type": "richtext",
       "id": "ownership_cost_ae",
       "label": "Ownership cost (UAE)",
-      "default": "<p>A comfort top costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
+      "default": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
     },
     {
       "type": "image_picker",

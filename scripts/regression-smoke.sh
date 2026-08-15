@@ -57,7 +57,12 @@ REQUIRED_PATHS=(
   "templates/page.terms.json"
   "templates/page.cookies.json"
   "templates/product.comfort-top.json"
+  "templates/product.comfort-layer.json"
+  "templates/product.bed-sheets.json"
+  "templates/product.pillows.json"
   "sections/main-comfort-top.liquid"
+  "sections/main-bed-sheets.liquid"
+  "sections/main-pillows.liquid"
   "snippets/lead-time.liquid"
   "snippets/lead-time-line.liquid"
   "sections/order-status.liquid"
@@ -527,11 +532,13 @@ else
   fail "checkout missing marker $missing_marker"
 fi
 
-if grep -q "This page does not exist" "$THEME/sections/main-comfort-top.liquid" \
-  && grep -q "comfort_tops_enabled" "$THEME/sections/main-comfort-top.liquid"; then
-  pass "comfort-top 404 markup when flag off"
+if grep -q "This page does not exist" "$THEME/snippets/product-absent.liquid" \
+  && grep -q "comfort_tops_enabled" "$THEME/sections/main-comfort-top.liquid" \
+  && grep -q "sheets_enabled" "$THEME/sections/main-bed-sheets.liquid" \
+  && grep -q "pillows_enabled" "$THEME/sections/main-pillows.liquid"; then
+  pass "accessory 404 markup when flags off"
 else
-  fail "comfort-top missing flag-off 404 markup"
+  fail "accessory pages missing flag-off 404 markup"
 fi
 
 if grep -q "comfort_tops_enabled and section.settings.top_cta_label" "$THEME/sections/swap-explainer.liquid"; then
@@ -567,8 +574,11 @@ if grep -q "privacy_link" "$THEME/sections/footer.liquid" \
   && [[ -f "$ROOT/preview/pages/privacy.html" ]] \
   && [[ -f "$ROOT/preview/pages/terms.html" ]] \
   && [[ -f "$ROOT/preview/pages/cookies.html" ]] \
-  && [[ -f "$ROOT/preview/pages/comfort-top.html" ]]; then
-  pass "policy + comfort-top preview pages exist"
+  && [[ -f "$ROOT/preview/pages/comfort-top.html" ]] \
+  && [[ -f "$ROOT/preview/pages/comfort-layer.html" ]] \
+  && [[ -f "$ROOT/preview/pages/bed-sheets.html" ]] \
+  && [[ -f "$ROOT/preview/pages/pillows.html" ]]; then
+  pass "policy + product preview pages exist"
 else
   fail "policy or comfort-top preview pages missing"
 fi
