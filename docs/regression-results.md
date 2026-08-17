@@ -1,3 +1,13 @@
+# Regression results — Monday 17 Aug 2026 (GTM theme setting)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 569 passed, 0 failed
+- Scope note: Switched GTM to Theme settings as the single source. Removed hardcoded GTM-MX9SHNSM snippets from `theme.liquid` / `password.liquid`. Layouts now emit the official head script + body noscript only when `settings.gtm_container_id` is set. Schema default + `settings_data.json` current: **GTM-MX9SHNSM**. Info: paste the container ID; leave blank to disable. `tracking-pixels.liquid` keeps the dataLayer / vTrack bootstrap and does **not** load `gtm.js` (avoids a second copy). No extra GA4/Meta tags. Product flags OFF. No VERSION bump. Checkpoint: `checkpoints/9.3.0-gtm-theme-setting/`.
+
+---
+
 # Regression results — Monday 17 Aug 2026 (Google Tag Manager)
 
 ## Smoke

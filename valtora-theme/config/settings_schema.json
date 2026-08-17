@@ -644,8 +644,9 @@
         "type": "text",
         "id": "gtm_container_id",
         "label": "Google Tag Manager container ID",
-        "info": "GTM-MX9SHNSM is already installed in the theme layout. Leave this field blank so a second container is not configured here.",
-        "placeholder": "GTM-XXXXXXX"
+        "info": "Paste the container ID (GTM-XXXXXXX). Leave blank to disable.",
+        "placeholder": "GTM-XXXXXXX",
+        "default": "GTM-MX9SHNSM"
       },
       {
         "type": "text",
