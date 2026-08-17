@@ -4,7 +4,7 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 569 passed, 0 failed
-- Scope note: Installed Google Tag Manager **GTM-MX9SHNSM** on storefront layouts (`theme.liquid`, `password.liquid`) — exact head snippet after charset/viewport (`meta-tags`) and noscript immediately after `<body>`. Removed the settings-gated `gtm.js` loader from `tracking-pixels.liquid` so the container cannot load twice. Existing `vTrack` / dataLayer push kept. No preview GTM (preview does not already mirror analytics chrome). No GA4/Meta IDs added. Product flags OFF. No VERSION bump. Checkpoint: `checkpoints/9.3.0-google-tag-manager/`.
+- Scope note: Installed Google Tag Manager **GTM-MX9SHNSM** on storefront layouts (`theme.liquid`, `password.liquid`) — exact head snippet after charset/viewport (`meta-tags`) and noscript immediately after `<body>`. Removed the settings-gated `gtm.js` loader from `tracking-pixels.liquid` so the container cannot load twice. Existing `vTrack` / dataLayer push kept. No preview GTM (preview does not already mirror analytics chrome). No GA4/Meta IDs added. Product flags OFF. No VERSION bump. Checkpoint: `checkpoints/9.3.0-google-tag-manager/`. Deploy: `v9` `0d07250`, `shopify-theme` `3e7ca98`.
 
 ---
 
