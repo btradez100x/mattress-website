@@ -13,6 +13,8 @@
 {%- if legal_name != blank -%}
   {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
 {%- endif -%}
+{%- capture policy_body -%}{% render 'warranty-tokens', text: policy_body %}{%- endcapture -%}
+{%- assign policy_body = policy_body | strip -%}
 {%- assign policy_heading = section.settings.heading | default: page.title -%}
 {%- assign cta_href = section.settings.cta_link | default: '/#reserve' -%}
 
@@ -113,6 +115,7 @@
       "type": "richtext",
       "id": "fallback_content",
       "label": "Fallback content (if page body empty)",
+      "info": "Use [X] for warranty years from Theme settings. Page body in the admin also accepts [X].",
       "default": "<p>Replace this with the full policy in the page editor. Be specific - who pays return shipping, how long refunds take, and what voids the warranty.</p>"
     },
     {

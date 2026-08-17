@@ -1,6 +1,8 @@
 {%- comment -%}
   Default product imagery from theme assets when section image_picker is empty.
   Upload via theme editor to override. Integrity: real product cutouts only.
+  LCP/hero callers must pass loading: 'eager' and fetchpriority: 'high'.
+  Never lazy-load the homepage hero.
 {%- endcomment -%}
 {%- liquid
   assign fallback = fallback | default: 'hero-mattress.jpg'
@@ -8,18 +10,38 @@
   assign class_name = class | default: ''
   assign sizes_attr = sizes | default: '100vw'
   assign alt_text = alt | default: settings.brand_name
+  assign fetchpriority = fetchpriority | default: ''
+  if fetchpriority == blank
+    if loading == 'lazy'
+      assign fetchpriority = 'low'
+    endif
+  endif
 -%}
 {%- if image != blank -%}
-  {{
-    image
-    | image_url: width: 2400
-    | image_tag:
-      loading: loading,
-      widths: '600,900,1200,1600,2000,2400',
-      sizes: sizes_attr,
-      class: class_name,
-      alt: image.alt | default: alt_text
-  }}
+  {%- if fetchpriority != blank -%}
+    {{
+      image
+      | image_url: width: 2400
+      | image_tag:
+        loading: loading,
+        fetchpriority: fetchpriority,
+        widths: '600,900,1200,1600,2000,2400',
+        sizes: sizes_attr,
+        class: class_name,
+        alt: image.alt | default: alt_text
+    }}
+  {%- else -%}
+    {{
+      image
+      | image_url: width: 2400
+      | image_tag:
+        loading: loading,
+        widths: '600,900,1200,1600,2000,2400',
+        sizes: sizes_attr,
+        class: class_name,
+        alt: image.alt | default: alt_text
+    }}
+  {%- endif -%}
 {%- else -%}
   <img
     src="{{ fallback | asset_url }}"
@@ -27,6 +49,7 @@
     width="2000"
     height="1500"
     loading="{{ loading }}"
+    {% if fetchpriority != blank %}fetchpriority="{{ fetchpriority }}"{% endif %}
     decoding="async"
     class="{{ class_name }}"
     style="width:100%;height:100%;object-fit:cover;"

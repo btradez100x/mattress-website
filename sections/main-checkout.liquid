@@ -1,5 +1,5 @@
 {%- liquid
-  assign warranty = settings.warranty_years | default: '15'
+  assign warranty = settings.warranty_years | default: '25'
   assign payment_mode = settings.payment_mode | default: 'full'
   assign split_percent = settings.split_percent | default: 50
   if localization.country.iso_code == 'GB'
@@ -32,6 +32,7 @@
   data-large-order-threshold-gb="10000"
   data-large-order-threshold-ae="47000"
   data-finance-name="{{ finance_name | escape }}"
+  data-warranty-years="{{ warranty | escape }}"
 >
   <div class="page-width checkout-page__wrap">
     <div class="cart-empty" data-checkout-empty hidden>

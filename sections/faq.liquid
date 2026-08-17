@@ -1,6 +1,6 @@
 {%- liquid
   assign brand = settings.brand_name | default: 'Aligna'
-  assign warranty = settings.warranty_years | default: '15'
+  assign warranty = settings.warranty_years | default: '25'
   assign payment_mode = settings.payment_mode | default: 'full'
   assign market = settings.default_market | default: 'ae'
   if localization.country.iso_code == 'GB'
@@ -42,8 +42,10 @@
             assign answer = block.settings.answer_ae
           endif
           assign answer = answer | replace: '[Brand]', brand | replace: 'Aligna', brand
-          assign answer = answer | replace: '[X]', warranty
-          assign answer = answer | replace: '[X-Y]', lead
+        -%}
+          {%- capture answer -%}{% render 'warranty-tokens', text: answer %}{%- endcapture -%}
+        {%- liquid
+          assign answer = answer | strip | replace: '[X-Y]', lead
           assign q_down = block.settings.question | downcase
           assign a_down = block.settings.answer | downcase
           if q_down contains 'oeko' or a_down contains 'oeko'
@@ -60,8 +62,10 @@
             </button>
             <div class="faq__panel">
               {%- if block.settings.answer_gb != blank and block.settings.answer_ae != blank -%}
-                <span data-market-only="gb"{% if market != 'gb' %} hidden{% endif %}>{{ block.settings.answer_gb | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: '[X]', warranty | replace: '[X-Y]', lead | newline_to_br }}</span>
-                <span data-market-only="ae"{% if market == 'gb' %} hidden{% endif %}>{{ block.settings.answer_ae | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: '[X]', warranty | replace: '[X-Y]', lead | newline_to_br }}</span>
+                {%- capture answer_gb -%}{% render 'warranty-tokens', text: block.settings.answer_gb %}{%- endcapture -%}
+                {%- capture answer_ae -%}{% render 'warranty-tokens', text: block.settings.answer_ae %}{%- endcapture -%}
+                <span data-market-only="gb"{% if market != 'gb' %} hidden{% endif %}>{{ answer_gb | strip | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: '[X-Y]', lead | newline_to_br }}</span>
+                <span data-market-only="ae"{% if market == 'gb' %} hidden{% endif %}>{{ answer_ae | strip | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: '[X-Y]', lead | newline_to_br }}</span>
               {%- else -%}
                 {{ answer | newline_to_br }}
               {%- endif -%}
@@ -140,7 +144,7 @@
           "id": "answer",
           "label": "Answer",
           "default": "Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.",
-          "info": "Tokens: [Brand], [X] (warranty years), [X-Y] (lead time). Used when a market-specific answer below is blank."
+          "info": "Tokens: [Brand], [X] (Theme settings → Warranty years), [X-Y] (lead time). Used when a market-specific answer below is blank."
         },
         {
           "type": "textarea",

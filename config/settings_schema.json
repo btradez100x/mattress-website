@@ -558,10 +558,15 @@
         "info": "Shopify App Proxy today. If you leave Shopify, change this to the public API (e.g. https://api.valtora.com/order). The JSON contract stays the same."
       },
       {
+        "type": "header",
+        "content": "Warranty"
+      },
+      {
         "type": "text",
         "id": "warranty_years",
-        "label": "Core warranty (years)",
-        "default": "15"
+        "label": "Warranty years",
+        "default": "25",
+        "info": "Used everywhere warranty length is shown, including T&Cs, checkout terms, the warranty policy, hero, trust bar, offer, and FAQ. Example: 25 shows as 25-year warranty. Use [X] in section copy to insert this number."
       },
       {
         "type": "text",

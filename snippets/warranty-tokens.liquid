@@ -1,0 +1,19 @@
+{%- comment -%}
+  Resolve warranty duration in copy. Theme settings → Warranty years.
+  Tokens: [X]  [X]-year  {{ settings.warranty_years }}
+  Also rewrites leftover 15-year / 25-year phrases so T&Cs follow the setting.
+{%- endcomment -%}
+{%- liquid
+  assign warranty = settings.warranty_years | default: '25' | strip
+  if warranty == blank
+    assign warranty = '25'
+  endif
+  assign warranty_phrase = warranty | append: '-year'
+  assign out = text | default: ''
+  assign out = out | replace: '{{ settings.warranty_years }}', warranty
+  assign out = out | replace: '[X]-year', warranty_phrase
+  assign out = out | replace: '[X]', warranty
+  assign out = out | replace: '15-year', warranty_phrase
+  assign out = out | replace: '25-year', warranty_phrase
+-%}
+{{- out -}}

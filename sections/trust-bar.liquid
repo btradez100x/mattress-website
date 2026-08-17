@@ -1,5 +1,5 @@
 {%- liquid
-  assign warranty = settings.warranty_years | default: '15'
+  assign warranty = settings.warranty_years | default: '25'
   assign marquee = section.settings.enable_marquee
   assign duration = section.settings.marquee_duration | default: 40
   assign market = settings.default_market | default: 'ae'
@@ -26,13 +26,14 @@
           {%- for pass in (1..2) -%}
             <ul class="trust-bar__list" role="list"{% if pass == 2 %} aria-hidden="true"{% endif %}>
               {%- for block in section.blocks -%}
+                {%- capture label -%}{% render 'warranty-tokens', text: block.settings.label %}{%- endcapture -%}
+                {%- capture sub -%}{% render 'warranty-tokens', text: block.settings.sublabel %}{%- endcapture -%}
                 {%- liquid
-                  assign label = block.settings.label
-                  assign sub = block.settings.sublabel
-                  assign label = label | replace: '{{ settings.warranty_years }}', warranty
-                  assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
-                  assign label = label | replace: '[X]', warranty
-                  assign sub = sub | replace: '[X-Y]', lead
+                  assign label = label | strip
+                  assign sub = sub | strip | replace: '[X-Y]', lead
+                  if label == blank and block.settings.icon == 'warranty'
+                    assign label = warranty | append: '-year core warranty'
+                  endif
                 -%}
                 {%- liquid
                   assign show_item = true
@@ -130,13 +131,14 @@
       <div class="page-width">
         <ul class="trust-bar__list" role="list">
           {%- for block in section.blocks -%}
+            {%- capture label -%}{% render 'warranty-tokens', text: block.settings.label %}{%- endcapture -%}
+            {%- capture sub -%}{% render 'warranty-tokens', text: block.settings.sublabel %}{%- endcapture -%}
             {%- liquid
-              assign label = block.settings.label
-              assign sub = block.settings.sublabel
-              assign label = label | replace: '{{ settings.warranty_years }}', warranty
-              assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
-              assign label = label | replace: '[X]', warranty
-              assign sub = sub | replace: '[X-Y]', lead
+              assign label = label | strip
+              assign sub = sub | strip | replace: '[X-Y]', lead
+              if label == blank and block.settings.icon == 'warranty'
+                assign label = warranty | append: '-year core warranty'
+              endif
             -%}
             {%- liquid
               assign show_item = true
@@ -355,7 +357,8 @@
           "type": "text",
           "id": "label",
           "label": "Label",
-          "default": "Cancel before dispatch"
+          "default": "Cancel before dispatch",
+          "info": "For the warranty item, use [X]-year core warranty (Theme settings → Warranty years). Leave blank on a warranty icon to fill from that setting."
         },
         {
           "type": "text",
@@ -410,7 +413,7 @@
           "type": "item",
           "settings": {
             "icon": "warranty",
-            "label": "15-year core warranty",
+            "label": "[X]-year core warranty",
             "sublabel": "On the spring core"
           }
         },

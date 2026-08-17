@@ -11,7 +11,7 @@
   endif
 -%}
 <!doctype html>
-<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}">
+<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}" data-warranty-years="{{ settings.warranty_years | default: '25' | escape }}">
   <head>
     <script>
       (function () {
@@ -39,18 +39,26 @@
     {%- endif -%}
     {% render 'css-variables' %}
 
-    {%- comment -%} Google Fonts - V1 serif/sans pairs, or V2 Instrument Sans + Inter + Geist Mono {%- endcomment -%}
+    {%- comment -%}
+      Google Fonts: always display=swap. Load the LCP family first.
+      When modern headlines + wordmark are sans, Outfit is first paint and Fraunces is deferred.
+    {%- endcomment -%}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     {%- liquid
       assign guidelines = settings.brand_guidelines | default: 'v1'
+      assign font_href_critical = ''
+      assign font_href_deferred = ''
+      assign preload_outfit = false
       if guidelines == 'v2'
-        assign font_href = 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap'
+        assign font_href_critical = 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap'
+        assign font_href_deferred = 'https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap'
       else
         assign font_set = settings.font_set | default: 'modern'
         if font_set == 'classic'
           assign serif_family = 'Cormorant+Garamond:wght@400;500;600'
           assign sans_family = 'Manrope:wght@400;500;600;700'
+          assign font_href_critical = 'https://fonts.googleapis.com/css2?family=' | append: serif_family | append: '&family=' | append: sans_family | append: '&display=swap'
         else
           case settings.font_serif
             when 'fraunces'
@@ -69,12 +77,32 @@
               assign sans_family = 'Manrope:wght@400;500;600;700'
             else
               assign sans_family = 'Outfit:wght@400;500;600;700'
+              assign preload_outfit = true
           endcase
+          assign wordmark_font = settings.wordmark_font | default: 'sans'
+          assign headline_font = settings.headline_font | default: 'sans'
+          if wordmark_font == 'sans' and headline_font == 'sans'
+            assign font_href_critical = 'https://fonts.googleapis.com/css2?family=' | append: sans_family | append: '&display=swap'
+            assign font_href_deferred = 'https://fonts.googleapis.com/css2?family=' | append: serif_family | append: '&display=swap'
+          else
+            assign font_href_critical = 'https://fonts.googleapis.com/css2?family=' | append: serif_family | append: '&family=' | append: sans_family | append: '&display=swap'
+          endif
         endif
-        assign font_href = 'https://fonts.googleapis.com/css2?family=' | append: serif_family | append: '&family=' | append: sans_family | append: '&display=swap'
       endif
     -%}
-    <link rel="stylesheet" href="{{ font_href }}">
+    {%- if preload_outfit -%}
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2">
+    {%- endif -%}
+    {%- if template.name == 'index' -%}
+    <link rel="preload" as="image" href="{{ 'hero-mattress.jpg' | asset_url }}" fetchpriority="high">
+    {%- endif -%}
+    <link rel="preload" as="style" href="{{ font_href_critical }}">
+    <link rel="stylesheet" href="{{ font_href_critical }}" media="print" onload="this.onload=null;this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ font_href_critical }}"></noscript>
+    {%- if font_href_deferred != blank -%}
+    <link rel="stylesheet" href="{{ font_href_deferred }}" media="print" onload="this.onload=null;this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ font_href_deferred }}"></noscript>
+    {%- endif -%}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
