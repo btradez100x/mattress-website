@@ -252,7 +252,7 @@ def check_theme_js() -> None:
         else:
             ok(f"{rel}: one --ease curve 0.22, 1, 0.36, 1")
         leftover_ease = re.findall(
-            r"animation:\s*(?:revealRise|heroRise|heroMediaIn|sectionWipe)\s+[^;]+",
+            r"animation:\s*(?:revealRise|revealFirstPaint|heroRise|heroMediaIn|sectionWipe)\s+[^;]+",
             css_text,
         )
         bad_named = [
@@ -283,13 +283,29 @@ def check_theme_js() -> None:
         else:
             ok(f"{rel}: wipe clip lives only inside keyframes")
         hide = re.search(
-            r"html\.js-ready(?::not\(\.shopify-design-mode\))?\s+\[data-reveal-child\]:not\(\.is-visible\)\s*\{[^}]*opacity:\s*0",
+            r"html\.js-ready(?::not\(\.shopify-design-mode\))?\s+\[data-reveal-child\]:not\(\.is-visible\)(?::not\(\[data-reveal-first\]\))?\s*\{[^}]*opacity:\s*0",
             css_text,
         )
         if hide:
             ok(f"{rel}: storefront hides reveal children until visible")
         else:
             bad(f"{rel}: storefront reveal children are not hide-until-visible")
+        first_paint = re.search(
+            r"@keyframes\s+revealFirstPaint\s*\{.*?from\s*\{([^}]*)\}",
+            css_text,
+            re.S,
+        )
+        if first_paint and re.search(r"opacity:\s*1", first_paint.group(1)):
+            ok(f"{rel}: first-paint reveal starts visible (LCP)")
+        else:
+            bad(f"{rel}: revealFirstPaint must start at opacity 1 so LCP is not delayed")
+        if re.search(
+            r"html:not\(\.shopify-design-mode\)\s+\[data-reveal-first\]\s*\{[^}]*revealFirstPaint",
+            css_text,
+        ):
+            ok(f"{rel}: hero first-paint uses revealFirstPaint")
+        else:
+            bad(f"{rel}: [data-reveal-first] must use revealFirstPaint, not hide-from-0")
         if re.search(
             r"html\.shopify-design-mode[^{]*\{[^}]*opacity:\s*1",
             css_text,
@@ -314,6 +330,23 @@ def check_theme_js() -> None:
         ok("theme.liquid marks shopify-design-mode on first paint")
     else:
         bad("theme.liquid missing request.design_mode class (editor can look empty)")
+    if "display=swap" in theme_liquid:
+        ok("theme.liquid Google Fonts use display=swap")
+    else:
+        bad("theme.liquid missing font-display swap on Google Fonts")
+    if "fonts.gstatic.com/s/outfit/" in theme_liquid and "rel=\"preload\"" in theme_liquid:
+        ok("theme.liquid preloads Outfit woff2 for first paint")
+    else:
+        bad("theme.liquid should preload the Outfit woff2 used on first paint")
+    hero_liquid = (ROOT / "valtora-theme" / "sections" / "hero.liquid").read_text(encoding="utf-8")
+    if "fetchpriority: 'high'" in hero_liquid and "loading: 'eager'" in hero_liquid:
+        ok("hero.liquid LCP image is eager + fetchpriority high")
+    else:
+        bad("hero.liquid must pass loading eager and fetchpriority high")
+    if re.search(r"loading\s*[:=]\s*['\"]lazy['\"]", hero_liquid):
+        bad("hero.liquid must not lazy-load the LCP image")
+    else:
+        ok("hero.liquid does not lazy-load the hero image")
 
     if not (ROOT / "preview" / "brand-boot.js").exists():
         bad("preview/brand-boot.js missing")
@@ -502,6 +535,90 @@ def check_no_filters_in_render_args() -> None:
         ok("no filters inside {% render %} arguments")
 
 
+def check_warranty_years_setting() -> None:
+    """Theme settings → Warranty years must drive storefront + preview copy."""
+    schema = (ROOT / "valtora-theme" / "config" / "settings_schema.json").read_text(encoding="utf-8")
+    if '"id": "warranty_years"' in schema and '"label": "Warranty years"' in schema:
+        ok("settings_schema.json has Warranty years")
+    else:
+        bad("settings_schema.json missing labelled warranty_years setting")
+    if "including T&Cs" in schema or "including T&Cs" in schema.replace("and", "&"):
+        ok("warranty_years info mentions T&Cs")
+    elif "T&Cs" in schema or "T&C" in schema:
+        ok("warranty_years info mentions T&Cs")
+    else:
+        bad("warranty_years info must say it is used in T&Cs")
+    if '"default": "25"' in schema:
+        ok("warranty_years schema default is 25")
+    else:
+        bad("warranty_years schema default must be 25")
+
+    data = json.loads((ROOT / "valtora-theme" / "config" / "settings_data.json").read_text(encoding="utf-8"))
+    current = (data.get("current") or {}).get("warranty_years")
+    if str(current) == "25":
+        ok("settings_data.json warranty_years is 25")
+    else:
+        bad(f"settings_data.json warranty_years is {current!r}, expected '25'")
+
+    snippet = ROOT / "valtora-theme" / "snippets" / "warranty-tokens.liquid"
+    if snippet.exists() and "[X]" in snippet.read_text(encoding="utf-8"):
+        ok("snippets/warranty-tokens.liquid resolves [X]")
+    else:
+        bad("missing snippets/warranty-tokens.liquid")
+
+    theme_liquid = (ROOT / "valtora-theme" / "layout" / "theme.liquid").read_text(encoding="utf-8")
+    if "data-warranty-years=" in theme_liquid and "settings.warranty_years" in theme_liquid:
+        ok("theme.liquid emits data-warranty-years from the setting")
+    else:
+        bad("theme.liquid must set data-warranty-years from settings.warranty_years")
+
+    surfaces = {
+        "sections/hero.liquid": ("warranty-tokens", "settings.warranty_years"),
+        "sections/offer.liquid": ("warranty-tokens",),
+        "sections/trust-bar.liquid": ("warranty-tokens",),
+        "sections/faq.liquid": ("warranty-tokens",),
+        "sections/trust-policy.liquid": ("warranty-tokens",),
+        "sections/main-checkout.liquid": ("settings.warranty_years",),
+        "snippets/reserve-stage-b.liquid": ("warranty-tokens", "settings.warranty_years"),
+        "sections/size-reserve.liquid": ("[X]-year warranty",),
+    }
+    for rel, needles in surfaces.items():
+        text = (ROOT / "valtora-theme" / rel).read_text(encoding="utf-8")
+        if all(n in text for n in needles):
+            ok(f"{rel} reads the warranty setting")
+        else:
+            bad(f"{rel} must interpolate Theme settings → Warranty years ({needles})")
+
+    year_phrase = re.compile(r"(?:15|25)-year")
+    for path in (ROOT / "valtora-theme" / "templates").glob("*.json"):
+        raw = path.read_text(encoding="utf-8")
+        if year_phrase.search(raw):
+            bad(f"{path.relative_to(ROOT)} hardcodes 15/25-year (use [X] or a blank override)")
+        else:
+            ok(f"{path.relative_to(ROOT)} has no hardcoded warranty years")
+
+    boot = (ROOT / "preview" / "brand-boot.js").read_text(encoding="utf-8")
+    if "PREVIEW_WARRANTY_YEARS" in boot and "data-warranty-years-text" in boot:
+        ok("preview/brand-boot.js hydrates data-warranty-years-text")
+    else:
+        bad("preview/brand-boot.js must apply warranty years from data-warranty-years")
+
+    for rel in (
+        "preview/index.html",
+        "preview/pages/checkout.html",
+        "preview/pages/warranty.html",
+    ):
+        html = (ROOT / rel).read_text(encoding="utf-8")
+        if 'data-warranty-years="25"' not in html.split(">", 1)[0] and "data-warranty-years=" not in html[:400]:
+            bad(f"{rel} missing data-warranty-years on <html>")
+        elif "data-warranty-years-text" not in html:
+            bad(f"{rel} warranty copy must use data-warranty-years-text")
+        elif year_phrase.search(html):
+            bad(f"{rel} still has a hardcoded 15/25-year warranty string")
+        else:
+            ok(f"{rel} warranty years come from data-warranty-years")
+
+
 def check_json_templates_uploadable() -> None:
     """Shopify silently drops JSON templates on zip upload if they fail platform checks."""
     theme = ROOT / "valtora-theme"
@@ -576,6 +693,7 @@ def main() -> int:
     check_no_leaked_liquid()
     check_no_filters_in_render_args()
     check_json_templates_uploadable()
+    check_warranty_years_setting()
 
     roots = [
         ROOT / "preview" / "pages",

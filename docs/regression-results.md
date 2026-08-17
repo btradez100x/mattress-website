@@ -1,3 +1,43 @@
+# Regression results — Monday 17 Aug 2026 (warranty years setting)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 625 passed, 0 failed
+- Scope note: Theme settings → **Warranty years** (`warranty_years`, default/current 25) drives all storefront warranty duration copy (hero, trust bar, offer, FAQ, warranty policy, checkout terms, Stage B, `[X]` tokens). Preview uses `data-warranty-years` / `data-warranty-years-text`. 100-night trial unchanged. Product flags OFF. No VERSION bump. LCP first-paint is in the same tree (could not split from `base.css` / `theme.js` / `hero.liquid`). Checkpoint: `checkpoints/9.3.0-warranty-years-setting/`.
+
+---
+
+# Regression results — Monday 17 Aug 2026 (Cool Touch gallery captions)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 577 passed, 0 failed
+- Scope note: Cool Touch gallery thumbs (**Cover knit**, **Surface detail**) now use always-visible `figcaption` under the image, not hover/tap overlay. Main image overlay (**Cool-knit cover detail**) unchanged. Lifestyle / founder / side-profile overlays unchanged. No VERSION bump. Not deployed.
+
+---
+
+# Regression results — Monday 17 Aug 2026 (25-year warranty)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 577 passed, 0 failed
+- Scope note: Warranty duration copy 15-year → 25-year only (hero, trust bar, offer, FAQ, checkout terms, Stage B fallback, warranty policy, `warranty_years` setting default/current, Liquid fallbacks). 100-night trial, 37cm, prices, densities unchanged. No VERSION bump. Not deployed. Checkpoint: `checkpoints/9.3.0-twenty-five-year-warranty/`.
+
+---
+
+# Regression results — Monday 17 Aug 2026 (LCP first paint)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 577 passed, 0 failed
+- Scope note: Homepage LCP — hero first-paint now starts visible (opacity 1) then 450ms rise (`revealFirstPaint`, `--ease` kept). Below-fold hide-until-scroll unchanged. Hero image eager + `fetchpriority=high` + preload; not lazy. Google Fonts `display=swap`; Outfit woff2 preloaded when Outfit is the sans; Fraunces deferred when headlines/wordmark are sans. Font CSS non-blocking. GTM setting kept. Product flags OFF. No VERSION bump. Not deployed. Checkpoint: `checkpoints/9.3.0-lcp-first-paint/`.
+
+---
+
 # Regression results — Monday 17 Aug 2026 (GTM theme setting)
 
 ## Smoke

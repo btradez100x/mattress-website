@@ -49,7 +49,7 @@
     "lead_time_line": "Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.",
     "order_lookup_enabled": false,
     "order_lookup_endpoint": "/apps/order",
-    "warranty_years": "15",
+    "warranty_years": "25",
     "reviews_enabled": true,
     "reviews_allow_submissions": true,
     "reviews_require_purchase": true,

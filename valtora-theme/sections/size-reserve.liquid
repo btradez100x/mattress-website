@@ -27,7 +27,7 @@
   assign leadtime_placement = section.settings.leadtime_placement | default: 'staged'
   assign stage_b_heading = section.settings.stage_b_heading | default: 'Before you order'
   assign leadtime_vague = section.settings.leadtime_vague_text | default: 'Made to order. We confirm your delivery date before dispatch.'
-  assign warranty = settings.warranty_years | default: '15'
+  assign warranty = settings.warranty_years | default: '25'
   assign variant_id = blank
   if deposit_product != blank and deposit_product.selected_or_first_available_variant
     assign variant_id = deposit_product.selected_or_first_available_variant.id
@@ -654,7 +654,8 @@
       "type": "richtext",
       "id": "order_terms_full",
       "label": "Terms body (full payment)",
-      "default": "<ul><li>Cancel any time before dispatch for a full refund, no questions asked.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>100 nights to change your mind once it arrives.</li><li>15-year warranty on the spring core.</li></ul>"
+      "info": "Use [X] for warranty years from Theme settings → Warranty years.",
+      "default": "<ul><li>Cancel any time before dispatch for a full refund, no questions asked.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>100 nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
     },
     {
       "type": "text",
@@ -666,7 +667,8 @@
       "type": "richtext",
       "id": "order_terms_split",
       "label": "Terms body (split payment)",
-      "default": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>100 nights to change your mind once it arrives.</li><li>15-year warranty on the spring core.</li></ul>"
+      "info": "Use [X] for warranty years from Theme settings → Warranty years.",
+      "default": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>100 nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
     },
     {
       "type": "text",

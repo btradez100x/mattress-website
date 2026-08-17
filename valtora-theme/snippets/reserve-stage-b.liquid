@@ -9,6 +9,10 @@
   assign leadtime_vague = leadtime_vague | default: 'Made to order. We confirm your delivery date before dispatch.'
   assign payment_mode = payment_mode | default: 'full'
   assign finance_name = finance_name | default: 'Klarna'
+  assign warranty = settings.warranty_years | default: '25' | strip
+  if warranty == blank
+    assign warranty = '25'
+  endif
   assign market = market | default: settings.default_market | default: 'ae'
   if market == 'gb'
     assign fly_to = 'the UK'
@@ -68,14 +72,15 @@
         {%- assign terms_body = terms_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
       {%- endif -%}
       {%- if terms_body != blank -%}
-        {{ terms_body }}
+        {%- capture terms_body -%}{% render 'warranty-tokens', text: terms_body %}{%- endcapture -%}
+        {{ terms_body | strip }}
       {%- else -%}
         <ul class="reserve-stage-b__terms">
           <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
           <li>Refunds returned to the original payment method within 5-10 business days.</li>
           <li>100 nights to change your mind once it arrives.</li>
-          <li>15-year warranty on the spring core.</li>
+          <li>{{ warranty }}-year warranty on the spring core.</li>
           <li>{{ variation_notice }}</li>
         </ul>
       {%- endif -%}

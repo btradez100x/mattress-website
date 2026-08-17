@@ -1,5 +1,5 @@
 /* Valtora theme - modern premium (conversion-led restraint) */
-/* motion-cache-bust: 2026-08-15-hero-first-paint */
+/* motion-cache-bust: 2026-08-17-lcp-first-paint */
 
 *,
 *::before,
@@ -1266,6 +1266,19 @@ body.has-sticky-reserve {
   }
 }
 
+/* Hero / first-paint: keep the 450ms rise, but never hide the LCP element.
+   animation-fill-mode: both + opacity 0 delays Largest Contentful Paint. */
+@keyframes revealFirstPaint {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 /* Section shells stay visible so Offer/Swap never clip or vanish.
    Children fade and rise as they enter the viewport. */
 [data-reveal] {
@@ -1280,28 +1293,29 @@ body.has-sticky-reserve {
 
 /* Storefront only: hide until IntersectionObserver (or the 900ms in-view failsafe).
    !important so later component opacity/transform cannot keep children always-visible.
-   Without .js-ready, copy stays visible. Design mode and reduced-motion never hide. */
-html.js-ready:not(.shopify-design-mode) [data-reveal-child]:not(.is-visible) {
+   Without .js-ready, copy stays visible. Design mode and reduced-motion never hide.
+   [data-reveal-first] (hero LCP) stays visible — do not hide it here. */
+html.js-ready:not(.shopify-design-mode) [data-reveal-child]:not(.is-visible):not([data-reveal-first]) {
   opacity: 0 !important;
   transform: translate3d(0, 20px, 0) !important;
   animation: none !important;
 }
 
-html.js-ready:not(.shopify-design-mode) [data-reveal-child].is-visible {
+html.js-ready:not(.shopify-design-mode) [data-reveal-child].is-visible:not([data-reveal-first]) {
   animation: revealRise var(--dur-base) var(--ease) var(--reveal-delay, 0ms) backwards;
 }
 
-/* Homepage hero: first-paint stagger (not scroll). CSS runs before JS so
-   "Made to order" / CTAs / mattress photo ease in on load. Design mode only
-   is the editor exception — do not disable storefront motion to fix Customize. */
+/* Homepage hero: first-paint stagger (not scroll). Visible on first paint
+   (opacity 1) so LCP is not delayed, then 450ms rise. JS adding is-visible
+   must not restart a hide-from-0 animation. Design mode stays the editor
+   exception — do not disable storefront motion to fix Customize. */
 html:not(.shopify-design-mode) [data-reveal-first] {
-  animation: revealRise var(--dur-base) var(--ease) var(--reveal-delay, 0ms) both;
+  animation: revealFirstPaint var(--dur-base) var(--ease) var(--reveal-delay, 0ms) both;
 }
 
-html.js-ready:not(.shopify-design-mode) [data-reveal-child][data-reveal-first]:not(.is-visible) {
-  opacity: unset !important;
-  transform: unset !important;
-  animation: revealRise var(--dur-base) var(--ease) var(--reveal-delay, 0ms) both !important;
+html.js-ready:not(.shopify-design-mode) [data-reveal-child][data-reveal-first] {
+  opacity: 1 !important;
+  animation: revealFirstPaint var(--dur-base) var(--ease) var(--reveal-delay, 0ms) both !important;
 }
 
 html.shopify-design-mode [data-reveal],
@@ -5093,9 +5107,8 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   min-width: 0;
 }
 
-.cool-touch__caption,
-.cool-touch__main figcaption,
-.cool-touch__thumb figcaption {
+.cool-touch__main .cool-touch__caption,
+.cool-touch__main figcaption {
   position: absolute;
   left: 0;
   right: 0;
@@ -5121,18 +5134,14 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 }
 
 .cool-touch__main.is-caption-open .cool-touch__caption,
-.cool-touch__main:focus-within .cool-touch__caption,
-.cool-touch__thumb.is-caption-open .cool-touch__caption,
-.cool-touch__thumb:focus-within .cool-touch__caption {
+.cool-touch__main:focus-within .cool-touch__caption {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .cool-touch__main:hover .cool-touch__caption,
-  [data-reveal].is-visible .cool-touch__main:hover .cool-touch__caption,
-  .cool-touch__thumb:hover .cool-touch__caption,
-  [data-reveal].is-visible .cool-touch__thumb:hover .cool-touch__caption {
+  [data-reveal].is-visible .cool-touch__main:hover .cool-touch__caption {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
@@ -5173,7 +5182,11 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 
 .cool-touch__thumb {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   overflow: visible;
+  min-width: 0;
 }
 
 .cool-touch__thumb-frame {
@@ -5188,6 +5201,21 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   aspect-ratio: 1;
   object-fit: cover;
   display: block;
+}
+
+.cool-touch__thumb > figcaption,
+.cool-touch__thumb-caption {
+  position: static;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  background: none;
+  opacity: 0.85;
+  transform: none;
+  pointer-events: auto;
 }
 
 /* -- Blog / Journal -- */

@@ -11,7 +11,7 @@
         "tone": "light",
         "secondary_cta_label": "How the swap system works",
         "secondary_cta_link": "#swap",
-        "assurance": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 15-year warranty"
+        "assurance": ""
       }
     },
     "big-idea": {
@@ -266,7 +266,7 @@
         "o2": {
           "type": "offer_item",
           "settings": {
-            "title": "15-year warranty",
+            "title": "[X]-year warranty",
             "text": "On the spring core."
           }
         },
@@ -535,7 +535,7 @@
           "type": "item",
           "settings": {
             "icon": "warranty",
-            "label": "15-year core warranty",
+            "label": "[X]-year core warranty",
             "sublabel": "On the spring core",
             "link": "/pages/warranty"
           }

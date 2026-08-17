@@ -1,5 +1,5 @@
 {%- liquid
-  assign warranty = settings.warranty_years | default: '15'
+  assign warranty = settings.warranty_years | default: '25'
   if localization.country.iso_code == 'GB'
     assign market = 'gb'
     assign arrived_label = 'Arrived in the UK'
@@ -24,7 +24,7 @@
 -%}
 {%- capture lead_window -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
 {%- assign lead_window = lead_window | strip -%}
-<main data-order-confirmed data-market="{{ market }}" data-lead-window="{{ lead_window | escape }}">
+<main data-order-confirmed data-market="{{ market }}" data-lead-window="{{ lead_window | escape }}" data-warranty-years="{{ warranty | escape }}">
   <section class="thanks-hero section--dark" data-reveal>
     <div class="page-width thanks-hero__inner">
       <p class="section__eyebrow">

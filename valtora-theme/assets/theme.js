@@ -4072,7 +4072,7 @@
 
   function initLifestyleCaptions() {
     var items = document.querySelectorAll(
-      '.lifestyle-collage__item, .founder-note__media, .specs__figure, .cool-touch__main, .cool-touch__thumb'
+      '.lifestyle-collage__item, .founder-note__media, .specs__figure, .cool-touch__main'
     );
     if (!items.length) return;
     var fineHover =
@@ -4906,7 +4906,7 @@
 
     var fonts = {
       modern:
-        'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap',
+        'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap',
       classic:
         'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap',
       v2:

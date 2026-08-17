@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true">
+<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=wo-v9-review1" data-valtora-brand-boot></script>
@@ -24,7 +24,10 @@
     <script type="application/json" id="ShareBrandData">{"brand":"Aligna","line":"Mattresses","tagline":"A better bed, for life.","description":"A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.","image":"assets/hero-mattress.jpg"}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2">
+    <link rel="preload" as="image" href="./assets/hero-mattress.jpg" fetchpriority="high">
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
     <link rel="stylesheet" href="./base.css?v=wo-v9-copyspec1">
     <style>
       :root {
@@ -556,10 +559,10 @@
             <a class="btn" href="#reserve" data-hero-cta>See sizes and prices</a>
             <a class="btn btn--ghost hero__secondary" href="#swap">How the swap system works</a>
           </div>
-          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Cancel any time before dispatch · 100-night trial · 15-year warranty</p>
+          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Cancel any time before dispatch · 100-night trial · <span data-warranty-years-text>25</span>-year warranty</p>
         </div>
         <div class="hero__media" data-reveal-child data-reveal-first style="--reveal-delay: 100ms">
-          <img src="./assets/hero-mattress.jpg" alt="Aligna mattress" data-brand-alt-suffix=" mattress" width="2000" height="1500">
+          <img src="./assets/hero-mattress.jpg" alt="Aligna mattress" data-brand-alt-suffix=" mattress" width="2000" height="1500" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -569,7 +572,7 @@
             <ul class="trust-bar__list" role="list">
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label"><span data-warranty-years-text>25</span>-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-oeko hidden><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">OEKO-TEX® STANDARD 100</strong><span class="trust-bar__sub">Textiles independently tested</span><span class="trust-bar__sub" data-oeko-cert-no></span><span class="trust-bar__sub" data-oeko-cert-no></span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
@@ -577,7 +580,7 @@
             <ul class="trust-bar__list" role="list" aria-hidden="true">
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label"><span data-warranty-years-text>25</span>-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-oeko hidden><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">OEKO-TEX® STANDARD 100</strong><span class="trust-bar__sub">Textiles independently tested</span><span class="trust-bar__sub" data-oeko-cert-no></span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
@@ -820,14 +823,14 @@
               <figure class="cool-touch__thumb">
                 <div class="cool-touch__thumb-frame">
                 <img src="./assets/cover-macro.jpg" alt="Cover knit" width="600" height="600" loading="lazy">
-                <figcaption class="cool-touch__caption">Cover knit</figcaption>
                 </div>
+                <figcaption class="cool-touch__thumb-caption">Cover knit</figcaption>
               </figure>
               <figure class="cool-touch__thumb">
                 <div class="cool-touch__thumb-frame">
                 <img src="./assets/handle-detail.jpg" alt="Surface detail" width="600" height="600" loading="lazy">
-                <figcaption class="cool-touch__caption">Surface detail</figcaption>
                 </div>
+                <figcaption class="cool-touch__thumb-caption">Surface detail</figcaption>
               </figure>
             </div>
           </div>
@@ -1227,7 +1230,7 @@
           <hr class="gold-rule gold-rule--measure">
           <div class="offer__items">
             <div class="offer__item"><strong>100-night trial</strong><span>Sleep on it. Decide at home.</span></div>
-            <div class="offer__item"><strong>15-year warranty</strong><span>On the spring core.</span></div>
+            <div class="offer__item"><strong><span data-warranty-years-text>25</span>-year warranty</strong><span>On the spring core.</span></div>
             <div class="offer__item"><strong>Handmade to order</strong><span>Built after you order it, never from stock.</span></div>
             <div class="offer__item"><strong>Cancel before dispatch</strong><span>Full refund any time before your mattress ships.</span></div>
             <div class="offer__item" data-claim-chemicals hidden><strong>Free from harmful chemicals</strong><span>Materials chosen for cleaner sleep.</span></div>
@@ -1448,7 +1451,7 @@
             </div>
             <div class="faq__item" id="faq-17" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What is the warranty?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">15-year warranty on the spring core. Full terms: <a href="./pages/warranty.html">Warranty</a>.</div>
+              <div class="faq__panel"><span data-warranty-years-text>25</span>-year warranty on the spring core. Full terms: <a href="./pages/warranty.html">Warranty</a>.</div>
             </div>
             <div class="faq__item" data-claim-chemicals hidden id="faq-18" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is it free from harmful chemicals?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1881,7 +1884,7 @@
         var guidelinesSelect = document.getElementById('PreviewBrandGuidelines');
         var fontLink = document.getElementById('PreviewFontLink');
         var fonts = {
-          modern: 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap',
+          modern: 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap',
           classic: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap',
           v2: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap'
         };

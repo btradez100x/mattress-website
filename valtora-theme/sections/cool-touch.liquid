@@ -60,20 +60,20 @@
                   endif
                 -%}
                 <div class="cool-touch__thumb-frame">
-                {%- if block.settings.video != blank -%}
-                  {{ block.settings.video | video_tag: image_size: '600x', controls: true }}
-                {%- else -%}
-                  {% render 'theme-image',
-                    image: block.settings.image,
-                    fallback: media_fallback,
-                    alt: media_caption,
-                    sizes: '30vw'
-                  %}
-                {%- endif -%}
-                  {%- if media_caption != blank -%}
-                    <figcaption class="cool-touch__caption">{{ media_caption }}</figcaption>
+                  {%- if block.settings.video != blank -%}
+                    {{ block.settings.video | video_tag: image_size: '600x', controls: true }}
+                  {%- else -%}
+                    {% render 'theme-image',
+                      image: block.settings.image,
+                      fallback: media_fallback,
+                      alt: media_caption,
+                      sizes: '30vw'
+                    %}
                   {%- endif -%}
                 </div>
+                {%- if media_caption != blank -%}
+                  <figcaption class="cool-touch__thumb-caption">{{ media_caption }}</figcaption>
+                {%- endif -%}
               </figure>
             {%- endif -%}
           {%- endfor -%}

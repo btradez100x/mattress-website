@@ -25,7 +25,7 @@
 
   var FONTS = {
     modern:
-      'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap',
+      'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap',
     classic:
       'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap',
     v2:
@@ -342,8 +342,25 @@
     }
   }
 
+  // Mirrors Theme settings → Warranty years (`warranty_years` in settings_data.json).
+  var PREVIEW_WARRANTY_YEARS = '25';
+
+  function warrantyYears() {
+    var raw = (d.getAttribute('data-warranty-years') || PREVIEW_WARRANTY_YEARS).trim();
+    return raw || PREVIEW_WARRANTY_YEARS;
+  }
+
+  function applyWarrantyYears() {
+    var years = warrantyYears();
+    d.setAttribute('data-warranty-years', years);
+    document.querySelectorAll('[data-warranty-years-text]').forEach(function (el) {
+      el.textContent = years;
+    });
+  }
+
   function applyBrandText() {
     var boot = window.__valtoraPreviewBoot;
+    applyWarrantyYears();
     if (!boot) return;
     var nodes = document.querySelectorAll('[data-brand-text]');
     if (!nodes.length) return false;
@@ -461,6 +478,7 @@
   injectSchemeVars(window.__valtoraPreviewBoot);
   applyFontAndTheme();
   applyBrandFavicon(window.__valtoraPreviewBoot);
+  applyWarrantyYears();
 
   var headObs = new MutationObserver(function () {
     applyFontAndTheme();
@@ -479,11 +497,13 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       applyBrandText();
+      applyWarrantyYears();
       injectSchemeVars(window.__valtoraPreviewBoot);
       bodyObs.disconnect();
     });
   } else {
     applyBrandText();
+    applyWarrantyYears();
     bodyObs.disconnect();
   }
 })();

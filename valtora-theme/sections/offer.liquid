@@ -6,6 +6,10 @@
     assign market = 'ae'
   endif
   assign payment_mode = settings.payment_mode | default: 'full'
+  assign warranty = settings.warranty_years | default: '25' | strip
+  if warranty == blank
+    assign warranty = '25'
+  endif
   if market == 'gb'
     assign top_price = section.settings.replacement_top_price_gb | default: 'A replacement comfort layer is £250. A new mattress is not.'
   else
@@ -81,9 +85,17 @@
           endif
         -%}
         {%- if show_item -%}
+          {%- capture offer_title -%}{% render 'warranty-tokens', text: block.settings.title %}{%- endcapture -%}
+          {%- capture offer_text -%}{% render 'warranty-tokens', text: block.settings.text %}{%- endcapture -%}
+          {%- assign offer_title = offer_title | strip -%}
+          {%- assign offer_text = offer_text | strip -%}
+          {%- assign text_down_offer = offer_text | downcase -%}
+          {%- if offer_title == blank and text_down_offer contains 'spring core' -%}
+            {%- assign offer_title = warranty | append: '-year warranty' -%}
+          {%- endif -%}
           <div class="offer__item" {{ block.shopify_attributes }}>
-            <strong>{{ block.settings.title }}</strong>
-            <span>{{ block.settings.text }}{% if is_oeko_claim %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</span>
+            <strong>{{ offer_title }}</strong>
+            <span>{{ offer_text }}{% if is_oeko_claim %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</span>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -216,7 +228,8 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "100-night trial"
+          "default": "100-night trial",
+          "info": "Leave blank when supporting text is the spring-core line to use Theme settings → Warranty years. Or write [X]-year warranty."
         },
         {
           "type": "text",
@@ -260,7 +273,7 @@
         },
         {
           "type": "offer_item",
-          "settings": { "title": "15-year warranty", "text": "On the spring core." }
+          "settings": { "title": "[X]-year warranty", "text": "On the spring core." }
         },
         {
           "type": "offer_item",
