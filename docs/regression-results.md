@@ -4,7 +4,7 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 625 passed, 0 failed
-- Scope note: Theme settings → **Warranty years** (`warranty_years`, default/current 25) drives all storefront warranty duration copy (hero, trust bar, offer, FAQ, warranty policy, checkout terms, Stage B, `[X]` tokens). Preview uses `data-warranty-years` / `data-warranty-years-text`. 100-night trial unchanged. Product flags OFF. No VERSION bump. LCP first-paint is in the same tree (could not split from `base.css` / `theme.js` / `hero.liquid`). Checkpoint: `checkpoints/9.3.0-warranty-years-setting/`.
+- Scope note: Theme settings → **Warranty years** (`warranty_years`, default/current 25) drives all storefront warranty duration copy (hero, trust bar, offer, FAQ, warranty policy, checkout terms, Stage B, `[X]` tokens). Preview uses `data-warranty-years` / `data-warranty-years-text`. 100-night trial unchanged. Product flags OFF. No VERSION bump. LCP first-paint (and Cool Touch thumb captions in the same CSS) could not be split. Checkpoint: `checkpoints/9.3.0-warranty-years-setting/`. Deploy: `v9` `485df50`, `shopify-theme` `15799fb`.
 
 ---
 

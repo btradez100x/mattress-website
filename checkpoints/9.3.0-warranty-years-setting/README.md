@@ -7,8 +7,10 @@
 
 | Tree | SHA | What it is |
 |---|---|---|
-| Feature / `v9` | — | Pending push |
-| Connect / `shopify-theme` | — | Pending subtree |
+| Feature / `v9` | `485df50` | Drive warranty duration from Theme settings |
+| Connect / `shopify-theme` | `15799fb` | Subtree of `valtora-theme/` at this deploy |
+
+`485df50` message: *Drive warranty duration from Theme settings so T&Cs and storefront copy stay in sync.*
 
 ## What shipped
 
