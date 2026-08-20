@@ -9,12 +9,12 @@
  */
 {
   "current": {
-    "brand_name": "Norby",
+    "brand_name": "Numa",
     "brand_product_line": "Mattress",
     "brand_tagline": "Premium Sleep, Engineered in the Gulf",
     "brand_tagline_ae": "Engineered for the Gulf",
     "brand_guidelines": "v2",
-    "color_scheme": "signature",
+    "color_scheme": "v2_warm",
     "font_set": "classic",
     "default_market": "gb",
     "lead_time_mattress_min": 8,
