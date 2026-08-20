@@ -1,137 +1,29 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
-    "brand_name": "Aligna",
-    "brand_product_line": "Mattresses",
-    "legal_name": "Valtora FZE",
-    "registered_address": "Business Centre, Sharjah Publishing City Free Zone\nSharjah, United Arab Emirates",
-    "brand_tagline": "A better bed, for life.",
-    "brand_tagline_gb": "A better bed, for life.",
+    "brand_name": "Norby",
+    "brand_product_line": "Mattress",
+    "brand_tagline": "Premium Sleep, Engineered in the Gulf",
     "brand_tagline_ae": "Engineered for the Gulf",
-    "brand_tagline_us": "A better bed, for life.",
-    "brand_tagline_eu": "A better bed, for life.",
-    "brand_tagline_gh": "A better bed, for life.",
-    "brand_tagline_ng": "A better bed, for life.",
-    "share_description": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.",
-    "share_description_gb": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.",
-    "share_description_ae": "Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.",
-    "wordmark_tracking": 18,
+    "brand_guidelines": "v2",
     "color_scheme": "signature",
-    "brand_guidelines": "v1",
-    "color_primary": "#1F3A5F",
-    "color_accent": "#8A6D3B",
-    "color_bg": "#F7F5F1",
-    "color_surface": "#EAE6DF",
-    "color_ink": "#222222",
-    "color_on_dark": "#F7F5F1",
-    "font_set": "modern",
-    "font_serif": "fraunces",
-    "font_sans": "outfit",
-    "wordmark_font": "sans",
-    "headline_font": "sans",
-    "default_market": "ae",
-    "size_add_label": "Add",
-    "deposit_amount_label": "AED 200",
-    "klarna_client_id": "",
-    "splitit_enabled": false,
-    "splitit_merchant_id": "",
-    "bnpl_microcopy": "",
-    "lead_time_window": "8 to 10 weeks",
+    "font_set": "classic",
+    "default_market": "gb",
     "lead_time_mattress_min": 8,
     "lead_time_mattress_max": 10,
-    "lead_time_top_min": 2,
-    "lead_time_top_max": 3,
-    "lead_time_sheets_min": 3,
-    "lead_time_sheets_max": 5,
-    "lead_time_pillows_min": 3,
-    "lead_time_pillows_max": 5,
-    "lead_time_default_min": 8,
-    "lead_time_default_max": 10,
-    "lead_time_line": "Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.",
-    "order_lookup_enabled": false,
-    "order_lookup_endpoint": "/apps/order",
-    "warranty_years": "25",
-    "reviews_enabled": true,
-    "reviews_allow_submissions": true,
-    "reviews_require_purchase": true,
-    "contact_email": "hello@aligna.com",
-    "contact_phone_ae": "",
-    "whatsapp_number_ae": "",
-    "contact_phone_gb": "",
-    "whatsapp_number_gb": "",
-    "exit_intent_enabled": false,
-    "exit_intent_delay_seconds": 30,
-    "whatsapp_enabled": true,
-    "whatsapp_prefill": "Hi - I have a question about reserving a mattress.",
-    "contact_hours": "9:00-17:00",
-    "contact_hours_gb": "9:00-17:00",
-    "contact_hours_ae": "9:00-17:00",
-    "contact_hours_us": "9:00-17:00",
-    "contact_hours_us_timezone": "America/New_York",
-    "contact_hours_eu": "9:00-17:00",
-    "contact_hours_gh": "9:00-17:00",
-    "contact_hours_ng": "9:00-17:00",
-    "response_time_note": "We reply within one working day.",
-    "legal_entity_name_ae": "Valtora FZE",
-    "trade_licence_no": "",
-    "registered_address_ae": "Business Centre, Sharjah Publishing City Free Zone\nSharjah, United Arab Emirates",
-    "tax_reg_no_ae": "",
-    "legal_entity_name_gb": "",
-    "company_no_gb": "",
-    "registered_address_gb": "",
-    "tax_reg_no_gb": "",
-    "sections": {
-      "announcement-bar": {
-        "type": "announcement-bar",
-        "settings": {
-          "enable_section": true,
-          "text": "Cancel any time before dispatch \u00b7 100-night trial",
-          "link": "",
-          "text_ae": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Made to order",
-          "text_gb": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Spread with Klarna"
-        }
-      },
-      "header": {
-        "type": "header",
-        "settings": {
-          "menu": "",
-          "show_reserve_cta": true,
-          "reserve_label": "Reserve yours",
-          "reserve_link": "#reserve"
-        }
-      },
-      "footer": {
-        "type": "footer",
-        "blocks": {
-          "policies": {
-            "type": "link_list",
-            "settings": {
-              "heading": "Policies",
-              "menu": ""
-            }
-          }
-        },
-        "block_order": [
-          "policies"
-        ],
-        "settings": {
-          "show_payment_icons": false,
-          "copyright_text": ""
-        }
-      }
-    },
-    "content_for_index": [],
-    "gtm_container_id": "GTM-MX9SHNSM",
-    "payment_mode": "full",
-    "split_percent": 50,
-    "show_oeko_tex_claim": false,
-    "oeko_tex_certificate_no": "",
-    "show_chemicals_claim": false,
-    "comfort_tops_enabled": false,
-    "sheets_enabled": false,
-    "pillows_enabled": false,
-    "footer_accessories_enabled": false,
-    "firmness_label": "Medium-firm",
-    "firmness_note": "Suits most sleepers",
-    "variation_notice": "Handmade, so natural variation in fabric shade is possible. The construction is identical every time."
+    "lead_time_line": "Made to order. Cancel any time before dispatch for a full refund.",
+    "pillows_enabled": true,
+    "legal_entity_name_gb": "Cole Commerce Ltd",
+    "company_no_gb": "14956340",
+    "registered_address_gb": "124 City Road, London, EC1V 2NX",
+    "content_for_index": []
   }
 }
