@@ -598,7 +598,7 @@
         "type": "text",
         "id": "firmness_label",
         "label": "Firmness label",
-        "default": "Medium-firm",
+        "default": "Medium / Medium firm",
         "info": "Unused on storefront. Firmness is the flip line on Size + reserve."
       },
       {

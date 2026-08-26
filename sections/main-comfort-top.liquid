@@ -108,6 +108,9 @@
             <span><span class="pdp-opt__nm">Firm</span><span class="pdp-opt__sub">{{ section.settings.feel_firm }}</span></span>
           </button>
         </div>
+        {%- if section.settings.feel_note != blank -%}
+        <p class="pdp__sub">{{ section.settings.feel_note }}</p>
+        {%- endif -%}
         <p class="pdp__sub" data-top-current-feel hidden></p>
       </div>
       <div>
@@ -210,9 +213,10 @@
     { "type": "text", "id": "size_heading", "label": "Size heading", "default": "Choose your size and feel." },
     { "type": "text", "id": "size_note", "label": "Size note", "default": "Dimensions in centimetres. Match the bed it is going on." },
     { "type": "text", "id": "feel_heading", "label": "Feel heading", "default": "Which feel?" },
-    { "type": "text", "id": "feel_soft", "label": "Soft guidance", "default": "Side sleepers, lighter frames" },
-    { "type": "text", "id": "feel_medium", "label": "Medium guidance", "default": "Most people" },
-    { "type": "text", "id": "feel_firm", "label": "Firm guidance", "default": "Back and front sleepers" },
+    { "type": "text", "id": "feel_soft", "label": "Soft guidance", "default": "Softer than your mattress. Flips between soft and medium soft" },
+    { "type": "text", "id": "feel_medium", "label": "Medium guidance", "default": "The same as your mattress. Flips between medium and medium firm" },
+    { "type": "text", "id": "feel_firm", "label": "Firm guidance", "default": "Firmer than your mattress. One firmness" },
+    { "type": "text", "id": "feel_note", "label": "Feel note", "default": "Two of the three flip, so you get two firmnesses from one layer." },
     { "type": "text", "id": "buy_eyebrow", "label": "Buy panel eyebrow", "default": "Your order" },
     { "type": "text", "id": "add_label", "label": "Add button", "default": "Add to order" },
     { "type": "text", "id": "reassure", "label": "Reassure", "default": "[N] nights to change your mind" },
