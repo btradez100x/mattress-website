@@ -4,7 +4,7 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 690 passed, 0 failed
-- Scope note: Re-ran before deploy of v2 landing pages (inline size selector + add to basket). GTM settings-gated on `theme`, `password`, and `gift_card`. UTM first-touch persisted. Prices / trial / warranty / layer from Theme settings. Product flags OFF. No VERSION bump. Checkpoint: `checkpoints/9.3.0-landing-pages-v2/`.
+- Scope note: Re-ran before deploy of v2 landing pages (inline size selector + add to basket). GTM settings-gated on `theme`, `password`, and `gift_card`. UTM first-touch persisted. Prices / trial / warranty / layer from Theme settings. Product flags OFF. No VERSION bump. Checkpoint: `checkpoints/9.3.0-landing-pages-v2/`. Deploy: `v9` `b41f6bb`, `shopify-theme` `5ac6a3b`.
 
 ---
 

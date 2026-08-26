@@ -1,14 +1,18 @@
 # 9.3.0 — landing-pages-v2
 
-**Date:** Saturday 22 Aug 2026  
-**This is a named checkpoint** (rollback / fix version), not a SemVer export and **not a deploy**. `VERSION` was **not** bumped. MAJOR was **not** bumped. Live theme was **not** published.
+**Date:** Wednesday 26 Aug 2026  
+**This is a named deploy checkpoint** (rollback / fix version), not a SemVer export. `VERSION` was **not** bumped. MAJOR was **not** bumped.
 
-## SHAs
+## Deploy SHAs
 
 | Tree | SHA | What it is |
 |---|---|---|
-| Working tree base | `f6b32cd` | Last commit before this landing-page v2 work |
-| Connect / `shopify-theme` | — | Not updated. **Do not treat this folder as live.** |
+| Feature / `v9` | `b41f6bb` | Ship landing-page v2 with inline configure, UTM persistence, and GTM coverage |
+| Connect / `shopify-theme` | `5ac6a3b` | Subtree of `valtora-theme/` at this deploy |
+
+`b41f6bb` message: *Ship landing-page v2 with inline configure, UTM persistence, and GTM coverage.*
+
+Templates are on Connect (`shopify-theme`). Storefront **Pages** at `/pages/large-sizes` etc. still 404 until they exist in Admin and are assigned these templates.
 
 ## What v2 changed vs v1
 
@@ -97,7 +101,7 @@ Native Shopify checkout is not fully theme-controlled. Theme checkout (`/pages/c
 
 ## Package
 
-- `preview-and-theme.tar.gz` — `preview/` + `valtora-theme/` at this checkpoint
+- `preview-and-theme.tar.gz` — `preview/` + `valtora-theme/` at this deploy
 - No Shopify zip / no VERSION bump (not an export; not “save a version”)
 
 Restore locally:
