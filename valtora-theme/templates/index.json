@@ -31,8 +31,8 @@
           "type": "benefit",
           "settings": {
             "icon": "adapt",
-            "heading": "Too firm? Flip it.",
-            "text": "Unzip the cover. Turn the layer over. Zip it up. Softer on one side, firmer on the other, and you can change your mind as often as you like."
+            "heading": "Decide later.",
+            "text": "Nobody knows how firm they want a mattress until they have slept on one. So we made one that does both. Unzip the cover, turn the layer over, zip it up. Medium on one side, medium firm on the other."
           }
         },
         "b2": {
@@ -145,8 +145,8 @@
           "type": "spec",
           "settings": {
             "name": "Flippable comfort layer",
-            "meta": "10 CM \u00b7 25 DENSITY \u00b7 2540 / 2580",
-            "does": "Soft one side, firm the other. Turn it over to change the feel"
+            "meta": "10 CM \u00b7 2 CM 2540 OVER 8 CM 2580",
+            "does": "Medium one side, medium firm the other"
           }
         },
         "s7": {
@@ -339,7 +339,7 @@
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
-        "firmness_line": "Soft one side, firm the other. Unzip and flip whenever you want a different feel.",
+        "firmness_line": "Medium one side, medium firm the other. Turn it over whenever you want.",
         "market_force": "auto",
         "request_size_enabled": true,
         "deposit_terms_link": "/pages/refunds-deposit",
@@ -428,14 +428,6 @@
             "payment_mode_visibility": "all"
           }
         },
-        "faq_10": {
-          "type": "item",
-          "settings": {
-            "question": "How does the replaceable layer work?",
-            "answer": "Unzip, lift out, swap in when the comfort layer is worn. To change firmness, flip the module inside - you do not need a new layer.",
-            "payment_mode_visibility": "all"
-          }
-        },
         "faq_11": {
           "type": "item",
           "settings": {
@@ -448,7 +440,7 @@
           "type": "item",
           "settings": {
             "question": "What does it feel like?",
-            "answer": "You choose. The comfort module inside has a softer face and a firmer face - flip it to change. Soft suits side sleepers and lighter frames; firm suits back and front sleepers and heavier frames. If you are used to a very soft mattress, either setting will feel firmer for the first week or so while your body adjusts.",
+            "answer": "Medium to medium firm, and you choose which. Most people want a mattress in that range, so that is where we built ours.\n\nTurn the comfort layer over and it moves between the two. If you want to go further in either direction, a soft or firm comfort layer will take you there.",
             "payment_mode_visibility": "all"
           }
         },
@@ -456,7 +448,15 @@
           "type": "item",
           "settings": {
             "question": "How do I change the firmness?",
-            "answer": "Open the zip on the side of the mattress, lift out the comfort module, turn it over and put it back. Two minutes, no tools. One side is softer, the other is firmer. You can do it as often as you like and it costs nothing.",
+            "answer": "Unzip the cover, turn the comfort layer over, zip it up. Two minutes, no tools, and it costs nothing. One side is medium, the other is medium firm.",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_further": {
+          "type": "item",
+          "settings": {
+            "question": "What if I want it softer or firmer than that?",
+            "answer": "The mattress covers medium to medium firm because that is what most people want. If you want to go outside that, a comfort layer will take you there - softer or firmer, in the same 10cm that already sits inside the mattress.\n\nYou do not need to decide now. Sleep on it first.",
             "payment_mode_visibility": "all"
           }
         },
@@ -490,6 +490,7 @@
         "faq_look",
         "faq_feel",
         "faq_flip",
+        "faq_further",
         "faq_partner",
         "faq_2",
         "faq_3",
@@ -499,7 +500,6 @@
         "faq_7",
         "faq_8",
         "faq_9",
-        "faq_10",
         "faq_11",
         "faq_motion"
       ],
@@ -1067,7 +1067,7 @@
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
-        "firmness_line": "Soft one side, firm the other. Unzip and flip whenever you want a different feel.",
+        "firmness_line": "Medium one side, medium firm the other. Turn it over whenever you want.",
         "market_force": "auto",
         "request_size_enabled": true,
         "deposit_terms_link": "/pages/refunds-deposit",

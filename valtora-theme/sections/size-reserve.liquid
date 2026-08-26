@@ -153,7 +153,7 @@
     data-comfort-top-price-raw="{% if settings.comfort_tops_enabled %}{{ comfort_top_price_raw }}{% endif %}"
     data-comfort-top-variant="{% if settings.comfort_tops_enabled %}{{ section.settings.comfort_top_product.selected_or_first_available_variant.id | default: '' }}{% endif %}"
     data-comfort-tops-enabled="{% if settings.comfort_tops_enabled %}true{% else %}false{% endif %}"
-    data-default-firmness="Soft / firm"
+    data-default-firmness="Medium / Medium firm"
     data-add-label="{{ settings.size_add_label | default: 'Add' | escape }}"
     data-large-order-threshold-gb="10000"
     data-large-order-threshold-ae="47000"
@@ -171,7 +171,7 @@
       {%- if section.settings.firmness_line != blank -%}
       <p class="size-reserve__feel">{{ section.settings.firmness_line }}</p>
       {%- else -%}
-      <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
+      <p class="size-reserve__feel">Medium one side, medium firm the other. Turn it over whenever you want.</p>
       {%- endif -%}
 
       <div class="size-picker">
@@ -502,7 +502,7 @@
       "type": "text",
       "id": "firmness_line",
       "label": "Firmness line",
-      "default": "Soft one side, firm the other. Unzip and flip whenever you want a different feel."
+      "default": "Medium one side, medium firm the other. Turn it over whenever you want."
     },
     {
       "type": "select",

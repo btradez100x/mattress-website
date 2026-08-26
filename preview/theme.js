@@ -6,20 +6,20 @@
 
   var SIZE_MAPS = {
     ae: [
-      { id: 'single', label: 'Single', dims: '90-100 × 200 cm', firmness: 'Medium' },
-      { id: 'queen', label: 'Queen', dims: '160 × 200 cm', firmness: 'Medium' },
-      { id: 'king', label: 'King', dims: '180 × 200 cm', firmness: 'Medium' },
-      { id: 'super-king', label: 'Super King', dims: '200 × 200 cm', firmness: 'Medium' },
+      { id: 'single', label: 'Single', dims: '90-100 × 200 cm', firmness: 'Medium / Medium firm' },
+      { id: 'queen', label: 'Queen', dims: '160 × 200 cm', firmness: 'Medium / Medium firm' },
+      { id: 'king', label: 'King', dims: '180 × 200 cm', firmness: 'Medium / Medium firm' },
+      { id: 'super-king', label: 'Super King', dims: '200 × 200 cm', firmness: 'Medium / Medium firm' },
     ],
     gb: [
-      { id: 'single', label: 'Single', dims: '90 × 190 cm', firmness: 'Medium' },
-      { id: 'double', label: 'Double', dims: '135 × 190 cm', firmness: 'Medium' },
-      { id: 'king', label: 'King', dims: '150 × 200 cm', firmness: 'Medium' },
-      { id: 'super-king', label: 'Super King', dims: '180 × 200 cm', firmness: 'Medium' },
-      { id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', firmness: 'Medium' },
+      { id: 'single', label: 'Single', dims: '90 × 190 cm', firmness: 'Medium / Medium firm' },
+      { id: 'double', label: 'Double', dims: '135 × 190 cm', firmness: 'Medium / Medium firm' },
+      { id: 'king', label: 'King', dims: '150 × 200 cm', firmness: 'Medium / Medium firm' },
+      { id: 'super-king', label: 'Super King', dims: '180 × 200 cm', firmness: 'Medium / Medium firm' },
+      { id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', firmness: 'Medium / Medium firm' },
     ],
     eu: [
-      { id: 'european-king', label: 'European King', dims: '160 × 200 cm', firmness: 'Medium' },
+      { id: 'european-king', label: 'European King', dims: '160 × 200 cm', firmness: 'Medium / Medium firm' },
     ],
   };
   var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1 };
@@ -708,7 +708,7 @@
           sizeId: sizeId,
           label: chosen.getAttribute('data-size-label') || '',
           dims: chosen.getAttribute('data-size-dims') || '',
-          firmness: 'Soft / firm',
+          firmness: 'Medium / Medium firm',
           unitPrice: chosen.getAttribute('data-size-price') || '',
           priceRaw: priceRaw,
           variantId: chosen.getAttribute('data-size-variant') || '',
@@ -2401,7 +2401,7 @@
     var leadMax = parseInt(root.getAttribute('data-lead-max'), 10) || 10;
     var comfortTopPrice = root.getAttribute('data-comfort-top-price') || '';
     var comfortTopVariant = root.getAttribute('data-comfort-top-variant') || '';
-    var defaultFirmness = root.getAttribute('data-default-firmness') || 'Soft / firm';
+    var defaultFirmness = root.getAttribute('data-default-firmness') || 'Medium / Medium firm';
     var largeThresholdGb = parseInt(root.getAttribute('data-large-order-threshold-gb'), 10) || 10000;
     var largeThresholdAe = parseInt(root.getAttribute('data-large-order-threshold-ae'), 10) || 47000;
     var unitPriceText = '';
@@ -3001,7 +3001,7 @@
         btn.setAttribute('data-size-dims', dims);
         btn.setAttribute('data-size-price', s.price || '');
         btn.setAttribute('data-size-price-raw', String(sizePriceRaw(s)));
-        btn.setAttribute('data-size-firmness', s.firmness || 'Medium');
+        btn.setAttribute('data-size-firmness', s.firmness || 'Medium / Medium firm');
         if (s.variant_id || s.variantId) {
           btn.setAttribute('data-size-variant', String(s.variant_id || s.variantId));
         }
