@@ -4,7 +4,7 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 810 passed, 0 failed
-- Scope note: Go-live pass from `numa-go-live.md`. Header/footer nav, policy URLs, trial `[N]` tokens, configure lead time above the buy button, reviews off. Product flags OFF. `warranty_years` 25 and `trial_nights` 100 explicit. No VERSION bump. Checkpoint: `checkpoints/9.4.0-go-live/`.
+- Scope note: Go-live pass from `numa-go-live.md`. Header/footer nav, policy URLs, trial `[N]` tokens, configure lead time above the buy button, reviews off. Product flags OFF. `warranty_years` 25 and `trial_nights` 100 explicit. No VERSION bump. Checkpoint: `checkpoints/9.4.0-go-live/`. Deploy: `v9` `f90f007`, `shopify-theme` `1430dad`.
 
 ---
 

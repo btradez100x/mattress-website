@@ -7,8 +7,12 @@
 
 | Tree | SHA | What it is |
 |---|---|---|
-| Feature / `v9` | *pending* | Go-live theme pass from `numa-go-live.md` |
-| Connect / `shopify-theme` | *pending* | Subtree of `valtora-theme/` at this deploy |
+| Feature / `v9` | `f90f007` | Ship go-live nav, policy links, trial tokens, and lead time at the buy button |
+| Connect / `shopify-theme` | `1430dad` | Subtree of `valtora-theme/` at this deploy |
+
+`f90f007` message: *Ship go-live nav, policy links, trial tokens, and lead time at the buy button.*
+
+Templates are on Connect (`shopify-theme`). Storefront **Pages** still 404 until they exist in Admin and are assigned these templates.
 
 `preview-and-theme.tar.gz` — local snapshot of `preview/` + `valtora-theme/` at this deploy.
 
