@@ -51,7 +51,16 @@
 
   function readStored() {
     try {
-      var raw = localStorage.getItem(STORAGE_KEY) || getCookie(STORAGE_KEY);
+      var raw =
+        (function () {
+          try {
+            return sessionStorage.getItem(STORAGE_KEY);
+          } catch (e) {
+            return null;
+          }
+        })() ||
+        localStorage.getItem(STORAGE_KEY) ||
+        getCookie(STORAGE_KEY);
       return raw ? JSON.parse(raw) : null;
     } catch (e) {
       return null;
@@ -60,6 +69,9 @@
 
   function writeStored(data) {
     var json = JSON.stringify(data);
+    try {
+      sessionStorage.setItem(STORAGE_KEY, json);
+    } catch (e0) {}
     try {
       localStorage.setItem(STORAGE_KEY, json);
     } catch (e) {}
@@ -78,8 +90,13 @@
 
   function ensureFirstTouch() {
     var existing = readStored();
-    if (existing) return existing;
     var fresh = getParams();
+    if (existing) {
+      if (fresh) {
+        writeStored(existing);
+      }
+      return existing;
+    }
     if (fresh) {
       fresh._captured_at = new Date().toISOString();
       fresh._landing_path = window.location.pathname;
@@ -88,6 +105,41 @@
       return fresh;
     }
     return null;
+  }
+
+  function applyToHref(href) {
+    var utm = readStored() || ensureFirstTouch();
+    if (!utm || !href) return href;
+    var raw = String(href);
+    if (
+      raw.charAt(0) === '#' ||
+      raw.indexOf('mailto:') === 0 ||
+      raw.indexOf('tel:') === 0 ||
+      raw.indexOf('javascript:') === 0
+    ) {
+      return raw;
+    }
+    try {
+      var url = new URL(raw, window.location.href);
+      if (url.origin !== window.location.origin) return raw;
+      KEYS.forEach(function (k) {
+        if (utm[k] && !url.searchParams.get(k)) url.searchParams.set(k, utm[k]);
+      });
+      return url.pathname + url.search + url.hash;
+    } catch (e) {
+      return raw;
+    }
+  }
+
+  function decorateLinks() {
+    var utm = readStored() || ensureFirstTouch();
+    if (!utm) return;
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') return;
+      var next = applyToHref(href);
+      if (next && next !== href) a.setAttribute('href', next);
+    });
   }
 
   function readExtraAttrs() {
@@ -193,19 +245,24 @@
     get: readStored,
     ensure: ensureFirstTouch,
     applyToCartPayload: applyToCartPayload,
+    applyToHref: applyToHref,
+    decorateLinks: decorateLinks,
     syncCartAttributes: syncViaUpdateJs,
     setAttribute: setAttribute,
     keys: KEYS,
   };
 
+  function onReady(fn) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+    else fn();
+  }
+
+  onReady(decorateLinks);
+
   // Keep cart attributes warm on load (UTM and/or prior extras such as exit intent)
   if (utm || Object.keys(readExtraAttrs()).length) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () {
-        syncViaUpdateJs();
-      });
-    } else {
+    onReady(function () {
       syncViaUpdateJs();
-    }
+    });
   }
 })();

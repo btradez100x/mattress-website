@@ -1,0 +1,139 @@
+{
+  "sections": {
+    "hero": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "hero",
+        "lp_variant": "B-eurokingIKEA",
+        "mattress_product": "the-mattress",
+        "featured_size": "european-king",
+        "kicker": "European King · 160 x 200cm",
+        "heading": "The right mattress\nfor your IKEA frame.",
+        "lede": "IKEA King is 160 x 200cm. British King is 150 x 200cm. They are not the same, which is why nothing in a UK bed shop fits your bed properly.",
+        "cta_label": "Configure yours",
+        "cta_size": "european-king",
+        "cta_link": "#configure",
+        "show_price": true,
+        "price_mode": "featured"
+      }
+    },
+    "problem": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "prose",
+        "heading": "The 10cm problem",
+        "body": "<p>If you bought a bed frame from IKEA, or almost anywhere in continental Europe, it takes a 160 x 200cm mattress.</p><p>Every British manufacturer builds 150 x 200. Put one in a European frame and you get a 10cm gap down one side, sheets that will not sit, and a mattress that shifts every time you move.</p><p>The usual answers are to buy IKEA's own mattress, import one from Europe and wait, or replace the frame. We make a third option.</p>"
+      }
+    },
+    "instead": {
+      "type": "landing-funnel",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "The exact size",
+            "text": "160 x 200cm, made to order. It fits the frame you already own."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "37cm of mattress",
+            "text": "Hand-assembled pocket sprung core with a comfort layer above it. Roughly twice the depth of what came with the frame."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A layer you can replace",
+            "text": "The part that wears out unzips and lifts off. [layer] to renew, not [price]."
+          }
+        }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "layout": "cards",
+        "mattress_product": "the-mattress",
+        "featured_size": "european-king",
+        "heading": "What you get instead"
+      }
+    },
+    "spec": {
+      "type": "landing-funnel",
+      "blocks": {
+        "s1": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Size",
+            "text": "160 x 200cm. Fits IKEA and most continental frames."
+          }
+        },
+        "s2": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Depth",
+            "text": "37cm made up."
+          }
+        },
+        "s3": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Core",
+            "text": "Hand-assembled pocket springs. [X]-year guarantee."
+          }
+        },
+        "s4": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Comfort layer",
+            "text": "Removable and reversible. Firm one side, soft the other. You do not choose - it arrives with both."
+          }
+        },
+        "s5": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Bedding",
+            "text": "Takes standard European King linen, widely available online."
+          }
+        },
+        "s6": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Made",
+            "text": "To order."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6"],
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "spec",
+        "anchor_id": "spec",
+        "heading": "Specification",
+        "promise_title": "[N]-night comfort promise.",
+        "promise_body": " Your mattress arrives with two feels in one layer - firm on one face, soft on the other. If neither is right, we send a complimentary comfort layer at a different tension, worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
+      }
+    },
+    "configure": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "configure",
+        "anchor_id": "configure",
+        "mattress_product": "the-mattress",
+        "featured_size": "european-king",
+        "heading": "Choose your size",
+        "lede": "Every size is handmade to order with the same 37cm construction and the same removable comfort layer."
+      }
+    }
+  },
+  "order": ["hero", "problem", "instead", "spec", "configure"]
+}

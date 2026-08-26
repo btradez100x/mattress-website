@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "configure": {
+      "type": "size-reserve",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "mattress_product": "the-mattress",
+        "body": "Dimensions always shown in centimetres. European King fits IKEA and most continental frames.",
+        "firmness_line": "Your mattress arrives with two feels in one layer. Firm on one face, soft on the other. Turn it over to change it.",
+        "market_force": "auto",
+        "heading": "Choose your size.",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "anchor_id": "reserve",
+        "leadtime_placement": "hidden",
+        "continue_path": "/cart",
+        "configure_funnel": true,
+        "stage_b_heading": "Summary",
+        "eyebrow": "Configure",
+        "continue_label_full": "Add to basket",
+        "button_label_full": "Add to basket"
+      }
+    }
+  },
+  "order": ["configure"]
+}

@@ -1,13 +1,10 @@
 {%- liquid
   assign market = section.settings.market_force
   if market == 'auto'
-    if localization.country.iso_code == 'GB'
-      assign market = 'gb'
-    elsif localization.country.iso_code == 'AE'
-      assign market = 'ae'
-    else
-      assign market = settings.default_market
-    endif
+    capture market
+      render 'size-market'
+    endcapture
+    assign market = market | strip
   endif
 
   assign payment_mode = settings.payment_mode | default: 'full'
@@ -40,10 +37,10 @@
   else
     assign reserve_dom_id = 'reserve-' | append: section.id
   endif
-  if market == 'gb'
-    assign finance_name = 'Klarna'
-  else
+  if market == 'ae'
     assign finance_name = 'Tabby or Tamara'
+  else
+    assign finance_name = 'Klarna'
   endif
   if payment_mode == 'full'
     assign continue_label = section.settings.continue_label_full | default: 'Continue'
@@ -52,6 +49,14 @@
     assign continue_label = section.settings.continue_label_split | default: 'Continue'
     assign checkout_label = section.settings.button_label_split | default: 'Pay'
     assign checkout_label = checkout_label | append: ' ' | append: split_percent | append: '% today'
+  endif
+  assign continue_path = section.settings.continue_path | strip
+  if continue_path == blank
+    assign continue_path = pages['checkout'].url | default: '/pages/checkout'
+  endif
+  assign configure_funnel = false
+  if section.settings.configure_funnel
+    assign configure_funnel = true
   endif
   assign comfort_top_price = blank
   assign comfort_top_price_raw = blank
@@ -87,8 +92,11 @@
         assign v_market = v.metafields.custom.market | strip | downcase
         if v_market == blank
           assign v_title_down = v.title | downcase
-          if v_title_down contains 'uae'
+          assign v_sku_down = v.sku | downcase
+          if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
             assign v_market = 'ae'
+          elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
+            assign v_market = 'eu'
           else
             assign v_market = 'gb'
           endif
@@ -96,16 +104,16 @@
       -%}
       {%- if v_market == market -%}
         {%- liquid
-          assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', ''
+          assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
           if size_id == blank
-            assign size_id = v.option1 | handle | replace: '-uae', ''
+            assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
           endif
           if size_id == blank
-            assign size_id = v.title | handle | replace: '-uae', ''
+            assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
           endif
-          assign size_label = v.option1 | replace: ' (UAE)', ''
+          assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
           if size_label == blank
-            assign size_label = v.title | replace: ' (UAE)', ''
+            assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
           endif
         -%}
         {%- unless first_out -%},{%- endunless -%}
@@ -150,7 +158,8 @@
     data-large-order-threshold-gb="10000"
     data-large-order-threshold-ae="47000"
     data-contact-path="/pages/contact"
-    data-checkout-path="{{ pages['checkout'].url | default: '/pages/checkout' }}"
+    data-checkout-path="{{ continue_path }}"
+    {% if configure_funnel %}data-configure-funnel="true"{% endif %}
   >
     <div>
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -499,7 +508,8 @@
       "options": [
         { "value": "auto", "label": "Auto (from Markets / default)" },
         { "value": "ae", "label": "Force UAE sizes & prices" },
-        { "value": "gb", "label": "Force UK sizes & prices" }
+        { "value": "gb", "label": "Force UK sizes & prices" },
+        { "value": "eu", "label": "Force Europe sizes & prices" }
       ],
       "default": "auto"
     },
@@ -567,9 +577,23 @@
       "options": [
         { "value": "staged", "label": "Stage B - after continue (default, for testing)" },
         { "value": "inline", "label": "Stage A - alongside price" },
-        { "value": "vague", "label": "Stage B, no specific weeks stated" }
+        { "value": "vague", "label": "Stage B, no specific weeks stated" },
+        { "value": "hidden", "label": "Hidden - reveal on the basket page" }
       ],
       "default": "staged"
+    },
+    {
+      "type": "text",
+      "id": "continue_path",
+      "label": "Continue destination",
+      "info": "Blank uses the checkout page. Set /cart for the ad landing funnel so Add to basket goes to the basket first."
+    },
+    {
+      "type": "checkbox",
+      "id": "configure_funnel",
+      "label": "Configurator for ad landings",
+      "default": false,
+      "info": "Fires configure_start / configure_complete. Size from ?size= is preselected, not locked. No firmness step."
     },
     {
       "type": "text",

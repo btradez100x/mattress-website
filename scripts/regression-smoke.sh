@@ -34,6 +34,7 @@ REQUIRED_PATHS=(
   "snippets/tracking-pixels.liquid"
   "snippets/whatsapp-button.liquid"
   "snippets/payment-marks.liquid"
+  "snippets/size-market.liquid"
   "sections/hero.liquid"
   "sections/trust-bar.liquid"
   "sections/size-reserve.liquid"
@@ -46,6 +47,13 @@ REQUIRED_PATHS=(
   "sections/footer-group.json"
   "templates/index.json"
   "templates/page.landing.json"
+  "templates/page.large-sizes.json"
+  "templates/page.european-king.json"
+  "templates/page.specification.json"
+  "templates/page.what-it-buys.json"
+  "templates/page.configure.json"
+  "sections/landing-funnel.liquid"
+  "snippets/trial-tokens.liquid"
   "templates/page.size-guide.json"
   "templates/page.trial.json"
   "templates/page.warranty.json"
@@ -182,7 +190,7 @@ fi
 
 # --- UTM persistence contract ---
 UTM="$THEME/assets/utm-persistence.js"
-for key in utm_source utm_medium utm_campaign utm_content utm_term valtora_utm_first_touch attributes; do
+for key in utm_source utm_medium utm_campaign utm_content utm_term valtora_utm_first_touch attributes applyToHref sessionStorage; do
   if grep -q "$key" "$UTM"; then
     pass "utm script mentions $key"
   else
@@ -190,14 +198,58 @@ for key in utm_source utm_medium utm_campaign utm_content utm_term valtora_utm_f
   fi
 done
 
-# --- Size maps (AE + GB) ---
-JS="$THEME/assets/theme.js"
-if grep -q "ae:" "$JS" && grep -q "gb:" "$JS" \
-  && grep -q "180" "$JS" && grep -q "150" "$JS" \
-  && grep -q "Queen" "$JS" && grep -q "Double" "$JS"; then
-  pass "theme.js contains AE/GB size maps with cm"
+if grep -q "utm-persistence.js" "$THEME/layout/theme.liquid" \
+  && grep -q "utm-persistence.js" "$THEME/layout/password.liquid"; then
+  pass "theme + password layouts load utm-persistence.js"
 else
-  fail "theme.js size maps incomplete (need AE Queen 180 / GB Double 150)"
+  fail "utm-persistence.js missing from theme.liquid or password.liquid"
+fi
+
+# --- GTM: one settings-gated loader, no second ID ---
+for layout in "layout/theme.liquid" "layout/password.liquid" "templates/gift_card.liquid"; do
+  if grep -q "settings.gtm_container_id" "$THEME/$layout" \
+    && grep -q "googletagmanager.com/gtm.js" "$THEME/$layout" \
+    && grep -q "googletagmanager.com/ns.html" "$THEME/$layout"; then
+    pass "$layout has settings-gated GTM head + noscript"
+  else
+    fail "$layout missing settings-gated GTM snippets"
+  fi
+done
+if grep -R --include='*.liquid' -l "GTM-MX9SHNSM" "$THEME" | grep -vq settings; then
+  fail "hardcoded GTM ID outside settings"
+else
+  pass "no hardcoded GTM container ID in Liquid (settings only)"
+fi
+
+# Landing templates use default theme layout (GTM + UTM)
+for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json; do
+  if python3 - "$THEME/templates/$tpl" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1]))
+sys.exit(0 if data.get("layout") in (None, "theme") else 1)
+PY
+  then
+    pass "$tpl uses default theme layout"
+  else
+    fail "$tpl overrides layout and would skip theme GTM/UTM"
+  fi
+done
+
+if grep -q '"value": "configure"' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "data-lp-configure" "$THEME/sections/landing-funnel.liquid"; then
+  pass "landing-funnel has inline configure layout"
+else
+  fail "landing-funnel missing inline configure layout"
+fi
+
+# --- Size maps (AE + GB + EU) ---
+JS="$THEME/assets/theme.js"
+if grep -q "ae:" "$JS" && grep -q "gb:" "$JS" && grep -q "eu:" "$JS" \
+  && grep -q "180" "$JS" && grep -q "150" "$JS" && grep -q "160 × 200" "$JS" \
+  && grep -q "Queen" "$JS" && grep -q "Double" "$JS" && grep -q "European King" "$JS"; then
+  pass "theme.js contains AE/GB/EU size maps with cm"
+else
+  fail "theme.js size maps incomplete (need AE Queen 180 / GB Double 150 / EU European King 160)"
 fi
 
 # --- Reserve section (V4.1 staged basket) ---
@@ -663,6 +715,17 @@ if grep -q '"id":"emperor"' "$ROOT/preview/index.html" \
   pass "Emperor 200×200 present in preview GB list and SIZE_MAPS"
 else
   fail "Emperor 200×200 missing"
+fi
+
+if grep -q '"id":"european-king"' "$ROOT/preview/index.html" \
+  && grep -q '"label":"European King"' "$ROOT/preview/index.html" \
+  && grep -q "id: 'european-king'" "$THEME/assets/theme.js" \
+  && grep -q "160 × 200 cm" "$THEME/assets/theme.js" \
+  && grep -q "European King" "$THEME/sections/size-guide.liquid" \
+  && grep -q "European King" "$ROOT/preview/pages/size-guide.html"; then
+  pass "European King 160×200 present in EU SIZE_MAPS, preview list, and size guides"
+else
+  fail "European King 160×200 missing"
 fi
 
 if python3 -c "

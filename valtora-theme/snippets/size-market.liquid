@@ -1,0 +1,23 @@
+{%- comment -%}
+  Size-list market: ae | gb | eu
+  GB → UK sizes, AE → UAE sizes,
+  European countries including Albania (AL) → Europe sizes.
+  GB is UK, not Europe. Unlisted countries → default_market.
+{%- endcomment -%}
+{%- liquid
+  assign size_market = settings.default_market | default: 'ae'
+  assign iso = localization.country.iso_code | upcase | strip
+  assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
+
+  if iso == 'GB' or iso == 'UK'
+    assign size_market = 'gb'
+  elsif iso == 'AE'
+    assign size_market = 'ae'
+  elsif iso != blank
+    assign iso_token = '|' | append: iso | append: '|'
+    if europe_isos contains iso_token
+      assign size_market = 'eu'
+    endif
+  endif
+-%}
+{{- size_market -}}

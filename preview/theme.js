@@ -18,7 +18,29 @@
       { id: 'super-king', label: 'Super King', dims: '180 × 200 cm', firmness: 'Medium' },
       { id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', firmness: 'Medium' },
     ],
+    eu: [
+      { id: 'european-king', label: 'European King', dims: '160 × 200 cm', firmness: 'Medium' },
+    ],
   };
+  var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1 };
+  var EUROPE_ISOS = {
+    AT: 1, BE: 1, BG: 1, HR: 1, CY: 1, CZ: 1, DK: 1, EE: 1, FI: 1, FR: 1, DE: 1,
+    GR: 1, HU: 1, IE: 1, IT: 1, LV: 1, LT: 1, LU: 1, MT: 1, NL: 1, PL: 1, PT: 1,
+    RO: 1, SK: 1, SI: 1, ES: 1, SE: 1, AL: 1, IS: 1, LI: 1, NO: 1, CH: 1, MK: 1,
+    ME: 1, RS: 1, BA: 1, XK: 1, MD: 1, UA: 1, BY: 1
+  };
+
+  function isSizeMarket(m) {
+    return !!(m && SIZE_MARKETS[m]);
+  }
+
+  function countryToSizeMarket(code) {
+    var c = String(code || '').toUpperCase();
+    if (c === 'GB' || c === 'UK') return 'gb';
+    if (c === 'AE') return 'ae';
+    if (EUROPE_ISOS[c]) return 'eu';
+    return '';
+  }
 
   var DEFAULT_TAGLINE = 'A better bed, for life.';
   var SHARE_DESC_GB =
@@ -49,31 +71,32 @@
     try {
       var previewPort = location.port === '5173' || location.port === '5190';
       var saved = localStorage.getItem('valtoraPreviewMarket');
-      if (previewPort && (saved === 'ae' || saved === 'gb')) return saved;
+      if (previewPort && isSizeMarket(saved)) return saved;
       var basketRaw =
         sessionStorage.getItem('valtora_order_lines') ||
         localStorage.getItem('valtora_order_lines');
       if (previewPort && basketRaw) {
         var basket = JSON.parse(basketRaw);
         var first = basket && basket.lines && basket.lines[0];
-        if (first && (first.market === 'ae' || first.market === 'gb')) return first.market;
+        if (first && isSizeMarket(first.market)) return first.market;
       }
     } catch (e) {}
 
     var forced = document.documentElement.getAttribute('data-market');
-    if (forced === 'ae' || forced === 'gb') return forced;
+    if (isSizeMarket(forced)) return forced;
 
     var theme = window.ValtoraTheme || {};
     var localization = window.Shopify && window.Shopify.country;
-    if (localization) {
-      var c = String(localization).toUpperCase();
-      if (c === 'GB' || c === 'UK') return 'gb';
-      if (c === 'AE') return 'ae';
-    }
+    var countryAttr =
+      (document.documentElement && document.documentElement.getAttribute('data-country')) ||
+      localization ||
+      '';
+    var fromCountry = countryToSizeMarket(countryAttr);
+    if (fromCountry) return fromCountry;
 
     // Shopify Markets: localization.country.iso_code via liquid-injected meta
     var meta = document.querySelector('meta[name="valtora-market"]');
-    if (meta && (meta.content === 'ae' || meta.content === 'gb')) return meta.content;
+    if (meta && isSizeMarket(meta.content)) return meta.content;
 
     return theme.defaultMarket || 'ae';
   }
@@ -158,12 +181,7 @@
   window.__valtoraApplyPreviewTagline = applyPreviewTagline;
   window.__valtoraSavePreviewTagline = savePreviewTagline;
 
-  var EUROPE_HOUR_ISOS = {
-    AT: 1, BE: 1, BG: 1, HR: 1, CY: 1, CZ: 1, DK: 1, EE: 1, FI: 1, FR: 1, DE: 1,
-    GR: 1, HU: 1, IE: 1, IT: 1, LV: 1, LT: 1, LU: 1, MT: 1, NL: 1, PL: 1, PT: 1,
-    RO: 1, SK: 1, SI: 1, ES: 1, SE: 1, AL: 1, IS: 1, LI: 1, NO: 1, CH: 1, MK: 1,
-    ME: 1, RS: 1, BA: 1, XK: 1, MD: 1, UA: 1, BY: 1
-  };
+  var EUROPE_HOUR_ISOS = EUROPE_ISOS;
   var HOURS_IANA = {
     gb: 'Europe/London',
     ae: 'Asia/Dubai',
@@ -295,6 +313,25 @@
 
   window.__valtoraPaintContactHours = paintContactHours;
 
+  function readLpVariant() {
+    var fromDom = document.querySelector('[data-lp-variant]');
+    var fromNuma = window.NUMA && window.NUMA.lp_variant;
+    var stored = '';
+    try {
+      stored = sessionStorage.getItem('valtora_lp_variant') || '';
+    } catch (e) {}
+    var v = (fromDom && fromDom.getAttribute('data-lp-variant')) || fromNuma || stored || '';
+    v = String(v || '').trim();
+    if (v) {
+      try {
+        sessionStorage.setItem('valtora_lp_variant', v);
+      } catch (err) {}
+      window.NUMA = window.NUMA || {};
+      window.NUMA.lp_variant = v;
+    }
+    return v;
+  }
+
   function vTrack(name, params) {
     params = params || {};
     var body = document.body;
@@ -316,6 +353,15 @@
         payment_mode: paymentMode,
       },
       params
+    );
+    var lp = readLpVariant();
+    if (lp && payload.lp_variant == null) payload.lp_variant = lp;
+    var utm =
+      (window.ValtoraUTM && window.ValtoraUTM.get && window.ValtoraUTM.get()) || {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(
+      function (k) {
+        if (utm[k] && payload[k] == null) payload[k] = utm[k];
+      }
     );
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(payload);
@@ -340,6 +386,384 @@
     vTrack(name, params);
   }
   window.vTrackOnce = vTrackOnce;
+
+  function parseLayerPriceCents() {
+    var raw = parseInt(document.documentElement.getAttribute('data-layer-price-raw'), 10);
+    if (raw > 0) return raw;
+    var label =
+      document.documentElement.getAttribute('data-layer-price') ||
+      (document.querySelector('[data-lp-layer]') &&
+        document.querySelector('[data-lp-layer]').getAttribute('data-lp-layer')) ||
+      '';
+    var digits = String(label).replace(/[^\d]/g, '');
+    if (!digits) return 0;
+    return parseInt(digits, 10) * 100;
+  }
+
+  function readSizePriceRows() {
+    var el = document.querySelector('[data-size-price-config]');
+    if (!el) return [];
+    try {
+      var parsed = JSON.parse(el.textContent.trim());
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function sizeRowForId(id, market) {
+    var rows = readSizePriceRows();
+    var mkt = market || detectMarket();
+    var match = rows.filter(function (row) {
+      return row.id === id && (!row.market || row.market === mkt);
+    })[0];
+    if (match) return match;
+    return rows.filter(function (row) {
+      return row.id === id;
+    })[0];
+  }
+
+  function fillLandingPrices() {
+    var market = detectMarket();
+    var rows = readSizePriceRows().filter(function (row) {
+      return !row.market || row.market === market;
+    });
+    document.querySelectorAll('[data-lp-size-table]').forEach(function (tbody) {
+      if (!rows.length) return;
+      tbody.innerHTML = rows
+        .map(function (row) {
+          var price = row.price || '';
+          return (
+            '<tr data-size-id="' +
+            String(row.id || '').replace(/"/g, '') +
+            '"><td><strong>' +
+            (row.label || '') +
+            '</strong></td><td class="num">' +
+            (row.dims || '') +
+            '</td><td class="lp-num num" data-lp-row-price>' +
+            price +
+            '</td></tr>'
+          );
+        })
+        .join('');
+    });
+    document.querySelectorAll('[data-lp-hero-price]').forEach(function (wrap) {
+      var mode = wrap.getAttribute('data-lp-price-mode') || 'featured';
+      var sizeId = wrap.getAttribute('data-lp-size') || '';
+      var valueEl = wrap.querySelector('[data-lp-price]');
+      var row =
+        mode === 'from'
+          ? rows
+              .filter(function (r) {
+                return (r.price_raw || 0) > 0;
+              })
+              .sort(function (a, b) {
+                return (a.price_raw || 0) - (b.price_raw || 0);
+              })[0]
+          : sizeRowForId(sizeId, market);
+      if (!row || !row.price) {
+        wrap.hidden = true;
+        return;
+      }
+      wrap.hidden = false;
+      if (valueEl) {
+        valueEl.textContent = mode === 'from' ? 'From ' + row.price : row.price;
+      }
+      document.querySelectorAll('.lp-section').forEach(function (sec) {
+        sec.setAttribute('data-lp-resolved-price', row.price);
+      });
+    });
+    var layerLabelBoot =
+      document.documentElement.getAttribute('data-layer-price') || '';
+    document.querySelectorAll('[data-layer-price-text]').forEach(function (el) {
+      if (layerLabelBoot) el.textContent = layerLabelBoot;
+    });
+    var featuredEl = document.querySelector('[data-lp-featured]');
+    var featuredId = featuredEl && featuredEl.getAttribute('data-lp-featured');
+    var featuredRow = featuredId ? sizeRowForId(featuredId, market) : null;
+    if (featuredRow && featuredRow.price) {
+      document.querySelectorAll('h1 [data-lp-price], [data-lp-featured-price]').forEach(function (el) {
+        if (!el.closest('[data-lp-hero-price]')) el.textContent = featuredRow.price;
+      });
+    }
+    var years = parseInt(document.documentElement.getAttribute('data-warranty-years'), 10) || 25;
+    var layer = parseLayerPriceCents();
+    document.querySelectorAll('[data-lp-cost-table]').forEach(function (table) {
+      var mode = table.getAttribute('data-lp-cost-mode') || 'king_own';
+      var sizeId = table.getAttribute('data-lp-cost-size') || (mode === 'super_king_25' ? 'super-king' : 'king');
+      var row = sizeRowForId(sizeId, market);
+      var body = table.querySelector('[data-lp-cost-body]');
+      if (!body || !row || !(row.price_raw > 0)) {
+        if (body) body.innerHTML = '';
+        return;
+      }
+      var mattress = row.price_raw;
+      var layerLabel =
+        document.documentElement.getAttribute('data-layer-price') ||
+        (document.querySelector('[data-lp-layer]') &&
+          document.querySelector('[data-lp-layer]').getAttribute('data-lp-layer')) ||
+        '';
+      if (mode === 'super_king_25') {
+        var ownTotal = mattress + layer * 2;
+        var sealedTotal = mattress * 3;
+        body.innerHTML =
+          '<tr><td><strong>This mattress</strong><br><span class="lp-note-line">plus two ' +
+          layerLabel +
+          ' layers</span></td><td class="lp-num num">' +
+          formatMoneyFromCents(mattress, market) +
+          '</td><td class="lp-num num">' +
+          formatMoneyFromCents(ownTotal, market) +
+          '</td><td class="lp-num num">' +
+          formatMoneyFromCents(Math.round(ownTotal / years), market) +
+          '</td></tr><tr><td>The same mattress, built sealed<br><span class="lp-note-line">replaced twice over the same period</span></td><td class="lp-num num">' +
+          formatMoneyFromCents(mattress, market) +
+          '</td><td class="lp-num num">' +
+          formatMoneyFromCents(sealedTotal, market) +
+          '</td><td class="lp-num num">' +
+          formatMoneyFromCents(Math.round(sealedTotal / years), market) +
+          '</td></tr>';
+      } else {
+        var ownYear = mattress + layer * 2;
+        body.innerHTML =
+          '<tr><td><strong>Ours, King</strong><br><span class="lp-note-line">plus two ' +
+          layerLabel +
+          ' layers</span></td><td class="lp-num num">' +
+          formatMoneyFromCents(mattress, market) +
+          '</td><td class="lp-num num">' +
+          years +
+          ' yrs</td><td class="lp-num num">' +
+          formatMoneyFromCents(Math.round(ownYear / years), market) +
+          '</td></tr><tr><td>The same mattress, built sealed<br><span class="lp-note-line">replaced when the top softens</span></td><td class="lp-num num">' +
+          formatMoneyFromCents(mattress, market) +
+          '</td><td class="lp-num num">10 yrs</td><td class="lp-num num">' +
+          formatMoneyFromCents(Math.round(mattress / 10), market) +
+          '</td></tr>';
+      }
+    });
+  }
+
+  function initLandingFunnel() {
+    var page = document.querySelector('[data-lp-page]');
+    fillLandingPrices();
+    document.addEventListener('preview:market-changed', fillLandingPrices);
+    if (!page) return;
+    var params = new URLSearchParams(location.search);
+    var variant = page.getAttribute('data-lp-variant') || '';
+    if (variant) {
+      window.NUMA = window.NUMA || {};
+      window.NUMA.lp_variant = variant;
+      try {
+        sessionStorage.setItem('valtora_lp_variant', variant);
+      } catch (e) {}
+    }
+    vTrackOnce('lp_view', {
+      lp_variant: readLpVariant(),
+      keyword: params.get('keyword') || params.get('utm_term') || '',
+      gclid: params.get('gclid') || '',
+    });
+    var marks = { 25: false, 50: false, 75: false, 100: false };
+    function onScrollPercent() {
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - window.innerHeight;
+      var pct = max > 0 ? (window.scrollY / max) * 100 : 100;
+      [25, 50, 75, 100].forEach(function (p) {
+        if (!marks[p] && pct >= p) {
+          marks[p] = true;
+          vTrack('scroll_depth', { percent: p, lp_variant: readLpVariant() });
+        }
+      });
+    }
+    window.addEventListener('scroll', onScrollPercent, { passive: true });
+    var scrolled = false;
+    var started = Date.now();
+    window.addEventListener(
+      'scroll',
+      function () {
+        scrolled = true;
+      },
+      { passive: true, once: true }
+    );
+    window.addEventListener('pagehide', function () {
+      if (!scrolled && Date.now() - started < 10000) {
+        vTrack('bounce', { under_10s: true, lp_variant: readLpVariant() });
+      }
+    });
+  }
+
+  function withPersistedUtm(href) {
+    if (!href) return href;
+    if (window.ValtoraUTM && typeof window.ValtoraUTM.applyToHref === 'function') {
+      return window.ValtoraUTM.applyToHref(href);
+    }
+    return href;
+  }
+
+  function initLandingConfigure() {
+    var roots = document.querySelectorAll('[data-lp-configure]');
+    if (!roots.length) return;
+
+    function rowsForMarket() {
+      var market = detectMarket();
+      return readSizePriceRows().filter(function (row) {
+        return !row.market || row.market === market;
+      });
+    }
+
+    function paintSizes(root) {
+      var list = root.querySelector('[data-lp-sizes]');
+      if (!list) return;
+      var rows = rowsForMarket();
+      if (!rows.length) return;
+      list.innerHTML = rows
+        .map(function (row) {
+          var dims = row.dims || '';
+          var note = dims;
+          if (row.id === 'european-king' || /european king/i.test(row.label || '')) {
+            note = dims ? dims + ' · fits IKEA' : 'fits IKEA';
+          }
+          return (
+            '<button type="button" class="lp-size" role="option" aria-selected="false" data-size-id="' +
+            String(row.id || '').replace(/"/g, '') +
+            '" data-size-label="' +
+            String(row.label || '').replace(/"/g, '') +
+            '" data-size-dims="' +
+            String(dims).replace(/"/g, '') +
+            '" data-size-price="' +
+            String(row.price || '').replace(/"/g, '') +
+            '" data-size-price-raw="' +
+            String(row.price_raw || 0) +
+            '" data-size-variant="' +
+            String(row.variant_id || row.variantId || '') +
+            '" data-available="' +
+            (row.available === false ? 'false' : 'true') +
+            '">' +
+            (row.label || '') +
+            '<em>' +
+            note +
+            '</em></button>'
+          );
+        })
+        .join('');
+    }
+
+    function selectSize(root, btn, fromUser) {
+      if (!btn) return;
+      var id = btn.getAttribute('data-size-id') || '';
+      root.querySelectorAll('.lp-size').forEach(function (el) {
+        var on = el === btn;
+        el.classList.toggle('is-on', on);
+        el.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      root.setAttribute('data-lp-selected', id);
+      var priceEl = root.querySelector('[data-lp-add-price]');
+      var dimEl = root.querySelector('[data-lp-add-dim]');
+      var addBtn = root.querySelector('[data-lp-add]');
+      var policyEl = root.querySelector('[data-lp-policy]');
+      var price = btn.getAttribute('data-size-price') || '';
+      var dims = btn.getAttribute('data-size-dims') || '';
+      var available = btn.getAttribute('data-available') !== 'false';
+      if (priceEl) priceEl.textContent = price;
+      if (dimEl) dimEl.textContent = dims || btn.getAttribute('data-size-label') || '';
+      if (addBtn) addBtn.disabled = !available || !id;
+      if (policyEl) {
+        var def = root.getAttribute('data-lp-policy-default') || policyEl.textContent;
+        var emp = root.getAttribute('data-lp-policy-emperor') || def;
+        policyEl.textContent = id === 'emperor' ? emp : def;
+      }
+      if (fromUser) {
+        vTrack('configure_complete', { size: id, lp_variant: readLpVariant() });
+      }
+    }
+
+    function preselect(root) {
+      var fromQuery = '';
+      try {
+        fromQuery = new URLSearchParams(location.search).get('size') || '';
+      } catch (e) {}
+      var featured = (fromQuery || root.getAttribute('data-lp-preselect') || '').trim();
+      if (!featured) return;
+      var btn = root.querySelector('.lp-size[data-size-id="' + featured + '"]');
+      if (btn) selectSize(root, btn, false);
+    }
+
+    roots.forEach(function (root) {
+      if (root.getAttribute('data-lp-configure-ready') === '1') return;
+      root.setAttribute('data-lp-configure-ready', '1');
+      paintSizes(root);
+      preselect(root);
+      root.addEventListener('click', function (e) {
+        var btn = e.target.closest('.lp-size');
+        if (btn && root.contains(btn)) {
+          selectSize(root, btn, true);
+          return;
+        }
+        var add = e.target.closest('[data-lp-add]');
+        if (!add || !root.contains(add) || add.disabled) return;
+        var chosen = root.querySelector('.lp-size.is-on, .lp-size[aria-selected="true"]');
+        if (!chosen) return;
+        var sizeId = chosen.getAttribute('data-size-id') || '';
+        var priceRaw = parseInt(chosen.getAttribute('data-size-price-raw'), 10) || 0;
+        OrderStore.upsertMattressLine({
+          itemType: 'mattress',
+          sizeId: sizeId,
+          label: chosen.getAttribute('data-size-label') || '',
+          dims: chosen.getAttribute('data-size-dims') || '',
+          firmness: 'Soft / firm',
+          unitPrice: chosen.getAttribute('data-size-price') || '',
+          priceRaw: priceRaw,
+          variantId: chosen.getAttribute('data-size-variant') || '',
+          quantity: 1,
+          market: detectMarket(),
+          leadWindow: root.getAttribute('data-lead-window') || '',
+          leadMin: root.getAttribute('data-lead-min') || '',
+          leadMax: root.getAttribute('data-lead-max') || '',
+        });
+        vTrack('add_to_basket', {
+          size: sizeId,
+          value: priceRaw / 100 || undefined,
+          trial_eligible: sizeId !== 'emperor',
+          lp_variant: readLpVariant(),
+        });
+        var cartHref =
+          root.getAttribute('data-checkout-path') ||
+          (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.cart) ||
+          '/cart';
+        if (!cartHref || cartHref === '#') {
+          cartHref = /\/pages\//.test(location.pathname) ? './cart.html' : '/cart';
+        }
+        window.location.href = withPersistedUtm(cartHref);
+      });
+      if ('IntersectionObserver' in window) {
+        var seen = false;
+        var io = new IntersectionObserver(
+          function (entries) {
+            if (seen) return;
+            if (entries.some(function (en) { return en.isIntersecting; })) {
+              seen = true;
+              var pre = root.getAttribute('data-lp-selected') || root.getAttribute('data-lp-preselect') || '';
+              try {
+                pre = new URLSearchParams(location.search).get('size') || pre;
+              } catch (err) {}
+              vTrackOnce('configure_start', {
+                size_preselected: !!pre,
+                size: pre || '',
+                lp_variant: readLpVariant(),
+              });
+              io.disconnect();
+            }
+          },
+          { threshold: 0.35 }
+        );
+        io.observe(root);
+      }
+    });
+    document.addEventListener('preview:market-changed', function () {
+      roots.forEach(function (root) {
+        paintSizes(root);
+        preselect(root);
+      });
+    });
+  }
 
   function topEntryPoint() {
     try {
@@ -445,6 +869,9 @@
     var containsMattress = lastLines.some(isMattressLine);
     payload.contains_mattress = containsMattress;
     payload.accessory_only = !containsMattress && lastLines.length > 0;
+    payload.transaction_id = orderId;
+    var sizeLine = lastLines.filter(isMattressLine)[0];
+    if (sizeLine && sizeLine.sizeId && payload.size == null) payload.size = sizeLine.sizeId;
     vTrack('purchase', payload);
     lastLines.forEach(function (line) {
       if (line.itemType === 'top') {
@@ -481,8 +908,13 @@
   function formatMoneyFromCents(cents, market) {
     var major = Math.round(Number(cents) / 100);
     if (!isFinite(major) || major < 0) major = 0;
-    if ((market || detectMarket()) === 'gb') {
+    var mkt = market || detectMarket();
+    if (!major) return '';
+    if (mkt === 'gb') {
       return '£' + major.toLocaleString('en-GB');
+    }
+    if (mkt === 'eu') {
+      return '€' + major.toLocaleString('en-GB');
     }
     return 'AED ' + major.toLocaleString('en-AE');
   }
@@ -506,7 +938,7 @@
   }
 
   function marketFinanceName(mkt) {
-    return mkt === 'gb' ? 'Klarna' : 'Tabby or Tamara';
+    return mkt === 'ae' ? 'Tabby or Tamara' : 'Klarna';
   }
 
   function refreshKlarnaPlacements() {
@@ -647,6 +1079,10 @@
     hideSplititSlot(el);
     if (mkt === 'ae') {
       setGeneric('Spread the cost with Tabby or Tamara');
+      return;
+    }
+    if (mkt === 'eu') {
+      setGeneric('Spread the cost with Klarna');
       return;
     }
 
@@ -1868,7 +2304,7 @@
   function syncOrderChrome() {
     var lines = OrderStore.lines();
     var lineCount = lines.length;
-    var show = lineCount > 1;
+    var show = lineCount > 0;
     document.querySelectorAll('[data-order-link]').forEach(function (el) {
       el.hidden = !show;
     });
@@ -1880,30 +2316,37 @@
   }
 
   function reviewOrderUrl() {
-    var tagged = document.querySelector('[data-checkout-path]');
+    var href = '';
+    var tagged = document.querySelector('[data-size-reserve][data-checkout-path], [data-checkout-page][data-checkout-path]');
+    if (!tagged) tagged = document.querySelector('[data-lp-configure][data-checkout-path]');
     if (tagged && tagged.getAttribute('data-checkout-path')) {
-      return tagged.getAttribute('data-checkout-path');
+      href = tagged.getAttribute('data-checkout-path');
     }
-    var link = document.querySelector(
-      '[data-float-continue][data-checkout-href], [data-reserve-continue][data-checkout-href], [data-reserve-continue][href], [data-float-continue][href]'
-    );
-    if (link) {
-      var stored = link.getAttribute('data-checkout-href');
-      if (stored) return stored;
-      var href = link.getAttribute('href');
-      if (href && href.charAt(0) !== '#' && /checkout/i.test(href)) return href;
+    if (!href) {
+      var link = document.querySelector(
+        '[data-float-continue][data-checkout-href], [data-reserve-continue][data-checkout-href], [data-reserve-continue][href], [data-float-continue][href]'
+      );
+      if (link) {
+        var stored = link.getAttribute('data-checkout-href');
+        if (stored) href = stored;
+        else {
+          var raw = link.getAttribute('href');
+          if (raw && raw.charAt(0) !== '#' && /checkout/i.test(raw)) href = raw;
+        }
+      }
     }
-    if (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.review) {
-      return window.ValtoraTheme.routes.review;
+    if (!href && window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.review) {
+      href = window.ValtoraTheme.routes.review;
     }
-    if (/checkout\.html$/.test(location.pathname)) return location.pathname;
-    if (/\/pages\//.test(location.pathname)) {
-      return location.pathname.replace(/[^/]+$/, 'checkout.html');
+    if (!href && /checkout\.html$/.test(location.pathname)) href = location.pathname;
+    if (!href && /\/pages\//.test(location.pathname)) {
+      href = location.pathname.replace(/[^/]+$/, 'checkout.html');
     }
-    if (/index\.html$/.test(location.pathname) || location.port === '5173' || location.port === '5190') {
-      return './pages/checkout.html';
+    if (!href && (/index\.html$/.test(location.pathname) || location.port === '5173' || location.port === '5190')) {
+      href = './pages/checkout.html';
     }
-    return '/pages/checkout';
+    if (!href) href = '/pages/checkout';
+    return withPersistedUtm(href);
   }
 
   function initSizeReserve(root) {
@@ -1918,7 +2361,7 @@
     var market = root.getAttribute('data-market') || detectMarket();
     var paymentMode = root.getAttribute('data-payment-mode') || 'full';
     var leadtimePlacement = root.getAttribute('data-leadtime-placement') || 'staged';
-    var financeName = root.getAttribute('data-finance-name') || (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
+    var financeName = root.getAttribute('data-finance-name') || marketFinanceName(market);
     var list = root.querySelector('[data-size-list]');
     if (list) list.setAttribute('aria-multiselectable', 'true');
     var selected = root.querySelector('[data-selected-size]');
@@ -1972,7 +2415,7 @@
     }
 
     function largeOrderThreshold() {
-      return market === 'gb' ? largeThresholdGb : largeThresholdAe;
+      return market === 'ae' ? largeThresholdAe : largeThresholdGb;
     }
 
     function isLargeOrderValue(value) {
@@ -2075,6 +2518,13 @@
         leadMin: leadMin,
         leadMax: leadMax,
       });
+      if (!opts.silent) {
+        vTrack('add_to_basket', eventParams({
+          size: size.id,
+          value: sizePriceRaw(size) / 100 || undefined,
+          trial_eligible: size.id !== 'emperor',
+        }));
+      }
       var after = OrderStore.lines().filter(function (l) {
         return l.itemType === 'mattress' || !l.itemType;
       }).length;
@@ -2344,6 +2794,7 @@
     }
 
     function expandStageB() {
+      if (leadtimePlacement === 'hidden') return;
       if (!stageB) return;
       stageB.classList.remove('is-collapsed');
       stageExpanded = true;
@@ -2451,6 +2902,11 @@
             value: sizePriceRaw(currentSize()) / 100 || undefined,
             price: sizePriceRaw(currentSize()) / 100 || undefined,
           }));
+          if (root.getAttribute('data-configure-funnel') === 'true') {
+            vTrackOnce('configure_complete', eventParams({
+              size: btn.getAttribute('data-size-id') || '',
+            }));
+          }
         }
       } else {
         syncSizeQtyUi();
@@ -2482,7 +2938,25 @@
     }
 
     function preferredIndex() {
-      var preferredIds = market === 'gb' ? ['king', 'double', 'queen'] : ['queen', 'king'];
+      var pre = '';
+      try {
+        pre = new URLSearchParams(location.search).get('size') || '';
+      } catch (e) {}
+      pre = String(pre)
+        .toLowerCase()
+        .replace(/_/g, '-');
+      if (pre) {
+        var preIdx = sizes.findIndex(function (s) {
+          return s.id === pre || normalizeSizeId(s.label) === pre || normalizeSizeId(s.id) === pre;
+        });
+        if (preIdx >= 0) return preIdx;
+      }
+      var preferredIds =
+        market === 'gb'
+          ? ['king', 'double', 'queen']
+          : market === 'eu'
+            ? ['european-king']
+            : ['queen', 'king'];
       var i;
       for (i = 0; i < sizes.length; i++) {
         if (sizes[i].popular && sizes[i].available !== false) return i;
@@ -2532,6 +3006,18 @@
           btn.setAttribute('data-size-variant', String(s.variant_id || s.variantId));
         }
         btn.setAttribute('data-available', available ? 'true' : 'false');
+        var extraNote = '';
+        if (s.id === 'european-king' || /european king/i.test(s.label || '')) {
+          extraNote =
+            '<span class="size-option__note">Fits IKEA and most continental frames</span>';
+        }
+        if (s.id === 'emperor') {
+          var nights = (document.documentElement.getAttribute('data-trial-nights') || '100').trim();
+          extraNote =
+            '<span class="size-option__note">Made to order at 200 x 200cm. Not covered by the ' +
+            nights +
+            '-night return trial. Statutory rights are unaffected.</span>';
+        }
         btn.innerHTML =
           '<span class="size-option__marker" aria-hidden="true"></span>' +
           '<span class="size-option__main">' +
@@ -2544,6 +3030,7 @@
           '<span class="size-option__dims">' +
           dims +
           (available ? '' : ' · Not in this allocation') +
+          extraNote +
           '</span>' +
           '</span>' +
           (available
@@ -2581,7 +3068,7 @@
       paymentMode = root.getAttribute('data-payment-mode') || paymentMode || 'full';
       leadtimePlacement = root.getAttribute('data-leadtime-placement') || leadtimePlacement || 'staged';
       financeName =
-        root.getAttribute('data-finance-name') || (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
+        root.getAttribute('data-finance-name') || marketFinanceName(market);
       sizes = filterSizesForMarket(market);
       if (!sizes.length && root.getAttribute('data-preview') === 'true') {
         sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
@@ -3062,6 +3549,16 @@
     refreshTotals();
     syncSizeQtyUi();
     syncOrderChrome();
+    if (root.getAttribute('data-configure-funnel') === 'true') {
+      var preSize = '';
+      try {
+        preSize = new URLSearchParams(location.search).get('size') || '';
+      } catch (err) {}
+      vTrackOnce('configure_start', eventParams({
+        size_preselected: !!preSize,
+        size: preSize,
+      }));
+    }
   }
 
   function initCartPage() {
@@ -3135,6 +3632,17 @@
 
     paint();
     document.addEventListener('valtora:order-changed', paint);
+    var leadMin = 8;
+    var leadMax = 10;
+    try {
+      var firstLine = OrderStore.lines()[0];
+      if (firstLine && firstLine.leadMin) leadMin = parseInt(firstLine.leadMin, 10) || leadMin;
+      if (firstLine && firstLine.leadMax) leadMax = parseInt(firstLine.leadMax, 10) || leadMax;
+    } catch (e) {}
+    vTrackOnce('basket_view', {
+      value: OrderStore.orderValue(),
+      lead_time_weeks: leadMin === leadMax ? String(leadMin) : leadMin + '-' + leadMax,
+    });
 
     if (linesEl) {
       linesEl.addEventListener('click', function (e) {
@@ -3223,7 +3731,7 @@
       detectMarket();
     var financeName =
       page.getAttribute('data-finance-name') ||
-      (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
+      marketFinanceName(market);
     var leadWindow = page.getAttribute('data-lead-window') || '8 to 10 weeks';
     var leadMinDefault = parseInt(page.getAttribute('data-lead-min'), 10) || 8;
     var leadMaxDefault = parseInt(page.getAttribute('data-lead-max'), 10) || 10;
@@ -3272,7 +3780,7 @@
     }
 
     function thresholdFor() {
-      return market === 'gb' ? thresholdGb : thresholdAe;
+      return market === 'ae' ? thresholdAe : thresholdGb;
     }
 
     function paint() {
@@ -3289,7 +3797,7 @@
         market = lines[0].market;
         document.documentElement.setAttribute('data-market', market);
         if (document.body) document.body.setAttribute('data-market', market);
-        financeName = market === 'gb' ? 'Klarna' : 'Tabby or Tamara';
+        financeName = marketFinanceName(market);
       }
       var sample = (lines[0] && lines[0].unitPrice) || '';
       var totalVal = OrderStore.orderValue(lines);
@@ -3412,7 +3920,7 @@
             units: OrderStore.units(lines),
             line_count: lines.length,
             order_id: 'PREVIEW-' + Date.now(),
-            currency: market === 'gb' ? 'GBP' : 'AED',
+            currency: market === 'gb' ? 'GBP' : market === 'eu' ? 'EUR' : 'AED',
             value: totalVal,
           };
           OrderStore.saveLastOrder(snapshot);
@@ -5056,16 +5564,36 @@
     }
   }
 
+  function marketOnlyShouldShow(el, market) {
+    var only = el.getAttribute('data-market-only');
+    if (!only) return true;
+    var tokens = String(only).split(',');
+    var i;
+    for (i = 0; i < tokens.length; i++) {
+      if (tokens[i].trim() === market) return true;
+    }
+    if (market === 'eu') {
+      var isSizeTable =
+        (el.classList && el.classList.contains('policy-table')) ||
+        (el.querySelector && el.querySelector('.size-table'));
+      if (isSizeTable) return false;
+      for (i = 0; i < tokens.length; i++) {
+        if (tokens[i].trim() === 'gb') return true;
+      }
+    }
+    return false;
+  }
+
   function applyMarketOnlyVisibility(market) {
     market = market || document.documentElement.getAttribute('data-market') || detectMarket();
     document.querySelectorAll('[data-market-only]').forEach(function (el) {
-      var only = el.getAttribute('data-market-only');
-      var show = only === market;
+      var show = marketOnlyShouldShow(el, market);
       el.hidden = !show;
       if (show) el.removeAttribute('hidden');
     });
     paintContactHours();
   }
+  window.__valtoraApplyMarketOnlyVisibility = applyMarketOnlyVisibility;
 
   function setClaimVisibility(selector, on) {
     document.querySelectorAll(selector).forEach(function (el) {
@@ -5253,6 +5781,8 @@
     initPdpSpecs();
     initReviews();
     initFunnelTracking();
+    initLandingFunnel();
+    initLandingConfigure();
     initExitIntent();
     // Cross-tab / cross-page: when localStorage basket changes, refresh UI from
     // the freshest stamped payload (never resurrect a fuller stale copy).

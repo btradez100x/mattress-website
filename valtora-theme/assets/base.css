@@ -7732,3 +7732,328 @@ html.shopify-design-mode .section--wipe.is-wiping {
     grid-template-columns: 1fr;
   }
 }
+
+/* Ad landing funnel — existing grounds, type, buttons, motion. No mock fonts. */
+.lp-narrow {
+  max-width: var(--max-width-narrow, 40rem);
+}
+.lp-hero h1 {
+  max-width: 14ch;
+}
+.lp-lede {
+  max-width: 38em;
+  margin-top: var(--s5, 1.5rem);
+}
+.lp-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s4, 1rem) var(--s5, 1.5rem);
+  margin-top: var(--s7, 3rem);
+}
+.lp-price {
+  font-family: var(--font-headline, var(--font-sans));
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.lp-price small {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.section--dark .lp-price small {
+  color: color-mix(in srgb, var(--brand-on-dark) 65%, transparent);
+}
+.lp-sec-head {
+  margin-bottom: var(--s7, 3rem);
+}
+.lp-sec-head h2 {
+  margin-bottom: var(--s4, 1rem);
+}
+.lp-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s7, 3rem);
+}
+@media (max-width: 720px) {
+  .lp-cols {
+    grid-template-columns: 1fr;
+    gap: var(--s6, 2rem);
+  }
+}
+.lp-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: color-mix(in srgb, var(--brand-ink) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+}
+.section--dark .lp-cards {
+  background: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
+  border-color: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
+}
+@media (max-width: 720px) {
+  .lp-cards {
+    grid-template-columns: 1fr;
+  }
+}
+.lp-card {
+  background: var(--brand-bg);
+  padding: var(--s6, 2rem) var(--s5, 1.5rem);
+  border-radius: 0;
+}
+.section--surface .lp-card {
+  background: var(--brand-surface);
+}
+.section--dark .lp-card {
+  background: var(--brand-primary);
+  color: var(--brand-on-dark);
+}
+.lp-card h3 {
+  margin: 0 0 var(--s3, 0.75rem);
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+}
+.lp-card p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+.lp-spec {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lp-spec li {
+  display: flex;
+  gap: var(--s5, 1.5rem);
+  padding: var(--s4, 1rem) 0;
+  border-top: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+  font-size: 0.96875rem;
+}
+.lp-spec li:first-child {
+  border-top: 0;
+}
+.section--dark .lp-spec li {
+  border-top-color: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
+}
+.lp-spec b {
+  flex: none;
+  width: 8.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+  padding-top: 0.2rem;
+}
+.section--dark .lp-spec b {
+  color: color-mix(in srgb, var(--brand-on-dark) 65%, transparent);
+}
+.lp-spec span {
+  font-variant-numeric: tabular-nums;
+}
+.lp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.lp-table th {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+  text-align: left;
+  padding: 0 0 var(--s3, 0.75rem);
+}
+.lp-table td {
+  padding: var(--s4, 1rem) 0;
+  border-top: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+  vertical-align: top;
+  font-variant-numeric: tabular-nums;
+}
+.section--dark .lp-table th,
+.section--dark .lp-table td {
+  border-top-color: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
+}
+.lp-table .lp-num,
+.lp-table th.lp-num {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.lp-note-line {
+  margin-top: var(--s5, 1.5rem);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.section--dark .lp-note-line {
+  color: color-mix(in srgb, var(--brand-on-dark) 65%, transparent);
+}
+.lp-promise {
+  border-left: 2px solid var(--brand-accent);
+  padding: 0.25rem 0 0.25rem var(--s5, 1.5rem);
+  margin-top: var(--s7, 3rem);
+}
+.lp-promise p {
+  margin: 0;
+}
+.lp-cta-band {
+  text-align: center;
+  margin-inline: auto;
+}
+.lp-cta-band .section__lede {
+  margin-inline: auto;
+  margin-top: var(--s4, 1rem);
+}
+.lp-cta-band__btn {
+  margin-top: var(--s6, 2rem);
+}
+.lp-configure-head {
+  text-align: center;
+}
+.lp-configure-head .section__lede {
+  margin: var(--s4, 1rem) auto 0;
+  max-width: 30em;
+}
+.lp-sizes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: var(--s6, 2rem);
+}
+@media (max-width: 520px) {
+  .lp-sizes {
+    grid-template-columns: 1fr;
+  }
+}
+.lp-size {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: var(--brand-bg);
+  color: inherit;
+  border: 1px solid color-mix(in srgb, var(--brand-ink) 14%, transparent);
+  border-radius: var(--radius-control, 0.35rem);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms var(--ease), background 120ms var(--ease);
+}
+.section--surface .lp-size {
+  background: var(--brand-surface);
+}
+.section--dark .lp-size {
+  background: var(--brand-primary);
+  color: var(--brand-on-dark);
+  border-color: color-mix(in srgb, var(--brand-on-dark) 18%, transparent);
+}
+.lp-size em {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.section--dark .lp-size em {
+  color: color-mix(in srgb, var(--brand-on-dark) 65%, transparent);
+}
+.lp-size:hover {
+  border-color: var(--brand-ink);
+}
+.section--dark .lp-size:hover {
+  border-color: var(--brand-on-dark);
+}
+.lp-size.is-on,
+.lp-size[aria-selected="true"] {
+  border-color: var(--brand-ink);
+  outline: 1px solid var(--brand-ink);
+  outline-offset: 0;
+}
+.section--dark .lp-size.is-on,
+.section--dark .lp-size[aria-selected="true"] {
+  border-color: var(--brand-on-dark);
+  outline-color: var(--brand-on-dark);
+}
+.lp-size:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 3px;
+}
+.lp-size[data-available="false"] {
+  opacity: 0.55;
+}
+.lp-addbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4, 1rem) var(--s5, 1.5rem);
+  margin-top: var(--s6, 2rem);
+  padding-top: var(--s5, 1.5rem);
+  border-top: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+}
+.section--dark .lp-addbar {
+  border-top-color: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
+}
+.lp-addprice {
+  display: block;
+  font-family: var(--font-headline, var(--font-sans));
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.lp-adddim {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.section--dark .lp-adddim {
+  color: color-mix(in srgb, var(--brand-on-dark) 65%, transparent);
+}
+.lp-policy {
+  margin-top: var(--s5, 1.5rem);
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.section--dark .lp-policy {
+  color: color-mix(in srgb, var(--brand-on-dark) 65%, transparent);
+}
+.cart-leadtime,
+.cart-trial-line {
+  margin-top: var(--s4, 1rem);
+  font-variant-numeric: tabular-nums;
+}
+.size-option__note {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+

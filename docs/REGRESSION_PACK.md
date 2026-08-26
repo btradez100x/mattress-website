@@ -170,11 +170,18 @@ Checks every `preview/` + `share/v4/` HTML page for:
 | Super King | 180 × 200 cm |
 | Emperor | 200 × 200 cm |
 
+**Europe (`eu`)** — EU, EEA, Switzerland, nearby European countries including Albania (AL). Not the UK.
+
+| Size | Dimensions |
+|---|---|
+| European King | 160 × 200 cm |
+
 | ID | Case | Steps | Expected | Sev |
 |---|---|---|---|---|
 | SZ-01 | UAE list | Market AE (or force UAE) | UAE four sizes + cm per table | P0 |
 | SZ-02 | UK list | Market GB (or force UK) | UK five sizes + cm; **Double** present, **Queen** absent, **Emperor** 200×200 | P0 |
-| SZ-03 | King ambiguity | Compare AE King vs GB King | AE 180×200; GB 150×200 - both labelled clearly | P0 |
+| SZ-02b | Europe list | Market EU (or force Europe, incl. Albania) | **European King** 160×200 present; UK King 150×200 absent | P0 |
+| SZ-03 | King ambiguity | Compare AE King vs GB King vs EU European King | AE 180×200; GB 150×200; EU 160×200 - all labelled clearly | P0 |
 | SZ-04 | Force override | Section “Force UK sizes” while browsing as AE | UK list shows (variant testing) | P1 |
 | SZ-05 | Auto detection | AE market storefront | UAE sizes and AED prices shown | P1 |
 | SZ-06 | Size guide page | Open size guide template | Comparison table + expat note + 37cm depth note | P1 |

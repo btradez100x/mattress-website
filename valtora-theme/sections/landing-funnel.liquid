@@ -1,0 +1,739 @@
+{%- liquid
+  assign brand = settings.brand_name | default: 'Aligna'
+  assign layout = section.settings.layout | default: 'hero'
+  assign market = settings.default_market | default: 'ae'
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
+
+  assign mattress = section.settings.mattress_product
+  if mattress == blank
+    assign mattress = all_products['the-mattress']
+  endif
+  if mattress == blank
+    assign mattress = all_products['mattress']
+  endif
+
+  assign trial = settings.trial_nights | default: '100' | strip
+  if trial == blank
+    assign trial = '100'
+  endif
+  assign warranty = settings.warranty_years | default: '25' | strip
+  if warranty == blank
+    assign warranty = '25'
+  endif
+
+  if market == 'gb'
+    assign layer_price = settings.comfort_layer_price_gb | strip
+  else
+    assign layer_price = settings.comfort_layer_price_ae | strip
+  endif
+  if layer_price == blank and all_products['comfort-layer'] and all_products['comfort-layer'].price > 0
+    assign layer_price = all_products['comfort-layer'].price | money
+  endif
+
+  assign featured_id = section.settings.featured_size | strip | handleize
+  assign featured_label = ''
+  assign featured_dims = ''
+  assign featured_price = ''
+  assign from_price = ''
+  assign from_raw = 0
+
+  if mattress != blank
+    for v in mattress.variants
+      if v.metafields.custom.enabled == false
+        continue
+      endif
+      assign v_market = v.metafields.custom.market | strip | downcase
+      if v_market == blank
+        assign v_title_down = v.title | downcase
+        assign v_sku_down = v.sku | downcase
+        if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
+          assign v_market = 'ae'
+        elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
+          assign v_market = 'eu'
+        else
+          assign v_market = 'gb'
+        endif
+      endif
+      if v_market != market
+        continue
+      endif
+      assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+      if size_id == blank
+        assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+      endif
+      if size_id == blank
+        assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+      endif
+      assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
+      if size_label == blank
+        assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
+      endif
+      if from_price == blank or v.price < from_raw
+        if v.price > 0
+          assign from_price = v.price | money
+          assign from_raw = v.price
+        endif
+      endif
+      if featured_id != blank and size_id == featured_id
+        assign featured_label = size_label
+        assign featured_dims = v.metafields.custom.dims
+        if v.price > 0
+          assign featured_price = v.price | money
+        endif
+      endif
+    endfor
+  endif
+
+  assign hero_price = featured_price
+  if section.settings.price_mode == 'from'
+    assign hero_price = from_price
+  endif
+
+  assign configure_base = pages['configure'].url | default: '/pages/configure'
+  assign cta_size = section.settings.cta_size | strip | handleize
+  if cta_size != blank
+    assign cta_href = configure_base | append: '?size=' | append: cta_size
+  else
+    assign cta_href = configure_base
+  endif
+  if section.settings.cta_link != blank
+    assign cta_href = section.settings.cta_link
+  endif
+
+  assign sec_id = section.settings.anchor_id | strip
+  if sec_id == blank and layout == 'configure'
+    assign sec_id = 'configure'
+  endif
+  if sec_id == blank
+    assign sec_id = 'lp-' | append: layout | append: '-' | append: section.id
+  endif
+
+  capture lead_window
+    render 'lead-time', product_type: 'mattress'
+  endcapture
+  capture lt_min
+    render 'lead-time', product_type: 'mattress', format: 'min'
+  endcapture
+  capture lt_max
+    render 'lead-time', product_type: 'mattress', format: 'max'
+  endcapture
+  assign lead_window = lead_window | strip
+  assign cart_url = routes.cart_url | default: '/cart'
+-%}
+{%- if section.settings.enable_section -%}
+<section
+  class="section lp-section lp-section--{{ layout }}{% render 'section-ground' %}"
+  id="{{ sec_id }}"
+  {% if layout == 'hero' %}data-lp-page data-lp-variant="{{ section.settings.lp_variant | escape }}"{% endif %}
+  data-reveal
+  data-section-ground="{% render 'section-ground', as: 'value' %}"
+  data-lp-featured="{{ featured_id | escape }}"
+  data-lp-layer="{{ layer_price | escape }}"
+>
+  {%- if layout == 'hero' or layout == 'configure' -%}
+    {%- if mattress != blank -%}
+<script type="application/json" data-size-price-config>
+  [
+  {%- assign first_out = true -%}
+  {%- for v in mattress.variants -%}
+    {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
+    {%- liquid
+      assign v_market = v.metafields.custom.market | strip | downcase
+      if v_market == blank
+        assign v_title_down = v.title | downcase
+        assign v_sku_down = v.sku | downcase
+        if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
+          assign v_market = 'ae'
+        elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
+          assign v_market = 'eu'
+        else
+          assign v_market = 'gb'
+        endif
+      endif
+      assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+      if size_id == blank
+        assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+      endif
+      if size_id == blank
+        assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+      endif
+      assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
+      if size_label == blank
+        assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
+      endif
+    -%}
+    {%- unless first_out -%},{%- endunless -%}
+    {
+      "id": {{ size_id | json }},
+      "label": {{ size_label | json }},
+      "dims": {{ v.metafields.custom.dims | json }},
+      "price": {% if v.price > 0 %}{{ v.price | money | json }}{% else %}""{% endif %},
+      "price_raw": {{ v.price | json }},
+      "variant_id": {{ v.id | json }},
+      "market": {{ v_market | json }},
+      "available": {{ v.available | json }}
+    }
+    {%- assign first_out = false -%}
+  {%- endfor -%}
+  ]
+</script>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if layout == 'hero' -%}
+  <div class="page-width lp-hero">
+    {%- if section.settings.kicker != blank -%}
+      <p class="section__eyebrow lp-kicker">{% render 'landing-copy', text: section.settings.kicker, featured_price: hero_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      {%- capture lp_h1 -%}{% render 'landing-copy', text: section.settings.heading, featured_price: hero_price, layer_price: layer_price %}{%- endcapture -%}
+      <h1>{{ lp_h1 | newline_to_br }}</h1>
+    {%- endif -%}
+    {%- if section.settings.lede != blank -%}
+      <p class="section__lede lp-lede">{% render 'landing-copy', text: section.settings.lede, featured_price: hero_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+    <div class="lp-cta-row">
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn" href="{{ cta_href }}">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.secondary_cta_label != blank -%}
+        <a class="btn btn--ghost" href="{{ section.settings.secondary_cta_link | default: '#spec' }}">{{ section.settings.secondary_cta_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.show_price -%}
+        <div class="lp-price" data-lp-hero-price data-lp-size="{{ featured_id | escape }}" data-lp-price-mode="{{ section.settings.price_mode | escape }}"{% if hero_price == blank %} hidden{% endif %}>
+          <span class="lp-price__value num" data-lp-price>
+            {%- if section.settings.price_mode == 'from' and from_price != blank -%}From {{ from_price }}
+            {%- else -%}{{ hero_price }}{%- endif -%}
+          </span>
+          {%- if section.settings.price_caption != blank -%}
+            <small>{% render 'landing-copy', text: section.settings.price_caption, featured_price: hero_price, layer_price: layer_price %}</small>
+          {%- elsif featured_label != blank -%}
+            <small>{{ featured_label }}{%- if featured_dims != blank %} · {{ featured_dims }}{%- endif -%}</small>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'prose' -%}
+  <div class="page-width{% if section.settings.body_2 == blank %} lp-narrow{% endif %}">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.body_2 != blank -%}
+      <div class="lp-cols">
+        <div class="rte">{% render 'landing-copy', text: section.settings.body, featured_price: featured_price, layer_price: layer_price %}</div>
+        <div class="rte">{% render 'landing-copy', text: section.settings.body_2, featured_price: featured_price, layer_price: layer_price %}</div>
+      </div>
+    {%- elsif section.settings.body != blank -%}
+      <div class="rte lp-narrow">{% render 'landing-copy', text: section.settings.body, featured_price: featured_price, layer_price: layer_price %}</div>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'cards' -%}
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head lp-narrow">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="lp-cards">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'card' -%}
+          <article class="lp-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h3>{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p>{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</p>
+            {%- endif -%}
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.promise_title != blank or section.settings.promise_body != blank -%}
+      <div class="lp-promise">
+        <p>
+          {%- if section.settings.promise_title != blank -%}
+            <strong>{% render 'landing-copy', text: section.settings.promise_title, featured_price: featured_price, layer_price: layer_price %}</strong>
+          {%- endif -%}
+          {%- if section.settings.promise_body != blank -%}
+            {% render 'landing-copy', text: section.settings.promise_body, featured_price: featured_price, layer_price: layer_price %}
+          {%- endif -%}
+        </p>
+      </div>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'spec' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <ul class="lp-spec">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'spec_item' -%}
+          <li {{ block.shopify_attributes }}>
+            <b>{% render 'landing-copy', text: block.settings.label, featured_price: featured_price, layer_price: layer_price %}</b>
+            <span>{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    {%- if section.settings.promise_title != blank or section.settings.promise_body != blank -%}
+      <div class="lp-promise">
+        <p>
+          {%- if section.settings.promise_title != blank -%}
+            <strong>{% render 'landing-copy', text: section.settings.promise_title, featured_price: featured_price, layer_price: layer_price %}</strong>
+          {%- endif -%}
+          {%- if section.settings.promise_body != blank -%}
+            {% render 'landing-copy', text: section.settings.promise_body, featured_price: featured_price, layer_price: layer_price %}
+          {%- endif -%}
+        </p>
+      </div>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'size_table' -%}
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head lp-narrow">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <table class="lp-table">
+      <thead>
+        <tr>
+          <th>Size</th>
+          <th>Dimensions</th>
+          <th class="lp-num">Price</th>
+        </tr>
+      </thead>
+      <tbody data-lp-size-table>
+        {%- if mattress != blank -%}
+          {%- for v in mattress.variants -%}
+            {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
+            {%- liquid
+              assign v_market = v.metafields.custom.market | strip | downcase
+              if v_market == blank
+                assign v_title_down = v.title | downcase
+                assign v_sku_down = v.sku | downcase
+                if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
+                  assign v_market = 'ae'
+                elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
+                  assign v_market = 'eu'
+                else
+                  assign v_market = 'gb'
+                endif
+              endif
+              assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+              if size_id == blank
+                assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+              endif
+              if size_id == blank
+                assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+              endif
+              assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
+              if size_label == blank
+                assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
+              endif
+            -%}
+            {%- if v_market == market -%}
+              <tr data-size-id="{{ size_id | escape }}">
+                <td><strong>{{ size_label }}</strong></td>
+                <td class="num">{{ v.metafields.custom.dims }}</td>
+                <td class="lp-num num" data-lp-row-price>{% if v.price > 0 %}{{ v.price | money }}{% endif %}</td>
+              </tr>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </tbody>
+    </table>
+    {%- if section.settings.table_note != blank -%}
+      <p class="lp-note-line">{% render 'landing-copy', text: section.settings.table_note, featured_price: featured_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'cost' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <div class="rte">{% render 'landing-copy', text: section.settings.body, featured_price: featured_price, layer_price: layer_price %}</div>
+    {%- endif -%}
+    <table class="lp-table" data-lp-cost-table data-lp-cost-mode="{{ section.settings.cost_mode | escape }}" data-lp-cost-size="{{ featured_id | escape }}">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th class="lp-num">{% render 'landing-copy', text: section.settings.cost_col_a, featured_price: featured_price, layer_price: layer_price %}</th>
+          <th class="lp-num">{% render 'landing-copy', text: section.settings.cost_col_b, featured_price: featured_price, layer_price: layer_price %}</th>
+          <th class="lp-num">{% render 'landing-copy', text: section.settings.cost_col_c, featured_price: featured_price, layer_price: layer_price %}</th>
+        </tr>
+      </thead>
+      <tbody data-lp-cost-body></tbody>
+    </table>
+    {%- if section.settings.table_note != blank -%}
+      <p class="lp-note-line">{% render 'landing-copy', text: section.settings.table_note, featured_price: featured_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'cta' -%}
+  <div class="page-width lp-narrow lp-cta-band">
+    {%- if section.settings.heading != blank -%}
+      <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+    {%- endif -%}
+    {%- if section.settings.lede != blank -%}
+      <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_label != blank -%}
+      <p class="lp-cta-band__btn"><a class="btn" href="{{ cta_href }}">{{ section.settings.cta_label }}</a></p>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'configure' -%}
+    {%- liquid
+      assign policy_default = 'Comfort layer included · [N]-night comfort promise'
+      assign policy_emperor = 'Comfort layer included · Made to order · Not covered by the [N]-night return trial.'
+      capture policy_default
+        render 'landing-copy', text: policy_default, featured_price: featured_price, layer_price: layer_price
+      endcapture
+      capture policy_emperor
+        render 'landing-copy', text: policy_emperor, featured_price: featured_price, layer_price: layer_price
+      endcapture
+      assign policy_default = policy_default | strip
+      assign policy_emperor = policy_emperor | strip
+    -%}
+  <div
+    class="page-width lp-narrow"
+    data-lp-configure
+    data-lp-preselect="{{ featured_id | escape }}"
+    data-checkout-path="{{ cart_url }}"
+    data-lead-window="{{ lead_window | escape }}"
+    data-lead-min="{{ lt_min | strip | escape }}"
+    data-lead-max="{{ lt_max | strip | escape }}"
+    data-lp-policy-default="{{ policy_default | escape }}"
+    data-lp-policy-emperor="{{ policy_emperor | escape }}"
+  >
+    <div class="lp-sec-head lp-configure-head">
+      {%- if section.settings.heading != blank -%}
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+      {%- endif -%}
+      {%- if section.settings.lede != blank -%}
+        <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+      {%- endif -%}
+    </div>
+    <div class="lp-sizes" data-lp-sizes role="listbox" aria-label="Mattress size">
+      {%- if mattress != blank -%}
+        {%- for v in mattress.variants -%}
+          {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
+          {%- liquid
+            assign v_market = v.metafields.custom.market | strip | downcase
+            if v_market == blank
+              assign v_title_down = v.title | downcase
+              assign v_sku_down = v.sku | downcase
+              if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
+                assign v_market = 'ae'
+              elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
+                assign v_market = 'eu'
+              else
+                assign v_market = 'gb'
+              endif
+            endif
+            assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+            if size_id == blank
+              assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+            endif
+            if size_id == blank
+              assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+            endif
+            assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
+            if size_label == blank
+              assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
+            endif
+            assign dim_note = v.metafields.custom.dims
+            if size_id == 'european-king'
+              assign dim_note = dim_note | append: ' · fits IKEA'
+            endif
+          -%}
+          {%- if v_market == market -%}
+            <button
+              type="button"
+              class="lp-size"
+              role="option"
+              aria-selected="false"
+              data-size-id="{{ size_id | escape }}"
+              data-size-label="{{ size_label | escape }}"
+              data-size-dims="{{ v.metafields.custom.dims | escape }}"
+              data-size-price="{% if v.price > 0 %}{{ v.price | money | escape }}{% endif %}"
+              data-size-price-raw="{{ v.price }}"
+              data-size-variant="{{ v.id }}"
+              data-available="{% if v.available %}true{% else %}false{% endif %}"
+            >{{ size_label }}<em>{{ dim_note }}</em></button>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+    <div class="lp-addbar">
+      <div>
+        <span class="lp-addprice" data-lp-add-price></span>
+        <span class="lp-adddim" data-lp-add-dim>Select a size</span>
+      </div>
+      <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
+    </div>
+    <p class="lp-policy" data-lp-policy>{{ policy_default }}</p>
+  </div>
+  {%- endif -%}
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Landing funnel",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        { "value": "auto", "label": "Auto — keep neighbours distinct" },
+        { "value": "bg", "label": "Off-white" },
+        { "value": "surface", "label": "Stone" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "auto",
+      "info": "Auto alternates off-white and stone. Dark is a full-bleed contrast band. The Line is the meeting of two grounds, not a coloured rule."
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "hero", "label": "Hero" },
+        { "value": "prose", "label": "Prose" },
+        { "value": "cards", "label": "Cards" },
+        { "value": "spec", "label": "Specification list" },
+        { "value": "size_table", "label": "Size and price table" },
+        { "value": "cost", "label": "Ownership cost table" },
+        { "value": "cta", "label": "Configure CTA band" },
+        { "value": "configure", "label": "Inline size selector" }
+      ],
+      "default": "hero"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID"
+    },
+    {
+      "type": "text",
+      "id": "lp_variant",
+      "label": "Landing variant (analytics)",
+      "info": "Hero only. Persisted as lp_variant on every subsequent event. Example: A-sizes"
+    },
+    {
+      "type": "product",
+      "id": "mattress_product",
+      "label": "Mattress product",
+      "info": "Prices come from variants. Same product as Size + reserve. Do not type prices into this section."
+    },
+    {
+      "type": "text",
+      "id": "featured_size",
+      "label": "Featured size id",
+      "info": "SKU handle: emperor, european-king, super-king, king. Blank uses the lowest priced size for From."
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "info": "Tokens: [X] warranty years, [N] trial nights, [layer] comfort layer price, [price] featured size price, [Brand]"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "richtext",
+      "id": "body_2",
+      "label": "Body column 2"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Configure yours"
+    },
+    {
+      "type": "text",
+      "id": "cta_size",
+      "label": "CTA size preselect",
+      "info": "Appended as ?size= on the configure page. Leave blank for no preselect."
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link override",
+      "info": "Leave blank to use /pages/configure. Use #configure for the inline size selector on the same page."
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_label",
+      "label": "Secondary CTA label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_link",
+      "label": "Secondary CTA link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show featured price beside CTA",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "price_mode",
+      "label": "Price display",
+      "options": [
+        { "value": "featured", "label": "Featured size" },
+        { "value": "from", "label": "From (lowest size)" }
+      ],
+      "default": "featured"
+    },
+    {
+      "type": "text",
+      "id": "price_caption",
+      "label": "Price caption"
+    },
+    {
+      "type": "header",
+      "content": "Promise / table"
+    },
+    {
+      "type": "text",
+      "id": "promise_title",
+      "label": "Promise title"
+    },
+    {
+      "type": "textarea",
+      "id": "promise_body",
+      "label": "Promise body"
+    },
+    {
+      "type": "textarea",
+      "id": "table_note",
+      "label": "Table note"
+    },
+    {
+      "type": "select",
+      "id": "cost_mode",
+      "label": "Ownership table",
+      "options": [
+        { "value": "king_own", "label": "King vs sealed (10 year replace)" },
+        { "value": "super_king_25", "label": "Super King over warranty years" }
+      ],
+      "default": "king_own"
+    },
+    {
+      "type": "text",
+      "id": "cost_col_a",
+      "label": "Column A",
+      "default": "Price"
+    },
+    {
+      "type": "text",
+      "id": "cost_col_b",
+      "label": "Column B",
+      "default": "Life"
+    },
+    {
+      "type": "text",
+      "id": "cost_col_c",
+      "label": "Column C",
+      "default": "Per year"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "spec_item",
+      "name": "Spec row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Landing funnel"
+    }
+  ]
+}
+{% endschema %}

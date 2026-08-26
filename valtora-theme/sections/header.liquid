@@ -10,6 +10,14 @@
   if reserve_src == blank
     assign reserve_src = '#reserve'
   endif
+  assign reserve_label = section.settings.reserve_label | default: 'See sizes and prices'
+  if template.suffix == 'large-sizes' or template.suffix == 'european-king' or template.suffix == 'what-it-buys' or template.suffix == 'specification'
+    assign reserve_src = '#configure'
+    assign reserve_label = 'Configure yours'
+  elsif template.suffix == 'configure'
+    assign reserve_src = '#reserve'
+    assign reserve_label = 'Configure yours'
+  endif
 -%}
 {%- capture reserve_href -%}{% render 'home-section-href', href: reserve_src %}{%- endcapture -%}
 {%- assign reserve_href = reserve_href | strip -%}
@@ -60,7 +68,7 @@
         href="{{ routes.cart_url }}"
         data-order-link
         aria-label="Order"
-        {% unless order_line_count > 1 %}hidden{% endunless %}
+        {% unless order_line_count > 0 %}hidden{% endunless %}
       >
         <span class="site-header__order-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" focusable="false">
@@ -69,11 +77,11 @@
           </svg>
         </span>
         <span class="site-header__order-label">Order</span>
-        <span class="site-header__order-count" data-order-count{% unless order_line_count > 1 %} hidden{% endunless %}>{{ order_line_count }}</span>
+        <span class="site-header__order-count" data-order-count{% unless order_line_count > 0 %} hidden{% endunless %}>{{ order_line_count }}</span>
       </a>
       {%- if section.settings.show_reserve_cta -%}
         <a class="btn" href="{{ reserve_href }}">
-          {{ section.settings.reserve_label | default: 'See sizes and prices' }}
+          {{ reserve_label }}
         </a>
       {%- endif -%}
       <button
@@ -97,11 +105,11 @@
     {{ header_nav_links }}
     {%- if section.settings.show_reserve_cta -%}
       <a href="{{ reserve_href }}">
-        {{ section.settings.reserve_label | default: 'See sizes and prices' }}
+        {{ reserve_label }}
       </a>
     {%- endif -%}
-    <a href="{{ routes.cart_url }}" data-order-link {% unless order_line_count > 1 %}hidden{% endunless %}>
-      Order{% if order_line_count > 1 %} ({{ order_line_count }}){% endif %}
+    <a href="{{ routes.cart_url }}" data-order-link {% unless order_line_count > 0 %}hidden{% endunless %}>
+      Order{% if order_line_count > 0 %} ({{ order_line_count }}){% endif %}
     </a>
   </div>
 </header>

@@ -344,10 +344,18 @@
 
   // Mirrors Theme settings → Warranty years (`warranty_years` in settings_data.json).
   var PREVIEW_WARRANTY_YEARS = '25';
+  var PREVIEW_TRIAL_NIGHTS = '100';
+  var PREVIEW_LAYER_PRICE_GB = '£250';
+  var PREVIEW_LAYER_PRICE_AE = 'AED 1,200';
 
   function warrantyYears() {
     var raw = (d.getAttribute('data-warranty-years') || PREVIEW_WARRANTY_YEARS).trim();
     return raw || PREVIEW_WARRANTY_YEARS;
+  }
+
+  function trialNights() {
+    var raw = (d.getAttribute('data-trial-nights') || PREVIEW_TRIAL_NIGHTS).trim();
+    return raw || PREVIEW_TRIAL_NIGHTS;
   }
 
   function applyWarrantyYears() {
@@ -355,6 +363,23 @@
     d.setAttribute('data-warranty-years', years);
     document.querySelectorAll('[data-warranty-years-text]').forEach(function (el) {
       el.textContent = years;
+    });
+    applyTrialNights();
+  }
+
+  function applyTrialNights() {
+    var nights = trialNights();
+    d.setAttribute('data-trial-nights', nights);
+    document.querySelectorAll('[data-trial-nights-text]').forEach(function (el) {
+      el.textContent = nights;
+    });
+    var market = d.getAttribute('data-market') || 'ae';
+    if (!d.getAttribute('data-layer-price')) {
+      d.setAttribute('data-layer-price', market === 'gb' ? PREVIEW_LAYER_PRICE_GB : PREVIEW_LAYER_PRICE_AE);
+    }
+    var layer = d.getAttribute('data-layer-price') || '';
+    document.querySelectorAll('[data-layer-price-text]').forEach(function (el) {
+      el.textContent = layer;
     });
   }
 

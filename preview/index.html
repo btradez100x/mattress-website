@@ -647,7 +647,8 @@
   {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
   {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
   {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false}
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false},
+  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"","price_raw":0,"available":true}
 ]
 </script>
 <div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Soft / firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
@@ -1257,7 +1258,8 @@
   {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
   {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
   {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false}
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false},
+  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"","price_raw":0,"available":true}
 ]
 </script>
 <div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Soft / firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
@@ -1638,6 +1640,7 @@
       window.ValtoraTheme = window.ValtoraTheme || {};
       window.ValtoraTheme.exitIntent = { enabled: false, delaySeconds: 30 };
     </script>
+    <script src="./utm-persistence.js?v=wo-v9-utm1"></script>
     <script src="./theme.js?v=wo-v9-copyspec1"></script>
 
     <script>
@@ -1934,8 +1937,9 @@
 
         function applyMarket() {
           var selected = (marketSelect && marketSelect.value) || 'ae';
-          var market = selected === 'ae' ? 'ae' : 'gb';
-          var finance = market === 'gb' ? 'Klarna' : 'Tabby or Tamara';
+          var sizeMarkets = { ae: 1, gb: 1, eu: 1 };
+          var market = sizeMarkets[selected] ? selected : 'gb';
+          var finance = market === 'ae' ? 'Tabby or Tamara' : 'Klarna';
           document.documentElement.setAttribute('data-market', market);
           document.documentElement.setAttribute('data-tagline-market', selected);
           if (document.body) {
@@ -1950,12 +1954,21 @@
             el.setAttribute('data-payment-mode', el.getAttribute('data-payment-mode') || 'full');
             el.setAttribute('data-leadtime-placement', el.getAttribute('data-leadtime-placement') || 'staged');
           });
-          document.querySelectorAll('[data-market-only]').forEach(function (el) {
-            var only = el.getAttribute('data-market-only');
-            var show = only === market;
-            el.hidden = !show;
-            if (show) el.removeAttribute('hidden');
-          });
+          if (typeof window.__valtoraApplyMarketOnlyVisibility === 'function') {
+            window.__valtoraApplyMarketOnlyVisibility(market);
+          } else {
+            document.querySelectorAll('[data-market-only]').forEach(function (el) {
+              var only = el.getAttribute('data-market-only');
+              var isSizeTable =
+                (el.classList && el.classList.contains('policy-table')) ||
+                (el.querySelector && el.querySelector('.size-table'));
+              var show =
+                only === market ||
+                (market === 'eu' && only === 'gb' && !isSizeTable);
+              el.hidden = !show;
+              if (show) el.removeAttribute('hidden');
+            });
+          }
           try {
             localStorage.setItem('valtoraPreviewMarket', market);
             localStorage.setItem('valtoraPreviewTaglineMarket', selected);

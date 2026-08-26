@@ -1,3 +1,43 @@
+# Regression results — Wednesday 26 Aug 2026 (landing pages v2 deploy)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 690 passed, 0 failed
+- Scope note: Re-ran before deploy of v2 landing pages (inline size selector + add to basket). GTM settings-gated on `theme`, `password`, and `gift_card`. UTM first-touch persisted. Prices / trial / warranty / layer from Theme settings. Product flags OFF. No VERSION bump. Checkpoint: `checkpoints/9.3.0-landing-pages-v2/`.
+
+---
+
+# Regression results — Saturday 22 Aug 2026 (landing pages v2)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 690 passed, 0 failed
+- Scope note: v2 landing pages (inline size selector + add to basket; cost tables removed). GTM settings-gated on `theme`, `password`, and `gift_card`. UTM first-touch persisted (sessionStorage + cookie + cart attributes) and appended to same-origin funnel links; `vTrack` carries UTM keys. Prices / trial / warranty / layer from Theme settings. Product flags OFF. No VERSION bump. Checkpoint: `checkpoints/9.3.0-landing-pages-v2/`.
+
+---
+
+# Regression results — Friday 21 Aug 2026 (landing pages)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 690 passed, 0 failed
+- Scope note: Four ad landing templates (`page.large-sizes`, `page.european-king`, `page.specification`, `page.what-it-buys`) plus `page.configure`. Prices from mattress variants / preview size-price config. Trial nights from Theme settings `trial_nights` (`[N]`). Warranty from `warranty_years` (`[X]`). Comfort layer named value from `comfort_layer_price_gb` / `_ae` (`[layer]`). Product flags OFF. Brand grounds/fonts/motion unchanged. No VERSION bump. Not deployed. Checkpoint: `checkpoints/9.3.0-landing-pages/`.
+
+---
+
+
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 625 passed, 0 failed
+- Scope note: **European King** `160 × 200 cm` added for Europe (incl. Albania). `SIZE_MAPS.eu`, size-reserve auto-detect, size-guide European table, preview picker. No invented price. No VERSION bump. Not deployed. Checkpoint: `checkpoints/9.3.0-european-king-160x200/`.
+
+---
+
 # Regression results — Monday 17 Aug 2026 (warranty years setting)
 
 ## Smoke

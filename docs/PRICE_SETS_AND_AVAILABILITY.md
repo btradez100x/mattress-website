@@ -13,13 +13,13 @@ In **Online Store → Themes → Customize**, open either **Size + price + reser
 | Price | Variant price |
 | Size name | Variant title (`Single`, `King`, `Emperor`, …) |
 | Dimensions | Metafield `custom.dims` (e.g. `200 × 200 cm`) |
-| Market | Metafield `custom.market` (`ae` or `gb`) |
+| Market | Metafield `custom.market` (`ae`, `gb`, or `eu`) |
 | In stock / notify | Variant availability (inventory) |
 | Sort order | Variant position (drag in the product editor) |
 | Most popular | Optional metafield `custom.popular` = true |
-| Size ID used in tracking | SKU, then option 1, then title. Use SKUs: `single`, `double`, `queen`, `king`, `super-king`, `emperor` |
+| Size ID used in tracking | SKU, then option 1, then title. Use SKUs: `single`, `double`, `queen`, `king`, `super-king`, `emperor`, `european-king` |
 
-A GB variant never appears in the UAE list, and the reverse, because the loop filters on `custom.market`.
+A GB variant never appears in the UAE or Europe list, and the reverse, because the loop filters on `custom.market`.
 
 ---
 
@@ -29,7 +29,7 @@ A GB variant never appears in the UAE list, and the reverse, because the loop fi
 
 Shopify Admin → **Settings → Custom data → Variants** → Add definition, or run the mutations in `apps/order-status-worker/shopify/metafield-definitions.graphql` in GraphiQL (one at a time):
 
-- `custom.market` — single line text. Value `ae` or `gb`.
+- `custom.market` — single line text. Value `ae`, `gb`, or `eu`.
 - `custom.dims` — single line text. Display string such as `180 × 200 cm`.
 - `custom.popular` — boolean. Optional. True on the size you want marked Most popular (GB King / UAE Queen in the current preview).
 - `custom.enabled` — boolean. False withdraws the size from the list. Blank or true shows it.
@@ -44,7 +44,7 @@ You only create the definitions once per shop.
 - Product type: `mattress` (lead time resolver keys off this if variant/product metafields are blank).
 - Status: Active (or Draft until you are ready).
 
-You need **one variant per size per market**. That is eight UAE/UK sizes today, plus Emperor on GB:
+You need **one variant per size per market**. That is eight UAE/UK sizes today, plus Emperor on GB, plus European King on EU:
 
 **UAE (`custom.market` = `ae`)**
 
@@ -65,9 +65,15 @@ You need **one variant per size per market**. That is eight UAE/UK sizes today, 
 | Super King | `super-king` | `180 × 200 cm` | £3,299 |
 | Emperor | `emperor` | `200 × 200 cm` | Set in Shopify. Preview uses £3,599 as a stand-in until you confirm. |
 
+**Europe (`custom.market` = `eu`)** — EU, EEA, Switzerland, and nearby European countries including Albania (AL). Not the UK.
+
+| Title | SKU | `custom.dims` | Notes |
+|---|---|---|---|
+| European King | `european-king` | `160 × 200 cm` | Different from UK King `150 × 200 cm`. Set the price in Shopify. Preview lists the size with no stand-in figure. |
+
 If the product uses a Size option, option 1 should match the title (`Emperor`, not `200x200`). SKU is what the theme prefers for the picker id.
 
-Shopify Markets: give each variant a price in that market’s currency (GBP on GB variants, AED on AE variants). Do not put both currencies on one variant.
+Shopify Markets: give each variant a price in that market’s currency (GBP on GB variants, AED on AE variants, EUR on EU variants). Do not put both currencies on one variant.
 
 ### 3. Waitlist vs withdraw vs selling
 
@@ -94,7 +100,7 @@ Use the zip that reads variants (`9.2.0-emperor-splitit-review` or later). Older
 7. **Save** (top right).
 8. **Preview** (eye). You should see sizes from the product.
 
-If **Mattress product** is missing, upload the latest review zip first. An empty list after assign usually means `custom.market` is not filled (`gb` / `ae`).
+If **Mattress product** is missing, upload the latest review zip first. An empty list after assign usually means `custom.market` is not filled (`gb` / `ae` / `eu`).
 
 Changing a price later: edit the variant in Shopify and reload. No theme edit.
 
@@ -141,7 +147,7 @@ Split payment (percent today) still uses the optional split-payment product for 
 ## Owner checklist
 
 1. Metafield definitions `custom.market`, `custom.dims`, optional `custom.popular`.
-2. Mattress product with AE + GB variants, including GB **Emperor** `200 × 200 cm`.
+2. Mattress product with AE + GB variants, including GB **Emperor** `200 × 200 cm`, plus an EU **European King** `160 × 200 cm` variant (`custom.market` = `eu`) when you sell that size.
 3. GB prices: Single £1,999, Double £2,499, King £2,999, Super King £3,299, Emperor = your figure.
 4. Inventory policy **continue** on every mattress variant.
 5. Assign that product on both Size + price + reserve sections.
