@@ -1,0 +1,25 @@
+{%- comment -%}
+  Landing-page copy tokens. Brand, warranty, trial nights, layer price, featured size price.
+  Tokens: [Brand] [X] [X]-year [N] [N]-night [layer] [price]
+{%- endcomment -%}
+{%- liquid
+  assign brand = settings.brand_name | default: 'Aligna' | strip
+  assign out = text | default: ''
+  assign out = out | replace: '[Brand]', brand
+  if featured_price == blank
+    assign out = out | replace: 'instead of [price]', 'instead of a new mattress'
+    assign out = out | replace: '[price]', ''
+  else
+    assign out = out | replace: '[price]', featured_price
+  endif
+  if layer_price == blank
+    assign out = out | replace: ', worth [layer]', ''
+    assign out = out | replace: 'worth [layer]', ''
+    assign out = out | replace: '[layer]', ''
+  else
+    assign out = out | replace: '[layer]', layer_price
+  endif
+-%}
+{%- capture out -%}{% render 'warranty-tokens', text: out %}{%- endcapture -%}
+{%- capture out -%}{% render 'trial-tokens', text: out %}{%- endcapture -%}
+{{- out | strip -}}

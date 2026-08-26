@@ -386,6 +386,7 @@
         "type": "select",
         "id": "default_market",
         "label": "Default market",
+        "info": "Used when the country is not the UK, UAE, or Europe (including Albania). Europe uses its own size list automatically.",
         "options": [
           {
             "value": "ae",
@@ -567,6 +568,31 @@
         "label": "Warranty years",
         "default": "25",
         "info": "Used everywhere warranty length is shown, including T&Cs, checkout terms, the warranty policy, hero, trust bar, offer, and FAQ. Example: 25 shows as 25-year warranty. Use [X] in section copy to insert this number."
+      },
+      {
+        "type": "header",
+        "content": "Trial and replacement layer"
+      },
+      {
+        "type": "text",
+        "id": "trial_nights",
+        "label": "Trial nights",
+        "default": "100",
+        "info": "Used on landing pages and anywhere [N] or [N]-night appears. Example: 100 shows as 100-night trial. Do not hardcode the number in templates."
+      },
+      {
+        "type": "text",
+        "id": "comfort_layer_price_gb",
+        "label": "Comfort layer price (GB)",
+        "default": "£250",
+        "info": "Named replacement-layer value on landing pages ([layer]). Matches the live store figure. Leave blank to use the comfort layer product price when that product exists."
+      },
+      {
+        "type": "text",
+        "id": "comfort_layer_price_ae",
+        "label": "Comfort layer price (AE)",
+        "default": "AED 1,200",
+        "info": "Named replacement-layer value on landing pages ([layer]) for UAE. Leave blank to use the comfort layer product price when that product exists."
       },
       {
         "type": "text",

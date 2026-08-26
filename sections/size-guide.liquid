@@ -1,3 +1,9 @@
+{%- liquid
+  capture size_market
+    render 'size-market'
+  endcapture
+  assign size_market = size_market | strip
+-%}
 <section class="policy-page size-guide-page">
   <div class="section section--dark policy-hero">
     <div class="page-width policy-hero__copy">
@@ -12,7 +18,7 @@
 
   <div class="section section--surface policy-body">
     <div class="page-width">
-      <div class="table-wrap policy-table" data-market-only="gb">
+      <div class="table-wrap policy-table" data-market-only="gb"{% if size_market != 'gb' %} hidden{% endif %}>
         <table class="size-table">
           <thead>
             <tr>
@@ -29,7 +35,7 @@
           </tbody>
         </table>
       </div>
-      <div class="table-wrap policy-table" data-market-only="ae">
+      <div class="table-wrap policy-table" data-market-only="ae"{% if size_market != 'ae' %} hidden{% endif %}>
         <table class="size-table">
           <thead>
             <tr>
@@ -42,6 +48,19 @@
             <tr><td>Queen</td><td>160 × 200</td></tr>
             <tr><td>King</td><td>180 × 200</td></tr>
             <tr><td>Super King</td><td>200 × 200</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap policy-table" data-market-only="eu"{% if size_market != 'eu' %} hidden{% endif %}>
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>European size</th>
+              <th>W × L (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>European King</td><td>160 × 200</td></tr>
           </tbody>
         </table>
       </div>

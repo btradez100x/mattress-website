@@ -1,0 +1,135 @@
+{
+  "sections": {
+    "hero": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "hero",
+        "lp_variant": "D-value",
+        "mattress_product": "the-mattress",
+        "featured_size": "super-king",
+        "kicker": "Super King · 180 x 200cm",
+        "heading": "What [price]\nactually buys.",
+        "lede": "Not a comparison. A breakdown. What goes into the mattress, what we spend it on, and why the number is what it is.",
+        "cta_label": "Configure yours",
+        "cta_size": "super-king",
+        "cta_link": "#configure",
+        "secondary_cta_label": "See the breakdown",
+        "secondary_cta_link": "#breakdown",
+        "show_price": false
+      }
+    },
+    "breakdown": {
+      "type": "landing-funnel",
+      "blocks": {
+        "s1": {
+          "type": "spec_item",
+          "settings": {
+            "label": "The core",
+            "text": "Hand-assembled pocket springs, individually pocketed. Assembly is done by hand because a machine cannot pull tension through the fillings. It is the slowest part of the build and the reason it lasts."
+          }
+        },
+        "s2": {
+          "type": "spec_item",
+          "settings": {
+            "label": "The comfort layer",
+            "text": "Separately constructed, zipped in. Firm on one face, soft on the other. Built as its own product because it has to be replaceable."
+          }
+        },
+        "s3": {
+          "type": "spec_item",
+          "settings": {
+            "label": "The cover",
+            "text": "Finished by hand at the tape edge."
+          }
+        },
+        "s4": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Made to order",
+            "text": "Nothing is built before you buy it. No warehouse, no stock write-off, no clearance sale of last season's tension."
+          }
+        },
+        "s5": {
+          "type": "spec_item",
+          "settings": {
+            "label": "No showroom",
+            "text": "The saving is roughly a third of the retail price of a comparable mattress, and it is the reason a handmade bed is [price] rather than twice that."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5"],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "spec",
+        "anchor_id": "breakdown",
+        "mattress_product": "the-mattress",
+        "featured_size": "super-king",
+        "heading": "Where the money goes",
+        "lede": "Most mattresses at this price carry a retailer margin and a showroom. Ours carries neither."
+      }
+    },
+    "kept": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "layout": "prose",
+        "heading": "Built to be kept",
+        "body": "<p>A pocket sprung core lasts toward [X] years. The top lasts seven or eight. Every mattress you have ever replaced was replaced because of the part that wears fastest.</p><p>Ours comes apart. When the comfort layer softens it unzips, a new one goes on, and the core stays exactly where it is.</p><p>You are not buying a mattress that lasts longer than the alternatives. You are buying one you do not have to replace.</p>"
+      }
+    },
+    "not": {
+      "type": "landing-funnel",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "A showroom",
+            "text": "You cannot lie on it before buying. That is why every mattress arrives with two feels in one layer, and why a different tension, worth [layer], is complimentary if neither suits."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "Next day delivery",
+            "text": "It is made after you order it. That takes weeks, not days."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A hundred year history",
+            "text": "We are new. The specification is the argument, not the heritage."
+          }
+        }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "cards",
+        "heading": "What we do not offer",
+        "lede": "Worth saying plainly, because you will find out anyway.",
+        "promise_title": "[N]-night comfort promise.",
+        "promise_body": " If the feel is not right, we send a replacement comfort layer free of charge. If that does not fix it, we collect the mattress and refund you in full."
+      }
+    },
+    "configure": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "configure",
+        "anchor_id": "configure",
+        "mattress_product": "the-mattress",
+        "featured_size": "super-king",
+        "heading": "Choose your size",
+        "lede": "Every size is handmade to order with the same 37cm construction and the same removable comfort layer."
+      }
+    }
+  },
+  "order": ["hero", "breakdown", "kept", "not", "configure"]
+}

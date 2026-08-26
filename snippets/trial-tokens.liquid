@@ -1,0 +1,16 @@
+{%- comment -%}
+  Resolve trial length in copy. Theme settings → Trial nights.
+  Tokens: [N]  [N]-night  {{ settings.trial_nights }}
+{%- endcomment -%}
+{%- liquid
+  assign trial = settings.trial_nights | default: '100' | strip
+  if trial == blank
+    assign trial = '100'
+  endif
+  assign trial_phrase = trial | append: '-night'
+  assign out = text | default: ''
+  assign out = out | replace: '{{ settings.trial_nights }}', trial
+  assign out = out | replace: '[N]-night', trial_phrase
+  assign out = out | replace: '[N]', trial
+-%}
+{{- out -}}

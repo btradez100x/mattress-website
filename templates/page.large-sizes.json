@@ -1,0 +1,112 @@
+{
+  "sections": {
+    "hero": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "hero",
+        "lp_variant": "A-sizes",
+        "mattress_product": "the-mattress",
+        "featured_size": "emperor",
+        "kicker": "Emperor · 200 x 200cm",
+        "heading": "The size most\nmakers won't build.",
+        "lede": "Emperor is 20cm wider than a Super King. Most British manufacturers stop at 180cm because their machines do. We build to 200.",
+        "cta_label": "Configure yours",
+        "cta_size": "emperor",
+        "cta_link": "#configure",
+        "show_price": true,
+        "price_mode": "featured"
+      }
+    },
+    "sizes": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "size_table",
+        "mattress_product": "the-mattress",
+        "heading": "Every size we make",
+        "lede": "All handmade to order. All 37cm deep. All with the same replaceable comfort layer.",
+        "table_note": "European King fits IKEA and most continental bed frames."
+      }
+    },
+    "why": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "layout": "prose",
+        "heading": "Why the size exists",
+        "body": "<p>A Super King gives each sleeper 90cm. That is the width of a single bed. For two adults, one of whom moves, it is the difference between sleeping through and not.</p><p>Emperor gives each sleeper 100cm. It is the largest size that will still take standard bedding in the UK, and the largest most bedrooms will take without the room feeling like a bed with a room around it.</p>",
+        "body_2": "<p>Very few UK manufacturers make it. Pocket spring machines are built around a 180cm ceiling and retooling for a size that sells in tens rather than thousands is not worth their while.</p><p>We make to order, so it is worth ours.</p>"
+      }
+    },
+    "spec": {
+      "type": "landing-funnel",
+      "blocks": {
+        "s1": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Depth",
+            "text": "37cm made up."
+          }
+        },
+        "s2": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Core",
+            "text": "Hand-assembled pocket springs. [X]-year guarantee."
+          }
+        },
+        "s3": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Comfort layer",
+            "text": "Removable and reversible. Firm on one face, soft on the other. You do not choose - it arrives with both."
+          }
+        },
+        "s4": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Replacement layer",
+            "text": "[layer] when it eventually softens, instead of [price]."
+          }
+        },
+        "s5": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Made",
+            "text": "To order."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5"],
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "spec",
+        "mattress_product": "the-mattress",
+        "featured_size": "emperor",
+        "heading": "Built in two parts",
+        "lede": "A mattress does not wear out. The top wears out, and the rest goes to landfill with it. Ours separates. A pocket sprung core built to last [X] years, and a comfort layer above it that unzips and lifts off.",
+        "promise_title": "Emperor comfort promise.",
+        "promise_body": " Your mattress arrives with two feels in one layer - firm on one face, soft on the other. If neither is right, we send a complimentary comfort layer at a different tension, worth [layer]. Emperor is made to your order at 200 x 200cm and is not covered by the [N]-night return trial. Your statutory cancellation rights are unaffected."
+      }
+    },
+    "configure": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "configure",
+        "anchor_id": "configure",
+        "mattress_product": "the-mattress",
+        "featured_size": "emperor",
+        "heading": "Choose your size",
+        "lede": "Every size is handmade to order with the same 37cm construction and the same removable comfort layer."
+      }
+    }
+  },
+  "order": ["hero", "sizes", "why", "spec", "configure"]
+}

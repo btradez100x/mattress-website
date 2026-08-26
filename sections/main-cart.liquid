@@ -5,6 +5,16 @@
       <hr class="gold-rule">
       <h1 class="cart-page__title">Your order</h1>
       <p class="cart-page__lede">Review sizes, then continue to checkout. Cancel any time before dispatch.</p>
+      {%- capture cart_lead -%}{%- render 'lead-time', product_type: 'mattress' -%}{%- endcapture -%}
+      {%- assign cart_lead = cart_lead | strip -%}
+      {%- assign trial = settings.trial_nights | default: '100' | strip -%}
+      {%- if trial == blank -%}{%- assign trial = '100' -%}{%- endif -%}
+      <p class="cart-leadtime" data-cart-leadtime>
+        Made to order. Delivery in {{ cart_lead }}.
+      </p>
+      <p class="cart-trial-line">
+        <span data-trial-nights-text>{{ trial }}</span>-night comfort promise.
+      </p>
 
       {%- if cart.item_count == 0 -%}
         <div class="cart-empty">
