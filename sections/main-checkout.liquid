@@ -1,4 +1,8 @@
 {%- liquid
+  assign trial = settings.trial_nights | default: '100' | strip
+  if trial == blank
+    assign trial = '100'
+  endif
   assign warranty = settings.warranty_years | default: '25'
   assign payment_mode = settings.payment_mode | default: 'full'
   assign split_percent = settings.split_percent | default: 50
@@ -120,14 +124,14 @@
           <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
           <li>Refunds returned to the original payment method within 5-10 business days.</li>
-          <li>100 nights to change your mind once it arrives.</li>
+          <li>{{ trial }} nights to change your mind once it arrives.</li>
           <li>{{ warranty }}-year warranty on the spring core.</li>
           <li>{{ variation_notice }}</li>
         {%- else -%}
           <li>Pay {{ split_percent }}% today. Balance due before dispatch.</li>
           <li>Cancel any time before dispatch for a full refund of amounts paid.</li>
           <li>Spread either payment with {{ finance_name }} at no extra charge.</li>
-          <li>100 nights to change your mind once it arrives.</li>
+          <li>{{ trial }} nights to change your mind once it arrives.</li>
           <li>{{ warranty }}-year warranty on the spring core.</li>
           <li>{{ variation_notice }}</li>
         {%- endif -%}

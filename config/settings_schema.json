@@ -578,7 +578,7 @@
         "id": "trial_nights",
         "label": "Trial nights",
         "default": "100",
-        "info": "Used on landing pages and anywhere [N] or [N]-night appears. Example: 100 shows as 100-night trial. Do not hardcode the number in templates."
+        "info": "Used on landing pages and anywhere [N] or [N]-night appears. Example: 100 shows as [N]-night trial. Do not hardcode the number in templates."
       },
       {
         "type": "text",

@@ -13,6 +13,9 @@
     assign announcement = section.settings.text
   endif
 -%}
+{%- capture announcement -%}{% render 'trial-tokens', text: announcement %}{%- endcapture -%}
+{%- capture announcement -%}{% render 'warranty-tokens', text: announcement %}{%- endcapture -%}
+{%- assign announcement = announcement | strip -%}
 {%- if section.settings.enable_section -%}
 {%- if announcement != blank -%}
   <div class="announcement" role="region" aria-label="Announcement">
@@ -39,19 +42,19 @@
       "type": "text",
       "id": "text",
       "label": "Text (fallback)",
-      "default": "Cancel any time before dispatch · 100-night trial"
+      "default": "Cancel any time before dispatch · [N]-night trial"
     },
     {
       "type": "text",
       "id": "text_ae",
       "label": "Text (UAE)",
-      "default": "Cancel any time before dispatch · 100-night trial · Made to order"
+      "default": "Cancel any time before dispatch · [N]-night trial · Made to order"
     },
     {
       "type": "text",
       "id": "text_gb",
       "label": "Text (UK)",
-      "default": "Cancel any time before dispatch · 100-night trial"
+      "default": "Cancel any time before dispatch · [N]-night trial"
     },
     {
       "type": "url",

@@ -9,11 +9,14 @@
         "copyright_text": "",
         "trial_link": "/pages/100-night-trial",
         "warranty_link": "/pages/warranty",
-        "refund_link": "/pages/refunds-deposit",
+        "refund_link": "/pages/refunds",
         "delivery_link": "/pages/delivery-lead-time",
         "size_guide_link": "/pages/size-guide",
         "contact_link": "/pages/contact",
-        "order_status_link": "/pages/order-status"
+        "order_status_link": "/pages/order-status",
+        "privacy_link": "/pages/privacy",
+        "terms_link": "/pages/terms",
+        "cookies_link": "/pages/cookies"
       }
     }
   },

@@ -9,6 +9,10 @@
   assign leadtime_vague = leadtime_vague | default: 'Made to order. We confirm your delivery date before dispatch.'
   assign payment_mode = payment_mode | default: 'full'
   assign finance_name = finance_name | default: 'Klarna'
+  assign trial = settings.trial_nights | default: '100' | strip
+  if trial == blank
+    assign trial = '100'
+  endif
   assign warranty = settings.warranty_years | default: '25' | strip
   if warranty == blank
     assign warranty = '25'
@@ -73,13 +77,14 @@
       {%- endif -%}
       {%- if terms_body != blank -%}
         {%- capture terms_body -%}{% render 'warranty-tokens', text: terms_body %}{%- endcapture -%}
+        {%- capture terms_body -%}{% render 'trial-tokens', text: terms_body %}{%- endcapture -%}
         {{ terms_body | strip }}
       {%- else -%}
         <ul class="reserve-stage-b__terms">
           <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
           <li>Refunds returned to the original payment method within 5-10 business days.</li>
-          <li>100 nights to change your mind once it arrives.</li>
+          <li>{{ trial }} nights to change your mind once it arrives.</li>
           <li>{{ warranty }}-year warranty on the spring core.</li>
           <li>{{ variation_notice }}</li>
         </ul>

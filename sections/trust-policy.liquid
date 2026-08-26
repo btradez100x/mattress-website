@@ -14,8 +14,12 @@
   {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
 {%- endif -%}
 {%- capture policy_body -%}{% render 'warranty-tokens', text: policy_body %}{%- endcapture -%}
+{%- capture policy_body -%}{% render 'trial-tokens', text: policy_body %}{%- endcapture -%}
 {%- assign policy_body = policy_body | strip -%}
 {%- assign policy_heading = section.settings.heading | default: page.title -%}
+{%- capture policy_heading -%}{% render 'trial-tokens', text: policy_heading %}{%- endcapture -%}
+{%- capture policy_heading -%}{% render 'warranty-tokens', text: policy_heading %}{%- endcapture -%}
+{%- assign policy_heading = policy_heading | strip -%}
 {%- assign cta_href = section.settings.cta_link | default: '/#reserve' -%}
 
 <section class="policy-page">

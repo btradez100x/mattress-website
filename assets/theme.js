@@ -5670,8 +5670,9 @@
   function initPreviewAnnouncement() {
     if (!isPreviewHost()) return;
 
-    var DEFAULT_AE = 'Cancel any time before dispatch · 100-night trial · Made to order';
-    var DEFAULT_GB = 'Cancel any time before dispatch · 100-night trial · Spread with Klarna';
+    var nights = document.documentElement.getAttribute('data-trial-nights') || '100';
+    var DEFAULT_AE = 'Cancel any time before dispatch · ' + nights + '-night trial · Made to order';
+    var DEFAULT_GB = 'Cancel any time before dispatch · ' + nights + '-night trial · Spread with Klarna';
     var textAe = DEFAULT_AE;
     var textGb = DEFAULT_GB;
     var enabled = true;

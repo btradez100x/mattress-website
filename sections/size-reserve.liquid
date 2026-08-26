@@ -263,6 +263,9 @@
             {%- endif -%}
           </p>
 
+          {%- if leadtime_placement == 'inline' -%}
+            <p class="order-basket__lead" data-lead-line>{% render 'lead-time-line', product: product, product_type: 'mattress' %}</p>
+          {%- endif -%}
           <div data-order-retail hidden>
             <a
               class="btn"
@@ -679,7 +682,7 @@
       "id": "order_terms_full",
       "label": "Terms body (full payment)",
       "info": "Use [X] for warranty years from Theme settings → Warranty years.",
-      "default": "<ul><li>Cancel any time before dispatch for a full refund, no questions asked.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>100 nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
+      "default": "<ul><li>Cancel any time before dispatch for a full refund, no questions asked.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
     },
     {
       "type": "text",
@@ -692,7 +695,7 @@
       "id": "order_terms_split",
       "label": "Terms body (split payment)",
       "info": "Use [X] for warranty years from Theme settings → Warranty years.",
-      "default": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>100 nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
+      "default": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
     },
     {
       "type": "text",

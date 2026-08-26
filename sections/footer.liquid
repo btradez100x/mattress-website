@@ -30,15 +30,9 @@
     assign tax_no = settings.tax_reg_no_ae
     assign company_no = settings.company_number
   endif
-  assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
-  assign journal_url = blogs['journal'].url | default: pages['journal'].url | default: '/pages/journal'
-  assign home_hash = ''
-  unless template.name == 'index'
-    assign home_hash = routes.root_url
-  endunless
   assign trial_url = section.settings.trial_link | default: pages['100-night-trial'].url | default: '/pages/100-night-trial'
   assign warranty_url = section.settings.warranty_link | default: pages['warranty'].url | default: '/pages/warranty'
-  assign refund_url = section.settings.refund_link | default: pages['refunds-deposit'].url | default: '/pages/refunds-deposit'
+  assign refund_url = section.settings.refund_link | default: pages['refunds'].url | default: '/pages/refunds'
   assign delivery_url = section.settings.delivery_link | default: pages['delivery-lead-time'].url | default: '/pages/delivery-lead-time'
   assign size_guide_url = section.settings.size_guide_link | default: pages['size-guide'].url | default: '/pages/size-guide'
   assign contact_url = section.settings.contact_link | default: pages['contact'].url | default: '/pages/contact'
@@ -97,39 +91,18 @@
       </div>
     </div>
 
-    <div>
-      <h3>Explore</h3>
-      <ul>
-        <li><a href="{{ home_hash }}#swap">The Swap System</a></li>
-        <li><a href="{{ home_hash }}#specs">Specs</a></li>
-        <li><a href="{{ manufacturing_url }}">Manufacturing</a></li>
-        <li><a href="{{ home_hash }}#lifestyle">Lifestyle</a></li>
-        <li><a href="{{ home_hash }}#reserve">Reserve</a></li>
-        <li><a href="{{ journal_url }}">Journal</a></li>
-        <li><a href="{{ home_hash }}#faq">FAQ</a></li>
-        <li><a href="{{ size_guide_url }}">Size guide</a></li>
-      </ul>
-    </div>
-
     {%- liquid
-      assign show_accessories = false
-      if settings.footer_accessories_enabled
-        if settings.comfort_tops_enabled or settings.sheets_enabled or settings.pillows_enabled
-          assign show_accessories = true
-        endif
-      endif
       assign layer_url = all_products['comfort-layer'].url | default: all_products['comfort-top'].url | default: '/products/comfort-layer'
       assign sheets_url = all_products['bed-sheets'].url | default: '/products/bed-sheets'
       assign pillows_url = all_products['pillows'].url | default: '/products/pillows'
+      assign configure_url = pages['configure'].url | default: '/pages/configure'
     -%}
-    {%- if show_accessories -%}
-    <div class="footer-accessories" data-footer-accessories>
-      {%- if section.settings.accessories_heading != blank -%}
-        <h3>{{ section.settings.accessories_heading }}</h3>
-      {%- endif -%}
+    <div>
+      <h3>Shop</h3>
       <ul>
+        <li><a href="{{ configure_url }}">Configure</a></li>
         {%- if settings.comfort_tops_enabled -%}
-          <li><a href="{{ layer_url }}">The comfort layer</a></li>
+          <li><a href="{{ layer_url }}">Comfort layer</a></li>
         {%- endif -%}
         {%- if settings.sheets_enabled -%}
           <li><a href="{{ sheets_url }}">Bed sheets</a></li>
@@ -139,32 +112,28 @@
         {%- endif -%}
       </ul>
     </div>
-    {%- endif -%}
+
+    <div>
+      <h3>Help</h3>
+      <ul>
+        <li><a href="{{ size_guide_url }}">Size guide</a></li>
+        <li><a href="{{ delivery_url }}">Delivery and lead time</a></li>
+        <li><a href="{{ order_status_url }}">Order status</a></li>
+        <li><a href="{{ contact_url }}">Contact</a></li>
+      </ul>
+    </div>
 
     <div>
       <h3>{{ section.settings.policies_heading | default: 'Policies' }}</h3>
       <ul>
         {%- if section.settings.menu != blank -%}
-          {%- assign order_status_in_menu = false -%}
           {%- for link in section.settings.menu.links -%}
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {%- if link.url contains 'order-status' -%}
-              {%- assign order_status_in_menu = true -%}
-            {%- endif -%}
           {%- endfor -%}
-          {%- unless order_status_in_menu -%}
-            <li><a href="{{ order_status_url }}">Order status</a></li>
-          {%- endunless -%}
         {%- else -%}
-          <li><a href="{{ trial_url }}">100-night trial</a></li>
+          <li><a href="{{ trial_url }}">{% render 'trial-tokens', text: '[N]-night trial' %}</a></li>
           <li><a href="{{ warranty_url }}">Warranty</a></li>
-          <li><a href="{{ refund_url }}">Refunds &amp; cancellations</a></li>
-          <li><a href="{{ delivery_url }}">Delivery &amp; lead time</a></li>
-          {%- if section.settings.lead_time_link != blank -%}
-            <li><a href="{{ section.settings.lead_time_link }}">Lead times</a></li>
-          {%- endif -%}
-          <li><a href="{{ contact_url }}">Contact</a></li>
-          <li><a href="{{ order_status_url }}">Order status</a></li>
+          <li><a href="{{ refund_url }}">Refunds</a></li>
           <li><a href="{{ privacy_url }}">Privacy</a></li>
           <li><a href="{{ terms_url }}">Terms</a></li>
           <li><a href="{{ cookies_url }}">Cookies</a></li>

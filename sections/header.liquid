@@ -1,7 +1,11 @@
 {%- liquid
-  assign order_status_url = pages['order-status'].url | default: '/pages/order-status'
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
   assign journal_url = blogs['journal'].url | default: pages['journal'].url | default: '/pages/journal'
+  assign mattress_url = all_products['the-mattress'].url | default: '/products/the-mattress'
+  assign large_sizes_url = pages['large-sizes'].url | default: '/pages/large-sizes'
+  assign european_king_url = pages['european-king'].url | default: '/pages/european-king'
+  assign size_guide_url = pages['size-guide'].url | default: '/pages/size-guide'
+  assign specification_url = pages['specification'].url | default: '/pages/specification'
   assign home_hash = ''
   unless template.name == 'index'
     assign home_hash = routes.root_url
@@ -23,7 +27,6 @@
 {%- assign reserve_href = reserve_href | strip -%}
 {%- capture header_nav_links -%}
   {%- if section.settings.menu != blank -%}
-    {%- assign order_status_in_menu = false -%}
     {%- for link in section.settings.menu.links -%}
       {%- assign link_title_down = link.title | strip | downcase -%}
       {%- if link_title_down == 'reserve' or link.url contains '#reserve' -%}
@@ -34,23 +37,37 @@
       {%- if link_title_down == 'journal' or link.url contains '/pages/journal' or link.url contains '/blogs/journal' -%}
         {%- assign nav_href = journal_url -%}
       {%- endif -%}
-      <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
-      {%- if link.url contains 'order-status' -%}
-        {%- assign order_status_in_menu = true -%}
+      {%- if link.links.size > 0 -%}
+        <div class="site-header__item">
+          <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          <div class="site-header__sub">
+            {%- for child in link.links -%}
+              {%- assign child_title_down = child.title | strip | downcase -%}
+              {%- if child_title_down == 'reserve' or child.url contains '#reserve' -%}
+                {%- continue -%}
+              {%- endif -%}
+              {%- capture child_href -%}{% render 'home-section-href', href: child.url %}{%- endcapture -%}
+              <a href="{{ child_href | strip }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- else -%}
+        <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
       {%- endif -%}
     {%- endfor -%}
-    {%- unless order_status_in_menu -%}
-      <a href="{{ order_status_url }}"{% if request.path contains 'order-status' %} aria-current="page"{% endif %}>Order status</a>
-    {%- endunless -%}
   {%- else -%}
-    <a href="{{ home_hash }}#swap">The Swap System</a>
-    <a href="{{ home_hash }}#specs">Specs</a>
-    <a href="{{ manufacturing_url }}"{% if template.suffix == 'manufacturing' %} aria-current="page"{% endif %}>Manufacturing</a>
-    <a href="{{ home_hash }}#lifestyle">Lifestyle</a>
+    <a href="{{ mattress_url }}"{% if template.name == 'product' and product.handle == 'the-mattress' %} aria-current="page"{% endif %}>The mattress</a>
+    <div class="site-header__item">
+      <a href="{{ size_guide_url }}"{% if template.suffix == 'size-guide' %} aria-current="page"{% endif %}>Sizes</a>
+      <div class="site-header__sub">
+        <a href="{{ large_sizes_url }}"{% if template.suffix == 'large-sizes' %} aria-current="page"{% endif %}>Large sizes</a>
+        <a href="{{ european_king_url }}"{% if template.suffix == 'european-king' %} aria-current="page"{% endif %}>European King</a>
+        <a href="{{ size_guide_url }}"{% if template.suffix == 'size-guide' %} aria-current="page"{% endif %}>Size guide</a>
+      </div>
+    </div>
+    <a href="{{ specification_url }}"{% if template.suffix == 'specification' %} aria-current="page"{% endif %}>Specification</a>
+    <a href="{{ manufacturing_url }}"{% if template.suffix == 'manufacturing' %} aria-current="page"{% endif %}>How it is made</a>
     <a href="{{ journal_url }}"{% if template.suffix == 'journal' or request.path contains '/journal' %} aria-current="page"{% endif %}>Journal</a>
-    <a href="{{ home_hash }}#founder">Founder</a>
-    <a href="{{ home_hash }}#faq">FAQ</a>
-    <a href="{{ order_status_url }}"{% if request.path contains 'order-status' %} aria-current="page"{% endif %}>Order status</a>
   {%- endif -%}
 {%- endcapture -%}
 <header class="site-header">

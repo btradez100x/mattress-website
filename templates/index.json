@@ -216,14 +216,14 @@
     "social-proof": {
       "type": "social-proof",
       "settings": {
-        "enable_section": true,
+        "enable_section": false,
         "eyebrow": "Customer reviews",
         "heading": "What owners say.",
         "subheading": "Verified purchase reviews from the founding allocations.",
         "empty_text": "Reviews will appear here shortly.",
         "load_more_label": "Show more reviews",
         "page_size": 6,
-        "enable_reviews": true,
+        "enable_reviews": false,
         "enable_submissions": true,
         "require_purchase": true,
         "write_cta": "Write a review",
@@ -259,7 +259,7 @@
         "o1": {
           "type": "offer_item",
           "settings": {
-            "title": "100-night trial",
+            "title": "[N]-night trial",
             "text": "Sleep on it. Decide at home."
           }
         },
@@ -366,7 +366,7 @@
           "type": "item",
           "settings": {
             "question": "Can I change my mind after ordering?",
-            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have 100 nights.",
+            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have [N] nights.",
             "payment_mode_visibility": "all"
           }
         },
@@ -382,7 +382,7 @@
           "type": "item",
           "settings": {
             "question": "What if I do not like it?",
-            "answer": "You have 100 nights to decide. If it is not right we collect it and refund you.",
+            "answer": "You have [N] nights to decide. If it is not right we collect it and refund you.",
             "payment_mode_visibility": "all"
           }
         },
@@ -464,7 +464,7 @@
           "type": "item",
           "settings": {
             "question": "What if my partner and I want different firmnesses?",
-            "answer": "The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your 100 nights and we will collect it and refund you in full.",
+            "answer": "The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your [N] nights and we will collect it and refund you in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -472,7 +472,7 @@
           "type": "item",
           "settings": {
             "question": "Will my mattress look exactly like the photographs?",
-            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have 100 nights to tell us and we will collect it and refund you in full.",
+            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have [N] nights to tell us and we will collect it and refund you in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -526,7 +526,7 @@
           "type": "item",
           "settings": {
             "icon": "trial",
-            "label": "100-night trial",
+            "label": "[N]-night trial",
             "sublabel": "Sleep on it properly",
             "link": "/pages/100-night-trial"
           }
