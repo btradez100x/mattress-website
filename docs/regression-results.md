@@ -1,3 +1,13 @@
+# Regression results — Wednesday 26 Aug 2026 (export 9.4.0-landing-pages-and-gtm)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 690 passed, 0 failed
+- Scope note: SemVer export **9.4.0-landing-pages-and-gtm**. Version **was** bumped (`VERSION` and Shopify `theme_version` are **9.4.0**). Zip `Valtora-Shopify-Theme-9.4.0-landing-pages-and-gtm.zip` in Downloads and `checkpoints/9.4.0-landing-pages-and-gtm/`. Since 9.3.0: copy-spec, spec panel, grounds, GTM theme setting, UTM, 25-year warranty setting, LCP first-paint, cool-touch captions under thumbs, European King 160×200, landing v2, product PDPs flags OFF. Does not replace the kept 9.2.0 or 9.3.0 review copies. Not deployed.
+
+---
+
 # Regression results — Wednesday 26 Aug 2026 (landing pages v2 deploy)
 
 ## Smoke
