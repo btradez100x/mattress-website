@@ -36,11 +36,13 @@
       assign assurance_line = assurance_line | append: ' · Spread with Tabby or Tamara'
     endif
   else
-    assign assurance_line = 'Cancel any time before dispatch · 100-night trial · '
-    assign assurance_line = assurance_line | append: warranty | append: '-year warranty'
+    assign assurance_line = 'Cancel any time before dispatch · [N]-night trial · [X]-year warranty'
   endif
 -%}
 {%- endif -%}
+{%- capture assurance_line -%}{% render 'trial-tokens', text: assurance_line %}{%- endcapture -%}
+{%- capture assurance_line -%}{% render 'warranty-tokens', text: assurance_line %}{%- endcapture -%}
+{%- assign assurance_line = assurance_line | strip -%}
 {%- if section.settings.enable_section -%}
 {%- if section.settings.video == blank -%}
   {%- if section.settings.image != blank -%}
@@ -159,7 +161,7 @@
       "type": "text",
       "id": "assurance",
       "label": "Assurance line override",
-      "info": "Leave blank to use Theme settings → Warranty years (full payment: Cancel any time before dispatch · 100-night trial · [X]-year warranty). Split mode still uses pay-today defaults. A filled line may use [X] for the years."
+      "info": "Leave blank to use Theme settings → Warranty years (full payment: Cancel any time before dispatch · [N]-night trial · [X]-year warranty). Split mode still uses pay-today defaults. A filled line may use [X] for the years."
     },
     {
       "type": "header",

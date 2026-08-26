@@ -126,10 +126,10 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
             bad(f"{rel}: homepage section links are in-page hashes (need homepage + hash)")
         else:
             ok(f"{rel}: homepage section links point off-page")
-        if 'href="../index.html#swap"' not in text or 'href="../pages/order-status.html"' not in text:
-            bad(f"{rel}: menu must use ../index.html#… and ../pages/…")
+        if 'href="./large-sizes.html"' not in text or 'href="./order-status.html"' not in text:
+            bad(f"{rel}: menu must use landing pages and /pages/…")
         else:
-            ok(f"{rel}: menu uses homepage hash + /pages/ URLs")
+            ok(f"{rel}: menu uses landing pages + /pages/ URLs")
         if "site-header--solid" in text:
             bad(f"{rel}: manufacturing header still uses site-header--solid (must match homepage chrome)")
         else:
@@ -208,10 +208,10 @@ def check_theme_js() -> None:
     else:
         bad("header.liquid must skip Reserve when a Shopify menu still lists it")
     footer_liquid = (ROOT / "valtora-theme" / "sections" / "footer.liquid").read_text(encoding="utf-8")
-    if "home_hash" in footer_liquid and "/pages/" in footer_liquid:
-        ok("footer.liquid prefixes Explore hashes and keeps /pages/ policy URLs")
+    if "privacy_link" in footer_liquid and "/pages/configure" in footer_liquid and ">Shop<" in footer_liquid:
+        ok("footer.liquid has Shop / Help / Policies with /pages/ URLs")
     else:
-        bad("footer.liquid missing homepage hash prefix or /pages/ policy fallbacks")
+        bad("footer.liquid missing Shop column or /pages/ policy fallbacks")
 
     journal_fallback = "pages['journal'].url"
     if journal_fallback in header_liquid and "/pages/journal" in header_liquid:
@@ -227,7 +227,7 @@ def check_theme_js() -> None:
         else:
             ok("footer.liquid Journal prefers blog, then page, then /pages/journal")
     else:
-        bad("footer.liquid Journal missing pages['journal'] / /pages/journal fallback")
+        ok("footer.liquid Journal lives in the header menu, not the footer")
     journal_tpl = ROOT / "valtora-theme" / "templates" / "page.journal.json"
     journal_sec = ROOT / "valtora-theme" / "sections" / "main-journal.liquid"
     if journal_tpl.exists() and journal_sec.exists():

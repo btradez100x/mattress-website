@@ -53,7 +53,7 @@
     "trial_nights": "100",
     "comfort_layer_price_gb": "£250",
     "comfort_layer_price_ae": "AED 1,200",
-    "reviews_enabled": true,
+    "reviews_enabled": false,
     "reviews_allow_submissions": true,
     "reviews_require_purchase": true,
     "contact_email": "hello@aligna.com",
@@ -87,10 +87,10 @@
         "type": "announcement-bar",
         "settings": {
           "enable_section": true,
-          "text": "Cancel any time before dispatch \u00b7 100-night trial",
+          "text": "Cancel any time before dispatch \u00b7 [N]-night trial",
           "link": "",
-          "text_ae": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Made to order",
-          "text_gb": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Spread with Klarna"
+          "text_ae": "Cancel any time before dispatch \u00b7 [N]-night trial \u00b7 Made to order",
+          "text_gb": "Cancel any time before dispatch \u00b7 [N]-night trial \u00b7 Spread with Klarna"
         }
       },
       "header": {

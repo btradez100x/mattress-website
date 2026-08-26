@@ -1,3 +1,13 @@
+# Regression results — Wednesday 26 Aug 2026 (go-live)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 810 passed, 0 failed
+- Scope note: Go-live pass from `numa-go-live.md`. Header/footer nav, policy URLs, trial `[N]` tokens, configure lead time above the buy button, reviews off. Product flags OFF. `warranty_years` 25 and `trial_nights` 100 explicit. No VERSION bump. Checkpoint: `checkpoints/9.4.0-go-live/`.
+
+---
+
 # Regression results — Wednesday 26 Aug 2026 (export 9.4.0-landing-pages-and-gtm)
 
 ## Smoke

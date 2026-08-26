@@ -86,7 +86,9 @@
         -%}
         {%- if show_item -%}
           {%- capture offer_title -%}{% render 'warranty-tokens', text: block.settings.title %}{%- endcapture -%}
+          {%- capture offer_title -%}{% render 'trial-tokens', text: offer_title %}{%- endcapture -%}
           {%- capture offer_text -%}{% render 'warranty-tokens', text: block.settings.text %}{%- endcapture -%}
+          {%- capture offer_text -%}{% render 'trial-tokens', text: offer_text %}{%- endcapture -%}
           {%- assign offer_title = offer_title | strip -%}
           {%- assign offer_text = offer_text | strip -%}
           {%- assign text_down_offer = offer_text | downcase -%}
@@ -228,7 +230,7 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "100-night trial",
+          "default": "[N]-night trial",
           "info": "Leave blank when supporting text is the spring-core line to use Theme settings → Warranty years. Or write [X]-year warranty."
         },
         {
@@ -269,7 +271,7 @@
       "blocks": [
         {
           "type": "offer_item",
-          "settings": { "title": "100-night trial", "text": "Sleep on it. Decide at home." }
+          "settings": { "title": "[N]-night trial", "text": "Sleep on it. Decide at home." }
         },
         {
           "type": "offer_item",

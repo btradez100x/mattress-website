@@ -27,7 +27,9 @@
             <ul class="trust-bar__list" role="list"{% if pass == 2 %} aria-hidden="true"{% endif %}>
               {%- for block in section.blocks -%}
                 {%- capture label -%}{% render 'warranty-tokens', text: block.settings.label %}{%- endcapture -%}
+                {%- capture label -%}{% render 'trial-tokens', text: label %}{%- endcapture -%}
                 {%- capture sub -%}{% render 'warranty-tokens', text: block.settings.sublabel %}{%- endcapture -%}
+                {%- capture sub -%}{% render 'trial-tokens', text: sub %}{%- endcapture -%}
                 {%- liquid
                   assign label = label | strip
                   assign sub = sub | strip | replace: '[X-Y]', lead
@@ -132,7 +134,9 @@
         <ul class="trust-bar__list" role="list">
           {%- for block in section.blocks -%}
             {%- capture label -%}{% render 'warranty-tokens', text: block.settings.label %}{%- endcapture -%}
+            {%- capture label -%}{% render 'trial-tokens', text: label %}{%- endcapture -%}
             {%- capture sub -%}{% render 'warranty-tokens', text: block.settings.sublabel %}{%- endcapture -%}
+            {%- capture sub -%}{% render 'trial-tokens', text: sub %}{%- endcapture -%}
             {%- liquid
               assign label = label | strip
               assign sub = sub | strip | replace: '[X-Y]', lead
@@ -405,7 +409,7 @@
           "type": "item",
           "settings": {
             "icon": "trial",
-            "label": "100-night trial",
+            "label": "[N]-night trial",
             "sublabel": "Sleep on it properly"
           }
         },

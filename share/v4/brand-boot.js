@@ -25,7 +25,7 @@
 
   var FONTS = {
     modern:
-      'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap',
+      'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap',
     classic:
       'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap',
     v2:
@@ -180,19 +180,23 @@
 
   var name = 'Aligna';
   var line = 'Mattresses';
+  var business = 'Valtora FZE';
   var guidelines = 'v1';
   var fontSet = 'modern';
   var scheme = 'signature';
   var market = '';
+  var taglineMarket = '';
 
   try {
     name = localStorage.getItem('valtoraPreviewBrand') || name;
     var savedLine = localStorage.getItem('valtoraPreviewBrandLine');
     if (savedLine !== null) line = savedLine;
+    business = localStorage.getItem('valtoraPreviewBusinessName') || business;
     guidelines = localStorage.getItem('valtoraPreviewBrandGuidelines') || guidelines;
     fontSet = localStorage.getItem('valtoraPreviewFontSet') || fontSet;
     scheme = localStorage.getItem('valtoraPreviewColorScheme') || scheme;
     market = localStorage.getItem('valtoraPreviewMarket') || '';
+    taglineMarket = localStorage.getItem('valtoraPreviewTaglineMarket') || market;
   } catch (e) {}
 
   if (guidelines === 'v2') {
@@ -208,6 +212,16 @@
   if (fontSet) d.setAttribute('data-font-set', fontSet);
   if (scheme) d.setAttribute('data-color-scheme', scheme);
   if (market === 'ae' || market === 'gb') d.setAttribute('data-market', market);
+  if (
+    taglineMarket === 'ae' ||
+    taglineMarket === 'gb' ||
+    taglineMarket === 'us' ||
+    taglineMarket === 'eu' ||
+    taglineMarket === 'gh' ||
+    taglineMarket === 'ng'
+  ) {
+    d.setAttribute('data-tagline-market', taglineMarket);
+  }
 
   try {
     var forceMotion = localStorage.getItem('valtoraPreviewForceMotion');
@@ -225,6 +239,7 @@
   window.__valtoraPreviewBoot = {
     name: name,
     line: line,
+    business: business,
     guidelines: guidelines,
     fontSet: fontSet,
     scheme: scheme,
@@ -327,8 +342,50 @@
     }
   }
 
+  // Mirrors Theme settings → Warranty years (`warranty_years` in settings_data.json).
+  var PREVIEW_WARRANTY_YEARS = '25';
+  var PREVIEW_TRIAL_NIGHTS = '100';
+  var PREVIEW_LAYER_PRICE_GB = '£250';
+  var PREVIEW_LAYER_PRICE_AE = 'AED 1,200';
+
+  function warrantyYears() {
+    var raw = (d.getAttribute('data-warranty-years') || PREVIEW_WARRANTY_YEARS).trim();
+    return raw || PREVIEW_WARRANTY_YEARS;
+  }
+
+  function trialNights() {
+    var raw = (d.getAttribute('data-trial-nights') || PREVIEW_TRIAL_NIGHTS).trim();
+    return raw || PREVIEW_TRIAL_NIGHTS;
+  }
+
+  function applyWarrantyYears() {
+    var years = warrantyYears();
+    d.setAttribute('data-warranty-years', years);
+    document.querySelectorAll('[data-warranty-years-text]').forEach(function (el) {
+      el.textContent = years;
+    });
+    applyTrialNights();
+  }
+
+  function applyTrialNights() {
+    var nights = trialNights();
+    d.setAttribute('data-trial-nights', nights);
+    document.querySelectorAll('[data-trial-nights-text]').forEach(function (el) {
+      el.textContent = nights;
+    });
+    var market = d.getAttribute('data-market') || 'ae';
+    if (!d.getAttribute('data-layer-price')) {
+      d.setAttribute('data-layer-price', market === 'gb' ? PREVIEW_LAYER_PRICE_GB : PREVIEW_LAYER_PRICE_AE);
+    }
+    var layer = d.getAttribute('data-layer-price') || '';
+    document.querySelectorAll('[data-layer-price-text]').forEach(function (el) {
+      el.textContent = layer;
+    });
+  }
+
   function applyBrandText() {
     var boot = window.__valtoraPreviewBoot;
+    applyWarrantyYears();
     if (!boot) return;
     var nodes = document.querySelectorAll('[data-brand-text]');
     if (!nodes.length) return false;
@@ -339,12 +396,37 @@
       el.textContent = boot.line;
       el.hidden = !boot.line;
     });
+    var taglineText = 'A better bed, for life.';
+    try {
+      var taglineKey =
+        d.getAttribute('data-tagline-market') ||
+        localStorage.getItem('valtoraPreviewTaglineMarket') ||
+        'ae';
+      var taglineMap = JSON.parse(localStorage.getItem('valtoraPreviewTaglines') || '{}');
+      if (taglineMap && taglineMap[taglineKey]) taglineText = taglineMap[taglineKey];
+      else if (taglineMap && taglineMap.default) taglineText = taglineMap.default;
+      else taglineText = localStorage.getItem('valtoraPreviewTagline') || taglineText;
+    } catch (e) {}
+    document.querySelectorAll('[data-brand-tagline]').forEach(function (el) {
+      el.textContent = taglineText;
+    });
     document.querySelectorAll('.wordmark').forEach(function (a) {
       a.setAttribute('aria-label', boot.line ? boot.name + ' ' + boot.line : boot.name);
     });
     d.setAttribute('data-brand-hydrated', '1');
+    applyBusinessName(boot);
     applyBrandFavicon(boot);
     return true;
+  }
+
+  function applyBusinessName(boot) {
+    boot = boot || window.__valtoraPreviewBoot;
+    if (!boot) return;
+    var legal = (boot.business || '').trim();
+    if (!legal) return;
+    document.querySelectorAll('[data-business-name]').forEach(function (el) {
+      el.textContent = legal;
+    });
   }
 
   function brandInitials(name) {
@@ -413,6 +495,7 @@
   }
 
   window.__valtoraApplyPreviewBrandText = applyBrandText;
+  window.__valtoraApplyPreviewBusinessName = applyBusinessName;
   window.__valtoraInjectPreviewScheme = injectSchemeVars;
   window.__valtoraApplyBrandFavicon = applyBrandFavicon;
 
@@ -420,6 +503,7 @@
   injectSchemeVars(window.__valtoraPreviewBoot);
   applyFontAndTheme();
   applyBrandFavicon(window.__valtoraPreviewBoot);
+  applyWarrantyYears();
 
   var headObs = new MutationObserver(function () {
     applyFontAndTheme();
@@ -438,11 +522,13 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       applyBrandText();
+      applyWarrantyYears();
       injectSchemeVars(window.__valtoraPreviewBoot);
       bodyObs.disconnect();
     });
   } else {
     applyBrandText();
+    applyWarrantyYears();
     bodyObs.disconnect();
   }
 })();

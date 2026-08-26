@@ -5,11 +5,11 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "text": "Cancel any time before dispatch \u00b7 100-night trial",
+        "text": "Cancel any time before dispatch \u00b7 [N]-night trial",
         "link": "",
         "enable_section": true,
-        "text_ae": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Made to order",
-        "text_gb": "Cancel any time before dispatch \u00b7 100-night trial \u00b7 Spread with Klarna"
+        "text_ae": "Cancel any time before dispatch \u00b7 [N]-night trial \u00b7 Made to order",
+        "text_gb": "Cancel any time before dispatch \u00b7 [N]-night trial \u00b7 Spread with Klarna"
       }
     },
     "header": {
