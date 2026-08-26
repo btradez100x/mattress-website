@@ -4,10 +4,11 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 810 passed, 0 failed
-- Scope note: Mattress firmness copy moved from Soft / Medium Soft to Medium / Medium Firm. Benefits, specs, size-reserve, FAQs, landings, comfort-layer selector. Dropped homepage FAQ "How does the replaceable layer work?" to stay at 16 blocks. No VERSION bump. Not deployed. First-customer stock policy still unresolved.
+- Scope note: Mattress firmness copy moved from Soft / Medium Soft to Medium / Medium Firm. Benefits, specs, size-reserve, FAQs, landings, comfort-layer selector. Dropped homepage FAQ "How does the replaceable layer work?" to stay at 16 blocks. No VERSION bump. Checkpoint: `checkpoints/9.4.0-firmness-copy/`. Deploy: `v9` `69ce5d6`, `shopify-theme` `b42859f`. First-customer stock policy still unresolved.
 
 ---
 
+# Regression results — Wednesday 26 Aug 2026 (go-live)
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
