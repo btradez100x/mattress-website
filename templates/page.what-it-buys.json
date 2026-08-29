@@ -23,13 +23,49 @@
     "breakdown": {
       "type": "landing-funnel",
       "blocks": {
-        "s1": { "type": "spec_item", "settings": { "label": "The core", "text": "Pocket springs, individually pocketed. Assembly is done by hand because a machine cannot pull tension through the fillings." } },
-        "s2": { "type": "spec_item", "settings": { "label": "The comfort layer", "text": "10cm, separately constructed, zipped in. Two feels. Built as its own product because it has to be renewable." } },
-        "s3": { "type": "spec_item", "settings": { "label": "The cover", "text": "Finished by hand at the tape edge." } },
-        "s4": { "type": "spec_item", "settings": { "label": "Made to order", "text": "Nothing is built before you buy it." } },
-        "s5": { "type": "spec_item", "settings": { "label": "It arrives finished", "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it." } }
+        "s1": {
+          "type": "spec_item",
+          "settings": {
+            "label": "The core",
+            "text": "Pocket springs, individually pocketed. Assembly is done by hand because a machine cannot pull tension through the fillings."
+          }
+        },
+        "s2": {
+          "type": "spec_item",
+          "settings": {
+            "label": "The comfort layer",
+            "text": "10cm, separately constructed, zipped in. Two feels. Built as its own product because it has to be renewable."
+          }
+        },
+        "s3": {
+          "type": "spec_item",
+          "settings": {
+            "label": "The cover",
+            "text": "Finished by hand at the tape edge."
+          }
+        },
+        "s4": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Made to order",
+            "text": "Nothing is built before you buy it."
+          }
+        },
+        "s5": {
+          "type": "spec_item",
+          "settings": {
+            "label": "It arrives finished",
+            "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it."
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3", "s4", "s5"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
       "settings": {
         "enable_section": true,
         "ground": "surface",
@@ -54,11 +90,33 @@
     "not": {
       "type": "landing-funnel",
       "blocks": {
-        "c1": { "type": "card", "settings": { "heading": "A showroom", "text": "You cannot lie on it before buying. You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us. Worth [layer]." } },
-        "c2": { "type": "card", "settings": { "heading": "It is made after you order", "text": "Which takes weeks rather than days." } },
-        "c3": { "type": "card", "settings": { "heading": "It arrives finished", "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it." } }
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "A showroom",
+            "text": "You cannot lie on it before buying. You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us. Worth [layer]."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "It is made after you order",
+            "text": "Which takes weeks rather than days."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "It arrives finished",
+            "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it."
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
       "settings": {
         "enable_section": true,
         "ground": "bg",
@@ -72,11 +130,33 @@
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
-        "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
-        "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
+        "o1": {
+          "type": "card",
+          "settings": {
+            "heading": "You do not choose the feel. You discover it.",
+            "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
+          }
+        },
+        "o2": {
+          "type": "card",
+          "settings": {
+            "heading": "It arrives finished.",
+            "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
+          }
+        },
+        "o3": {
+          "type": "card",
+          "settings": {
+            "heading": "It stays right for twenty five years.",
+            "text": "The part that softens renews. The part that lasts, lasts."
+          }
+        }
       },
-      "block_order": ["o1", "o2", "o3"],
+      "block_order": [
+        "o1",
+        "o2",
+        "o3"
+      ],
       "settings": {
         "enable_section": true,
         "ground": "surface",
@@ -88,16 +168,58 @@
     "delivery": {
       "type": "landing-funnel",
       "blocks": {
-        "t1": { "type": "tier", "settings": { "tag": "Included with every mattress", "heading": "Concierge unpacking", "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.", "price": "Complimentary", "featured": true } },
-        "t2": { "type": "tier", "settings": { "tag": "", "heading": "Old mattress removal and recycling", "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.", "price": "Complimentary", "featured": false } },
-        "c1": { "type": "card", "settings": { "heading": "Unrolled on the bed", "text": "It settles evenly." } },
-        "c2": { "type": "card", "settings": { "heading": "Nothing left behind", "text": "Carton, plastic, wrap. All of it leaves with it." } },
-        "c3": { "type": "card", "settings": { "heading": "A window agreed in advance", "text": "Notification on the day." } }
+        "t1": {
+          "type": "tier",
+          "settings": {
+            "tag": "Included with every mattress",
+            "heading": "Concierge unpacking",
+            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
+            "price": "Complimentary",
+            "featured": true
+          }
+        },
+        "t2": {
+          "type": "tier",
+          "settings": {
+            "tag": "",
+            "heading": "Old mattress removal and recycling",
+            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
+            "price": "Complimentary",
+            "featured": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "Unrolled on the bed",
+            "text": "It settles evenly."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "Nothing left behind",
+            "text": "Carton, plastic, wrap. All of it leaves with it."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A window agreed in advance",
+            "text": "Notification on the day."
+          }
+        }
       },
-      "block_order": ["t1", "t2", "c1", "c2", "c3"],
+      "block_order": [
+        "t1",
+        "t2",
+        "c1",
+        "c2",
+        "c3"
+      ],
       "settings": {
         "enable_section": true,
-        "ground": "bg",
+        "ground": "dark",
         "layout": "delivery",
         "anchor_id": "delivery",
         "heading": "It arrives compressed.\nWe do not leave it that way.",
@@ -108,7 +230,7 @@
       "type": "landing-funnel",
       "settings": {
         "enable_section": true,
-        "ground": "surface",
+        "ground": "bg",
         "layout": "configure",
         "anchor_id": "configure",
         "mattress_product": "the-mattress",
@@ -118,5 +240,13 @@
       }
     }
   },
-  "order": ["hero", "breakdown", "kept", "not", "outcome", "delivery", "configure"]
+  "order": [
+    "hero",
+    "breakdown",
+    "kept",
+    "not",
+    "outcome",
+    "delivery",
+    "configure"
+  ]
 }

@@ -32,11 +32,33 @@
     "instead": {
       "type": "landing-funnel",
       "blocks": {
-        "c1": { "type": "card", "settings": { "heading": "The exact size", "text": "160 by 200 centimetres, made to order. It fits the frame you already own." } },
-        "c2": { "type": "card", "settings": { "heading": "Thirty five centimetres", "text": "A pocket sprung core with a comfort layer above it, closed with a zip so the top can be renewed without the bed." } },
-        "c3": { "type": "card", "settings": { "heading": "A feel you settle later", "text": "You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us." } }
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "The exact size",
+            "text": "160 by 200 centimetres, made to order. It fits the frame you already own."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "Thirty five centimetres",
+            "text": "A pocket sprung core with a comfort layer above it, closed with a zip so the top can be renewed without the bed."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A feel you settle later",
+            "text": "You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us."
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
       "settings": {
         "enable_section": true,
         "ground": "dark",
@@ -47,14 +69,57 @@
     "spec": {
       "type": "landing-funnel",
       "blocks": {
-        "s1": { "type": "spec_item", "settings": { "label": "Size", "text": "160 x 200cm. Fits IKEA and most continental frames." } },
-        "s2": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 20cm core, 10cm comfort layer." } },
-        "s3": { "type": "spec_item", "settings": { "label": "Core", "text": "Pocket springs. Twenty five year guarantee." } },
-        "s4": { "type": "spec_item", "settings": { "label": "Comfort layer", "text": "Removable and reversible. Two feels. You do not choose. It arrives with both." } },
-        "s5": { "type": "spec_item", "settings": { "label": "Bedding", "text": "Takes standard European King linen, widely available online." } },
-        "s6": { "type": "spec_item", "settings": { "label": "Made", "text": "To order." } }
+        "s1": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Size",
+            "text": "160 x 200cm. Fits IKEA and most continental frames."
+          }
+        },
+        "s2": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Depth",
+            "text": "35cm. 20cm core, 10cm comfort layer."
+          }
+        },
+        "s3": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Core",
+            "text": "Pocket springs. Twenty five year guarantee."
+          }
+        },
+        "s4": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Comfort layer",
+            "text": "Removable and reversible. Two feels. You do not choose. It arrives with both."
+          }
+        },
+        "s5": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Bedding",
+            "text": "Takes standard European King linen, widely available online."
+          }
+        },
+        "s6": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Made",
+            "text": "To order."
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ],
       "settings": {
         "enable_section": true,
         "ground": "bg",
@@ -68,11 +133,33 @@
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
-        "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
-        "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
+        "o1": {
+          "type": "card",
+          "settings": {
+            "heading": "You do not choose the feel. You discover it.",
+            "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
+          }
+        },
+        "o2": {
+          "type": "card",
+          "settings": {
+            "heading": "It arrives finished.",
+            "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
+          }
+        },
+        "o3": {
+          "type": "card",
+          "settings": {
+            "heading": "It stays right for twenty five years.",
+            "text": "The part that softens renews. The part that lasts, lasts."
+          }
+        }
       },
-      "block_order": ["o1", "o2", "o3"],
+      "block_order": [
+        "o1",
+        "o2",
+        "o3"
+      ],
       "settings": {
         "enable_section": true,
         "ground": "surface",
@@ -84,16 +171,58 @@
     "delivery": {
       "type": "landing-funnel",
       "blocks": {
-        "t1": { "type": "tier", "settings": { "tag": "Included with every mattress", "heading": "Concierge unpacking", "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.", "price": "Complimentary", "featured": true } },
-        "t2": { "type": "tier", "settings": { "tag": "", "heading": "Old mattress removal and recycling", "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.", "price": "Complimentary", "featured": false } },
-        "c1": { "type": "card", "settings": { "heading": "Unrolled on the bed", "text": "It settles evenly." } },
-        "c2": { "type": "card", "settings": { "heading": "Nothing left behind", "text": "Carton, plastic, wrap. All of it leaves with it." } },
-        "c3": { "type": "card", "settings": { "heading": "A window agreed in advance", "text": "Notification on the day." } }
+        "t1": {
+          "type": "tier",
+          "settings": {
+            "tag": "Included with every mattress",
+            "heading": "Concierge unpacking",
+            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
+            "price": "Complimentary",
+            "featured": true
+          }
+        },
+        "t2": {
+          "type": "tier",
+          "settings": {
+            "tag": "",
+            "heading": "Old mattress removal and recycling",
+            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
+            "price": "Complimentary",
+            "featured": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "Unrolled on the bed",
+            "text": "It settles evenly."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "Nothing left behind",
+            "text": "Carton, plastic, wrap. All of it leaves with it."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A window agreed in advance",
+            "text": "Notification on the day."
+          }
+        }
       },
-      "block_order": ["t1", "t2", "c1", "c2", "c3"],
+      "block_order": [
+        "t1",
+        "t2",
+        "c1",
+        "c2",
+        "c3"
+      ],
       "settings": {
         "enable_section": true,
-        "ground": "bg",
+        "ground": "dark",
         "layout": "delivery",
         "anchor_id": "delivery",
         "heading": "It arrives compressed.\nWe do not leave it that way.",
@@ -104,7 +233,7 @@
       "type": "landing-funnel",
       "settings": {
         "enable_section": true,
-        "ground": "surface",
+        "ground": "bg",
         "layout": "configure",
         "anchor_id": "configure",
         "mattress_product": "the-mattress",
@@ -114,5 +243,13 @@
       }
     }
   },
-  "order": ["hero", "problem", "instead", "spec", "outcome", "delivery", "configure"]
+  "order": [
+    "hero",
+    "problem",
+    "instead",
+    "spec",
+    "outcome",
+    "delivery",
+    "configure"
+  ]
 }

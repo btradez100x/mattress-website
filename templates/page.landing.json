@@ -19,7 +19,7 @@
       "settings": {
         "enable_section": true,
         "body": "The part that softens is the top ten centimetres. Ours separates, so you renew that layer instead of the bed.",
-        "ground": "auto"
+        "ground": "dark"
       }
     },
     "benefits": {
@@ -85,7 +85,7 @@
       "settings": {
         "enable_section": true,
         "heading": "Five feels. One bed.",
-        "ground": "auto"
+        "ground": "surface"
       }
     },
     "product-specs": {
@@ -111,7 +111,7 @@
           "type": "spec",
           "settings": {
             "name": "Cover",
-            "meta": "400 G COOL-KNIT \u00b7 ZIP ACCESS",
+            "meta": "400 G COOL-KNIT · ZIP ACCESS",
             "does": "Opens all the way round to reach the comfort layer"
           }
         },
@@ -119,7 +119,7 @@
           "type": "spec",
           "settings": {
             "name": "Gel memory foam",
-            "meta": "1 CM \u00b7 28 DENSITY",
+            "meta": "1 CM · 28 DENSITY",
             "does": "Contours without trapping heat"
           }
         },
@@ -127,7 +127,7 @@
           "type": "spec",
           "settings": {
             "name": "Comfort foam",
-            "meta": "1.5 CM \u00b7 20 DENSITY",
+            "meta": "1.5 CM · 20 DENSITY",
             "does": "The give you feel first"
           }
         },
@@ -135,7 +135,7 @@
           "type": "spec",
           "settings": {
             "name": "Wave-profile foam",
-            "meta": "2.5 CM \u00b7 20 DENSITY",
+            "meta": "2.5 CM · 20 DENSITY",
             "does": "Moves air through the comfort layers"
           }
         },
@@ -143,7 +143,7 @@
           "type": "spec",
           "settings": {
             "name": "Flippable comfort layer",
-            "meta": "10 CM \u00b7 2 CM 2540 OVER 8 CM 2580",
+            "meta": "10 CM · 2 CM 2540 OVER 8 CM 2580",
             "does": "Medium one side, medium firm the other"
           }
         },
@@ -151,7 +151,7 @@
           "type": "spec",
           "settings": {
             "name": "Pocket spring core",
-            "meta": "20 CM \u00b7 7 ZONES \u00b7 1.8 / 2.0 MM WIRE",
+            "meta": "20 CM · 7 ZONES · 1.8 / 2.0 MM WIRE",
             "does": "Individually pocketed, so movement does not travel"
           }
         },
@@ -159,7 +159,7 @@
           "type": "spec",
           "settings": {
             "name": "Encased perimeter",
-            "meta": "7 CM \u00b7 35 DENSITY",
+            "meta": "7 CM · 35 DENSITY",
             "does": "Holds the edge. Sit on it without sliding"
           }
         },
@@ -192,7 +192,7 @@
         "spec_id": "mattress",
         "anchor_id": "specs",
         "dark": false,
-        "ground": "auto"
+        "ground": "surface"
       }
     },
     "swap-explainer": {
@@ -206,7 +206,7 @@
         "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
         "dual_use": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>",
         "top_cta_label": "See the comfort layer",
-        "ground": "dark"
+        "ground": "bg"
       }
     },
     "social-proof": {
@@ -226,7 +226,7 @@
         "form_heading": "Write a review",
         "form_lede": "Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear.",
         "submit_label": "Submit review",
-        "ground": "auto"
+        "ground": "bg"
       },
       "blocks": {
         "oeko": {
@@ -239,7 +239,7 @@
         "proof_oeko": {
           "type": "proof",
           "settings": {
-            "caption": "OEKO-TEX\u00ae STANDARD 100",
+            "caption": "OEKO-TEX® STANDARD 100",
             "link": ""
           }
         }
@@ -295,7 +295,7 @@
         "offer_oeko": {
           "type": "offer_item",
           "settings": {
-            "title": "OEKO-TEX\u00ae STANDARD 100",
+            "title": "OEKO-TEX® STANDARD 100",
             "text": "Textiles independently tested for harmful substances.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -319,7 +319,7 @@
         "cta_link": "#reserve",
         "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
         "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
-        "replacement_top_price_gb": "A replacement comfort layer is \u00a3299. A new mattress is not.",
+        "replacement_top_price_gb": "A replacement comfort layer is £299. A new mattress is not.",
         "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
         "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
         "ground": "dark"
@@ -344,7 +344,7 @@
         "eyebrow": "Sizes and prices",
         "continue_label_full": "Continue",
         "button_label_full": "Buy now",
-        "ground": "auto"
+        "ground": "surface"
       }
     },
     "faq": {
@@ -501,7 +501,7 @@
       ],
       "settings": {
         "enable_section": true,
-        "ground": "auto"
+        "ground": "bg"
       }
     },
     "trust-bar-top": {
@@ -557,7 +557,7 @@
           "type": "item",
           "settings": {
             "icon": "oeko",
-            "label": "OEKO-TEX\u00ae STANDARD 100",
+            "label": "OEKO-TEX® STANDARD 100",
             "sublabel": "Textiles independently tested",
             "link": "#specs",
             "market_visibility": "all"
@@ -580,7 +580,7 @@
         "enable_marquee": true,
         "marquee_duration": 40,
         "pause_on_hover": true,
-        "ground": "auto"
+        "ground": "surface"
       }
     },
     "founder-note": {
@@ -592,7 +592,7 @@
         "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a surface that does not hold heat, and a layer you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
         "name": "Ben Acolatse",
         "role": "Founder",
-        "ground": "auto"
+        "ground": "bg"
       }
     },
     "measure-size": {
@@ -602,7 +602,7 @@
           "type": "step",
           "settings": {
             "title": "Measure the sleeping surface",
-            "body": "<p>Strip the sheets. Measure the mattress itself - width \u00d7 length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+            "body": "<p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
           }
         },
         "m2": {
@@ -615,7 +615,7 @@
         "m3": {
           "type": "step",
           "settings": {
-            "title": "Match width \u00d7 length",
+            "title": "Match width × length",
             "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>"
           }
         },
@@ -642,7 +642,7 @@
         "lede": "Bed sizes vary between manufacturers. Always trust the centimetre dimensions, not the name on the label.",
         "guide_label": "Full size guide",
         "guide_link": "/pages/size-guide",
-        "ground": "auto"
+        "ground": "dark"
       }
     },
     "press-logos": {
@@ -822,7 +822,7 @@
         "heading": "Press & recognition.",
         "subheading": "Selected coverage, mentions, and distinctions.",
         "awards_heading": "Awards",
-        "ground": "auto"
+        "ground": "bg"
       }
     },
     "ugc-social": {
@@ -869,7 +869,7 @@
         "eyebrow": "From social",
         "heading": "Seen in real homes.",
         "subheading": "Short clips from TikTok and Instagram.",
-        "ground": "auto"
+        "ground": "surface"
       }
     },
     "swap-process": {
@@ -919,7 +919,7 @@
         "heading": "Unzip. Lift out. Swap in.",
         "body": "A visual walkthrough of the replaceable comfort layer - swap it when worn, keep the engineered core.",
         "surface": true,
-        "ground": "auto"
+        "ground": "dark"
       }
     },
     "cool-touch": {
@@ -973,7 +973,7 @@
         "heading": "Engineered to sleep cool.",
         "body": "Heat is why people give up on a mattress they used to love. This one lets it out.",
         "image_caption": "Cool-knit cover detail",
-        "ground": "auto"
+        "ground": "bg"
       }
     },
     "lifestyle-collage": {
@@ -1048,7 +1048,7 @@
         "anchor_id": "lifestyle",
         "heading": "Styled by [Brand]",
         "body": "Soft light. Quiet rooms. Real homes, not a showroom aisle.",
-        "ground": "auto"
+        "ground": "dark"
       }
     },
     "size-reserve-2": {
@@ -1070,7 +1070,7 @@
         "eyebrow": "Sizes and prices",
         "continue_label_full": "Continue",
         "button_label_full": "Buy now",
-        "ground": "auto"
+        "ground": "surface"
       }
     }
   },
