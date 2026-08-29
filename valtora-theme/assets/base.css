@@ -152,15 +152,18 @@ p:last-child {
   padding-block: var(--space-section);
 }
 
-.section--bg {
+.section--bg,
+.section[data-section-ground="bg"] {
   background: var(--brand-bg);
 }
 
-.section--surface {
+.section--surface,
+.section[data-section-ground="surface"] {
   background: var(--brand-surface);
 }
 
-.section--dark {
+.section--dark,
+.section[data-section-ground="dark"] {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
   width: 100%;
@@ -170,10 +173,11 @@ p:last-child {
   box-shadow: none;
 }
 
-/* Dark bands paint their Shopify wrapper so they stay edge-to-edge and
-   neighbouring grounds meet (no white hairline / inset card). */
+/* Each ground paints its Shopify wrapper so neighbouring bands meet
+   (Snow / Surface / Dark). The Line is the meeting of two tones. */
 #MainContent > .shopify-section:has(> .section--dark),
-#MainContent > .shopify-section:has(> .trust-bar--dark) {
+#MainContent > .shopify-section:has(> .trust-bar--dark),
+#MainContent > .shopify-section:has(> [data-section-ground="dark"]) {
   background: var(--brand-primary);
   margin: 0;
   padding-inline: 0;
@@ -181,11 +185,25 @@ p:last-child {
   max-width: none;
 }
 
+#MainContent > .shopify-section:has(> .section--surface),
+#MainContent > .shopify-section:has(> .trust-bar--surface),
+#MainContent > .shopify-section:has(> [data-section-ground="surface"]) {
+  background: var(--brand-surface);
+}
+
+#MainContent > .shopify-section:has(> .section--bg),
+#MainContent > .shopify-section:has(> .hero--light),
+#MainContent > .shopify-section:has(> [data-section-ground="bg"]) {
+  background: var(--brand-bg);
+}
+
 #MainContent > .shopify-section {
   margin-block: 0;
 }
 
 #MainContent > .shopify-section + .shopify-section:has(> .section--dark),
+#MainContent > .shopify-section + .shopify-section:has(> .section--surface),
+#MainContent > .shopify-section + .shopify-section:has(> .section--bg),
 #MainContent > .section + .section--dark {
   margin-top: -1px;
 }
@@ -195,12 +213,13 @@ p:last-child {
   padding-top: calc(var(--space-section) + 1px);
 }
 
-/* Auto grounds: first-paint stripe so neighbours do not blend before JS. */
-#MainContent > .shopify-section [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
+/* Auto grounds: first-paint Snow / Surface so neighbours do not blend
+   before JS. Dark is applied by Liquid class or the JS 3-cycle. */
+#MainContent > .shopify-section [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.section--bg):not(.trust-bar--surface):not(.trust-bar--dark) {
   background: var(--brand-bg);
 }
 
-#MainContent > .shopify-section:nth-child(even) [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.trust-bar--surface):not(.trust-bar--dark) {
+#MainContent > .shopify-section:nth-child(even) [data-section-ground="auto"]:not(.section--surface):not(.section--dark):not(.section--bg):not(.trust-bar--surface):not(.trust-bar--dark) {
   background: var(--brand-surface);
 }
 
@@ -2589,6 +2608,19 @@ video[controls],
   padding-top: 2.25rem;
   border-top: 1px solid var(--brand-accent);
   max-width: 36rem;
+  --field-fill: var(--brand-surface);
+  --field-line: color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink));
+  --field-placeholder: color-mix(in srgb, var(--brand-ink) 78%, var(--brand-surface));
+}
+.section--surface .size-note,
+[data-section-ground="surface"] .size-note {
+  --field-fill: var(--brand-bg);
+}
+.section--dark .size-note,
+[data-section-ground="dark"] .size-note {
+  --field-fill: var(--brand-on-dark);
+  --field-line: color-mix(in srgb, var(--brand-on-dark) 42%, var(--brand-accent));
+  --field-placeholder: color-mix(in srgb, var(--brand-ink) 72%, var(--brand-on-dark));
 }
 .size-note label {
   display: block;
@@ -2596,17 +2628,26 @@ video[controls],
   font-weight: 500;
   font-size: 1.25rem;
   letter-spacing: -0.025em;
-  color: var(--heading-color, var(--brand-primary));
+  color: var(--brand-ink);
   margin-bottom: 0.4rem;
+}
+.section--dark .size-note label,
+[data-section-ground="dark"] .size-note label {
+  color: var(--brand-on-dark);
 }
 .size-note p {
   font-size: 0.9375rem;
   line-height: 1.5;
-  color: color-mix(in srgb, var(--brand-ink) 62%, transparent);
+  color: var(--brand-ink);
   margin-bottom: 1.1rem;
   max-width: 32rem;
 }
-.size-note textarea {
+.section--dark .size-note p,
+[data-section-ground="dark"] .size-note p {
+  color: var(--brand-on-dark);
+}
+.size-note textarea,
+[data-size-note] {
   width: 100%;
   min-height: 6.5rem;
   resize: none;
@@ -2614,14 +2655,34 @@ video[controls],
   font-size: 1rem;
   line-height: 1.5;
   color: var(--brand-ink);
-  background: var(--brand-bg);
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 14%, transparent);
+  background: var(--field-fill, var(--brand-surface));
+  border: 1.5px solid var(--field-line, color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink)));
   border-radius: var(--radius-control, 0);
   padding: 1rem 1.15rem;
 }
-.size-note textarea:focus {
-  outline: 0;
+.size-note textarea::placeholder,
+[data-size-note]::placeholder {
+  color: var(--field-placeholder, color-mix(in srgb, var(--brand-ink) 78%, var(--brand-surface)));
+  opacity: 1;
+}
+.size-note textarea:hover,
+[data-size-note]:hover {
+  border-color: var(--brand-ink);
+}
+.section--dark .size-note textarea:hover,
+[data-section-ground="dark"] .size-note textarea:hover,
+.section--dark [data-size-note]:hover,
+[data-section-ground="dark"] [data-size-note]:hover {
   border-color: var(--brand-accent);
+}
+.size-note textarea:focus,
+.size-note textarea:focus-visible,
+[data-size-note]:focus,
+[data-size-note]:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+  border-color: var(--brand-primary);
+  border-width: 1.5px;
 }
 .size-policy,
 .lp-policy.size-policy,
@@ -3309,7 +3370,11 @@ video[controls],
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand-primary);
+  color: var(--brand-ink);
+}
+.section--dark .review-form__label,
+[data-section-ground="dark"] .review-form__label {
+  color: var(--brand-on-dark);
 }
 
 .review-form__rating {
@@ -3354,9 +3419,32 @@ video[controls],
 .review-form__input {
   width: 100%;
   padding: 0.85rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);
-  background: var(--brand-bg);
+  font-size: 1rem;
+  border: 1.5px solid color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink));
+  background: var(--brand-surface);
   color: var(--brand-ink);
+  border-radius: var(--radius-control, 0);
+}
+.section--surface .review-form__input,
+[data-section-ground="surface"] .review-form__input {
+  background: var(--brand-bg);
+}
+.section--dark .review-form__input,
+[data-section-ground="dark"] .review-form__input {
+  background: var(--brand-on-dark);
+}
+.review-form__input::placeholder {
+  color: color-mix(in srgb, var(--brand-ink) 78%, var(--brand-surface));
+  opacity: 1;
+}
+.review-form__input:hover {
+  border-color: var(--brand-ink);
+}
+.review-form__input:focus,
+.review-form__input:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+  border-color: var(--brand-primary);
 }
 
 .review-form__textarea {
@@ -3373,7 +3461,7 @@ video[controls],
   margin: 0.65rem 0 0;
   font-size: 0.8125rem;
   color: var(--brand-ink);
-  opacity: 0.75;
+  opacity: 1;
 }
 
 .review-form__success {
@@ -4171,7 +4259,7 @@ video[controls],
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--brand-primary);
+  color: var(--brand-ink);
 }
 
 .contact-details span {
@@ -4187,7 +4275,7 @@ video[controls],
   margin: 0.75rem 0 0;
   font-size: 0.8125rem;
   color: var(--brand-ink);
-  opacity: 0.7;
+  opacity: 1;
 }
 
 .legal-entity {
@@ -4209,21 +4297,52 @@ video[controls],
 }
 
 
-.notify-form__label {
+.notify-form__label,
+.request-size-form .notify-form__label {
   display: block;
   font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--brand-primary);
+  color: var(--brand-ink);
   margin: 1rem 0 0.4rem;
 }
+.section--dark .notify-form__label,
+[data-section-ground="dark"] .notify-form__label {
+  color: var(--brand-on-dark);
+}
 
-.notify-form__input {
+.notify-form__input,
+.request-size-form .notify-form__input {
   width: 100%;
   padding: 0.85rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 20%, transparent);
+  font-size: 1rem;
+  color: var(--brand-ink);
   background: var(--brand-bg);
+  border: 1.5px solid color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink));
+  border-radius: var(--radius-control, 0);
+}
+.section--surface .notify-form__input,
+.section--surface .request-size-form .notify-form__input,
+[data-section-ground="surface"] .notify-form__input {
+  background: var(--brand-surface);
+}
+.notify-form__input::placeholder,
+.request-size-form .notify-form__input::placeholder {
+  color: color-mix(in srgb, var(--brand-ink) 78%, var(--brand-surface));
+  opacity: 1;
+}
+.notify-form__input:hover,
+.request-size-form .notify-form__input:hover {
+  border-color: var(--brand-ink);
+}
+.notify-form__input:focus,
+.notify-form__input:focus-visible,
+.request-size-form .notify-form__input:focus,
+.request-size-form .notify-form__input:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+  border-color: var(--brand-primary);
 }
 
 .notify-form__textarea {
@@ -7370,8 +7489,12 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .contact-details--cards li {
   background: var(--brand-bg);
   padding: 1.25rem 1.35rem 1.35rem;
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink));
   gap: 0.35rem;
+}
+.section--bg .contact-details--cards li,
+[data-section-ground="bg"] .contact-details--cards li {
+  background: var(--brand-surface);
 }
 .contact-page .contact-whatsapp {
   margin-top: 1.75rem;
