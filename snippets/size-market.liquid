@@ -1,8 +1,9 @@
 {%- comment -%}
-  Size-list market: ae | gb | eu | us
-  GB/UK → UK sizes, AE → UAE sizes, US → US sizes,
+  Size-list market: ae | gb | eu | us | au
+  GB/UK → UK sizes, AE → UAE sizes, US → US sizes, AU/NZ → AU sizes,
   European countries including Albania (AL) → Europe sizes.
   GB is UK, not Europe. Country blank or not set up → United Kingdom.
+  AU/NZ and other unlisted ISOs are not storefront markets.
 {%- endcomment -%}
 {%- liquid
   assign size_market = 'gb'
@@ -15,6 +16,8 @@
     assign size_market = 'ae'
   elsif iso == 'US'
     assign size_market = 'us'
+  elsif iso == 'AU' or iso == 'NZ'
+    assign size_market = 'au'
   elsif iso != blank
     assign iso_token = '|' | append: iso | append: '|'
     if europe_isos contains iso_token

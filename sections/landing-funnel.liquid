@@ -567,6 +567,7 @@
   <div
     class="page-width lp-narrow"
     data-lp-configure
+    data-market="{{ market }}"
     data-lp-preselect="{{ featured_id | escape }}"
     data-checkout-path="{{ cart_url }}"
     data-lead-window="{{ lead_window | escape }}"
@@ -585,7 +586,7 @@
         <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
       {%- endif -%}
     </div>
-    <ul class="size-list lp-sizes size-rows" data-lp-sizes data-size-list aria-label="Mattress size"></ul>
+    <ul class="size-list lp-sizes" data-lp-sizes data-size-list aria-label="Mattress size"></ul>
     <p class="lp-lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
     <span hidden data-size-pick data-lp-qty></span>
     <div class="size-note">
