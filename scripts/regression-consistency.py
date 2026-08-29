@@ -280,6 +280,30 @@ def check_theme_js() -> None:
             ok(f"Journal note present: {handle}")
         else:
             bad(f"Journal note missing from theme: {handle}")
+    journal_author = ROOT / "valtora-theme" / "snippets" / "journal-author.liquid"
+    journal_layout = ROOT / "valtora-theme" / "snippets" / "journal-article-layout.liquid"
+    main_page = ROOT / "valtora-theme" / "sections" / "main-page.liquid"
+    main_blog = ROOT / "valtora-theme" / "sections" / "main-blog.liquid"
+    author_text = journal_author.read_text(encoding="utf-8") if journal_author.exists() else ""
+    layout_text = journal_layout.read_text(encoding="utf-8") if journal_layout.exists() else ""
+    if "Ben Acolatse" in author_text and "CEO" in author_text:
+        ok("Journal byline is Ben Acolatse, CEO")
+    else:
+        bad("Journal byline missing Ben Acolatse, CEO")
+    if "journal-author" in layout_text and "Ben Acolatse, CEO" in index_text:
+        ok("Journal cards and article chrome use the CEO byline")
+    else:
+        bad("Journal cards or article chrome missing CEO byline")
+    page_text = main_page.read_text(encoding="utf-8") if main_page.exists() else ""
+    if "page.handle == 'journal'" in page_text and "journal-baked-index" in page_text:
+        ok("Default page template still lists Journal notes when handle is journal")
+    else:
+        bad("main-page.liquid must list baked Journal notes for handle journal")
+    blog_text = main_blog.read_text(encoding="utf-8") if main_blog.exists() else ""
+    if "blog.handle == 'journal'" in blog_text and "journal-baked-index" in blog_text:
+        ok("Journal blog index always includes baked notes")
+    else:
+        bad("main-blog.liquid must always render baked Journal notes for handle journal")
     checkout_paths = (
         ROOT / "valtora-theme" / "sections" / "main-checkout.liquid",
         ROOT / "valtora-theme" / "templates" / "page.checkout.json",
@@ -496,15 +520,15 @@ def check_funnel_chrome():
             bad(f"{rel}: missing")
             continue
         t = p.read_text(encoding="utf-8")
-        if "data-size-pick" in t and "data-size-note" in t:
-            ok(f"{rel}: landing size rows + note")
+        if "data-lp-sizes" in t and "data-size-note" in t:
+            ok(f"{rel}: landing size tiles + note")
         else:
-            bad(f"{rel}: landing size selector missing rows or note")
+            bad(f"{rel}: landing size selector missing tiles or note")
     funnel = (ROOT / "valtora-theme" / "sections" / "landing-funnel.liquid").read_text(encoding="utf-8")
-    if "data-size-pick" in funnel or "size-rows" in funnel:
-        ok("landing-funnel.liquid has row selector")
+    if "data-lp-sizes" in funnel and "size-list" in funnel:
+        ok("landing-funnel.liquid has tile size selector")
     else:
-        bad("landing-funnel.liquid missing row selector")
+        bad("landing-funnel.liquid missing tile size selector")
     for rel in ("preview/theme.js", "valtora-theme/assets/theme.js"):
         js_text = (ROOT / rel).read_text(encoding="utf-8")
         if "function shopifyCartAddUrl" in js_text and "function addLandingToShopify" in js_text:
@@ -764,6 +788,66 @@ def check_json_templates_uploadable() -> None:
                 )
 
 
+def check_reserve_cta_copy() -> None:
+    """Shopper CTAs say Reserve yours, not Configure yours. Routes/titles stay /pages/configure."""
+    skip_names = {
+        "main-checkout.liquid",
+        "page.checkout.json",
+        "checkout.html",
+    }
+    cta_re = re.compile(
+        r">(Configure yours|Configure your size|Configure)</",
+        re.I,
+    )
+    label_re = re.compile(
+        r'"(?:cta_label|reserve_label|default)"\s*:\s*"(Configure yours|Configure your size)"',
+        re.I,
+    )
+    assign_re = re.compile(
+        r"reserve_label\s*=\s*'(Configure yours|Configure your size)'",
+        re.I,
+    )
+    roots = [
+        ROOT / "valtora-theme",
+        ROOT / "preview",
+        ROOT / "scripts" / "finish-numa-preview.py",
+    ]
+    hits: list[str] = []
+    files: list[Path] = []
+    for root in roots:
+        if root.is_file():
+            files.append(root)
+            continue
+        files.extend(root.rglob("*.liquid"))
+        files.extend(root.rglob("*.json"))
+        files.extend(root.rglob("*.html"))
+        files.extend(root.rglob("*.py"))
+    for path in files:
+        if path.name in skip_names:
+            continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        rel = path.relative_to(ROOT)
+        for i, line in enumerate(text.splitlines(), 1):
+            if "section__eyebrow" in line or '"eyebrow"' in line:
+                continue
+            if cta_re.search(line) or label_re.search(line) or assign_re.search(line):
+                hits.append(f"{rel}:{i}")
+    if hits:
+        bad("shopper CTA still says Configure: " + "; ".join(hits[:8]))
+    else:
+        ok("shopper CTAs use Reserve yours, not Configure yours")
+    header = (ROOT / "valtora-theme" / "sections" / "header.liquid").read_text(encoding="utf-8")
+    if "assign reserve_label = 'Reserve yours'" in header:
+        ok("header.liquid landing CTAs say Reserve yours")
+    else:
+        bad("header.liquid landing reserve_label must be Reserve yours")
+    funnel = (ROOT / "valtora-theme" / "sections" / "landing-funnel.liquid").read_text(encoding="utf-8")
+    if '"default": "Reserve yours"' in funnel:
+        ok("landing-funnel CTA default is Reserve yours")
+    else:
+        bad("landing-funnel.liquid cta_label default must be Reserve yours")
+
+
 def main() -> int:
     print("Valtora consistency gate (preview + chrome)")
     print("----------------------------------------")
@@ -771,6 +855,7 @@ def main() -> int:
     check_theme_js()
     check_cert_strip_empty_hidden()
     check_funnel_chrome()
+    check_reserve_cta_copy()
     check_section_schemas_no_liquid()
     check_no_leaked_liquid()
     check_no_filters_in_render_args()
