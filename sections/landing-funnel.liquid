@@ -583,9 +583,9 @@
         <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
       {%- endif -%}
     </div>
-    <ul class="size-list lp-sizes" data-lp-sizes data-size-list aria-label="Mattress size"></ul>
+    <ul class="size-list lp-sizes size-rows" data-lp-sizes data-size-list aria-label="Mattress size"></ul>
     <p class="lp-lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
-    <span hidden data-lp-qty></span>
+    <span hidden data-size-pick data-lp-qty></span>
     <div class="size-note">
       <label for="LpNote-{{ section.id }}">Anything we should know?</label>
       <p>Optional. It reaches the person who makes your mattress.</p>

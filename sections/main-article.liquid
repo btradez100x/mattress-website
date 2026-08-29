@@ -1,6 +1,14 @@
 {%- comment -%} Article template with Article schema + soft reserve CTA {%- endcomment -%}
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa'
+  assign is_journal = false
+  if blog.handle == 'journal'
+    assign is_journal = true
+  endif
+  assign article_author_name = article.author
+  if is_journal or article_author_name == blank
+    assign article_author_name = 'Ben Acolatse'
+  endif
 -%}
 
 <article class="section article" itemscope itemtype="https://schema.org/Article">
@@ -16,10 +24,15 @@
           {{ article.published_at | date: '%-d %B %Y' }}
         </time>
       {%- endif -%}
-      {%- if section.settings.show_author and article.author != blank -%}
+      {%- if is_journal -%}
+        {%- if section.settings.show_date -%}
+          <span aria-hidden="true"> · </span>
+        {%- endif -%}
+        {% render 'journal-author', schema: true %}
+      {%- elsif section.settings.show_author and article_author_name != blank -%}
         <span aria-hidden="true"> · </span>
         <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-          <span itemprop="name">{{ article.author }}</span>
+          <span itemprop="name">{{ article_author_name }}</span>
         </span>
       {%- endif -%}
     </p>
@@ -84,7 +97,10 @@
   "dateModified": {{ article.updated_at | date: '%Y-%m-%d' | json }},
   "author": {
     "@type": "Person",
-    "name": {{ article.author | default: brand | json }}
+    "name": {{ article_author_name | json }}
+    {%- if is_journal -%}
+    ,"jobTitle": "CEO"
+    {%- endif -%}
   },
   "publisher": {
     "@type": "Organization",

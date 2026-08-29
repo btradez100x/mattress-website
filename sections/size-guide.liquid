@@ -1,3 +1,7 @@
+{%- comment -%}
+  Size guide: full catalog from Shopify variants for the visitor country.
+  UK default when the country is not set up. GB includes Small Double and European King.
+{%- endcomment -%}
 {%- liquid
   capture size_market
     render 'size-market'
@@ -67,7 +71,7 @@
         <p class="section__eyebrow" data-size-guide-market-label>{{ market_label }}</p>
         <hr class="gold-rule">
         <h2 data-size-guide-heading>Every size we make for this market</h2>
-        <p class="size-guide-catalog__lede">Names follow local convention. Figures are always width × length in centimetres.</p>
+        <p class="size-guide-catalog__lede">Names follow local convention. Figures are always width × length in centimetres. European King is 160 × 200 cm where that size is made.</p>
       </header>
 
       <p class="size-guide-fallback" data-size-guide-uk-note hidden>
