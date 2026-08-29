@@ -1,7 +1,17 @@
 {%- liquid
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
-  assign journal_url = blogs['journal'].url | default: pages['journal'].url | default: '/pages/journal'
-  assign mattress_url = all_products['the-mattress'].url | default: '/products/the-mattress'
+  comment
+    Journal: the Page is the original destination (create handle journal, template journal).
+    Empty blog/page drops can still emit a URL, so only use them when the handle matches.
+    Do not send nav to /blogs/journal unless that blog exists.
+  endcomment
+  if pages['journal'].handle == 'journal'
+    assign journal_url = pages['journal'].url
+  elsif blogs['journal'].handle == 'journal'
+    assign journal_url = blogs['journal'].url
+  else
+    assign journal_url = '/pages/journal'
+  endif
   assign large_sizes_url = pages['large-sizes'].url | default: '/pages/large-sizes'
   assign european_king_url = pages['european-king'].url | default: '/pages/european-king'
   assign size_guide_url = pages['size-guide'].url | default: '/pages/size-guide'
@@ -30,6 +40,9 @@
 -%}
 {%- capture reserve_href -%}{% render 'home-section-href', href: reserve_src %}{%- endcapture -%}
 {%- assign reserve_href = reserve_href | strip -%}
+{%- comment -%} Homepage #reserve is the original The mattress page. The SKU stays unpublished. {%- endcomment -%}
+{%- capture mattress_url -%}{% render 'home-section-href', href: '#reserve' %}{%- endcapture -%}
+{%- assign mattress_url = mattress_url | strip -%}
 {%- capture header_nav_links -%}
   {%- if section.settings.menu != blank -%}
     {%- for link in section.settings.menu.links -%}
@@ -42,6 +55,9 @@
       {%- if link_title_down == 'journal' or link.url contains '/pages/journal' or link.url contains '/blogs/journal' -%}
         {%- assign nav_href = journal_url -%}
       {%- endif -%}
+      {%- if link_title_down == 'the mattress' or link.url contains '/products/the-mattress' -%}
+        {%- assign nav_href = mattress_url -%}
+      {%- endif -%}
       {%- if link.links.size > 0 -%}
         <div class="site-header__item">
           <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
@@ -52,7 +68,14 @@
                 {%- continue -%}
               {%- endif -%}
               {%- capture child_href -%}{% render 'home-section-href', href: child.url %}{%- endcapture -%}
-              <a href="{{ child_href | strip }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
+              {%- assign child_href = child_href | strip -%}
+              {%- if child_title_down == 'journal' or child.url contains '/pages/journal' or child.url contains '/blogs/journal' -%}
+                {%- assign child_href = journal_url -%}
+              {%- endif -%}
+              {%- if child_title_down == 'the mattress' or child.url contains '/products/the-mattress' -%}
+                {%- assign child_href = mattress_url -%}
+              {%- endif -%}
+              <a href="{{ child_href }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
             {%- endfor -%}
           </div>
         </div>
@@ -61,7 +84,7 @@
       {%- endif -%}
     {%- endfor -%}
   {%- else -%}
-    <a href="{{ mattress_url }}"{% if template.name == 'product' and product.handle == 'the-mattress' %} aria-current="page"{% endif %}>The mattress</a>
+    <a href="{{ mattress_url }}"{% if template.name == 'index' %} aria-current="page"{% endif %}>The mattress</a>
     <div class="site-header__item">
       <a href="{{ size_guide_url }}"{% if template.suffix == 'size-guide' %} aria-current="page"{% endif %}>Sizes</a>
       <div class="site-header__sub">

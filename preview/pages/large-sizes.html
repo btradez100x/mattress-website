@@ -153,8 +153,8 @@
           <div class="lp-sec-head"><h2>Why it is 200 wide</h2></div>
           <div class="lp-cols">
             <div class="rte">
-              <p>A Super King gives each sleeper 90cm. That is the width of a single bed. For two adults, one of whom moves, it is the difference between sleeping through and not.</p>
-              <p>Emperor gives each sleeper 100cm. It is the largest size that will still take standard bedding in the UK, and the largest most bedrooms will take without the room feeling like a bed with a room around it.</p>
+              <p>Emperor gives each sleeper a full metre. A Super King gives ninety centimetres, which is the width of a single bed. For two adults, one of whom moves, the difference is a night uninterrupted.</p>
+              <p>It is also the largest size that still takes bedding you can buy anywhere, and the largest most rooms will hold without the room becoming a bed with walls around it.</p>
             </div>
             <div class="rte">
               <p>We make to order, so the size exists because someone wants it, not because a machine was already set up for it.</p>
@@ -252,8 +252,16 @@
               <span class="lp-addprice" data-lp-add-price></span>
               <span class="lp-adddim" data-lp-add-dim>Select a size</span>
             </div>
-            <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
+            <div class="lp-addbar__actions">
+              <div class="lp-qty" data-lp-qty hidden>
+                <button type="button" class="lp-qty__btn" data-lp-qty-dec aria-label="Decrease quantity">−</button>
+                <span class="lp-qty__val" data-lp-qty-val>1</span>
+                <button type="button" class="lp-qty__btn" data-lp-qty-inc aria-label="Increase quantity">+</button>
+              </div>
+              <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
+            </div>
           </div>
+          <p class="lp-add-status" data-lp-add-status hidden role="status"></p>
           <p class="lp-policy" data-lp-policy>Comfort layer included · 30-day comfort promise · Concierge unpacking included</p>
         </div>
       </section>

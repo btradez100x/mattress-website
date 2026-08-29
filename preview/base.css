@@ -7992,19 +7992,19 @@ html.shopify-design-mode .section--wipe.is-wiping {
   width: 100%;
   margin: 0;
   padding: 1rem 1.1rem;
-  background: var(--brand-bg);
+  background: #fff;
   color: inherit;
-  border: 1px solid color-mix(in srgb, var(--brand-ink) 14%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--brand-ink) 28%, transparent);
   border-radius: var(--radius-control, 0.35rem);
   font-family: var(--font-sans);
   font-size: 0.9375rem;
   font-weight: 500;
   text-align: left;
   cursor: pointer;
-  transition: border-color 120ms var(--ease), background 120ms var(--ease);
+  transition: border-color 120ms var(--ease), background 120ms var(--ease), color 120ms var(--ease);
 }
 .section--surface .lp-size {
-  background: var(--brand-surface);
+  background: #fff;
 }
 .section--dark .lp-size {
   background: var(--brand-primary);
@@ -8028,15 +8028,29 @@ html.shopify-design-mode .section--wipe.is-wiping {
   border-color: var(--brand-on-dark);
 }
 .lp-size.is-on,
-.lp-size[aria-selected="true"] {
-  border-color: var(--brand-ink);
-  outline: 1px solid var(--brand-ink);
-  outline-offset: 0;
+.lp-size[aria-selected="true"],
+.section--surface .lp-size.is-on,
+.section--surface .lp-size[aria-selected="true"],
+.section--bg .lp-size.is-on,
+.section--bg .lp-size[aria-selected="true"] {
+  background: var(--brand-primary);
+  color: var(--brand-on-dark);
+  border-color: var(--brand-primary);
+  outline: none;
+}
+.lp-size.is-on em,
+.lp-size[aria-selected="true"] em {
+  color: color-mix(in srgb, var(--brand-on-dark) 72%, transparent);
 }
 .section--dark .lp-size.is-on,
 .section--dark .lp-size[aria-selected="true"] {
-  border-color: var(--brand-on-dark);
-  outline-color: var(--brand-on-dark);
+  background: #fff;
+  color: var(--brand-ink);
+  border-color: #fff;
+}
+.section--dark .lp-size.is-on em,
+.section--dark .lp-size[aria-selected="true"] em {
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
 }
 .lp-size:focus-visible {
   outline: 2px solid var(--brand-accent);
@@ -8054,6 +8068,50 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin-top: var(--s6, 2rem);
   padding-top: var(--s5, 1.5rem);
   border-top: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+}
+.lp-addbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.lp-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid color-mix(in srgb, var(--brand-ink) 28%, transparent);
+  background: #fff;
+  border-radius: var(--radius-control, 0.35rem);
+}
+.lp-qty[hidden] {
+  display: none !important;
+}
+.lp-qty__btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  width: 2.25rem;
+  height: 2.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: inherit;
+}
+.lp-qty__btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.lp-qty__btn:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+}
+.lp-qty__val {
+  min-width: 1.75rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9375rem;
+}
+.lp-add-status {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
 }
 .section--dark .lp-addbar {
   border-top-color: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
@@ -8262,6 +8320,36 @@ html.shopify-design-mode .section--wipe.is-wiping {
   line-height: 1.45;
   color: color-mix(in srgb, var(--brand-ink) 78%, transparent);
 }
+.lp-sizegrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  margin: 2.15rem 0 0;
+  background: color-mix(in srgb, var(--brand-ink) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+}
+.lp-sizegrid > div {
+  background: var(--brand-bg);
+  padding: 1.25rem 1.1rem;
+}
+.section--surface .lp-sizegrid > div {
+  background: var(--brand-surface, var(--brand-bg));
+}
+.lp-sizegrid__s {
+  margin: 0;
+  font-family: var(--font-headline, var(--font-sans));
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  color: var(--brand-ink);
+}
+.lp-sizegrid__d {
+  margin: 0.35rem 0 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
 .lp-notice {
   border: 2px solid var(--brand-accent, #b5461c);
   background: color-mix(in srgb, var(--brand-accent, #b5461c) 8%, var(--brand-bg));
@@ -8327,12 +8415,14 @@ html.shopify-design-mode .section--wipe.is-wiping {
   font-size: 1.05rem;
   line-height: 1.66;
 }
-.cart-story .lp-pull {
+.cart-story .lp-pull,
+.rte .lp-pull {
   border-left: 3px solid var(--brand-accent, #b5461c);
   padding: 0.4rem 0 0.4rem 1.5rem;
   margin: 2.4rem 0;
 }
-.cart-story .lp-pull p {
+.cart-story .lp-pull p,
+.rte .lp-pull p {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
   font-weight: 600;

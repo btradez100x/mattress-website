@@ -113,15 +113,24 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
     elif nav_chunk:
         ok(f"{rel}: header nav omits Reserve")
 
-    # Manufacturing / journey story must use brand tokens in copy
+    # Manufacturing is how the mattress is built. Not the founder story.
     if path.name == "manufacturing.html":
         brand_spans = len(re.findall(r"data-brand-text", text))
-        if brand_spans < 3:
-            bad(f"{rel}: manufacturing story/logo under-tokenised (found {brand_spans} data-brand-text)")
+        if brand_spans < 2:
+            bad(f"{rel}: manufacturing wordmarks under-tokenised (found {brand_spans} data-brand-text)")
         else:
             ok(f"{rel}: manufacturing brand tokens present ({brand_spans})")
         if "theme.js" not in text:
             bad(f"{rel}: manufacturing missing theme.js (theme settings will not apply)")
+        if "preview/pages" in str(rel).replace("\\", "/"):
+            if re.search(r"An ethos, not a catalogue find|started on the road", text):
+                bad(f"{rel}: manufacturing still carries the old origin story (that belongs on About)")
+            else:
+                ok(f"{rel}: manufacturing does not carry the founder origin story")
+            if "Built in two parts" not in text or "Fifteen sizes" not in text:
+                bad(f"{rel}: manufacturing missing the how-it-is-built replacement copy")
+            else:
+                ok(f"{rel}: manufacturing uses how-it-is-built copy")
         if re.search(r'href="#(swap|specs|lifestyle|reserve|founder|faq|cool-touch|swap-video)"', text):
             bad(f"{rel}: homepage section links are in-page hashes (need homepage + hash)")
         else:
@@ -217,10 +226,18 @@ def check_theme_js() -> None:
     if journal_fallback in header_liquid and "/pages/journal" in header_liquid:
         if "| default: '/blogs/journal'" in header_liquid or '| default: "/blogs/journal"' in header_liquid:
             bad("header.liquid Journal still falls back to /blogs/journal")
+        elif "pages['journal'].handle" in header_liquid:
+            ok("header.liquid Journal prefers the journal page, then a real journal blog, then /pages/journal")
         else:
             ok("header.liquid Journal prefers blog, then page, then /pages/journal")
     else:
         bad("header.liquid Journal missing pages['journal'] / /pages/journal fallback")
+    if "all_products['the-mattress'].url" in header_liquid or "| default: '/products/the-mattress'" in header_liquid:
+        bad("header.liquid The mattress still points at /products/the-mattress (unpublished SKU 404)")
+    elif "mattress_url" in header_liquid and "#reserve" in header_liquid:
+        ok("header.liquid The mattress goes to homepage #reserve")
+    else:
+        bad("header.liquid The mattress missing homepage #reserve destination")
     if journal_fallback in footer_liquid and "/pages/journal" in footer_liquid:
         if "| default: '/blogs/journal'" in footer_liquid or '| default: "/blogs/journal"' in footer_liquid:
             bad("footer.liquid Journal still falls back to /blogs/journal")
@@ -429,6 +446,33 @@ def check_funnel_chrome():
             bad(f"{rel}: :root still hardcodes --brand-primary (use base.css schemes)")
         else:
             ok(f"{rel}: :root does not hardcode brand colours")
+
+    for rel in (
+        "preview/pages/specification.html",
+        "preview/pages/large-sizes.html",
+        "preview/pages/european-king.html",
+        "preview/pages/what-it-buys.html",
+    ):
+        p = ROOT / rel
+        if not p.exists():
+            bad(f"{rel}: missing")
+            continue
+        t = p.read_text(encoding="utf-8")
+        if "data-lp-qty" in t and "data-lp-add" in t:
+            ok(f"{rel}: landing add bar has quantity")
+        else:
+            bad(f"{rel}: landing add bar missing quantity stepper")
+    funnel = (ROOT / "valtora-theme" / "sections" / "landing-funnel.liquid").read_text(encoding="utf-8")
+    if "data-lp-qty" in funnel and "data-lp-add-status" in funnel:
+        ok("landing-funnel.liquid has quantity + add status")
+    else:
+        bad("landing-funnel.liquid missing quantity stepper")
+    for rel in ("preview/theme.js", "valtora-theme/assets/theme.js"):
+        js_text = (ROOT / rel).read_text(encoding="utf-8")
+        if "function shopifyCartAddUrl" in js_text and "function addLandingToShopify" in js_text:
+            ok(f"{rel}: posts landing add to Shopify cart")
+        else:
+            bad(f"{rel}: landing add must POST /cart/add.js")
 
 
 def _section_schema(liquid: Path) -> dict:

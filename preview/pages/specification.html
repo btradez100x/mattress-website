@@ -248,8 +248,16 @@
               <span class="lp-addprice" data-lp-add-price></span>
               <span class="lp-adddim" data-lp-add-dim>Select a size</span>
             </div>
-            <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
+            <div class="lp-addbar__actions">
+              <div class="lp-qty" data-lp-qty hidden>
+                <button type="button" class="lp-qty__btn" data-lp-qty-dec aria-label="Decrease quantity">−</button>
+                <span class="lp-qty__val" data-lp-qty-val>1</span>
+                <button type="button" class="lp-qty__btn" data-lp-qty-inc aria-label="Increase quantity">+</button>
+              </div>
+              <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
+            </div>
           </div>
+          <p class="lp-add-status" data-lp-add-status hidden role="status"></p>
           <p class="lp-policy" data-lp-policy>Comfort layer included · 30-day comfort promise · Concierge unpacking included</p>
         </div>
       </section>

@@ -27,8 +27,18 @@ These affect every string on the site. Full detail in `numa-tone-of-voice.md`.
 | `d-what-it-buys.html` | `/what-it-buys` | |
 | `e-mattress-recycling.html` | `/mattress-recycling` | Linked from basket. Mandatory link |
 | `f-about.html` | `/about` | Footer and main nav. Never linked from a product hero |
+| `g-manufacturing.html` | `/manufacturing` | Replaces the existing page entirely |
 
-All six share one `:root` block. Change tokens in one place.
+All seven share one `:root` block. Change tokens in one place.
+
+**`/manufacturing` is a full replacement, not an edit.** The existing page carries an older origin story about travel and hotel beds, which now contradicts `/about`. It also opens with "An ethos, not a catalogue find", which defines the brand by what it is not.
+
+Division of labour between the two pages, and it should not blur again:
+
+- `/about` — why the company exists. First person, signed, the founder story
+- `/manufacturing` — how the mattress is built. Core, layer, made to order, the size range
+
+Neither page carries the other's content.
 
 ---
 

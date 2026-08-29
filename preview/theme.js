@@ -423,6 +423,14 @@
     }
   }
 
+  function shopifyCartAddUrl() {
+    if (/\.html($|\?)/.test(location.pathname || '')) return '';
+    var url =
+      (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.cartAdd) || '';
+    if (!url || url === '#') return '/cart/add.js';
+    return url;
+  }
+
   function sizeRowForId(id, market) {
     var rows = readSizePriceRows();
     var mkt = market || detectMarket();
@@ -624,6 +632,7 @@
     function paintSizes(root) {
       var list = root.querySelector('[data-lp-sizes]');
       if (!list) return;
+      if (list.querySelector('.lp-size') && shopifyCartAddUrl()) return;
       var rows = rowsForMarket();
       if (!rows.length) return;
       list.innerHTML = rows
@@ -658,6 +667,56 @@
         .join('');
     }
 
+    function landingQty(root) {
+      var valEl = root.querySelector('[data-lp-qty-val]');
+      var n = parseInt(valEl && valEl.textContent, 10);
+      return n > 0 ? n : 1;
+    }
+
+    function setLandingQty(root, next) {
+      var valEl = root.querySelector('[data-lp-qty-val]');
+      var n = Math.max(1, Math.min(20, parseInt(next, 10) || 1));
+      if (valEl) valEl.textContent = String(n);
+      var dec = root.querySelector('[data-lp-qty-dec]');
+      if (dec) dec.disabled = n <= 1;
+    }
+
+    function setLandingStatus(root, msg) {
+      var status = root.querySelector('[data-lp-add-status]');
+      if (!status) return;
+      status.hidden = !msg;
+      status.textContent = msg || '';
+    }
+
+    function addLandingToShopify(line, qty) {
+      var addUrl = shopifyCartAddUrl();
+      if (!addUrl) return Promise.resolve(false);
+      var vid = Number(line.variantId);
+      if (!vid) return Promise.reject(new Error('no-variant'));
+      var payload = {
+        id: vid,
+        quantity: qty,
+        properties: {
+          Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
+          Market: String(line.market || detectMarket()).toUpperCase(),
+          'Item type': 'Mattress',
+          _lead_min: String(line.leadMin || ''),
+          _lead_max: String(line.leadMax || ''),
+        },
+      };
+      if (window.ValtoraUTM && typeof window.ValtoraUTM.applyToCartPayload === 'function') {
+        payload = window.ValtoraUTM.applyToCartPayload(payload);
+      }
+      return fetch(addUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      }).then(function (res) {
+        if (!res.ok) throw new Error('add-failed');
+        return res.json();
+      });
+    }
+
     function selectSize(root, btn, fromUser) {
       if (!btn) return;
       var id = btn.getAttribute('data-size-id') || '';
@@ -676,6 +735,8 @@
       var available = btn.getAttribute('data-available') !== 'false';
       if (priceEl) priceEl.textContent = price;
       if (dimEl) dimEl.textContent = dims || btn.getAttribute('data-size-label') || '';
+      var qtyWrap = root.querySelector('[data-lp-qty]');
+      if (qtyWrap) qtyWrap.hidden = !available || !id;
       if (addBtn) addBtn.disabled = !available || !id;
       if (policyEl) {
         var def = root.getAttribute('data-lp-policy-default') || policyEl.textContent;
@@ -702,8 +763,19 @@
       if (root.getAttribute('data-lp-configure-ready') === '1') return;
       root.setAttribute('data-lp-configure-ready', '1');
       paintSizes(root);
+      setLandingQty(root, 1);
       preselect(root);
       root.addEventListener('click', function (e) {
+        var qtyDec = e.target.closest('[data-lp-qty-dec]');
+        var qtyInc = e.target.closest('[data-lp-qty-inc]');
+        if (qtyDec && root.contains(qtyDec)) {
+          setLandingQty(root, landingQty(root) - 1);
+          return;
+        }
+        if (qtyInc && root.contains(qtyInc)) {
+          setLandingQty(root, landingQty(root) + 1);
+          return;
+        }
         var btn = e.target.closest('.lp-size');
         if (btn && root.contains(btn)) {
           selectSize(root, btn, true);
@@ -715,7 +787,8 @@
         if (!chosen) return;
         var sizeId = chosen.getAttribute('data-size-id') || '';
         var priceRaw = parseInt(chosen.getAttribute('data-size-price-raw'), 10) || 0;
-        OrderStore.upsertMattressLine({
+        var qty = landingQty(root);
+        var line = {
           itemType: 'mattress',
           sizeId: sizeId,
           label: chosen.getAttribute('data-size-label') || '',
@@ -724,15 +797,16 @@
           unitPrice: chosen.getAttribute('data-size-price') || '',
           priceRaw: priceRaw,
           variantId: chosen.getAttribute('data-size-variant') || '',
-          quantity: 1,
+          quantity: qty,
           market: detectMarket(),
           leadWindow: root.getAttribute('data-lead-window') || '',
           leadMin: root.getAttribute('data-lead-min') || '',
           leadMax: root.getAttribute('data-lead-max') || '',
-        });
+        };
+        OrderStore.upsertMattressLine(line);
         vTrack('add_to_basket', {
           size: sizeId,
-          value: priceRaw / 100 || undefined,
+          value: (priceRaw / 100) * qty || undefined,
           trial_eligible: sizeId !== 'emperor',
           lp_variant: readLpVariant(),
         });
@@ -743,7 +817,26 @@
         if (!cartHref || cartHref === '#') {
           cartHref = /\/pages\//.test(location.pathname) ? './cart.html' : '/cart';
         }
-        window.location.href = withPersistedUtm(cartHref);
+        var go = function () {
+          window.location.href = withPersistedUtm(cartHref);
+        };
+        if (!shopifyCartAddUrl()) {
+          go();
+          return;
+        }
+        add.disabled = true;
+        setLandingStatus(root, '');
+        addLandingToShopify(line, qty)
+          .then(go)
+          .catch(function (err) {
+            add.disabled = false;
+            setLandingStatus(
+              root,
+              err && err.message === 'no-variant'
+                ? 'That size is not available to add.'
+                : 'That size could not be added.'
+            );
+          });
       });
       if ('IntersectionObserver' in window) {
         var seen = false;

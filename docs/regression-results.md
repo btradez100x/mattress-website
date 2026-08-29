@@ -1,3 +1,43 @@
+# Regression results — Saturday 29 Aug 2026 (nav 404: The mattress + Journal)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 846 passed, 0 failed
+- Scope note: Header "The mattress" no longer goes to `/products/the-mattress` (unpublished SKU 404). It goes to homepage `#reserve`, matching preview. Journal prefers a real Page handle `journal`, then a real Blog handle `journal`, then `/pages/journal` — empty blog drops no longer win. Landing add-to-basket work left intact. No VERSION bump. Not deployed. Live 404s remain until deploy; Journal also needs an Admin Page (handle `journal`, template **journal**) if that page does not exist yet.
+
+---
+
+# Regression results — Saturday 29 Aug 2026 (export 10.1.0-manufacturing-and-landing-cart)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 845 passed, 0 failed
+- Scope note: Review export **10.1.0-manufacturing-and-landing-cart**. Version **was** bumped (`VERSION` and Shopify `theme_version` are **10.1.0**). Zip `Valtora-Shopify-Theme-10.1.0-manufacturing-and-landing-cart.zip` in Downloads and `checkpoints/10.1.0-manufacturing-and-landing-cart/`. Since 10.0.0: manufacturing how-it-is-built replacement; landing configure posts `/cart/add.js` with quantity stepper and higher-contrast size cards. Does not replace `10.0.0-numa-storefront`. Not deployed.
+
+---
+
+# Regression results — Saturday 29 Aug 2026 (landing add to basket)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 845 passed, 0 failed
+- Scope note: Specification / landing configure now posts the selected variant to Shopify `/cart/add.js` with a quantity stepper, instead of opening an empty cart. Size cards are white on surface with a filled primary selected state. Preview cart confirmed King × 2. No VERSION bump. Not deployed.
+
+---
+
+# Regression results — Saturday 29 Aug 2026 (manufacturing replacement)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 838 passed, 0 failed
+- Scope note: `/manufacturing` fully replaced with how-it-is-built copy (core, layer, made to order, fifteen sizes). Founder origin story stays on About only. Dropped "Deeper than most" (ToV). Email pack diffs that said "send" / "Free" were not applied. No VERSION bump. Not deployed.
+
+---
+
 # Regression results — Saturday 29 Aug 2026 (save 10.0.0-numa-storefront)
 
 ## Smoke

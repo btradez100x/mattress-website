@@ -242,6 +242,16 @@ else
   fail "landing-funnel missing inline configure layout"
 fi
 
+if grep -q "data-lp-qty" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "function shopifyCartAddUrl" "$THEME/assets/theme.js" \
+  && grep -q "function addLandingToShopify" "$THEME/assets/theme.js" \
+  && grep -q "function shopifyCartAddUrl" "$ROOT/preview/theme.js" \
+  && grep -q "data-lp-qty" "$ROOT/preview/pages/specification.html"; then
+  pass "landing configure adds to Shopify cart with quantity"
+else
+  fail "landing configure missing Shopify cart add or quantity stepper"
+fi
+
 # --- Size maps (AE + GB + EU) ---
 JS="$THEME/assets/theme.js"
 if grep -q "ae:" "$JS" && grep -q "gb:" "$JS" && grep -q "eu:" "$JS" \
