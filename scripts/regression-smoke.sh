@@ -899,10 +899,10 @@ if grep -q "function buildSizeTileMarkup" "$JS" \
   && ! grep -q 'class="size-row' "$ROOT/preview/theme.js" \
   && grep -q 'class="size-list lp-sizes"' "$THEME/sections/landing-funnel.liquid" \
   && ! grep -q "size-rows" "$THEME/sections/landing-funnel.liquid" \
-  && grep -q "iso == 'AU'" "$THEME/snippets/size-market.liquid"; then
-  pass "size picker is a one-market tile grid (theme + preview)"
+  && ! grep -q "iso == 'AU'" "$THEME/snippets/size-market.liquid"; then
+  pass "size picker is a one-market tile grid; unlisted countries use UK"
 else
-  fail "size picker still has row markup, market tabs list, or missing AU market"
+  fail "size picker still has row markup, or AU is treated as a shopper market"
 fi
 
 if grep -q "how-to-choose-a-mattress" "$THEME/snippets/journal-article-body.liquid" \
