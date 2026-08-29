@@ -86,6 +86,7 @@ REQUIRED_PATHS=(
   "snippets/journal-baked-index.liquid"
   "snippets/journal-article-layout.liquid"
   "snippets/journal-index-href.liquid"
+  "snippets/journal-author.liquid"
   "templates/page.how-to-choose-a-mattress.json"
   "templates/product.json"
   "locales/en.default.json"
@@ -739,8 +740,11 @@ if grep -q '"id":"european-king"' "$ROOT/preview/index.html" \
   && grep -q "id: 'european-king'" "$THEME/assets/theme.js" \
   && grep -q "160 × 200 cm" "$THEME/assets/theme.js" \
   && grep -q "European King" "$THEME/sections/size-guide.liquid" \
-  && grep -q "European King" "$ROOT/preview/pages/size-guide.html"; then
-  pass "European King 160×200 present in EU SIZE_MAPS, preview list, and size guides"
+  && grep -q "European King" "$ROOT/preview/pages/size-guide.html" \
+  && grep -q "size-guide-grid" "$THEME/sections/size-guide.liquid" \
+  && grep -q "size-guide-grid" "$ROOT/preview/pages/size-guide.html" \
+  && grep -q "Small Double" "$ROOT/preview/pages/size-guide.html"; then
+  pass "European King 160×200 present; size guide is a full catalog with Small Double"
 else
   fail "European King 160×200 missing"
 fi
@@ -806,15 +810,136 @@ else
   fail "market-tagline helper missing, unwired, or missing AL/GB/US"
 fi
 
+if grep -q "Country blank or not set up → United Kingdom" "$THEME/snippets/size-market.liquid" \
+  && grep -q "assign size_market = 'gb'" "$THEME/snippets/size-market.liquid" \
+  && grep -q "iso == 'US'" "$THEME/snippets/size-market.liquid" \
+  && grep -q "render 'size-market'" "$THEME/snippets/market.liquid"; then
+  pass "size-market helper: GB/AE/US/EU, unknown country → UK"
+else
+  fail "size-market helper missing UK default, US, or market alias"
+fi
+
+if grep -q "window.ValtoraTheme.defaultMarket = 'gb'" "$THEME/layout/theme.liquid" \
+  && grep -q "ValtoraTheme.countryIso" "$THEME/layout/theme.liquid" \
+  && grep -q "ValtoraTheme.market" "$THEME/layout/theme.liquid"; then
+  pass "theme.liquid injects country iso and UK defaultMarket"
+else
+  fail "theme.liquid missing country iso / UK defaultMarket"
+fi
+
+if python3 - "$JS" "$ROOT/preview/theme.js" <<'PY'
+from pathlib import Path
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    t = Path(path).read_text()
+    m = re.search(r"function paintMarketTabs\([^)]*\) \{.*?\n  \}", t, re.S)
+    if not m or "hidden = false" in m.group(0) or "innerHTML = tabs" in m.group(0):
+        print("tabs still painted in", path)
+        ok = False
+    if "return 'gb';" not in t or "rowBelongsToMarket" not in t:
+        print("missing UK fallback or rowBelongsToMarket in", path)
+        ok = False
+    if "theme.countryIso" not in t:
+        print("detectMarket missing countryIso in", path)
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "theme.js country layer: UK fallback, no shopper market tabs"
+else
+  fail "theme.js still paints market tabs or defaults away from UK"
+fi
+
+if grep -q "display: none !important" "$THEME/assets/base.css" \
+  && grep -q "display: none !important" "$ROOT/preview/base.css" \
+  && grep -n "size-markets" "$THEME/assets/base.css" | head -1 | grep -q .; then
+  pass "CSS hides shopper market tabs (theme + preview)"
+else
+  fail "size-markets CSS still visible"
+fi
+
 if grep -q "how-to-choose-a-mattress" "$THEME/snippets/journal-article-body.liquid" \
   && grep -q "mattress-firmness-guide" "$THEME/snippets/journal-article-body.liquid" \
   && grep -q "hybrid-vs-foam-vs-innerspring" "$THEME/snippets/journal-baked-index.liquid" \
+  && grep -q "Ben Acolatse, CEO" "$THEME/snippets/journal-baked-index.liquid" \
   && grep -q "journal-baked-index" "$THEME/sections/main-journal.liquid" \
+  && grep -q "journal-baked-index" "$THEME/sections/main-blog.liquid" \
+  && grep -q "page.handle == 'journal'" "$THEME/sections/main-page.liquid" \
+  && grep -q "Ben Acolatse" "$THEME/snippets/journal-author.liquid" \
+  && grep -q "CEO" "$THEME/snippets/journal-author.liquid" \
   && ! grep -q "New notes, in time" "$THEME/sections/main-journal.liquid" \
   && grep -q "articles_count" "$THEME/snippets/journal-index-href.liquid"; then
-  pass "Journal keeps baked notes and prefers a populated blog"
+  pass "Journal keeps baked notes, CEO byline, and prefers a populated blog"
 else
-  fail "Journal missing baked notes or populated-blog-first nav"
+  fail "Journal missing baked notes, CEO byline, or populated-blog-first nav"
+fi
+
+MFG="$THEME/sections/manufacturing.liquid"
+MFG_JSON="$THEME/templates/page.manufacturing.json"
+MFG_PREVIEW="$ROOT/preview/pages/manufacturing.html"
+if grep -q "keep every layer" "$MFG" \
+  && grep -q "1.8 / 2.0mm" "$MFG" \
+  && grep -q "Made by experts who have been making mattresses for 49 years." "$MFG" \
+  && grep -q "Made after you order" "$MFG" \
+  && grep -q "mfg-stack" "$MFG" \
+  && ! grep -q "Handmade" "$MFG" \
+  && ! grep -q "Made by hand" "$MFG" \
+  && ! grep -q "Designed in Dubai" "$MFG" \
+  && ! grep -q "An ethos, not a catalogue find" "$MFG" \
+  && ! grep -q "Small Double" "$MFG" \
+  && ! grep -q "California King" "$MFG" \
+  && ! grep -q "founder-ben" "$MFG"; then
+  pass "manufacturing section matches how-it-is-built brief"
+else
+  fail "manufacturing section missing brief copy or still has the old founder page"
+fi
+
+if python3 - "$MFG_JSON" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1]))
+main = data["sections"]["main"]
+blob = json.dumps(data)
+sys.exit(0 if main.get("type") == "manufacturing"
+         and "Small Double" not in blob
+         and "California King" not in blob
+         and "landing-funnel" not in blob
+         and "keep every layer" in blob
+         and "1.8 / 2.0mm" in blob
+         else 1)
+PY
+then
+  pass "page.manufacturing.json uses manufacturing section, UK six, 20/10/35"
+else
+  fail "page.manufacturing.json is still stacked landing-funnel or has phantom sizes"
+fi
+
+if grep -q "mfg-stack" "$MFG_PREVIEW" \
+  && grep -q "keep every layer" "$MFG_PREVIEW" \
+  && grep -q "1.8 / 2.0mm" "$MFG_PREVIEW" \
+  && grep -q "Made by experts who have been making mattresses for 49 years." "$MFG_PREVIEW" \
+  && ! grep -q "Small Double" "$MFG_PREVIEW" \
+  && ! grep -q "California King" "$MFG_PREVIEW" \
+  && ! grep -q "Handmade" "$MFG_PREVIEW"; then
+  pass "preview manufacturing matches how-it-is-built brief"
+else
+  fail "preview manufacturing missing brief copy or still has phantom sizes"
+fi
+
+if python3 - "$THEME/templates/page.specification.json" "$THEME/templates/page.what-it-buys.json" <<'PY'
+import json, sys
+spec = json.load(open(sys.argv[1]))
+buys = json.load(open(sys.argv[2]))
+kept_spec = spec.get("sections", {}).get("kept", {}).get("settings", {})
+kept_buys = buys.get("sections", {}).get("kept", {}).get("settings", {})
+ok = kept_spec.get("heading") == "Built to be kept" and kept_spec.get("enable_section") is False
+ok = ok and kept_buys.get("heading") == "Built to be kept" and kept_buys.get("enable_section") is True
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "Built to be kept stays on what-it-buys, off specification"
+else
+  fail "Built to be kept enable flags drifted from the brief"
 fi
 
 info "----------------------------------------"

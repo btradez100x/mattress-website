@@ -1,8 +1,10 @@
 # Journal
 
-Journal is storefront content. The six notes are baked into the theme so they cannot disappear when Shopify Admin has no blog posts.
+Journal is storefront content. The six sleep-research notes are baked into the theme so they cannot disappear when Shopify Admin has no blog posts. Exhaustive search of this repo, git history, `preview/blog`, `share/v*/blog`, and the uploaded briefs found **these six only** — there are no further Journal articles to restore.
 
-The header prefers a **Blog** handle `journal` **when it has published articles**, then a **Page** handle `journal` (`/pages/journal`). Create the Page if the URL 404s.
+**Byline:** Ben Acolatse, CEO (same person as the About page). The founder note on the homepage uses Founder; Journal posts as CEO, as requested.
+
+The header prefers a **Blog** handle `journal` **when it has published articles**, then a **Page** handle `journal` (`/pages/journal`). An empty Page must not hide a populated blog. Create the Page if the URL 404s.
 
 Checkout is not part of Journal. Do not change checkout.
 
@@ -14,11 +16,11 @@ Checkout is not part of Journal. Do not change checkout.
 4. Handle: **journal** → `/pages/journal`
 5. Save
 
-The page lists the six notes immediately. Nav then resolves to that page unless a Journal blog already has posts.
+The page lists the six notes immediately, with the CEO byline. If the template is left as Default, `main-page` still renders the baked notes (handle `journal`). Nav then resolves to that page unless a Journal blog already has posts.
 
 ## 2. Optional: publish as a Shopify blog
 
-If a Journal blog already has articles, the header uses `/blogs/journal` so that live content stays visible. An empty Journal *page* must not hide those posts.
+If a Journal blog already has articles, the header uses `/blogs/journal` so that live content stays visible. The Journal *blog* index still fills in any baked notes that are not published, so a partial Admin blog cannot hide the rest.
 
 1. **Content** → **Blog posts** → **Manage blogs**
 2. Blog **Journal**, handle `journal`
@@ -35,6 +37,7 @@ Default pages with those handles also render the baked article via `main-page`.
 
 - Index: `templates/page.journal.json` + `sections/main-journal.liquid`
 - Baked notes: `snippets/journal-article-body.liquid`, `snippets/journal-baked-index.liquid`
+- Byline: `snippets/journal-author.liquid` (Ben Acolatse, CEO)
 - Article pages: `sections/main-journal-article.liquid` + `templates/page.<handle>.json`
 - Blog index: `templates/blog.json` + `sections/main-blog.liquid`
 - Re-bake after editing `docs/blog/articles`: `python3 scripts/bake-journal-articles.py`

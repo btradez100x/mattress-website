@@ -180,7 +180,10 @@
       when 'single'
         if width_cm == blank
           if v_market == 'ae'
-            assign width_cm = '90-100'
+            assign width_cm = 90
+            if dims == blank
+              assign dims = '90-100 × 200 cm'
+            endif
           else
             assign width_cm = 90
           endif
@@ -232,10 +235,12 @@
     endcase
   endif
   if width_cm != blank and length_cm != blank
-    if pieces > 1
-      assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm'
-    else
-      assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm'
+    if dims == blank
+      if pieces > 1
+        assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm'
+      else
+        assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm'
+      endif
     endif
   endif
 

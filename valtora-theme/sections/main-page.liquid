@@ -1,11 +1,35 @@
 {%- liquid
   assign is_journal_article = false
+  assign is_journal_index = false
+  if page.handle == 'journal'
+    assign is_journal_index = true
+  endif
   case page.handle
     when 'how-to-choose-a-mattress', 'mattress-firmness-guide', 'cooler-sleep-and-mattress-materials', 'mattress-support-and-back-comfort', 'when-to-replace-a-mattress', 'hybrid-vs-foam-vs-innerspring'
       assign is_journal_article = true
   endcase
 -%}
-{%- if is_journal_article -%}
+{%- if is_journal_index -%}
+  {%- comment -%} Default page template still lists baked notes if Admin forgot template journal. {%- endcomment -%}
+  <section class="policy-page journal-page">
+    <div class="section section--dark policy-hero journal-page-hero" data-reveal>
+      <div class="page-width policy-hero__copy">
+        <p class="section__eyebrow" data-reveal-child data-reveal-first style="--reveal-delay: 0ms">Journal</p>
+        <hr class="gold-rule" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">
+        <h1 data-reveal-child data-reveal-first style="--reveal-delay: 100ms">{{ page.title | default: 'Journal' }}</h1>
+        <p class="section__lede policy-hero__lede" data-reveal-child data-reveal-first style="--reveal-delay: 150ms">Clear, practical writing on comfort, cool sleep, support and how to choose a mattress that fits how you actually rest - without the hype.</p>
+      </div>
+    </div>
+    <div class="section section--surface journal-index" data-reveal>
+      <div class="page-width">
+        {%- if page.content != blank -%}
+          <div class="policy-intro rte trust-policy__body" data-reveal-child style="--reveal-delay: 0ms">{{ page.content }}</div>
+        {%- endif -%}
+        {% render 'journal-baked-index' %}
+      </div>
+    </div>
+  </section>
+{%- elsif is_journal_article -%}
   <article class="section article" itemscope itemtype="https://schema.org/Article">
     {% render 'journal-article-layout', article_handle: page.handle %}
   </article>

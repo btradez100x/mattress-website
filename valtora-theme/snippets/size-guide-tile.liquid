@@ -6,7 +6,7 @@
   class="size-guide-tile"
   data-size-id="{{ size_id | escape }}"
   {% if market_only != blank %}data-market-only="{{ market_only }}"{% endif %}
-  {% if hidden %}hidden{% endif %}
+  {% if hidden == true or hidden == 'true' %}hidden{% endif %}
 >
   <div class="size-guide-tile__bed" aria-hidden="true">
     <span

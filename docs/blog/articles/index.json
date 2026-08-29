@@ -8,7 +8,9 @@
       "Buying guide",
       "Mattress basics"
     ],
-    "excerpt": "A calm, research-informed guide to choosing a mattress: sleep position, firmness, materials, size, and what actually matters for long-term comfort."
+    "excerpt": "A calm, research-informed guide to choosing a mattress: sleep position, firmness, materials, size, and what actually matters for long-term comfort.",
+    "author": "Ben Acolatse",
+    "author_role": "CEO"
   },
   {
     "handle": "mattress-firmness-guide",
@@ -19,18 +21,22 @@
       "Firmness",
       "Buying guide"
     ],
-    "excerpt": "Soft, medium or firm? A clear firmness guide for real sleepers - by position, body type and what \u201csupport\u201d actually means."
+    "excerpt": "Soft, medium or firm? A clear firmness guide for real sleepers - by position, body type and what “support” actually means.",
+    "author": "Ben Acolatse",
+    "author_role": "CEO"
   },
   {
     "handle": "cooler-sleep-and-mattress-materials",
     "title": "Sleeping Hot? How Mattress Materials Affect Cooler Sleep",
     "seo_title": "Cooler Sleep: Mattress Materials & Heat Build-Up Explained",
-    "meta": "Why mattresses sleep hot, which materials and constructions help airflow, and how to choose a cooler-feeling bed for warm climates - without unverified \u201cX degrees cooler\u201d claims.",
+    "meta": "Why mattresses sleep hot, which materials and constructions help airflow, and how to choose a cooler-feeling bed for warm climates - without unverified “X degrees cooler” claims.",
     "tags": [
       "Cool sleep",
       "Materials"
     ],
-    "excerpt": "Heat is one of the top reasons mattresses fail in real homes. Here is how covers, foams and spring units influence cooler sleep - especially in warm climates."
+    "excerpt": "Heat is one of the top reasons mattresses fail in real homes. Here is how covers, foams and spring units influence cooler sleep - especially in warm climates.",
+    "author": "Ben Acolatse",
+    "author_role": "CEO"
   },
   {
     "handle": "mattress-support-and-back-comfort",
@@ -41,7 +47,9 @@
       "Support",
       "Back comfort"
     ],
-    "excerpt": "Back comfort is about alignment and pressure relief - not the hardest mattress in the shop. Here is what to look for, carefully and honestly."
+    "excerpt": "Back comfort is about alignment and pressure relief - not the hardest mattress in the shop. Here is what to look for, carefully and honestly.",
+    "author": "Ben Acolatse",
+    "author_role": "CEO"
   },
   {
     "handle": "when-to-replace-a-mattress",
@@ -52,7 +60,9 @@
       "Longevity",
       "Replaceable top"
     ],
-    "excerpt": "Most beds wear out from the top down. Learn the replacement signs - and why refreshing the comfort layer can beat binning the whole mattress."
+    "excerpt": "Most beds wear out from the top down. Learn the replacement signs - and why refreshing the comfort layer can beat binning the whole mattress.",
+    "author": "Ben Acolatse",
+    "author_role": "CEO"
   },
   {
     "handle": "hybrid-vs-foam-vs-innerspring",
@@ -63,6 +73,8 @@
       "Mattress types",
       "Buying guide"
     ],
-    "excerpt": "A clear comparison of hybrid, all-foam and traditional innerspring beds - feel, temperature, motion and who each type suits."
+    "excerpt": "A clear comparison of hybrid, all-foam and traditional innerspring beds - feel, temperature, motion and who each type suits.",
+    "author": "Ben Acolatse",
+    "author_role": "CEO"
   }
 ]
