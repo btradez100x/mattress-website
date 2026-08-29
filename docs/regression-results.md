@@ -4,7 +4,7 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 836 passed, 0 failed
-- Scope note: Theme settings `brand_name` and all Liquid/JS fallbacks are Numa (was Aligna). Last Connect deploy had overwritten live Theme settings with Aligna from `settings_data.json`. Emails re-baked to Numa/NUMA. Aligna remains only in leftover-copy replace filters and title rewrite regex. Contact email still `hello@aligna.com`. No VERSION bump.
+- Scope note: Theme settings `brand_name` and all Liquid/JS fallbacks are Numa (was Aligna). Last Connect deploy had overwritten live Theme settings with Aligna from `settings_data.json`. Emails re-baked to Numa/NUMA. Aligna remains only in leftover-copy replace filters and title rewrite regex. Contact email still `hello@aligna.com`. No VERSION bump. Checkpoint: `checkpoints/9.4.0-numa-brand-default/`. Deploy: `v9` `6fb7580`, `shopify-theme` `40b8b85`.
 
 ---
 
