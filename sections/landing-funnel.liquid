@@ -577,6 +577,8 @@
   >
     <div class="lp-sec-head lp-configure-head">
       {%- if section.settings.heading != blank -%}
+        <p class="section__eyebrow">Configure</p>
+        <hr class="gold-rule">
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
       {%- endif -%}
       {%- if section.settings.lede != blank -%}
@@ -597,7 +599,7 @@
       ></textarea>
     </div>
     <p class="lp-add-status" data-lp-add-status hidden role="status"></p>
-    <p class="lp-policy size-policy" data-lp-policy data-size-policy>{{ policy_default }}</p>
+    <div class="lp-policy size-policy" data-lp-policy data-size-policy>{{ policy_default }}</div>
   </div>
   {%- endif -%}
 </section>
