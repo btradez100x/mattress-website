@@ -1,4 +1,14 @@
-# Regression results — Saturday 29 Aug 2026 (restore Journal notes)
+# Regression results — Saturday 29 Aug 2026 (late review export + deploy)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 880 passed, 0 failed
+- Scope note: Late review pack. Journal baked notes + CEO byline. Size picker one market, no tabs, cm. Size Guide Shopify tiles. Manufacturing brief. Complimentary concierge. Reserve yours CTAs. Hero two lines. Checkout not modified. Checkpoint: `checkpoints/10.1.0-late-review/`. `VERSION` stays **10.1.0**.
+
+---
+
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
