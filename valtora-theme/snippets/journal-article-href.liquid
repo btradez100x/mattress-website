@@ -1,0 +1,10 @@
+{%- comment -%}
+  Href for a baked Journal note.
+  Prefer a matching Page (standalone article template), else a hash on this index
+  so the article is readable without extra Admin pages.
+{%- endcomment -%}
+{%- if pages[article_handle].handle == article_handle -%}
+  {{- pages[article_handle].url -}}
+{%- else -%}
+  #{{ article_handle }}
+{%- endif -%}

@@ -1,3 +1,15 @@
+{%- liquid
+  assign is_journal_article = false
+  case page.handle
+    when 'how-to-choose-a-mattress', 'mattress-firmness-guide', 'cooler-sleep-and-mattress-materials', 'mattress-support-and-back-comfort', 'when-to-replace-a-mattress', 'hybrid-vs-foam-vs-innerspring'
+      assign is_journal_article = true
+  endcase
+-%}
+{%- if is_journal_article -%}
+  <article class="section article" itemscope itemtype="https://schema.org/Article">
+    {% render 'journal-article-layout', article_handle: page.handle %}
+  </article>
+{%- else -%}
 <section class="section">
   <div class="page-width">
     <p class="section__eyebrow">{{ page.title }}</p>
@@ -8,6 +20,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {

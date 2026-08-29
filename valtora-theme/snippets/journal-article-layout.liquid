@@ -1,0 +1,91 @@
+{%- comment -%}
+  Shared Journal article chrome. Bodies live in journal-article-body.liquid.
+  Do not remove — Journal content is part of the storefront.
+{%- endcomment -%}
+{%- liquid
+  assign handle = article_handle
+  assign article_title = ''
+  assign article_excerpt = ''
+  assign article_tag = ''
+  assign article_date_iso = '2026-08-12'
+  assign article_date_label = '12 August 2026'
+  case handle
+    when 'how-to-choose-a-mattress'
+      assign article_title = 'How to Choose a Mattress: A Practical Buying Guide'
+      assign article_excerpt = 'A calm, research-informed guide to choosing a mattress: sleep position, firmness, materials, size, and what actually matters for long-term comfort.'
+      assign article_tag = 'Buying guide'
+    when 'mattress-firmness-guide'
+      assign article_title = 'Mattress Firmness Guide: Soft, Medium and Firm Explained'
+      assign article_excerpt = 'Soft, medium or firm? A clear firmness guide for real sleepers - by position, body type and what “support” actually means.'
+      assign article_tag = 'Firmness'
+    when 'cooler-sleep-and-mattress-materials'
+      assign article_title = 'Sleeping Hot? How Mattress Materials Affect Cooler Sleep'
+      assign article_excerpt = 'Heat is one of the top reasons mattresses fail in real homes. Here is how covers, foams and spring units influence cooler sleep - especially in warm climates.'
+      assign article_tag = 'Cool sleep'
+    when 'mattress-support-and-back-comfort'
+      assign article_title = 'Mattress Support and Back Comfort: What Actually Helps'
+      assign article_excerpt = 'Back comfort is about alignment and pressure relief - not the hardest mattress in the shop. Here is what to look for, carefully and honestly.'
+      assign article_tag = 'Support'
+    when 'when-to-replace-a-mattress'
+      assign article_title = 'When to Replace a Mattress (And When to Refresh the Top)'
+      assign article_excerpt = 'Most beds wear out from the top down. Learn the replacement signs - and why refreshing the comfort layer can beat binning the whole mattress.'
+      assign article_tag = 'Longevity'
+    when 'hybrid-vs-foam-vs-innerspring'
+      assign article_title = 'Hybrid vs Foam vs Innerspring Mattresses: Which Is Right?'
+      assign article_excerpt = 'A clear comparison of hybrid, all-foam and traditional innerspring beds - feel, temperature, motion and who each type suits.'
+      assign article_tag = 'Mattress types'
+  endcase
+  if page.handle == handle and page.title != blank and page.title != page.handle
+    assign article_title = page.title
+  endif
+  if page.handle == handle and page.content != blank
+    assign use_page_body = true
+  else
+    assign use_page_body = false
+  endif
+-%}
+{%- capture cta_href -%}{% render 'home-section-href', href: '/#reserve' %}{%- endcapture -%}
+{%- assign cta_href = cta_href | strip -%}
+
+<div class="page-width page-width--narrow article__header">
+  <p class="section__eyebrow">
+    <a href="{% render 'journal-index-href' %}">Journal</a>
+  </p>
+  <hr class="gold-rule">
+  <h1 itemprop="headline">{{ article_title }}</h1>
+  <p class="article__meta">
+    <time itemprop="datePublished" datetime="{{ article_date_iso }}">{{ article_date_label }}</time>
+    <span aria-hidden="true"> · </span>
+    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span itemprop="name">{{ settings.brand_name | default: 'Numa' }}</span>
+    </span>
+  </p>
+  {%- if article_excerpt != blank -%}
+    <p class="section__lede article__dek" itemprop="description">{{ article_excerpt }}</p>
+  {%- endif -%}
+</div>
+
+<div class="page-width page-width--narrow">
+  <div class="rte article__body" itemprop="articleBody">
+    {%- if use_page_body -%}
+      {{ page.content }}
+    {%- else -%}
+      {% render 'journal-article-body', article_handle: handle %}
+    {%- endif -%}
+  </div>
+
+  {%- if article_tag != blank -%}
+    <ul class="article__tags" role="list">
+      <li><span>{{ article_tag }}</span></li>
+    </ul>
+  {%- endif -%}
+
+  <aside class="article__cta" aria-label="Next step">
+    <h2>Ready to choose with confidence?</h2>
+    <p>Reserve your size. Pay in full today. Made to order, with an honest lead time.</p>
+    <a class="btn" href="{{ cta_href }}">Reserve your size</a>
+  </aside>
+  <p class="article__back">
+    <a href="{% render 'journal-index-href' %}">← All articles</a>
+  </p>
+</div>

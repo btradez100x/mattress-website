@@ -80,6 +80,13 @@ REQUIRED_PATHS=(
   "sections/main-checkout.liquid"
   "templates/page.manufacturing.json"
   "sections/manufacturing.liquid"
+  "templates/page.journal.json"
+  "sections/main-journal.liquid"
+  "snippets/journal-article-body.liquid"
+  "snippets/journal-baked-index.liquid"
+  "snippets/journal-article-layout.liquid"
+  "snippets/journal-index-href.liquid"
+  "templates/page.how-to-choose-a-mattress.json"
   "templates/product.json"
   "locales/en.default.json"
 )
@@ -797,6 +804,17 @@ if grep -q "render 'market-tagline'" "$THEME/sections/footer.liquid" \
   pass "market-tagline helper wired (includes AL; GB is UK)"
 else
   fail "market-tagline helper missing, unwired, or missing AL/GB/US"
+fi
+
+if grep -q "how-to-choose-a-mattress" "$THEME/snippets/journal-article-body.liquid" \
+  && grep -q "mattress-firmness-guide" "$THEME/snippets/journal-article-body.liquid" \
+  && grep -q "hybrid-vs-foam-vs-innerspring" "$THEME/snippets/journal-baked-index.liquid" \
+  && grep -q "journal-baked-index" "$THEME/sections/main-journal.liquid" \
+  && ! grep -q "New notes, in time" "$THEME/sections/main-journal.liquid" \
+  && grep -q "articles_count" "$THEME/snippets/journal-index-href.liquid"; then
+  pass "Journal keeps baked notes and prefers a populated blog"
+else
+  fail "Journal missing baked notes or populated-blog-first nav"
 fi
 
 info "----------------------------------------"

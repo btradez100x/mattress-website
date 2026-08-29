@@ -222,23 +222,24 @@ def check_theme_js() -> None:
     else:
         bad("footer.liquid missing Shop column or /pages/ policy fallbacks")
 
-    journal_fallback = "pages['journal'].url"
-    if journal_fallback in header_liquid and "/pages/journal" in header_liquid:
-        if "| default: '/blogs/journal'" in header_liquid or '| default: "/blogs/journal"' in header_liquid:
-            bad("header.liquid Journal still falls back to /blogs/journal")
-        elif "pages['journal'].handle" in header_liquid:
-            ok("header.liquid Journal prefers the journal page, then a real journal blog, then /pages/journal")
-        else:
-            ok("header.liquid Journal prefers blog, then page, then /pages/journal")
+    journal_href = (ROOT / "valtora-theme" / "snippets" / "journal-index-href.liquid").read_text(
+        encoding="utf-8"
+    )
+    if "journal-index-href" not in header_liquid:
+        bad("header.liquid Journal must use journal-index-href")
+    elif "| default: '/blogs/journal'" in header_liquid or '| default: "/blogs/journal"' in header_liquid:
+        bad("header.liquid Journal still falls back to /blogs/journal")
+    elif "articles_count" in journal_href and "pages['journal'].url" in journal_href and "/pages/journal" in journal_href:
+        ok("Journal prefers a populated blog, then the journal page, then /pages/journal")
     else:
-        bad("header.liquid Journal missing pages['journal'] / /pages/journal fallback")
+        bad("journal-index-href missing populated-blog-first resolution")
     if "all_products['the-mattress'].url" in header_liquid or "| default: '/products/the-mattress'" in header_liquid:
         bad("header.liquid The mattress still points at /products/the-mattress (unpublished SKU 404)")
     elif "mattress_url" in header_liquid and "#reserve" in header_liquid:
         ok("header.liquid The mattress goes to homepage #reserve")
     else:
         bad("header.liquid The mattress missing homepage #reserve destination")
-    if journal_fallback in footer_liquid and "/pages/journal" in footer_liquid:
+    if "pages['journal'].url" in footer_liquid and "/pages/journal" in footer_liquid:
         if "| default: '/blogs/journal'" in footer_liquid or '| default: "/blogs/journal"' in footer_liquid:
             bad("footer.liquid Journal still falls back to /blogs/journal")
         else:
@@ -247,10 +248,47 @@ def check_theme_js() -> None:
         ok("footer.liquid Journal lives in the header menu, not the footer")
     journal_tpl = ROOT / "valtora-theme" / "templates" / "page.journal.json"
     journal_sec = ROOT / "valtora-theme" / "sections" / "main-journal.liquid"
+    journal_body = ROOT / "valtora-theme" / "snippets" / "journal-article-body.liquid"
+    journal_index = ROOT / "valtora-theme" / "snippets" / "journal-baked-index.liquid"
     if journal_tpl.exists() and journal_sec.exists():
         ok("page.journal.json + main-journal.liquid present")
     else:
         bad("missing page.journal.json or main-journal.liquid")
+    if "journal-baked-index" not in journal_sec.read_text(encoding="utf-8"):
+        bad("main-journal.liquid must render baked Journal notes")
+    elif "New notes, in time" in journal_sec.read_text(encoding="utf-8"):
+        bad("main-journal.liquid still uses the empty-state copy instead of baked notes")
+    else:
+        ok("main-journal.liquid renders baked Journal notes")
+    journal_handles = (
+        "how-to-choose-a-mattress",
+        "mattress-firmness-guide",
+        "cooler-sleep-and-mattress-materials",
+        "mattress-support-and-back-comfort",
+        "when-to-replace-a-mattress",
+        "hybrid-vs-foam-vs-innerspring",
+    )
+    body_text = journal_body.read_text(encoding="utf-8") if journal_body.exists() else ""
+    index_text = journal_index.read_text(encoding="utf-8") if journal_index.exists() else ""
+    if journal_body.exists() and journal_index.exists():
+        ok("journal-article-body.liquid + journal-baked-index.liquid present")
+    else:
+        bad("missing baked Journal snippets")
+    for handle in journal_handles:
+        article_tpl = ROOT / "valtora-theme" / "templates" / f"page.{handle}.json"
+        if handle in body_text and handle in index_text and article_tpl.exists():
+            ok(f"Journal note present: {handle}")
+        else:
+            bad(f"Journal note missing from theme: {handle}")
+    checkout_paths = (
+        ROOT / "valtora-theme" / "sections" / "main-checkout.liquid",
+        ROOT / "valtora-theme" / "templates" / "page.checkout.json",
+        ROOT / "preview" / "pages" / "checkout.html",
+    )
+    if all(path.exists() for path in checkout_paths):
+        ok("checkout files present and not required by Journal")
+    else:
+        bad("checkout files missing")
 
     for rel, js_text in (("preview/theme.js", js), ("valtora-theme/assets/theme.js", theme_js_text)):
         if "is-wiping" in js_text and "is-wiped" in js_text and "shopify-design-mode" in js_text:

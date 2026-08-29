@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-journal-article",
+      "settings": {
+        "article_handle": "how-to-choose-a-mattress"
+      }
+    }
+  },
+  "order": ["main"]
+}

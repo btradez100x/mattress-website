@@ -1,0 +1,26 @@
+{%- comment -%}
+  Standalone Journal article page.
+  Admin: Pages → handle matching the note → template this file's suffix.
+  Body is baked into the theme so the article cannot go missing.
+{%- endcomment -%}
+{%- liquid
+  assign handle = section.settings.article_handle | default: page.handle
+-%}
+
+<article class="section article" itemscope itemtype="https://schema.org/Article">
+  {% render 'journal-article-layout', article_handle: handle %}
+</article>
+
+{% schema %}
+{
+  "name": "Journal article",
+  "settings": [
+    {
+      "type": "text",
+      "id": "article_handle",
+      "label": "Article handle",
+      "info": "Leave blank to use the page handle."
+    }
+  ]
+}
+{% endschema %}
