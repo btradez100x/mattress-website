@@ -965,17 +965,14 @@
       if (typeof paintFloatBasketFromStore === 'function') paintFloatBasketFromStore();
     }
 
-    function paintSizes(root, tabKey) {
+    function paintSizes(root) {
       var list = root.querySelector('[data-lp-sizes]');
       if (!list) return;
-      var tab = tabKey || marketToTabKey(detectMarket());
-      var tabs = tabsPresentInRows(allRows());
-      if (tabs.length && !tabs.some(function (t) { return t.key === tab; })) {
-        tab = tabs[0].key;
-      }
+      var market = detectMarket();
+      var tab = marketToTabKey(market);
+      root.setAttribute('data-market', market);
       root.setAttribute('data-selector-tab', tab);
-      persistSelectorMarket(tab);
-      paintMarketTabs(root.querySelector('[data-size-markets]'), tabs, tab);
+      paintMarketTabs(root.querySelector('[data-size-markets]'));
       var rows = rowsForTab(tab);
       list.innerHTML = rows.map(function (row) {
         return buildSizeRowMarkup(row, tab, 'Add');
