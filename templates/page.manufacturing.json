@@ -1,116 +1,51 @@
 {
   "sections": {
-    "hero": {
-      "type": "landing-funnel",
+    "main": {
+      "type": "manufacturing",
+      "blocks": {
+        "m20": { "type": "measure", "settings": { "label": "20cm", "text": "Pocket spring core. Individually housed springs, edge to edge. No shared coils, no shared movement." } },
+        "m10": { "type": "measure", "settings": { "label": "10cm", "text": "Comfort layer. Built separately, dropped in, zipped closed. The part your body actually touches, and the only part that softens." } },
+        "m35": { "type": "measure", "settings": { "label": "35cm", "text": "Finished depth. It is what fitting a full core and a proper comfort layer into one bed requires." } },
+        "mwire": { "type": "measure", "settings": { "label": "1.8 / 2.0mm", "text": "Pocket spring wire. Two gauges, used where the core needs them." } },
+        "st1": { "type": "step", "settings": { "label": "Springs pocketed", "text": "To your size. Built for your order." } },
+        "st2": { "type": "step", "settings": { "label": "Layers assembled", "text": "Core and comfort layer built separately, then brought together." } },
+        "st3": { "type": "step", "settings": { "label": "Cover closed", "text": "Knitted fabric, tape-edge finished, zip fitted along the top panel." } },
+        "st4": { "type": "step", "settings": { "label": "Compressed and rolled", "text": "So it reaches your bedroom in one piece. It expands within hours of being unrolled." } },
+        "z1": { "type": "size", "settings": { "label": "Single", "dims": "90 × 190cm" } },
+        "z2": { "type": "size", "settings": { "label": "Double", "dims": "135 × 190cm" } },
+        "z3": { "type": "size", "settings": { "label": "King", "dims": "150 × 200cm" } },
+        "z4": { "type": "size", "settings": { "label": "European King", "dims": "160 × 200cm" } },
+        "z5": { "type": "size", "settings": { "label": "Super King", "dims": "180 × 200cm" } },
+        "z6": { "type": "size", "settings": { "label": "Emperor", "dims": "200 × 200cm" } },
+        "o1": { "type": "outcome", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
+        "o2": { "type": "outcome", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
+        "o3": { "type": "outcome", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
+      },
+      "block_order": ["m20", "m10", "m35", "mwire", "st1", "st2", "st3", "st4", "z1", "z2", "z3", "z4", "z5", "z6", "o1", "o2", "o3"],
       "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "hero",
-        "lp_variant": "G-manufacturing",
-        "kicker": "How it is made",
+        "eyebrow": "How it is made",
         "heading": "Built in two parts.\nClosed with a zip.",
         "lede": "Thirty five centimetres. A pocket spring core beneath a comfort layer that lifts out. Made after you order it, in the size you ask for.",
-        "show_price": false,
-        "cta_label": ""
-      }
-    },
-    "core": {
-      "type": "landing-funnel",
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "prose",
-        "heading": "The core",
-        "body": "<p>Twenty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>"
-      }
-    },
-    "core_rows": {
-      "type": "landing-funnel",
-      "blocks": {
-        "d1": { "type": "spec_item", "settings": { "label": "20cm", "text": "Pocket spring core. Individually housed springs, edge to edge. No shared coils, no shared movement." } },
-        "d2": { "type": "spec_item", "settings": { "label": "10cm", "text": "Comfort layer. Built separately, dropped in, zipped closed. The part your body actually touches, and the only part that softens." } },
-        "d3": { "type": "spec_item", "settings": { "label": "35cm", "text": "Finished depth. It is what fitting a full core and a proper comfort layer into one bed requires." } }
-      },
-      "block_order": ["d1", "d2", "d3"],
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "spec"
-      }
-    },
-    "layer": {
-      "type": "landing-funnel",
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "prose",
-        "heading": "The layer",
-        "body": "<p>Ten centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><div class=\"lp-pull\"><p>Every mattress you have thrown away was thrown away because of ten centimetres.</p></div><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>Two minutes to change. No tools.</p>"
-      }
-    },
-    "made": {
-      "type": "landing-funnel",
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "prose",
-        "heading": "Made after you order",
-        "body": "<p>Nothing is built before somebody wants it. No warehouse, no stock, no last season's tension to move on.</p><p>That is why it takes weeks rather than days, and why there is no clearance sale. It is also why the size range is what it is - a size exists because someone asked for it, not because a machine was already set up.</p><p>Made by experts who have been making mattresses for 49 years.</p>"
-      }
-    },
-    "made_steps": {
-      "type": "landing-funnel",
-      "blocks": {
-        "st1": { "type": "spec_item", "settings": { "label": "Springs pocketed", "text": "To your size. Built for your order." } },
-        "st2": { "type": "spec_item", "settings": { "label": "Layers assembled", "text": "Core and comfort layer built separately, then brought together." } },
-        "st3": { "type": "spec_item", "settings": { "label": "Cover closed", "text": "Knitted fabric, tape-edge finished, zip fitted along the top panel." } },
-        "st4": { "type": "spec_item", "settings": { "label": "Compressed and rolled", "text": "So it reaches your bedroom in one piece. It expands within hours of being unrolled." } }
-      },
-      "block_order": ["st1", "st2", "st3", "st4"],
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "steps"
-      }
-    },
-    "sizes": {
-      "type": "landing-funnel",
-      "blocks": {
-        "z1": { "type": "card", "settings": { "heading": "Single", "text": "90 × 190" } },
-        "z3": { "type": "card", "settings": { "heading": "Double", "text": "135 × 190" } },
-        "z4": { "type": "card", "settings": { "heading": "King", "text": "150 × 200" } },
-        "z5": { "type": "card", "settings": { "heading": "European King", "text": "160 × 200" } },
-        "z6": { "type": "card", "settings": { "heading": "Super King", "text": "180 × 200" } },
-        "z7": { "type": "card", "settings": { "heading": "Emperor", "text": "200 × 200" } }
-      },
-      "block_order": ["z1", "z3", "z4", "z5", "z6", "z7"],
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "size_grid",
-        "heading": "The sizes",
-        "lede": "British and European. Every size, one construction.",
-        "table_note": "Every size, one construction. Thirty five centimetres throughout."
-      }
-    },
-    "outcome": {
-      "type": "landing-funnel",
-      "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
-        "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
-        "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
-      },
-      "block_order": ["o1", "o2", "o3"],
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "outcome",
-        "anchor_id": "outcome",
-        "heading": "A bed that becomes yours,\nand stays that way.",
+        "stack_layer_n": "10cm",
+        "stack_layer_l": "Comfort layer",
+        "stack_core_n": "20cm",
+        "stack_core_l": "Pocket spring core",
+        "stack_total": "35cm finished · 1.8 / 2.0mm wire",
+        "core_heading": "The core",
+        "core_body": "<p>Twenty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>",
+        "layer_heading": "The layer",
+        "layer_body": "<p>Ten centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><p>Every mattress you have thrown away was thrown away because of ten centimetres.</p><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>When you tell us how it should feel, we send the layer that takes you there. You keep every layer, so you can go back to whichever suited best.</p><p>Two minutes to change. No tools.</p>",
+        "made_heading": "Made after you order",
+        "made_body": "<p>Nothing is built before somebody wants it. No warehouse, no stock, no last season's tension to move on.</p><p>That is why it takes weeks rather than days, and why there is no clearance sale. It is also why the size range is what it is - a size exists because someone asked for it, not because a machine was already set up.</p>",
+        "heritage": "Made by experts who have been making mattresses for 49 years.",
+        "sizes_heading": "The sizes",
+        "sizes_lede": "British and European. Every size, one construction.",
+        "sizes_note": "Every size, one construction. Thirty five centimetres throughout.",
+        "outcome_heading": "A bed that becomes yours,\nand stays that way.",
         "cta_label": "Choose your size",
         "cta_link": "/pages/configure"
       }
     }
   },
-  "order": ["hero", "core", "core_rows", "layer", "made", "made_steps", "sizes", "outcome"]
+  "order": ["main"]
 }
