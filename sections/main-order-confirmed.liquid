@@ -1,18 +1,17 @@
 {%- liquid
   assign warranty = settings.warranty_years | default: '25'
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-    assign arrived_label = 'Arrived in the UK'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
+  if market == 'ae'
     assign arrived_label = 'Arrived in the UAE'
+  elsif market == 'us'
+    assign arrived_label = 'Arrived in the US'
+  elsif market == 'eu'
+    assign arrived_label = 'Arrived in Europe'
   else
-    assign market = settings.default_market | default: 'ae'
-    if market == 'gb'
-      assign arrived_label = 'Arrived in the UK'
-    else
-      assign arrived_label = 'Arrived in the UAE'
-    endif
+    assign arrived_label = 'Arrived in the UK'
   endif
   assign order_name = order.name | default: ''
   assign first_name = order.customer.first_name | default: ''

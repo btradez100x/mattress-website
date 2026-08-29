@@ -3,16 +3,14 @@
   Legacy settings.contact_phone is used as a fallback.
 {%- endcomment -%}
 {%- liquid
-  assign m = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign m = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign m = 'ae'
-  endif
+  capture m
+    render 'size-market'
+  endcapture
+  assign m = m | strip
 
-  if m == 'gb'
-    echo settings.contact_phone_gb | default: settings.contact_phone | default: ''
-  else
+  if m == 'ae'
     echo settings.contact_phone_ae | default: settings.contact_phone | default: ''
+  else
+    echo settings.contact_phone_gb | default: settings.contact_phone | default: ''
   endif
 -%}

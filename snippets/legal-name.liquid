@@ -4,18 +4,18 @@
   Legacy legal_entity_name_ae is used only if Legal name is blank.
 {%- endcomment -%}
 {%- liquid
-  assign m = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign m = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign m = 'ae'
-  endif
+  capture m
+    render 'size-market'
+  endcapture
+  assign m = m | strip
 
   assign name = settings.legal_name
-  if m == 'gb' and settings.legal_entity_name_gb != blank
+  if m == 'ae' and settings.legal_entity_name_ae != blank
+    assign name = settings.legal_entity_name_ae
+  elsif m != 'ae' and settings.legal_entity_name_gb != blank
     assign name = settings.legal_entity_name_gb
   elsif name == blank
-    assign name = settings.legal_entity_name_ae
+    assign name = settings.legal_entity_name_gb | default: settings.legal_entity_name_ae
   endif
   echo name
 -%}

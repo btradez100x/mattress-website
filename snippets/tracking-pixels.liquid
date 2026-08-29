@@ -8,10 +8,17 @@
   Optional TikTok / Snapchat / Clarity remain as legacy fallbacks only when GTM is blank.
 {%- endcomment -%}
 
+{%- liquid
+  capture valtora_track_market
+    render 'size-market'
+  endcapture
+  assign valtora_track_market = valtora_track_market | strip
+-%}
 <script>
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
-    market: {{ settings.default_market | json }},
+    market: {{ valtora_track_market | json }},
+    country: {{ localization.country.iso_code | json }},
     payment_mode: {{ settings.payment_mode | default: 'full' | json }},
     template: {{ template.name | json }}
   });

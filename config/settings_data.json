@@ -28,7 +28,7 @@
     "font_sans": "outfit",
     "wordmark_font": "sans",
     "headline_font": "sans",
-    "default_market": "ae",
+    "default_market": "gb",
     "size_add_label": "Add",
     "deposit_amount_label": "AED 200",
     "klarna_client_id": "",

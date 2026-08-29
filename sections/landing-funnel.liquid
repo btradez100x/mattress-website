@@ -1,7 +1,6 @@
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa'
   assign layout = section.settings.layout | default: 'hero'
-  assign market = settings.default_market | default: 'ae'
   capture market
     render 'size-market'
   endcapture
@@ -24,10 +23,10 @@
     assign warranty = '25'
   endif
 
-  if market == 'gb'
-    assign layer_price = settings.comfort_layer_price_gb | strip
-  else
+  if market == 'ae'
     assign layer_price = settings.comfort_layer_price_ae | strip
+  else
+    assign layer_price = settings.comfort_layer_price_gb | strip
   endif
   if layer_price == blank and all_products['comfort-layer'] and all_products['comfort-layer'].price > 0
     assign layer_price = all_products['comfort-layer'].price | money
@@ -45,18 +44,10 @@
       if v.metafields.custom.enabled == false
         continue
       endif
-      assign v_market = v.metafields.custom.market | strip | downcase
-      if v_market == blank
-        assign v_title_down = v.title | downcase
-        assign v_sku_down = v.sku | downcase
-        if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
-          assign v_market = 'ae'
-        elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
-          assign v_market = 'eu'
-        else
-          assign v_market = 'gb'
-        endif
-      endif
+      capture v_mkt
+        render 'size-variant-market', v: v
+      endcapture
+      assign v_market = v_mkt | strip
       if v_market != market
         continue
       endif
@@ -140,6 +131,9 @@
   {%- assign first_out = true -%}
   {%- for v in mattress.variants -%}
     {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
+    {%- capture v_mkt -%}{%- render 'size-variant-market', v: v -%}{%- endcapture -%}
+    {%- assign v_mkt = v_mkt | strip -%}
+    {%- if v_mkt != market -%}{%- continue -%}{%- endif -%}
     {%- unless first_out -%},{%- endunless -%}
     {%- render 'size-variant-json', v: v -%}
     {%- assign first_out = false -%}
@@ -589,8 +583,7 @@
         <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
       {%- endif -%}
     </div>
-    <div class="size-markets" data-size-markets role="tablist" aria-label="Market" hidden></div>
-    <ul class="size-rows lp-sizes" data-lp-sizes data-size-list aria-label="Mattress size"></ul>
+    <ul class="size-list lp-sizes" data-lp-sizes data-size-list aria-label="Mattress size"></ul>
     <p class="lp-lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
     <span hidden data-lp-qty></span>
     <div class="size-note">
@@ -717,7 +710,7 @@
       "type": "text",
       "id": "cta_label",
       "label": "CTA label",
-      "default": "Configure yours"
+      "default": "Reserve yours"
     },
     {
       "type": "text",

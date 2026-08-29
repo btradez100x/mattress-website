@@ -10,12 +10,10 @@
     endif
   endif
   assign tone = section.settings.tone | default: 'light'
-  assign market = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-  endif
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
   assign payment_mode = settings.payment_mode | default: 'full'
   assign warranty = settings.warranty_years | default: '25' | strip
   if warranty == blank
@@ -30,10 +28,10 @@
   if payment_mode == 'split'
     assign assurance_line = 'Pay '
     assign assurance_line = assurance_line | append: settings.split_percent | default: 50 | append: '% today · balance when it ships'
-    if market == 'gb'
-      assign assurance_line = assurance_line | append: ' · Spread with Klarna'
-    else
+    if market == 'ae'
       assign assurance_line = assurance_line | append: ' · Spread with Tabby or Tamara'
+    else
+      assign assurance_line = assurance_line | append: ' · Spread with Klarna'
     endif
   else
     assign assurance_line = 'Cancel any time before dispatch · [N]-night trial · [X]-year warranty'
@@ -60,7 +58,7 @@
   {%- comment -%} Copy first so the product image stays clear (Apple-style stack on light) {%- endcomment -%}
   <div class="hero__content">
     {%- if section.settings.heading != blank -%}
-      <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">{{ section.settings.heading }}</h1>
+      <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">{{ section.settings.heading | newline_to_br }}</h1>
     {%- endif -%}
     {%- if section.settings.subheading != blank -%}
       <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">{{ section.settings.subheading }}</p>

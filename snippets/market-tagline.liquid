@@ -10,7 +10,7 @@
   assign tagline_key = 'default'
 
   if iso == blank
-    assign dm = settings.default_market | default: 'ae'
+    assign dm = 'gb'
     if dm == 'gb'
       assign tagline_key = 'gb'
     elsif dm == 'ae'

@@ -89,6 +89,11 @@
       {%- if v.metafields.custom.enabled == false -%}
         {%- continue -%}
       {%- endif -%}
+      {%- capture v_mkt -%}{%- render 'size-variant-market', v: v -%}{%- endcapture -%}
+      {%- assign v_mkt = v_mkt | strip -%}
+      {%- if v_mkt != market -%}
+        {%- continue -%}
+      {%- endif -%}
       {%- unless first_out -%},{%- endunless -%}
       {%- render 'size-variant-json', v: v -%}
       {%- assign first_out = false -%}
@@ -137,8 +142,7 @@
       {%- endif -%}
 
       <div class="size-picker">
-      <div class="size-markets" data-size-markets role="tablist" aria-label="Market" hidden></div>
-      <ul class="size-list size-rows" data-size-list aria-label="Mattress size"></ul>
+      <ul class="size-list" data-size-list aria-label="Mattress size"></ul>
       </div>
       {%- if section.settings.request_size_enabled -%}
         <div class="size-request-entry">
@@ -155,7 +159,6 @@
           data-available="false"
           data-request-size="true"
         >
-          <span class="size-option__marker" aria-hidden="true"></span>
           <span class="size-option__main">
             <span class="size-option__label">{{ section.settings.request_size_label | default: 'Request a size' }}</span>
             <span class="size-option__dims">{{ section.settings.request_size_sublabel | default: 'Tell us what you need - we will discuss it with you' }}</span>
@@ -191,7 +194,7 @@
         </p>
       {%- elsif first_out -%}
         <p class="reserve-panel__note" style="color:var(--brand-accent);">
-          No sizes for this market yet. Variants render when custom.MarketShown includes this market, or custom.market is set (gb / ae / us / eu).
+          No sizes for this market yet. Variants render when custom.market matches this market (gb / ae / us / eu / au).
         </p>
       {%- endif -%}
     </div>
@@ -470,7 +473,7 @@
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Select your size - price updates for your market. Dimensions always shown in centimetres."
+      "default": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres."
     },
     {
       "type": "text",
