@@ -1,3 +1,13 @@
+# Regression results — Saturday 29 Aug 2026 (save 10.0.0-numa-storefront)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 836 passed, 0 failed
+- Scope note: Kept milestone **10.0.0-numa-storefront**. Version **was** bumped (`VERSION` and Shopify `theme_version` are **10.0.0**). Zip `Valtora-Shopify-Theme-10.0.0-numa-storefront.zip` in Downloads and `checkpoints/10.0.0-numa-storefront/`. Since 9.4.0: go-live, firmness copy, about and recycling pages, 30-day trial, lifecycle emails, Numa as brand default. Does not replace 9.4.0, 9.3.0, or 9.2.0 copies. Not deployed.
+
+---
+
 # Regression results — Saturday 29 Aug 2026 (Numa brand default)
 
 ## Smoke
