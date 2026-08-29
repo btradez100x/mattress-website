@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "hero": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "hero",
+        "lp_variant": "E-recycling",
+        "kicker": "Old mattress removal · Complimentary with every mattress",
+        "heading": "Seven million a year.\nLet us deal with yours.",
+        "lede": "Around seven million mattresses are thrown out in the UK annually and roughly three quarters end up in landfill. Collection, transport and recycling are paid for by us. You are not charged, and you never will be.",
+        "show_price": false,
+        "cta_label": ""
+      }
+    },
+    "why": {
+      "type": "landing-funnel",
+      "blocks": {
+        "c1": { "type": "card", "settings": { "heading": "7m", "text": "Mattresses discarded in the UK each year" } },
+        "c2": { "type": "card", "settings": { "heading": "75%", "text": "Still going to landfill or incineration" } },
+        "c3": { "type": "card", "settings": { "heading": "£76", "text": "What councils charge to collect one" } }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "stats",
+        "heading": "Why it ends up in the ground",
+        "body": "<p>A mattress is not one material. It is steel, foam and textile bonded together, and separating them is manual, slow work. For years the cost of pulling one apart has been higher than the value of what comes out, so most were buried.</p><p>That is changing, but not fast enough. The industry target is to divert three quarters of mattresses from landfill by 2028, and it is currently not on track to meet it.</p>",
+        "table_note": "Figures from National Bed Federation end-of-life mattress research."
+      }
+    },
+    "pay": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "prose",
+        "heading": "Why we pay for it",
+        "body": "<p>Every mattress sold puts another one into the waste stream. Ours included. Collection, transport and recycling are paid for by us. It is a real cost on every order and it is deducted from our margin, not added to your price.</p><p>Councils charge up to £76 to take a mattress away. Declining the service does not reduce the price of your mattress.</p>"
+      }
+    },
+    "happens": {
+      "type": "landing-funnel",
+      "blocks": {
+        "s1": { "type": "spec_item", "settings": { "label": "We collect it on the same visit", "text": "Your old mattress leaves as the new one arrives. Nothing waits in the hall, nothing goes on the drive, and you do not book a second appointment or pay a council fee." } },
+        "s2": { "type": "spec_item", "settings": { "label": "It goes to a recycler, not a tip", "text": "Not a general waste transfer station. A facility that separates the components rather than baling the whole thing." } },
+        "s3": { "type": "spec_item", "settings": { "label": "The materials are recovered", "text": "Steel springs return to steel manufacturing. Foam and polyester are reprocessed. Textiles go into industrial felt and carpet backing." } },
+        "s4": { "type": "spec_item", "settings": { "label": "We tell you the truth about the rest", "text": "Diversion from landfill and actual material recovery are different numbers. We will publish our real recovery rate once our partner has confirmed it in writing, and not before." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "steps",
+        "heading": "What happens to it",
+        "lede": "Complimentary is easy to say. Where it actually goes is the part that matters."
+      }
+    },
+    "notice": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "notice",
+        "kicker": "Please read before adding this",
+        "heading": "Once it goes, it is gone.",
+        "body": "<p><strong>This service cannot be reversed.</strong> Your old mattress is taken directly for recycling. It is not stored, held or kept aside, and we cannot return it to you under any circumstances after collection.</p><p><strong>That matters if you later return your mattress.</strong> If you use the 30-day sleep trial and we collect our mattress, you will not have your old one to go back to. Please think about that before adding this service, particularly if you are unsure about the purchase.</p><p><strong>It is entirely optional.</strong> You can decline it at checkout and keep your old mattress, and it changes nothing else about your order. You can also tell us on the day that you have changed your mind, at any point before it is taken.</p><p><strong>There is nothing to refund.</strong> The service is complimentary. No charge is made and none is returned. Declining it does not reduce the price of your mattress.</p>"
+      }
+    },
+    "cannot": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "prose",
+        "heading": "What we cannot take",
+        "body": "<p>We may be unable to accept an item at the door, and it is better to know now than on the day. We cannot collect a mattress that is wet, mouldy, infested, heavily soiled or contaminated, because a recycler will not accept it and it becomes landfill anyway.</p><p>If you think yours might fall into that category, tell us when you book the delivery. It is not a problem, it just means we plan for it.</p>"
+      }
+    },
+    "cta": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "cta",
+        "heading": "Choose your size",
+        "cta_label": "Configure yours",
+        "cta_link": "/pages/configure"
+      }
+    }
+  },
+  "order": ["hero", "why", "pay", "happens", "notice", "cannot", "cta"]
+}

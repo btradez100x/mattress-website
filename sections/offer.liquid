@@ -11,7 +11,7 @@
     assign warranty = '25'
   endif
   if market == 'gb'
-    assign top_price = section.settings.replacement_top_price_gb | default: 'A replacement comfort layer is £250. A new mattress is not.'
+    assign top_price = section.settings.replacement_top_price_gb | default: 'A replacement comfort layer is £299. A new mattress is not.'
   else
     assign top_price = section.settings.replacement_top_price_ae | default: 'A replacement comfort layer is AED 1,200. A new mattress is not.'
   endif
@@ -193,7 +193,7 @@
       "type": "text",
       "id": "replacement_top_price_gb",
       "label": "Replacement top price line (UK)",
-      "default": "A replacement comfort layer is £250. A new mattress is not."
+      "default": "A replacement comfort layer is £299. A new mattress is not."
     },
     {
       "type": "text",

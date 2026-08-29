@@ -15,9 +15,9 @@
     assign mattress = all_products['mattress']
   endif
 
-  assign trial = settings.trial_nights | default: '100' | strip
+  assign trial = settings.trial_nights | default: '30' | strip
   if trial == blank
-    assign trial = '100'
+    assign trial = '30'
   endif
   assign warranty = settings.warranty_years | default: '25' | strip
   if warranty == blank
@@ -422,10 +422,156 @@
   </div>
   {%- endif -%}
 
+  {%- if layout == 'outcome' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head" style="text-align:center">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+      </div>
+    {%- endif -%}
+    <div class="lp-outcome">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'card' -%}
+          <div class="lp-outcome__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <p class="lp-outcome__name">{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="lp-outcome__desc">{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.cta_label != blank -%}
+      <p class="lp-cta-band__btn" style="text-align:center;margin-top:2.25rem"><a class="btn" href="{{ cta_href }}">{{ section.settings.cta_label }}</a></p>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'delivery' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="lp-tiers">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'tier' -%}
+          <div class="lp-tier{% if block.settings.featured %} lp-tier--pick{% endif %}" {{ block.shopify_attributes }}>
+            <div>
+              {%- if block.settings.tag != blank -%}
+                <span class="lp-tier__tag">{% render 'landing-copy', text: block.settings.tag, featured_price: featured_price, layer_price: layer_price %}</span>
+              {%- endif -%}
+              {%- if block.settings.heading != blank -%}
+                <p class="lp-tier__name">{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</p>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="lp-tier__desc">{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</p>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.price != blank -%}
+              <span class="lp-tier__price">{% render 'landing-copy', text: block.settings.price, featured_price: featured_price, layer_price: layer_price %}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="lp-svc">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'card' -%}
+          <div {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h3>{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p>{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'steps' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <ol class="lp-steps">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'spec_item' -%}
+          <li {{ block.shopify_attributes }}>
+            {%- if block.settings.label != blank -%}
+              <b>{% render 'landing-copy', text: block.settings.label, featured_price: featured_price, layer_price: layer_price %}</b>
+            {%- endif -%}
+            {% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ol>
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'stats' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <div class="rte">{% render 'landing-copy', text: section.settings.body, featured_price: featured_price, layer_price: layer_price %}</div>
+    {%- endif -%}
+    <div class="lp-stats">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'card' -%}
+          <div {{ block.shopify_attributes }}>
+            <span class="lp-stats__n">{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</span>
+            <span class="lp-stats__l">{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.table_note != blank -%}
+      <p class="lp-note-line">{% render 'landing-copy', text: section.settings.table_note, featured_price: featured_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'notice' -%}
+  <div class="page-width lp-narrow">
+    <div class="lp-notice">
+      {%- if section.settings.kicker != blank -%}
+        <span class="lp-notice__tag">{% render 'landing-copy', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <div class="rte">{% render 'landing-copy', text: section.settings.body, featured_price: featured_price, layer_price: layer_price %}</div>
+      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
+
   {%- if layout == 'configure' -%}
     {%- liquid
-      assign policy_default = 'Comfort layer included · [N]-night comfort promise'
-      assign policy_emperor = 'Comfort layer included · Made to order · Not covered by the [N]-night return trial.'
+      assign policy_default = 'Comfort layer included · 30-day comfort promise · Concierge unpacking included'
+      assign policy_emperor = 'Comfort layer included · Made to order · Concierge unpacking included · Not covered by the 30-day return trial'
       capture policy_default
         render 'landing-copy', text: policy_default, featured_price: featured_price, layer_price: layer_price
       endcapture
@@ -522,7 +668,7 @@
 {% schema %}
 {
   "name": "Landing funnel",
-  "max_blocks": 8,
+  "max_blocks": 12,
   "settings": [
     {
       "type": "checkbox",
@@ -555,6 +701,11 @@
         { "value": "size_table", "label": "Size and price table" },
         { "value": "cost", "label": "Ownership cost table" },
         { "value": "cta", "label": "Configure CTA band" },
+        { "value": "outcome", "label": "Three statements" },
+        { "value": "delivery", "label": "Concierge delivery" },
+        { "value": "steps", "label": "Numbered steps" },
+        { "value": "stats", "label": "Stat figures" },
+        { "value": "notice", "label": "Notice box" },
         { "value": "configure", "label": "Inline size selector" }
       ],
       "default": "hero"
@@ -728,6 +879,17 @@
       "settings": [
         { "type": "text", "id": "label", "label": "Label" },
         { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "tier",
+      "name": "Service tier",
+      "settings": [
+        { "type": "text", "id": "tag", "label": "Tag" },
+        { "type": "text", "id": "heading", "label": "Name" },
+        { "type": "textarea", "id": "text", "label": "Description" },
+        { "type": "text", "id": "price", "label": "Price label" },
+        { "type": "checkbox", "id": "featured", "label": "Highlighted", "default": false }
       ]
     }
   ],

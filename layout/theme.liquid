@@ -10,7 +10,7 @@
   endif
 -%}
 <!doctype html>
-<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}" data-warranty-years="{{ settings.warranty_years | default: '25' | escape }}" data-trial-nights="{{ settings.trial_nights | default: '100' | escape }}">
+<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}" data-warranty-years="{{ settings.warranty_years | default: '25' | escape }}" data-trial-nights="{{ settings.trial_nights | default: '30' | escape }}">
   <head>
     <script>
       (function () {
