@@ -552,6 +552,32 @@
   </div>
   {%- endif -%}
 
+  {%- if layout == 'size_grid' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="lp-sizegrid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'card' -%}
+          <div {{ block.shopify_attributes }}>
+            <p class="lp-sizegrid__s">{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</p>
+            <p class="lp-sizegrid__d">{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.table_note != blank -%}
+      <p class="lp-note-line">{% render 'landing-copy', text: section.settings.table_note, featured_price: featured_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
   {%- if layout == 'notice' -%}
   <div class="page-width lp-narrow">
     <div class="lp-notice">
@@ -657,8 +683,16 @@
         <span class="lp-addprice" data-lp-add-price></span>
         <span class="lp-adddim" data-lp-add-dim>Select a size</span>
       </div>
-      <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
+      <div class="lp-addbar__actions">
+        <div class="lp-qty" data-lp-qty hidden>
+          <button type="button" class="lp-qty__btn" data-lp-qty-dec aria-label="Decrease quantity">−</button>
+          <span class="lp-qty__val" data-lp-qty-val>1</span>
+          <button type="button" class="lp-qty__btn" data-lp-qty-inc aria-label="Increase quantity">+</button>
+        </div>
+        <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
+      </div>
     </div>
+    <p class="lp-add-status" data-lp-add-status hidden role="status"></p>
     <p class="lp-policy" data-lp-policy>{{ policy_default }}</p>
   </div>
   {%- endif -%}
@@ -668,7 +702,7 @@
 {% schema %}
 {
   "name": "Landing funnel",
-  "max_blocks": 12,
+  "max_blocks": 16,
   "settings": [
     {
       "type": "checkbox",
@@ -705,6 +739,7 @@
         { "value": "delivery", "label": "Concierge delivery" },
         { "value": "steps", "label": "Numbered steps" },
         { "value": "stats", "label": "Stat figures" },
+        { "value": "size_grid", "label": "Size name grid" },
         { "value": "notice", "label": "Notice box" },
         { "value": "configure", "label": "Inline size selector" }
       ],

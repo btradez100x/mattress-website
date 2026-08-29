@@ -34,6 +34,9 @@
     elsif seo_handle == 'what-it-buys' or seo_suffix == 'what-it-buys'
       assign seo_title = 'What a handmade mattress buys'
       assign seo_description = 'A pocket sprung core built to last twenty five years, a comfort layer tailored after you have slept on it, and concierge unpacking.'
+    elsif seo_handle == 'manufacturing' or seo_suffix == 'manufacturing'
+      assign seo_title = 'How it is made'
+      assign seo_description = 'Thirty five centimetres, built in two parts, closed with a zip. Made after you order it.'
     endif
     assign seo_title = seo_title | replace: '[Brand]', brand
     assign seo_description = seo_description | replace: '[Brand]', brand
