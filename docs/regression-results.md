@@ -1,4 +1,23 @@
-# Regression results — Saturday 29 Aug 2026 (Numa complete pages + emails)
+# Regression results — Saturday 29 Aug 2026 (Numa brand default)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 836 passed, 0 failed
+- Scope note: Theme settings `brand_name` and all Liquid/JS fallbacks are Numa (was Aligna). Last Connect deploy had overwritten live Theme settings with Aligna from `settings_data.json`. Emails re-baked to Numa/NUMA. Aligna remains only in leftover-copy replace filters and title rewrite regex. Contact email still `hello@aligna.com`. No VERSION bump.
+
+---
+
+# Regression results — Saturday 29 Aug 2026 (landing page SEO defaults)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 836 passed, 0 failed
+- Scope note: Search engine title and description defaults for about, mattress-recycling, large-sizes, european-king, specification, and what-it-buys. Used when Admin SEO is empty. `[Brand]` is Theme settings brand_name (line 1). No VERSION bump. Not a deploy.
+
+---
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`

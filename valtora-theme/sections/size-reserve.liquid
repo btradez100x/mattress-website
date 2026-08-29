@@ -30,7 +30,7 @@
     assign variant_id = deposit_product.selected_or_first_available_variant.id
   endif
   assign first_price = blank
-  assign brand = settings.brand_name | default: 'Aligna'
+  assign brand = settings.brand_name | default: 'Numa'
   assign reserve_anchor = section.settings.anchor_id | strip
   if reserve_anchor != blank
     assign reserve_dom_id = reserve_anchor

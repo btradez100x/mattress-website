@@ -232,8 +232,8 @@ def chrome_from(src: Path) -> tuple[str, str]:
 def write_page(name: str, title: str, body_class: str, main: str, cta_href: str) -> None:
     head, foot = chrome_from(PAGES / "large-sizes.html")
     head = head.replace(
-        "<title>Emperor and Super King mattresses · Aligna</title>",
-        f"<title>{title} · Aligna</title>",
+        "<title>Emperor and Super King mattresses · Numa</title>",
+        f"<title>{title} · Numa</title>",
     )
     head = head.replace('class="template-page-large-sizes"', f'class="{body_class}"')
     head = head.replace('href="#configure"', f'href="{cta_href}"')
@@ -460,7 +460,7 @@ def patch_landings() -> None:
 def patch_policies() -> None:
     trial = PAGES / "trial.html"
     text = trial.read_text()
-    text = text.replace("100-night trial · Aligna", "30-day sleep trial · Aligna")
+    text = text.replace("100-night trial · Numa", "30-day sleep trial · Numa")
     text = text.replace("<h1>100-night trial</h1>", "<h1>30-day sleep trial</h1>")
     text = text.replace(
         "Sleep on it properly. Specific terms - not fine print.",

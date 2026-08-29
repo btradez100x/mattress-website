@@ -4,7 +4,7 @@
   Two-line lockup: line 1 = brand name, line 2 = product line.
 {% endcomment %}
 {%- liquid
-  assign name = settings.brand_name | default: 'Aligna' | strip
+  assign name = settings.brand_name | default: 'Numa' | strip
   assign product_line = settings.brand_product_line | default: '' | strip
   assign link_url = link | default: routes.root_url
   assign dark = dark | default: false

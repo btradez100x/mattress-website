@@ -18,17 +18,19 @@ PREVIEW = ROOT / "preview" / "emails"
 
 def brand_first() -> str:
     data = json.loads(SETTINGS.read_text(encoding="utf-8"))
-    raw = ((data.get("current") or {}).get("brand_name") or "Aligna").strip()
-    return (raw.split() or ["Aligna"])[0]
+    raw = ((data.get("current") or {}).get("brand_name") or "Numa").strip()
+    return (raw.split() or ["Numa"])[0]
 
 
 def bake_text(text: str, first: str) -> str:
     wordmark = first.upper()
-    text = text.replace(">NUMA</td>", f">{wordmark}</td>")
-    text = text.replace("Your Numa mattress", f"Your {first} mattress")
-    text = text.replace("your Numa", f"your {first}")
-    text = text.replace("Numa &middot;", f"{first} &middot;")
-    text = text.replace("Numa emails", f"{first} emails")
+    for old_mark in ("NUMA", "ALIGNA"):
+        text = text.replace(f">{old_mark}</td>", f">{wordmark}</td>")
+    for old in ("Numa", "Aligna"):
+        text = text.replace(f"Your {old} mattress", f"Your {first} mattress")
+        text = text.replace(f"your {old}", f"your {first}")
+        text = text.replace(f"{old} &middot;", f"{first} &middot;")
+        text = text.replace(f"{old} emails", f"{first} emails")
     return text
 
 

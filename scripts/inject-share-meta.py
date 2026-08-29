@@ -16,11 +16,11 @@ SHARE_BRAND = PREVIEW / "share-brand.json"
 
 def load_brand() -> dict:
     brand = {
-        "brand": "Aligna",
+        "brand": "Numa",
         "line": "Mattresses",
         "tagline": "Premium Sleep, Engineered for the Gulf",
         "description": (
-            "Premium Sleep, Engineered for the Gulf · Aligna. "
+            "Premium Sleep, Engineered for the Gulf · Numa. "
             "A better bed, for life. Refresh the comfort top - "
             "do not replace the whole mattress."
         ),
@@ -125,7 +125,7 @@ def upsert_title(head: str, title: str) -> str:
 
 
 def expand_share_tokens(template: str, brand: dict) -> str:
-    name = brand.get("brand") or "Aligna"
+    name = brand.get("brand") or "Numa"
     line = brand.get("line") or ""
     tagline = brand.get("tagline") or ""
     text = template or ""
@@ -138,7 +138,7 @@ def expand_share_tokens(template: str, brand: dict) -> str:
 
 
 def build_description(brand: dict) -> str:
-    name = brand.get("brand") or "Aligna"
+    name = brand.get("brand") or "Numa"
     tagline = brand.get("tagline") or ""
     desc = (brand.get("description") or "").strip()
     if not desc:
@@ -159,7 +159,7 @@ def inject_file(path: Path, base_url: str, brand: dict, page_path: str = "") -> 
     if not rest:
         return
 
-    name = brand["brand"] or "Aligna"
+    name = brand["brand"] or "Numa"
     line = brand.get("line") or ""
     tagline = brand.get("tagline") or ""
     desc = build_description(brand)
@@ -225,10 +225,10 @@ def main() -> int:
 
     brand = load_brand()
     # Reset description from tagline+brand for a clean card when file has a mangled desc
-    if "Aligna't" in (brand.get("description") or "") or "don&" in (brand.get("description") or ""):
+    if "Numa't" in (brand.get("description") or "") or "don&" in (brand.get("description") or ""):
         brand["description"] = (
             f"{brand.get('tagline') or 'Premium Sleep, Engineered for the Gulf'} · "
-            f"{brand.get('brand') or 'Aligna'}. A better bed, for life. "
+            f"{brand.get('brand') or 'Numa'}. A better bed, for life. "
             "Refresh the comfort top - do not replace the whole mattress."
         )
 

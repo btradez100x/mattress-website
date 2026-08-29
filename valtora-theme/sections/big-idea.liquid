@@ -1,5 +1,5 @@
 {%- liquid
-  assign brand = settings.brand_name | default: 'Aligna'
+  assign brand = settings.brand_name | default: 'Numa'
   assign body = section.settings.body | replace: '[Brand]', brand | replace: 'Aligna', brand
 -%}
 {%- if section.settings.enable_section -%}

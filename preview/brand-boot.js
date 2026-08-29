@@ -178,7 +178,7 @@
   var d = document.documentElement;
   d.setAttribute('data-preview-host', '1');
 
-  var name = 'Aligna';
+  var name = 'Numa';
   var line = 'Mattresses';
   var business = 'Valtora FZE';
   var guidelines = 'v1';
@@ -189,6 +189,10 @@
 
   try {
     name = localStorage.getItem('valtoraPreviewBrand') || name;
+    if (String(name).toLowerCase() === 'aligna') {
+      name = 'Numa';
+      localStorage.setItem('valtoraPreviewBrand', 'Numa');
+    }
     var savedLine = localStorage.getItem('valtoraPreviewBrandLine');
     if (savedLine !== null) line = savedLine;
     business = localStorage.getItem('valtoraPreviewBusinessName') || business;
