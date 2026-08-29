@@ -41,7 +41,7 @@
                   if visibility == 'ae' and market != 'ae'
                     assign show_item = false
                   endif
-                  if visibility == 'gb' and market != 'gb'
+                  if visibility == 'gb' and market == 'ae'
                     assign show_item = false
                   endif
                   assign label_down = label | downcase
@@ -148,7 +148,7 @@
               if visibility == 'ae' and market != 'ae'
                 assign show_item = false
               endif
-              if visibility == 'gb' and market != 'gb'
+              if visibility == 'gb' and market == 'ae'
                 assign show_item = false
               endif
               assign label_down = label | downcase

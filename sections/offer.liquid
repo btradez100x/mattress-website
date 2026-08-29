@@ -26,7 +26,7 @@
     <h2>{{ section.settings.heading }}</h2>
     {%- if market == 'ae' and section.settings.body_ae != blank -%}
       <p class="section__lede">{{ section.settings.body_ae }}</p>
-    {%- elsif market == 'gb' and section.settings.body_gb != blank -%}
+    {%- elsif section.settings.body_gb != blank -%}
       <p class="section__lede">{{ section.settings.body_gb }}</p>
     {%- elsif section.settings.body != blank -%}
       <p class="section__lede">{{ section.settings.body }}</p>
@@ -48,7 +48,7 @@
           if visibility == 'ae' and market != 'ae'
             assign show_item = false
           endif
-          if visibility == 'gb' and market != 'gb'
+          if visibility == 'gb' and market == 'ae'
             assign show_item = false
           endif
           assign block_mode = block.settings.payment_mode_visibility | default: 'all'
