@@ -577,14 +577,14 @@
         "type": "text",
         "id": "trial_nights",
         "label": "Trial nights",
-        "default": "100",
-        "info": "Used on landing pages and anywhere [N] or [N]-night appears. Example: 100 shows as [N]-night trial. Do not hardcode the number in templates."
+        "default": "30",
+        "info": "Used on landing pages and anywhere [N] or [N]-night appears. Example: 30. Comfort promise copy on landings uses 30-day. Do not hardcode the number in templates."
       },
       {
         "type": "text",
         "id": "comfort_layer_price_gb",
         "label": "Comfort layer price (GB)",
-        "default": "£250",
+        "default": "£299",
         "info": "Named replacement-layer value on landing pages ([layer]). Matches the live store figure. Leave blank to use the comfort layer product price when that product exists."
       },
       {

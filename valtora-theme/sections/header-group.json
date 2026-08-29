@@ -5,11 +5,11 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "text": "Cancel any time before dispatch \u00b7 [N]-night trial",
+        "text": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away",
         "link": "",
         "enable_section": true,
-        "text_ae": "Cancel any time before dispatch \u00b7 [N]-night trial \u00b7 Made to order",
-        "text_gb": "Cancel any time before dispatch \u00b7 [N]-night trial \u00b7 Spread with Klarna"
+        "text_ae": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away",
+        "text_gb": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away"
       }
     },
     "header": {

@@ -4,11 +4,11 @@
       "type": "trust-policy",
       "settings": {
         "eyebrow": "Delivery",
-        "heading": "Delivery & lead time",
-        "intro": "Made to order - with an honest window, not 'ships soon'.",
-        "fallback_content": "<p>Delivery is arranged by [Legal].</p><h2>Lead time</h2><p>Each mattress is made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p><h2>How dispatch is confirmed</h2><p>You receive written confirmation with a delivery window. Cancel any time before dispatch for a full refund.</p><h2>Delivery</h2><p>Delivery into your home is arranged for your market. Options and any access requirements are confirmed before dispatch. There is no setup service contracted at this time.</p><h2>Areas served</h2><p>UAE: mainland delivery on the founding allocation; remote areas confirmed at checkout. UK: fulfilment route confirmed per order.</p>",
-        "cta_label": "Reserve your size",
-        "cta_link": "/#reserve"
+        "heading": "It arrives finished.",
+        "intro": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.",
+        "fallback_content": "<p>Delivery is arranged by [Legal].</p><h2>Lead time</h2><p>Each mattress is made to order. A window agreed in advance. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p><h2>Concierge unpacking</h2><p>Included with every mattress. Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it.</p><h2>Old mattress removal and recycling</h2><p>Collected on the same visit. Complimentary. <a href=\"/pages/mattress-recycling\">Read what happens to it</a>.</p><h2>How dispatch is confirmed</h2><p>You receive written confirmation with a delivery window. Cancel any time before dispatch for a full refund.</p>",
+        "cta_label": "Choose your size",
+        "cta_link": "/pages/configure"
       }
     }
   },

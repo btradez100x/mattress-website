@@ -30,7 +30,7 @@
     assign tax_no = settings.tax_reg_no_ae
     assign company_no = settings.company_number
   endif
-  assign trial_url = section.settings.trial_link | default: pages['100-night-trial'].url | default: '/pages/100-night-trial'
+  assign trial_url = section.settings.trial_link | default: pages['trial'].url | default: '/pages/trial'
   assign warranty_url = section.settings.warranty_link | default: pages['warranty'].url | default: '/pages/warranty'
   assign refund_url = section.settings.refund_link | default: pages['refunds'].url | default: '/pages/refunds'
   assign delivery_url = section.settings.delivery_link | default: pages['delivery-lead-time'].url | default: '/pages/delivery-lead-time'
@@ -118,6 +118,8 @@
       <ul>
         <li><a href="{{ size_guide_url }}">Size guide</a></li>
         <li><a href="{{ delivery_url }}">Delivery and lead time</a></li>
+        <li><a href="{{ pages['mattress-recycling'].url | default: '/pages/mattress-recycling' }}">Old mattress removal and recycling</a></li>
+        <li><a href="{{ pages['about'].url | default: '/pages/about' }}">About</a></li>
         <li><a href="{{ order_status_url }}">Order status</a></li>
         <li><a href="{{ contact_url }}">Contact</a></li>
       </ul>
@@ -131,7 +133,7 @@
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {%- endfor -%}
         {%- else -%}
-          <li><a href="{{ trial_url }}">{% render 'trial-tokens', text: '[N]-night trial' %}</a></li>
+          <li><a href="{{ trial_url }}">30-day sleep trial</a></li>
           <li><a href="{{ warranty_url }}">Warranty</a></li>
           <li><a href="{{ refund_url }}">Refunds</a></li>
           <li><a href="{{ privacy_url }}">Privacy</a></li>

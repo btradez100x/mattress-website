@@ -1,29 +1,16 @@
 {%- liquid
-  assign market = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-  endif
-  if market == 'gb' and section.settings.text_gb != blank
-    assign announcement = section.settings.text_gb
-  elsif market == 'ae' and section.settings.text_ae != blank
-    assign announcement = section.settings.text_ae
-  else
-    assign announcement = section.settings.text
-  endif
+  assign announcement = section.settings.text | default: 'Concierge unpacking included with every mattress · To the room of your choice, packaging taken away'
 -%}
 {%- capture announcement -%}{% render 'trial-tokens', text: announcement %}{%- endcapture -%}
 {%- capture announcement -%}{% render 'warranty-tokens', text: announcement %}{%- endcapture -%}
 {%- assign announcement = announcement | strip -%}
 {%- if section.settings.enable_section -%}
 {%- if announcement != blank -%}
-  <div class="announcement" role="region" aria-label="Announcement">
-    {%- if section.settings.link != blank -%}
-      <a href="{{ section.settings.link }}">{{ announcement }}</a>
-    {%- else -%}
-      <p style="margin:0">{{ announcement }}</p>
-    {%- endif -%}
+  <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
+    <p style="margin:0">
+      Concierge unpacking <b>included with every mattress</b> · To the room of your choice, packaging taken away
+    </p>
+    <button type="button" class="announcement__dismiss" data-announcement-dismiss aria-label="Dismiss">×</button>
   </div>
 {%- endif -%}
 {%- endif -%}
@@ -42,19 +29,20 @@
       "type": "text",
       "id": "text",
       "label": "Text (fallback)",
-      "default": "Cancel any time before dispatch · [N]-night trial"
+      "default": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away",
+      "info": "Sitewide banner. Ember highlight is applied to included with every mattress. Dismissed per session only."
     },
     {
       "type": "text",
       "id": "text_ae",
       "label": "Text (UAE)",
-      "default": "Cancel any time before dispatch · [N]-night trial · Made to order"
+      "default": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away"
     },
     {
       "type": "text",
       "id": "text_gb",
       "label": "Text (UK)",
-      "default": "Cancel any time before dispatch · [N]-night trial"
+      "default": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away"
     },
     {
       "type": "url",

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-warranty-years="25" data-trial-nights="100">
+<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-warranty-years="25" data-trial-nights="30">
   <head>
     <meta charset="utf-8">
     <script src="../brand-boot.js?v=wo-v9-favicon1" data-valtora-brand-boot></script>
@@ -44,14 +44,11 @@
   </head>
   <body class="template-page-specification" data-page="landing">
     <div class="preview-banner" data-preview-chrome><strong>Local theme preview</strong></div>
-    <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
-      <p style="margin:0" data-market-announcement>
-        <span data-market-only="ae">Cancel any time before dispatch · 100-night trial · Made to order</span>
-        <span data-market-only="gb" hidden>Cancel any time before dispatch · 100-night trial · Spread with Klarna</span>
-      </p>
+        <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
+      <p style="margin:0">Concierge unpacking <b>included with every mattress</b> · To the room of your choice, packaging taken away</p>
+      <button type="button" class="announcement__dismiss" data-announcement-dismiss aria-label="Dismiss">×</button>
     </div>
-
-    <header class="site-header">
+<header class="site-header">
       <div class="site-header__inner">
         <a class="wordmark" href="../index.html" aria-label="Aligna Mattresses">
           <span class="wordmark__lockup">
@@ -71,6 +68,7 @@
           </div>
           <a href="./specification.html">Specification</a>
           <a href="./manufacturing.html">How it is made</a>
+          <a href="./about.html">About</a>
           <a href="../blog/index.html">Journal</a>
         </nav>
         <div class="site-header__actions"><a class="site-header__order" href="./cart.html" data-order-link hidden aria-label="Order"><span class="site-header__order-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" focusable="false"><path d="M5 8h14l-1.1 10.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span><span class="site-header__order-label">Order</span><span class="site-header__order-count" data-order-count hidden>0</span></a>
@@ -92,6 +90,7 @@
         </div>
         <a href="./specification.html">Specification</a>
         <a href="./manufacturing.html">How it is made</a>
+        <a href="./about.html">About</a>
         <a href="../blog/index.html">Journal</a>
         <a href="#configure">Configure yours</a>
       </div>
@@ -105,18 +104,27 @@
   {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
   {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
   {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","price":"£2,249","price_raw":224900,"available":true},
   {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
   {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false},
-  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"","price_raw":0,"available":true}
+  {"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":true},
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,699","price_raw":369900,"available":true},
+  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"us","id":"twin","label":"Twin","dims":"99 × 191 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"us","id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","price":"£2,049","price_raw":204900,"available":true},
+  {"market":"us","id":"full","label":"Full","dims":"137 × 191 cm","price":"£2,499","price_raw":249900,"available":true},
+  {"market":"us","id":"queen","label":"Queen","dims":"152 × 203 cm","price":"£2,999","price_raw":299900,"available":true},
+  {"market":"us","id":"us-king","label":"King","dims":"193 × 203 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","id":"california-king","label":"California King","dims":"183 × 213 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","id":"split-king","label":"Split King","dims":"2 × 106 × 213 cm","price":"£3,699","price_raw":369900,"available":true}
 ]
 </script>
       <section class="section lp-section lp-section--hero section--bg" data-lp-page data-lp-variant="C-aspiration" data-reveal data-section-ground="bg">
         <div class="page-width lp-hero">
           <p class="section__eyebrow lp-kicker">Made to order</p>
-          <h1>Most "best mattress"<br>lists are paid for.</h1>
-          <p class="section__lede lp-lede">So here is the specification instead. What is in it, what it costs, and what we would tell you to check on any mattress at this price, including ours.</p>
+          <h1>A bed that becomes yours,<br>and stays that way.</h1>
+          <p class="section__lede lp-lede">You cannot know how a mattress feels in four minutes. So the feel is decided after a month, not before, and the part that softens renews for twenty five years.</p>
           <div class="lp-cta-row">
             <a class="btn" href="#spec">See the specification</a>
             <div class="lp-price" data-lp-hero-price data-lp-price-mode="from" hidden>
@@ -129,13 +137,13 @@
       <section class="section lp-section section--surface" data-reveal data-section-ground="surface">
         <div class="page-width">
           <div class="lp-sec-head lp-narrow">
-            <h2>Four things worth checking</h2>
-            <p class="section__lede">On any mattress, at any price. Most brands will answer two of them.</p>
+            <h2>How it is built</h2>
+            <p class="section__lede">Three decisions that determine whether a mattress is still good in twenty years.</p>
           </div>
           <div class="lp-cards">
-            <article class="lp-card"><h3>Is it assembled by hand?</h3><p>Hand assembly holds the fillings in place for decades. Glue and quilting are faster and cheaper, and they settle. Ask which one, and if the answer is vague, it is glued.</p></article>
-            <article class="lp-card"><h3>Can the top be replaced?</h3><p>The comfort layer wears out long before the springs do. If it is sealed inside, the whole mattress goes when the top fails. Ask whether it comes off.</p></article>
-            <article class="lp-card"><h3>What is the guarantee actually on?</h3><p>Most guarantees cover manufacturing faults, not the softening that makes you replace it. Ask what happens in year eight, not year one.</p></article>
+            <article class="lp-card"><h3>Pocket springs, individually housed</h3><p>Each spring moves on its own, so one person turning over does not move the other. It is the part that carries the twenty five year guarantee.</p></article>
+            <article class="lp-card"><h3>A comfort layer that comes out</h3><p>The top five centimetres are what soften. Ours unzip and lift away, so the bed is renewed rather than replaced.</p></article>
+            <article class="lp-card"><h3>Made after you order it</h3><p>Nothing is built before someone wants it. No warehouse, no stock to clear.</p></article>
           </div>
         </div>
       </section>
@@ -143,34 +151,94 @@
         <div class="page-width lp-narrow">
           <div class="lp-sec-head"><h2>Our specification</h2></div>
           <ul class="lp-spec">
-            <li><b>Depth</b><span>37cm made up.</span></li>
+            <li><b>Depth</b><span>35cm. 30cm core, 5cm comfort layer.</span></li>
             <li><b>Core</b><span>Hand-assembled pocket springs, individually housed. <span data-warranty-years-text>25</span>-year guarantee on the core.</span></li>
-            <li><b>Comfort layer</b><span>Unzips and lifts off. Medium on one face, medium firm on the other. You do not choose a firmness - you turn it over.</span></li>
-            <li><b>Replacement layer</b><span><span data-layer-price-text></span> when it eventually softens. The core stays.</span></li>
-            <li><b>Sizes</b><span>Double through Emperor 200 x 200cm, including European King 160 x 200cm.</span></li>
+            <li><b>Comfort layer</b><span>Unzips and lifts off. Two feels. You do not choose a firmness. You turn it over.</span></li>
+            <li><b>Comfort layer, later</b><span><span data-layer-price-text></span> when it eventually softens. The core stays.</span></li>
+            <li><b>Sizes</b><span>Single through Emperor 200 x 200cm, including European King 160 x 200cm.</span></li>
             <li><b>Made</b><span>To order. Nothing is held in a warehouse.</span></li>
           </ul>
-          <div class="lp-promise"><p><strong><span data-trial-nights-text>100</span>-night comfort promise.</strong> Your mattress arrives with two feels in one layer - medium on one face, medium firm on the other. If neither is right, we send a complimentary comfort layer at a different tension, worth <span data-layer-price-text></span>. If that still does not settle it, we collect the mattress and refund you in full.</p></div>
+          <div class="lp-promise"><p><strong>30-day sleep trial.</strong> If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth <span data-layer-price-text></span>. If that still does not settle it, we collect the mattress and refund you in full.</p></div>
         </div>
       </section>
       <section class="section lp-section section--bg" data-reveal data-section-ground="bg">
         <div class="page-width lp-narrow">
           <div class="lp-sec-head">
             <h2>Built to be kept</h2>
-            <p class="section__lede">A pocket sprung core lasts decades. The top does not.</p>
+            <p class="section__lede">A pocket sprung core lasts decades. The five centimetres on top do not.</p>
           </div>
           <div class="rte">
-            <p>Every mattress you have thrown away was thrown away because of the part that wears fastest, while the springs underneath were still doing their job.</p>
+            <p>The part that softens is the top. The springs underneath are still doing their job.</p>
             <p>Ours comes apart. When the comfort layer eventually softens, it unzips and a new one goes on. The core stays where it is, and so does the bed you chose.</p>
-            <p>That is the whole argument for the construction. Not that it is cheaper. That you are not starting again.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section lp-section section--surface" id="outcome" data-reveal data-section-ground="surface">
+        <div class="page-width lp-narrow">
+          <div class="lp-sec-head" style="text-align:center">
+            <h2>A bed that becomes yours,<br>and stays that way.</h2>
+          </div>
+          <div class="lp-outcome">
+            <div class="lp-outcome__item">
+              <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
+              <p class="lp-outcome__desc">Sleep on it for a month. Tell us how it should feel. We make it that way.</p>
+            </div>
+            <div class="lp-outcome__item">
+              <p class="lp-outcome__name">It arrives finished.</p>
+              <p class="lp-outcome__desc">Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</p>
+            </div>
+            <div class="lp-outcome__item">
+              <p class="lp-outcome__name">It stays right for twenty five years.</p>
+              <p class="lp-outcome__desc">The part that softens renews. The part that lasts, lasts.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section lp-section section--bg" id="delivery" data-reveal data-section-ground="bg">
+        <div class="page-width lp-narrow">
+          <div class="lp-sec-head">
+            <h2>It arrives compressed.<br>We do not leave it that way.</h2>
+            <p class="section__lede">Roll packing gets it up the stairs. It is not how it should be left.</p>
+          </div>
+          <div class="lp-tiers">
+            <div class="lp-tier lp-tier--pick">
+              <div>
+                <span class="lp-tier__tag">Included with every mattress</span>
+                <p class="lp-tier__name">Concierge unpacking</p>
+                <p class="lp-tier__desc">Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.</p>
+              </div>
+              <span class="lp-tier__price">Included</span>
+            </div>
+            <div class="lp-tier">
+              <div>
+                <p class="lp-tier__name">Old mattress removal and recycling</p>
+                <p class="lp-tier__desc">Taken away on the same visit. Nothing in the hall, nothing to arrange.</p>
+              </div>
+              <span class="lp-tier__price">Complimentary</span>
+            </div>
+          </div>
+          <div class="lp-svc">
+            <div>
+              <h3>Unrolled on the bed</h3>
+              <p>It settles evenly.</p>
+            </div>
+            <div>
+              <h3>Nothing left behind</h3>
+              <p>Carton, plastic, wrap. All of it leaves with it.</p>
+            </div>
+            <div>
+              <h3>A window agreed in advance</h3>
+              <p>Notification on the day.</p>
+            </div>
           </div>
         </div>
       </section>
       <section class="section lp-section lp-section--configure section--surface" id="configure" data-reveal data-section-ground="surface">
-        <div class="page-width lp-narrow" data-lp-configure data-checkout-path="./cart.html" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-lp-policy-default="Comfort layer included · 100-night comfort promise" data-lp-policy-emperor="Comfort layer included · Made to order · Not covered by the 100-night return trial.">
+        <div class="page-width lp-narrow" data-lp-configure data-checkout-path="./cart.html" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-lp-policy-default="Comfort layer included · 30-day comfort promise · Concierge unpacking included" data-lp-policy-emperor="Comfort layer included · Made to order · Concierge unpacking included · Not covered by the 30-day return trial">
           <div class="lp-sec-head lp-configure-head">
             <h2>Choose your size</h2>
-            <p class="section__lede">Every size is handmade to order with the same 37cm construction and the same removable comfort layer.</p>
+            <p class="section__lede">Every size is handmade to order with the same 35cm construction and the same removable comfort layer.</p>
           </div>
           <div class="lp-sizes" data-lp-sizes role="listbox" aria-label="Mattress size"></div>
           <p class="lp-lead" data-lead-line>Made to order. Current window: 8 to 10 weeks. Cancel any time before dispatch for a full refund.</p>
@@ -181,7 +249,7 @@
             </div>
             <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
           </div>
-          <p class="lp-policy" data-lp-policy>Comfort layer included · <span data-trial-nights-text>100</span>-night comfort promise</p>
+          <p class="lp-policy" data-lp-policy>Comfort layer included · 30-day comfort promise · Concierge unpacking included</p>
         </div>
       </section>
     </main>
@@ -211,6 +279,8 @@
             <ul>
               <li><a href="./size-guide.html">Size guide</a></li>
               <li><a href="./delivery.html">Delivery and lead time</a></li>
+              <li><a href="./mattress-recycling.html">Old mattress removal and recycling</a></li>
+              <li><a href="./about.html">About</a></li>
               <li><a href="./order-status.html">Order status</a></li>
               <li><a href="./contact.html">Contact</a></li>
             </ul>
@@ -218,7 +288,7 @@
           <div>
             <h3>Policies</h3>
             <ul>
-              <li><a href="./trial.html"><span data-trial-nights-text>100</span>-night trial</a></li>
+              <li><a href="./trial.html">30-day sleep trial</a></li>
               <li><a href="./warranty.html">Warranty</a></li>
               <li><a href="./refunds.html">Refunds</a></li>
               <li><a href="./privacy.html">Privacy</a></li>

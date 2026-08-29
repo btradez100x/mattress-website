@@ -4,11 +4,11 @@
       "type": "trust-policy",
       "settings": {
         "eyebrow": "Trial",
-        "heading": "[N]-night trial",
-        "intro": "Sleep on it properly. Specific terms - not fine print.",
-        "fallback_content": "<p>The [N]-night trial is offered by [Legal].</p><h2>How long</h2><p>You have [N] nights from delivery to decide. That is long enough to adjust to a new bed.</p><h2>If it is not right</h2><p>Contact us before the trial ends. We arrange collection. Return shipping within the mainland UAE is covered by us on the standard trial return; remote areas may differ and we will confirm before collection. UK returns: we will confirm the collection route and any carriage cost before you commit.</p><h2>Refund timing</h2><p>Once the mattress is collected and inspected for damage beyond normal trial use, refunds go back to the original payment method within 5-10 business days.</p><h2>Conditions</h2><p>The mattress must be used with a protector; stains, tears or misuse outside normal sleep can affect eligibility. We say this plainly so there are no surprises.</p>",
-        "cta_label": "Reserve your size",
-        "cta_link": "/#reserve"
+        "heading": "30-day sleep trial",
+        "intro": "Sleep on it for a month. Tell us how it should feel. We make it that way.",
+        "fallback_content": "<p>The 30-day sleep trial is offered by [Legal].</p><h2>Made to Desire</h2><p>If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth £299.</p><h2>If that still does not settle it</h2><p>We collect the mattress and refund you in full. Contact us before the trial ends.</p><h2>Emperor</h2><p>Emperor is made to order at 200 x 200cm and is not covered by the 30-day return trial. Made to Desire still applies. Your statutory cancellation rights are unaffected.</p><h2>Refund timing</h2><p>Once the mattress is collected and inspected for damage beyond normal trial use, refunds go back to the original payment method within 5-10 business days.</p>",
+        "cta_label": "Choose your size",
+        "cta_link": "/pages/configure"
       }
     }
   },

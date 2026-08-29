@@ -6,6 +6,8 @@
   assign european_king_url = pages['european-king'].url | default: '/pages/european-king'
   assign size_guide_url = pages['size-guide'].url | default: '/pages/size-guide'
   assign specification_url = pages['specification'].url | default: '/pages/specification'
+  assign about_url = pages['about'].url | default: '/pages/about'
+  assign recycling_url = pages['mattress-recycling'].url | default: '/pages/mattress-recycling'
   assign home_hash = ''
   unless template.name == 'index'
     assign home_hash = routes.root_url
@@ -17,6 +19,9 @@
   assign reserve_label = section.settings.reserve_label | default: 'See sizes and prices'
   if template.suffix == 'large-sizes' or template.suffix == 'european-king' or template.suffix == 'what-it-buys' or template.suffix == 'specification'
     assign reserve_src = '#configure'
+    assign reserve_label = 'Configure yours'
+  elsif template.suffix == 'about' or template.suffix == 'mattress-recycling'
+    assign reserve_src = pages['configure'].url | default: '/pages/configure'
     assign reserve_label = 'Configure yours'
   elsif template.suffix == 'configure'
     assign reserve_src = '#reserve'
@@ -67,6 +72,7 @@
     </div>
     <a href="{{ specification_url }}"{% if template.suffix == 'specification' %} aria-current="page"{% endif %}>Specification</a>
     <a href="{{ manufacturing_url }}"{% if template.suffix == 'manufacturing' %} aria-current="page"{% endif %}>How it is made</a>
+    <a href="{{ about_url }}"{% if template.suffix == 'about' %} aria-current="page"{% endif %}>About</a>
     <a href="{{ journal_url }}"{% if template.suffix == 'journal' or request.path contains '/journal' %} aria-current="page"{% endif %}>Journal</a>
   {%- endif -%}
 {%- endcapture -%}

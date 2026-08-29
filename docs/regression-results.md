@@ -1,4 +1,14 @@
-# Regression results — Wednesday 26 Aug 2026 (firmness copy rewrite)
+# Regression results — Saturday 29 Aug 2026 (Numa complete pages + emails)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 836 passed, 0 failed
+- Scope note: Implemented the Numa complete pack: six landing pages (large sizes, European King, specification, what it buys, mattress recycling, about), 16 lifecycle emails (Shopify as event source only), 30-day trial, 35cm depth, £299 comfort layer, complimentary old mattress removal with mandatory recycling link, Concierge unpacking included, spec banner with session dismiss. Homepage hero/banner/trust/offer aligned. No VERSION bump. Not deployed. Live Shopify still needs pages with handles `about` and `mattress-recycling`.
+
+---
+
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`

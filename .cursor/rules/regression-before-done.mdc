@@ -1,0 +1,15 @@
+---
+description: Run regression/consistency gate before calling any build done
+alwaysApply: true
+---
+
+# Regression before done
+
+Before saying a build, fix, or preview update is **done**:
+
+1. Run `./scripts/regression-smoke.sh` from the repo root (includes `scripts/regression-consistency.py`).
+2. If it fails, fix the failures and re-run until exit 0.
+3. Append a short run note to `docs/regression-results.md` (date, pass/fail, what changed).
+4. Do not claim cross-page brand/theme consistency without this gate — it catches missing `brand-boot` / `theme.js`, hardcoded navy chrome, missing `data-brand-*` tokens, announcement drift, and title clobbering.
+
+Manual spot-check when UI changed: homepage → manufacturing → cart → checkout with a non-default brand + colour scheme; no Aligna/navy flash; announcement copy stable.

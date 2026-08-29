@@ -4,16 +4,16 @@
       <p class="section__eyebrow cart-panel__eyebrow">Order</p>
       <hr class="gold-rule">
       <h1 class="cart-page__title">Your order</h1>
-      <p class="cart-page__lede">Review sizes, then continue to checkout. Cancel any time before dispatch.</p>
+      <p class="cart-page__lede">Review your size, then continue to checkout.</p>
       {%- capture cart_lead -%}{%- render 'lead-time', product_type: 'mattress' -%}{%- endcapture -%}
       {%- assign cart_lead = cart_lead | strip -%}
-      {%- assign trial = settings.trial_nights | default: '100' | strip -%}
-      {%- if trial == blank -%}{%- assign trial = '100' -%}{%- endif -%}
+      {%- assign trial = settings.trial_nights | default: '30' | strip -%}
+      {%- if trial == blank -%}{%- assign trial = '30' -%}{%- endif -%}
       <p class="cart-leadtime" data-cart-leadtime>
         Made to order. Delivery in {{ cart_lead }}.
       </p>
       <p class="cart-trial-line">
-        <span data-trial-nights-text>{{ trial }}</span>-night comfort promise.
+        30-day comfort promise. Concierge unpacking included.
       </p>
 
       {%- if cart.item_count == 0 -%}
@@ -57,11 +57,21 @@
               <strong data-cart-subtotal>{{ cart.total_price | money }}</strong>
             </div>
             <p class="cart-summary__note">
-              Delivery is charged once per order. Cancel any time before dispatch for a full refund.
-              {%- if cart.attributes.large_order == 'true' -%}
-                This order is flagged as high value: refundable until production is committed (typically within 5 working days), then non-refundable.
-              {%- endif -%}
+              Made to order. A window agreed in advance.
             </p>
+            <div class="cart-service-lines" data-cart-services>
+              <div class="cart-service-line">
+                <div class="cart-service-line__label">
+                  Old mattress removal and recycling
+                  <a href="{{ pages['mattress-recycling'].url | default: '/pages/mattress-recycling' }}">We carry the cost. Read what happens to it</a>
+                </div>
+                <span class="cart-service-line__value">Complimentary</span>
+              </div>
+              <div class="cart-service-line">
+                <div class="cart-service-line__label">Concierge unpacking</div>
+                <span class="cart-service-line__value">Included</span>
+              </div>
+            </div>
             <div class="cart-summary__actions">
               <button class="btn" type="submit" name="checkout" data-cart-checkout>Checkout</button>
               <a class="btn btn--ghost" href="{{ routes.root_url }}#reserve">Add another size</a>

@@ -344,8 +344,8 @@
 
   // Mirrors Theme settings → Warranty years (`warranty_years` in settings_data.json).
   var PREVIEW_WARRANTY_YEARS = '25';
-  var PREVIEW_TRIAL_NIGHTS = '100';
-  var PREVIEW_LAYER_PRICE_GB = '£250';
+  var PREVIEW_TRIAL_NIGHTS = '30';
+  var PREVIEW_LAYER_PRICE_GB = '£299';
   var PREVIEW_LAYER_PRICE_AE = 'AED 1,200';
 
   function warrantyYears() {

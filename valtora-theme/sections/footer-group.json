@@ -7,7 +7,7 @@
       "settings": {
         "show_payment_icons": true,
         "copyright_text": "",
-        "trial_link": "/pages/100-night-trial",
+        "trial_link": "/pages/trial",
         "warranty_link": "/pages/warranty",
         "refund_link": "/pages/refunds",
         "delivery_link": "/pages/delivery-lead-time",

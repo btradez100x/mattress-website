@@ -1,0 +1,43 @@
+---
+description: SemVer for theme exports — bump on export, MAJOR only when the user saves a version
+alwaysApply: true
+---
+
+# Theme versioning (SemVer X.Y.Z)
+
+Source of truth: repo-root `VERSION` (line 1 = `X.Y.Z`, line 2 = kebab-case slug). Shopify `theme_version` must match line 1.
+
+Current line: **9.4.0** (`landing-pages-and-gtm`). V9 / V9.1 / V9.2 = 9.0.0 / 9.1.0 / 9.2.0. 9.3.0 = storefront-polish-review.
+
+## Export name
+
+`Valtora-Shopify-Theme-X.Y.Z-<slug>.zip`
+
+- Slug: 2–5 kebab-case words for **what changed**, not “update” or “fixes”
+- Folder: `checkpoints/X.Y.Z-<slug>/`
+- Same basename in Downloads
+- Zip root = `valtora-theme/` contents (not a nested folder)
+- Checkpoint README = the full release notes
+
+Example: `Valtora-Shopify-Theme-9.2.0-order-status-app-proxy.zip`
+
+## When the user asks for an export
+
+Bump `VERSION`, write a new slug, then package.
+
+| What changed since last export | Bump |
+|---|---|
+| Fixes, copy tweaks, packaging only | **PATCH** — `9.2.0` → `9.2.1` |
+| New feature or page behaviour | **MINOR** — `9.2.0` → `9.3.0` (reset patch to 0) |
+
+Never bump **MAJOR** on a routine export.
+
+## When the user asks to save a version
+
+They are happy with it. Bump **MAJOR** and reset: `9.3.1` → **`10.0.0`**. New slug for that freeze. That is the kept milestone.
+
+## Do not
+
+- Re-export or bump unless they asked
+- Reuse `V9` / `V9.1` style names after `9.2.0`
+- Ship a zip whose name is only the version number

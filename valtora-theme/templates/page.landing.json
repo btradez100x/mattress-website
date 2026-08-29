@@ -18,7 +18,7 @@
       "type": "big-idea",
       "settings": {
         "enable_section": true,
-        "body": "Most mattresses are thrown away because one layer wore out. We made that layer the part you replace.",
+        "body": "The part that softens is the top five centimetres. Ours separates, so you renew that layer instead of the bed.",
         "ground": "auto"
       }
     },
@@ -202,7 +202,7 @@
         "body": "When the layer wears, replace the layer. The bed underneath has years left in it.",
         "flip_line": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes.",
         "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>",
-        "ownership_cost_gb": "<p>A comfort layer costs around \u00a3250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
+        "ownership_cost_gb": "<p>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
         "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
         "dual_use": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>",
         "top_cta_label": "See the comfort layer",
@@ -255,7 +255,7 @@
         "o1": {
           "type": "offer_item",
           "settings": {
-            "title": "[N]-night trial",
+            "title": "30-day sleep trial",
             "text": "Sleep on it. Decide at home."
           }
         },
@@ -319,9 +319,9 @@
         "cta_link": "#reserve",
         "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
         "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
-        "replacement_top_price_gb": "A replacement comfort layer is \u00a3250. A new mattress is not.",
+        "replacement_top_price_gb": "A replacement comfort layer is \u00a3299. A new mattress is not.",
         "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
-        "replacement_frame": "<p>Most mattresses get replaced every seven or eight years because the top layer wears out. Ours is built so you replace the layer instead.</p>",
+        "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
         "ground": "dark"
       }
     },
@@ -378,7 +378,7 @@
           "type": "item",
           "settings": {
             "question": "What if I do not like it?",
-            "answer": "You have [N] nights to decide. If it is not right we collect it and refund you.",
+            "answer": "Sleep on it for a month. If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -386,7 +386,7 @@
           "type": "item",
           "settings": {
             "question": "How much is a comfort layer?",
-            "answer": "GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same top works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.",
+            "answer": "GBP 299. A new mattress does not cost GBP 299, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same top works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.",
             "payment_mode_visibility": "all"
           }
         },
@@ -520,9 +520,9 @@
           "type": "item",
           "settings": {
             "icon": "trial",
-            "label": "[N]-night trial",
-            "sublabel": "Sleep on it properly",
-            "link": "/pages/100-night-trial"
+            "label": "30-day sleep trial",
+            "sublabel": "Sleep on it. Tell us how it should feel.",
+            "link": "/pages/trial"
           }
         },
         "tb3": {

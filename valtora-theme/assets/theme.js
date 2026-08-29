@@ -13,16 +13,27 @@
     ],
     gb: [
       { id: 'single', label: 'Single', dims: '90 × 190 cm', firmness: 'Medium / Medium firm' },
+      { id: 'small-double', label: 'Small Double', dims: '120 × 190 cm', firmness: 'Medium / Medium firm' },
       { id: 'double', label: 'Double', dims: '135 × 190 cm', firmness: 'Medium / Medium firm' },
       { id: 'king', label: 'King', dims: '150 × 200 cm', firmness: 'Medium / Medium firm' },
+      { id: 'european-king', label: 'European King', dims: '160 × 200 cm', firmness: 'Medium / Medium firm' },
       { id: 'super-king', label: 'Super King', dims: '180 × 200 cm', firmness: 'Medium / Medium firm' },
       { id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', firmness: 'Medium / Medium firm' },
+    ],
+    us: [
+      { id: 'twin', label: 'Twin', dims: '99 × 191 cm', firmness: 'Medium / Medium firm' },
+      { id: 'twin-xl', label: 'Twin XL', dims: '91 × 213 cm', firmness: 'Medium / Medium firm' },
+      { id: 'full', label: 'Full', dims: '137 × 191 cm', firmness: 'Medium / Medium firm' },
+      { id: 'queen', label: 'Queen', dims: '152 × 203 cm', firmness: 'Medium / Medium firm' },
+      { id: 'us-king', label: 'King', dims: '193 × 203 cm', firmness: 'Medium / Medium firm' },
+      { id: 'california-king', label: 'California King', dims: '183 × 213 cm', firmness: 'Medium / Medium firm' },
+      { id: 'split-king', label: 'Split King', dims: '2 × 106 × 213 cm', firmness: 'Medium / Medium firm' },
     ],
     eu: [
       { id: 'european-king', label: 'European King', dims: '160 × 200 cm', firmness: 'Medium / Medium firm' },
     ],
   };
-  var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1 };
+  var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1, us: 1 };
   var EUROPE_ISOS = {
     AT: 1, BE: 1, BG: 1, HR: 1, CY: 1, CZ: 1, DK: 1, EE: 1, FI: 1, FR: 1, DE: 1,
     GR: 1, HU: 1, IE: 1, IT: 1, LV: 1, LT: 1, LU: 1, MT: 1, NL: 1, PL: 1, PT: 1,
@@ -38,6 +49,7 @@
     var c = String(code || '').toUpperCase();
     if (c === 'GB' || c === 'UK') return 'gb';
     if (c === 'AE') return 'ae';
+    if (c === 'US') return 'us';
     if (EUROPE_ISOS[c]) return 'eu';
     return '';
   }
@@ -3012,11 +3024,8 @@
             '<span class="size-option__note">Fits IKEA and most continental frames</span>';
         }
         if (s.id === 'emperor') {
-          var nights = (document.documentElement.getAttribute('data-trial-nights') || '100').trim();
           extraNote =
-            '<span class="size-option__note">Made to order at 200 x 200cm. Not covered by the ' +
-            nights +
-            '-night return trial. Statutory rights are unaffected.</span>';
+            '<span class="size-option__note">Made to order at 200 x 200cm. Not covered by the 30-day return trial. Statutory rights are unaffected.</span>';
         }
         btn.innerHTML =
           '<span class="size-option__marker" aria-hidden="true"></span>' +
@@ -3617,6 +3626,26 @@
           );
         })
         .join('');
+      var recyclingHref = './mattress-recycling.html';
+      try {
+        if (location.pathname.indexOf('/pages/') === -1) recyclingHref = './pages/mattress-recycling.html';
+      } catch (e) {}
+      linesEl.insertAdjacentHTML(
+        'beforeend',
+        '<li class="cart-line cart-service-line">' +
+          '<div class="cart-line__copy cart-service-line__label">' +
+          'Old mattress removal and recycling' +
+          '<a href="' +
+          recyclingHref +
+          '">We carry the cost. Read what happens to it</a>' +
+          '</div>' +
+          '<div class="cart-line__aside"><p class="cart-line__total">Complimentary</p></div>' +
+          '</li>' +
+          '<li class="cart-line cart-service-line">' +
+          '<div class="cart-line__copy cart-service-line__label">Concierge unpacking</div>' +
+          '<div class="cart-line__aside"><p class="cart-line__total">Included</p></div>' +
+          '</li>'
+      );
       if (subtotalEl) {
         subtotalEl.textContent = formatOrderTotal(lines);
       }
@@ -5670,9 +5699,10 @@
   function initPreviewAnnouncement() {
     if (!isPreviewHost()) return;
 
-    var nights = document.documentElement.getAttribute('data-trial-nights') || '100';
-    var DEFAULT_AE = 'Cancel any time before dispatch · ' + nights + '-night trial · Made to order';
-    var DEFAULT_GB = 'Cancel any time before dispatch · ' + nights + '-night trial · Spread with Klarna';
+    var BANNER =
+      'Concierge unpacking included with every mattress · To the room of your choice, packaging taken away';
+    var DEFAULT_AE = BANNER;
+    var DEFAULT_GB = BANNER;
     var textAe = DEFAULT_AE;
     var textGb = DEFAULT_GB;
     var enabled = true;
@@ -5742,6 +5772,25 @@
     }
   }
 
+  function initAnnouncementDismiss() {
+    var bar = document.querySelector('[data-announcement-bar], .announcement');
+    if (!bar) return;
+    try {
+      if (sessionStorage.getItem('numaAnnouncementDismissed') === '1') {
+        bar.hidden = true;
+        return;
+      }
+    } catch (e) {}
+    var btn = bar.querySelector('[data-announcement-dismiss]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      bar.hidden = true;
+      try {
+        sessionStorage.setItem('numaAnnouncementDismissed', '1');
+      } catch (err) {}
+    });
+  }
+
   function boot() {
     initPreviewBrandChrome();
     var market = detectMarket();
@@ -5785,6 +5834,7 @@
     initLandingFunnel();
     initLandingConfigure();
     initExitIntent();
+    initAnnouncementDismiss();
     // Cross-tab / cross-page: when localStorage basket changes, refresh UI from
     // the freshest stamped payload (never resurrect a fuller stale copy).
     window.addEventListener('storage', function (e) {

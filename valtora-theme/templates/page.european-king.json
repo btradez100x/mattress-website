@@ -10,8 +10,8 @@
         "mattress_product": "the-mattress",
         "featured_size": "european-king",
         "kicker": "European King · 160 x 200cm",
-        "heading": "The right mattress\nfor your IKEA frame.",
-        "lede": "IKEA King is 160 x 200cm. British King is 150 x 200cm. They are not the same, which is why nothing in a UK bed shop fits your bed properly.",
+        "heading": "The size your bed\nwas built for.",
+        "lede": "IKEA King is 160 by 200 centimetres. British King is 150. We make the first one, handmade to order, and tailor the feel after you have slept on it.",
         "cta_label": "Configure yours",
         "cta_size": "european-king",
         "cta_link": "#configure",
@@ -25,90 +25,34 @@
         "enable_section": true,
         "ground": "surface",
         "layout": "prose",
-        "heading": "The 10cm problem",
-        "body": "<p>If you bought a bed frame from IKEA, or almost anywhere in continental Europe, it takes a 160 x 200cm mattress.</p><p>Every British manufacturer builds 150 x 200. Put one in a European frame and you get a 10cm gap down one side, sheets that will not sit, and a mattress that shifts every time you move.</p><p>The usual answers are to buy IKEA's own mattress, import one from Europe and wait, or replace the frame. We make a third option.</p>"
+        "heading": "One hundred and sixty centimetres",
+        "body": "<p>Continental bed frames, IKEA included, take a mattress 160 centimetres wide. It is a standard across most of Europe and it is the size we build.</p><p>The British King is 150. Ten centimetres narrower, which sounds like nothing until it is a gap down one side of your bed and sheets that will not sit flat.</p>"
       }
     },
     "instead": {
       "type": "landing-funnel",
       "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "The exact size",
-            "text": "160 x 200cm, made to order. It fits the frame you already own."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "37cm of mattress",
-            "text": "Hand-assembled pocket sprung core with a comfort layer above it. Roughly twice the depth of what came with the frame."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "A layer you can replace",
-            "text": "The part that wears out unzips and lifts off. [layer] to renew, not [price]."
-          }
-        }
+        "c1": { "type": "card", "settings": { "heading": "The exact size", "text": "160 by 200 centimetres, made to order. It fits the frame you already own." } },
+        "c2": { "type": "card", "settings": { "heading": "Thirty five centimetres", "text": "A pocket sprung core with a comfort layer above it, closed with a zip so the top can be renewed without the bed." } },
+        "c3": { "type": "card", "settings": { "heading": "A feel you settle later", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way, with our compliments." } }
       },
       "block_order": ["c1", "c2", "c3"],
       "settings": {
         "enable_section": true,
         "ground": "dark",
         "layout": "cards",
-        "mattress_product": "the-mattress",
-        "featured_size": "european-king",
-        "heading": "What you get instead"
+        "heading": "What it is"
       }
     },
     "spec": {
       "type": "landing-funnel",
       "blocks": {
-        "s1": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Size",
-            "text": "160 x 200cm. Fits IKEA and most continental frames."
-          }
-        },
-        "s2": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Depth",
-            "text": "37cm made up."
-          }
-        },
-        "s3": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Core",
-            "text": "Hand-assembled pocket springs. [X]-year guarantee."
-          }
-        },
-        "s4": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Comfort layer",
-            "text": "Removable and reversible. Firm one side, soft the other. You do not choose - it arrives with both."
-          }
-        },
-        "s5": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Bedding",
-            "text": "Takes standard European King linen, widely available online."
-          }
-        },
-        "s6": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Made",
-            "text": "To order."
-          }
-        }
+        "s1": { "type": "spec_item", "settings": { "label": "Size", "text": "160 x 200cm. Fits IKEA and most continental frames." } },
+        "s2": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 30cm core, 5cm comfort layer." } },
+        "s3": { "type": "spec_item", "settings": { "label": "Core", "text": "Pocket springs. Twenty five year guarantee." } },
+        "s4": { "type": "spec_item", "settings": { "label": "Comfort layer", "text": "Removable and reversible. Two feels. You do not choose. It arrives with both." } },
+        "s5": { "type": "spec_item", "settings": { "label": "Bedding", "text": "Takes standard European King linen, widely available online." } },
+        "s6": { "type": "spec_item", "settings": { "label": "Made", "text": "To order." } }
       },
       "block_order": ["s1", "s2", "s3", "s4", "s5", "s6"],
       "settings": {
@@ -117,8 +61,43 @@
         "layout": "spec",
         "anchor_id": "spec",
         "heading": "Specification",
-        "promise_title": "[N]-night comfort promise.",
-        "promise_body": " Your mattress arrives with two feels in one layer - medium on one face, medium firm on the other. If neither is right, we send a complimentary comfort layer at a different tension, worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
+        "promise_title": "30-day sleep trial.",
+        "promise_body": " If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
+      }
+    },
+    "outcome": {
+      "type": "landing-funnel",
+      "blocks": {
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way." } },
+        "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
+        "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
+      },
+      "block_order": ["o1", "o2", "o3"],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "outcome",
+        "anchor_id": "outcome",
+        "heading": "A bed that becomes yours,\nand stays that way."
+      }
+    },
+    "delivery": {
+      "type": "landing-funnel",
+      "blocks": {
+        "t1": { "type": "tier", "settings": { "tag": "Included with every mattress", "heading": "Concierge unpacking", "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.", "price": "Included", "featured": true } },
+        "t2": { "type": "tier", "settings": { "tag": "", "heading": "Old mattress removal and recycling", "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.", "price": "Complimentary", "featured": false } },
+        "c1": { "type": "card", "settings": { "heading": "Unrolled on the bed", "text": "It settles evenly." } },
+        "c2": { "type": "card", "settings": { "heading": "Nothing left behind", "text": "Carton, plastic, wrap. All of it leaves with it." } },
+        "c3": { "type": "card", "settings": { "heading": "A window agreed in advance", "text": "Notification on the day." } }
+      },
+      "block_order": ["t1", "t2", "c1", "c2", "c3"],
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "delivery",
+        "anchor_id": "delivery",
+        "heading": "It arrives compressed.\nWe do not leave it that way.",
+        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
       }
     },
     "configure": {
@@ -131,9 +110,9 @@
         "mattress_product": "the-mattress",
         "featured_size": "european-king",
         "heading": "Choose your size",
-        "lede": "Every size is handmade to order with the same 37cm construction and the same removable comfort layer."
+        "lede": "Every size is handmade to order with the same 35cm construction and the same removable comfort layer."
       }
     }
   },
-  "order": ["hero", "problem", "instead", "spec", "configure"]
+  "order": ["hero", "problem", "instead", "spec", "outcome", "delivery", "configure"]
 }

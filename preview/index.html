@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25">
+<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="30">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=wo-v9-review1" data-valtora-brand-boot></script>
@@ -421,8 +421,8 @@
         <label style="cursor:pointer;" title="Theme setting: OEKO-TEX STANDARD 100 (off until a certificate number is entered)"><input type="checkbox" id="PreviewOekoClaim"> OEKO-TEX</label>
         <label title="Required to show the OEKO-TEX claim">OEKO cert <input id="PreviewOekoCert" type="text" value="" placeholder="certificate no." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8rem;color:#000;background:#F7F5F1;"></label>
         <label style="cursor:pointer;" title="Show site announcement bar on every page"><input type="checkbox" id="PreviewAnnouncementOn" checked> Announcement</label>
-        <label title="Announcement bar copy (UAE)">Banner UAE <input id="PreviewAnnouncementAe" type="text" value="Cancel any time before dispatch · 100-night trial · Made to order" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
-        <label title="Announcement bar copy (UK)">Banner UK <input id="PreviewAnnouncementGb" type="text" value="Cancel any time before dispatch · 100-night trial · Spread with Klarna" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
+        <label title="Announcement bar copy (UAE)">Banner UAE <input id="PreviewAnnouncementAe" type="text" value="Concierge unpacking included with every mattress · To the room of your choice, packaging taken away" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
+        <label title="Announcement bar copy (UK)">Banner UK <input id="PreviewAnnouncementGb" type="text" value="Concierge unpacking included with every mattress · To the room of your choice, packaging taken away" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
         <label style="cursor:pointer;" title="Exit-intent leave prompt (off by default)"><input type="checkbox" id="PreviewExitIntent"> Exit prompt</label>
         <label title="Seconds on page before exit prompt can appear">Exit delay <input id="PreviewExitIntentDelay" type="number" min="0" max="120" step="5" value="30" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;width:3.5rem;color:#000;background:#F7F5F1;"></label>
         <button type="button" id="PreviewExitIntentExport" class="preview-banner__btn" title="Download local exit-intent responses">Exit log</button>
@@ -504,14 +504,11 @@
       </div>
     </div>
 
-    <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
-      <p style="margin:0" data-market-announcement>
-        <span data-market-only="ae">Cancel any time before dispatch · 100-night trial · Made to order</span>
-        <span data-market-only="gb" hidden>Cancel any time before dispatch · 100-night trial · Spread with Klarna</span>
-      </p>
+        <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
+      <p style="margin:0">Concierge unpacking <b>included with every mattress</b> · To the room of your choice, packaging taken away</p>
+      <button type="button" class="announcement__dismiss" data-announcement-dismiss aria-label="Dismiss">×</button>
     </div>
-
-    <header class="site-header">
+<header class="site-header">
       <div class="site-header__inner">
         <a class="wordmark" href="#" aria-label="Aligna Mattresses">
           <span class="wordmark__lockup">
@@ -552,6 +549,7 @@
         </div>
         <a href="./pages/specification.html">Specification</a>
         <a href="./pages/manufacturing.html">How it is made</a>
+        <a href="./pages/about.html">About</a>
         <a href="./blog/index.html">Journal</a>
         <a href="#reserve">Reserve yours</a>
       </div>
@@ -561,13 +559,13 @@
       <!-- Hero -->
             <section class="hero hero--light" id="hero" data-admin-section="hero" data-section-ground="bg">
         <div class="hero__content">
-          <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">Made to order. Made to last.</h1>
-          <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">Change the feel whenever you want. Replace the layer that wears, not the whole bed.</p>
+          <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">You do not choose the feel. You discover it.</h1>
+          <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">Sleep on it for a month. Tell us how it should feel. We make it that way.</p>
           <div class="hero__cta" data-reveal-child data-reveal-first style="--reveal-delay: 150ms">
             <a class="btn" href="#reserve" data-hero-cta>See sizes and prices</a>
-            <a class="btn btn--ghost hero__secondary" href="#swap">How the swap system works</a>
+            <a class="btn btn--ghost hero__secondary" href="#swap">How it arrives</a>
           </div>
-          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Cancel any time before dispatch · 100-night trial · <span data-warranty-years-text>25</span>-year warranty</p>
+          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Concierge unpacking included · The old one leaves with it</p>
         </div>
         <div class="hero__media" data-reveal-child data-reveal-first style="--reveal-delay: 100ms">
           <img src="./assets/hero-mattress.jpg" alt="Aligna mattress" data-brand-alt-suffix=" mattress" width="2000" height="1500" fetchpriority="high" decoding="async">
@@ -579,7 +577,7 @@
           <div class="trust-bar__track">
             <ul class="trust-bar__list" role="list">
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">30-day sleep trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label"><span data-warranty-years-text>25</span>-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
@@ -587,7 +585,7 @@
             </ul>
             <ul class="trust-bar__list" role="list" aria-hidden="true">
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">30-day sleep trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label"><span data-warranty-years-text>25</span>-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
@@ -608,7 +606,7 @@
             <hr class="gold-rule">
             <h2>A better bed, for life.</h2>
             <div class="section__lede rte">
-              Most mattresses are thrown away because one layer wore out. We made that layer the part you replace.
+              The part that softens is the top five centimetres. Ours separates, so you renew that layer instead of the bed.
             </div>
           </div>
           <div class="big-idea__media">
@@ -627,7 +625,7 @@
           <p class="section__lede">A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>
           <p class="section__lede">When the layer wears, replace the layer. The bed underneath has years left in it.</p>
           <p class="section__lede">To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes.</p>
-          <p class="section__lede" data-market-only="gb" hidden>A comfort layer costs around £250. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
+          <p class="section__lede" data-market-only="gb" hidden>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>
           <p class="section__lede">The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>
           <p class="swap-explainer__cta" data-comfort-top-cta hidden>
             <a class="btn" href="./pages/comfort-layer.html?tops=1">See the comfort layer</a>
@@ -652,11 +650,20 @@
   {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
   {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
   {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","price":"£2,249","price_raw":224900,"available":true},
   {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
   {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false},
-  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"","price_raw":0,"available":true}
+  {"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":true},
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,699","price_raw":369900,"available":true},
+  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"us","id":"twin","label":"Twin","dims":"99 × 191 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"us","id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","price":"£2,049","price_raw":204900,"available":true},
+  {"market":"us","id":"full","label":"Full","dims":"137 × 191 cm","price":"£2,499","price_raw":249900,"available":true},
+  {"market":"us","id":"queen","label":"Queen","dims":"152 × 203 cm","price":"£2,999","price_raw":299900,"available":true},
+  {"market":"us","id":"us-king","label":"King","dims":"193 × 203 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","id":"california-king","label":"California King","dims":"183 × 213 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","id":"split-king","label":"Split King","dims":"2 × 106 × 213 cm","price":"£3,699","price_raw":369900,"available":true}
 ]
 </script>
 <div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Medium / Medium firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
@@ -1226,7 +1233,7 @@
           <p class="section__eyebrow">Buy with confidence</p>
           <h2>Order with confidence.</h2>
           <p class="section__lede offer__frame">
-            Most mattresses get replaced every seven or eight years because the top layer wears out. Ours is built so you replace the layer instead.
+            The part that softens renews. The part that lasts, lasts.
           </p>
           <p class="section__lede">
             <span data-market-only="ae">Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.</span>
@@ -1234,11 +1241,11 @@
           </p>
           <p class="offer__top-price">
             <span data-market-only="ae">A replacement comfort layer is AED 1,200. A new mattress is not.</span>
-            <span data-market-only="gb" hidden>A replacement comfort layer is £250. A new mattress is not.</span>
+            <span data-market-only="gb" hidden>A replacement comfort layer is £299. A new mattress is not.</span>
           </p>
           <hr class="gold-rule gold-rule--measure">
           <div class="offer__items">
-            <div class="offer__item"><strong>100-night trial</strong><span>Sleep on it. Decide at home.</span></div>
+            <div class="offer__item"><strong>30-day sleep trial</strong><span>Sleep on it. Decide at home.</span></div>
             <div class="offer__item"><strong><span data-warranty-years-text>25</span>-year warranty</strong><span>On the spring core.</span></div>
             <div class="offer__item"><strong>Handmade to order</strong><span>Built after you order it, never from stock.</span></div>
             <div class="offer__item"><strong>Cancel before dispatch</strong><span>Full refund any time before your mattress ships.</span></div>
@@ -1263,11 +1270,20 @@
   {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
   {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
   {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","price":"£2,249","price_raw":224900,"available":true},
   {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
   {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false},
-  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"","price_raw":0,"available":true}
+  {"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":true},
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,699","price_raw":369900,"available":true},
+  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"us","id":"twin","label":"Twin","dims":"99 × 191 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"us","id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","price":"£2,049","price_raw":204900,"available":true},
+  {"market":"us","id":"full","label":"Full","dims":"137 × 191 cm","price":"£2,499","price_raw":249900,"available":true},
+  {"market":"us","id":"queen","label":"Queen","dims":"152 × 203 cm","price":"£2,999","price_raw":299900,"available":true},
+  {"market":"us","id":"us-king","label":"King","dims":"193 × 203 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","id":"california-king","label":"California King","dims":"183 × 213 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","id":"split-king","label":"Split King","dims":"2 × 106 × 213 cm","price":"£3,699","price_raw":369900,"available":true}
 ]
 </script>
 <div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Medium / Medium firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
@@ -1413,18 +1429,18 @@
                 <span>What if my partner and I want different firmnesses?</span>
                 <span class="faq__icon" aria-hidden="true"></span>
               </button>
-              <div class="faq__panel">The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your 100 nights and we will collect it and refund you in full.</div>
+              <div class="faq__panel">The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your 30 days and we will collect it and refund you in full.</div>
             </div>
             <div class="faq__item" id="faq-5" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger>
                 <span>Will my mattress look exactly like the photographs?</span>
                 <span class="faq__icon" aria-hidden="true"></span>
               </button>
-              <div class="faq__panel">Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.<br><br>What never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.<br><br>If yours arrives and you are not happy with it for any reason, including how it looks, you have 100 nights to tell us and we will collect it and refund you in full.</div>
+              <div class="faq__panel">Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.<br><br>What never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.<br><br>If yours arrives and you are not happy with it for any reason, including how it looks, you have 30 days to tell us and we will collect it and refund you in full.</div>
             </div>
             <div class="faq__item" id="faq-6" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Can I change my mind after ordering?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have 100 nights.</div>
+              <div class="faq__panel">Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have 30 days.</div>
             </div>
             <div class="faq__item" id="faq-7" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What if it is late?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1432,11 +1448,11 @@
             </div>
             <div class="faq__item" id="faq-8" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What if I do not like it?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">You have 100 nights to decide. If it is not right we collect it and refund you.</div>
+              <div class="faq__panel">You have 30 days to decide. If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.</div>
             </div>
             <div class="faq__item" id="faq-9" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>How much is a comfort layer?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">GBP 250. A new mattress does not cost GBP 250, which is the point - you refresh the layer that wears rather than replacing the whole bed.<br><br>The same layer works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.</div>
+              <div class="faq__panel">GBP 299. A new mattress does not cost GBP 299, which is the point - you refresh the layer that wears rather than replacing the whole bed.<br><br>The same layer works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.</div>
             </div>
             <div class="faq__item" id="faq-10" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Will I feel my partner moving?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1448,7 +1464,7 @@
             </div>
             <div class="faq__item" id="faq-12" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Will it fit my sheets?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel">Our mattress is 37cm, which is deeper than standard fitted sheets allow for. You will need deep-fitted sheets, sold as 35cm or 40cm depth.<br><br>If you are using a comfort layer on your own mattress, add 10cm to whatever your mattress measures now and check against that.<span data-sheets-discover hidden><br><br><a href="./pages/bed-sheets.html?sheets=1">Sheets that fit.</a></span></div>
+              <div class="faq__panel">Our mattress is 35cm, which is deeper than standard fitted sheets allow for. You will need deep-fitted sheets, sold as 35cm or 40cm depth.<br><br>If you are using a comfort layer on your own mattress, add 5cm to whatever your mattress measures now and check against that.<span data-sheets-discover hidden><br><br><a href="./pages/bed-sheets.html?sheets=1">Sheets that fit.</a></span></div>
             </div>
             <div class="faq__item" id="faq-13" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is the price negotiable?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1559,6 +1575,8 @@
             <ul>
               <li><a href="./pages/size-guide.html">Size guide</a></li>
               <li><a href="./pages/delivery.html">Delivery and lead time</a></li>
+              <li><a href="./pages/mattress-recycling.html">Old mattress removal and recycling</a></li>
+              <li><a href="./pages/about.html">About</a></li>
               <li><a href="./pages/order-status.html">Order status</a></li>
               <li><a href="./pages/contact.html">Contact</a></li>
             </ul>
@@ -1566,7 +1584,7 @@
           <div>
             <h3>Policies</h3>
             <ul>
-              <li><a href="./pages/trial.html"><span data-trial-nights-text>100</span>-night trial</a></li>
+              <li><a href="./pages/trial.html">30-day sleep trial</a></li>
               <li><a href="./pages/warranty.html">Warranty</a></li>
               <li><a href="./pages/refunds.html">Refunds</a></li>
               <li><a href="./pages/privacy.html">Privacy</a></li>
@@ -2502,8 +2520,8 @@
           var onToggle = document.getElementById('PreviewAnnouncementOn');
           var aeInput = document.getElementById('PreviewAnnouncementAe');
           var gbInput = document.getElementById('PreviewAnnouncementGb');
-          var DEFAULT_AE = 'Cancel any time before dispatch · 100-night trial · Made to order';
-          var DEFAULT_GB = 'Cancel any time before dispatch · 100-night trial · Spread with Klarna';
+          var DEFAULT_AE = 'Concierge unpacking included with every mattress · To the room of your choice, packaging taken away';
+          var DEFAULT_GB = 'Concierge unpacking included with every mattress · To the room of your choice, packaging taken away';
 
           function apply() {
             var enabled = !onToggle || onToggle.checked;
