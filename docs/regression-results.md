@@ -1,3 +1,13 @@
+# Regression results — Saturday 29 Aug 2026 (Journal research + CEO byline)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 880 passed, 0 failed
+- Scope note: Exhaustive restore of Journal research. Repo, git history, `preview/blog`, `share/v3`+`v4`, and the uploaded briefs contain **six** sleep/expertise notes only — no further articles existed to bring back. All six are baked into the theme and listed on the Journal index with byline **Ben Acolatse, CEO**. An empty Admin blog or default Page cannot hide them. Header prefers a populated Journal blog over an empty page. Checkout unchanged.
+
+---
+
 # Regression results — Saturday 29 Aug 2026 (late review export + deploy)
 
 ## Smoke
