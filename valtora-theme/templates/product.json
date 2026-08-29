@@ -18,9 +18,13 @@
         "anchor_id": "reserve",
         "leadtime_placement": "staged",
         "continue_label_full": "Continue",
-        "button_label_full": "Buy now"
+        "button_label_full": "Buy now",
+        "ground": "surface"
       }
     }
   },
-  "order": ["main", "size-reserve"]
+  "order": [
+    "main",
+    "size-reserve"
+  ]
 }

@@ -156,6 +156,20 @@
 .mfg-close .lp-cta-band__btn {
   margin-top: 2.25rem;
 }
+.mfg-band--dark h1,
+.mfg-band--dark h2,
+.mfg-band--dark h3,
+.mfg-band--dark .section__lede,
+.mfg-band--dark .rte,
+.mfg-band--dark .rte p,
+.mfg-band--dark .mfg-heritage,
+.mfg-band--dark .lp-outcome__name,
+.mfg-band--dark .lp-outcome__desc {
+  color: var(--brand-on-dark);
+}
+.mfg-band--dark .section__eyebrow {
+  color: var(--eyebrow-on-dark, var(--brand-accent));
+}
 .mfg-band--dark .mfg-line,
 .mfg-band--dark .lp-spec li,
 .mfg-band--dark .lp-steps li,

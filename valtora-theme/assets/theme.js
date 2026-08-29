@@ -1880,7 +1880,11 @@
         return;
       }
       if (mode === 'auto') {
-        var next = prev === 'bg' ? 'surface' : 'bg';
+        /* Brand: Snow → Surface → Dark, roughly every third section.
+           Neighbours never share a ground. Ember is never a fill. */
+        var next = 'bg';
+        if (prev === 'bg') next = 'surface';
+        else if (prev === 'surface') next = 'dark';
         applySectionGroundClass(el, next);
         prev = next;
         return;

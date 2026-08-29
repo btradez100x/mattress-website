@@ -403,10 +403,10 @@ for sec in hero pair-cards benefits product-specs size-reserve faq; do
   fi
 done
 
-# --- Default palette sanity ---
-if grep -q "#1F3A5F" "$THEME/config/settings_data.json" \
+# --- Default palette sanity (v1 navy or v2 carbon; gold/ember accent) ---
+if (grep -q "#1F3A5F" "$THEME/config/settings_data.json" || grep -q "#1A1A1A" "$THEME/config/settings_data.json") \
   && grep -q "#8A6D3B" "$THEME/config/settings_data.json"; then
-  pass "default navy/gold palette in settings_data"
+  pass "default navy/carbon + gold palette in settings_data"
 else
   fail "default palette values missing from settings_data"
 fi
@@ -986,6 +986,101 @@ then
   pass "Built to be kept stays on what-it-buys, off specification"
 else
   fail "Built to be kept enable flags drifted from the brief"
+fi
+
+# --- Section grounds: Snow / Surface / Dark, neighbours never match ---
+if python3 - "$THEME/templates" <<'PY'
+import json, sys
+from pathlib import Path
+root = Path(sys.argv[1])
+fail = []
+
+def enabled_grounds(data):
+    out = []
+    for sid in data.get("order", []):
+        sec = data["sections"][sid]
+        st = sec.get("settings", {})
+        if st.get("enable_section") is False:
+            continue
+        g = st.get("ground")
+        if sec.get("type") == "hero":
+            g = "dark" if st.get("tone") == "dark" else (g or "bg")
+        out.append((sid, g or "missing"))
+    return out
+
+def assert_neighbours(name, data):
+    prev = None
+    for sid, g in enabled_grounds(data):
+        if g not in ("bg", "surface", "dark"):
+            fail.append(f"{name} {sid} ground={g}")
+        if prev and prev == g:
+            fail.append(f"{name} {sid} shares {g} with neighbour")
+        prev = g
+
+for fname in [
+    "index.json",
+    "page.landing.json",
+    "page.about.json",
+    "page.mattress-recycling.json",
+    "page.large-sizes.json",
+    "page.european-king.json",
+    "page.specification.json",
+    "page.what-it-buys.json",
+]:
+    assert_neighbours(fname, json.loads((root / fname).read_text()))
+
+idx = json.loads((root / "index.json").read_text())
+want = {
+    "pair-cards": "dark",
+    "swap-explainer": "bg",
+    "size-reserve": "surface",
+    "founder-note": "dark",
+    "offer": "dark",
+    "faq": "surface",
+    "lifestyle-collage": "dark",
+}
+for sid, g in want.items():
+    got = idx["sections"][sid]["settings"].get("ground")
+    if got != g:
+        fail.append(f"index {sid} expected {g} got {got}")
+
+about = json.loads((root / "page.about.json").read_text())
+if about["sections"]["hero"]["settings"].get("ground") == about["sections"]["story"]["settings"].get("ground"):
+    fail.append("about hero/story share a ground")
+
+if fail:
+    print("\n".join(fail))
+    sys.exit(1)
+PY
+then
+  pass "section grounds alternate Snow / Surface / Dark on homepage and landings"
+else
+  fail "section grounds still collide or left auto/beige-on-beige"
+fi
+
+if grep -q "Each ground paints its Shopify wrapper" "$THEME/assets/base.css" \
+  && grep -q 'has(> .section--surface)' "$THEME/assets/base.css" \
+  && grep -q 'has(> .section--bg)' "$THEME/assets/base.css" \
+  && grep -q "Each ground paints its Shopify wrapper" "$ROOT/preview/base.css"; then
+  pass "CSS paints Snow / Surface / Dark wrappers"
+else
+  fail "CSS wrappers still only paint dark bands"
+fi
+
+if grep -q "Snow → Surface → Dark" "$JS" \
+  && grep -q "Snow → Surface → Dark" "$ROOT/preview/theme.js" \
+  && grep -q "else if (prev === 'surface') next = 'dark'" "$JS"; then
+  pass "JS auto ground cycles Snow / Surface / Dark"
+else
+  fail "JS auto ground still only flips beige/stone"
+fi
+
+if grep -q "mfg-band--surface" "$THEME/sections/manufacturing.liquid" \
+  && grep -q "mfg-band--dark" "$THEME/sections/manufacturing.liquid" \
+  && grep -q "mfg-band--dark h1" "$THEME/assets/manufacturing.css"; then
+  pass "manufacturing bands use Surface and Dark, not one snow field"
+else
+  fail "manufacturing bands still share one ground"
 fi
 
 info "----------------------------------------"
