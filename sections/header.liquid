@@ -1,17 +1,15 @@
 {%- liquid
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
   comment
-    Journal: the Page is the original destination (create handle journal, template journal).
-    Empty blog/page drops can still emit a URL, so only use them when the handle matches.
-    Do not send nav to /blogs/journal unless that blog exists.
+    Journal: if the blog has published articles, go there — that is the live content.
+    An empty Page must not hide a populated blog. Otherwise use Page handle journal
+    (template journal, with baked notes). Do not send nav to /blogs/journal unless
+    that blog exists.
   endcomment
-  if pages['journal'].handle == 'journal'
-    assign journal_url = pages['journal'].url
-  elsif blogs['journal'].handle == 'journal'
-    assign journal_url = blogs['journal'].url
-  else
-    assign journal_url = '/pages/journal'
-  endif
+-%}
+{%- capture journal_url -%}{% render 'journal-index-href' %}{%- endcapture -%}
+{%- assign journal_url = journal_url | strip -%}
+{%- liquid
   assign large_sizes_url = pages['large-sizes'].url | default: '/pages/large-sizes'
   assign european_king_url = pages['european-king'].url | default: '/pages/european-king'
   assign size_guide_url = pages['size-guide'].url | default: '/pages/size-guide'

@@ -7617,13 +7617,19 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin-top: 0.7rem;
   background: var(--brand-accent);
 }
-.journal-empty {
-  max-width: 36rem;
+.journal-article-panel {
+  display: none;
 }
-.journal-empty p {
-  margin: 0.85rem 0 0;
-  max-width: 32rem;
-  line-height: 1.65;
+.journal-article-panel:target {
+  display: block;
+  scroll-margin-top: 7rem;
+}
+.journal-with-panels:has(.journal-article-panel:target) .journal-index-view {
+  display: none;
+}
+.journal-page:has(.journal-article-panel:target) .journal-page-hero,
+.journal-page:has(.journal-article-panel:target) .policy-cta {
+  display: none;
 }
 @media (min-width: 1100px) {
   .journal-page .blog-index__grid > li:first-child {

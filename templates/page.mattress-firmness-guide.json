@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-journal-article",
+      "settings": {
+        "article_handle": "mattress-firmness-guide"
+      }
+    }
+  },
+  "order": ["main"]
+}

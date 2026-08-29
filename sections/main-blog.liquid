@@ -12,7 +12,7 @@
 
     {%- paginate blog.articles by section.settings.page_size -%}
       {%- if blog.articles.size == 0 -%}
-        <p class="blog-index__empty">Articles will appear here once published in Shopify Admin → Blog posts.</p>
+        {% render 'journal-baked-index' %}
       {%- else -%}
         <ul class="blog-index__grid" role="list">
           {%- for article in blog.articles -%}
