@@ -79,8 +79,8 @@
   var TAGLINE_MARKETS = { ae: 1, gb: 1, us: 1, eu: 1, gh: 1, ng: 1 };
 
   function detectMarket() {
-    // Preview: honour the market the shopper last chose so cart/checkout
-    // pages (hardcoded data-market) do not wipe the other market's basket.
+    // Preview chrome only: honour the designer market picker / in-progress basket.
+    // Live shoppers never pick a country tab — Shopify localization is the source.
     try {
       var previewPort = location.port === '5173' || location.port === '5190';
       var saved = localStorage.getItem('valtoraPreviewMarket');
@@ -95,23 +95,25 @@
       }
     } catch (e) {}
 
-    var forced = document.documentElement.getAttribute('data-market');
-    if (isSizeMarket(forced)) return forced;
-
     var theme = window.ValtoraTheme || {};
-    var localization = window.Shopify && window.Shopify.country;
     var countryAttr =
+      theme.countryIso ||
       (document.documentElement && document.documentElement.getAttribute('data-country')) ||
-      localization ||
+      (window.Shopify && window.Shopify.country) ||
       '';
     var fromCountry = countryToSizeMarket(countryAttr);
     if (fromCountry) return fromCountry;
 
-    // Shopify Markets: localization.country.iso_code via liquid-injected meta
+    var resolved =
+      theme.market ||
+      (document.documentElement && document.documentElement.getAttribute('data-market'));
+    if (isSizeMarket(resolved)) return resolved;
+
     var meta = document.querySelector('meta[name="valtora-market"]');
     if (meta && isSizeMarket(meta.content)) return meta.content;
 
-    return theme.defaultMarket || 'ae';
+    if (isSizeMarket(theme.defaultMarket)) return theme.defaultMarket;
+    return 'gb';
   }
 
   function detectTaglineMarket() {
@@ -516,10 +518,30 @@
     return [];
   }
 
-  function rowShownInTab(row, tabKey) {
+  function rowBelongsToMarket(row, market) {
+    if (!row) return false;
+    var m = String(market || '').toLowerCase();
+    if (!isSizeMarket(m)) m = 'gb';
+    var id = String(row.id || '').toLowerCase();
+    var label = String(row.label || '').toLowerCase();
+    var blob = id + ' ' + label;
+    var isUs =
+      /^(twin|twin-xl|us-king|us-full|us-queen|california-king|split-king)$/.test(id) ||
+      /(^|[\s(])us[- ](full|queen|king|twin)/.test(' ' + blob) ||
+      /california/.test(blob);
+    var isAu = /(^|\b)au[- ]|\baustralian\b/.test(blob);
+    if (m === 'us') {
+      if (isAu) return false;
+    } else if (isUs || isAu) {
+      return false;
+    }
+    if (row.market) return String(row.market).toLowerCase() === m;
     var ms = rowMarkets(row);
-    if (!ms.length) return false;
-    return ms.indexOf(tabKey) !== -1;
+    return ms.indexOf(marketToTabKey(m)) !== -1;
+  }
+
+  function rowShownInTab(row, tabKey) {
+    return rowBelongsToMarket(row, tabKeyToMarket(tabKey));
   }
 
   function rowDisplayName(row, tabKey) {
@@ -546,11 +568,7 @@
   }
 
   function readSelectorMarket() {
-    try {
-      return sessionStorage.getItem('lp_variant_market') || '';
-    } catch (e) {
-      return '';
-    }
+    return marketToTabKey(detectMarket());
   }
 
   function tabsPresentInRows(rows) {
@@ -590,6 +608,7 @@
       '<li>' +
       '<div class="size-row size-option' +
       (available ? '' : ' size-option--oos') +
+      (s.popular ? ' size-option--popular' : '') +
       '" data-size-id="' +
       escapeHtml(s.id) +
       '" data-size-label="' +
@@ -607,30 +626,38 @@
       '" data-available="' +
       (available ? 'true' : 'false') +
       '" data-qty="0">' +
-      '<button type="button" class="size-row__pick" data-size-pick aria-label="Add ' +
+      '<button type="button" class="size-option__pick size-row__pick" data-size-pick aria-label="Add ' +
       escapeHtml(label) +
       (dims ? ', ' + escapeHtml(dims) : '') +
       (price ? ', ' + escapeHtml(price) : '') +
       '">' +
-      '<span class="size-row__name">' +
+      '<span class="size-option__main size-row__name">' +
+      '<span class="size-option__label">' +
       escapeHtml(label) +
-      (fits ? '<span class="size-row__fits">' + escapeHtml(fits) + '</span>' : '') +
+      (s.popular ? ' <span class="size-option__popular">Most popular</span>' : '') +
       '</span>' +
-      '<span class="size-row__dims">' +
+      '<span class="size-option__dims size-row__dims">' +
       escapeHtml(dims) +
+      (available ? '' : ' · Not in this allocation') +
       '</span>' +
-      '<span class="size-row__price">' +
-      escapeHtml(price) +
+      (fits ? '<span class="size-option__note size-row__fits">' + escapeHtml(fits) + '</span>' : '') +
       '</span>' +
       '</button>' +
-      '<span class="size-row__add">' +
-      escapeHtml(addLabel || 'Add') +
+      '<div class="size-option__foot">' +
+      '<span class="size-option__price size-row__price">' +
+      escapeHtml(price) +
       '</span>' +
-      '<span class="size-row__qty size-option__qty" data-size-qty data-qty-stepper data-lp-qty">' +
-      '<button type="button" class="size-option__qty-btn size-row__step" data-qty-dec aria-label="Decrease quantity">&minus;</button>' +
-      '<span class="size-row__qty-n size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>' +
-      '<button type="button" class="size-option__qty-btn size-row__step" data-qty-inc aria-label="Increase quantity">+</button>' +
-      '</span>' +
+      (available
+        ? '<span class="size-option__add size-row__add">' +
+          escapeHtml(addLabel || 'Add') +
+          '</span>' +
+          '<span class="size-row__qty size-option__qty" data-size-qty data-qty-stepper data-lp-qty">' +
+          '<button type="button" class="size-option__qty-btn size-row__step" data-qty-dec aria-label="Decrease quantity">&minus;</button>' +
+          '<span class="size-row__qty-n size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>' +
+          '<button type="button" class="size-option__qty-btn size-row__step" data-qty-inc aria-label="Increase quantity">+</button>' +
+          '</span>'
+        : '') +
+      '</div>' +
       '</div></li>'
     );
   }
@@ -644,7 +671,7 @@
   function fillLandingPrices() {
     var market = detectMarket();
     var rows = readSizePriceRows().filter(function (row) {
-      return rowShownInTab(row, marketToTabKey(market)) || !row.market || row.market === market;
+      return rowBelongsToMarket(row, market);
     });
     document.querySelectorAll('[data-lp-size-table]').forEach(function (tbody) {
       if (!rows.length) return;
@@ -825,14 +852,12 @@
     }
 
     function rowsForTab(tabKey) {
+      var mkt = tabKeyToMarket(tabKey);
       var rows = allRows().filter(function (row) {
-        return rowShownInTab(row, tabKey);
+        return rowBelongsToMarket(row, mkt);
       });
       if (rows.length) return rows;
-      var mkt = tabKeyToMarket(tabKey);
-      return allRows().filter(function (row) {
-        return !row.market || row.market === mkt;
-      });
+      return (SIZE_MAPS[mkt] || SIZE_MAPS.gb || []).slice();
     }
 
     function setLandingStatus(root, msg) {
@@ -993,7 +1018,7 @@
       } catch (e) {}
       var featured = (fromQuery || root.getAttribute('data-lp-preselect') || '').trim();
       if (!featured) return;
-      var row = root.querySelector('.size-row[data-size-id="' + featured + '"]');
+      var row = root.querySelector('.size-row[data-size-id="' + featured + '"], .size-option[data-size-id="' + featured + '"]');
       if (row && qtyForRow(row) < 1) {
         addOrUpdate(root, row, 1, {});
       }
@@ -1003,16 +1028,9 @@
       if (root.getAttribute('data-lp-configure-ready') === '1') return;
       root.setAttribute('data-lp-configure-ready', '1');
       paintSizes(root);
-      var tabsHost = root.querySelector('[data-size-markets]');
-      if (tabsHost) {
-        tabsHost.addEventListener('click', function (e) {
-          var tab = e.target.closest('[data-market-tab]');
-          if (!tab) return;
-          paintSizes(root, tab.getAttribute('data-market-tab'));
-        });
-      }
+      paintMarketTabs(root.querySelector('[data-size-markets]'));
       root.addEventListener('click', function (e) {
-        var row = e.target.closest('.size-row');
+        var row = e.target.closest('.size-row, .size-option');
         if (!row || !root.contains(row)) return;
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
@@ -1067,7 +1085,7 @@
     });
     document.addEventListener('preview:market-changed', function () {
       roots.forEach(function (root) {
-        paintSizes(root, marketToTabKey(detectMarket()));
+        paintSizes(root);
       });
     });
   }
@@ -1216,14 +1234,12 @@
     var major = Math.round(Number(cents) / 100);
     if (!isFinite(major) || major < 0) major = 0;
     var mkt = market || detectMarket();
+    if (!isSizeMarket(mkt)) mkt = 'gb';
     if (!major) return '';
-    if (mkt === 'gb') {
-      return '£' + major.toLocaleString('en-GB');
-    }
-    if (mkt === 'eu') {
-      return '€' + major.toLocaleString('en-GB');
-    }
-    return 'AED ' + major.toLocaleString('en-AE');
+    if (mkt === 'ae') return 'AED ' + major.toLocaleString('en-AE');
+    if (mkt === 'eu') return '€' + major.toLocaleString('en-GB');
+    if (mkt === 'us') return '$' + major.toLocaleString('en-US');
+    return '£' + major.toLocaleString('en-GB');
   }
 
   function formatLineTotal(line) {
@@ -3020,7 +3036,7 @@
       stageB.classList.add('is-collapsed');
     }
 
-    var sizes = SIZE_MAPS[market] || SIZE_MAPS.ae;
+    var sizes = SIZE_MAPS[market] || SIZE_MAPS.gb;
     var configEl = null;
     var sectionEl = root.closest('section') || root.parentElement;
     if (sectionEl) {
@@ -3046,24 +3062,15 @@
       } catch (e) {}
     }
     function filterSizesForMarket(mkt) {
-      var tab = marketToTabKey(mkt);
+      var resolved = isSizeMarket(mkt) ? mkt : 'gb';
       return allRows.filter(function (row) {
-        if (rowShownInTab(row, tab)) return true;
-        if (!rowMarkets(row).length && row.market === mkt) return true;
-        return false;
+        return rowBelongsToMarket(row, resolved);
       });
     }
-    var selectorTab = readSelectorMarket() || marketToTabKey(market);
-    var availableTabs = tabsPresentInRows(allRows);
-    if (availableTabs.length && !availableTabs.some(function (t) { return t.key === selectorTab; })) {
-      selectorTab = marketToTabKey(market);
-      if (!availableTabs.some(function (t) { return t.key === selectorTab; })) {
-        selectorTab = availableTabs[0].key;
-      }
-    }
-    sizes = filterSizesForMarket(tabKeyToMarket(selectorTab));
-    if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-      sizes = (SIZE_MAPS[tabKeyToMarket(selectorTab)] || SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+    var selectorTab = marketToTabKey(market);
+    sizes = filterSizesForMarket(market);
+    if (!sizes.length) {
+      sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
     }
 
     function eventParams(extra) {
@@ -3302,14 +3309,12 @@
 
     function rebuildSizeButtons() {
       if (!list) return;
-      var tabsHost = root.querySelector('[data-size-markets]');
-      var tabs = tabsPresentInRows(allRows.length ? allRows : sizes);
-      paintMarketTabs(tabsHost, tabs, selectorTab);
+      paintMarketTabs(root.querySelector('[data-size-markets]'));
       list.innerHTML = sizes
         .map(function (s) {
           var mapped = s;
           if (!s.dims && !s.width_cm) {
-            var fromMap = (SIZE_MAPS[tabKeyToMarket(selectorTab)] || []).filter(function (row) {
+            var fromMap = (SIZE_MAPS[market] || SIZE_MAPS.gb).filter(function (row) {
               return row.id === s.id;
             })[0];
             if (fromMap) {
@@ -3326,46 +3331,31 @@
       syncSizeQtyUi();
     }
 
-    if (list && !list.querySelector('.size-row')) {
+    if (list && !list.querySelector('.size-row, .size-option[data-size-id]')) {
       rebuildSizeButtons();
     } else if (list) {
       syncSizeQtyUi();
     }
 
     root._valtoraOnMarketChange = function () {
-      market = root.getAttribute('data-market') || detectMarket();
+      market = detectMarket();
+      if (!isSizeMarket(market)) market = 'gb';
+      root.setAttribute('data-market', market);
       paymentMode = root.getAttribute('data-payment-mode') || paymentMode || 'full';
       leadtimePlacement = root.getAttribute('data-leadtime-placement') || leadtimePlacement || 'staged';
       financeName =
         root.getAttribute('data-finance-name') || marketFinanceName(market);
       selectorTab = marketToTabKey(market);
-      persistSelectorMarket(selectorTab);
-      sizes = filterSizesForMarket(tabKeyToMarket(selectorTab));
-      if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-        sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+      sizes = filterSizesForMarket(market);
+      if (!sizes.length) {
+        sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
       }
       rebuildSizeButtons();
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
       if (typeof refreshTotals === 'function') refreshTotals();
     };
 
-    var tabsHost = root.querySelector('[data-size-markets]');
-    if (tabsHost) {
-      tabsHost.addEventListener('click', function (e) {
-        var tab = e.target.closest('[data-market-tab]');
-        if (!tab || !tabsHost.contains(tab)) return;
-        selectorTab = tab.getAttribute('data-market-tab') || selectorTab;
-        persistSelectorMarket(selectorTab);
-        market = tabKeyToMarket(selectorTab);
-        sizes = filterSizesForMarket(market);
-        if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-          sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
-        }
-        rebuildSizeButtons();
-        if (typeof renderOrderPanel === 'function') renderOrderPanel();
-        if (typeof refreshTotals === 'function') refreshTotals();
-      });
-    }
+    paintMarketTabs(root.querySelector('[data-size-markets]'));
 
     function currentSize() {
       var active =
@@ -4356,7 +4346,7 @@
     var preFirm = params.get('firmness') || '';
     var known = !!orderRef;
     var market = document.documentElement.getAttribute('data-market') || detectMarket();
-    var sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+    var sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
     var sizeBox = root.querySelector('[data-top-sizes]');
     var selectedSize = null;
     var selectedFirm = preFirm
@@ -4537,7 +4527,7 @@
     var root = document.querySelector('[data-bed-sheets]');
     if (!root) return;
     var market = document.documentElement.getAttribute('data-market') || detectMarket();
-    var sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+    var sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
     var sizeBox = root.querySelector('[data-sheet-sizes]');
     var selectedSize = null;
     var selectedColour = 'Bone';
@@ -5865,18 +5855,20 @@
   function marketOnlyShouldShow(el, market) {
     var only = el.getAttribute('data-market-only');
     if (!only) return true;
-    var tokens = String(only).split(',');
+    var resolved = isSizeMarket(market) ? market : 'gb';
+    var tokens = String(only).split(',').map(function (t) { return t.trim(); });
     var i;
     for (i = 0; i < tokens.length; i++) {
-      if (tokens[i].trim() === market) return true;
+      if (tokens[i] === resolved) return true;
     }
-    if (market === 'eu') {
-      var isSizeTable =
-        (el.classList && el.classList.contains('policy-table')) ||
-        (el.querySelector && el.querySelector('.size-table'));
-      if (isSizeTable) return false;
+    var isSizeTable =
+      (el.classList && el.classList.contains('policy-table')) ||
+      (el.querySelector && el.querySelector('.size-table'));
+    if (isSizeTable) return false;
+    // US / EU / unknown copy falls back to UK when no dedicated token exists.
+    if (resolved !== 'ae') {
       for (i = 0; i < tokens.length; i++) {
-        if (tokens[i].trim() === 'gb') return true;
+        if (tokens[i] === 'gb') return true;
       }
     }
     return false;

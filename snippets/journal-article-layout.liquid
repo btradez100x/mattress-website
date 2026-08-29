@@ -56,9 +56,7 @@
   <p class="article__meta">
     <time itemprop="datePublished" datetime="{{ article_date_iso }}">{{ article_date_label }}</time>
     <span aria-hidden="true"> · </span>
-    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-      <span itemprop="name">{{ settings.brand_name | default: 'Numa' }}</span>
-    </span>
+    {% render 'journal-author', schema: true %}
   </p>
   {%- if article_excerpt != blank -%}
     <p class="section__lede article__dek" itemprop="description">{{ article_excerpt }}</p>
@@ -89,3 +87,22 @@
     <a href="{% render 'journal-index-href' %}">← All articles</a>
   </p>
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ article_title | json }},
+  "description": {{ article_excerpt | json }},
+  "datePublished": {{ article_date_iso | json }},
+  "author": {
+    "@type": "Person",
+    "name": "Ben Acolatse",
+    "jobTitle": "CEO"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ settings.brand_name | default: 'Numa' | json }}
+  }
+}
+</script>

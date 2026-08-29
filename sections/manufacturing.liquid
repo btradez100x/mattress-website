@@ -1,143 +1,202 @@
+{{ 'manufacturing.css' | asset_url | stylesheet_tag }}
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa'
-  assign eyebrow = section.settings.eyebrow | default: 'Manufacturing'
-  assign heading = section.settings.heading | default: 'Curated materials. Made by hand.'
-  assign lede = section.settings.lede | default: 'Internationally sourced components, brought together with care - so the bed you sleep on is considered at every layer.'
-  assign story_heading = section.settings.story_heading | default: 'An ethos, not a catalogue find.'
-  assign story = section.settings.story | replace: '[Brand]', brand | replace: 'Aligna', brand
-  assign source_heading = section.settings.source_heading | default: 'Sourced with intent'
-  assign source_body = section.settings.source_body | replace: '[Brand]', brand | replace: 'Aligna', brand
-  assign craft_heading = section.settings.craft_heading | default: 'Made by hand'
-  assign craft_body = section.settings.craft_body | replace: '[Brand]', brand | replace: 'Aligna', brand
-  assign dubai_heading = section.settings.dubai_heading | default: 'Designed in Dubai'
-  assign dubai_body = section.settings.dubai_body | replace: '[Brand]', brand | replace: 'Aligna', brand
-  assign gallery_heading = section.settings.gallery_heading | default: 'Craft, up close'
-  assign cta_label = section.settings.cta_label | default: 'Reserve yours'
-  assign cta_link = section.settings.cta_link | default: '/#reserve'
+  assign eyebrow = section.settings.eyebrow | default: 'How it is made'
+  assign heading = section.settings.heading | default: 'Built in two parts.
+Closed with a zip.'
+  assign lede = section.settings.lede | default: 'Thirty five centimetres. A pocket spring core beneath a comfort layer that lifts out. Made after you order it, in the size you ask for.'
+  assign core_heading = section.settings.core_heading | default: 'The core'
+  assign core_body = section.settings.core_body
+  if core_body == blank
+    assign core_body = '<p>Twenty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>'
+  endif
+  assign layer_heading = section.settings.layer_heading | default: 'The layer'
+  assign layer_body = section.settings.layer_body
+  if layer_body == blank
+    assign layer_body = '<p>Ten centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><div class="lp-pull"><p>Every mattress you have thrown away was thrown away because of ten centimetres.</p></div><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>When you tell us how it should feel, we send the layer that takes you there. You keep every layer, so you can go back to whichever suited best.</p><p>Two minutes to change. No tools.</p>'
+  endif
+  assign made_heading = section.settings.made_heading | default: 'Made after you order'
+  assign made_body = section.settings.made_body
+  if made_body == blank
+    assign made_body = '<p>Nothing is built before somebody wants it. No warehouse, no stock, no last season''s tension to move on.</p><p>That is why it takes weeks rather than days, and why there is no clearance sale. It is also why the size range is what it is - a size exists because someone asked for it, not because a machine was already set up.</p>'
+  endif
+  assign heritage = section.settings.heritage | default: 'Made by experts who have been making mattresses for 49 years.'
+  assign sizes_heading = section.settings.sizes_heading | default: 'The sizes'
+  assign sizes_lede = section.settings.sizes_lede | default: 'British and European. Every size, one construction.'
+  assign sizes_note = section.settings.sizes_note | default: 'Every size, one construction. Thirty five centimetres throughout.'
+  assign outcome_heading = section.settings.outcome_heading | default: 'A bed that becomes yours,
+and stays that way.'
+  assign cta_label = section.settings.cta_label | default: 'Choose your size'
+  assign cta_link = section.settings.cta_link
+  if cta_link == blank
+    assign cta_link = pages['configure'].url | default: '/pages/configure'
+  endif
+  assign stack_layer_n = section.settings.stack_layer_n | default: '10cm'
+  assign stack_layer_l = section.settings.stack_layer_l | default: 'Comfort layer'
+  assign stack_core_n = section.settings.stack_core_n | default: '20cm'
+  assign stack_core_l = section.settings.stack_core_l | default: 'Pocket spring core'
+  assign stack_total = section.settings.stack_total | default: '35cm finished · 1.8 / 2.0mm wire'
+
+  assign measure_count = 0
+  assign size_count = 0
+  assign step_count = 0
+  assign outcome_count = 0
+  for block in section.blocks
+    if block.type == 'measure'
+      assign measure_count = measure_count | plus: 1
+    elsif block.type == 'size'
+      assign size_count = size_count | plus: 1
+    elsif block.type == 'step'
+      assign step_count = step_count | plus: 1
+    elsif block.type == 'outcome'
+      assign outcome_count = outcome_count | plus: 1
+    endif
+  endfor
 -%}
-<section class="mfg">
-  <div class="mfg-hero">
-    {%- if section.settings.hero_image != blank -%}
-      {{
-        section.settings.hero_image
-        | image_url: width: 2400
-        | image_tag: loading: 'eager', class: 'mfg-hero__img', widths: '900,1400,2000,2400', sizes: '100vw', alt: heading
-      }}
-    {%- else -%}
-      <img class="mfg-hero__img" src="{{ 'manufacturing-hero.jpg' | asset_url }}" alt="{{ heading | escape }}" width="2000" height="1125" fetchpriority="high">
-    {%- endif -%}
-    <div class="mfg-hero__veil" aria-hidden="true"></div>
-    <div class="page-width mfg-hero__copy">
-      <p class="section__eyebrow mfg-hero__eyebrow">{{ eyebrow }}</p>
-      <hr class="gold-rule">
-      <h1>{{ heading }}</h1>
-      <p class="mfg-hero__lede">{{ lede }}</p>
-    </div>
-  </div>
-
-  <div class="section mfg-story">
-    <div class="page-width mfg-story__grid">
-      <div class="mfg-story__portrait">
-        {%- if section.settings.story_image != blank -%}
-          {{
-            section.settings.story_image
-            | image_url: width: 1200
-            | image_tag: loading: 'lazy', widths: '480,800,1200', sizes: '(min-width: 900px) 36vw, 90vw', alt: section.settings.story_heading
-          }}
-        {%- else -%}
-          <img src="{{ 'founder-ben.jpg' | asset_url }}" alt="{{ brand | escape }} founder" width="900" height="1100" loading="lazy">
-        {%- endif -%}
-      </div>
-      <div class="mfg-story__copy">
-        <p class="section__eyebrow">The idea</p>
-        <hr class="gold-rule">
-        <h2>{{ story_heading }}</h2>
-        <div class="rte mfg-story__body">{{ story }}</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section section--surface mfg-split">
-    <div class="page-width mfg-split__grid mfg-split__grid--three">
-      <article class="mfg-split__card mfg-split__card--dark">
-        <p class="section__eyebrow">Materials</p>
-        <h2>{{ source_heading }}</h2>
-        <div class="rte">{{ source_body }}</div>
-      </article>
-      <article class="mfg-split__card mfg-split__card--dark">
-        <p class="section__eyebrow">Craft</p>
-        <h2>{{ craft_heading }}</h2>
-        <div class="rte">{{ craft_body }}</div>
-      </article>
-      <article class="mfg-split__card mfg-split__card--dark">
-        <p class="section__eyebrow">Origin</p>
-        <h2>{{ dubai_heading }}</h2>
-        <div class="rte">{{ dubai_body }}</div>
-      </article>
-    </div>
-  </div>
-
-  <div class="section mfg-gallery">
+<section class="mfg-page" data-lp-page data-lp-variant="G-manufacturing">
+  <div class="mfg-intro">
     <div class="page-width">
-      <p class="section__eyebrow">At the bench</p>
-      <hr class="gold-rule">
-      <h2>{{ gallery_heading }}</h2>
-      <p class="section__lede">Detail over decoration - the parts you feel every night.</p>
-      <div class="mfg-gallery__grid">
-        {%- assign defaults = 'manufacturing-cover.jpg,manufacturing-handle.jpg,manufacturing-depth.jpg,manufacturing-detail-1.jpg,manufacturing-detail-2.jpg,manufacturing-detail-3.jpg,manufacturing-side.jpg,manufacturing-result.jpg' | split: ',' -%}
-        {%- if section.blocks.size > 0 -%}
+      <p class="section__eyebrow lp-kicker">{{ eyebrow | replace: '[Brand]', brand | escape }}</p>
+      <h1>{{ heading | replace: '[Brand]', brand | newline_to_br }}</h1>
+      <p class="section__lede lp-lede">{{ lede | replace: '[Brand]', brand | escape }}</p>
+    </div>
+  </div>
+  <div class="page-width"><div class="mfg-line" aria-hidden="true"></div></div>
+
+  <div class="mfg-band">
+    <div class="page-width mfg-build">
+      <div>
+        <div class="mfg-stack" aria-hidden="true">
+          <div class="mfg-stack__layer">
+            <span class="mfg-stack__n">{{ stack_layer_n | escape }}</span>
+            <span class="mfg-stack__l">{{ stack_layer_l | escape }}</span>
+          </div>
+          <div class="mfg-stack__zip"></div>
+          <div class="mfg-stack__core">
+            <span class="mfg-stack__n">{{ stack_core_n | escape }}</span>
+            <span class="mfg-stack__l">{{ stack_core_l | escape }}</span>
+          </div>
+        </div>
+        <p class="mfg-stack__total">{{ stack_total | escape }}</p>
+      </div>
+      <ul class="lp-spec">
+        {%- if measure_count > 0 -%}
           {%- for block in section.blocks -%}
-            {%- if block.type == 'gallery_image' -%}
-              {%- liquid
-                assign gallery_caption = block.settings.caption
-                if gallery_caption == blank
-                  assign gallery_caption = 'Craft detail'
-                endif
-              -%}
-              <figure class="mfg-gallery__item" {{ block.shopify_attributes }}>
-                <div class="mfg-gallery__frame">
-                {%- if block.settings.image != blank -%}
-                  {{
-                    block.settings.image
-                    | image_url: width: 1400
-                    | image_tag: loading: 'lazy', widths: '480,800,1200,1400', sizes: '(min-width: 900px) 30vw, 90vw', alt: gallery_caption
-                  }}
-                {%- else -%}
-                  {%- assign fallback = defaults[forloop.index0] | default: 'manufacturing-cover.jpg' -%}
-                  <img src="{{ fallback | asset_url }}" alt="{{ gallery_caption | escape }}" loading="lazy" width="1200" height="800">
-                {%- endif -%}
-                </div>
-                <figcaption>{{ gallery_caption }}</figcaption>
-              </figure>
+            {%- if block.type == 'measure' -%}
+              <li {{ block.shopify_attributes }}><b>{{ block.settings.label | escape }}</b><span>{{ block.settings.text | escape }}</span></li>
             {%- endif -%}
           {%- endfor -%}
         {%- else -%}
-          {%- assign default_captions = 'Cool-knit cover,Reinforced handle,Depth,Edge detail,Side construction,Finish,Profile,In the room' | split: ',' -%}
-          {%- for file in defaults -%}
-            {%- assign gallery_caption = default_captions[forloop.index0] | default: 'Craft detail' -%}
-            <figure class="mfg-gallery__item">
-              <div class="mfg-gallery__frame">
-                <img src="{{ file | asset_url }}" alt="{{ gallery_caption | escape }}" loading="lazy" width="1200" height="800">
-              </div>
-              <figcaption>{{ gallery_caption }}</figcaption>
-            </figure>
+          <li><b>20cm</b><span>Pocket spring core. Individually housed springs, edge to edge. No shared coils, no shared movement.</span></li>
+          <li><b>10cm</b><span>Comfort layer. Built separately, dropped in, zipped closed. The part your body actually touches, and the only part that softens.</span></li>
+          <li><b>35cm</b><span>Finished depth. It is what fitting a full core and a proper comfort layer into one bed requires.</span></li>
+          <li><b>1.8 / 2.0mm</b><span>Pocket spring wire. Two gauges, used where the core needs them.</span></li>
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+
+  <div class="mfg-band mfg-band--surface">
+    <div class="page-width mfg-halves">
+      <article>
+        <h2>{{ core_heading | escape }}</h2>
+        <div class="rte">{{ core_body }}</div>
+      </article>
+      <article>
+        <h2>{{ layer_heading | escape }}</h2>
+        <div class="rte">{{ layer_body }}</div>
+      </article>
+    </div>
+  </div>
+
+  <div class="mfg-band">
+    <div class="page-width mfg-order">
+      <h2>{{ made_heading | escape }}</h2>
+      <div class="rte">{{ made_body }}</div>
+      {%- if heritage != blank -%}
+        <p class="mfg-heritage">{{ heritage | escape }}</p>
+      {%- endif -%}
+      <ol class="lp-steps">
+        {%- if step_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'step' -%}
+              <li {{ block.shopify_attributes }}><b>{{ block.settings.label | escape }}</b> {{ block.settings.text | escape }}</li>
+            {%- endif -%}
           {%- endfor -%}
+        {%- else -%}
+          <li><b>Springs pocketed</b> To your size. Built for your order.</li>
+          <li><b>Layers assembled</b> Core and comfort layer built separately, then brought together.</li>
+          <li><b>Cover closed</b> Knitted fabric, tape-edge finished, zip fitted along the top panel.</li>
+          <li><b>Compressed and rolled</b> So it reaches your bedroom in one piece. It expands within hours of being unrolled.</li>
+        {%- endif -%}
+      </ol>
+    </div>
+  </div>
+
+  <div class="mfg-band mfg-band--surface">
+    <div class="page-width mfg-sizes">
+      <h2>{{ sizes_heading | escape }}</h2>
+      {%- if sizes_lede != blank -%}
+        <p class="section__lede">{{ sizes_lede | escape }}</p>
+      {%- endif -%}
+      <div class="lp-sizegrid">
+        {%- if size_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'size' -%}
+              <div {{ block.shopify_attributes }}>
+                <p class="lp-sizegrid__s">{{ block.settings.label | escape }}</p>
+                <p class="lp-sizegrid__d">{{ block.settings.dims | escape }}</p>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          <div><p class="lp-sizegrid__s">Single</p><p class="lp-sizegrid__d">90 × 190cm</p></div>
+          <div><p class="lp-sizegrid__s">Double</p><p class="lp-sizegrid__d">135 × 190cm</p></div>
+          <div><p class="lp-sizegrid__s">King</p><p class="lp-sizegrid__d">150 × 200cm</p></div>
+          <div><p class="lp-sizegrid__s">European King</p><p class="lp-sizegrid__d">160 × 200cm</p></div>
+          <div><p class="lp-sizegrid__s">Super King</p><p class="lp-sizegrid__d">180 × 200cm</p></div>
+          <div><p class="lp-sizegrid__s">Emperor</p><p class="lp-sizegrid__d">200 × 200cm</p></div>
         {%- endif -%}
       </div>
-      {%- if section.settings.gallery_note != blank -%}
-        <p class="mfg-gallery__note">{{ section.settings.gallery_note }}</p>
+      {%- if sizes_note != blank -%}
+        <p class="lp-note-line">{{ sizes_note | escape }}</p>
       {%- endif -%}
     </div>
   </div>
 
-  <div class="section section--dark mfg-cta" data-section-ground="dark">
-    <div class="page-width" style="text-align:center;max-width:40rem;margin-inline:auto;">
-      <p class="section__eyebrow">Next</p>
-      <h2>Sleep on the one you would choose yourself.</h2>
-      <p class="section__lede" style="margin-inline:auto;">See sizes and prices. Made to order. Cancel any time before dispatch for a full refund.</p>
-      <p style="margin-top:1.75rem;">
-        <a class="btn" href="{{ cta_link }}">{{ cta_label }}</a>
-      </p>
+  <div class="mfg-band" id="outcome">
+    <div class="page-width lp-narrow mfg-close">
+      <div class="lp-sec-head" style="text-align:center">
+        <h2>{{ outcome_heading | newline_to_br }}</h2>
+      </div>
+      <div class="lp-outcome">
+        {%- if outcome_count > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'outcome' -%}
+              <div class="lp-outcome__item" {{ block.shopify_attributes }}>
+                <p class="lp-outcome__name">{{ block.settings.heading | escape }}</p>
+                <p class="lp-outcome__desc">{{ block.settings.text | escape }}</p>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          <div class="lp-outcome__item">
+            <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
+            <p class="lp-outcome__desc">Sleep on it for a year. Tell us how it should feel. We adjust it until it is.</p>
+          </div>
+          <div class="lp-outcome__item">
+            <p class="lp-outcome__name">It arrives finished.</p>
+            <p class="lp-outcome__desc">Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</p>
+          </div>
+          <div class="lp-outcome__item">
+            <p class="lp-outcome__name">It stays right for twenty five years.</p>
+            <p class="lp-outcome__desc">The part that softens renews. The part that lasts, lasts.</p>
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if cta_label != blank -%}
+        <p class="lp-cta-band__btn" style="text-align:center"><a class="btn" href="{{ cta_link }}">{{ cta_label | escape }}</a></p>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -149,111 +208,144 @@
   "class": "section-manufacturing",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero image",
-      "info": "Full-bleed. Prefer craft detail or finished product hero."
-    },
-    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Manufacturing"
+      "default": "How it is made"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "Curated materials. Made by hand."
+      "default": "Built in two parts.\nClosed with a zip."
     },
     {
       "type": "textarea",
       "id": "lede",
       "label": "Supporting line",
-      "default": "Internationally sourced components, brought together with care - so the bed you sleep on is considered at every layer."
+      "default": "Thirty five centimetres. A pocket spring core beneath a comfort layer that lifts out. Made after you order it, in the size you ask for."
     },
     {
       "type": "header",
-      "content": "Founder ethos"
-    },
-    {
-      "type": "image_picker",
-      "id": "story_image",
-      "label": "Story portrait / travel image"
+      "content": "Construction diagram"
     },
     {
       "type": "text",
-      "id": "story_heading",
-      "label": "Story heading",
-      "default": "An ethos, not a catalogue find."
+      "id": "stack_layer_n",
+      "label": "Layer depth",
+      "default": "10cm"
     },
     {
-      "type": "richtext",
-      "id": "story",
-      "label": "Story",
-      "default": "<p>The idea for [Brand] did not start in a showroom. It started on the road - years of travel as a businessman, sleeping in different cities, different beds, and waking up knowing most mattresses were a compromise.</p><p>Some were soft and gave out. Some were firm and unforgiving. Few slept cool when the climate asked for it. Fewer still felt like something you would keep for decades.</p><p>So the brief became personal: curate the mattress he wanted to sleep on every night - deep support, a cooler surface for warm markets, and a comfort layer you can refresh instead of replacing the whole bed. [Brand] is that curation, made to order.</p>"
+      "type": "text",
+      "id": "stack_layer_l",
+      "label": "Layer label",
+      "default": "Comfort layer"
+    },
+    {
+      "type": "text",
+      "id": "stack_core_n",
+      "label": "Core depth",
+      "default": "20cm"
+    },
+    {
+      "type": "text",
+      "id": "stack_core_l",
+      "label": "Core label",
+      "default": "Pocket spring core"
+    },
+    {
+      "type": "text",
+      "id": "stack_total",
+      "label": "Finished line",
+      "default": "35cm finished · 1.8 / 2.0mm wire"
     },
     {
       "type": "header",
-      "content": "Sourcing, craft & design"
+      "content": "Core and layer"
     },
     {
       "type": "text",
-      "id": "source_heading",
-      "label": "Materials heading",
-      "default": "Sourced with intent"
+      "id": "core_heading",
+      "label": "Core heading",
+      "default": "The core"
     },
     {
       "type": "richtext",
-      "id": "source_body",
-      "label": "Materials body",
-      "default": "<p>Components are chosen for performance and longevity, not for cost. The spring unit, the comfort layers and the cover are each selected on what they do over a decade, not what they cost in a year.</p>"
+      "id": "core_body",
+      "label": "Core body",
+      "default": "<p>Twenty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>"
     },
     {
       "type": "text",
-      "id": "craft_heading",
-      "label": "Craft heading",
-      "default": "Made by hand"
+      "id": "layer_heading",
+      "label": "Layer heading",
+      "default": "The layer"
     },
     {
       "type": "richtext",
-      "id": "craft_body",
-      "label": "Craft body",
-      "default": "<p>Each mattress is assembled individually rather than pressed and sealed by machine. That is why the comfort layer can be unzipped, lifted out and replaced instead of the whole bed being thrown away.</p>"
-    },
-    {
-      "type": "text",
-      "id": "dubai_heading",
-      "label": "Design heading",
-      "default": "Designed in Dubai"
-    },
-    {
-      "type": "richtext",
-      "id": "dubai_body",
-      "label": "Design body",
-      "default": "<p>The specification, the layer stack and the swap system were designed in Dubai.</p>"
+      "id": "layer_body",
+      "label": "Layer body",
+      "default": "<p>Ten centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><p>Every mattress you have thrown away was thrown away because of ten centimetres.</p><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>When you tell us how it should feel, we send the layer that takes you there. You keep every layer, so you can go back to whichever suited best.</p><p>Two minutes to change. No tools.</p>"
     },
     {
       "type": "header",
-      "content": "Gallery"
+      "content": "Made to order"
     },
     {
       "type": "text",
-      "id": "gallery_heading",
-      "label": "Gallery heading",
-      "default": "Craft, up close"
+      "id": "made_heading",
+      "label": "Made-to-order heading",
+      "default": "Made after you order"
+    },
+    {
+      "type": "richtext",
+      "id": "made_body",
+      "label": "Made-to-order body",
+      "default": "<p>Nothing is built before somebody wants it. No warehouse, no stock, no last season's tension to move on.</p><p>That is why it takes weeks rather than days, and why there is no clearance sale. It is also why the size range is what it is - a size exists because someone asked for it, not because a machine was already set up.</p>"
     },
     {
       "type": "text",
-      "id": "gallery_note",
-      "label": "Gallery note (optional)",
-      "info": "Leave blank to hide."
+      "id": "heritage",
+      "label": "49-year line",
+      "default": "Made by experts who have been making mattresses for 49 years."
+    },
+    {
+      "type": "header",
+      "content": "Size range"
+    },
+    {
+      "type": "text",
+      "id": "sizes_heading",
+      "label": "Sizes heading",
+      "default": "The sizes"
+    },
+    {
+      "type": "text",
+      "id": "sizes_lede",
+      "label": "Sizes supporting line",
+      "default": "British and European. Every size, one construction."
+    },
+    {
+      "type": "text",
+      "id": "sizes_note",
+      "label": "Sizes note",
+      "default": "Every size, one construction. Thirty five centimetres throughout."
+    },
+    {
+      "type": "header",
+      "content": "Close"
+    },
+    {
+      "type": "textarea",
+      "id": "outcome_heading",
+      "label": "Outcome heading",
+      "default": "A bed that becomes yours,\nand stays that way."
     },
     {
       "type": "text",
       "id": "cta_label",
       "label": "CTA label",
-      "default": "Reserve yours"
+      "default": "Choose your size"
     },
     {
       "type": "url",
@@ -263,21 +355,36 @@
   ],
   "blocks": [
     {
-      "type": "gallery_image",
-      "name": "Gallery image",
+      "type": "measure",
+      "name": "Construction row",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image",
-          "info": "Materials, craftsmanship, or finished detail."
-        },
-        {
-          "type": "text",
-          "id": "caption",
-          "label": "Caption",
-          "default": "Craft detail"
-        }
+        { "type": "text", "id": "label", "label": "Label", "default": "20cm" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Pocket spring core." }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Build step",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Step", "default": "Springs pocketed" },
+        { "type": "text", "id": "text", "label": "Text", "default": "To your size. Built for your order." }
+      ]
+    },
+    {
+      "type": "size",
+      "name": "Size",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Name", "default": "King" },
+        { "type": "text", "id": "dims", "label": "Dimensions", "default": "150 × 200cm" }
+      ]
+    },
+    {
+      "type": "outcome",
+      "name": "Outcome",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "text", "label": "Text" }
       ]
     }
   ],
@@ -285,14 +392,23 @@
     {
       "name": "Manufacturing page",
       "blocks": [
-        { "type": "gallery_image", "settings": { "caption": "Cool-knit cover" } },
-        { "type": "gallery_image", "settings": { "caption": "Reinforced handle" } },
-        { "type": "gallery_image", "settings": { "caption": "Depth" } },
-        { "type": "gallery_image", "settings": { "caption": "Edge detail" } },
-        { "type": "gallery_image", "settings": { "caption": "Side construction" } },
-        { "type": "gallery_image", "settings": { "caption": "Finish" } },
-        { "type": "gallery_image", "settings": { "caption": "Profile" } },
-        { "type": "gallery_image", "settings": { "caption": "In the room" } }
+        { "type": "measure", "settings": { "label": "20cm", "text": "Pocket spring core. Individually housed springs, edge to edge. No shared coils, no shared movement." } },
+        { "type": "measure", "settings": { "label": "10cm", "text": "Comfort layer. Built separately, dropped in, zipped closed. The part your body actually touches, and the only part that softens." } },
+        { "type": "measure", "settings": { "label": "35cm", "text": "Finished depth. It is what fitting a full core and a proper comfort layer into one bed requires." } },
+        { "type": "measure", "settings": { "label": "1.8 / 2.0mm", "text": "Pocket spring wire. Two gauges, used where the core needs them." } },
+        { "type": "step", "settings": { "label": "Springs pocketed", "text": "To your size. Built for your order." } },
+        { "type": "step", "settings": { "label": "Layers assembled", "text": "Core and comfort layer built separately, then brought together." } },
+        { "type": "step", "settings": { "label": "Cover closed", "text": "Knitted fabric, tape-edge finished, zip fitted along the top panel." } },
+        { "type": "step", "settings": { "label": "Compressed and rolled", "text": "So it reaches your bedroom in one piece. It expands within hours of being unrolled." } },
+        { "type": "size", "settings": { "label": "Single", "dims": "90 × 190cm" } },
+        { "type": "size", "settings": { "label": "Double", "dims": "135 × 190cm" } },
+        { "type": "size", "settings": { "label": "King", "dims": "150 × 200cm" } },
+        { "type": "size", "settings": { "label": "European King", "dims": "160 × 200cm" } },
+        { "type": "size", "settings": { "label": "Super King", "dims": "180 × 200cm" } },
+        { "type": "size", "settings": { "label": "Emperor", "dims": "200 × 200cm" } },
+        { "type": "outcome", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
+        { "type": "outcome", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
+        { "type": "outcome", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       ]
     }
   ]
