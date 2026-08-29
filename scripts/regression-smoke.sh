@@ -813,6 +813,7 @@ fi
 if grep -q "Country blank or not set up → United Kingdom" "$THEME/snippets/size-market.liquid" \
   && grep -q "assign size_market = 'gb'" "$THEME/snippets/size-market.liquid" \
   && grep -q "iso == 'US'" "$THEME/snippets/size-market.liquid" \
+  && ! grep -q "iso == 'AU'" "$THEME/snippets/size-market.liquid" \
   && grep -q "render 'size-market'" "$THEME/snippets/market.liquid"; then
   pass "size-market helper: GB/AE/US/EU, unknown country → UK"
 else
@@ -857,6 +858,39 @@ if grep -q "display: none !important" "$THEME/assets/base.css" \
   pass "CSS hides shopper market tabs (theme + preview)"
 else
   fail "size-markets CSS still visible"
+fi
+
+if python3 - "$JS" "$ROOT/preview/theme.js" <<'PY'
+from pathlib import Path
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    t = Path(path).read_text()
+    m = re.search(r"function countryToSizeMarket\([^)]*\) \{.*?\n  \}", t, re.S)
+    if not m or "return 'au'" in m.group(0) or "AU' || c === 'NZ'" in m.group(0):
+        print("countryToSizeMarket still maps AU as a shopper market in", path)
+        ok = False
+    if "if (isSizeMarket(fromCountry)) return fromCountry" not in t:
+        print("detectMarket missing isSizeMarket guard in", path)
+        ok = False
+    if "SIZE_MAPS[market] || SIZE_MAPS.ae" in t:
+        print("unknown-market size fallback still uses UAE in", path)
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "unknown/AU country is not a shopper market (UK fallback)"
+else
+  fail "JS still treats AU or unknown ISO as a live market"
+fi
+
+if grep -q "data-market-only=\"ae\"{% if market != 'ae' %} hidden" "$THEME/sections/faq.liquid" \
+  && grep -q "data-market-only=\"gb\"{% if market == 'ae' %} hidden" "$THEME/sections/faq.liquid" \
+  && grep -q "visibility == 'gb' and market == 'ae'" "$THEME/sections/offer.liquid" \
+  && grep -q "visibility == 'gb' and market == 'ae'" "$THEME/sections/trust-bar.liquid"; then
+  pass "US/EU/unknown copy falls back to UK, not UAE"
+else
+  fail "FAQ/offer/trust-bar still show UAE copy outside AE"
 fi
 
 if grep -q "function buildSizeTileMarkup" "$JS" \
