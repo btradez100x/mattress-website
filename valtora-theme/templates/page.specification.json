@@ -69,7 +69,7 @@
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
         "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
         "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       },
@@ -110,7 +110,7 @@
         "anchor_id": "configure",
         "mattress_product": "the-mattress",
         "heading": "Choose your size",
-        "lede": "Every size is made to order with the same 35cm construction and the same removable comfort layer."
+        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer."
       }
     }
   },

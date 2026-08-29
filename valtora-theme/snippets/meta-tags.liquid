@@ -24,13 +24,13 @@
       assign seo_description = 'Your old mattress leaves on the same visit. Collection, transport and recycling are paid for by us. Once it goes, it is gone.'
     elsif seo_handle == 'large-sizes' or seo_suffix == 'large-sizes'
       assign seo_title = 'Emperor and Super King mattresses, made to order'
-      assign seo_description = 'Emperor is 200 x 200cm. Super King is 180 x 200. Made to order, with a comfort layer you settle after a year.'
+      assign seo_description = 'Emperor is 200 x 200cm. Super King is 180 x 200. Made to order. You cannot know how a mattress feels in four minutes. The feel is decided after a year, not before.'
     elsif seo_handle == 'european-king' or seo_suffix == 'european-king'
       assign seo_title = 'European King mattress 160 x 200cm for IKEA and continental beds'
       assign seo_description = 'European King is 160 x 200cm. It fits IKEA and most continental frames. Made to order.'
     elsif seo_handle == 'specification' or seo_suffix == 'specification'
       assign seo_title = 'Mattress specification'
-      assign seo_description = 'A pocket sprung core built to last twenty five years, and a comfort layer that unzips. The feel is decided after a year.'
+      assign seo_description = 'A pocket sprung core built to last twenty five years, and a comfort layer that unzips. The feel is decided after a year, not before.'
     elsif seo_handle == 'what-it-buys' or seo_suffix == 'what-it-buys'
       assign seo_title = 'What a made to order mattress buys'
       assign seo_description = 'A pocket sprung core built to last twenty five years, a comfort layer tailored after you have slept on it, and concierge unpacking.'
@@ -58,12 +58,10 @@
     endunless
   endif
 
-  assign share_market = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign share_market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign share_market = 'ae'
-  endif
+  capture share_market
+    render 'size-market'
+  endcapture
+  assign share_market = share_market | strip
   assign share_gb = settings.share_description_gb
   assign share_ae = settings.share_description_ae
   if share_gb == blank

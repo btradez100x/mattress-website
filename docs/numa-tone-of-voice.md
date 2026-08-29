@@ -11,7 +11,7 @@ The brand is stated, never argued. Everything below follows from that.
 Three statements carry it. Each is complete on its own and none of them mentions anybody else.
 
 > **You do not choose the feel. You discover it.**
-> Sleep on it for a year. Tell us how it should feel. We adjust it until it is.
+> Feel is discovered over months of use. You have a year with us. We adjust it until it is.
 
 > **It arrives finished.**
 > Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.
@@ -19,7 +19,7 @@ Three statements carry it. Each is complete on its own and none of them mentions
 > **It stays right for twenty five years.**
 > The part that softens renews. The part that lasts, lasts.
 
-The word doing the work is **discover**. It removes the decision the customer is not qualified to make and replaces it with a year of finding out. That is the outcome, and it is the reason nothing else needs to be said.
+The word doing the work is **discover**. It removes the decision the customer is not qualified to make and replaces it with months of sleep, and a year with us to say how it should feel. That is the outcome, and it is the reason nothing else needs to be said.
 
 ---
 

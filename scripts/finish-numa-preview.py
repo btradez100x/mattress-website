@@ -15,7 +15,7 @@ OUTCOME_DELIVERY = """
           <div class="lp-outcome">
             <div class="lp-outcome__item">
               <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
-              <p class="lp-outcome__desc">Sleep on it for a month. Tell us how it should feel. We make it that way.</p>
+              <p class="lp-outcome__desc">Feel is discovered over months of use. You have a year with us. We adjust it until it is.</p>
             </div>
             <div class="lp-outcome__item">
               <p class="lp-outcome__name">It arrives finished.</p>
@@ -96,8 +96,8 @@ ABOUT_MAIN = """
             <p>The whole burden of getting it right sits with the person who knows least, at the moment they know least.</p>
             <p>So they do what anyone would. They accept the first one, tell themselves it will settle, and quietly stop mentioning their back.</p>
             <p>That is the part I could not leave alone. Not that the mattress was wrong, but that being wrong was treated as the customer’s problem to solve, using a method nobody has the time or the will to see through.</p>
-            <p>Numa is built so that burden is ours. You do not choose a feel. Your mattress arrives, you sleep on it for a month, and then you tell us how it should feel. Softer, firmer, more give under the hip, whatever it is in whatever words you have. We make a comfort layer to that, with our compliments. No trial-and-error, no sending anything back, no starting again.</p>
-            <p>You get one month of sleeping. We do the rest.</p>
+            <p>Numa is built so that burden is ours. You do not choose a feel. You cannot know how a mattress feels in four minutes. You live with the bed, and the feel is discovered over months of use. You have a year with us. Softer, firmer, more give under the hip, whatever it is in whatever words you have. We send the layer that takes you there, and you keep it, with our compliments. No trial-and-error, no sending anything back, no starting again.</p>
+            <p>You have a year with us. We do the rest.</p>
             <div class="lp-pull"><p>A bed that becomes yours, and stays that way.</p></div>
             <p>That is why the top comes off. It began as a way to fix a wrong guess and it turned out to solve something larger. The part of a mattress that softens is the top five centimetres, and everything beneath it is usually still sound at year ten. Renewing the layer keeps the bed right for twenty five years instead of watching it drift wrong over eight.</p>
             <p>The rest followed from the same thought. If somebody is spending three thousand pounds on a bed, it should not arrive as a box in their hallway. Concierge unpacking. Unrolled where it belongs. The packaging leaves with it. The old one leaves too.</p>
@@ -115,7 +115,7 @@ ABOUT_MAIN = """
           <div class="lp-outcome">
             <div class="lp-outcome__item">
               <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
-              <p class="lp-outcome__desc">Sleep on it for a month. Tell us how it should feel. We make it that way.</p>
+              <p class="lp-outcome__desc">Feel is discovered over months of use. You have a year with us. We adjust it until it is.</p>
             </div>
             <div class="lp-outcome__item">
               <p class="lp-outcome__name">It arrives finished.</p>
@@ -216,7 +216,7 @@ RECYCLING_MAIN = """
       <section class="section lp-section section--bg" data-reveal data-section-ground="bg">
         <div class="page-width lp-narrow" style="text-align:center">
           <div class="lp-sec-head"><h2>Choose your size</h2></div>
-          <p><a class="btn" href="./configure.html">Configure yours</a></p>
+          <p><a class="btn" href="./configure.html">Reserve yours</a></p>
         </div>
       </section>
     </main>
@@ -313,7 +313,7 @@ def patch_landings() -> None:
     )
     text = text.replace(
         '<article class="lp-card"><h3>A layer you can replace</h3><p>The part that wears out unzips and lifts off. <span data-layer-price-text></span> to renew, not <span data-lp-featured-price></span>.</p></article>',
-        '<article class="lp-card"><h3>A feel you settle later</h3><p>Sleep on it for a month. Tell us how it should feel. We make it that way, with our compliments.</p></article>',
+        '<article class="lp-card"><h3>A feel you settle later</h3><p>You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us.</p></article>',
     )
     text = text.replace("<li><b>Depth</b><span>37cm made up.</span></li>", "<li><b>Depth</b><span>35cm. 30cm core, 5cm comfort layer.</span></li>")
     text = text.replace(
@@ -435,7 +435,7 @@ def patch_landings() -> None:
             <p class="section__lede">Three things people ask before they order.</p>
           </div>
           <div class="lp-cards">
-            <article class="lp-card"><h3>A showroom</h3><p>You cannot lie on it before buying. Sleep on it for a month. Tell us how it should feel. We make it that way, with our compliments. Worth <span data-layer-price-text></span>.</p></article>
+            <article class="lp-card"><h3>A showroom</h3><p>You cannot lie on it before buying. You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us. Worth <span data-layer-price-text></span>.</p></article>
             <article class="lp-card"><h3>It is made after you order</h3><p>Which takes weeks rather than days.</p></article>
             <article class="lp-card"><h3>It arrives finished</h3><p>Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it.</p></article>
           </div>""",
@@ -465,7 +465,7 @@ def patch_policies() -> None:
     text = text.replace("<h1>100-night trial</h1>", "<h1>30-day sleep trial</h1>")
     text = text.replace(
         "Sleep on it properly. Specific terms - not fine print.",
-        "Sleep on it for a month. Tell us how it should feel. We make it that way.",
+        "Feel is discovered over months of use. You have a year with us. We adjust it until it is.",
     )
     text = text.replace(
         "The 100-night trial is offered by",

@@ -12,7 +12,7 @@
         "kicker": "European King · 160 x 200cm",
         "heading": "The size your bed\nwas built for.",
         "lede": "IKEA King is 160 by 200 centimetres. British King is 150. We make the first one, made to order, and tailor the feel after you have slept on it.",
-        "cta_label": "Configure yours",
+        "cta_label": "Reserve yours",
         "cta_size": "european-king",
         "cta_link": "#configure",
         "show_price": true,
@@ -34,7 +34,7 @@
       "blocks": {
         "c1": { "type": "card", "settings": { "heading": "The exact size", "text": "160 by 200 centimetres, made to order. It fits the frame you already own." } },
         "c2": { "type": "card", "settings": { "heading": "Thirty five centimetres", "text": "A pocket sprung core with a comfort layer above it, closed with a zip so the top can be renewed without the bed." } },
-        "c3": { "type": "card", "settings": { "heading": "A feel you settle later", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is, with our compliments." } }
+        "c3": { "type": "card", "settings": { "heading": "A feel you settle later", "text": "You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us." } }
       },
       "block_order": ["c1", "c2", "c3"],
       "settings": {
@@ -68,7 +68,7 @@
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
         "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
         "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       },
@@ -110,7 +110,7 @@
         "mattress_product": "the-mattress",
         "featured_size": "european-king",
         "heading": "Choose your size",
-        "lede": "Every size is made to order with the same 35cm construction and the same removable comfort layer."
+        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer."
       }
     }
   },

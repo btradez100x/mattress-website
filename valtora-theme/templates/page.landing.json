@@ -332,7 +332,7 @@
       "settings": {
         "enable_section": true,
         "mattress_product": "the-mattress",
-        "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
+        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
         "firmness_line": "Medium one side, medium firm the other. Turn it over whenever you want.",
         "market_force": "auto",
         "heading": "Choose your size.",
@@ -378,7 +378,7 @@
           "type": "item",
           "settings": {
             "question": "What if I do not like it?",
-            "answer": "Sleep on it for a year. If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
+            "answer": "You have a year with us. Feel is discovered over months of use. If it is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -1058,7 +1058,7 @@
       "settings": {
         "enable_section": true,
         "mattress_product": "the-mattress",
-        "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
+        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
         "firmness_line": "Medium one side, medium firm the other. Turn it over whenever you want.",
         "market_force": "auto",
         "heading": "Choose your size.",
