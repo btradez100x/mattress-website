@@ -18,6 +18,7 @@ CARDS_OUT = SNIPPETS / "journal-baked-index.liquid"
 PUBLISHED_SHORT = "12 Aug 2026"
 PUBLISHED_LONG = "12 August 2026"
 PUBLISHED_ISO = "2026-08-12"
+AUTHOR_LINE = "Ben Acolatse, CEO"
 
 
 def liquid_string(value: str) -> str:
@@ -95,12 +96,12 @@ def build_cards_snippet(catalog: list[dict]) -> str:
         '                <h2 class="blog-card__title">{{ article.title }}</h2>',
         "                {%- if article.excerpt != blank -%}",
         '                  <p class="blog-card__excerpt">{{ article.excerpt | strip_html | truncate: 160 }}</p>',
-        "                {%- else -%}",
+                "                {%- else -%}",
         '                  <p class="blog-card__excerpt">{{ article.content | strip_html | truncate: 160 }}</p>',
         "                {%- endif -%}",
         '                <p class="blog-card__meta">',
         "                  <time datetime=\"{{ article.published_at | date: '%Y-%m-%d' }}\">{{ article.published_at | date: '%-d %b %Y' }}</time>",
-        '                  <span aria-hidden="true"> · </span><span>Read</span>',
+        f'                  <span aria-hidden="true"> · </span><span>{AUTHOR_LINE}</span>',
         "                </p>",
         "              </div>",
         "            </a>",
@@ -126,7 +127,7 @@ def build_cards_snippet(catalog: list[dict]) -> str:
                 f'              <p class="blog-card__excerpt">{excerpt}</p>',
                 '              <p class="blog-card__meta">',
                 f'                <time datetime="{PUBLISHED_ISO}">{PUBLISHED_SHORT}</time>',
-                '                <span aria-hidden="true"> · </span><span>Read</span>',
+                f'                <span aria-hidden="true"> · </span><span>{AUTHOR_LINE}</span>',
                 "              </p>",
                 "            </div>",
                 "          </a>",

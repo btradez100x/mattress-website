@@ -96,7 +96,6 @@
               {%- continue -%}
             {%- endunless -%}
             {%- assign tile_count = tile_count | plus: 1 -%}
-            {%- capture tile_json -%}{%- render 'size-variant-json', v: v -%}{%- endcapture -%}
             {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
             {%- if size_id == blank -%}
               {%- assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', '' -%}
@@ -125,7 +124,7 @@
             {%- if v.price > 0 -%}
               {%- assign tile_price = v.price | money -%}
             {%- endif -%}
-            {%- assign size_q = '?size=' | append: size_id -%}
+            {%- assign reserve_href = reserve_base | append: '?size=' | append: size_id | append: '#reserve' -%}
             {%- render 'size-guide-tile',
               label: tile_label,
               dims: dims,
@@ -137,7 +136,7 @@
               size_id: size_id,
               market_only: size_market,
               hidden: false,
-              reserve_href: size_q | prepend: reserve_base | append: '#reserve'
+              reserve_href: reserve_href
             -%}
           {%- endfor -%}
         {%- endif -%}
@@ -178,7 +177,7 @@
             {%- if v.price > 0 -%}
               {%- assign tile_price = v.price | money -%}
             {%- endif -%}
-            {%- assign size_q = '?size=' | append: size_id -%}
+            {%- assign reserve_href = reserve_base | append: '?size=' | append: size_id | append: '#reserve' -%}
             {%- render 'size-guide-tile',
               label: tile_label,
               dims: dims,
@@ -190,7 +189,7 @@
               size_id: size_id,
               market_only: 'gb',
               hidden: false,
-              reserve_href: size_q | prepend: reserve_base | append: '#reserve'
+              reserve_href: reserve_href
             -%}
           {%- endfor -%}
         </div>

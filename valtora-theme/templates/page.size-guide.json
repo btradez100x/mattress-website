@@ -4,7 +4,12 @@
       "type": "size-guide",
       "settings": {
         "heading": "Sizes in centimetres",
-        "intro": "Always order by centimetres."
+        "intro": "Always order by centimetres.",
+        "mattress_product": "the-mattress",
+        "depth_heading": "35cm depth",
+        "depth_body": "Our mattress is 35cm deep - substantial, and deeper than typical UK sheets (25-30cm). Plan for deep-fitted sheets.",
+        "custom_heading": "Custom sizes.",
+        "custom_body": "Need a size we do not list? Use Request a size on the reserve panel."
       }
     }
   },

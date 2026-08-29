@@ -1,0 +1,13 @@
+{%- comment -%}
+  Journal poster is Ben Acolatse as CEO (same person as the About / founder note).
+  schema: include Person itemprop when true.
+{%- endcomment -%}
+{%- if schema -%}
+  <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <span itemprop="name">Ben Acolatse</span>
+  </span>
+  <span aria-hidden="true"> · </span>
+  <span itemprop="jobTitle">CEO</span>
+{%- else -%}
+  <span>Ben Acolatse, CEO</span>
+{%- endif -%}
