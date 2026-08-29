@@ -1,4 +1,25 @@
+# Regression results — Saturday 29 Aug 2026 (deploy 10.1.0-manufacturing-and-landing-cart)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 846 passed, 0 failed
+- Scope note: Deployed landing `/cart/add.js` add-to-basket (qty stepper, size-card contrast), manufacturing how-it-is-built replacement, About pack copy, Journal page-first, The mattress → homepage `#reserve`. `VERSION` **10.1.0** already bumped by the review export. Checkpoint: `checkpoints/10.1.0-manufacturing-and-landing-cart/`. Deploy: `v9` `18ac3c8`, `shopify-theme` `bf05bd6`. Live still needs Admin pages (journal, manufacturing, about, mattress-recycling, landings) if they 404. Mattress SKU can stay unpublished.
+
+---
+
+# Regression results — Saturday 29 Aug 2026 (files-update 2 pack)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 846 passed, 0 failed
+- Scope note: Applied ToV-clean About copy from `files-update 2.zip` (etymology, “[Brand] was built / is built so that burden is ours”, signature). Dropped pack “send it”, “Concierged bring it in”, “Deeper than most”, email “send”/“Free”, recycling “the industry”, and landing HTML without qty/cart add. Large-sizes “why it is 200 wide” matches pack; quantity stepper and `/cart/add.js` kept. Nav 404 work (The mattress → `#reserve`, Journal page-first) left intact. No VERSION bump. Not deployed. Live About/nav still need a theme deploy; Journal still needs an Admin Page if missing.
+
+---
+
 # Regression results — Saturday 29 Aug 2026 (nav 404: The mattress + Journal)
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
