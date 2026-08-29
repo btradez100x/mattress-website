@@ -1,3 +1,13 @@
+# Regression results — Saturday 29 Aug 2026 (restore Journal notes)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 873 passed, 0 failed
+- Scope note: Journal content was not deleted from the repo (`docs/blog`, `preview/blog`). The live theme showed an empty index unless Admin had blog posts, and nav could prefer an empty Page over a populated blog. Six notes are now baked into the theme. Checkout files were not modified.
+
+---
+
 # Regression results — Saturday 29 Aug 2026 (deploy 10.1.0-adjust-to-desire)
 
 ## Smoke
