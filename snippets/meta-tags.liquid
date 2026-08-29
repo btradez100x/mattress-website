@@ -1,6 +1,6 @@
 {%- capture tagline -%}{% render 'market-tagline' %}{%- endcapture -%}
 {%- liquid
-  assign brand = settings.brand_name | default: 'Aligna'
+  assign brand = settings.brand_name | default: 'Numa'
   assign line = settings.brand_product_line | default: ''
   assign tagline = tagline | strip
   if tagline == blank
@@ -11,10 +11,47 @@
     assign site_label = brand | append: ' ' | append: line
   endif
 
-  assign og_title = page_title | default: site_label
-  if page_title != blank
-    unless page_title contains brand
-      assign og_title = page_title | append: ' · ' | append: brand
+  assign seo_title = ''
+  assign seo_description = ''
+  if request.page_type == 'page'
+    assign seo_handle = page.handle | default: ''
+    assign seo_suffix = template.suffix | default: ''
+    if seo_handle == 'about' or seo_suffix == 'about'
+      assign seo_title = 'About [Brand]'
+      assign seo_description = '[Brand] was founded in 2026 because getting a mattress right takes months nobody has. So we carry that burden instead.'
+    elsif seo_handle == 'mattress-recycling' or seo_suffix == 'mattress-recycling'
+      assign seo_title = 'Old mattress removal and recycling'
+      assign seo_description = 'Your old mattress leaves on the same visit. Collection, transport and recycling are paid for by us. Once it goes, it is gone.'
+    elsif seo_handle == 'large-sizes' or seo_suffix == 'large-sizes'
+      assign seo_title = 'Emperor and Super King mattresses, handmade to order'
+      assign seo_description = 'Emperor is 200 x 200cm. Super King is 180 x 200. Handmade to order, with a comfort layer you settle after a month.'
+    elsif seo_handle == 'european-king' or seo_suffix == 'european-king'
+      assign seo_title = 'European King mattress 160 x 200cm for IKEA and continental beds'
+      assign seo_description = 'European King is 160 x 200cm. It fits IKEA and most continental frames. Handmade to order.'
+    elsif seo_handle == 'specification' or seo_suffix == 'specification'
+      assign seo_title = 'Handmade mattress specification'
+      assign seo_description = 'A pocket sprung core built to last twenty five years, and a comfort layer that unzips. The feel is decided after a month.'
+    elsif seo_handle == 'what-it-buys' or seo_suffix == 'what-it-buys'
+      assign seo_title = 'What a handmade mattress buys'
+      assign seo_description = 'A pocket sprung core built to last twenty five years, a comfort layer tailored after you have slept on it, and concierge unpacking.'
+    endif
+    assign seo_title = seo_title | replace: '[Brand]', brand
+    assign seo_description = seo_description | replace: '[Brand]', brand
+  endif
+
+  assign html_title = page_title
+  assign html_description = page_description
+  if seo_description != blank and page_description == blank
+    assign html_description = seo_description
+  endif
+  if seo_title != blank and page_title == page.title
+    assign html_title = seo_title
+  endif
+
+  assign og_title = html_title | default: site_label
+  if html_title != blank
+    unless html_title contains brand
+      assign og_title = html_title | append: ' · ' | append: brand
     endunless
   endif
 
@@ -32,8 +69,8 @@
   if share_ae == blank
     assign share_ae = 'Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.'
   endif
-  if page_description != blank
-    assign og_description = page_description
+  if html_description != blank
+    assign og_description = html_description
   elsif share_market == 'gb' and share_gb != blank
     assign og_description = share_gb
   elsif share_market == 'ae' and share_ae != blank
@@ -62,10 +99,10 @@
 {% render 'favicon' %}
 
 <title>
-  {{ page_title }}
+  {{ html_title }}
   {%- if current_tags %} - tagged "{{ current_tags | join: ', ' }}"{% endif -%}
   {%- if current_page != 1 %} - Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains brand %} - {{ brand }}{% endunless -%}
+  {%- unless html_title contains brand %} - {{ brand }}{% endunless -%}
 </title>
 
 <meta name="description" content="{{ og_description | escape }}">

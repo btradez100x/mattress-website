@@ -5355,7 +5355,7 @@
   }
 
   function applyShareMeta(brandName, brandLine, tagline, shareTemplate) {
-    var name = (brandName || 'Aligna').trim() || 'Aligna';
+    var name = (brandName || 'Numa').trim() || 'Numa';
     var line = brandLine == null ? '' : String(brandLine).trim();
     var site = line ? name + ' ' + line : name;
     var market = document.documentElement.getAttribute('data-market') || detectMarket();
@@ -5461,13 +5461,17 @@
     };
 
     var boot = window.__valtoraPreviewBoot || {};
-    var name = boot.name || 'Aligna';
+    var name = boot.name || 'Numa';
     var line = typeof boot.line === 'string' ? boot.line : 'Mattresses';
     var guidelines = boot.guidelines || 'v1';
     var fontSet = boot.fontSet || 'modern';
     var scheme = boot.scheme || 'signature';
     try {
       name = localStorage.getItem('valtoraPreviewBrand') || name;
+      if (String(name).toLowerCase() === 'aligna') {
+        name = 'Numa';
+        localStorage.setItem('valtoraPreviewBrand', 'Numa');
+      }
       var savedLine = localStorage.getItem('valtoraPreviewBrandLine');
       if (savedLine !== null) line = savedLine;
       guidelines = localStorage.getItem('valtoraPreviewBrandGuidelines') || guidelines;

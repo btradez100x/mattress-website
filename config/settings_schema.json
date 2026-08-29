@@ -35,7 +35,7 @@
         "type": "text",
         "id": "brand_name",
         "label": "Brand name (line 1)",
-        "default": "Aligna",
+        "default": "Numa",
         "info": "Line 1 of the header and footer wordmark, plus [Brand] copy tokens. Trading as uses this plus Product line on one plain line."
       },
       {
@@ -43,7 +43,7 @@
         "id": "brand_product_line",
         "label": "Product line (line 2)",
         "default": "Mattresses",
-        "info": "Line 2 of the header and footer wordmark (e.g. Mattresses or The Mattress). Trading as and contact append this on the same line (e.g. Aligna Mattresses). Leave blank to hide line 2."
+        "info": "Line 2 of the header and footer wordmark (e.g. Mattresses or The Mattress). Trading as and contact append this on the same line (e.g. Numa Mattresses). Leave blank to hide line 2."
       },
       {
         "type": "text",

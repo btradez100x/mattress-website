@@ -90,7 +90,7 @@
 
         {%- if can_review -%}
           {%- form 'contact', id: 'ReviewForm', class: 'review-form' -%}
-            <input type="hidden" name="contact[subject]" value="{{ settings.brand_name | default: 'Aligna' }} - product review submission">
+            <input type="hidden" name="contact[subject]" value="{{ settings.brand_name | default: 'Numa' }} - product review submission">
             <input type="hidden" name="contact[review_submission]" value="true">
             <input type="hidden" name="contact[customer_id]" value="{{ customer.id }}">
             <input type="hidden" name="contact[customer_email]" value="{{ customer.email }}">
