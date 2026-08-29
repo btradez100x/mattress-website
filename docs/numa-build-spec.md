@@ -109,7 +109,7 @@ Order of the page:
 
 1. Mattress, size, price
 2. **Old mattress removal and recycling — Complimentary**, with a link to `/mattress-recycling`. The link is mandatory
-3. Concierge unpacking, listed as included
+3. Concierge unpacking, listed as Complimentary
 4. **Delivery lead time**, first appearance in the funnel
 5. Trial terms for the selected size
 6. Finance option

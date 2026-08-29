@@ -41,7 +41,7 @@ OUTCOME_DELIVERY = """
                 <p class="lp-tier__name">Concierge unpacking</p>
                 <p class="lp-tier__desc">Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.</p>
               </div>
-              <span class="lp-tier__price">Included</span>
+              <span class="lp-tier__price">Complimentary</span>
             </div>
             <div class="lp-tier">
               <div>

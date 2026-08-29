@@ -3925,7 +3925,7 @@
           '</li>' +
           '<li class="cart-line cart-service-line">' +
           '<div class="cart-line__copy cart-service-line__label">Concierge unpacking</div>' +
-          '<div class="cart-line__aside"><p class="cart-line__total">Included</p></div>' +
+          '<div class="cart-line__aside"><p class="cart-line__total">Complimentary</p></div>' +
           '</li>'
       );
       if (subtotalEl) {
