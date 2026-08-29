@@ -4,8 +4,8 @@
       "type": "hero",
       "settings": {
         "enable_section": true,
-        "heading": "Built to last. Adjusted to suit.",
-        "subheading": "A core made to outlast the frame it sits on. And a year to get the feel right, because no two bodies want the same bed.",
+        "heading": "Built to last.\nAdjusted to suit.",
+        "subheading": "A core made to outlast the frame it sits on. You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before.",
         "cta_label": "See sizes and prices",
         "cta_link": "#reserve",
         "tone": "light",
@@ -31,8 +31,8 @@
           "type": "card",
           "settings": {
             "label": "The feel",
-            "heading": "Sleep on it for a year.",
-            "body": "It arrives medium firm with a flippable comfort layer. Tell us how it should feel and we adjust it, for a year, with our compliments.",
+            "heading": "You have a year with us.",
+            "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. The part that softens renews for twenty five years.",
             "link_label": "How it works",
             "link": "/pages/trial"
           }
@@ -369,7 +369,7 @@
         "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
-        "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
+        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
         "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
         "request_size_enabled": true,
@@ -413,7 +413,7 @@
           "type": "item",
           "settings": {
             "question": "What if I do not like it?",
-            "answer": "Sleep on it for a year. If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
+            "answer": "You have a year with us. Feel is discovered over months of use. If it is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -676,7 +676,7 @@
         "enable_section": true,
         "eyebrow": "A note from Ben",
         "heading": "No two bodies want the same bed.",
-        "note": "<p>My family have bad backs. Several of them, across two generations.</p><p>I watched them choose a mattress in four minutes with their shoes off, and then live with it for eight years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in four minutes.</p><p>So yours arrives medium firm, and the year that follows is ours. You sleep on it. You tell us how it should feel. We adjust it until it is right.</p>",
+        "note": "<p>My family have bad backs. Several of them, across two generations.</p><p>I watched them choose a mattress in four minutes with their shoes off, and then live with it for eight years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in four minutes.</p><p>So yours arrives medium firm. You live with it over months. You have a year with us. You tell us how it should feel. We adjust it until it is right.</p>",
         "name": "Ben Acolatse",
         "role": "Founder",
         "ground": "auto"
@@ -1097,7 +1097,7 @@
         "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
-        "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
+        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
         "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
         "request_size_enabled": true,
