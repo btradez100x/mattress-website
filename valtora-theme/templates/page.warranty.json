@@ -6,7 +6,7 @@
         "eyebrow": "Warranty",
         "heading": "Core warranty",
         "intro": "What is covered, what voids it, and how to claim.",
-        "fallback_content": "<p>This warranty is given by [Legal].</p><h2>Years</h2><p>[X]-year warranty on the spring core, unless a different figure is stated on your order confirmation.</p><h2>What is covered</h2><p>Manufacturing defects in the pocket-spring core that affect structural performance under normal residential use.</p><h2>What voids it</h2><p>Misuse, commercial use without agreement, unauthorised modification, damage from improper foundations, or failure to follow care guidance.</p><h2>How to claim</h2><p>Email us with your order number, photos, and a short description. We assess claims in writing and confirm next steps before anything is collected.</p>",
+        "fallback_content": "<p>This warranty is given by [Legal].</p><h2>Years</h2><p>[warranty_words] years on the spring core, unless a different figure is stated on your order confirmation.</p><h2>What is covered</h2><p>Manufacturing defects in the pocket-spring core that affect structural performance under normal residential use.</p><h2>What is not covered</h2><p>Adjust to Desire is not a warranty claim. Comfort layers stay with you and are not a defect in the core.</p><h2>What voids it</h2><p>Misuse, commercial use without agreement, unauthorised modification, damage from improper foundations, or failure to follow care guidance.</p><h2>How to claim</h2><p>Email us with your order number, photos, and a short description. We assess claims in writing and confirm next steps before anything is collected.</p>",
         "cta_label": "Reserve your size",
         "cta_link": "/#reserve"
       }

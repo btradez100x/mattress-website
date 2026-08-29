@@ -23,7 +23,7 @@
   else
     assign fly_to = 'the UAE'
   endif
-  assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.'
+  assign variation_notice = settings.variation_notice | default: 'Made to order, so natural variation in fabric shade is possible. The construction is identical every time.'
 -%}
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}

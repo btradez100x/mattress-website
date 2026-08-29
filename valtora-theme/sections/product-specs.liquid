@@ -11,6 +11,13 @@
   if spec_anchor == blank
     assign spec_anchor = 'specs'
   endif
+  assign mattress = all_products['the-mattress']
+  if mattress == blank
+    assign mattress = product
+  endif
+  assign depth_cm = mattress.metafields.custom.depth_cm.value | default: mattress.metafields.custom.depth_cm
+  assign core_depth_cm = mattress.metafields.custom.core_depth_cm.value | default: mattress.metafields.custom.core_depth_cm
+  assign layer_depth_cm = mattress.metafields.custom.layer_depth_cm.value | default: mattress.metafields.custom.layer_depth_cm
   assign body_id = 'vspec-body-' | append: section.id
   assign vspec_class = 'vspec'
   if section.settings.dark
@@ -48,6 +55,17 @@
                     assign spec_does = block.settings.does
                     if spec_name == blank and spec_meta == blank and spec_does == blank
                       assign spec_name = block.settings.text
+                    endif
+                    if spec_name == 'Height' and depth_cm != blank
+                      assign spec_meta = depth_cm | append: ' CM MADE UP'
+                    endif
+                    if spec_name == 'Flippable comfort layer' and layer_depth_cm != blank
+                      assign layer_label = layer_depth_cm | append: ' CM'
+                      assign spec_meta = spec_meta | replace: '10 CM', layer_label
+                    endif
+                    if spec_name == 'Pocket spring core' and core_depth_cm != blank
+                      assign core_label = core_depth_cm | append: ' CM'
+                      assign spec_meta = spec_meta | replace: '20 CM', core_label
                     endif
                   -%}
                   {%- if spec_name != blank or spec_meta != blank or spec_does != blank -%}
@@ -163,13 +181,13 @@
           "type": "text",
           "id": "meta",
           "label": "Measurement",
-          "default": "37 CM MADE UP"
+          "default": "35 CM MADE UP"
         },
         {
           "type": "text",
           "id": "does",
           "label": "What it does",
-          "default": "Deeper than most. Deep-fitted sheets needed"
+          "default": "Deep-fitted sheets needed"
         }
       ]
     }
@@ -178,14 +196,14 @@
     {
       "name": "Product specs",
       "blocks": [
-        { "type": "spec", "settings": { "name": "Height", "meta": "37 CM MADE UP", "does": "Deeper than most. Deep-fitted sheets needed" } },
+        { "type": "spec", "settings": { "name": "Height", "meta": "35 CM MADE UP", "does": "Deep-fitted sheets needed" } },
         { "type": "spec", "settings": { "name": "Assembly", "meta": "HAND-ASSEMBLED, MADE TO ORDER", "does": "Built after you order it, never from stock" } },
         { "type": "spec", "settings": { "name": "Cover", "meta": "400 G COOL-KNIT · ZIP ACCESS", "does": "Opens all the way round to reach the comfort layer" } },
         { "type": "spec", "settings": { "name": "Gel memory foam", "meta": "1 CM · 28 DENSITY", "does": "Contours without trapping heat" } },
         { "type": "spec", "settings": { "name": "Comfort foam", "meta": "1.5 CM · 20 DENSITY", "does": "The give you feel first" } },
         { "type": "spec", "settings": { "name": "Wave-profile foam", "meta": "2.5 CM · 20 DENSITY", "does": "Moves air through the comfort layers" } },
         { "type": "spec", "settings": { "name": "Flippable comfort layer", "meta": "10 CM · 2 CM 2540 OVER 8 CM 2580", "does": "Medium one side, medium firm the other" } },
-        { "type": "spec", "settings": { "name": "Pocket spring core", "meta": "20 CM · 7 ZONES · 1.9 / 2.0 MM WIRE", "does": "Individually pocketed, so movement does not travel" } },
+        { "type": "spec", "settings": { "name": "Pocket spring core", "meta": "20 CM · 7 ZONES · 1.8 / 2.0 MM WIRE", "does": "Individually pocketed, so movement does not travel" } },
         { "type": "spec", "settings": { "name": "Encased perimeter", "meta": "7 CM · 35 DENSITY", "does": "Holds the edge. Sit on it without sliding" } },
         { "type": "spec", "settings": { "name": "Underside", "meta": "ANTI-SLIP", "does": "Stays where you put it" } }
       ]

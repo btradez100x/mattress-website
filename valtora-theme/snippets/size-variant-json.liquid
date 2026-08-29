@@ -1,0 +1,124 @@
+{%- comment -%}
+  One mattress variant as JSON for the size selector.
+  Reads MarketShown / width_cm / length_cm / pieces / name_* / fits_note when
+  present; falls back to custom.market, custom.dims, and option1.
+  Expects: v (variant)
+{%- endcomment -%}
+{%- liquid
+  assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+  if size_id == blank
+    assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+  endif
+  if size_id == blank
+    assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+  endif
+  assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
+  if size_label == blank
+    assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
+  endif
+
+  assign name_gb = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb
+  assign name_us = v.metafields.custom.name_us.value | default: v.metafields.custom.name_us
+  assign name_ae = v.metafields.custom.name_ae.value | default: v.metafields.custom.name_ae
+  if name_gb == blank
+    assign name_gb = size_label
+  endif
+
+  assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm
+  assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm
+  assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces
+  if pieces == blank
+    assign pieces = 1
+  endif
+  assign fits = v.metafields.custom.fits_note.value | default: v.metafields.custom.fits_note
+  if fits == blank and size_id == 'european-king'
+    assign fits = 'Fits IKEA frames'
+  endif
+
+  assign dims = v.metafields.custom.dims
+  if width_cm != blank and length_cm != blank
+    if pieces > 1
+      assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm'
+    else
+      assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm'
+    endif
+  endif
+
+  assign v_market = v.metafields.custom.market | strip | downcase
+  if v_market == blank
+    assign v_title_down = v.title | downcase
+    assign v_sku_down = v.sku | downcase
+    if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
+      assign v_market = 'ae'
+    elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
+      assign v_market = 'eu'
+    elsif v_title_down contains 'twin' or v_title_down contains 'california' or v_sku_down contains 'matt-us'
+      assign v_market = 'us'
+    else
+      assign v_market = 'gb'
+    endif
+  endif
+
+  assign shown = v.metafields.custom.MarketShown.value
+  if shown == blank
+    assign shown = v.metafields.custom.market_shown.value
+  endif
+  if shown == blank
+    assign shown = v.metafields.custom.MarketShown
+  endif
+  if shown == blank
+    assign shown = v.metafields.custom.market_shown
+  endif
+
+  assign tab_gb = false
+  assign tab_uae = false
+  assign tab_us = false
+  assign tab_eu = false
+  if shown != blank
+    assign shown_s = shown | join: ',' | upcase
+    if shown_s contains 'GB' or shown_s contains 'UK'
+      assign tab_gb = true
+    endif
+    if shown_s contains 'UAE' or shown_s contains 'AE'
+      assign tab_uae = true
+    endif
+    if shown_s contains 'US'
+      assign tab_us = true
+    endif
+    if shown_s contains 'EU'
+      assign tab_eu = true
+    endif
+  endif
+  unless tab_gb or tab_uae or tab_us or tab_eu
+    if v_market == 'gb'
+      assign tab_gb = true
+    elsif v_market == 'ae'
+      assign tab_uae = true
+    elsif v_market == 'us'
+      assign tab_us = true
+    elsif v_market == 'eu'
+      assign tab_eu = true
+    endif
+  endunless
+-%}
+{
+  "id": {{ size_id | json }},
+  "label": {{ size_label | json }},
+  "names": {
+    "GB": {{ name_gb | json }},
+    "US": {{ name_us | json }},
+    "UAE": {{ name_ae | json }}
+  },
+  "dims": {{ dims | json }},
+  "width_cm": {% if width_cm != blank %}{{ width_cm }}{% else %}null{% endif %},
+  "length_cm": {% if length_cm != blank %}{{ length_cm }}{% else %}null{% endif %},
+  "pieces": {{ pieces | json }},
+  "fits": {{ fits | json }},
+  "price": {% if v.price > 0 %}{{ v.price | money | json }}{% else %}""{% endif %},
+  "price_raw": {{ v.price | json }},
+  "variant_id": {{ v.id | json }},
+  "market": {{ v_market | json }},
+  "markets": [{% assign mfirst = true %}{% if tab_gb %}{% unless mfirst %},{% endunless %}"GB"{% assign mfirst = false %}{% endif %}{% if tab_uae %}{% unless mfirst %},{% endunless %}"UAE"{% assign mfirst = false %}{% endif %}{% if tab_us %}{% unless mfirst %},{% endunless %}"US"{% assign mfirst = false %}{% endif %}{% if tab_eu %}{% unless mfirst %},{% endunless %}"EU"{% assign mfirst = false %}{% endif %}],
+  "available": {{ v.available | json }},
+  "popular": {% if v.metafields.custom.popular == true %}true{% else %}false{% endif %}
+}

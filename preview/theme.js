@@ -56,7 +56,7 @@
 
   var DEFAULT_TAGLINE = 'A better bed, for life.';
   var SHARE_DESC_GB =
-    'A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.';
+    'A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order.';
   var SHARE_DESC_AE =
     'Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress.';
   var PHONE_DIAL = {
@@ -431,22 +431,237 @@
     return url;
   }
 
+  function shopifyCartJsUrl() {
+    if (/\.html($|\?)/.test(location.pathname || '')) return '';
+    var url =
+      (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.cart) || '';
+    if (!url || url === '#') return '/cart.js';
+    if (/\.js($|\?)/.test(url)) return url;
+    return String(url).replace(/\/?$/, '') + '.js';
+  }
+
+  function shopifyCartChangeUrl() {
+    if (/\.html($|\?)/.test(location.pathname || '')) return '';
+    var url =
+      (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.cartChange) || '';
+    if (url && url !== '#') {
+      if (/\.js($|\?)/.test(url)) return url;
+      return String(url).replace(/\/?$/, '') + '.js';
+    }
+    var addUrl = shopifyCartAddUrl();
+    if (!addUrl) return '';
+    if (/add\.js/.test(addUrl)) return addUrl.replace(/add\.js/, 'change.js');
+    if (/\/add\/?$/.test(addUrl)) return addUrl.replace(/\/add\/?$/, '/change.js');
+    return '/cart/change.js';
+  }
+
+  function shopifyPostJson(url, payload) {
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(function (res) {
+      if (!res.ok) throw new Error('add-failed');
+      return res.json();
+    });
+  }
+
   function sizeRowForId(id, market) {
     var rows = readSizePriceRows();
     var mkt = market || detectMarket();
+    var tab = marketToTabKey(mkt);
     var match = rows.filter(function (row) {
-      return row.id === id && (!row.market || row.market === mkt);
+      return row.id === id && rowShownInTab(row, tab);
     })[0];
     if (match) return match;
     return rows.filter(function (row) {
-      return row.id === id;
+      return row.id === id && (!row.market || row.market === mkt);
     })[0];
+  }
+
+  var MARKET_TABS = [
+    { key: 'GB', code: 'gb', label: 'United Kingdom' },
+    { key: 'UAE', code: 'ae', label: 'United Arab Emirates' },
+    { key: 'US', code: 'us', label: 'United States' },
+    { key: 'EU', code: 'eu', label: 'Europe' },
+  ];
+
+  function marketToTabKey(code) {
+    var m = String(code || '').toLowerCase();
+    if (m === 'gb' || m === 'uk') return 'GB';
+    if (m === 'ae' || m === 'uae') return 'UAE';
+    if (m === 'us') return 'US';
+    if (m === 'eu') return 'EU';
+    var u = String(code || '').toUpperCase();
+    if (u === 'GB' || u === 'UAE' || u === 'US' || u === 'EU') return u;
+    return 'GB';
+  }
+
+  function tabKeyToMarket(tab) {
+    var t = String(tab || '').toUpperCase();
+    if (t === 'GB') return 'gb';
+    if (t === 'UAE') return 'ae';
+    if (t === 'US') return 'us';
+    if (t === 'EU') return 'eu';
+    return detectMarket();
+  }
+
+  function rowMarkets(row) {
+    if (!row) return [];
+    if (row.markets && row.markets.length) {
+      return row.markets.map(function (x) { return marketToTabKey(x); }).filter(Boolean);
+    }
+    if (row.market) return [marketToTabKey(row.market)];
+    return [];
+  }
+
+  function rowShownInTab(row, tabKey) {
+    var ms = rowMarkets(row);
+    if (!ms.length) return false;
+    return ms.indexOf(tabKey) !== -1;
+  }
+
+  function rowDisplayName(row, tabKey) {
+    var names = (row && row.names) || {};
+    var key = tabKey || 'GB';
+    return names[key] || names.GB || names.UAE || names.US || (row && row.label) || '';
+  }
+
+  function rowDimsText(row) {
+    if (!row) return '';
+    var w = parseInt(row.width_cm, 10);
+    var l = parseInt(row.length_cm, 10);
+    var p = parseInt(row.pieces, 10) || 1;
+    if (w && l) {
+      return p > 1 ? p + ' \u00d7 ' + w + ' \u00d7 ' + l + ' cm' : w + ' \u00d7 ' + l + ' cm';
+    }
+    return row.dims || '';
+  }
+
+  function persistSelectorMarket(tabKey) {
+    try {
+      sessionStorage.setItem('lp_variant_market', tabKey);
+    } catch (e) {}
+  }
+
+  function readSelectorMarket() {
+    try {
+      return sessionStorage.getItem('lp_variant_market') || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function tabsPresentInRows(rows) {
+    var seen = {};
+    (rows || []).forEach(function (row) {
+      rowMarkets(row).forEach(function (k) {
+        seen[k] = true;
+      });
+    });
+    return MARKET_TABS.filter(function (t) {
+      return seen[t.key];
+    });
+  }
+
+  function readSizeNote(root) {
+    var el = (root && root.querySelector('[data-size-note]')) || document.querySelector('[data-size-note]');
+    return el && el.value ? String(el.value).trim() : '';
+  }
+
+  function escapeHtml(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function buildSizeRowMarkup(s, tabKey, addLabel) {
+    var label = rowDisplayName(s, tabKey) || s.label || '';
+    var dims = rowDimsText(s);
+    var fits = s.fits || '';
+    var available = s.available !== false;
+    var price = s.price || '';
+    var vid = s.variant_id || s.variantId || '';
+    var pieces = parseInt(s.pieces, 10) || 1;
+    return (
+      '<li>' +
+      '<div class="size-row size-option' +
+      (available ? '' : ' size-option--oos') +
+      '" data-size-id="' +
+      escapeHtml(s.id) +
+      '" data-size-label="' +
+      escapeHtml(label) +
+      '" data-size-dims="' +
+      escapeHtml(dims) +
+      '" data-size-price="' +
+      escapeHtml(price) +
+      '" data-size-price-raw="' +
+      String(s.price_raw || s.priceRaw || 0) +
+      '" data-size-variant="' +
+      escapeHtml(String(vid)) +
+      '" data-size-pieces="' +
+      pieces +
+      '" data-available="' +
+      (available ? 'true' : 'false') +
+      '" data-qty="0">' +
+      '<button type="button" class="size-row__pick" data-size-pick aria-label="Add ' +
+      escapeHtml(label) +
+      (dims ? ', ' + escapeHtml(dims) : '') +
+      (price ? ', ' + escapeHtml(price) : '') +
+      '">' +
+      '<span class="size-row__name">' +
+      escapeHtml(label) +
+      (fits ? '<span class="size-row__fits">' + escapeHtml(fits) + '</span>' : '') +
+      '</span>' +
+      '<span class="size-row__dims">' +
+      escapeHtml(dims) +
+      '</span>' +
+      '<span class="size-row__price">' +
+      escapeHtml(price) +
+      '</span>' +
+      '</button>' +
+      '<span class="size-row__add">' +
+      escapeHtml(addLabel || 'Add') +
+      '</span>' +
+      '<span class="size-row__qty size-option__qty" data-size-qty data-qty-stepper data-lp-qty">' +
+      '<button type="button" class="size-option__qty-btn size-row__step" data-qty-dec aria-label="Decrease quantity">&minus;</button>' +
+      '<span class="size-row__qty-n size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>' +
+      '<button type="button" class="size-option__qty-btn size-row__step" data-qty-inc aria-label="Increase quantity">+</button>' +
+      '</span>' +
+      '</div></li>'
+    );
+  }
+
+  function paintMarketTabs(host, tabs, activeKey) {
+    if (!host) return;
+    if (!tabs || tabs.length < 2) {
+      host.hidden = true;
+      host.innerHTML = '';
+      return;
+    }
+    host.hidden = false;
+    host.innerHTML = tabs
+      .map(function (t) {
+        var on = t.key === activeKey;
+        return (
+          '<button type="button" class="size-market" role="tab" aria-selected="' +
+          (on ? 'true' : 'false') +
+          '" data-market-tab="' +
+          t.key +
+          '">' +
+          escapeHtml(t.label) +
+          '</button>'
+        );
+      })
+      .join('');
   }
 
   function fillLandingPrices() {
     var market = detectMarket();
     var rows = readSizePriceRows().filter(function (row) {
-      return !row.market || row.market === market;
+      return rowShownInTab(row, marketToTabKey(market)) || !row.market || row.market === market;
     });
     document.querySelectorAll('[data-lp-size-table]').forEach(function (tbody) {
       if (!rows.length) return;
@@ -622,63 +837,19 @@
     var roots = document.querySelectorAll('[data-lp-configure]');
     if (!roots.length) return;
 
-    function rowsForMarket() {
-      var market = detectMarket();
-      return readSizePriceRows().filter(function (row) {
-        return !row.market || row.market === market;
+    function allRows() {
+      return readSizePriceRows();
+    }
+
+    function rowsForTab(tabKey) {
+      var rows = allRows().filter(function (row) {
+        return rowShownInTab(row, tabKey);
       });
-    }
-
-    function paintSizes(root) {
-      var list = root.querySelector('[data-lp-sizes]');
-      if (!list) return;
-      if (list.querySelector('.lp-size') && shopifyCartAddUrl()) return;
-      var rows = rowsForMarket();
-      if (!rows.length) return;
-      list.innerHTML = rows
-        .map(function (row) {
-          var dims = row.dims || '';
-          var note = dims;
-          if (row.id === 'european-king' || /european king/i.test(row.label || '')) {
-            note = dims ? dims + ' · fits IKEA' : 'fits IKEA';
-          }
-          return (
-            '<button type="button" class="lp-size" role="option" aria-selected="false" data-size-id="' +
-            String(row.id || '').replace(/"/g, '') +
-            '" data-size-label="' +
-            String(row.label || '').replace(/"/g, '') +
-            '" data-size-dims="' +
-            String(dims).replace(/"/g, '') +
-            '" data-size-price="' +
-            String(row.price || '').replace(/"/g, '') +
-            '" data-size-price-raw="' +
-            String(row.price_raw || 0) +
-            '" data-size-variant="' +
-            String(row.variant_id || row.variantId || '') +
-            '" data-available="' +
-            (row.available === false ? 'false' : 'true') +
-            '">' +
-            (row.label || '') +
-            '<em>' +
-            note +
-            '</em></button>'
-          );
-        })
-        .join('');
-    }
-
-    function landingQty(root) {
-      var valEl = root.querySelector('[data-lp-qty-val]');
-      var n = parseInt(valEl && valEl.textContent, 10);
-      return n > 0 ? n : 1;
-    }
-
-    function setLandingQty(root, next) {
-      var valEl = root.querySelector('[data-lp-qty-val]');
-      var n = Math.max(1, Math.min(20, parseInt(next, 10) || 1));
-      if (valEl) valEl.textContent = String(n);
-      var dec = root.querySelector('[data-lp-qty-dec]');
-      if (dec) dec.disabled = n <= 1;
+      if (rows.length) return rows;
+      var mkt = tabKeyToMarket(tabKey);
+      return allRows().filter(function (row) {
+        return !row.market || row.market === mkt;
+      });
     }
 
     function setLandingStatus(root, msg) {
@@ -688,64 +859,148 @@
       status.textContent = msg || '';
     }
 
-    function addLandingToShopify(line, qty) {
+    function landingLineProperties(host, line) {
+      var properties = {
+        Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
+        Market: String(line.market || detectMarket()).toUpperCase(),
+        'Item type': 'Mattress',
+        _lead_min: String(line.leadMin || ''),
+        _lead_max: String(line.leadMax || ''),
+      };
+      var note = readSizeNote(host);
+      if (note) properties['Anything we should know'] = note;
+      return properties;
+    }
+
+    function setLandingShopifyQty(host, line, qty) {
       var addUrl = shopifyCartAddUrl();
       if (!addUrl) return Promise.resolve(false);
       var vid = Number(line.variantId);
       if (!vid) return Promise.reject(new Error('no-variant'));
-      var payload = {
-        id: vid,
-        quantity: qty,
-        properties: {
-          Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
-          Market: String(line.market || detectMarket()).toUpperCase(),
-          'Item type': 'Mattress',
-          _lead_min: String(line.leadMin || ''),
-          _lead_max: String(line.leadMax || ''),
-        },
-      };
-      if (window.ValtoraUTM && typeof window.ValtoraUTM.applyToCartPayload === 'function') {
-        payload = window.ValtoraUTM.applyToCartPayload(payload);
-      }
-      return fetch(addUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      }).then(function (res) {
-        if (!res.ok) throw new Error('add-failed');
-        return res.json();
-      });
+      var cartUrl = shopifyCartJsUrl();
+      var changeUrl = shopifyCartChangeUrl();
+      var properties = landingLineProperties(host, line);
+      qty = parseInt(qty, 10);
+      if (!isFinite(qty) || qty < 0) qty = 0;
+      return fetch(cartUrl, { headers: { Accept: 'application/json' } })
+        .then(function (res) {
+          if (!res.ok) throw new Error('add-failed');
+          return res.json();
+        })
+        .then(function (cart) {
+          var item = (cart.items || []).find(function (it) {
+            return Number(it.variant_id) === vid;
+          });
+          if (qty < 1) {
+            if (!item || !item.key) return cart;
+            return shopifyPostJson(changeUrl, { id: item.key, quantity: 0 });
+          }
+          if (!item) {
+            var payload = { id: vid, quantity: qty, properties: properties };
+            if (window.ValtoraUTM && typeof window.ValtoraUTM.applyToCartPayload === 'function') {
+              payload = window.ValtoraUTM.applyToCartPayload(payload);
+            }
+            return shopifyPostJson(addUrl, payload);
+          }
+          return shopifyPostJson(changeUrl, { id: item.key, quantity: qty, properties: properties });
+        });
     }
 
-    function selectSize(root, btn, fromUser) {
-      if (!btn) return;
-      var id = btn.getAttribute('data-size-id') || '';
-      root.querySelectorAll('.lp-size').forEach(function (el) {
-        var on = el === btn;
-        el.classList.toggle('is-on', on);
-        el.setAttribute('aria-selected', on ? 'true' : 'false');
+    function addLandingToShopify(host, line, qty) {
+      return setLandingShopifyQty(host, line, qty);
+    }
+
+    function lineFromRow(root, row) {
+      return {
+        itemType: 'mattress',
+        sizeId: row.getAttribute('data-size-id') || '',
+        label: row.getAttribute('data-size-label') || '',
+        dims: row.getAttribute('data-size-dims') || '',
+        firmness: 'Medium / Medium firm',
+        unitPrice: row.getAttribute('data-size-price') || '',
+        priceRaw: parseInt(row.getAttribute('data-size-price-raw'), 10) || 0,
+        variantId: row.getAttribute('data-size-variant') || '',
+        quantity: 1,
+        market: detectMarket(),
+        leadWindow: root.getAttribute('data-lead-window') || '',
+        leadMin: root.getAttribute('data-lead-min') || '',
+        leadMax: root.getAttribute('data-lead-max') || '',
+      };
+    }
+
+    function qtyForRow(row) {
+      var nid = String(row.getAttribute('data-size-id') || '');
+      var vid = row.getAttribute('data-size-variant') || '';
+      var line = OrderStore.lines().find(function (l) {
+        if (l.itemType === 'top') return false;
+        if (vid && String(l.variantId || '') === vid) return true;
+        return l.sizeId === nid;
       });
-      root.setAttribute('data-lp-selected', id);
-      var priceEl = root.querySelector('[data-lp-add-price]');
-      var dimEl = root.querySelector('[data-lp-add-dim]');
-      var addBtn = root.querySelector('[data-lp-add]');
+      return line ? parseInt(line.quantity, 10) || 0 : 0;
+    }
+
+    function syncLandingRows(root) {
+      root.querySelectorAll('.size-row').forEach(function (row) {
+        var q = qtyForRow(row);
+        row.classList.toggle('is-in-basket', q > 0);
+        row.setAttribute('data-qty', String(q));
+        var val = row.querySelector('[data-qty-val]');
+        if (val) val.textContent = String(q);
+      });
       var policyEl = root.querySelector('[data-lp-policy]');
-      var price = btn.getAttribute('data-size-price') || '';
-      var dims = btn.getAttribute('data-size-dims') || '';
-      var available = btn.getAttribute('data-available') !== 'false';
-      if (priceEl) priceEl.textContent = price;
-      if (dimEl) dimEl.textContent = dims || btn.getAttribute('data-size-label') || '';
-      var qtyWrap = root.querySelector('[data-lp-qty]');
-      if (qtyWrap) qtyWrap.hidden = !available || !id;
-      if (addBtn) addBtn.disabled = !available || !id;
       if (policyEl) {
+        var inEmp = OrderStore.lines().some(function (l) { return l.sizeId === 'emperor'; });
         var def = root.getAttribute('data-lp-policy-default') || policyEl.textContent;
         var emp = root.getAttribute('data-lp-policy-emperor') || def;
-        policyEl.textContent = id === 'emperor' ? emp : def;
+        policyEl.textContent = inEmp ? emp : def;
       }
-      if (fromUser) {
-        vTrack('configure_complete', { size: id, lp_variant: readLpVariant() });
+      if (typeof paintFloatBasketFromStore === 'function') paintFloatBasketFromStore();
+    }
+
+    function paintSizes(root, tabKey) {
+      var list = root.querySelector('[data-lp-sizes]');
+      if (!list) return;
+      var tab = tabKey || root.getAttribute('data-selector-tab') || readSelectorMarket() || marketToTabKey(detectMarket());
+      var tabs = tabsPresentInRows(allRows());
+      if (tabs.length && !tabs.some(function (t) { return t.key === tab; })) {
+        tab = tabs[0].key;
       }
+      root.setAttribute('data-selector-tab', tab);
+      persistSelectorMarket(tab);
+      paintMarketTabs(root.querySelector('[data-size-markets]'), tabs, tab);
+      var rows = rowsForTab(tab);
+      list.innerHTML = rows.map(function (row) {
+        return buildSizeRowMarkup(row, tab, 'Add');
+      }).join('');
+      syncLandingRows(root);
+    }
+
+    function addOrUpdate(root, row, qty, opts) {
+      opts = opts || {};
+      var line = lineFromRow(root, row);
+      line.quantity = qty;
+      OrderStore.upsertMattressLine(line);
+      var sizeId = line.sizeId;
+      if (opts.qtyChanged) {
+        vTrack('quantity_changed', { size: sizeId, quantity: qty, lp_variant: readLpVariant() });
+      } else {
+        vTrack('configure_complete', { size: sizeId, lp_variant: readLpVariant() });
+        vTrack('add_to_basket', {
+          size: sizeId,
+          value: (line.priceRaw / 100) * qty || undefined,
+          trial_eligible: sizeId !== 'emperor',
+          lp_variant: readLpVariant(),
+        });
+      }
+      syncLandingRows(root);
+      addLandingToShopify(root, line, qty).catch(function (err) {
+        setLandingStatus(
+          root,
+          err && err.message === 'no-variant'
+            ? 'That size is not available to add.'
+            : 'That size could not be added.'
+        );
+      });
     }
 
     function preselect(root) {
@@ -755,88 +1010,53 @@
       } catch (e) {}
       var featured = (fromQuery || root.getAttribute('data-lp-preselect') || '').trim();
       if (!featured) return;
-      var btn = root.querySelector('.lp-size[data-size-id="' + featured + '"]');
-      if (btn) selectSize(root, btn, false);
+      var row = root.querySelector('.size-row[data-size-id="' + featured + '"]');
+      if (row && qtyForRow(row) < 1) {
+        addOrUpdate(root, row, 1, {});
+      }
     }
 
     roots.forEach(function (root) {
       if (root.getAttribute('data-lp-configure-ready') === '1') return;
       root.setAttribute('data-lp-configure-ready', '1');
       paintSizes(root);
-      setLandingQty(root, 1);
-      preselect(root);
-      root.addEventListener('click', function (e) {
-        var qtyDec = e.target.closest('[data-lp-qty-dec]');
-        var qtyInc = e.target.closest('[data-lp-qty-inc]');
-        if (qtyDec && root.contains(qtyDec)) {
-          setLandingQty(root, landingQty(root) - 1);
-          return;
-        }
-        if (qtyInc && root.contains(qtyInc)) {
-          setLandingQty(root, landingQty(root) + 1);
-          return;
-        }
-        var btn = e.target.closest('.lp-size');
-        if (btn && root.contains(btn)) {
-          selectSize(root, btn, true);
-          return;
-        }
-        var add = e.target.closest('[data-lp-add]');
-        if (!add || !root.contains(add) || add.disabled) return;
-        var chosen = root.querySelector('.lp-size.is-on, .lp-size[aria-selected="true"]');
-        if (!chosen) return;
-        var sizeId = chosen.getAttribute('data-size-id') || '';
-        var priceRaw = parseInt(chosen.getAttribute('data-size-price-raw'), 10) || 0;
-        var qty = landingQty(root);
-        var line = {
-          itemType: 'mattress',
-          sizeId: sizeId,
-          label: chosen.getAttribute('data-size-label') || '',
-          dims: chosen.getAttribute('data-size-dims') || '',
-          firmness: 'Medium / Medium firm',
-          unitPrice: chosen.getAttribute('data-size-price') || '',
-          priceRaw: priceRaw,
-          variantId: chosen.getAttribute('data-size-variant') || '',
-          quantity: qty,
-          market: detectMarket(),
-          leadWindow: root.getAttribute('data-lead-window') || '',
-          leadMin: root.getAttribute('data-lead-min') || '',
-          leadMax: root.getAttribute('data-lead-max') || '',
-        };
-        OrderStore.upsertMattressLine(line);
-        vTrack('add_to_basket', {
-          size: sizeId,
-          value: (priceRaw / 100) * qty || undefined,
-          trial_eligible: sizeId !== 'emperor',
-          lp_variant: readLpVariant(),
+      var tabsHost = root.querySelector('[data-size-markets]');
+      if (tabsHost) {
+        tabsHost.addEventListener('click', function (e) {
+          var tab = e.target.closest('[data-market-tab]');
+          if (!tab) return;
+          paintSizes(root, tab.getAttribute('data-market-tab'));
         });
-        var cartHref =
-          root.getAttribute('data-checkout-path') ||
-          (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.cart) ||
-          '/cart';
-        if (!cartHref || cartHref === '#') {
-          cartHref = /\/pages\//.test(location.pathname) ? './cart.html' : '/cart';
-        }
-        var go = function () {
-          window.location.href = withPersistedUtm(cartHref);
-        };
-        if (!shopifyCartAddUrl()) {
-          go();
+      }
+      root.addEventListener('click', function (e) {
+        var row = e.target.closest('.size-row');
+        if (!row || !root.contains(row)) return;
+        var dec = e.target.closest('[data-qty-dec]');
+        var inc = e.target.closest('[data-qty-inc]');
+        var pick = e.target.closest('[data-size-pick]');
+        if (dec || inc) {
+          var q = qtyForRow(row);
+          if (dec) q -= 1;
+          if (inc) q += 1;
+          if (q < 1) {
+            var zeroLine = lineFromRow(root, row);
+            OrderStore.removeMattressSize(row.getAttribute('data-size-id'));
+            vTrack('quantity_changed', {
+              size: row.getAttribute('data-size-id'),
+              quantity: 0,
+              lp_variant: readLpVariant(),
+            });
+            syncLandingRows(root);
+            setLandingShopifyQty(root, zeroLine, 0).catch(function () {});
+            return;
+          }
+          addOrUpdate(root, row, q, { qtyChanged: true });
           return;
         }
-        add.disabled = true;
-        setLandingStatus(root, '');
-        addLandingToShopify(line, qty)
-          .then(go)
-          .catch(function (err) {
-            add.disabled = false;
-            setLandingStatus(
-              root,
-              err && err.message === 'no-variant'
-                ? 'That size is not available to add.'
-                : 'That size could not be added.'
-            );
-          });
+        if (pick) {
+          if (qtyForRow(row) > 0) return;
+          addOrUpdate(root, row, 1, {});
+        }
       });
       if ('IntersectionObserver' in window) {
         var seen = false;
@@ -845,7 +1065,7 @@
             if (seen) return;
             if (entries.some(function (en) { return en.isIntersecting; })) {
               seen = true;
-              var pre = root.getAttribute('data-lp-selected') || root.getAttribute('data-lp-preselect') || '';
+              var pre = root.getAttribute('data-lp-preselect') || '';
               try {
                 pre = new URLSearchParams(location.search).get('size') || pre;
               } catch (err) {}
@@ -864,8 +1084,7 @@
     });
     document.addEventListener('preview:market-changed', function () {
       roots.forEach(function (root) {
-        paintSizes(root);
-        preselect(root);
+        paintSizes(root, marketToTabKey(detectMarket()));
       });
     });
   }
@@ -2373,9 +2592,22 @@
     });
     document.querySelectorAll('[data-float-continue]').forEach(function (el) {
       var checkoutHref = resolveCheckoutHref(el);
-      el.textContent = hasLines ? 'Checkout' : 'See sizes and prices';
+      var landing = document.querySelector('[data-lp-configure]');
+      var landingCart = landing && (landing.getAttribute('data-checkout-path') || '/cart');
+      var label = 'See sizes and prices';
+      var href = sizesHref;
+      if (hasLines) {
+        if (landing && landingCart) {
+          label = 'Continue';
+          href = landingCart;
+        } else {
+          label = 'Checkout';
+          href = checkoutHref;
+        }
+      }
+      el.textContent = label;
       if (el.tagName === 'A' || el.tagName === 'a') {
-        el.setAttribute('href', hasLines ? checkoutHref : sizesHref);
+        el.setAttribute('href', href);
         el.setAttribute('aria-disabled', 'false');
         el.removeAttribute('disabled');
       } else {
@@ -2566,29 +2798,18 @@
 
     function syncSizeQtyUi() {
       if (!list) return;
-      list.querySelectorAll('.size-option').forEach(function (btn) {
+      list.querySelectorAll('.size-row, .size-option').forEach(function (btn) {
         var wrap = btn.querySelector('[data-size-qty]');
         var valEl = btn.querySelector('[data-qty-val]');
-        var addBtn = btn.querySelector('[data-qty-add]');
-        var stepper = btn.querySelector('[data-qty-stepper]');
         var available = btn.getAttribute('data-available') !== 'false';
         var sizeId = btn.getAttribute('data-size-id');
         var q = lineQtyForSize(sizeId, btn.getAttribute('data-size-variant'));
         var inBasket = q > 0 && btn.getAttribute('data-request-size') !== 'true';
         btn.classList.toggle('is-in-basket', inBasket);
+        btn.setAttribute('data-qty', String(q));
         btn.setAttribute('aria-selected', inBasket ? 'true' : 'false');
-        if (!wrap) return;
-        if (valEl) valEl.textContent = String(Math.max(q, 1));
-        wrap.hidden = !available;
-        wrap.setAttribute('data-qty-mode', inBasket ? 'stepper' : 'add');
-        if (addBtn) {
-          addBtn.hidden = inBasket;
-          addBtn.setAttribute(
-            'aria-label',
-            addLabel + ' ' + (btn.getAttribute('data-size-label') || 'size')
-          );
-        }
-        if (stepper) stepper.hidden = !inBasket;
+        if (valEl) valEl.textContent = String(q);
+        if (wrap) wrap.hidden = !available;
         var dec = btn.querySelector('[data-qty-dec]');
         if (dec) dec.disabled = q < 1;
       });
@@ -2624,11 +2845,18 @@
         leadMax: leadMax,
       });
       if (!opts.silent) {
-        vTrack('add_to_basket', eventParams({
-          size: size.id,
-          value: sizePriceRaw(size) / 100 || undefined,
-          trial_eligible: size.id !== 'emperor',
-        }));
+        if (opts.qtyChanged) {
+          vTrack('quantity_changed', eventParams({
+            size: size.id,
+            quantity: qty,
+          }));
+        } else {
+          vTrack('add_to_basket', eventParams({
+            size: size.id,
+            value: sizePriceRaw(size) / 100 || undefined,
+            trial_eligible: size.id !== 'emperor',
+          }));
+        }
       }
       var after = OrderStore.lines().filter(function (l) {
         return l.itemType === 'mattress' || !l.itemType;
@@ -2835,14 +3063,24 @@
       } catch (e) {}
     }
     function filterSizesForMarket(mkt) {
+      var tab = marketToTabKey(mkt);
       return allRows.filter(function (row) {
-        if (row.market && row.market !== mkt) return false;
-        return true;
+        if (rowShownInTab(row, tab)) return true;
+        if (!rowMarkets(row).length && row.market === mkt) return true;
+        return false;
       });
     }
-    sizes = filterSizesForMarket(market);
+    var selectorTab = readSelectorMarket() || marketToTabKey(market);
+    var availableTabs = tabsPresentInRows(allRows);
+    if (availableTabs.length && !availableTabs.some(function (t) { return t.key === selectorTab; })) {
+      selectorTab = marketToTabKey(market);
+      if (!availableTabs.some(function (t) { return t.key === selectorTab; })) {
+        selectorTab = availableTabs[0].key;
+      }
+    }
+    sizes = filterSizesForMarket(tabKeyToMarket(selectorTab));
     if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-      sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+      sizes = (SIZE_MAPS[tabKeyToMarket(selectorTab)] || SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
     }
 
     function eventParams(extra) {
@@ -3031,7 +3269,7 @@
       }
       if (notifyBodyInput) {
         notifyBodyInput.value =
-          'Please notify me when this size opens in the allocation.\n\nSize: ' +
+            'Please notify me when this size opens. Not in this allocation.\n\nSize: ' +
           sizeLabel +
           ' - ' +
           sizeDims +
@@ -3081,88 +3319,34 @@
 
     function rebuildSizeButtons() {
       if (!list) return;
-      list.innerHTML = '';
-      var defaultIdx = preferredIndex();
-      sizes.forEach(function (s, i) {
-        var available = s.available !== false;
-        var popular = !!s.popular;
-        var dims = s.dims;
-        if (!dims) {
-          var mapped = (SIZE_MAPS[market] || []).filter(function (row) {
-            return row.id === s.id;
-          })[0];
-          dims = mapped && mapped.dims ? mapped.dims : '';
-        }
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className =
-          'size-option' +
-          (available ? '' : ' size-option--oos') +
-          (popular ? ' size-option--popular' : '');
-        btn.setAttribute('role', 'option');
-        btn.setAttribute('aria-selected', 'false');
-        btn.setAttribute('data-size-id', s.id);
-        btn.setAttribute('data-size-label', s.label);
-        btn.setAttribute('data-size-dims', dims);
-        btn.setAttribute('data-size-price', s.price || '');
-        btn.setAttribute('data-size-price-raw', String(sizePriceRaw(s)));
-        btn.setAttribute('data-size-firmness', s.firmness || 'Medium / Medium firm');
-        if (s.variant_id || s.variantId) {
-          btn.setAttribute('data-size-variant', String(s.variant_id || s.variantId));
-        }
-        btn.setAttribute('data-available', available ? 'true' : 'false');
-        var extraNote = '';
-        if (s.id === 'european-king' || /european king/i.test(s.label || '')) {
-          extraNote =
-            '<span class="size-option__note">Fits IKEA and most continental frames</span>';
-        }
-        if (s.id === 'emperor') {
-          extraNote =
-            '<span class="size-option__note">Made to order at 200 x 200cm. Not covered by the 30-day return trial. Statutory rights are unaffected.</span>';
-        }
-        btn.innerHTML =
-          '<span class="size-option__marker" aria-hidden="true"></span>' +
-          '<span class="size-option__main">' +
-          '<span class="size-option__label">' +
-          s.label +
-          (popular
-            ? ' <span class="size-option__popular">Most popular</span>'
-            : '') +
-          '</span>' +
-          '<span class="size-option__dims">' +
-          dims +
-          (available ? '' : ' · Not in this allocation') +
-          extraNote +
-          '</span>' +
-          '</span>' +
-          (available
-            ? '<span class="size-option__qty" data-size-qty data-qty-mode="add">' +
-              '<button type="button" class="size-option__add" data-qty-add>' +
-              addLabel.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') +
-              '</button>' +
-              '<span class="size-option__stepper" data-qty-stepper hidden>' +
-              '<button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease quantity">−</button>' +
-              '<span class="size-option__qty-val" data-qty-val>1</span>' +
-              '<button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase quantity">+</button>' +
-              '</span>' +
-              '</span>'
-            : '<span class="size-option__qty size-option__qty--spacer" aria-hidden="true"></span>') +
-          (available && s.price
-            ? '<span class="size-option__price">' + s.price + '</span>'
-            : available
-              ? '<span class="size-option__price" aria-hidden="true"></span>'
-              : '<span class="size-option__price" aria-hidden="true"></span>');
-        list.appendChild(btn);
-        if (i === defaultIdx) applySelection(btn, { silent: true });
-      });
+      var tabsHost = root.querySelector('[data-size-markets]');
+      var tabs = tabsPresentInRows(allRows.length ? allRows : sizes);
+      paintMarketTabs(tabsHost, tabs, selectorTab);
+      list.innerHTML = sizes
+        .map(function (s) {
+          var mapped = s;
+          if (!s.dims && !s.width_cm) {
+            var fromMap = (SIZE_MAPS[tabKeyToMarket(selectorTab)] || []).filter(function (row) {
+              return row.id === s.id;
+            })[0];
+            if (fromMap) {
+              mapped = Object.assign({}, s, { dims: fromMap.dims, label: s.label || fromMap.label });
+            }
+          }
+          return buildSizeRowMarkup(mapped, selectorTab, addLabel);
+        })
+        .join('');
+      var requestEntry = root.querySelector('.size-request-entry');
+      if (requestEntry && list.contains(requestEntry) === false) {
+        /* request trigger stays outside the list */
+      }
       syncSizeQtyUi();
     }
 
-    if (list && !list.children.length) {
+    if (list && !list.querySelector('.size-row')) {
       rebuildSizeButtons();
     } else if (list) {
-      var active = list.querySelector('.size-option.is-active') || list.querySelector('.size-option');
-      if (active) applySelection(active, { silent: true });
+      syncSizeQtyUi();
     }
 
     root._valtoraOnMarketChange = function () {
@@ -3171,7 +3355,9 @@
       leadtimePlacement = root.getAttribute('data-leadtime-placement') || leadtimePlacement || 'staged';
       financeName =
         root.getAttribute('data-finance-name') || marketFinanceName(market);
-      sizes = filterSizesForMarket(market);
+      selectorTab = marketToTabKey(market);
+      persistSelectorMarket(selectorTab);
+      sizes = filterSizesForMarket(tabKeyToMarket(selectorTab));
       if (!sizes.length && root.getAttribute('data-preview') === 'true') {
         sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
       }
@@ -3179,6 +3365,24 @@
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
       if (typeof refreshTotals === 'function') refreshTotals();
     };
+
+    var tabsHost = root.querySelector('[data-size-markets]');
+    if (tabsHost) {
+      tabsHost.addEventListener('click', function (e) {
+        var tab = e.target.closest('[data-market-tab]');
+        if (!tab || !tabsHost.contains(tab)) return;
+        selectorTab = tab.getAttribute('data-market-tab') || selectorTab;
+        persistSelectorMarket(selectorTab);
+        market = tabKeyToMarket(selectorTab);
+        sizes = filterSizesForMarket(market);
+        if (!sizes.length && root.getAttribute('data-preview') === 'true') {
+          sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+        }
+        rebuildSizeButtons();
+        if (typeof renderOrderPanel === 'function') renderOrderPanel();
+        if (typeof refreshTotals === 'function') refreshTotals();
+      });
+    }
 
     function currentSize() {
       var active =
@@ -3217,62 +3421,43 @@
 
     if (list) {
       list.addEventListener('click', function (e) {
-        var add = e.target.closest('[data-qty-add]');
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
-        if (add || dec || inc) {
+        var pick = e.target.closest('[data-size-pick]');
+        var row = e.target.closest('.size-row, .size-option');
+        if ((dec || inc) && row) {
           e.preventDefault();
           e.stopPropagation();
-          var row = e.target.closest('.size-option');
-          if (!row || row.getAttribute('data-available') === 'false') return;
-          // Size edits always return to Stage A — never leave Stage B open on a stale summary.
+          if (row.getAttribute('data-available') === 'false') return;
           collapseStageB(true);
           var sizeId = row.getAttribute('data-size-id');
           var q = lineQtyForSize(sizeId, row.getAttribute('data-size-variant'));
-          if (add) q = 1;
           if (dec) q -= 1;
-          if (inc) q = q + 1;
+          if (inc) q += 1;
           if (q < 1) {
             OrderStore.removeMattressSize(sizeId);
             if (qtyInput) qtyInput.value = '1';
-            if (!row.classList.contains('is-active')) {
-              list.querySelectorAll('.size-option').forEach(function (b) {
-                b.classList.toggle('is-active', b === row);
-              });
-            }
+            vTrack('quantity_changed', eventParams({ size: sizeId, quantity: 0 }));
             syncSizeQtyUi();
             refreshTotals();
             updateContinueState();
             return;
           }
-          applySelection(row, { silent: true });
-          upsertActiveMattress(q, { size: sizeFromRow(row) });
+          upsertActiveMattress(q, { size: sizeFromRow(row), qtyChanged: true });
           updateContinueState();
           return;
         }
-        var btn = e.target.closest('.size-option');
-        if (!btn) return;
-        // Mobile: tap the row / radio to add. Desktop still uses Add.
-        if (
-          sizeRowTapAddsToBasket() &&
-          btn.getAttribute('data-request-size') !== 'true' &&
-          btn.getAttribute('data-available') !== 'false'
-        ) {
+        if (pick && row) {
+          if (row.getAttribute('data-available') === 'false') return;
           var existingQty = lineQtyForSize(
-            btn.getAttribute('data-size-id'),
-            btn.getAttribute('data-size-variant')
+            row.getAttribute('data-size-id'),
+            row.getAttribute('data-size-variant')
           );
-          if (existingQty > 0) {
-            applySelection(btn);
-            return;
-          }
+          if (existingQty > 0) return;
           collapseStageB(true);
-          applySelection(btn, { silent: true });
-          upsertActiveMattress(1, { size: sizeFromRow(btn) });
+          upsertActiveMattress(1, { size: sizeFromRow(row) });
           updateContinueState();
-          return;
         }
-        applySelection(btn);
       });
     }
 
@@ -3496,6 +3681,10 @@
       if (large) {
         payload.properties['Order terms'] =
           'Refundable until production commit (typically within 5 working days); non-refundable after';
+      }
+      var sizeNote = readSizeNote(root);
+      if (sizeNote) {
+        payload.properties['Anything we should know'] = sizeNote;
       }
       if (paymentMode === 'split') {
         payload.properties['Balance due'] = 'Due before dispatch';

@@ -4,9 +4,9 @@
       "type": "trust-policy",
       "settings": {
         "eyebrow": "Trial",
-        "heading": "30-day sleep trial",
-        "intro": "Sleep on it for a month. Tell us how it should feel. We make it that way.",
-        "fallback_content": "<p>The 30-day sleep trial is offered by [Legal].</p><h2>Made to Desire</h2><p>If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth £299.</p><h2>If that still does not settle it</h2><p>We collect the mattress and refund you in full. Contact us before the trial ends.</p><h2>Emperor</h2><p>Emperor is made to order at 200 x 200cm and is not covered by the 30-day return trial. Made to Desire still applies. Your statutory cancellation rights are unaffected.</p><h2>Refund timing</h2><p>Once the mattress is collected and inspected for damage beyond normal trial use, refunds go back to the original payment method within 5-10 business days.</p>",
+        "heading": "Adjust to Desire",
+        "intro": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is.",
+        "fallback_content": "<p>Adjust to Desire is offered by [Legal].</p><h2>Adjust to Desire</h2><p>Sleep on it for [adjust_label]. Tell us how it should feel. We send the layer that takes you there, and you keep it, with our compliments.</p><p>Every layer we send stays with you. It is not a warranty claim, and it is not a return.</p><h2>If that still does not settle it</h2><p>We collect the mattress and refund you in full. Contact us within [return_words] days of delivery.</p><h2>Emperor</h2><p>Emperor is made to order at 200 x 200cm and is not covered by the [return_days]-day return trial. Adjust to Desire still applies. Your statutory cancellation rights are unaffected.</p><h2>Refund timing</h2><p>Once the mattress is collected and inspected for damage beyond normal trial use, refunds go back to the original payment method within 5-10 business days.</p>",
         "cta_label": "Choose your size",
         "cta_link": "/pages/configure"
       }

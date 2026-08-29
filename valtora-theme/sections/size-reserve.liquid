@@ -83,55 +83,17 @@
 <script type="application/json" data-size-price-config>
   [
   {%- assign first_out = true -%}
+  {%- assign any_for_market = true -%}
   {%- if mattress != blank -%}
     {%- for v in mattress.variants -%}
       {%- if v.metafields.custom.enabled == false -%}
         {%- continue -%}
       {%- endif -%}
-      {%- liquid
-        assign v_market = v.metafields.custom.market | strip | downcase
-        if v_market == blank
-          assign v_title_down = v.title | downcase
-          assign v_sku_down = v.sku | downcase
-          if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
-            assign v_market = 'ae'
-          elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
-            assign v_market = 'eu'
-          else
-            assign v_market = 'gb'
-          endif
-        endif
-      -%}
-      {%- if v_market == market -%}
-        {%- liquid
-          assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
-          if size_id == blank
-            assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
-          endif
-          if size_id == blank
-            assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
-          endif
-          assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
-          if size_label == blank
-            assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
-          endif
-        -%}
-        {%- unless first_out -%},{%- endunless -%}
-        {
-          "id": {{ size_id | json }},
-          "label": {{ size_label | json }},
-          "dims": {{ v.metafields.custom.dims | json }},
-          "price": {{ v.price | money | json }},
-          "price_raw": {{ v.price | json }},
-          "variant_id": {{ v.id | json }},
-          "market": {{ market | json }},
-          "available": {{ v.available | json }},
-          "popular": {% if v.metafields.custom.popular == true %}true{% else %}false{% endif %}
-        }
-        {%- assign first_out = false -%}
-        {%- if first_price == blank -%}
-          {%- assign first_price = v.price | money -%}
-        {%- endif -%}
+      {%- unless first_out -%},{%- endunless -%}
+      {%- render 'size-variant-json', v: v -%}
+      {%- assign first_out = false -%}
+      {%- if first_price == blank and v.price > 0 -%}
+        {%- assign first_price = v.price | money -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endif -%}
@@ -171,11 +133,12 @@
       {%- if section.settings.firmness_line != blank -%}
       <p class="size-reserve__feel">{{ section.settings.firmness_line }}</p>
       {%- else -%}
-      <p class="size-reserve__feel">Medium one side, medium firm the other. Turn it over whenever you want.</p>
+      <p class="size-reserve__feel">It arrives medium firm with a flippable comfort layer.</p>
       {%- endif -%}
 
       <div class="size-picker">
-      <div class="size-list" data-size-list role="listbox" aria-multiselectable="true" aria-label="Mattress size"></div>
+      <div class="size-markets" data-size-markets role="tablist" aria-label="Market" hidden></div>
+      <ul class="size-list size-rows" data-size-list aria-label="Mattress size"></ul>
       </div>
       {%- if section.settings.request_size_enabled -%}
         <div class="size-request-entry">
@@ -201,6 +164,17 @@
         </button>
         </div>
       {%- endif -%}
+      <div class="size-note">
+        <label for="SizeNote-{{ section.id }}">Anything we should know?</label>
+        <p>Optional. It reaches the person who makes your mattress.</p>
+        <textarea
+          id="SizeNote-{{ section.id }}"
+          name="properties[Anything we should know]"
+          data-size-note
+          rows="3"
+        ></textarea>
+      </div>
+      <p class="size-policy" data-size-policy>{% render 'size-policy-strip' %}</p>
       <p class="size-guide-link">
         <a href="#measure">How to measure your size</a>
         {%- if section.settings.size_guide_link != blank -%}
@@ -217,7 +191,7 @@
         </p>
       {%- elsif first_out -%}
         <p class="reserve-panel__note" style="color:var(--brand-accent);">
-          No sizes for this market yet. Each variant needs metafield custom.market (gb or ae) and custom.dims.
+          No sizes for this market yet. Variants render when custom.MarketShown includes this market, or custom.market is set (gb / ae / us / eu).
         </p>
       {%- endif -%}
     </div>

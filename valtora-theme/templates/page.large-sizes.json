@@ -11,7 +11,7 @@
         "featured_size": "emperor",
         "kicker": "Emperor · 200 x 200cm",
         "heading": "A bed that becomes yours,\nand stays that way.",
-        "lede": "Emperor is 200 by 200 centimetres. Twenty wider than a Super King, and the largest size that still takes bedding you can buy anywhere. Handmade to order, and tailored to your feel after you have slept on it.",
+        "lede": "Emperor is 200 by 200 centimetres. Twenty wider than a Super King, and the largest size that still takes bedding you can buy anywhere. Made to order, and tailored to your feel after you have slept on it.",
         "cta_label": "Configure yours",
         "cta_size": "emperor",
         "cta_link": "#configure",
@@ -27,7 +27,7 @@
         "layout": "size_table",
         "mattress_product": "the-mattress",
         "heading": "Every size we make",
-        "lede": "All handmade to order. All 35cm deep. All with the same replaceable comfort layer.",
+        "lede": "All made to order. All 35cm deep. All with the same replaceable comfort layer.",
         "table_note": "European King fits IKEA and most continental bed frames."
       }
     },
@@ -45,7 +45,7 @@
     "spec": {
       "type": "landing-funnel",
       "blocks": {
-        "s1": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 30cm core, 5cm comfort layer." } },
+        "s1": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 20cm core, 10cm comfort layer." } },
         "s2": { "type": "spec_item", "settings": { "label": "Core", "text": "Pocket springs. Twenty five year guarantee." } },
         "s3": { "type": "spec_item", "settings": { "label": "Comfort layer", "text": "Removable and reversible. Two feels. You do not choose. It arrives with both." } },
         "s4": { "type": "spec_item", "settings": { "label": "Comfort layer, later", "text": "[layer] when it eventually softens, instead of [price]." } },
@@ -59,15 +59,15 @@
         "mattress_product": "the-mattress",
         "featured_size": "emperor",
         "heading": "Built in two parts",
-        "lede": "A mattress does not wear out. The top five centimetres wear out. Ours separates. A pocket sprung core built to last twenty five years, and a comfort layer above it that unzips and lifts off.",
+        "lede": "A mattress does not wear out. The top ten centimetres wear out. Ours separates. A pocket sprung core built to last twenty five years, and a comfort layer above it that unzips and lifts off.",
         "promise_title": "Emperor comfort promise.",
-        "promise_body": " If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth [layer]. Emperor is made to order at 200 x 200cm and is not covered by the 30-day return trial. Your statutory cancellation rights are unaffected."
+        "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth [layer]. Emperor is made to order at 200 x 200cm and is not covered by the 30-day return trial. Your statutory cancellation rights are unaffected."
       }
     },
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way." } },
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
         "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
         "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       },
@@ -109,7 +109,7 @@
         "mattress_product": "the-mattress",
         "featured_size": "emperor",
         "heading": "Choose your size",
-        "lede": "Every size is handmade to order with the same 35cm construction and the same removable comfort layer."
+        "lede": "Every size is made to order with the same 35cm construction and the same removable comfort layer."
       }
     }
   },

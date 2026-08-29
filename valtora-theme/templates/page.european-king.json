@@ -11,7 +11,7 @@
         "featured_size": "european-king",
         "kicker": "European King · 160 x 200cm",
         "heading": "The size your bed\nwas built for.",
-        "lede": "IKEA King is 160 by 200 centimetres. British King is 150. We make the first one, handmade to order, and tailor the feel after you have slept on it.",
+        "lede": "IKEA King is 160 by 200 centimetres. British King is 150. We make the first one, made to order, and tailor the feel after you have slept on it.",
         "cta_label": "Configure yours",
         "cta_size": "european-king",
         "cta_link": "#configure",
@@ -34,7 +34,7 @@
       "blocks": {
         "c1": { "type": "card", "settings": { "heading": "The exact size", "text": "160 by 200 centimetres, made to order. It fits the frame you already own." } },
         "c2": { "type": "card", "settings": { "heading": "Thirty five centimetres", "text": "A pocket sprung core with a comfort layer above it, closed with a zip so the top can be renewed without the bed." } },
-        "c3": { "type": "card", "settings": { "heading": "A feel you settle later", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way, with our compliments." } }
+        "c3": { "type": "card", "settings": { "heading": "A feel you settle later", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is, with our compliments." } }
       },
       "block_order": ["c1", "c2", "c3"],
       "settings": {
@@ -48,7 +48,7 @@
       "type": "landing-funnel",
       "blocks": {
         "s1": { "type": "spec_item", "settings": { "label": "Size", "text": "160 x 200cm. Fits IKEA and most continental frames." } },
-        "s2": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 30cm core, 5cm comfort layer." } },
+        "s2": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 20cm core, 10cm comfort layer." } },
         "s3": { "type": "spec_item", "settings": { "label": "Core", "text": "Pocket springs. Twenty five year guarantee." } },
         "s4": { "type": "spec_item", "settings": { "label": "Comfort layer", "text": "Removable and reversible. Two feels. You do not choose. It arrives with both." } },
         "s5": { "type": "spec_item", "settings": { "label": "Bedding", "text": "Takes standard European King linen, widely available online." } },
@@ -61,14 +61,14 @@
         "layout": "spec",
         "anchor_id": "spec",
         "heading": "Specification",
-        "promise_title": "30-day sleep trial.",
-        "promise_body": " If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
+        "promise_title": "Adjust to Desire.",
+        "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
       }
     },
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way." } },
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
         "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
         "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       },
@@ -110,7 +110,7 @@
         "mattress_product": "the-mattress",
         "featured_size": "european-king",
         "heading": "Choose your size",
-        "lede": "Every size is handmade to order with the same 35cm construction and the same removable comfort layer."
+        "lede": "Every size is made to order with the same 35cm construction and the same removable comfort layer."
       }
     }
   },

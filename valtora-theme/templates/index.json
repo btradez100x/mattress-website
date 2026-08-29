@@ -4,8 +4,8 @@
       "type": "hero",
       "settings": {
         "enable_section": true,
-        "heading": "You do not choose the feel. You discover it.",
-        "subheading": "Sleep on it for a month. Tell us how it should feel. We make it that way.",
+        "heading": "Built to last. Adjusted to suit.",
+        "subheading": "A core made to outlast the frame it sits on. And a year to get the feel right, because no two bodies want the same bed.",
         "cta_label": "See sizes and prices",
         "cta_link": "#reserve",
         "tone": "light",
@@ -14,13 +14,44 @@
         "assurance": "Concierge unpacking included · The old one leaves with it"
       }
     },
+    "pair-cards": {
+      "type": "pair-cards",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "label": "The build",
+            "heading": "Thirty five centimetres.",
+            "body": "Twenty of pocket springs, each one housed alone. Guaranteed twenty five years.",
+            "link_label": "How it is made",
+            "link": "/pages/manufacturing"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "label": "The feel",
+            "heading": "Sleep on it for a year.",
+            "body": "It arrives medium firm with a flippable comfort layer. Tell us how it should feel and we adjust it, for a year, with our compliments.",
+            "link_label": "How it works",
+            "link": "/pages/trial"
+          }
+        }
+      },
+      "block_order": ["c1", "c2"],
+      "settings": {
+        "enable_section": true,
+        "anchor_id": "build-and-feel",
+        "ground": "auto"
+      }
+    },
     "big-idea": {
       "type": "big-idea",
       "settings": {
-        "enable_section": true,
+        "enable_section": false,
         "eyebrow": "The Swap System",
         "heading": "A better bed, for life.",
-        "body": "The part that softens is the top five centimetres. Ours separates, so you renew that layer instead of the bed.",
+        "body": "The part that softens is the top ten centimetres. Ours separates, so you renew that layer instead of the bed.",
         "ground": "auto"
       }
     },
@@ -86,7 +117,7 @@
       ],
       "settings": {
         "enable_section": true,
-        "heading": "Two firmnesses. One mattress.",
+        "heading": "Five feels. One bed.",
         "ground": "auto"
       }
     },
@@ -97,8 +128,8 @@
           "type": "spec",
           "settings": {
             "name": "Height",
-            "meta": "37 CM MADE UP",
-            "does": "Deeper than most. Deep-fitted sheets needed"
+            "meta": "35 CM MADE UP",
+            "does": "Deep-fitted sheets needed"
           }
         },
         "s_asm": {
@@ -153,7 +184,7 @@
           "type": "spec",
           "settings": {
             "name": "Pocket spring core",
-            "meta": "20 CM \u00b7 7 ZONES \u00b7 1.9 / 2.0 MM WIRE",
+            "meta": "20 CM \u00b7 7 ZONES \u00b7 1.8 / 2.0 MM WIRE",
             "does": "Individually pocketed, so movement does not travel"
           }
         },
@@ -236,7 +267,7 @@
         "oeko": {
           "type": "proof",
           "settings": {
-            "caption": "Free from harmful chemicals",
+            "caption": "No harmful chemicals",
             "link": ""
           }
         },
@@ -259,7 +290,7 @@
         "o1": {
           "type": "offer_item",
           "settings": {
-            "title": "30-day sleep trial",
+            "title": "Adjust to Desire",
             "text": "Sleep on it. Decide at home."
           }
         },
@@ -273,7 +304,7 @@
         "o3": {
           "type": "offer_item",
           "settings": {
-            "title": "Handmade to order",
+            "title": "Made to order",
             "text": "Built after you order it, never from stock.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -290,7 +321,7 @@
         "oeko": {
           "type": "offer_item",
           "settings": {
-            "title": "Free from harmful chemicals",
+            "title": "No harmful chemicals",
             "text": "Materials chosen for cleaner sleep.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -339,7 +370,7 @@
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
-        "firmness_line": "Medium one side, medium firm the other. Turn it over whenever you want.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
         "request_size_enabled": true,
         "deposit_terms_link": "/pages/refunds-deposit",
@@ -382,7 +413,7 @@
           "type": "item",
           "settings": {
             "question": "What if I do not like it?",
-            "answer": "Sleep on it for a month. If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
+            "answer": "Sleep on it for a year. If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -526,7 +557,7 @@
           "type": "item",
           "settings": {
             "icon": "trial",
-            "label": "30-day sleep trial",
+            "label": "Adjust to Desire",
             "sublabel": "Sleep on it. Tell us how it should feel.",
             "link": "/pages/trial"
           }
@@ -544,7 +575,7 @@
           "type": "item",
           "settings": {
             "icon": "craft",
-            "label": "Handmade to order",
+            "label": "Made to order",
             "sublabel": "Built after you order it, never from stock",
             "link": "/pages/manufacturing"
           }
@@ -553,7 +584,7 @@
           "type": "item",
           "settings": {
             "icon": "chemicals",
-            "label": "Free from harmful chemicals",
+            "label": "No harmful chemicals",
             "sublabel": "Materials chosen for cleaner sleep",
             "link": "#specs",
             "market_visibility": "all"
@@ -643,10 +674,10 @@
       "type": "founder-note",
       "settings": {
         "enable_section": true,
-        "eyebrow": "A note from the founder",
-        "heading": "Built from years of studying sleep.",
-        "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a surface that does not hold heat, and a layer you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
-        "name": "Benjamin Maxwell",
+        "eyebrow": "A note from Ben",
+        "heading": "No two bodies want the same bed.",
+        "note": "<p>My family have bad backs. Several of them, across two generations.</p><p>I watched them choose a mattress in four minutes with their shoes off, and then live with it for eight years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in four minutes.</p><p>So yours arrives medium firm, and the year that follows is ours. You sleep on it. You tell us how it should feel. We adjust it until it is right.</p>",
+        "name": "Ben Acolatse",
         "role": "Founder",
         "ground": "auto"
       }
@@ -918,7 +949,7 @@
         "s3"
       ],
       "settings": {
-        "enable_section": true,
+        "enable_section": false,
         "dark": false,
         "anchor_id": "swap-process",
         "eyebrow": "The changeable layer",
@@ -1067,7 +1098,7 @@
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "Select your size - price updates for your market. Dimensions always shown in centimetres.",
-        "firmness_line": "Medium one side, medium firm the other. Turn it over whenever you want.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
         "request_size_enabled": true,
         "deposit_terms_link": "/pages/refunds-deposit",
@@ -1083,10 +1114,9 @@
   "order": [
     "hero",
     "trust-bar-top",
-    "big-idea",
+    "pair-cards",
     "swap-explainer",
     "size-reserve",
-    "swap-process",
     "cool-touch",
     "benefits",
     "measure-size",
@@ -1098,6 +1128,8 @@
     "offer",
     "size-reserve-2",
     "faq",
-    "lifestyle-collage"
+    "lifestyle-collage",
+    "big-idea",
+    "swap-process"
   ]
 }

@@ -53,7 +53,7 @@ White-glove is **not contracted in either market**. Delete this block entirely.
 
 ```json
 { "icon": "chemicals",
-  "label": "Free from harmful chemicals",
+  "label": "No harmful chemicals",
   "sublabel": "OEKO-TEX® STANDARD 100" }
 ```
 OEKO-TEX certification is **unverified**. Either produce the certificate number, or delete this block. An unearned certification claim is the same category of risk as the origin claim.
@@ -61,7 +61,7 @@ OEKO-TEX certification is **unverified**. Either produce the certificate number,
 **Replace both with one new block:**
 ```json
 { "icon": "craft",
-  "label": "Handmade to order",
+  "label": "Made to order",
   "sublabel": "Built after you order it, never from stock" }
 ```
 
@@ -143,7 +143,7 @@ Handmade goods vary in fabric shade. Disclosure must be **pre-purchase** - a pro
 
 ### 6.1 `sections/size-reserve.liquid` - Stage B order terms
 Add as a new line in the existing terms list:
-> `Handmade, so natural variation in fabric shade is possible. The construction is identical every time.`
+> `Made to order, so natural variation in fabric shade is possible. The construction is identical every time.`
 
 Make it a schema setting `variation_notice` so it is editable.
 
@@ -237,7 +237,7 @@ Adjust the wording to match the actual specification.
 1. Every reference to country of manufacture removed from `manufacturing.liquid` and the whole theme. Grep for `urkey`, `hina`, `made in`, `assembled in` returns nothing.
 2. White-glove block removed from trust-bar presets.
 3. OEKO-TEX block removed, or certificate number supplied and displayed.
-4. `Handmade to order` block present in trust bar.
+4. `Made to order` block present in trust bar.
 5. Both anchor lines replaced in all four locations in `offer.liquid`, with a review-date comment.
 6. Cost-of-ownership copy renders in `swap-explainer`, market-aware.
 7. Handmade appears in hero subheading, trust bar, swap-explainer and product-specs.

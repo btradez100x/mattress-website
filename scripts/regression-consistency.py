@@ -127,7 +127,7 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
                 bad(f"{rel}: manufacturing still carries the old origin story (that belongs on About)")
             else:
                 ok(f"{rel}: manufacturing does not carry the founder origin story")
-            if "Built in two parts" not in text or "Fifteen sizes" not in text:
+            if "Built in two parts" not in text or ("The sizes" not in text and "Fifteen sizes" not in text):
                 bad(f"{rel}: manufacturing missing the how-it-is-built replacement copy")
             else:
                 ok(f"{rel}: manufacturing uses how-it-is-built copy")
@@ -458,15 +458,15 @@ def check_funnel_chrome():
             bad(f"{rel}: missing")
             continue
         t = p.read_text(encoding="utf-8")
-        if "data-lp-qty" in t and "data-lp-add" in t:
-            ok(f"{rel}: landing add bar has quantity")
+        if "data-size-pick" in t and "data-size-note" in t:
+            ok(f"{rel}: landing size rows + note")
         else:
-            bad(f"{rel}: landing add bar missing quantity stepper")
+            bad(f"{rel}: landing size selector missing rows or note")
     funnel = (ROOT / "valtora-theme" / "sections" / "landing-funnel.liquid").read_text(encoding="utf-8")
-    if "data-lp-qty" in funnel and "data-lp-add-status" in funnel:
-        ok("landing-funnel.liquid has quantity + add status")
+    if "data-size-pick" in funnel or "size-rows" in funnel:
+        ok("landing-funnel.liquid has row selector")
     else:
-        bad("landing-funnel.liquid missing quantity stepper")
+        bad("landing-funnel.liquid missing row selector")
     for rel in ("preview/theme.js", "valtora-theme/assets/theme.js"):
         js_text = (ROOT / rel).read_text(encoding="utf-8")
         if "function shopifyCartAddUrl" in js_text and "function addLandingToShopify" in js_text:

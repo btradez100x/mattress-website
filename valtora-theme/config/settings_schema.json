@@ -126,14 +126,14 @@
         "type": "textarea",
         "id": "share_description",
         "label": "Share / link-preview copy (fallback)",
-        "default": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order.",
+        "default": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order.",
         "info": "Fallback if a market-specific share field below is blank. Use [Brand], [Line], or [Tagline] as tokens."
       },
       {
         "type": "textarea",
         "id": "share_description_gb",
         "label": "Share / link-preview copy (UK)",
-        "default": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Handmade to order."
+        "default": "A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order."
       },
       {
         "type": "textarea",
@@ -571,14 +571,21 @@
       },
       {
         "type": "header",
-        "content": "Trial and replacement layer"
+        "content": "Policy"
       },
       {
-        "type": "text",
-        "id": "trial_nights",
-        "label": "Trial nights",
-        "default": "30",
-        "info": "Used on landing pages and anywhere [N] or [N]-night appears. Example: 30. Comfort promise copy on landings uses 30-day. Do not hardcode the number in templates."
+        "type": "number",
+        "id": "return_window_days",
+        "label": "Return window (days)",
+        "default": 30,
+        "info": "The mattress return window if the bed itself is wrong. Used on the selector strip, trial page, and terms. Body copy spells the number out."
+      },
+      {
+        "type": "number",
+        "id": "adjustment_period_months",
+        "label": "Adjust to Desire (months)",
+        "default": 12,
+        "info": "How long Adjust to Desire runs from delivery. 12 renders as a year in body copy."
       },
       {
         "type": "text",
@@ -612,7 +619,7 @@
         "type": "textarea",
         "id": "variation_notice",
         "label": "Variation notice (Stage B / FAQ)",
-        "default": "Handmade, so natural variation in fabric shade is possible. The construction is identical every time."
+        "default": "Made to order, so natural variation in fabric shade is possible. The construction is identical every time."
       },
       {
         "type": "checkbox",
@@ -645,7 +652,7 @@
       {
         "type": "checkbox",
         "id": "show_chemicals_claim",
-        "label": "Show \u201cFree from harmful chemicals\u201d claim",
+        "label": "Show \u201cNo harmful chemicals\u201d claim",
         "default": false,
         "info": "Off until verified. Gates trust bar, specs strip, offer, and FAQ items for this claim."
       },

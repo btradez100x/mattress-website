@@ -3,7 +3,7 @@
   Tokens: [N]  [N]-night  {{ settings.trial_nights }}
 {%- endcomment -%}
 {%- liquid
-  assign trial = settings.trial_nights | default: '30' | strip
+  assign trial = settings.return_window_days | default: settings.trial_nights | default: '30' | append: '' | strip
   if trial == blank
     assign trial = '30'
   endif

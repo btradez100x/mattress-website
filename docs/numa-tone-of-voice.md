@@ -11,7 +11,7 @@ The brand is stated, never argued. Everything below follows from that.
 Three statements carry it. Each is complete on its own and none of them mentions anybody else.
 
 > **You do not choose the feel. You discover it.**
-> Sleep on it for a month. Tell us how it should feel. We make it that way.
+> Sleep on it for a year. Tell us how it should feel. We adjust it until it is.
 
 > **It arrives finished.**
 > Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.
@@ -19,7 +19,7 @@ Three statements carry it. Each is complete on its own and none of them mentions
 > **It stays right for twenty five years.**
 > The part that softens renews. The part that lasts, lasts.
 
-The word doing the work is **discover**. It removes the decision the customer is not qualified to make and replaces it with a month of finding out. That is the outcome, and it is the reason nothing else needs to be said.
+The word doing the work is **discover**. It removes the decision the customer is not qualified to make and replaces it with a year of finding out. That is the outcome, and it is the reason nothing else needs to be said.
 
 ---
 
@@ -77,12 +77,13 @@ Three services carry names and are always capitalised.
 | Name | What it is |
 |---|---|
 | **Concierge unpacking** | Concierged. Room of your choice. Unboxed, unrolled, positioned. Included with every mattress |
-| **Made to Desire** | The comfort layer service. Tell us how it should feel and we make it that way, with our compliments. Worth £299 |
+| **Adjust to Desire** | The comfort layer service. Tell us how it should feel and we adjust it until it is, with our compliments. Worth £299 |
 | **Old mattress removal and recycling** | Collected on the same visit. Complimentary |
 
-**Made to Desire is a tailoring service, not a warranty claim.** The verb is *make*, never *send* or *replace*.
+**Adjust to Desire is a tailoring service, not a warranty claim.** The verb is *adjust*. Layers stay with you.
 
-**Right:** We will make you a new comfort layer to your preference, with our compliments.
+**Right:** We send the layer that takes you there, and you keep it, with our compliments.
+**Wrong:** We will make you a new comfort layer to your preference.
 **Wrong:** We will send you a free replacement comfort layer.
 
 Same offer. One is bespoke, the other is a returns department.

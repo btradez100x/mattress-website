@@ -13,7 +13,7 @@ These affect every string on the site. Full detail in `numa-tone-of-voice.md`.
 - **Never describe staffing.** "Concierged. Room of your choice." Not "two people bring it"
 - Sentence case everywhere, including buttons
 - No exclamation marks, no emoji, no countdown timers, no scarcity
-- Three named services, always capitalised: **Concierge unpacking**, **Made to Desire**, **Old mattress removal and recycling**
+- Three named services, always capitalised: **Concierge unpacking**, **Adjust to Desire**, **Old mattress removal and recycling**
 
 ---
 
@@ -44,7 +44,7 @@ Neither page carries the other's content.
 
 ## 3. Sizes and prices
 
-Every size below is producible. Depth is **35cm** on all of them.
+Every size below is producible. Construction is **20cm** pocket spring core, **10cm** comfort layer, **35cm** finished depth. Wire **1.8 / 2.0mm**.
 
 ### UK
 
@@ -95,7 +95,7 @@ Inline on every landing page, in a `#configure` section.
 
 Policy line under the selector:
 
-> Comfort layer included · 30-day comfort promise · Concierge unpacking included
+> Comfort layer included · Adjusted to Desire for a year · Concierge unpacking included
 
 Emperor variant:
 
@@ -130,16 +130,16 @@ Lead time position must not change during the paid test. Drop-off between `baske
 
 | Sizes | Policy |
 |---|---|
-| All except Emperor | Made to Desire first. 30-day sleep trial if that does not settle it |
-| **Emperor 200 × 200cm** | Made to Desire. **No 30-day return trial** |
+| All except Emperor | Adjust to Desire first. Adjust to Desire if that does not settle it |
+| **Emperor 200 × 200cm** | Adjust to Desire. **No 30-day return trial** |
 
 Standard copy:
 
-> **30-day sleep trial.** If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth £299. If that still does not settle it, we collect the mattress and refund you in full.
+> **Adjust to Desire.** If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth £299. If that still does not settle it, we collect the mattress and refund you in full.
 
 Emperor copy:
 
-> **Emperor comfort promise.** If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth £299.
+> **Emperor comfort promise.** If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth £299.
 >
 > Emperor is made to order at 200 × 200cm and is not covered by the 30-day return trial. Your statutory cancellation rights are unaffected.
 

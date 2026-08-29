@@ -387,7 +387,7 @@ fi
 
 # --- Landing modular sections referenced by index ---
 INDEX="$THEME/templates/index.json"
-for sec in hero big-idea benefits product-specs size-reserve faq; do
+for sec in hero pair-cards benefits product-specs size-reserve faq; do
   if grep -q "\"type\": \"$sec\"" "$INDEX" || grep -q "\"$sec\"" "$INDEX"; then
     pass "index.json includes $sec"
   else
