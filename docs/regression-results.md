@@ -1,3 +1,12 @@
+# Regression results — Saturday 29 Aug 2026 (deploy 10.1.0-adjust-to-desire)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Scope note: 29 August pack on live `v9`. Variant size selector, Adjust to Desire, 20/10/35 construction, homepage two-card band, policy settings. Checkout not modified. `VERSION` stays **10.1.0**. Checkpoint: `checkpoints/10.1.0-adjust-to-desire/`. Deploy: `v9` `cec14f1`, `shopify-theme` `23579e7`. Connect may lag a minute. Admin still needs pages/metafields/US SKUs.
+
+---
+
 # Regression results — Saturday 29 Aug 2026 (deploy 10.1.0-manufacturing-and-landing-cart)
 
 ## Smoke
