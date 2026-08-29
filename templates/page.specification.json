@@ -8,21 +8,21 @@
         "layout": "hero",
         "lp_variant": "C-aspiration",
         "mattress_product": "the-mattress",
-        "kicker": "Handmade to order",
+        "kicker": "Made to order",
         "heading": "A bed that becomes yours,\nand stays that way.",
-        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a month, not before, and the part that softens renews for twenty five years.",
+        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before, and the part that softens renews for twenty five years.",
         "cta_label": "See the specification",
         "cta_link": "#spec",
         "show_price": true,
         "price_mode": "from",
-        "price_caption": "Handmade to order"
+        "price_caption": "Made to order"
       }
     },
     "checks": {
       "type": "landing-funnel",
       "blocks": {
         "c1": { "type": "card", "settings": { "heading": "Pocket springs, individually housed", "text": "Each spring moves on its own, so one person turning over does not move the other. It is the part that carries the twenty five year guarantee." } },
-        "c2": { "type": "card", "settings": { "heading": "A comfort layer that comes out", "text": "The top five centimetres are what soften. Ours unzip and lift away, so the bed is renewed rather than replaced." } },
+        "c2": { "type": "card", "settings": { "heading": "A comfort layer that comes out", "text": "The top ten centimetres are what soften. Ours unzip and lift away, so the bed is renewed rather than replaced." } },
         "c3": { "type": "card", "settings": { "heading": "Made after you order it", "text": "Nothing is built before someone wants it. No warehouse, no stock to clear." } }
       },
       "block_order": ["c1", "c2", "c3"],
@@ -37,7 +37,7 @@
     "spec": {
       "type": "landing-funnel",
       "blocks": {
-        "s1": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 30cm core, 5cm comfort layer." } },
+        "s1": { "type": "spec_item", "settings": { "label": "Depth", "text": "35cm. 20cm core, 10cm comfort layer." } },
         "s2": { "type": "spec_item", "settings": { "label": "Core", "text": "Pocket springs, individually housed. Twenty five year guarantee on the core." } },
         "s3": { "type": "spec_item", "settings": { "label": "Comfort layer", "text": "Unzips and lifts off. Two feels. You do not choose a firmness. You turn it over." } },
         "s4": { "type": "spec_item", "settings": { "label": "Comfort layer, later", "text": "[layer] when it eventually softens. The core stays." } },
@@ -51,25 +51,25 @@
         "layout": "spec",
         "anchor_id": "spec",
         "heading": "Our specification",
-        "promise_title": "30-day sleep trial.",
-        "promise_body": " If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. Worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
+        "promise_title": "Adjust to Desire.",
+        "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
       }
     },
     "kept": {
       "type": "landing-funnel",
       "settings": {
-        "enable_section": true,
+        "enable_section": false,
         "ground": "bg",
         "layout": "prose",
         "heading": "Built to be kept",
-        "lede": "A pocket sprung core lasts decades. The five centimetres on top do not.",
+        "lede": "A pocket sprung core lasts decades. The ten centimetres on top do not.",
         "body": "<p>The part that softens is the top. The springs underneath are still doing their job.</p><p>Ours comes apart. When the comfort layer eventually softens, it unzips and a new one goes on. The core stays where it is, and so does the bed you chose.</p>"
       }
     },
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way." } },
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
         "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
         "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       },
@@ -110,7 +110,7 @@
         "anchor_id": "configure",
         "mattress_product": "the-mattress",
         "heading": "Choose your size",
-        "lede": "Every size is handmade to order with the same 35cm construction and the same removable comfort layer."
+        "lede": "Every size is made to order with the same 35cm construction and the same removable comfort layer."
       }
     }
   },

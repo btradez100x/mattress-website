@@ -18,7 +18,7 @@
       "type": "big-idea",
       "settings": {
         "enable_section": true,
-        "body": "The part that softens is the top five centimetres. Ours separates, so you renew that layer instead of the bed.",
+        "body": "The part that softens is the top ten centimetres. Ours separates, so you renew that layer instead of the bed.",
         "ground": "auto"
       }
     },
@@ -84,7 +84,7 @@
       ],
       "settings": {
         "enable_section": true,
-        "heading": "Two firmnesses. One mattress.",
+        "heading": "Five feels. One bed.",
         "ground": "auto"
       }
     },
@@ -95,8 +95,8 @@
           "type": "spec",
           "settings": {
             "name": "Height",
-            "meta": "37 CM MADE UP",
-            "does": "Deeper than most. Deep-fitted sheets needed"
+            "meta": "35 CM MADE UP",
+            "does": "Deep-fitted sheets needed"
           }
         },
         "s_asm": {
@@ -151,7 +151,7 @@
           "type": "spec",
           "settings": {
             "name": "Pocket spring core",
-            "meta": "20 CM \u00b7 7 ZONES \u00b7 1.9 / 2.0 MM WIRE",
+            "meta": "20 CM \u00b7 7 ZONES \u00b7 1.8 / 2.0 MM WIRE",
             "does": "Individually pocketed, so movement does not travel"
           }
         },
@@ -232,7 +232,7 @@
         "oeko": {
           "type": "proof",
           "settings": {
-            "caption": "Free from harmful chemicals",
+            "caption": "No harmful chemicals",
             "link": ""
           }
         },
@@ -255,7 +255,7 @@
         "o1": {
           "type": "offer_item",
           "settings": {
-            "title": "30-day sleep trial",
+            "title": "Adjust to Desire",
             "text": "Sleep on it. Decide at home."
           }
         },
@@ -269,7 +269,7 @@
         "o3": {
           "type": "offer_item",
           "settings": {
-            "title": "Handmade to order",
+            "title": "Made to order",
             "text": "Built after you order it, never from stock.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -286,7 +286,7 @@
         "oeko": {
           "type": "offer_item",
           "settings": {
-            "title": "Free from harmful chemicals",
+            "title": "No harmful chemicals",
             "text": "Materials chosen for cleaner sleep.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -378,7 +378,7 @@
           "type": "item",
           "settings": {
             "question": "What if I do not like it?",
-            "answer": "Sleep on it for a month. If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
+            "answer": "Sleep on it for a year. If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
             "payment_mode_visibility": "all"
           }
         },
@@ -520,7 +520,7 @@
           "type": "item",
           "settings": {
             "icon": "trial",
-            "label": "30-day sleep trial",
+            "label": "Adjust to Desire",
             "sublabel": "Sleep on it. Tell us how it should feel.",
             "link": "/pages/trial"
           }
@@ -538,7 +538,7 @@
           "type": "item",
           "settings": {
             "icon": "craft",
-            "label": "Handmade to order",
+            "label": "Made to order",
             "sublabel": "Built after you order it, never from stock",
             "link": "/pages/manufacturing"
           }
@@ -547,7 +547,7 @@
           "type": "item",
           "settings": {
             "icon": "chemicals",
-            "label": "Free from harmful chemicals",
+            "label": "No harmful chemicals",
             "sublabel": "Materials chosen for cleaner sleep",
             "link": "#specs",
             "market_visibility": "all"
@@ -590,7 +590,7 @@
         "eyebrow": "A note from the founder",
         "heading": "Built from years of studying sleep.",
         "note": "<p>I spent years studying my own sleep - tracking what restored me, what stole the morning, and what I needed when the day started early and focus mattered. [Brand] is the mattress that came from that work: deep support, a surface that does not hold heat, and a layer you can refresh instead of replacing the whole bed.</p><p>Each one is made to order. Cancel any time before dispatch for a full refund. If anything is unclear, message us - a person will reply.</p>",
-        "name": "Benjamin Maxwell",
+        "name": "Ben Acolatse",
         "role": "Founder",
         "ground": "auto"
       }

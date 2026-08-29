@@ -5,6 +5,21 @@
 {%- endcomment -%}
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}
+{%- liquid
+  assign return_days = settings.return_window_days | default: settings.trial_nights | default: '30' | plus: 0
+  assign adj_months = settings.adjustment_period_months | default: '12' | plus: 0
+  assign warranty_years = settings.warranty_years | default: '25' | plus: 0
+-%}
+{%- capture return_words -%}{% render 'policy-words', n: return_days %}{%- endcapture -%}
+{%- capture warranty_words -%}{% render 'policy-words', n: warranty_years %}{%- endcapture -%}
+{%- assign return_words = return_words | strip -%}
+{%- assign warranty_words = warranty_words | strip -%}
+{%- if adj_months == 12 -%}
+  {%- assign adjust_label = 'a year' -%}
+{%- else -%}
+  {%- capture adj_words -%}{% render 'policy-words', n: adj_months %}{%- endcapture -%}
+  {%- assign adjust_label = adj_words | strip | append: ' months' -%}
+{%- endif -%}
 {%- if page.content != blank -%}
   {%- assign policy_body = page.content -%}
 {%- else -%}
@@ -13,6 +28,7 @@
 {%- if legal_name != blank -%}
   {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
 {%- endif -%}
+{%- assign policy_body = policy_body | replace: '[return_words]', return_words | replace: '[adjust_label]', adjust_label | replace: '[warranty_words]', warranty_words | replace: '[return_days]', return_days -%}
 {%- capture policy_body -%}{% render 'warranty-tokens', text: policy_body %}{%- endcapture -%}
 {%- capture policy_body -%}{% render 'trial-tokens', text: policy_body %}{%- endcapture -%}
 {%- assign policy_body = policy_body | strip -%}

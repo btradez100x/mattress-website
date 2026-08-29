@@ -24,7 +24,7 @@
       "type": "landing-funnel",
       "blocks": {
         "s1": { "type": "spec_item", "settings": { "label": "The core", "text": "Pocket springs, individually pocketed. Assembly is done by hand because a machine cannot pull tension through the fillings." } },
-        "s2": { "type": "spec_item", "settings": { "label": "The comfort layer", "text": "5cm, separately constructed, zipped in. Two feels. Built as its own product because it has to be renewable." } },
+        "s2": { "type": "spec_item", "settings": { "label": "The comfort layer", "text": "10cm, separately constructed, zipped in. Two feels. Built as its own product because it has to be renewable." } },
         "s3": { "type": "spec_item", "settings": { "label": "The cover", "text": "Finished by hand at the tape edge." } },
         "s4": { "type": "spec_item", "settings": { "label": "Made to order", "text": "Nothing is built before you buy it." } },
         "s5": { "type": "spec_item", "settings": { "label": "It arrives finished", "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it." } }
@@ -48,13 +48,13 @@
         "ground": "dark",
         "layout": "prose",
         "heading": "Built to be kept",
-        "body": "<p>A pocket sprung core lasts toward twenty five years. The top five centimetres last seven or eight.</p><p>Ours comes apart. When the comfort layer softens it unzips, a new one goes on, and the core stays exactly where it is.</p>"
+        "body": "<p>A pocket sprung core lasts toward twenty five years. The top ten centimetres last seven or eight.</p><p>Ours comes apart. When the comfort layer softens it unzips, a new one goes on, and the core stays exactly where it is.</p>"
       }
     },
     "not": {
       "type": "landing-funnel",
       "blocks": {
-        "c1": { "type": "card", "settings": { "heading": "A showroom", "text": "You cannot lie on it before buying. Sleep on it for a month. Tell us how it should feel. We make it that way, with our compliments. Worth [layer]." } },
+        "c1": { "type": "card", "settings": { "heading": "A showroom", "text": "You cannot lie on it before buying. Sleep on it for a year. Tell us how it should feel. We adjust it until it is, with our compliments. Worth [layer]." } },
         "c2": { "type": "card", "settings": { "heading": "It is made after you order", "text": "Which takes weeks rather than days." } },
         "c3": { "type": "card", "settings": { "heading": "It arrives finished", "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it." } }
       },
@@ -65,14 +65,14 @@
         "layout": "cards",
         "heading": "Worth knowing",
         "lede": "Three things people ask before they order.",
-        "promise_title": "30-day sleep trial.",
-        "promise_body": " If the feel is not right, we will make you a new comfort layer to your preference, with our compliments. If that still does not settle it, we collect the mattress and refund you in full."
+        "promise_title": "Adjust to Desire.",
+        "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full."
       }
     },
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way." } },
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
         "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
         "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       },
@@ -114,7 +114,7 @@
         "mattress_product": "the-mattress",
         "featured_size": "super-king",
         "heading": "Choose your size",
-        "lede": "Every size is handmade to order with the same 35cm construction and the same removable comfort layer."
+        "lede": "Every size is made to order with the same 35cm construction and the same removable comfort layer."
       }
     }
   },

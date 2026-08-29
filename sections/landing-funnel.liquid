@@ -140,42 +140,8 @@
   {%- assign first_out = true -%}
   {%- for v in mattress.variants -%}
     {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
-    {%- liquid
-      assign v_market = v.metafields.custom.market | strip | downcase
-      if v_market == blank
-        assign v_title_down = v.title | downcase
-        assign v_sku_down = v.sku | downcase
-        if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
-          assign v_market = 'ae'
-        elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
-          assign v_market = 'eu'
-        else
-          assign v_market = 'gb'
-        endif
-      endif
-      assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
-      if size_id == blank
-        assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
-      endif
-      if size_id == blank
-        assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
-      endif
-      assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
-      if size_label == blank
-        assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
-      endif
-    -%}
     {%- unless first_out -%},{%- endunless -%}
-    {
-      "id": {{ size_id | json }},
-      "label": {{ size_label | json }},
-      "dims": {{ v.metafields.custom.dims | json }},
-      "price": {% if v.price > 0 %}{{ v.price | money | json }}{% else %}""{% endif %},
-      "price_raw": {{ v.price | json }},
-      "variant_id": {{ v.id | json }},
-      "market": {{ v_market | json }},
-      "available": {{ v.available | json }}
-    }
+    {%- render 'size-variant-json', v: v -%}
     {%- assign first_out = false -%}
   {%- endfor -%}
   ]
@@ -596,14 +562,11 @@
 
   {%- if layout == 'configure' -%}
     {%- liquid
-      assign policy_default = 'Comfort layer included · 30-day comfort promise · Concierge unpacking included'
-      assign policy_emperor = 'Comfort layer included · Made to order · Concierge unpacking included · Not covered by the 30-day return trial'
       capture policy_default
-        render 'landing-copy', text: policy_default, featured_price: featured_price, layer_price: layer_price
+        render 'size-policy-strip'
       endcapture
-      capture policy_emperor
-        render 'landing-copy', text: policy_emperor, featured_price: featured_price, layer_price: layer_price
-      endcapture
+      assign return_days = settings.return_window_days | default: settings.trial_nights | default: '30'
+      assign policy_emperor = 'Comfort layer included · Made to order · Concierge unpacking included · Not covered by the ' | append: return_days | append: '-day return trial'
       assign policy_default = policy_default | strip
       assign policy_emperor = policy_emperor | strip
     -%}
@@ -626,74 +589,22 @@
         <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
       {%- endif -%}
     </div>
-    <div class="lp-sizes" data-lp-sizes role="listbox" aria-label="Mattress size">
-      {%- if mattress != blank -%}
-        {%- for v in mattress.variants -%}
-          {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
-          {%- liquid
-            assign v_market = v.metafields.custom.market | strip | downcase
-            if v_market == blank
-              assign v_title_down = v.title | downcase
-              assign v_sku_down = v.sku | downcase
-              if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
-                assign v_market = 'ae'
-              elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
-                assign v_market = 'eu'
-              else
-                assign v_market = 'gb'
-              endif
-            endif
-            assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
-            if size_id == blank
-              assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
-            endif
-            if size_id == blank
-              assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
-            endif
-            assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
-            if size_label == blank
-              assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
-            endif
-            assign dim_note = v.metafields.custom.dims
-            if size_id == 'european-king'
-              assign dim_note = dim_note | append: ' · fits IKEA'
-            endif
-          -%}
-          {%- if v_market == market -%}
-            <button
-              type="button"
-              class="lp-size"
-              role="option"
-              aria-selected="false"
-              data-size-id="{{ size_id | escape }}"
-              data-size-label="{{ size_label | escape }}"
-              data-size-dims="{{ v.metafields.custom.dims | escape }}"
-              data-size-price="{% if v.price > 0 %}{{ v.price | money | escape }}{% endif %}"
-              data-size-price-raw="{{ v.price }}"
-              data-size-variant="{{ v.id }}"
-              data-available="{% if v.available %}true{% else %}false{% endif %}"
-            >{{ size_label }}<em>{{ dim_note }}</em></button>
-          {%- endif -%}
-        {%- endfor -%}
-      {%- endif -%}
-    </div>
+    <div class="size-markets" data-size-markets role="tablist" aria-label="Market" hidden></div>
+    <ul class="size-rows lp-sizes" data-lp-sizes data-size-list aria-label="Mattress size"></ul>
     <p class="lp-lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
-    <div class="lp-addbar">
-      <div>
-        <span class="lp-addprice" data-lp-add-price></span>
-        <span class="lp-adddim" data-lp-add-dim>Select a size</span>
-      </div>
-      <div class="lp-addbar__actions">
-        <div class="lp-qty" data-lp-qty hidden>
-          <button type="button" class="lp-qty__btn" data-lp-qty-dec aria-label="Decrease quantity">−</button>
-          <span class="lp-qty__val" data-lp-qty-val>1</span>
-          <button type="button" class="lp-qty__btn" data-lp-qty-inc aria-label="Increase quantity">+</button>
-        </div>
-        <button type="button" class="btn" data-lp-add disabled>Add to basket</button>
-      </div>
+    <span hidden data-lp-qty></span>
+    <div class="size-note">
+      <label for="LpNote-{{ section.id }}">Anything we should know?</label>
+      <p>Optional. It reaches the person who makes your mattress.</p>
+      <textarea
+        id="LpNote-{{ section.id }}"
+        name="properties[Anything we should know]"
+        data-size-note
+        rows="3"
+      ></textarea>
     </div>
     <p class="lp-add-status" data-lp-add-status hidden role="status"></p>
-    <p class="lp-policy" data-lp-policy>{{ policy_default }}</p>
+    <p class="lp-policy size-policy" data-lp-policy data-size-policy>{{ policy_default }}</p>
   </div>
   {%- endif -%}
 </section>

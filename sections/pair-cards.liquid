@@ -1,0 +1,84 @@
+{%- if section.settings.enable_section -%}
+<section
+  class="section pair-cards{% render 'section-ground' %}"
+  id="{{ section.settings.anchor_id | default: 'build-and-feel' }}"
+  data-reveal
+  data-section-ground="{% render 'section-ground', as: 'value' %}"
+>
+  <div class="page-width pair-cards__grid">
+    {%- for block in section.blocks -%}
+      <article class="pair-card" {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 80 }}ms">
+        {%- if block.settings.label != blank -%}
+          <p class="section__eyebrow">{{ block.settings.label }}</p>
+        {%- endif -%}
+        {%- if block.settings.heading != blank -%}
+          <h2>{{ block.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if block.settings.body != blank -%}
+          <p>{{ block.settings.body }}</p>
+        {%- endif -%}
+        {%- if block.settings.link_label != blank -%}
+          <p class="pair-card__link">
+            <a href="{{ block.settings.link | default: '#' }}">{{ block.settings.link_label }}</a>
+          </p>
+        {%- endif -%}
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Two-card band",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_section",
+      "label": "Show this section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor id",
+      "default": "build-and-feel"
+    },
+    {
+      "type": "select",
+      "id": "ground",
+      "label": "Section colour",
+      "options": [
+        { "value": "auto", "label": "Auto — keep neighbours distinct" },
+        { "value": "bg", "label": "Off-white" },
+        { "value": "surface", "label": "Stone" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "auto"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "body", "label": "Body" },
+        { "type": "text", "id": "link_label", "label": "Link label" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two-card band",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

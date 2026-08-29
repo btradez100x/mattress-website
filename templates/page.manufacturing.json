@@ -21,14 +21,14 @@
         "ground": "bg",
         "layout": "prose",
         "heading": "The core",
-        "body": "<p>Thirty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>"
+        "body": "<p>Twenty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>"
       }
     },
     "core_rows": {
       "type": "landing-funnel",
       "blocks": {
-        "d1": { "type": "spec_item", "settings": { "label": "30cm", "text": "Pocket spring core. Individually housed springs, edge to edge. No shared coils, no shared movement." } },
-        "d2": { "type": "spec_item", "settings": { "label": "5cm", "text": "Comfort layer. Built separately, dropped in, zipped closed. The part your body actually touches, and the only part that softens." } },
+        "d1": { "type": "spec_item", "settings": { "label": "20cm", "text": "Pocket spring core. Individually housed springs, edge to edge. No shared coils, no shared movement." } },
+        "d2": { "type": "spec_item", "settings": { "label": "10cm", "text": "Comfort layer. Built separately, dropped in, zipped closed. The part your body actually touches, and the only part that softens." } },
         "d3": { "type": "spec_item", "settings": { "label": "35cm", "text": "Finished depth. It is what fitting a full core and a proper comfort layer into one bed requires." } }
       },
       "block_order": ["d1", "d2", "d3"],
@@ -45,7 +45,7 @@
         "ground": "surface",
         "layout": "prose",
         "heading": "The layer",
-        "body": "<p>Five centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><div class=\"lp-pull\"><p>Every mattress you have thrown away was thrown away because of five centimetres.</p></div><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>Two minutes to change. No tools.</p>"
+        "body": "<p>Ten centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><div class=\"lp-pull\"><p>Every mattress you have thrown away was thrown away because of ten centimetres.</p></div><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>Two minutes to change. No tools.</p>"
       }
     },
     "made": {
@@ -55,7 +55,7 @@
         "ground": "bg",
         "layout": "prose",
         "heading": "Made after you order",
-        "body": "<p>Nothing is built before somebody wants it. No warehouse, no stock, no last season's tension to move on.</p><p>That is why it takes weeks rather than days, and why there is no clearance sale. It is also why the size range is what it is - a size exists because someone asked for it, not because a machine was already set up.</p>"
+        "body": "<p>Nothing is built before somebody wants it. No warehouse, no stock, no last season's tension to move on.</p><p>That is why it takes weeks rather than days, and why there is no clearance sale. It is also why the size range is what it is - a size exists because someone asked for it, not because a machine was already set up.</p><p>Made by experts who have been making mattresses for 49 years.</p>"
       }
     },
     "made_steps": {
@@ -77,35 +77,26 @@
       "type": "landing-funnel",
       "blocks": {
         "z1": { "type": "card", "settings": { "heading": "Single", "text": "90 × 190" } },
-        "z2": { "type": "card", "settings": { "heading": "Small Double", "text": "120 × 190" } },
         "z3": { "type": "card", "settings": { "heading": "Double", "text": "135 × 190" } },
         "z4": { "type": "card", "settings": { "heading": "King", "text": "150 × 200" } },
         "z5": { "type": "card", "settings": { "heading": "European King", "text": "160 × 200" } },
         "z6": { "type": "card", "settings": { "heading": "Super King", "text": "180 × 200" } },
-        "z7": { "type": "card", "settings": { "heading": "Emperor", "text": "200 × 200" } },
-        "z8": { "type": "card", "settings": { "heading": "US Twin", "text": "99 × 191" } },
-        "z9": { "type": "card", "settings": { "heading": "US Twin XL", "text": "91 × 213" } },
-        "z10": { "type": "card", "settings": { "heading": "US Full", "text": "137 × 191" } },
-        "z11": { "type": "card", "settings": { "heading": "US Queen", "text": "152 × 203" } },
-        "z12": { "type": "card", "settings": { "heading": "US King", "text": "193 × 203" } },
-        "z13": { "type": "card", "settings": { "heading": "California King", "text": "183 × 213" } },
-        "z14": { "type": "card", "settings": { "heading": "Split King", "text": "2 × 106 × 213" } },
-        "z15": { "type": "card", "settings": { "heading": "AU Super King", "text": "203 × 203" } }
+        "z7": { "type": "card", "settings": { "heading": "Emperor", "text": "200 × 200" } }
       },
-      "block_order": ["z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8", "z9", "z10", "z11", "z12", "z13", "z14", "z15"],
+      "block_order": ["z1", "z3", "z4", "z5", "z6", "z7"],
       "settings": {
         "enable_section": true,
         "ground": "surface",
         "layout": "size_grid",
-        "heading": "Fifteen sizes",
-        "lede": "British, European, American and Australian. Including the ones that are hard to buy well.",
+        "heading": "The sizes",
+        "lede": "British and European. Every size, one construction.",
         "table_note": "Every size, one construction. Thirty five centimetres throughout."
       }
     },
     "outcome": {
       "type": "landing-funnel",
       "blocks": {
-        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a month. Tell us how it should feel. We make it that way." } },
+        "o1": { "type": "card", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Sleep on it for a year. Tell us how it should feel. We adjust it until it is." } },
         "o2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
         "o3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       },
