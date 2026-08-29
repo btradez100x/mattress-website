@@ -17,7 +17,12 @@ tar -xzf checkpoints/10.1.0-late-review/preview-and-theme.tar.gz
 
 ## Deploy SHAs
 
-Filled after push. Feature branch `cursor/lates-changes-29th-2577`. Connect watches `v9` → `valtora-theme/` and `shopify-theme`.
+| Tree | SHA | What it is |
+|---|---|---|
+| Feature / `v9` | `060d884` | Late review pack + export checkpoint |
+| Connect / `shopify-theme` | `5b121bb` | Subtree of `valtora-theme/` at this deploy |
+
+Shopify Connect should pull `shopify-theme` (or `v9` → `valtora-theme/`) onto the live theme. Connect can lag a minute or two. GitHub Action `Deploy Shopify theme` runs on push to `v9` (skips CLI push if secrets are missing).
 
 ## What this pack contains
 
