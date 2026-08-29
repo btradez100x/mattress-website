@@ -24,8 +24,25 @@
     assign name_gb = size_label
   endif
 
+  capture v_market
+    render 'size-variant-market', v: v
+  endcapture
+  assign v_market = v_market | strip
+
   assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm
   assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm
+  if width_cm == blank
+    assign width_cm = v.metafields.shopify.width.value | default: v.metafields.shopify.width
+  endif
+  if length_cm == blank
+    assign length_cm = v.metafields.shopify.length.value | default: v.metafields.shopify.length
+  endif
+  if width_cm == blank
+    assign width_cm = v.metafields.custom.dimension_width.value | default: v.metafields.custom.dimension_width
+  endif
+  if length_cm == blank
+    assign length_cm = v.metafields.custom.dimension_length.value | default: v.metafields.custom.dimension_length
+  endif
   assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces
   if pieces == blank
     assign pieces = 1
@@ -36,26 +53,189 @@
   endif
 
   assign dims = v.metafields.custom.dims
+  if dims == blank
+    assign dims = v.metafields.custom.dimensions.value | default: v.metafields.custom.dimensions
+  endif
+  if width_cm == blank or length_cm == blank
+    assign dims_src = dims | default: ''
+    if dims_src == blank
+      assign dims_src = v.title | append: ' ' | append: v.option1
+    endif
+    assign dims_norm = dims_src | replace: 'x', '×' | replace: 'X', '×'
+    assign dim_parts = dims_norm | split: '×'
+    assign dim_count = dim_parts | size
+    if dim_count >= 3
+      assign p_try = dim_parts[0] | replace: 'cm', '' | replace: 'CM', '' | strip | plus: 0
+      assign w_try = dim_parts[1] | replace: 'cm', '' | replace: 'CM', '' | strip
+      assign l_try = dim_parts[2] | replace: 'cm', '' | replace: 'CM', '' | strip
+      if p_try > 1 and pieces == 1
+        assign pieces = p_try
+      endif
+      if width_cm == blank
+        assign width_cm = w_try
+      endif
+      if length_cm == blank
+        assign length_cm = l_try
+      endif
+    elsif dim_count >= 2
+      if width_cm == blank
+        assign width_cm = dim_parts[0] | replace: 'cm', '' | replace: 'CM', '' | strip
+      endif
+      if length_cm == blank
+        assign length_cm = dim_parts[1] | replace: 'cm', '' | replace: 'CM', '' | strip
+      endif
+    endif
+  endif
+  if width_cm == blank or length_cm == blank
+    case size_id
+      when 'small-double'
+        if width_cm == blank
+          assign width_cm = 120
+        endif
+        if length_cm == blank
+          assign length_cm = 190
+        endif
+      when 'double'
+        if width_cm == blank
+          assign width_cm = 135
+        endif
+        if length_cm == blank
+          assign length_cm = 190
+        endif
+      when 'queen'
+        if v_market == 'us' or size_label contains 'US'
+          if width_cm == blank
+            assign width_cm = 152
+          endif
+          if length_cm == blank
+            assign length_cm = 203
+          endif
+        else
+          if width_cm == blank
+            assign width_cm = 160
+          endif
+          if length_cm == blank
+            assign length_cm = 200
+          endif
+        endif
+      when 'european-king'
+        if width_cm == blank
+          assign width_cm = 160
+        endif
+        if length_cm == blank
+          assign length_cm = 200
+        endif
+      when 'emperor'
+        if width_cm == blank
+          assign width_cm = 200
+        endif
+        if length_cm == blank
+          assign length_cm = 200
+        endif
+      when 'twin'
+        if width_cm == blank
+          assign width_cm = 99
+        endif
+        if length_cm == blank
+          assign length_cm = 191
+        endif
+      when 'twin-xl'
+        if width_cm == blank
+          assign width_cm = 91
+        endif
+        if length_cm == blank
+          assign length_cm = 213
+        endif
+      when 'full'
+        if width_cm == blank
+          assign width_cm = 137
+        endif
+        if length_cm == blank
+          assign length_cm = 191
+        endif
+      when 'us-king'
+        if width_cm == blank
+          assign width_cm = 193
+        endif
+        if length_cm == blank
+          assign length_cm = 203
+        endif
+      when 'california-king'
+        if width_cm == blank
+          assign width_cm = 183
+        endif
+        if length_cm == blank
+          assign length_cm = 213
+        endif
+      when 'split-king'
+        if pieces == 1
+          assign pieces = 2
+        endif
+        if width_cm == blank
+          assign width_cm = 106
+        endif
+        if length_cm == blank
+          assign length_cm = 213
+        endif
+      when 'single'
+        if width_cm == blank
+          if v_market == 'ae'
+            assign width_cm = '90-100'
+          else
+            assign width_cm = 90
+          endif
+        endif
+        if length_cm == blank
+          if v_market == 'ae'
+            assign length_cm = 200
+          else
+            assign length_cm = 190
+          endif
+        endif
+      when 'king', 'super-king'
+        if width_cm == blank or length_cm == blank
+          if v_market == 'ae'
+            if size_id == 'king'
+              if width_cm == blank
+                assign width_cm = 180
+              endif
+            else
+              if width_cm == blank
+                assign width_cm = 200
+              endif
+            endif
+            if length_cm == blank
+              assign length_cm = 200
+            endif
+          elsif v_market == 'us'
+            if width_cm == blank
+              assign width_cm = 193
+            endif
+            if length_cm == blank
+              assign length_cm = 203
+            endif
+          else
+            if size_id == 'king'
+              if width_cm == blank
+                assign width_cm = 150
+              endif
+            else
+              if width_cm == blank
+                assign width_cm = 180
+              endif
+            endif
+            if length_cm == blank
+              assign length_cm = 200
+            endif
+          endif
+        endif
+    endcase
+  endif
   if width_cm != blank and length_cm != blank
     if pieces > 1
       assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm'
     else
       assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm'
-    endif
-  endif
-
-  assign v_market = v.metafields.custom.market | strip | downcase
-  if v_market == blank
-    assign v_title_down = v.title | downcase
-    assign v_sku_down = v.sku | downcase
-    if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
-      assign v_market = 'ae'
-    elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
-      assign v_market = 'eu'
-    elsif v_title_down contains 'twin' or v_title_down contains 'california' or v_sku_down contains 'matt-us'
-      assign v_market = 'us'
-    else
-      assign v_market = 'gb'
     endif
   endif
 

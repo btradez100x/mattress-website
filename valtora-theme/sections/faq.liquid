@@ -2,18 +2,20 @@
   assign brand = settings.brand_name | default: 'Numa'
   assign warranty = settings.warranty_years | default: '25'
   assign payment_mode = settings.payment_mode | default: 'full'
-  assign market = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-  endif
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
   if market == 'gb'
     assign market_label = 'the UK'
   elsif market == 'ae'
     assign market_label = 'the UAE'
+  elsif market == 'us'
+    assign market_label = 'the US'
+  elsif market == 'eu'
+    assign market_label = 'Europe'
   else
-    assign market_label = 'your market'
+    assign market_label = 'the UK'
   endif
 -%}
 {%- capture lead -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}

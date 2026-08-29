@@ -27,13 +27,13 @@
   assign reserve_label = section.settings.reserve_label | default: 'See sizes and prices'
   if template.suffix == 'large-sizes' or template.suffix == 'european-king' or template.suffix == 'what-it-buys' or template.suffix == 'specification'
     assign reserve_src = '#configure'
-    assign reserve_label = 'Configure yours'
+    assign reserve_label = 'Reserve yours'
   elsif template.suffix == 'about' or template.suffix == 'mattress-recycling'
     assign reserve_src = pages['configure'].url | default: '/pages/configure'
-    assign reserve_label = 'Configure yours'
+    assign reserve_label = 'Reserve yours'
   elsif template.suffix == 'configure'
     assign reserve_src = '#reserve'
-    assign reserve_label = 'Configure yours'
+    assign reserve_label = 'Reserve yours'
   endif
 -%}
 {%- capture reserve_href -%}{% render 'home-section-href', href: reserve_src %}{%- endcapture -%}

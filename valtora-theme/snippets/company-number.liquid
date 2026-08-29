@@ -4,15 +4,13 @@
   Echoes nothing when blank so callers can hide the row.
 {%- endcomment -%}
 {%- liquid
-  assign m = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign m = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign m = 'ae'
-  endif
+  capture m
+    render 'size-market'
+  endcapture
+  assign m = m | strip
 
   assign num = settings.company_number
-  if m == 'gb' and settings.company_no_gb != blank
+  if m != 'ae' and settings.company_no_gb != blank
     assign num = settings.company_no_gb
   endif
   echo num

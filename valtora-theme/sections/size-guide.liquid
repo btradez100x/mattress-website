@@ -3,8 +3,53 @@
     render 'size-market'
   endcapture
   assign size_market = size_market | strip
+  if size_market == blank
+    assign size_market = 'gb'
+  endif
+
+  assign mattress = section.settings.mattress_product
+  if mattress == blank
+    assign mattress = all_products['the-mattress']
+  endif
+  if mattress == blank
+    assign mattress = all_products['mattress']
+  endif
+  if mattress == blank
+    assign mattress = product
+  endif
+
+  assign market_label = 'United Kingdom'
+  if size_market == 'ae'
+    assign market_label = 'United Arab Emirates'
+  elsif size_market == 'us'
+    assign market_label = 'United States'
+  elsif size_market == 'eu'
+    assign market_label = 'Europe'
+  elsif size_market == 'au'
+    assign market_label = 'Australia / New Zealand'
+  endif
+
+  assign reserve_base = routes.root_url | default: '/'
+  assign tile_count = 0
+  assign gb_tile_count = 0
 -%}
-<section class="policy-page size-guide-page">
+<section class="policy-page size-guide-page" data-size-guide data-market="{{ size_market }}" data-reserve-href="{{ reserve_base }}">
+  <script type="application/json" data-size-price-config>
+    [
+    {%- assign first_out = true -%}
+    {%- if mattress != blank -%}
+      {%- for v in mattress.variants -%}
+        {%- if v.metafields.custom.enabled == false -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- unless first_out -%},{%- endunless -%}
+        {%- render 'size-variant-json', v: v -%}
+        {%- assign first_out = false -%}
+      {%- endfor -%}
+    {%- endif -%}
+    ]
+  </script>
+
   <div class="section section--dark policy-hero">
     <div class="page-width policy-hero__copy">
       <p class="section__eyebrow">Sizing</p>
@@ -16,72 +61,170 @@
     </div>
   </div>
 
-  <div class="section section--surface policy-body">
-    <div class="page-width">
-      <div class="table-wrap policy-table" data-market-only="gb"{% if size_market != 'gb' %} hidden{% endif %}>
-        <table class="size-table">
-          <thead>
-            <tr>
-              <th>UK size</th>
-              <th>W × L (cm)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Single</td><td>90 × 190</td></tr>
-            <tr><td>Double</td><td>135 × 190</td></tr>
-            <tr><td>King</td><td>150 × 200</td></tr>
-            <tr><td>Super King</td><td>180 × 200</td></tr>
-            <tr><td>Emperor</td><td>200 × 200</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-wrap policy-table" data-market-only="ae"{% if size_market != 'ae' %} hidden{% endif %}>
-        <table class="size-table">
-          <thead>
-            <tr>
-              <th>UAE size</th>
-              <th>W × L (cm)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Single</td><td>90-100 × 200</td></tr>
-            <tr><td>Queen</td><td>160 × 200</td></tr>
-            <tr><td>King</td><td>180 × 200</td></tr>
-            <tr><td>Super King</td><td>200 × 200</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-wrap policy-table" data-market-only="eu"{% if size_market != 'eu' %} hidden{% endif %}>
-        <table class="size-table">
-          <thead>
-            <tr>
-              <th>European size</th>
-              <th>W × L (cm)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>European King</td><td>160 × 200</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <div class="section section--surface size-guide-catalog">
+    <div class="page-width size-guide-catalog__inner">
+      <header class="size-guide-catalog__head">
+        <p class="section__eyebrow" data-size-guide-market-label>{{ market_label }}</p>
+        <hr class="gold-rule">
+        <h2 data-size-guide-heading>Every size we make for this market</h2>
+        <p class="size-guide-catalog__lede">Names follow local convention. Figures are always width × length in centimetres.</p>
+      </header>
 
-  <div class="section policy-body">
-    <div class="page-width page-width--narrow">
-      <div class="policy-articles">
-        <article class="policy-article">
-          <h2>{{ section.settings.depth_heading }}</h2>
-          <div class="policy-article__body rte trust-policy__body">
-            <p>{{ section.settings.depth_body }}</p>
-            {%- if settings.sheets_enabled -%}
-              <p class="pdp-discover">
-                <a href="{{ all_products['bed-sheets'].url | default: '/products/bed-sheets' }}">Sheets that fit.</a>
-              </p>
+      <p class="size-guide-fallback" data-size-guide-uk-note hidden>
+        This country is not set up yet. Showing United Kingdom sizes.
+      </p>
+      <p class="size-guide-empty" data-size-guide-empty hidden>
+        Sizes load from the mattress product. Connect The Mattress in this section, or create a product whose handle is the-mattress.
+      </p>
+
+      <div class="size-guide-grid" data-size-guide-grid>
+        {%- if mattress != blank -%}
+          {%- for v in mattress.variants -%}
+            {%- if v.metafields.custom.enabled == false -%}
+              {%- continue -%}
             {%- endif -%}
-          </div>
-        </article>
+            {%- capture v_mkt -%}{%- render 'size-variant-market', v: v -%}{%- endcapture -%}
+            {%- assign v_mkt = v_mkt | strip -%}
+            {%- assign in_market = false -%}
+            {%- if v_mkt == size_market -%}
+              {%- assign in_market = true -%}
+            {%- endif -%}
+            {%- if v_mkt == 'gb' -%}
+              {%- assign gb_tile_count = gb_tile_count | plus: 1 -%}
+            {%- endif -%}
+            {%- unless in_market -%}
+              {%- continue -%}
+            {%- endunless -%}
+            {%- assign tile_count = tile_count | plus: 1 -%}
+            {%- capture tile_json -%}{%- render 'size-variant-json', v: v -%}{%- endcapture -%}
+            {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
+            {%- if size_id == blank -%}
+              {%- assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', '' -%}
+            {%- endif -%}
+            {%- assign tile_label = v.option1 | default: v.title -%}
+            {%- if size_market == 'us' and v.metafields.custom.name_us != blank -%}
+              {%- assign tile_label = v.metafields.custom.name_us.value | default: v.metafields.custom.name_us -%}
+            {%- elsif size_market == 'ae' and v.metafields.custom.name_ae != blank -%}
+              {%- assign tile_label = v.metafields.custom.name_ae.value | default: v.metafields.custom.name_ae -%}
+            {%- elsif v.metafields.custom.name_gb != blank -%}
+              {%- assign tile_label = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb -%}
+            {%- endif -%}
+            {%- assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm -%}
+            {%- assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm -%}
+            {%- assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces | default: 1 -%}
+            {%- assign fits = v.metafields.custom.fits_note.value | default: v.metafields.custom.fits_note -%}
+            {%- assign dims = v.metafields.custom.dims -%}
+            {%- if width_cm != blank and length_cm != blank -%}
+              {%- if pieces > 1 -%}
+                {%- assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+              {%- else -%}
+                {%- assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- assign tile_price = '' -%}
+            {%- if v.price > 0 -%}
+              {%- assign tile_price = v.price | money -%}
+            {%- endif -%}
+            {%- assign size_q = '?size=' | append: size_id -%}
+            {%- render 'size-guide-tile',
+              label: tile_label,
+              dims: dims,
+              width_cm: width_cm,
+              length_cm: length_cm,
+              pieces: pieces,
+              price: tile_price,
+              fits: fits,
+              size_id: size_id,
+              market_only: size_market,
+              hidden: false,
+              reserve_href: size_q | prepend: reserve_base | append: '#reserve'
+            -%}
+          {%- endfor -%}
+        {%- endif -%}
       </div>
+
+      {%- if tile_count == 0 and gb_tile_count > 0 and size_market != 'gb' and mattress != blank -%}
+        <p class="size-guide-fallback" data-size-guide-uk-static>
+          This country is not set up yet. Showing United Kingdom sizes.
+        </p>
+        <div class="size-guide-grid" data-size-guide-uk-grid>
+          {%- for v in mattress.variants -%}
+            {%- if v.metafields.custom.enabled == false -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- capture v_mkt -%}{%- render 'size-variant-market', v: v -%}{%- endcapture -%}
+            {%- assign v_mkt = v_mkt | strip -%}
+            {%- unless v_mkt == 'gb' -%}
+              {%- continue -%}
+            {%- endunless -%}
+            {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
+            {%- if size_id == blank -%}
+              {%- assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', '' -%}
+            {%- endif -%}
+            {%- assign tile_label = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb | default: v.option1 | default: v.title -%}
+            {%- assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm -%}
+            {%- assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm -%}
+            {%- assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces | default: 1 -%}
+            {%- assign fits = v.metafields.custom.fits_note.value | default: v.metafields.custom.fits_note -%}
+            {%- assign dims = v.metafields.custom.dims -%}
+            {%- if width_cm != blank and length_cm != blank -%}
+              {%- if pieces > 1 -%}
+                {%- assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+              {%- else -%}
+                {%- assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- assign tile_price = '' -%}
+            {%- if v.price > 0 -%}
+              {%- assign tile_price = v.price | money -%}
+            {%- endif -%}
+            {%- assign size_q = '?size=' | append: size_id -%}
+            {%- render 'size-guide-tile',
+              label: tile_label,
+              dims: dims,
+              width_cm: width_cm,
+              length_cm: length_cm,
+              pieces: pieces,
+              price: tile_price,
+              fits: fits,
+              size_id: size_id,
+              market_only: 'gb',
+              hidden: false,
+              reserve_href: size_q | prepend: reserve_base | append: '#reserve'
+            -%}
+          {%- endfor -%}
+        </div>
+      {%- elsif mattress == blank or tile_count == 0 and gb_tile_count == 0 -%}
+        <p class="size-guide-empty" data-size-guide-empty-static>
+          Sizes load from the mattress product. Connect The Mattress in this section, or create a product whose handle is the-mattress.
+        </p>
+      {%- endif -%}
+
+      <aside class="size-guide-note" data-size-guide-depth>
+        <div class="size-guide-note__title">
+          <p class="section__eyebrow">Depth</p>
+          <h2>{{ section.settings.depth_heading }}</h2>
+        </div>
+        <div class="size-guide-note__body rte trust-policy__body">
+          <p>{{ section.settings.depth_body }}</p>
+          {%- if settings.sheets_enabled -%}
+            <p class="pdp-discover">
+              <a href="{{ all_products['bed-sheets'].url | default: '/products/bed-sheets' }}">Sheets that fit.</a>
+            </p>
+          {%- endif -%}
+        </div>
+      </aside>
+
+      {%- if section.settings.custom_heading != blank or section.settings.custom_body != blank -%}
+        <p class="size-guide-custom">
+          {%- if section.settings.custom_heading != blank -%}
+            <strong>{{ section.settings.custom_heading }}</strong>
+            {{ section.settings.custom_body }}
+          {%- else -%}
+            {{ section.settings.custom_body }}
+          {%- endif -%}
+        </p>
+      {%- endif -%}
     </div>
   </div>
 
@@ -90,7 +233,7 @@
       <p class="section__eyebrow">Next</p>
       <hr class="gold-rule">
       <p class="policy-cta__action">
-        <a class="btn" href="/#reserve">Reserve your size</a>
+        <a class="btn" href="{{ reserve_base }}#reserve">Reserve your size</a>
       </p>
     </div>
   </div>
@@ -100,6 +243,12 @@
 {
   "name": "Size guide",
   "settings": [
+    {
+      "type": "product",
+      "id": "mattress_product",
+      "label": "Mattress product",
+      "info": "Variants for the visitor's country are listed in full. If blank, the theme looks up handle the-mattress, then mattress."
+    },
     {
       "type": "text",
       "id": "heading",
@@ -135,6 +284,18 @@
       "id": "depth_body",
       "label": "Depth body",
       "default": "Our mattress is 35cm deep - substantial, and deeper than typical UK sheets (25-30cm). Plan for deep-fitted sheets."
+    },
+    {
+      "type": "text",
+      "id": "custom_heading",
+      "label": "Custom sizes heading",
+      "default": "Custom sizes."
+    },
+    {
+      "type": "textarea",
+      "id": "custom_body",
+      "label": "Custom sizes body",
+      "default": "Need a size we do not list? Use Request a size on the reserve panel."
     }
   ],
   "presets": [{ "name": "Size guide" }]

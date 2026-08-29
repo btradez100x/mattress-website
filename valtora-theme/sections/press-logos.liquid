@@ -1,10 +1,8 @@
 {%- liquid
-  assign market = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-  endif
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
   assign visible_count = 0
   assign award_count = 0
   for block in section.blocks
@@ -14,7 +12,7 @@
       if visibility == 'ae' and market != 'ae'
         assign show_item = false
       endif
-      if visibility == 'gb' and market != 'gb'
+      if visibility == 'gb' and market == 'ae'
         assign show_item = false
       endif
       if show_item
@@ -46,7 +44,7 @@
               if visibility == 'ae' and market != 'ae'
                 assign show_item = false
               endif
-              if visibility == 'gb' and market != 'gb'
+              if visibility == 'gb' and market == 'ae'
                 assign show_item = false
               endif
             -%}

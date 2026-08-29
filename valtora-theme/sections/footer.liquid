@@ -5,14 +5,19 @@
   if product_line != blank
     assign trading_as = brand | append: ' ' | append: product_line
   endif
-  assign market = settings.default_market
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-  endif
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
 
-  if market == 'gb'
+  if market == 'ae'
+    assign legal_address = settings.registered_address_ae
+    if legal_address == blank
+      assign legal_address = settings.registered_address
+    endif
+    assign tax_no = settings.tax_reg_no_ae
+    assign company_no = settings.company_number
+  else
     assign legal_address = settings.registered_address_gb
     if legal_address == blank
       assign legal_address = settings.registered_address
@@ -22,13 +27,6 @@
     if company_no == blank
       assign company_no = settings.company_number
     endif
-  else
-    assign legal_address = settings.registered_address_ae
-    if legal_address == blank
-      assign legal_address = settings.registered_address
-    endif
-    assign tax_no = settings.tax_reg_no_ae
-    assign company_no = settings.company_number
   endif
   assign trial_url = section.settings.trial_link | default: pages['trial'].url | default: '/pages/trial'
   assign warranty_url = section.settings.warranty_link | default: pages['warranty'].url | default: '/pages/warranty'
@@ -101,7 +99,7 @@
     <div>
       <h3>Shop</h3>
       <ul>
-        <li><a href="{{ configure_url }}">Configure</a></li>
+        <li><a href="{{ configure_url }}">Reserve yours</a></li>
         {%- if settings.comfort_tops_enabled -%}
           <li><a href="{{ layer_url }}">Comfort layer</a></li>
         {%- endif -%}

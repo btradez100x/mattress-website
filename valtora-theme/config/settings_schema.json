@@ -380,24 +380,24 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Primary market drives default size list when Markets region is unavailable. Prefer Shopify Markets for automatic currency and region."
+        "content": "The storefront follows the visitor’s Shopify / browser country (UK, UAE, US, Europe). Unlisted countries use the UK. Prefer Shopify Markets for currency. Shoppers do not switch country tabs."
       },
       {
         "type": "select",
         "id": "default_market",
         "label": "Default market",
-        "info": "Used when the country is not the UK, UAE, or Europe (including Albania). Europe uses its own size list automatically.",
+        "info": "Used only when Shopify has no country (and for legacy fallbacks). Live pages resolve GB / AE / US / EU from localization.country and otherwise use the UK.",
         "options": [
-          {
-            "value": "ae",
-            "label": "UAE"
-          },
           {
             "value": "gb",
             "label": "United Kingdom"
+          },
+          {
+            "value": "ae",
+            "label": "UAE"
           }
         ],
-        "default": "ae"
+        "default": "gb"
       },
       {
         "type": "text",

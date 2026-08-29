@@ -3,7 +3,12 @@
   optically low in that viewBox, so CSS locks height and flex-centers every mark.
 {%- endcomment -%}
 {%- liquid
-  assign market = market | default: settings.default_market
+  if market == blank
+    capture market
+      render 'size-market'
+    endcapture
+    assign market = market | strip
+  endif
   assign card_types = 'visa,master,american_express,apple_pay' | split: ','
 -%}
 <div class="payment-marks" aria-label="Accepted payment methods">
@@ -31,7 +36,7 @@
         {%- endif -%}
       </li>
     {%- endfor -%}
-    {%- if market == 'gb' -%}
+    {%- if market != 'ae' -%}
       {%- capture klarna_svg -%}{{ 'klarna' | payment_type_svg_tag: class: 'payment-marks__icon' }}{%- endcapture -%}
       {%- capture clearpay_svg -%}{{ 'clearpay' | payment_type_svg_tag: class: 'payment-marks__icon' }}{%- endcapture -%}
       <li class="payment-marks__item payment-marks__item--klarna">

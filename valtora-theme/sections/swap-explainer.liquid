@@ -1,10 +1,8 @@
 {%- liquid
-  assign market = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-  endif
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
   assign video_fallback = section.settings.fallback_video | default: 'swap-explainer.mp4'
 -%}
 {%- if section.settings.enable_section -%}
@@ -29,10 +27,10 @@
         <a class="btn" href="{{ section.settings.top_cta_url | default: '/products/comfort-layer' }}">{{ section.settings.top_cta_label }}</a>
       </p>
     {%- endif -%}
-    {%- if market == 'gb' and section.settings.ownership_cost_gb != blank -%}
-      <div class="section__lede rte">{{ section.settings.ownership_cost_gb }}</div>
-    {%- elsif market != 'gb' and section.settings.ownership_cost_ae != blank -%}
+    {%- if market == 'ae' and section.settings.ownership_cost_ae != blank -%}
       <div class="section__lede rte">{{ section.settings.ownership_cost_ae }}</div>
+    {%- elsif section.settings.ownership_cost_gb != blank -%}
+      <div class="section__lede rte">{{ section.settings.ownership_cost_gb }}</div>
     {%- endif -%}
     <div class="big-idea__media big-idea__media--wide big-idea__media--player swap-explainer__media">
       {% render 'theme-video',

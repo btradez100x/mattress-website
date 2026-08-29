@@ -2,12 +2,10 @@
   assign warranty = settings.warranty_years | default: '25'
   assign marquee = section.settings.enable_marquee
   assign duration = section.settings.marquee_duration | default: 40
-  assign market = settings.default_market | default: 'ae'
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-  endif
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
 -%}
 {%- capture lead -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
 {%- assign lead = lead | strip -%}

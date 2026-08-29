@@ -33,7 +33,7 @@
       { id: 'european-king', label: 'European King', dims: '160 × 200 cm', firmness: 'Medium / Medium firm' },
     ],
   };
-  var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1, us: 1 };
+  var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1, us: 1, au: 1 };
   var EUROPE_ISOS = {
     AT: 1, BE: 1, BG: 1, HR: 1, CY: 1, CZ: 1, DK: 1, EE: 1, FI: 1, FR: 1, DE: 1,
     GR: 1, HU: 1, IE: 1, IT: 1, LV: 1, LT: 1, LU: 1, MT: 1, NL: 1, PL: 1, PT: 1,
@@ -634,28 +634,10 @@
     );
   }
 
-  function paintMarketTabs(host, tabs, activeKey) {
+  function paintMarketTabs(host) {
     if (!host) return;
-    if (!tabs || tabs.length < 2) {
-      host.hidden = true;
-      host.innerHTML = '';
-      return;
-    }
-    host.hidden = false;
-    host.innerHTML = tabs
-      .map(function (t) {
-        var on = t.key === activeKey;
-        return (
-          '<button type="button" class="size-market" role="tab" aria-selected="' +
-          (on ? 'true' : 'false') +
-          '" data-market-tab="' +
-          t.key +
-          '">' +
-          escapeHtml(t.label) +
-          '</button>'
-        );
-      })
-      .join('');
+    host.hidden = true;
+    host.innerHTML = '';
   }
 
   function fillLandingPrices() {
@@ -960,7 +942,7 @@
     function paintSizes(root, tabKey) {
       var list = root.querySelector('[data-lp-sizes]');
       if (!list) return;
-      var tab = tabKey || root.getAttribute('data-selector-tab') || readSelectorMarket() || marketToTabKey(detectMarket());
+      var tab = tabKey || marketToTabKey(detectMarket());
       var tabs = tabsPresentInRows(allRows());
       if (tabs.length && !tabs.some(function (t) { return t.key === tab; })) {
         tab = tabs[0].key;

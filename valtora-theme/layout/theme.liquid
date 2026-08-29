@@ -1,5 +1,4 @@
 {%- liquid
-  assign html_market = settings.default_market | default: 'ae'
   capture html_market
     render 'size-market'
   endcapture
@@ -148,7 +147,9 @@
       window.ValtoraTheme = window.ValtoraTheme || {};
       window.ValtoraTheme.brandName = {{ settings.brand_name | json }};
       window.ValtoraTheme.legalName = {{ valtora_legal_name | strip | json }};
-      window.ValtoraTheme.defaultMarket = {{ settings.default_market | json }};
+      window.ValtoraTheme.countryIso = {{ localization.country.iso_code | json }};
+      window.ValtoraTheme.market = {{ html_market | json }};
+      window.ValtoraTheme.defaultMarket = 'gb';
       window.ValtoraTheme.sizeAddLabel = {{ settings.size_add_label | default: 'Add' | json }};
       window.ValtoraTheme.splititEnabled = {{ splitit_live | json }};
       window.ValtoraTheme.moneyFormat = {{ shop.money_format | json }};

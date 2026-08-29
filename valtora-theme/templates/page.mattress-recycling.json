@@ -86,7 +86,7 @@
         "ground": "bg",
         "layout": "cta",
         "heading": "Choose your size",
-        "cta_label": "Configure yours",
+        "cta_label": "Reserve yours",
         "cta_link": "/pages/configure"
       }
     }

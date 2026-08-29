@@ -15,16 +15,12 @@
 {%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'pillows', format: 'max' -%}{%- endcapture -%}
 {%- assign lt_display = lt_display | strip -%}
 {%- assign price = product.price | money -%}
-{%- if localization.country.iso_code == 'GB' -%}
-  {%- assign pillow_dims = section.settings.size_gb -%}
-{%- elsif localization.country.iso_code == 'AE' -%}
+{%- capture pillow_market -%}{% render 'size-market' %}{%- endcapture -%}
+{%- assign pillow_market = pillow_market | strip -%}
+{%- if pillow_market == 'ae' -%}
   {%- assign pillow_dims = section.settings.size_ae -%}
 {%- else -%}
-  {%- if settings.default_market == 'gb' -%}
-    {%- assign pillow_dims = section.settings.size_gb -%}
-  {%- else -%}
-    {%- assign pillow_dims = section.settings.size_ae -%}
-  {%- endif -%}
+  {%- assign pillow_dims = section.settings.size_gb -%}
 {%- endif -%}
 <section
   class="pdp pdp--pillows"

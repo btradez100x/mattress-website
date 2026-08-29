@@ -6,15 +6,11 @@
 {%- liquid
   assign iso = localization.country.iso_code | upcase | strip
   assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
-  assign hours_key = 'default'
-  assign dm = settings.default_market | default: 'ae'
+  assign hours_key = 'gb'
+  assign dm = 'gb'
 
   if iso == blank
-    if dm == 'gb' or dm == 'ae' or dm == 'us' or dm == 'eu' or dm == 'gh' or dm == 'ng'
-      assign hours_key = dm
-    else
-      assign hours_key = 'ae'
-    endif
+    assign hours_key = 'gb'
   elsif iso == 'GB'
     assign hours_key = 'gb'
   elsif iso == 'AE'

@@ -17,11 +17,20 @@
   if warranty == blank
     assign warranty = '25'
   endif
-  assign market = market | default: settings.default_market | default: 'ae'
-  if market == 'gb'
-    assign fly_to = 'the UK'
-  else
+  if market == blank
+    capture market
+      render 'size-market'
+    endcapture
+    assign market = market | strip
+  endif
+  if market == 'ae'
     assign fly_to = 'the UAE'
+  elsif market == 'us'
+    assign fly_to = 'the US'
+  elsif market == 'eu'
+    assign fly_to = 'Europe'
+  else
+    assign fly_to = 'the UK'
   endif
   assign variation_notice = settings.variation_notice | default: 'Made to order, so natural variation in fabric shade is possible. The construction is identical every time.'
 -%}
