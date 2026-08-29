@@ -727,6 +727,34 @@
     host.setAttribute('hidden', '');
   }
 
+  function paintPolicyItems(el, raw) {
+    if (!el) return;
+    var parts = String(raw || '')
+      .split(/\s*[·•]\s*/)
+      .map(function (s) { return s.trim(); })
+      .filter(Boolean);
+    if (!parts.length) {
+      el.textContent = raw || '';
+      return;
+    }
+    el.innerHTML = parts
+      .map(function (p) {
+        return '<span>' + escapeHtml(p) + '</span>';
+      })
+      .join('');
+  }
+
+  function hydratePolicyStrips(root) {
+    var scope = root || document;
+    var nodes = scope.querySelectorAll
+      ? scope.querySelectorAll('[data-size-policy], [data-lp-policy]')
+      : [];
+    Array.prototype.forEach.call(nodes, function (el) {
+      if (el.querySelector && el.querySelector('span')) return;
+      paintPolicyItems(el, el.textContent);
+    });
+  }
+
   function fillLandingPrices() {
     var market = detectMarket();
     var rows = readSizePriceRows().filter(function (row) {
@@ -1005,7 +1033,7 @@
     }
 
     function syncLandingRows(root) {
-      root.querySelectorAll('.size-row').forEach(function (row) {
+      root.querySelectorAll('.size-option').forEach(function (row) {
         var q = qtyForRow(row);
         row.classList.toggle('is-in-basket', q > 0);
         row.setAttribute('data-qty', String(q));
@@ -1015,9 +1043,9 @@
       var policyEl = root.querySelector('[data-lp-policy]');
       if (policyEl) {
         var inEmp = OrderStore.lines().some(function (l) { return l.sizeId === 'emperor'; });
-        var def = root.getAttribute('data-lp-policy-default') || policyEl.textContent;
+        var def = root.getAttribute('data-lp-policy-default') || '';
         var emp = root.getAttribute('data-lp-policy-emperor') || def;
-        policyEl.textContent = inEmp ? emp : def;
+        paintPolicyItems(policyEl, inEmp ? emp : def);
       }
       if (typeof paintFloatBasketFromStore === 'function') paintFloatBasketFromStore();
     }
@@ -1034,6 +1062,7 @@
       list.innerHTML = rows.map(function (row) {
         return buildSizeTileMarkup(row, tab, 'Add');
       }).join('');
+      hydratePolicyStrips(root);
       syncLandingRows(root);
     }
 
@@ -3382,6 +3411,7 @@
       if (requestEntry && list.contains(requestEntry) === false) {
         /* request trigger stays outside the list */
       }
+      hydratePolicyStrips(root);
       syncSizeQtyUi();
     }
 
@@ -6256,6 +6286,7 @@
       document.body.setAttribute('data-market', market);
     }
     document.querySelectorAll('[data-size-markets]').forEach(paintMarketTabs);
+    hydratePolicyStrips(document);
     applyMarketOnlyVisibility(market);
     initPreviewAnnouncement();
     applyPreviewTopsFlag();
