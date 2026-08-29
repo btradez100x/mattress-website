@@ -859,6 +859,18 @@ else
   fail "size-markets CSS still visible"
 fi
 
+if grep -q "function buildSizeTileMarkup" "$JS" \
+  && grep -q "function buildSizeTileMarkup" "$ROOT/preview/theme.js" \
+  && ! grep -q 'class="size-row' "$JS" \
+  && ! grep -q 'class="size-row' "$ROOT/preview/theme.js" \
+  && grep -q 'class="size-list lp-sizes"' "$THEME/sections/landing-funnel.liquid" \
+  && ! grep -q "size-rows" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "iso == 'AU'" "$THEME/snippets/size-market.liquid"; then
+  pass "size picker is a one-market tile grid (theme + preview)"
+else
+  fail "size picker still has row markup, market tabs list, or missing AU market"
+fi
+
 if grep -q "how-to-choose-a-mattress" "$THEME/snippets/journal-article-body.liquid" \
   && grep -q "mattress-firmness-guide" "$THEME/snippets/journal-article-body.liquid" \
   && grep -q "hybrid-vs-foam-vs-innerspring" "$THEME/snippets/journal-baked-index.liquid" \

@@ -33,7 +33,7 @@
       { id: 'european-king', label: 'European King', dims: '160 × 200 cm', firmness: 'Medium / Medium firm' },
     ],
   };
-  var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1, us: 1, au: 1 };
+  var SIZE_MARKETS = { ae: 1, gb: 1, eu: 1, us: 1 };
   var EUROPE_ISOS = {
     AT: 1, BE: 1, BG: 1, HR: 1, CY: 1, CZ: 1, DK: 1, EE: 1, FI: 1, FR: 1, DE: 1,
     GR: 1, HU: 1, IE: 1, IT: 1, LV: 1, LT: 1, LU: 1, MT: 1, NL: 1, PL: 1, PT: 1,
@@ -50,8 +50,8 @@
     if (c === 'GB' || c === 'UK') return 'gb';
     if (c === 'AE') return 'ae';
     if (c === 'US') return 'us';
-    if (c === 'AU' || c === 'NZ') return 'au';
     if (EUROPE_ISOS[c]) return 'eu';
+    // Unlisted (AU, NZ, JP, blank, …) is not a storefront market — UK.
     return '';
   }
 
@@ -102,7 +102,7 @@
       (window.Shopify && window.Shopify.country) ||
       '';
     var fromCountry = countryToSizeMarket(countryAttr);
-    if (fromCountry) return fromCountry;
+    if (isSizeMarket(fromCountry)) return fromCountry;
 
     var resolved =
       theme.market ||
@@ -524,12 +524,11 @@
       /(^|[\s(])us[- ](full|queen|king|twin)/.test(' ' + blob) ||
       /california/.test(blob);
     var isAu = /(^|\b)au[- ]|\baustralian\b/.test(blob);
-    if (m === 'us') {
-      if (isAu) return false;
-    } else if (isUs || isAu) {
-      return false;
-    }
+    if (isUs && m !== 'us') return false;
+    if (isAu && m !== 'au') return false;
     if (row.market) return String(row.market).toLowerCase() === m;
+    if (isUs) return m === 'us';
+    if (isAu) return m === 'au';
     return false;
   }
 
@@ -659,63 +658,6 @@
           '</span>'
         : '') +
       '</div>' +
-      '</div></li>'
-    );
-  }
-
-  function buildSizeRowMarkupUnused(s, tabKey, addLabel) {
-    var label = rowDisplayName(s, tabKey) || s.label || '';
-    var dims = rowDimsText(s);
-    var fits = s.fits || '';
-    var available = s.available !== false;
-    var price = s.price || '';
-    var vid = s.variant_id || s.variantId || '';
-    var pieces = parseInt(s.pieces, 10) || 1;
-    return (
-      '<li>' +
-      '<div class="size-row size-option' +
-      (available ? '' : ' size-option--oos') +
-      '" data-size-id="' +
-      escapeHtml(s.id) +
-      '" data-size-label="' +
-      escapeHtml(label) +
-      '" data-size-dims="' +
-      escapeHtml(dims) +
-      '" data-size-price="' +
-      escapeHtml(price) +
-      '" data-size-price-raw="' +
-      String(s.price_raw || s.priceRaw || 0) +
-      '" data-size-variant="' +
-      escapeHtml(String(vid)) +
-      '" data-size-pieces="' +
-      pieces +
-      '" data-available="' +
-      (available ? 'true' : 'false') +
-      '" data-qty="0">' +
-      '<button type="button" class="size-row__pick" data-size-pick aria-label="Add ' +
-      escapeHtml(label) +
-      (dims ? ', ' + escapeHtml(dims) : '') +
-      (price ? ', ' + escapeHtml(price) : '') +
-      '">' +
-      '<span class="size-row__name">' +
-      escapeHtml(label) +
-      (fits ? '<span class="size-row__fits">' + escapeHtml(fits) + '</span>' : '') +
-      '</span>' +
-      '<span class="size-row__dims">' +
-      escapeHtml(dims) +
-      '</span>' +
-      '<span class="size-row__price">' +
-      escapeHtml(price) +
-      '</span>' +
-      '</button>' +
-      '<span class="size-row__add">' +
-      escapeHtml(addLabel || 'Add') +
-      '</span>' +
-      '<span class="size-row__qty size-option__qty" data-size-qty data-qty-stepper data-lp-qty">' +
-      '<button type="button" class="size-option__qty-btn size-row__step" data-qty-dec aria-label="Decrease quantity">&minus;</button>' +
-      '<span class="size-row__qty-n size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>' +
-      '<button type="button" class="size-option__qty-btn size-row__step" data-qty-inc aria-label="Increase quantity">+</button>' +
-      '</span>' +
       '</div></li>'
     );
   }
@@ -1058,7 +1000,7 @@
       root.setAttribute('data-market', market);
       root.setAttribute('data-selector-tab', tab);
       paintMarketTabs(root.querySelector('[data-size-markets]'));
-      var rows = rowsForTab(tab);
+      var rows = rowsForMarket(market);
       list.innerHTML = rows.map(function (row) {
         return buildSizeTileMarkup(row, tab, 'Add');
       }).join('');
@@ -1117,7 +1059,6 @@
         if (!row || !root.contains(row)) return;
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
-        var pick = e.target.closest('[data-size-pick]');
         if (dec || inc) {
           var q = qtyForRow(row);
           if (dec) q -= 1;
@@ -1137,10 +1078,9 @@
           addOrUpdate(root, row, q, { qtyChanged: true });
           return;
         }
-        if (pick) {
-          if (qtyForRow(row) > 0) return;
-          addOrUpdate(root, row, 1, {});
-        }
+        if (row.getAttribute('data-available') === 'false') return;
+        if (qtyForRow(row) > 0) return;
+        addOrUpdate(root, row, 1, {});
       });
       if ('IntersectionObserver' in window) {
         var seen = false;
@@ -3153,7 +3093,7 @@
     var selectorTab = marketToTabKey(market);
     sizes = filterSizesForMarket(market);
     if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-      sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+      sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
     }
 
     function eventParams(extra) {
@@ -3432,7 +3372,7 @@
       selectorTab = marketToTabKey(market);
       sizes = filterSizesForMarket(market);
       if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-        sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+        sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
       }
       rebuildSizeButtons();
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
@@ -3480,8 +3420,8 @@
       list.addEventListener('click', function (e) {
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
-        var pick = e.target.closest('[data-size-pick]');
         var row = e.target.closest('.size-option');
+        if (!row) return;
         if ((dec || inc) && row) {
           e.preventDefault();
           e.stopPropagation();
@@ -6240,7 +6180,12 @@
 
     function paint() {
       var market = detectMarket();
-      var usedFallback = false;
+      var iso =
+        (window.ValtoraTheme && window.ValtoraTheme.countryIso) ||
+        (document.documentElement && document.documentElement.getAttribute('data-country')) ||
+        (window.Shopify && window.Shopify.country) ||
+        '';
+      var usedFallback = !!(String(iso).trim() && !countryToSizeMarket(iso));
       var rows = rowsForSizeGuide(market);
       if (!rows.length && market !== 'gb') {
         rows = rowsForSizeGuide('gb');
