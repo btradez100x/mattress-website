@@ -1,9 +1,9 @@
-# Regression results — Sunday 30 Aug 2026 (Choose your size chrome restore)
+# Regression results — Sunday 30 Aug 2026 (hero size revert)
 
 ## Smoke
-- Command: `./scripts/regression-smoke.sh`
-- Result: pending run in this change
-- Scope note: Live `/pages/specification` had two size-card skins (beige selected + grey ADD), jammed ADD, Emperor in a hole. Cause: `f773fb3` emptied `.size-row` and left selected tiles on `--brand-surface`. Restored one card chrome, centred navy ADD, last-odd span/centre, note contrast `c0b2830` kept, dummy squares stay gone. Checkout unchanged. `VERSION` stays **10.1.0**. New pack assertions in `scripts/regression-smoke.sh` and `scripts/regression-consistency.py`.
+- Command: `./scripts/regression-smoke.sh` (against committed `930d28a`; dirty sibling WIP excluded)
+- Result: **PASSED** (exit 0)
+- Scope note: Homepage light hero restored to the pre-`070a1cb` max-height band from `79db8e6` / `checkpoints/10.1.0-size-picker-and-contrast`. Caps: `min(52vh, 30rem)`, mobile `42vh`, desktop `58vh`. Headline stays one line. Checkout not modified. `VERSION` stays **10.1.0**. Checkpoint: `checkpoints/10.1.0-hero-size-revert/`. Connect: `shopify-theme` `4deb141`.
 
 ---
 
