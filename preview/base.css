@@ -44,9 +44,10 @@ html[data-market='gb'] span[data-market-only='gb'] {
 }
 
 html {
-  overscroll-behavior-y: none;
   background: var(--brand-bg, #f5f4f1);
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: auto !important;
+  height: auto;
   max-width: 100%;
 }
 
@@ -61,8 +62,9 @@ body {
   -webkit-font-smoothing: antialiased;
   --header-height: 3.75rem;
   --float-basket-space: 5.5rem;
-  overscroll-behavior-y: none;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: auto !important;
+  height: auto;
   max-width: 100%;
 }
 
@@ -1026,12 +1028,15 @@ a[data-reserve-continue][aria-disabled="true"] {
 
 html.nav-open,
 body.nav-open {
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .main-content {
   margin: 0;
   padding: 0;
+  height: auto;
+  max-height: none;
+  overflow: visible;
 }
 
 /* Homepage / landing / manufacturing: same header chrome */
@@ -1254,6 +1259,8 @@ body[data-page="manufacturing"] .site-header {
   html,
   body {
     overflow-x: clip;
+    overflow-y: auto !important;
+    height: auto;
   }
 
   .hero--light {
@@ -4899,14 +4906,8 @@ body:has([data-float-total]:empty) .hero__cta {
   .reserve-panel {
     position: sticky;
     top: calc(var(--sticky-offset, 0px) + var(--header-height, 3.75rem) + 3.25rem);
-    max-height: calc(
-      100vh - var(--sticky-offset, 0px) - var(--header-height, 3.75rem) - 4.25rem -
-        var(--sticky-reserve-offset, 0px)
-    );
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
+    max-height: none;
+    overflow: visible;
   }
 }
 

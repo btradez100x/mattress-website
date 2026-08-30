@@ -4975,6 +4975,13 @@
     document.querySelectorAll('[data-size-reserve]').forEach(initSizeReserve);
   }
 
+  function unlockPageOverflow() {
+    document.documentElement.style.removeProperty('overflow');
+    document.body.style.removeProperty('overflow');
+    document.documentElement.style.removeProperty('height');
+    document.body.style.removeProperty('height');
+  }
+
   function unlockMobileNav() {
     var toggle = document.querySelector('[data-nav-toggle]');
     var panel = document.querySelector('[data-nav-panel]');
@@ -4985,8 +4992,7 @@
     }
     document.documentElement.classList.remove('nav-open');
     document.body.classList.remove('nav-open');
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
+    unlockPageOverflow();
   }
 
   function isInPageHashHref(href) {
@@ -5026,10 +5032,7 @@
       toggle.setAttribute('aria-label', nextOpen ? 'Close menu' : 'Open menu');
       document.documentElement.classList.toggle('nav-open', nextOpen);
       document.body.classList.toggle('nav-open', nextOpen);
-      if (!nextOpen) {
-        document.documentElement.style.overflow = '';
-        document.body.style.overflow = '';
-      }
+      if (!nextOpen) unlockPageOverflow();
     }
 
     toggle.addEventListener('click', function () {
@@ -6286,6 +6289,7 @@
   }
 
   function boot() {
+    unlockPageOverflow();
     initPreviewBrandChrome();
     var market = detectMarket();
     document.documentElement.setAttribute('data-market', market);
