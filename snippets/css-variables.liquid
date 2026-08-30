@@ -4,9 +4,9 @@
   colour_scheme depends on guidelines version.
 {% endcomment %}
 {%- liquid
-  assign guidelines = settings.brand_guidelines | default: 'v1'
+  assign guidelines = settings.brand_guidelines | default: 'v2'
   assign font_set = settings.font_set | default: 'modern'
-  assign scheme = settings.color_scheme | default: 'signature'
+  assign scheme = settings.color_scheme | default: 'v2_carbon'
 
   if guidelines == 'v2'
     if scheme != 'v2_carbon' and scheme != 'v2_graphite' and scheme != 'v2_warm' and scheme != 'v2_cool'
@@ -27,11 +27,11 @@
       assign color_ink = '#3A3A3C'
       assign color_on_dark = '#F5F4F1'
       assign wordmark_color = '#3A3A3C'
-      assign wordmark_line_2 = '#8A6D3B'
-      assign wordmark_line_2_on_dark = '#8A6D3B'
+      assign wordmark_line_2 = '#3A3A3C'
+      assign wordmark_line_2_on_dark = color_on_dark
       assign heading_color = '#3A3A3C'
-      assign eyebrow_color = '#6B6B70'
-      assign eyebrow_on_dark = '#9A9A9F'
+      assign eyebrow_color = '#3A3A3C'
+      assign eyebrow_on_dark = color_on_dark
     elsif scheme == 'v2_warm'
       assign color_primary = '#1A1A1A'
       assign color_accent = '#9A7344'
@@ -41,10 +41,10 @@
       assign color_on_dark = '#F7F4EE'
       assign wordmark_color = '#1A1A1A'
       assign wordmark_line_2 = '#9A7344'
-      assign wordmark_line_2_on_dark = '#9A7344'
+      assign wordmark_line_2_on_dark = color_on_dark
       assign heading_color = '#1A1A1A'
       assign eyebrow_color = '#7A6A55'
-      assign eyebrow_on_dark = '#C4B49A'
+      assign eyebrow_on_dark = color_on_dark
     elsif scheme == 'v2_cool'
       assign color_primary = '#1A1A1A'
       assign color_accent = '#6E8494'
@@ -54,10 +54,10 @@
       assign color_on_dark = '#F3F4F3'
       assign wordmark_color = '#1A1A1A'
       assign wordmark_line_2 = '#6E8494'
-      assign wordmark_line_2_on_dark = '#6E8494'
+      assign wordmark_line_2_on_dark = color_on_dark
       assign heading_color = '#1A1A1A'
       assign eyebrow_color = '#6B6B70'
-      assign eyebrow_on_dark = '#9A9A9F'
+      assign eyebrow_on_dark = color_on_dark
     else
       assign color_primary = '#1A1A1A'
       assign color_accent = '#8A6D3B'
@@ -66,11 +66,11 @@
       assign color_ink = '#1A1A1A'
       assign color_on_dark = '#F5F4F1'
       assign wordmark_color = '#1A1A1A'
-      assign wordmark_line_2 = '#8A6D3B'
-      assign wordmark_line_2_on_dark = '#8A6D3B'
+      assign wordmark_line_2 = '#3A3A3C'
+      assign wordmark_line_2_on_dark = color_on_dark
       assign heading_color = '#1A1A1A'
-      assign eyebrow_color = '#6B6B70'
-      assign eyebrow_on_dark = '#9A9A9F'
+      assign eyebrow_color = '#3A3A3C'
+      assign eyebrow_on_dark = color_on_dark
     endif
     assign sans_stack = "'Inter', system-ui, sans-serif"
     assign serif_stack = "'Instrument Sans', system-ui, sans-serif"
@@ -108,15 +108,15 @@
       assign wordmark_line_2 = color_accent
       assign heading_color = color_primary
       assign eyebrow_color = color_primary
-      assign eyebrow_on_dark = color_accent
+      assign eyebrow_on_dark = color_on_dark
     else
       assign wordmark_color = color_accent
       assign wordmark_line_2 = color_primary
       assign heading_color = color_ink
       assign eyebrow_color = color_accent
-      assign eyebrow_on_dark = color_accent
+      assign eyebrow_on_dark = color_on_dark
     endif
-    assign wordmark_line_2_on_dark = color_accent
+    assign wordmark_line_2_on_dark = color_on_dark
 
     if font_set == 'classic'
       assign sans_stack = "'Manrope', system-ui, sans-serif"
@@ -172,16 +172,32 @@
     --font-headline: {% if headline_font == 'serif' %}var(--font-serif){% else %}var(--font-sans){% endif %};
 
     --wordmark-tracking: {{ wordmark_tracking_em }}em;
-    --space-section: clamp(5.5rem, 12vw, 9rem);
-    --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
-    --max-width: 72rem;
+    --ground-light: #F5F4F1;
+    --ground-soft: #E4E1DA;
+    --ground-mid: #3A3A3C;
+    --ground-dark: #1A1A1A;
+    --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px;
+    --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+    --s9: 96px; --s10: 128px; --s11: 192px;
+    --space-section: 72px;
+    --space-gutter: 20px;
+    --max-width: 1240px;
     --max-width-narrow: 40rem;
     --radius: 0;
-    --radius-control: {% if guidelines == 'v2' %}0{% else %}0.35rem{% endif %};
+    --radius-control: 0;
     --transition: {{ transition_token }};
     --sticky-reserve-offset: 0px;
     --hairline: {% if guidelines == 'v2' %}#D6D2CA{% else %}color-mix(in srgb, {{ color_primary }} 12%, transparent){% endif %};
     --hairline-dark: #2E2E30;
+    --font-display: {{ serif_stack }};
+    --font-text: {{ sans_stack }};
+  }
+
+  @media (min-width: 860px) {
+    :root {
+      --space-section: 128px;
+      --space-gutter: 80px;
+    }
   }
 
   body.has-sticky-reserve {
@@ -214,18 +230,21 @@
     text-transform: none;
   }
   .gold-rule {
-    border: 0;
-    border-top: 1px solid var(--hairline);
-    background: none;
+    width: 40px;
     height: 0;
+    margin: 0 0 14px;
+    border: 0;
+    border-top: 1px solid var(--brand-accent);
+    background: none;
   }
   .section--dark .gold-rule {
-    border-top-color: var(--hairline-dark);
+    border-top-color: var(--brand-accent);
   }
   .gold-rule.gold-rule--measure {
-    width: 100%;
-    max-width: none;
+    width: 40px;
+    max-width: 40px;
     height: 0;
+    margin: 0 0 14px;
     background: none;
     border: 0;
     border-top: 1px solid var(--brand-accent);
@@ -233,7 +252,7 @@
   .section--dark .gold-rule.gold-rule--measure {
     border-top-color: var(--brand-accent);
   }
-  .btn { border-radius: 2px; }
+  .btn { border-radius: 0; }
   {% elsif font_set == 'classic' %}
   h1, h2, h3, h4 {
     font-weight: 400;

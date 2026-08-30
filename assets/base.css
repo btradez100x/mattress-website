@@ -250,8 +250,8 @@ p:last-child {
 }
 
 .section--dark .section__eyebrow {
-  color: var(--eyebrow-on-dark, var(--brand-accent));
-  opacity: 0.95;
+  color: var(--brand-on-dark);
+  opacity: 1;
 }
 
 .section--dark .gold-rule {
@@ -760,6 +760,9 @@ a[data-reserve-continue][aria-disabled="true"] {
   font-weight: 500;
   letter-spacing: 0.06em;
   padding: 0.55rem var(--space-gutter);
+  --brand-ink: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --color-foreground: var(--brand-on-dark);
 }
 
 .announcement a {
@@ -1669,7 +1672,7 @@ html.shopify-design-mode [data-reveal-first] {
   .section--dark h2:hover,
   [data-reveal].is-visible .section--dark h2:hover,
   html.js-ready .section--dark h2.is-visible:hover {
-    color: color-mix(in srgb, var(--brand-on-dark) 92%, var(--brand-accent)) !important;
+    color: var(--brand-on-dark) !important;
     transform: translate3d(0, -0.18rem, 0);
     transition-delay: 0ms;
   }
@@ -1677,7 +1680,7 @@ html.shopify-design-mode [data-reveal-first] {
   .section--dark .section__eyebrow:hover,
   [data-reveal].is-visible .section--dark .section__eyebrow:hover,
   html.js-ready .section--dark .section__eyebrow.is-visible:hover {
-    color: color-mix(in srgb, var(--brand-accent) 55%, var(--brand-on-dark)) !important;
+    color: var(--brand-on-dark) !important;
     transform: translate3d(0, -0.12rem, 0);
     transition-delay: 0ms;
   }
@@ -3487,6 +3490,12 @@ video[controls],
   background: var(--brand-primary);
   color: var(--brand-on-dark);
   padding-block: clamp(3.5rem, 8vw, 5rem) 2.25rem;
+  --brand-ink: var(--brand-on-dark);
+  --heading-color: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --eyebrow-on-dark: var(--brand-on-dark);
+  --ground-mid: var(--brand-on-dark);
+  --color-foreground: var(--brand-on-dark);
 }
 
 .site-footer a {
@@ -3632,6 +3641,12 @@ video[controls],
   background: var(--brand-primary);
   color: var(--brand-on-dark);
   border-bottom-color: color-mix(in srgb, var(--brand-on-dark) 12%, transparent);
+  --brand-ink: var(--brand-on-dark);
+  --heading-color: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --eyebrow-on-dark: var(--brand-on-dark);
+  --ground-mid: var(--brand-on-dark);
+  --color-foreground: var(--brand-on-dark);
 }
 
 .trust-bar--dark .trust-bar__label,
@@ -3971,7 +3986,7 @@ video[controls],
 }
 
 .site-footer .payment-marks__pill--bnpl {
-  color: color-mix(in srgb, var(--brand-accent) 80%, var(--brand-on-dark));
+  color: var(--brand-on-dark);
 }
 
 .reserve-panel__whatsapp {
@@ -5450,10 +5465,19 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   color: var(--brand-primary);
 }
 
+.section--dark .cool-touch__points strong {
+  color: var(--brand-on-dark);
+}
+
 .cool-touch__points span {
   font-size: 0.9rem;
   color: var(--brand-ink);
   opacity: 0.85;
+}
+
+.section--dark .cool-touch__points span {
+  color: var(--brand-on-dark);
+  opacity: 1;
 }
 
 .cool-touch__gallery {
@@ -5499,6 +5523,12 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   opacity: 0.85;
   transform: none;
   pointer-events: auto;
+}
+
+.section--dark .cool-touch__thumb > figcaption,
+.section--dark .cool-touch__thumb-caption {
+  color: var(--brand-on-dark);
+  opacity: 1;
 }
 
 /* -- Blog / Journal -- */
@@ -5707,6 +5737,11 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
   overflow: hidden;
+  --brand-ink: var(--brand-on-dark);
+  --heading-color: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --eyebrow-on-dark: var(--brand-on-dark);
+  --ground-mid: var(--brand-on-dark);
 }
 .mfg-hero__img {
   position: absolute;
@@ -5793,6 +5828,11 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
   border-color: transparent;
+  --brand-ink: var(--brand-on-dark);
+  --heading-color: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --eyebrow-on-dark: var(--brand-on-dark);
+  --ground-mid: var(--brand-on-dark);
 }
 .mfg-split__card--dark h2,
 .mfg-split__card--dark .section__eyebrow,
@@ -5802,7 +5842,7 @@ body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
 }
 .mfg-split__card--dark .section__eyebrow,
 .section--surface .mfg-split__card--dark .section__eyebrow {
-  color: var(--brand-accent);
+  color: var(--brand-on-dark);
 }
 .mfg-split__card--dark p,
 .mfg-split__card--dark .rte,
@@ -7755,6 +7795,10 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .journal-page:has(.journal-article-panel:target) .policy-cta {
   display: none;
 }
+/* Homepage Journal: when a baked article is open, hide the rest of the page. */
+#MainContent:has(.journal-article-panel:target) .shopify-section:not(:has(.journal-with-panels)) {
+  display: none;
+}
 @media (min-width: 1100px) {
   .journal-page .blog-index__grid > li:first-child {
     grid-column: 1 / -1;
@@ -8823,6 +8867,93 @@ html.shopify-design-mode .section--wipe.is-wiping {
   line-height: 1.28;
   letter-spacing: -0.025em;
   color: var(--brand-ink);
+}
+
+/* Dark-ground type lock (last, !important). Snow fill only; gold stays on 1px rules.
+   Cool Touch spans/captions used ink + 0.85 opacity; eyebrows used gold fallback;
+   hover mixed accent with !important. This block must win the cascade. */
+.section--dark,
+.section[data-section-ground="dark"],
+#cool-touch.section--dark,
+.trust-bar--dark,
+.site-footer,
+.announcement,
+.mfg-band--dark,
+.mfg-split__card--dark,
+.mfg-hero,
+.preview-banner {
+  --brand-ink: var(--brand-on-dark);
+  --heading-color: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --eyebrow-on-dark: var(--brand-on-dark);
+  --wordmark-line-2: var(--brand-on-dark);
+  --wordmark-line-2-on-dark: var(--brand-on-dark);
+  --ground-mid: var(--brand-on-dark);
+  --brand-slate: var(--brand-on-dark);
+  --color-foreground: var(--brand-on-dark);
+  --color-foreground-secondary: var(--brand-on-dark);
+  --color-heading: var(--brand-on-dark);
+}
+
+#cool-touch.section--dark .section__eyebrow,
+#cool-touch.section--dark h2,
+#cool-touch.section--dark .section__lede,
+#cool-touch.section--dark .cool-touch__points,
+#cool-touch.section--dark .cool-touch__points li,
+#cool-touch.section--dark .cool-touch__points li:hover,
+#cool-touch.section--dark .cool-touch__points strong,
+#cool-touch.section--dark .cool-touch__points span,
+#cool-touch.section--dark .cool-touch__points li:hover strong,
+#cool-touch.section--dark .cool-touch__thumb-caption,
+#cool-touch.section--dark .cool-touch__caption,
+#cool-touch.section--dark figcaption,
+.section--dark .section__eyebrow,
+.section--dark .lp-kicker,
+.section--dark .kicker,
+.section--dark [class*="muted"],
+.section--dark .stat,
+.section--dark .label,
+.section--dark .cool-touch__points,
+.section--dark .cool-touch__points li,
+.section--dark .cool-touch__points li:hover,
+.section--dark .cool-touch__points strong,
+.section--dark .cool-touch__points span,
+.section--dark .cool-touch__points li:hover strong,
+.section--dark .cool-touch__thumb-caption,
+.section--dark .cool-touch__caption,
+.section--dark figcaption,
+.section--dark .specs__caption,
+.section--dark .ugc__handle,
+.section--dark .ugc__caption,
+.section--dark .media-feature__step,
+.section--dark .market-badge,
+.section--dark .pair-card .section__eyebrow,
+.section--dark .pair-card h2,
+.section--dark .pair-card p,
+.section--dark .pair-card a,
+.section--dark a:not(.btn):not(.btn--ghost):not(.btn--whatsapp):not(.btn--accent-line),
+.mfg-split__card--dark .section__eyebrow,
+.mfg-band--dark .section__eyebrow,
+.policy-cta .section__eyebrow,
+.policy-hero .section__eyebrow,
+.site-footer a,
+.site-footer h3,
+.site-footer p,
+.site-footer .payment-marks__pill,
+.site-footer .payment-marks__pill--bnpl,
+.announcement,
+.announcement a,
+.trust-bar--dark .trust-bar__label,
+.trust-bar--dark .trust-bar__sub {
+  color: var(--brand-on-dark) !important;
+  opacity: 1 !important;
+}
+
+.section--dark .gold-rule,
+.section--dark .gold-rule.gold-rule--measure,
+.mfg-hero .gold-rule,
+.mfg-band--dark .gold-rule {
+  border-top-color: var(--brand-accent);
 }
 
 
