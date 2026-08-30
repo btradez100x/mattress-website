@@ -74,7 +74,7 @@ Scale: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192`
 | Page margin | 80px min | 20px |
 | Section rhythm | 128px | 72px |
 
-Breakpoints: sm 640 · md 860 · lg 1024 · xl 1240. `--radius: 0` (checkbox 2px is the only radius).
+Breakpoints: sm 640 · md 860 · lg 1024 · xl 1240. `--radius` / `--radius-control`: **2px** on CTAs and cards (zip `brand-guidelines.html` cards/buttons). Checkboxes stay 2px. Do not flatten to 0.
 
 ## Motion
 
@@ -90,11 +90,11 @@ Breakpoints: sm 640 · md 860 · lg 1024 · xl 1240. `--radius: 0` (checkbox 2px
 
 ## Buttons (global; do not restyle the size picker)
 
-Primary: Carbon fill, Snow 15px/600, padding 15×24, min-height 48, radius 0. Hover `#000000` at 120ms. Focus-visible: 2px Ember, 4px offset.
+Primary: Carbon fill, Snow 15px/600, padding 15×24, min-height 48, radius 2px. Hover `#000000` at 120ms. Focus-visible: 2px Ember, 4px offset.
 
 On dark grounds: invert — Snow fill, Carbon text, hover to Bone.
 
-Never: rounded corners, shadows, gradients, icons in buttons, scale/lift, more than one primary per view.
+Never: 0-radius squares on CTAs/cards, shadows, gradients, icons in buttons, scale/lift, more than one primary per view.
 
 ## Photography
 

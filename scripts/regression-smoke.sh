@@ -26,6 +26,7 @@ REQUIRED_PATHS=(
   "config/settings_data.json"
   "assets/base.css"
   "assets/brand.css"
+  "assets/mobile-fit.css"
   "assets/theme.js"
   "assets/utm-persistence.js"
   "snippets/wordmark.liquid"
@@ -83,6 +84,8 @@ REQUIRED_PATHS=(
   "sections/manufacturing.liquid"
   "templates/page.journal.json"
   "sections/main-journal.liquid"
+  "sections/main-blog.liquid"
+  "sections/journal-home.liquid"
   "snippets/journal-article-body.liquid"
   "snippets/journal-baked-index.liquid"
   "snippets/journal-article-layout.liquid"
@@ -1253,6 +1256,71 @@ else
   fail "light hero still uses natural-height contain (giant photo)"
 fi
 
+# 390px overflow lock: hero h1 / announcement must wrap or clamp at max-width 899.
+# Brand Display mobile is 38px (TOKENS.md). A 72px nowrap headline cannot ship.
+if python3 - "$THEME/assets/base.css" "$THEME/assets/mobile-fit.css" "$ROOT/preview/base.css" "$ROOT/preview/mobile-fit.css" <<'PY'
+import re, sys
+
+def media_899_blocks(text):
+    blocks = []
+    for m in re.finditer(r"@media\s*\(\s*max-width:\s*899px\s*\)\s*\{", text):
+        start = m.end()
+        depth = 1
+        i = start
+        while i < len(text) and depth:
+            if text[i] == "{":
+                depth += 1
+            elif text[i] == "}":
+                depth -= 1
+            i += 1
+        blocks.append(text[start : i - 1])
+    return blocks
+
+def file_ok(path):
+    text = open(path).read()
+    blocks = media_899_blocks(text)
+    joined = "\n".join(blocks)
+    if not blocks:
+        print(f"{path}: no @media (max-width: 899px) block")
+        return False
+    h1_ok = (
+        re.search(r"\.hero(?:--light)?\s+h1[^{]*\{[^}]*clamp\(", joined)
+        or re.search(r"\.hero(?:--light)?\s+h1[^{]*\{[^}]*max-width:\s*100%", joined)
+        or ("clamp(2rem" in joined and "h1" in joined)
+    )
+    wrap_ok = (
+        "overflow-wrap" in joined
+        or "max-width: 100%" in joined
+        or "white-space: normal" in joined
+    )
+    overflow_ok = "overflow-x: clip" in joined or "overflow-x: hidden" in joined
+    announce_ok = (
+        "overflow-wrap" in text
+        and re.search(r"\.announcement[^{]*\{[^}]*overflow-wrap", text)
+    ) or "overflow-wrap: break-word" in joined
+    if not h1_ok:
+        print(f"{path}: hero h1 in max-width 899 missing clamp or max-width 100%")
+        return False
+    if not wrap_ok:
+        print(f"{path}: max-width 899 missing wrap/max-width 100%")
+        return False
+    if not overflow_ok:
+        print(f"{path}: max-width 899 missing overflow-x clip/hidden")
+        return False
+    if not announce_ok:
+        print(f"{path}: announcement missing overflow-wrap")
+        return False
+    return True
+
+ok = all(file_ok(p) for p in sys.argv[1:])
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "390 overflow lock: hero h1 clamps/wraps and announcement wraps at max-width 899"
+else
+  fail "390 overflow lock missing clamp/wrap on hero h1 or announcement"
+fi
+
 # Dark-ground type: Cool Touch spans/captions/eyebrows are snow, never gold/ink.
 if grep -q '#cool-touch.section--dark .cool-touch__points span' "$THEME/assets/base.css" \
   && grep -q '#cool-touch.section--dark .cool-touch__thumb-caption' "$THEME/assets/base.css" \
@@ -1327,12 +1395,52 @@ else
   fail "float-basket is not pinned to bottom: 0"
 fi
 
+# No leftover inspector cyan outlines (* { outline: 1px solid cyan }).
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" "$THEME/assets/mobile-fit.css" "$ROOT/preview/mobile-fit.css" <<'PY'
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    raw = open(path).read()
+    stripped = re.sub(r"/\*.*?\*/", "", raw, flags=re.S)
+    if re.search(r"outline:\s*1px solid cyan", stripped, re.I):
+        print(path, "has outline: 1px solid cyan")
+        ok = False
+    if re.search(r"\*\s*\{[^}]*outline:\s*[^}]*cyan", stripped, re.I):
+        print(path, "has * { outline cyan }")
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "no * outline cyan debug rules"
+else
+  fail "cyan debug outlines still in CSS"
+fi
+
 if grep -q '.section--dark \[class\*="muted"\]' "$THEME/assets/base.css" \
   && grep -q '.section--dark .kicker' "$THEME/assets/base.css" \
   && grep -q '.policy-cta .section__eyebrow' "$THEME/assets/base.css"; then
   pass "dark lock covers muted/kicker/figcaption/Next siblings"
 else
   fail "dark type lock missing muted/kicker/Next sibling selectors"
+fi
+
+# Curved CTAs/cards: zip HTML uses 2px; do not flatten --radius-control back to 0.
+if grep -q -- '--radius: 2px' "$THEME/assets/brand.css" \
+  && grep -q -- '--radius-control: 2px' "$THEME/assets/brand.css" \
+  && grep -q -- '--radius: 2px' "$THEME/assets/base.css" \
+  && grep -q -- '--radius-control: 2px' "$THEME/assets/base.css" \
+  && grep -q -- '--radius: 2px' "$THEME/snippets/css-variables.liquid" \
+  && grep -q -- '--radius-control: 2px' "$THEME/snippets/css-variables.liquid" \
+  && grep -q -- '--radius-control: 2px' "$ROOT/preview/base.css" \
+  && grep -q -- '--radius-control: 2px' "$ROOT/preview/brand.css" \
+  && grep -q 'border-radius: var(--radius-control, 2px)' "$THEME/assets/base.css" \
+  && grep -q 'border-radius: var(--radius-control, 2px)' "$THEME/assets/brand.css" \
+  && ! grep -q -- '--radius-control: 0;' "$THEME/assets/brand.css" \
+  && ! grep -q -- '--radius-control: 0;' "$THEME/snippets/css-variables.liquid" \
+  && grep -q '.size-row {' "$THEME/assets/base.css"; then
+  pass "CTA/card radius restored to 2px (--radius / --radius-control)"
+else
+  fail "CTA/card radius flattened to 0 or size-row CSS missing"
 fi
 
 info "----------------------------------------"

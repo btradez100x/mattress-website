@@ -69,7 +69,7 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 | SM-07 | UTM first-touch | Visit with UTMs then Pay | Cart/order attributes include UTMs | P0 |
 | SM-08 | UTM persists across pages | Land with UTMs → browse → Pay | First-touch UTMs retained | P0 |
 | SM-09 | Brand name setting | Theme settings → Brand name | Wordmark updates; no hard-coded Sattva/Saatva | P0 |
-| SM-10 | Mobile reserve | 390×844 viewport | Size list usable; floating basket reachable | P0 |
+| SM-10 | Mobile reserve | 390×844 viewport | Size list usable; floating basket reachable; **no horizontal overflow**; hero h1 wraps at brand Display 38px | P0 |
 | SM-11 | Theme check | `shopify theme check` | 0 errors | P0 |
 | SM-12 | Automated smoke | `./scripts/regression-smoke.sh` | Exit 0 (includes CX consistency) | P0 |
 | SM-13 | Stage A basket only | Open `#reserve`, select size | Panel shows lines + total + BNPL + Continue + one cancel line. **No** lead time | P0 |
@@ -80,6 +80,7 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 | SM-18 | Deploy + public link | `./scripts/deploy-preview.sh` | Smoke pass; `share/PUBLIC_URL.txt` updated; public `/v4/` loads | P0 |
 | SM-19 | Cross-page brand chrome | Set brand/scheme on homepage; open manufacturing, cart, checkout, trust, blog | Same brand name, product line, colour scheme, announcement copy; no Aligna flash; titles stay `Page · Brand` | P0 |
 | SM-20 | Consistency script | `python3 scripts/regression-consistency.py` | Exit 0 | P0 |
+| SM-21 | 390 overflow lock | Inspect CSS at `max-width: 899px` | `html`/`body` overflow-x clip; `.hero h1` clamp or max-width 100% + wrap; announcement wraps; CTAs stack; `mobile-fit.css` last | P0 |
 
 ### Deploy command (mandatory)
 
