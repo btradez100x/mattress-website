@@ -119,3 +119,14 @@
     transform: none;
   }
 }
+
+/* Desktop page scroll. Last-wins over unscoped html/body overflow:hidden
+   (nav-open in base.css) and overflow-x:hidden computing overflow-y to auto. */
+@media (min-width: 900px) {
+  html,
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    height: auto;
+  }
+}
