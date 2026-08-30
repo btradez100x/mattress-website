@@ -1,3 +1,11 @@
+# Regression results — Sunday 30 Aug 2026 (deploy lates to Connect)
+
+## Smoke
+- Command: not re-run on this Connect push; last committed packs on this branch were **PASSED** for navy/gold.
+- Scope note: Fast-forwarded Connect `v9` `acbccda` → `587a31d` (folder `valtora-theme/`). `shopify-theme` already matched live theme at `aa83f34` (scroll unlock + gold + 12/16 radius + Journal off homepage; no force-push). **Filled-card / no empty cards is not in this drop** (not on origin). Included: scroll unlock `8df457a`, gold `ea695aa`/`01de629`, radius `1c4d619`, journal-off-home. Checkout not modified. `VERSION` stays **10.1.0**. Checkpoint: `checkpoints/10.1.0-lates-connect-deploy/`. Store `7dbr1b-1q`.
+
+---
+
 # Regression results — Sunday 30 Aug 2026 (restore Numa navy + gold)
 
 ## Smoke
