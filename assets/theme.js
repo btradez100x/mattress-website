@@ -2680,8 +2680,9 @@
   }
 
   document.addEventListener('pointerup', function (e) {
+    if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
     if (!e.target || !e.target.closest) return;
-    if (!e.target.closest('[data-size-pick], .size-row, .size-option')) return;
+    if (!e.target.closest('[data-size-pick], [data-qty-inc], .size-row, .size-option')) return;
     paintSticky();
   });
 
