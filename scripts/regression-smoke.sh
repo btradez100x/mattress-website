@@ -636,6 +636,20 @@ else
   fail "unexpected cubic-bezier: $bad_bezier"
 fi
 
+if grep -q "brand.css" "$THEME/layout/theme.liquid" \
+  && grep -q -- '--ground-light: #F5F4F1' "$THEME/assets/brand.css" \
+  && grep -q -- '--wordmark-line-2-on-dark: #F5F4F1' "$THEME/assets/brand.css" \
+  && grep -q -- 'cubic-bezier(0.22, 1, 0.36, 1)' "$THEME/assets/brand.css" \
+  && awk '
+    /base\.css/ { base=NR }
+    /brand\.css/ { brand=NR }
+    END { exit !(base && brand && brand>base) }
+  ' "$THEME/layout/theme.liquid"; then
+  pass "brand.css a1e2 overlay is last and uses Snow type + zip ease"
+else
+  fail "brand.css missing, not last after base.css, or tokens drifted from a1e2 zip"
+fi
+
 if grep -q -- '--ease-luxury' "$THEME/assets/base.css" "$ROOT/preview/base.css" \
   || grep -q -- '--ease-out-expo' "$THEME/assets/base.css" "$ROOT/preview/base.css" \
   || grep -q -- '--motion-hover' "$THEME/assets/base.css" "$ROOT/preview/base.css"; then

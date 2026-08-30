@@ -8742,77 +8742,138 @@ html.shopify-design-mode .section--wipe.is-wiping {
   font-size: 1rem;
   color: color-mix(in srgb, var(--brand-ink) 78%, transparent);
 }
+/* Concierge delivery — cream type on solid navy. No glass, no nested cards. */
+.lp-section--delivery,
+#delivery.lp-section,
+#delivery.section {
+  background: var(--brand-primary);
+  color: var(--brand-on-dark);
+  padding-block: calc(var(--space-section, 4.5rem) + 0.25rem);
+}
+.lp-section--delivery .lp-narrow,
+.lp-delivery,
+#delivery .lp-narrow,
+#delivery .lp-delivery {
+  max-width: min(68rem, 100%);
+}
+.lp-section--delivery .lp-sec-head,
+#delivery .lp-sec-head {
+  max-width: 38rem;
+}
 .lp-tiers {
-  border: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
-  margin-top: 2rem;
+  border: 0;
+  margin-top: 2.75rem;
+  background: none;
+  box-shadow: none;
 }
 .lp-tier {
   display: flex;
-  gap: 1.6rem;
+  gap: 1.25rem 2.5rem;
   align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 1.6rem 1.5rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+  padding: 2rem 0;
+  border: 0;
+  background: none;
 }
 .lp-tier:last-child {
   border-bottom: 0;
 }
 .lp-tier--pick {
-  background: color-mix(in srgb, var(--brand-surface, var(--brand-bg)) 70%, transparent);
+  background: none;
 }
 .lp-tier__tag {
   display: block;
   margin-bottom: 0.4rem;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--brand-accent, #b5461c);
+  color: inherit;
+  opacity: 1;
 }
 .lp-tier__name {
-  margin: 0 0 0.45rem;
-  font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
-  font-size: 1.125rem;
-  letter-spacing: -0.02em;
-}
-.lp-tier__desc {
-  margin: 0;
-  max-width: 46ch;
-  font-size: 0.9rem;
-  color: color-mix(in srgb, var(--brand-ink) 78%, transparent);
-}
-.lp-tier__price {
+  margin: 0 0 0.5rem;
   font-family: var(--font-headline, var(--font-sans));
   font-weight: 600;
   font-size: 1.25rem;
   letter-spacing: -0.02em;
+  color: inherit;
+}
+.lp-tier__desc {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: inherit;
+  opacity: 1;
+}
+.lp-tier__price {
+  font-family: var(--font-headline, var(--font-sans));
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
   white-space: nowrap;
+  color: inherit;
 }
 .lp-svc {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 1px;
-  margin-top: 2rem;
-  background: color-mix(in srgb, var(--brand-ink) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--brand-ink) 12%, transparent);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 2.75rem;
+  background: none;
+  border: 0;
 }
-.lp-svc > div {
-  background: var(--brand-bg);
-  padding: 1.6rem 1.35rem;
+.lp-svc > div,
+.lp-svc__item {
+  background: none;
+  padding: 0.15rem 1.75rem;
+  border: 0;
+  box-shadow: none;
+  border-left: 1px solid color-mix(in srgb, var(--brand-on-dark, #f5f4f1) 48%, var(--brand-accent, #8a6d3b));
+}
+.lp-svc > div:first-child,
+.lp-svc__item:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+.lp-svc > div:last-child,
+.lp-svc__item:last-child {
+  padding-right: 0;
 }
 .section--surface .lp-svc > div,
-.section--dark .lp-svc > div {
-  background: var(--brand-surface, var(--brand-bg));
+.section--dark .lp-svc > div,
+.section--surface .lp-svc__item,
+.section--dark .lp-svc__item {
+  background: none;
 }
 .lp-svc h3 {
-  margin: 0 0 0.55rem;
-  font-size: 1.05rem;
+  margin: 0 0 0.45rem;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  color: inherit;
 }
 .lp-svc p {
   margin: 0;
-  font-size: 0.9rem;
-  color: color-mix(in srgb, var(--brand-ink) 78%, transparent);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: inherit;
+  opacity: 1;
+}
+@media (max-width: 720px) {
+  .lp-svc {
+    grid-template-columns: 1fr;
+  }
+  .lp-svc > div,
+  .lp-svc__item {
+    border-left: 0;
+    padding: 1.35rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--brand-on-dark, #f5f4f1) 48%, var(--brand-accent, #8a6d3b));
+  }
+  .lp-svc > div:first-child,
+  .lp-svc__item:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
 }
 .lp-steps {
   list-style: none;
@@ -9021,6 +9082,25 @@ html.shopify-design-mode .section--wipe.is-wiping {
 #cool-touch.section--dark .cool-touch__thumb-caption,
 #cool-touch.section--dark .cool-touch__caption,
 #cool-touch.section--dark figcaption,
+.lp-section--delivery,
+.lp-section--delivery.section--dark,
+#delivery.section--dark,
+.section--dark .lp-tiers,
+.section--dark .lp-tier,
+.section--dark .lp-tier--pick,
+.section--dark .lp-tier__tag,
+.section--dark .lp-tier__name,
+.section--dark .lp-tier__desc,
+.section--dark .lp-tier__price,
+.section--dark .lp-svc,
+.section--dark .lp-svc h3,
+.section--dark .lp-svc p,
+.section--dark .lp-svc > div,
+.section--dark .lp-svc__item,
+.lp-section--delivery h2,
+.lp-section--delivery .section__lede,
+#delivery h2,
+#delivery .section__lede,
 .section--dark .section__eyebrow,
 .section--dark .lp-kicker,
 .section--dark .kicker,
@@ -9061,6 +9141,71 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .trust-bar--dark .trust-bar__sub {
   color: var(--brand-on-dark) !important;
   opacity: 1 !important;
+}
+
+
+.lp-section--delivery .lp-tiers,
+.lp-section--delivery .lp-tier,
+.lp-section--delivery .lp-tier--pick,
+.lp-section--delivery .lp-svc,
+.lp-section--delivery .lp-svc > div,
+.lp-section--delivery .lp-svc__item,
+#delivery .lp-tiers,
+#delivery .lp-tier,
+#delivery .lp-tier--pick,
+#delivery .lp-svc,
+#delivery .lp-svc > div,
+#delivery .lp-svc__item,
+.section--dark .lp-tiers,
+.section--dark .lp-tier,
+.section--dark .lp-tier--pick,
+.section--dark .lp-svc,
+.section--dark .lp-svc > div,
+.section--dark .lp-svc__item {
+  background: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
+}
+.lp-section--delivery .lp-svc > div,
+.lp-section--delivery .lp-svc__item,
+#delivery .lp-svc > div,
+#delivery .lp-svc__item,
+.section--dark .lp-svc > div,
+.section--dark .lp-svc__item {
+  border-left: 1px solid color-mix(in srgb, var(--brand-on-dark) 48%, var(--brand-accent));
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+.lp-section--delivery .lp-svc > div:first-child,
+.lp-section--delivery .lp-svc__item:first-child,
+#delivery .lp-svc > div:first-child,
+#delivery .lp-svc__item:first-child,
+.section--dark .lp-svc > div:first-child,
+.section--dark .lp-svc__item:first-child {
+  border-left: 0;
+}
+@media (max-width: 720px) {
+  .lp-section--delivery .lp-svc > div,
+  .lp-section--delivery .lp-svc__item,
+  #delivery .lp-svc > div,
+  #delivery .lp-svc__item,
+  .section--dark .lp-svc > div,
+  .section--dark .lp-svc__item {
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--brand-on-dark) 48%, var(--brand-accent));
+  }
+  .lp-section--delivery .lp-svc > div:first-child,
+  .lp-section--delivery .lp-svc__item:first-child,
+  #delivery .lp-svc > div:first-child,
+  #delivery .lp-svc__item:first-child,
+  .section--dark .lp-svc > div:first-child,
+  .section--dark .lp-svc__item:first-child {
+    border-top: 0;
+  }
 }
 
 .section--dark .gold-rule,

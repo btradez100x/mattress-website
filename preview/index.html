@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="30">
+<html class="js-ready" lang="en" data-market="ae" data-font-set="v2" data-color-scheme="v2_carbon" data-brand-guidelines="v2" data-force-motion="true" data-warranty-years="25" data-trial-nights="30">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#1F3A5F">
+    <meta name="theme-color" content="#1A1A1A">
     <title>Numa Mattresses</title>
     <meta name="description" content="A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order.">
     <meta name="application-name" content="Numa">
@@ -24,40 +24,48 @@
     <script type="application/json" id="ShareBrandData">{"brand":"Numa","line":"Mattresses","tagline":"A better bed, for life.","description":"A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order.","image":"assets/hero-mattress.jpg"}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2">
     <link rel="preload" as="image" href="./assets/hero-mattress.jpg" fetchpriority="high">
-    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
-    <link rel="stylesheet" href="./base.css?v=wo-v9-copyspec1">
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./base.css?v=brand-e144">
+    <link rel="stylesheet" href="./brand-guidelines.css?v=e144">
     <style>
       :root {
-        --brand-primary: #1F3A5F;
+        --brand-primary: #1A1A1A;
         --brand-accent: #8A6D3B;
-        --brand-bg: #F7F5F1;
-        --brand-surface: #EAE6DF;
-        --brand-ink: #222222;
-        --brand-on-dark: #F7F5F1;
-        --wordmark-color: #8A6D3B;
-        --wordmark-line-2: #1F3A5F;
-        --wordmark-line-2-on-dark: #8A6D3B;
-        --heading-color: #222222;
-        --eyebrow-color: #8A6D3B;
-        --eyebrow-on-dark: #8A6D3B;
-        --font-serif: 'Fraunces', Georgia, serif;
-        --font-sans: 'Outfit', system-ui, sans-serif;
-        --font-wordmark: var(--font-sans);
-        --font-headline: var(--font-sans);
-        --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-        --wordmark-tracking: 0.18em;
-        --space-section: clamp(5.5rem, 12vw, 9rem);
-        --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
-        --max-width: 72rem;
+        --brand-bg: #F5F4F1;
+        --brand-surface: #E4E1DA;
+        --brand-ink: #1A1A1A;
+        --brand-on-dark: #F5F4F1;
+        --wordmark-color: #1A1A1A;
+        --wordmark-line-2: #3A3A3C;
+        --wordmark-line-2-on-dark: #E4E1DA;
+        --heading-color: #1A1A1A;
+        --eyebrow-color: #3A3A3C;
+        --eyebrow-on-dark: #E4E1DA;
+        --font-serif: 'Instrument Sans', system-ui, sans-serif;
+        --font-sans: 'Inter', system-ui, sans-serif;
+        --font-display: 'Instrument Sans', system-ui, sans-serif;
+        --font-text: 'Inter', system-ui, sans-serif;
+        --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+        --font-headline: 'Instrument Sans', system-ui, sans-serif;
+        --font-mono: 'Geist Mono', ui-monospace, monospace;
+        --wordmark-tracking: -0.02em;
+        --space-section: 72px;
+        --space-gutter: 20px;
+        --max-width: 1240px;
         --max-width-narrow: 40rem;
         --radius: 0;
-        --radius-control: 0.35rem;
+        --radius-control: 0;
         --transition: var(--dur-base) var(--ease);
         --sticky-reserve-offset: 0px;
-        --hairline: color-mix(in srgb, var(--brand-primary) 12%, transparent);
+        --hairline: #D6D2CA;
+        --hairline-dark: #2E2E30;
+      }
+      @media (min-width: 860px) {
+        :root {
+          --space-section: 128px;
+          --space-gutter: 80px;
+        }
       }
       body.has-sticky-reserve { --sticky-reserve-offset: 5.75rem; }
 
@@ -71,10 +79,10 @@
         --brand-on-dark: #F7F5F1;
         --wordmark-color: #1F3A5F;
         --wordmark-line-2: #8A6D3B;
-        --wordmark-line-2-on-dark: #8A6D3B;
+        --wordmark-line-2-on-dark: #F7F5F1;
         --heading-color: #1F3A5F;
         --eyebrow-color: #1F3A5F;
-        --eyebrow-on-dark: #8A6D3B;
+        --eyebrow-on-dark: #F7F5F1;
       }
       html[data-brand-guidelines="v1"][data-color-scheme="warm_charcoal"] {
         --brand-primary: #2F2C28;
@@ -85,10 +93,10 @@
         --brand-on-dark: #F5F1EA;
         --wordmark-color: #9A7344;
         --wordmark-line-2: #2F2C28;
-        --wordmark-line-2-on-dark: #9A7344;
+        --wordmark-line-2-on-dark: #F5F1EA;
         --heading-color: #1A1917;
         --eyebrow-color: #9A7344;
-        --eyebrow-on-dark: #9A7344;
+        --eyebrow-on-dark: #F5F1EA;
       }
       html[data-brand-guidelines="v1"][data-color-scheme="cool_graphite"] {
         --brand-primary: #1E2A32;
@@ -99,10 +107,10 @@
         --brand-on-dark: #F3F4F3;
         --wordmark-color: #6E8494;
         --wordmark-line-2: #1E2A32;
-        --wordmark-line-2-on-dark: #6E8494;
+        --wordmark-line-2-on-dark: #F3F4F3;
         --heading-color: #1C2124;
         --eyebrow-color: #6E8494;
-        --eyebrow-on-dark: #6E8494;
+        --eyebrow-on-dark: #F3F4F3;
       }
       html[data-brand-guidelines="v1"][data-font-set="classic"] {
         --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -131,10 +139,10 @@
         --brand-slate: #6B6B70;
         --wordmark-color: #1A1A1A;
         --wordmark-line-2: #8A6D3B;
-        --wordmark-line-2-on-dark: #8A6D3B;
+        --wordmark-line-2-on-dark: #F5F4F1;
         --heading-color: #1A1A1A;
         --eyebrow-color: #6B6B70;
-        --eyebrow-on-dark: #9A9A9F;
+        --eyebrow-on-dark: #F5F4F1;
         --font-serif: 'Instrument Sans', system-ui, sans-serif;
         --font-sans: 'Inter', system-ui, sans-serif;
         --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
@@ -157,10 +165,10 @@
         --brand-on-dark: #F5F4F1;
         --wordmark-color: #1A1A1A;
         --wordmark-line-2: #8A6D3B;
-        --wordmark-line-2-on-dark: #8A6D3B;
+        --wordmark-line-2-on-dark: #F5F4F1;
         --heading-color: #1A1A1A;
         --eyebrow-color: #6B6B70;
-        --eyebrow-on-dark: #9A9A9F;
+        --eyebrow-on-dark: #F5F4F1;
       }
       html[data-brand-guidelines="v2"][data-color-scheme="v2_graphite"] {
         --brand-primary: #3A3A3C;
@@ -171,10 +179,10 @@
         --brand-on-dark: #F5F4F1;
         --wordmark-color: #3A3A3C;
         --wordmark-line-2: #8A6D3B;
-        --wordmark-line-2-on-dark: #8A6D3B;
+        --wordmark-line-2-on-dark: #F5F4F1;
         --heading-color: #3A3A3C;
         --eyebrow-color: #6B6B70;
-        --eyebrow-on-dark: #9A9A9F;
+        --eyebrow-on-dark: #F5F4F1;
       }
       html[data-brand-guidelines="v2"][data-color-scheme="v2_warm"] {
         --brand-primary: #1A1A1A;
@@ -185,10 +193,10 @@
         --brand-on-dark: #F7F4EE;
         --wordmark-color: #1A1A1A;
         --wordmark-line-2: #9A7344;
-        --wordmark-line-2-on-dark: #9A7344;
+        --wordmark-line-2-on-dark: #F7F4EE;
         --heading-color: #1A1A1A;
         --eyebrow-color: #7A6A55;
-        --eyebrow-on-dark: #C4B49A;
+        --eyebrow-on-dark: #F7F4EE;
       }
       html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
         --brand-primary: #1A1A1A;
@@ -199,10 +207,10 @@
         --brand-on-dark: #F3F4F3;
         --wordmark-color: #1A1A1A;
         --wordmark-line-2: #6E8494;
-        --wordmark-line-2-on-dark: #6E8494;
+        --wordmark-line-2-on-dark: #F3F4F3;
         --heading-color: #1A1A1A;
         --eyebrow-color: #6B6B70;
-        --eyebrow-on-dark: #9A9A9F;
+        --eyebrow-on-dark: #F3F4F3;
       }
       html[data-brand-guidelines="v2"] h1,
       html[data-brand-guidelines="v2"] h2 {
@@ -390,8 +398,8 @@
         </label>
         <label>Guidelines
           <select id="PreviewBrandGuidelines" aria-label="Brand guidelines">
-            <option value="v1" selected>V1 (current)</option>
-            <option value="v2">V2 (new)</option>
+            <option value="v1">V1 (retired)</option>
+            <option value="v2" selected>V2 (current)</option>
           </select>
         </label>
         <label id="PreviewFontSetWrap">Fonts
@@ -402,10 +410,10 @@
         </label>
         <label>Colour
           <select id="PreviewColorScheme" aria-label="Colour scheme">
-            <option value="signature" selected>Signature (gold wordmark)</option>
-            <option value="classic_navy">Classic navy (previous)</option>
-            <option value="warm_charcoal">Warm charcoal (bronze)</option>
-            <option value="cool_graphite">Cool graphite (steel accent)</option>
+            <option value="v2_carbon" selected>Carbon + Ember (canonical)</option>
+            <option value="v2_graphite">Graphite + Ember</option>
+            <option value="v2_warm">Warm bone + bronze</option>
+            <option value="v2_cool">Cool steel accent</option>
           </select>
         </label>
         <label>Phone UAE <input id="PreviewPhoneAe" type="text" value="" placeholder="+971 …" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
@@ -559,16 +567,16 @@
       <!-- Hero -->
             <section class="hero hero--light" id="hero" data-admin-section="hero" data-section-ground="bg">
         <div class="hero__content">
-          <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">Built to last.<br>Adjusted to suit.</h1>
+          <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">Built to last. Adjusted to suit.</h1>
           <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">A core made to outlast the frame it sits on. You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before.</p>
           <div class="hero__cta" data-reveal-child data-reveal-first style="--reveal-delay: 150ms">
             <a class="btn" href="#reserve" data-hero-cta>See sizes and prices</a>
-            <a class="btn btn--ghost hero__secondary" href="#swap">How it arrives</a>
+            <a class="btn btn--ghost hero__secondary" href="#delivery">How it arrives</a>
           </div>
           <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Concierge unpacking included · The old one leaves with it</p>
         </div>
         <div class="hero__media" data-reveal-child data-reveal-first style="--reveal-delay: 100ms">
-          <img src="./assets/hero-mattress.jpg" alt="Numa mattress" data-brand-alt-suffix=" mattress" width="2000" height="1500" fetchpriority="high" decoding="async">
+          <img class="hero__img" src="./assets/hero-mattress.jpg" alt="Numa mattress" data-brand-alt-suffix=" mattress" width="2000" height="1116" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -634,6 +642,46 @@
             <video class="theme-video theme-video--player" autoplay muted loop playsinline controls preload="metadata" poster="./assets/swap-poster.jpg">
               <source src="./assets/swap-explainer.mp4" type="video/mp4">
             </video>
+          </div>
+        </div>
+      </section>
+
+      <section class="section lp-section lp-section--delivery section--dark" id="delivery" data-reveal data-section-ground="dark">
+        <div class="page-width lp-delivery">
+          <div class="lp-sec-head">
+            <h2>It arrives compressed.<br>We do not leave it that way.</h2>
+            <p class="section__lede">Roll packing gets it up the stairs. It is not how it should be left.</p>
+          </div>
+          <div class="lp-tiers">
+            <div class="lp-tier">
+              <div>
+                <span class="lp-tier__tag">Included with every mattress</span>
+                <p class="lp-tier__name">Concierge unpacking</p>
+                <p class="lp-tier__desc">Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.</p>
+              </div>
+              <span class="lp-tier__price">Complimentary</span>
+            </div>
+            <div class="lp-tier">
+              <div>
+                <p class="lp-tier__name">Old mattress removal and recycling</p>
+                <p class="lp-tier__desc">Taken away on the same visit. Nothing in the hall, nothing to arrange.</p>
+              </div>
+              <span class="lp-tier__price">Complimentary</span>
+            </div>
+          </div>
+          <div class="lp-svc">
+            <div class="lp-svc__item">
+              <h3>Unrolled on the bed</h3>
+              <p>It settles evenly.</p>
+            </div>
+            <div class="lp-svc__item">
+              <h3>Nothing left behind</h3>
+              <p>Carton, plastic, wrap. All of it leaves with it.</p>
+            </div>
+            <div class="lp-svc__item">
+              <h3>A window agreed in advance</h3>
+              <p>Notification on the day.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -1873,7 +1921,7 @@
         };
 
         function currentGuidelines() {
-          return (guidelinesSelect && guidelinesSelect.value) || 'v1';
+          return (guidelinesSelect && guidelinesSelect.value) || 'v2';
         }
 
         function fillSchemeOptions(guidelines, preferred) {

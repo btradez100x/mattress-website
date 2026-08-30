@@ -1,37 +1,49 @@
 <!doctype html>
-<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-warranty-years="25" data-trial-nights="30">
+<html lang="en" data-market="ae" data-font-set="v2" data-color-scheme="v2_carbon" data-brand-guidelines="v2" data-warranty-years="25" data-trial-nights="30">
   <head>
     <meta charset="utf-8">
     <script src="../brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#1F3A5F">
+    <meta name="theme-color" content="#1A1A1A">
     <title>What a made to order mattress buys · Numa</title>
     <meta name="description" content="A pocket sprung core built to last twenty five years, a comfort layer tailored after you have slept on it, and concierge unpacking.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../base.css?v=wo-v9-basketux2">
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../base.css?v=brand-e144">
+    <link rel="stylesheet" href="../brand-guidelines.css?v=e144">
     <style>
       :root {
-        --brand-primary: #1F3A5F;
+        --brand-primary: #1A1A1A;
         --brand-accent: #8A6D3B;
-        --brand-bg: #F7F5F1;
-        --brand-surface: #EAE6DF;
-        --brand-ink: #222222;
-        --brand-on-dark: #F7F5F1;
-        --eyebrow-on-dark: #8A6D3B;
-        --font-serif: 'Fraunces', Georgia, serif;
-        --font-sans: 'Outfit', system-ui, sans-serif;
-        --font-wordmark: var(--font-sans);
-        --font-headline: var(--font-sans);
-        --wordmark-tracking: 0.18em;
-        --space-section: clamp(5.5rem, 12vw, 9rem);
-        --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
-        --max-width: 72rem;
+        --brand-bg: #F5F4F1;
+        --brand-surface: #E4E1DA;
+        --brand-ink: #1A1A1A;
+        --brand-on-dark: #F5F4F1;
+        --wordmark-color: #1A1A1A;
+        --wordmark-line-2: #3A3A3C;
+        --wordmark-line-2-on-dark: #E4E1DA;
+        --heading-color: #1A1A1A;
+        --eyebrow-color: #3A3A3C;
+        --eyebrow-on-dark: #E4E1DA;
+        --font-serif: 'Instrument Sans', system-ui, sans-serif;
+        --font-sans: 'Inter', system-ui, sans-serif;
+        --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+        --font-headline: 'Instrument Sans', system-ui, sans-serif;
+        --font-mono: 'Geist Mono', ui-monospace, monospace;
+        --wordmark-tracking: -0.02em;
+        --space-section: 72px;
+        --space-gutter: 20px;
+        --max-width: 1240px;
         --max-width-narrow: 40rem;
         --radius: 0;
-        --radius-control: 0.35rem;
+        --radius-control: 0;
         --transition: var(--dur-base) var(--ease);
+        --sticky-reserve-offset: 0px;
+        --hairline: #D6D2CA;
+      }
+      @media (min-width: 860px) {
+        :root { --space-section: 128px; --space-gutter: 80px; }
       }
       .preview-banner {
         background: var(--brand-primary);
@@ -172,14 +184,14 @@
           </div>
         </div>
       </section>
-      <section class="section lp-section section--bg" id="delivery" data-reveal data-section-ground="bg">
-        <div class="page-width lp-narrow">
+      <section class="section lp-section lp-section--delivery section--dark" id="delivery" data-reveal data-section-ground="dark">
+        <div class="page-width lp-delivery">
           <div class="lp-sec-head">
             <h2>It arrives compressed.<br>We do not leave it that way.</h2>
             <p class="section__lede">Roll packing gets it up the stairs. It is not how it should be left.</p>
           </div>
           <div class="lp-tiers">
-            <div class="lp-tier lp-tier--pick">
+            <div class="lp-tier">
               <div>
                 <span class="lp-tier__tag">Included with every mattress</span>
                 <p class="lp-tier__name">Concierge unpacking</p>
@@ -196,15 +208,15 @@
             </div>
           </div>
           <div class="lp-svc">
-            <div>
+            <div class="lp-svc__item">
               <h3>Unrolled on the bed</h3>
               <p>It settles evenly.</p>
             </div>
-            <div>
+            <div class="lp-svc__item">
               <h3>Nothing left behind</h3>
               <p>Carton, plastic, wrap. All of it leaves with it.</p>
             </div>
-            <div>
+            <div class="lp-svc__item">
               <h3>A window agreed in advance</h3>
               <p>Notification on the day.</p>
             </div>
