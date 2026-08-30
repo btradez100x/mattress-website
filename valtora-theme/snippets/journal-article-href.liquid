@@ -2,9 +2,23 @@
   Href for a baked Journal note.
   Prefer a matching Page (standalone article template), else a hash on this index
   so the article is readable without extra Admin pages.
+  Never emit a Liquid error as href.
 {%- endcomment -%}
-{%- if pages[article_handle].handle == article_handle -%}
-  {{- pages[article_handle].url -}}
-{%- else -%}
-  #{{ article_handle }}
-{%- endif -%}
+{%- liquid
+  assign article_href = '#' | append: article_handle
+  if pages[article_handle].handle == article_handle
+    assign maybe_href = pages[article_handle].url | default: '' | strip
+    if maybe_href != blank
+      unless maybe_href contains 'Liquid error'
+        assign article_href = maybe_href
+      endunless
+    endif
+  endif
+  if article_href == blank
+    assign article_href = '#' | append: article_handle
+  endif
+  if article_href contains 'Liquid error'
+    assign article_href = '#' | append: article_handle
+  endif
+-%}
+{{- article_href -}}

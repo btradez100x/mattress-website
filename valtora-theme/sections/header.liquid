@@ -1,14 +1,10 @@
 {%- liquid
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
   comment
-    Journal: if the blog has published articles, go there — that is the live content.
-    An empty Page must not hide a populated blog. Otherwise use Page handle journal
-    (template journal, with baked notes). Do not send nav to /blogs/journal unless
-    that blog exists.
+    Journal nav is always the Page. Never put a Liquid error string in href.
   endcomment
+  assign journal_url = '/pages/journal'
 -%}
-{%- capture journal_url -%}{% render 'journal-index-href' %}{%- endcapture -%}
-{%- assign journal_url = journal_url | strip -%}
 {%- liquid
   assign large_sizes_url = pages['large-sizes'].url | default: '/pages/large-sizes'
   assign european_king_url = pages['european-king'].url | default: '/pages/european-king'

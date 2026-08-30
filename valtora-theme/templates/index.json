@@ -1173,16 +1173,6 @@
         "button_label_full": "Buy now",
         "ground": "bg"
       }
-    },
-    "journal-home": {
-      "type": "journal-home",
-      "settings": {
-        "eyebrow": "Journal",
-        "heading": "Journal",
-        "lede": "Clear, practical writing on comfort, cool sleep, support and how to choose a mattress that fits how you actually rest - without the hype.",
-        "cta_label": "Reserve yours",
-        "ground": "surface"
-      }
     }
   },
   "order": [
@@ -1205,7 +1195,6 @@
     "faq",
     "lifestyle-collage",
     "big-idea",
-    "swap-process",
-    "journal-home"
+    "swap-process"
   ]
 }
