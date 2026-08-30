@@ -930,6 +930,55 @@ def check_reserve_cta_copy() -> None:
         bad("landing-funnel.liquid cta_label default must be Reserve yours")
 
 
+def check_mobile_overflow_and_dark_lock() -> None:
+    """390px overflow, Cool Touch snow, no cyan outlines, sticky flush, baked Journal."""
+    css_files = (
+        ROOT / "valtora-theme" / "assets" / "base.css",
+        ROOT / "preview" / "base.css",
+    )
+    for path in css_files:
+        text = path.read_text(encoding="utf-8")
+        rel = str(path.relative_to(ROOT))
+        if re.search(
+            r"@media \(max-width:\s*899px\)[\s\S]{0,5000}?\.hero(?:--light)? h1[^{]*\{[^}]*(?:max-width:\s*100%|clamp\()",
+            text,
+        ):
+            ok(f"{rel}: hero h1 clamp/max-width 100% under 899px")
+        else:
+            bad(f"{rel}: hero h1 missing clamp or max-width 100% under 899px")
+        if re.search(r"\.announcement(?: p)?[^{]*\{[^}]*white-space:\s*normal", text, re.S):
+            ok(f"{rel}: announcement wraps")
+        else:
+            bad(f"{rel}: announcement does not wrap")
+        if "#cool-touch.section--dark .cool-touch__points span" in text and (
+            "color: var(--brand-on-dark) !important" in text
+        ):
+            ok(f"{rel}: Cool Touch spans are on-dark")
+        else:
+            bad(f"{rel}: Cool Touch spans missing on-dark lock")
+        if "bottom: 0 !important" in text and ".float-basket" in text:
+            ok(f"{rel}: sticky basket is bottom: 0")
+        else:
+            bad(f"{rel}: sticky basket not pinned to bottom: 0")
+        stripped = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
+        if re.search(r"outline:\s*1px solid cyan", stripped, re.I) or re.search(
+            r"\*\s*\{[^}]*outline:\s*[^}]*cyan", stripped, re.I
+        ):
+            bad(f"{rel}: cyan debug outline present")
+        else:
+            ok(f"{rel}: no * outline cyan")
+    journal = ROOT / "valtora-theme" / "sections" / "journal-home.liquid"
+    if journal.exists() and "journal-baked-index" in journal.read_text(encoding="utf-8"):
+        ok("journal-home.liquid still renders baked notes")
+    else:
+        bad("journal-home.liquid missing baked index")
+    main_blog = ROOT / "valtora-theme" / "sections" / "main-blog.liquid"
+    if main_blog.exists() and "journal-baked-index" in main_blog.read_text(encoding="utf-8"):
+        ok("main-blog.liquid still renders baked notes")
+    else:
+        bad("main-blog.liquid missing baked index")
+
+
 def main() -> int:
     print("Valtora consistency gate (preview + chrome)")
     print("----------------------------------------")
@@ -938,6 +987,7 @@ def main() -> int:
     check_cert_strip_empty_hidden()
     check_funnel_chrome()
     check_reserve_cta_copy()
+    check_mobile_overflow_and_dark_lock()
     check_section_schemas_no_liquid()
     check_no_leaked_liquid()
     check_no_filters_in_render_args()

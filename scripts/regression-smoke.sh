@@ -370,6 +370,23 @@ else
   fail "sticky basket still offsets from viewport bottom or docks into footer padding"
 fi
 
+# Lined basket must reveal immediately (no hero-CTA scroll / IO wait), including mobile.
+if grep -q "function paintSticky" "$JS" \
+  && grep -q "function basketHasItems" "$JS" \
+  && grep -q "classList.toggle('has-items'" "$JS" \
+  && grep -q "hasItems || forceFloatBasket()" "$JS" \
+  && grep -q "paintSticky();" "$JS" \
+  && grep -q "pointerup" "$JS" \
+  && grep -q "data-size-pick" "$JS" \
+  && grep -q ".float-basket.has-items" "$CSS" \
+  && grep -q "data-float-basket" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && grep -q "data-float-count" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && ! grep -A30 "@media (max-width: 899px)" "$CSS" | grep -q "float-basket.*display: *none"; then
+  pass "sticky basket markup exists; JS shows on qty (has-items) without mobile hide"
+else
+  fail "sticky basket does not reveal on add, or is still hidden on mobile"
+fi
+
 if grep -q "upsertMattressLine" "$JS" \
   && grep -q "data-order-remove" "$JS" \
   && grep -q "data-size-qty" "$JS" \
