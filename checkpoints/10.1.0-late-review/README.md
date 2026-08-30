@@ -28,6 +28,7 @@ Shopify Connect should pull `shopify-theme` (or `v9` → `valtora-theme/`) onto 
 
 - Journal: six sleep/expertise notes baked into the theme; byline **Ben Acolatse, CEO**. Index is never empty.
 - Size picker: no country tabs; one market from Shopify/browser (UK if unset); centimetres from variant dimensions; size-row styles restored.
+- **Picker chrome lock:** `.size-option` and `.size-row` share one card system. Do **not** empty `.size-row` CSS. Selected is navy hairline + navy-tint, not `--brand-surface` beige. ADD/qty centred. Last odd cell (`:last-child:nth-child(odd)`) spans/centres so Emperor cannot leave a hole. No grey 1:1 dummy squares. Note-field contrast (c0b2830) stays. Smoke: `scripts/regression-smoke.sh` + `scripts/regression-consistency.py`.
 - Size Guide: all Shopify sizes for that country as tiles; UK fallback.
 - How it is made: 20/10/35, 1.8/2.0mm, UK six, 49-year line, how-it-is-built brief.
 - Copy: feel discovered over months, a year with us; Concierge unpacking **Complimentary**; CTAs **Reserve yours**; hero **Built to last.** / **Adjusted to suit.** on two lines.

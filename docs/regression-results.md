@@ -1,3 +1,12 @@
+# Regression results — Sunday 30 Aug 2026 (Choose your size chrome restore)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: pending run in this change
+- Scope note: Live `/pages/specification` had two size-card skins (beige selected + grey ADD), jammed ADD, Emperor in a hole. Cause: `f773fb3` emptied `.size-row` and left selected tiles on `--brand-surface`. Restored one card chrome, centred navy ADD, last-odd span/centre, note contrast `c0b2830` kept, dummy squares stay gone. Checkout unchanged. `VERSION` stays **10.1.0**. New pack assertions in `scripts/regression-smoke.sh` and `scripts/regression-consistency.py`.
+
+---
+
 # Regression results — Sunday 30 Aug 2026 (deploy size-picker-and-contrast)
 
 ## Smoke

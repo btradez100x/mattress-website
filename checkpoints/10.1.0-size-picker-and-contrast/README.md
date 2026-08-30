@@ -30,6 +30,7 @@ Checkout was not modified.
 ## What this pack contains (since last Connect `5b121bb`)
 
 - Size picker restyled to the brand tile system; Sizes dropdown aligned with sibling header labels.
+- **Picker chrome lock (post-live break):** `f773fb3` deleted `.size-row` and left selected tiles on beige `--brand-surface` with ADD jammed `space-between`. Restore: one shared `.size-option, .size-row` card; navy ADD centred; last odd cell centred; no dummy 1:1 squares. Do not empty `.size-row`. Note contrast `c0b2830` kept. Automated in `scripts/regression-smoke.sh`.
 - One market, whole-tile add; unlisted countries served as UK (not UAE).
 - Note field / form contrast so size notes and fields stay readable on beige; labels on navy bands use on-dark ink; gold focus ring.
 - Alternate section grounds on Snow, Surface, and Dark (homepage + landings, including manufacturing section ground).

@@ -482,6 +482,79 @@ def check_cert_strip_empty_hidden() -> None:
         bad("preview/theme.js: missing syncCertStripVisibility for claim toggles")
 
 
+def check_size_picker_chrome() -> None:
+    """Choose-your-size must stay one card system — not two random skins."""
+    css_files = (
+        ROOT / "valtora-theme" / "assets" / "base.css",
+        ROOT / "preview" / "base.css",
+    )
+    for path in css_files:
+        if not path.exists():
+            bad(f"{path.relative_to(ROOT)}: missing")
+            continue
+        text = path.read_text(encoding="utf-8")
+        start = text.find("/* Size picker:")
+        if start < 0:
+            start = text.find(".size-list,")
+        end = text.find(".size-markets")
+        block = text[start:end] if start >= 0 and end > start else ""
+        rel = str(path.relative_to(ROOT))
+        if ".size-row" not in block:
+            bad(f"{rel}: emptied .size-row CSS")
+        else:
+            ok(f"{rel}: .size-row rules present")
+        if re.search(r"\.size-option,\s*\.size-row", block):
+            ok(f"{rel}: size-option and size-row share one card class")
+        else:
+            bad(f"{rel}: size cards do not share one base class")
+        if re.search(
+            r"\.size-option\.is-in-basket[^{]*\{[^}]*background:\s*var\(--brand-surface\)",
+            block,
+        ):
+            bad(f"{rel}: selected cards still use beige leftover")
+        else:
+            ok(f"{rel}: selected state is not beige leftover")
+        add = re.search(r"\.size-option__add,\s*\.size-row__add\s*\{([^}]+)\}", block, re.S)
+        if add and "margin-inline: auto" in add.group(1) and "align-self: center" in add.group(1):
+            ok(f"{rel}: ADD is centred, not corner-jammed")
+        else:
+            bad(f"{rel}: ADD/qty control is corner-jammed")
+        if "last-child:nth-child(odd)" in block and "grid-column: 1 / -1" in block:
+            ok(f"{rel}: last odd size cell spans/centres (no Emperor hole)")
+        else:
+            bad(f"{rel}: last odd cell still leaves a grid hole")
+        if re.search(
+            r"\.(size-option|size-row|size-guide-tile)[^{:/]*\{[^}]*aspect-ratio:\s*1\s*/\s*1",
+            text,
+        ):
+            bad(f"{rel}: 1:1 grey placeholder squares on size tiles")
+        else:
+            ok(f"{rel}: no 1:1 grey dummy squares on size-option/size-row/size-guide-tile")
+        if "--field-fill:" in text and "--field-line:" in text and "var(--field-fill" in text:
+            ok(f"{rel}: size-note keeps distinct fill/border")
+        else:
+            bad(f"{rel}: size-note contrast tokens missing")
+
+    for rel in ("preview/theme.js", "valtora-theme/assets/theme.js"):
+        js_text = (ROOT / rel).read_text(encoding="utf-8")
+        if 'class="size-option' in js_text and "size-option__add" in js_text:
+            ok(f"{rel}: tiles use shared size-option class + ADD")
+        else:
+            bad(f"{rel}: tiles missing shared size-option class")
+        if "size-option__media" in js_text or "size-option__bed" in js_text:
+            bad(f"{rel}: grey dummy image boxes returned to size tiles")
+        else:
+            ok(f"{rel}: size tiles have no dummy image boxes")
+        if "european-king" in js_text and "160 × 200 cm" in js_text:
+            ok(f"{rel}: European King 160 × 200 cm present")
+        else:
+            bad(f"{rel}: European King 160 × 200 cm missing")
+        if "return rowHasPickerPrice(row)" in js_text:
+            ok(f"{rel}: GB MarketShown paints every priced Shopify size")
+        else:
+            bad(f"{rel}: picker hardcodes a size count instead of Shopify rows")
+
+
 def check_funnel_chrome():
     """Thank-you / checkout / cart must carry brand chrome + footer."""
     for rel in (
@@ -529,12 +602,21 @@ def check_funnel_chrome():
         ok("landing-funnel.liquid has tile size selector")
     else:
         bad("landing-funnel.liquid missing tile size selector")
+    if "data-size-pick" in funnel:
+        ok("landing-funnel.liquid keeps data-size-pick")
+    else:
+        bad("landing-funnel.liquid missing data-size-pick")
+    if "size-rows" in funnel:
+        bad("landing-funnel.liquid reintroduced size-rows markup")
+    else:
+        ok("landing-funnel.liquid does not use size-rows markup")
     for rel in ("preview/theme.js", "valtora-theme/assets/theme.js"):
         js_text = (ROOT / rel).read_text(encoding="utf-8")
         if "function shopifyCartAddUrl" in js_text and "function addLandingToShopify" in js_text:
             ok(f"{rel}: posts landing add to Shopify cart")
         else:
             bad(f"{rel}: landing add must POST /cart/add.js")
+    check_size_picker_chrome()
 
 
 def _section_schema(liquid: Path) -> dict:

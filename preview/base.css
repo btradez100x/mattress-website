@@ -1607,27 +1607,35 @@ html.shopify-design-mode [data-reveal-first] {
     transform: scale(1.02);
   }
 
-  /* Size options - no scale; soft border + wash + marker */
+  /* Size options - no scale; navy hairline wash, not a beige second skin */
   .size-option,
-  [data-reveal].is-visible .size-option {
+  .size-row,
+  [data-reveal].is-visible .size-option,
+  [data-reveal].is-visible .size-row {
     transform: none !important;
   }
 
   .size-option:hover,
-  [data-reveal].is-visible .size-option:hover {
+  .size-row:hover,
+  [data-reveal].is-visible .size-option:hover,
+  [data-reveal].is-visible .size-row:hover {
     transform: none !important;
-    background: color-mix(in srgb, var(--brand-surface) 72%, var(--brand-bg));
-    border-color: color-mix(in srgb, var(--brand-accent) 55%, var(--brand-primary));
-    box-shadow: 0 10px 28px color-mix(in srgb, var(--brand-primary) 6%, transparent);
-  }
-
-  .size-option.is-in-basket:hover {
-    background: var(--brand-surface);
+    background: color-mix(in srgb, var(--brand-primary) 4%, var(--brand-bg));
     border-color: var(--brand-primary);
-    box-shadow: 0 12px 32px color-mix(in srgb, var(--brand-primary) 8%, transparent);
+    box-shadow: none;
   }
 
-  .size-option:hover .size-option__marker {
+  .size-option.is-in-basket:hover,
+  .size-option.is-active:hover,
+  .size-row.is-in-basket:hover,
+  .size-row.is-active:hover {
+    background: color-mix(in srgb, var(--brand-primary) 10%, var(--brand-bg));
+    border-color: var(--brand-primary);
+    box-shadow: none;
+  }
+
+  .size-option:hover .size-option__marker,
+  .size-row:hover .size-row__marker {
     border-color: color-mix(in srgb, var(--brand-accent) 70%, var(--brand-primary));
   }
 
@@ -2372,8 +2380,13 @@ video[controls],
   }
 }
 
+/* Size picker: one card chrome for .size-option and .size-row.
+   Do not empty .size-row (that unstyled the picker once). Selected is a
+   navy hairline + navy-tint variant of the same tile, never a beige leftover.
+   Last odd cell spans/centres so Emperor cannot leave a hole. */
 .size-list,
-.lp-sizes {
+.lp-sizes,
+.size-rows {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.15rem;
@@ -2384,14 +2397,29 @@ video[controls],
 
 @media (min-width: 560px) {
   .size-list,
-  .lp-sizes {
+  .lp-sizes,
+  .size-rows {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
+  }
+
+  .size-list > li:last-child:nth-child(odd),
+  .lp-sizes > li:last-child:nth-child(odd),
+  .size-rows > li:last-child:nth-child(odd),
+  .size-list > .size-option:last-child:nth-child(odd),
+  .size-list > .size-row:last-child:nth-child(odd),
+  .lp-sizes > .size-option:last-child:nth-child(odd),
+  .lp-sizes > .size-row:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    max-width: calc((100% - 1.25rem) / 2);
+    justify-self: center;
+    width: 100%;
   }
 }
 
 .size-list > li,
-.lp-sizes > li {
+.lp-sizes > li,
+.size-rows > li {
   min-width: 0;
   display: flex;
 }
@@ -2409,7 +2437,8 @@ video[controls],
   border-top: 1px solid var(--brand-accent);
 }
 
-.size-option {
+.size-option,
+.size-row {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -2420,7 +2449,7 @@ video[controls],
   padding: 1.75rem 1.65rem 1.45rem;
   text-align: left;
   background: var(--brand-bg);
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent);
   border-radius: var(--radius-control, 0);
   cursor: pointer;
   transform: none;
@@ -2430,7 +2459,8 @@ video[controls],
     box-shadow var(--dur-fast) var(--ease);
 }
 
-.size-option::before {
+.size-option::before,
+.size-row::before {
   content: '';
   position: absolute;
   top: 0;
@@ -2440,43 +2470,70 @@ video[controls],
   background: transparent;
 }
 
-.section--surface .size-option {
+.size-option::after,
+.size-row::after {
+  content: none;
+}
+
+.section--surface .size-option,
+.section--surface .size-row,
+[data-section-ground="surface"] .size-option,
+[data-section-ground="surface"] .size-row {
   background: var(--brand-bg);
-  border-color: color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  border-color: color-mix(in srgb, var(--brand-primary) 16%, transparent);
 }
 
-.size-option:hover {
+.size-option:hover,
+.size-row:hover {
   border-color: var(--brand-primary);
-  background: var(--brand-surface);
+  background: color-mix(in srgb, var(--brand-primary) 4%, var(--brand-bg));
 }
 
-.section--surface .size-option:hover {
-  background: #fff;
+.section--surface .size-option:hover,
+.section--surface .size-row:hover,
+[data-section-ground="surface"] .size-option:hover,
+[data-section-ground="surface"] .size-row:hover {
+  background: color-mix(in srgb, var(--brand-primary) 4%, var(--brand-bg));
 }
 
 .size-option.is-in-basket,
-.size-option.is-active {
-  background: var(--brand-surface);
+.size-option.is-active,
+.size-row.is-in-basket,
+.size-row.is-active {
+  background: color-mix(in srgb, var(--brand-primary) 8%, var(--brand-bg));
   border-color: var(--brand-primary);
+  border-width: 1.5px;
   box-shadow: none;
 }
 
 .size-option.is-in-basket::before,
-.size-option.is-active::before {
+.size-option.is-active::before,
+.size-row.is-in-basket::before,
+.size-row.is-active::before {
   background: var(--brand-accent);
 }
 
-.section--surface .size-option.is-in-basket {
-  background: #fff;
+.section--surface .size-option.is-in-basket,
+.section--surface .size-option.is-active,
+.section--surface .size-row.is-in-basket,
+.section--surface .size-row.is-active,
+[data-section-ground="surface"] .size-option.is-in-basket,
+[data-section-ground="surface"] .size-option.is-active,
+[data-section-ground="surface"] .size-row.is-in-basket,
+[data-section-ground="surface"] .size-row.is-active {
+  background: color-mix(in srgb, var(--brand-primary) 8%, var(--brand-bg));
 }
 
 .size-option:focus-visible,
-.size-option__pick:focus-visible {
+.size-option__pick:focus-visible,
+.size-row:focus-visible,
+.size-row__pick:focus-visible {
   outline: 2px solid var(--brand-accent);
   outline-offset: 2px;
 }
 
-.size-option__pick {
+.size-option__pick,
+.size-row__pick {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2494,11 +2551,13 @@ video[controls],
   color: inherit;
 }
 
-.size-option__marker {
+.size-option__marker,
+.size-row__marker {
   display: none;
 }
 
-.size-option__main {
+.size-option__main,
+.size-row__main {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -2506,7 +2565,9 @@ video[controls],
   text-align: left;
 }
 
-.size-option__label {
+.size-option__label,
+.size-row__label,
+.size-row__name {
   font-family: var(--font-headline, var(--font-sans));
   font-size: 1.25rem;
   font-weight: 500;
@@ -2515,7 +2576,8 @@ video[controls],
   color: var(--heading-color, var(--brand-primary));
 }
 
-.size-option__dims {
+.size-option__dims,
+.size-row__dims {
   font-size: 0.8125rem;
   line-height: 1.4;
   letter-spacing: 0.04em;
@@ -2524,16 +2586,28 @@ video[controls],
   opacity: 1;
 }
 
-.size-option__foot {
+.size-row__fits {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+  margin-top: 0.15rem;
+}
+
+.size-option__foot,
+.size-row__foot {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 0.85rem;
   width: 100%;
   margin-top: 1.35rem;
+  margin-left: 0;
 }
 
-.size-option__price {
+.size-option__price,
+.size-row__price {
   font-family: var(--font-headline, var(--font-sans));
   font-size: 1.125rem;
   font-weight: 500;
@@ -2542,34 +2616,45 @@ video[controls],
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   justify-self: auto;
-  text-align: left;
-  width: auto;
+  text-align: center;
+  width: 100%;
 }
 
-.size-option__qty {
+.size-option__qty,
+.size-row__qty {
   display: none;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  align-self: center;
+  margin-inline: auto;
   gap: 0;
-  min-height: 2.25rem;
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent);
-  background: #fff;
-  border-radius: var(--radius-control, 0.35rem);
+  min-height: 2.5rem;
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 22%, transparent);
+  background: color-mix(in srgb, var(--brand-primary) 4%, var(--brand-bg));
+  border-radius: var(--radius-control, 0);
 }
 
-.size-option.is-in-basket .size-option__qty {
+.size-option.is-in-basket .size-option__qty,
+.size-option.is-in-basket .size-row__qty,
+.size-row.is-in-basket .size-option__qty,
+.size-row.is-in-basket .size-row__qty {
   display: inline-flex;
 }
 
 .size-option__qty[hidden],
-.size-option__qty--spacer {
+.size-option__qty--spacer,
+.size-row__qty[hidden],
+.size-row__qty--spacer {
   display: none !important;
 }
 
-.size-option__add {
+.size-option__add,
+.size-row__add {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: center;
+  margin-inline: auto;
   min-width: 4.75rem;
   min-height: 2.5rem;
   height: auto;
@@ -2588,17 +2673,25 @@ video[controls],
   pointer-events: none;
 }
 
-.size-option.is-in-basket .size-option__add {
+.size-option.is-in-basket .size-option__add,
+.size-option.is-in-basket .size-row__add,
+.size-row.is-in-basket .size-option__add,
+.size-row.is-in-basket .size-row__add {
   display: none;
 }
 
-.size-option--oos .size-option__add {
+.size-option--oos .size-option__add,
+.size-row--oos .size-row__add {
   visibility: hidden;
 }
 
-.size-option__qty-btn {
+.size-option__qty-btn,
+.size-row__qty-btn,
+.size-row__step {
   width: 2.15rem;
   height: 2.15rem;
+  min-width: 2.15rem;
+  min-height: 2.15rem;
   border: 0;
   background: transparent;
   color: var(--brand-ink);
@@ -2606,19 +2699,27 @@ video[controls],
   font-size: 0.95rem;
   line-height: 1;
   cursor: pointer;
-  border-radius: var(--radius-control, 0.35rem);
+  border-radius: var(--radius-control, 0);
+  display: grid;
+  place-items: center;
 }
 
-.size-option__qty-btn:hover {
-  background: var(--brand-surface);
+.size-option__qty-btn:hover,
+.size-row__qty-btn:hover,
+.size-row__step:hover {
+  background: color-mix(in srgb, var(--brand-primary) 8%, var(--brand-bg));
 }
 
-.size-option__qty-btn:focus-visible {
+.size-option__qty-btn:focus-visible,
+.size-row__qty-btn:focus-visible,
+.size-row__step:focus-visible {
   outline: 2px solid var(--brand-accent);
   outline-offset: -2px;
 }
 
-.size-option__qty-val {
+.size-option__qty-val,
+.size-row__qty-n,
+.size-row__qty-val {
   min-width: 1.85rem;
   text-align: center;
   font-family: var(--font-mono, ui-monospace, monospace);
@@ -2626,14 +2727,16 @@ video[controls],
   font-variant-numeric: tabular-nums;
 }
 
-.size-option--oos {
-  background: transparent;
+.size-option--oos,
+.size-row--oos {
+  background: var(--brand-bg);
   cursor: pointer;
 }
 
 .size-markets {
   display: none !important;
 }
+
 
 .size-note {
   margin-top: 3rem;

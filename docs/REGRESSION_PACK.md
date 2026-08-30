@@ -194,6 +194,7 @@ Checks every `preview/` + `share/v4/` HTML page for:
 | SZ-13 | Checkout deposit | Complete deposit purchase | Charged deposit only (app); refundable terms shown | P0 |
 | SZ-14 | Confirmation email | Place test deposit | Email: reserved size, deposit, refundable, ship window | P0 |
 | SZ-15 | Admin export | Export orders | Columns usable for size, tier, UTMs | P0 |
+| SZ-16 | Choose-your-size chrome | Open `/pages/specification` (and `#reserve`) | Every size card shares one chrome (`.size-option` / `.size-row`). Navy **ADD** is centred, not jammed. Selected is a navy hairline/navy-tint variant of the same tile, not a beige leftover. Last odd cell (Emperor) spans/centres — no empty hole. No grey 1:1 dummy squares. Note field keeps distinct fill/border (c0b2830). GB paints every priced Shopify size (European King `160 × 200 cm` included); do not hardcode seven. | P0 |
 
 ---
 

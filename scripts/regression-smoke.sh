@@ -25,6 +25,7 @@ REQUIRED_PATHS=(
   "config/settings_schema.json"
   "config/settings_data.json"
   "assets/base.css"
+  "assets/brand.css"
   "assets/theme.js"
   "assets/utm-persistence.js"
   "snippets/wordmark.liquid"
@@ -908,11 +909,117 @@ if grep -q "function buildSizeTileMarkup" "$JS" \
   && ! grep -q 'class="size-row' "$JS" \
   && ! grep -q 'class="size-row' "$ROOT/preview/theme.js" \
   && grep -q 'class="size-list lp-sizes"' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "data-size-pick" "$THEME/sections/landing-funnel.liquid" \
   && ! grep -q "size-rows" "$THEME/sections/landing-funnel.liquid" \
   && ! grep -q "iso == 'AU'" "$THEME/snippets/size-market.liquid"; then
   pass "size picker is a one-market tile grid; unlisted countries use UK"
 else
   fail "size picker still has row markup, or AU is treated as a shopper market"
+fi
+
+# Choose-your-size chrome lock: one card system, centred ADD, no Emperor hole,
+# no grey dummy squares, note-field contrast (c0b2830) kept, .size-row CSS present.
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" "$JS" "$ROOT/preview/theme.js" "$THEME/sections/landing-funnel.liquid" <<'PY'
+from pathlib import Path
+import re, sys
+
+ok = True
+css_paths = sys.argv[1:3]
+js_paths = sys.argv[3:5]
+funnel = Path(sys.argv[5]).read_text()
+
+def picker_block(text):
+    start = text.find("/* Size picker:")
+    if start < 0:
+        start = text.find(".size-list,")
+    end = text.find(".size-markets")
+    return text[start:end] if start >= 0 and end > start else ""
+
+for path in css_paths:
+    text = Path(path).read_text()
+    block = picker_block(text)
+    if not block:
+        print(path, "missing size picker CSS block")
+        ok = False
+        continue
+    if ".size-row {" not in block and ".size-row {" not in text:
+        # restored alias: .size-option,\n.size-row {
+        if ".size-row" not in block:
+            print(path, "emptied .size-row CSS")
+            ok = False
+    if not re.search(r"\.size-option,\s*\.size-row", block):
+        print(path, "size-option and size-row are not one shared card class")
+        ok = False
+    if re.search(r"\.size-option\.is-in-basket[^{]*\{[^}]*background:\s*var\(--brand-surface\)", block):
+        print(path, "selected size cards still use beige leftover --brand-surface")
+        ok = False
+    if "color-mix(in srgb, var(--brand-primary)" not in block:
+        print(path, "selected state is not a navy-tint variant")
+        ok = False
+    add_rule = re.search(r"\.size-option__add,\s*\.size-row__add\s*\{([^}]+)\}", block, re.S)
+    if not add_rule or "margin-inline: auto" not in add_rule.group(1) or "align-self: center" not in add_rule.group(1):
+        print(path, "ADD is not centred (corner-jammed)")
+        ok = False
+    foot = re.search(r"\.size-option__foot,\s*\.size-row__foot\s*\{([^}]+)\}", block, re.S)
+    if not foot or "justify-content: center" not in foot.group(1) or "margin-left: 0" not in foot.group(1):
+        print(path, "size foot is not centred card chrome")
+        ok = False
+    if "last-child:nth-child(odd)" not in block or "grid-column: 1 / -1" not in block:
+        print(path, "last odd size cell still leaves a grid hole")
+        ok = False
+    # Grey 1:1 dummy squares must stay gone from picker tiles
+    if re.search(r"\.(size-option|size-row)[^{]*\{[^}]*aspect-ratio:\s*1\s*/\s*1", block):
+        print(path, "size cards have 1:1 grey placeholder squares")
+        ok = False
+    if re.search(r"\.(size-option|size-row)::after[^{]*\{[^}]*content:\s*['\"](?!none)", block):
+        print(path, "size cards generate dummy ::after boxes")
+        ok = False
+    # Note field contrast (c0b2830)
+    if "--field-fill:" not in text or "--field-line:" not in text:
+        print(path, "size-note lost field fill/border contrast")
+        ok = False
+    if not re.search(r"\.size-note textarea[^{]*\{[^}]*background:\s*var\(--field-fill", text, re.S):
+        print(path, "size-note textarea missing distinct --field-fill")
+        ok = False
+    if not re.search(r"\.size-note textarea[^{]*\{[^}]*border:\s*1\.5px solid var\(--field-line", text, re.S):
+        print(path, "size-note textarea missing distinct --field-line")
+        ok = False
+    # Hover must not reintroduce beige selected leftover
+    if re.search(r"\.size-option\.is-in-basket:hover[^{]*\{[^}]*background:\s*var\(--brand-surface\)", text):
+        print(path, "selected hover still paints beige leftover")
+        ok = False
+
+for path in js_paths:
+    t = Path(path).read_text()
+    if 'class="size-option' not in t or "size-option__add" not in t or "size-option__qty" not in t:
+        print(path, "tile markup missing shared size-option ADD/qty")
+        ok = False
+    if "size-option__media" in t or "size-option__bed" in t:
+        print(path, "size tiles grew dummy image boxes")
+        ok = False
+    if re.search(r"\.slice\(\s*0\s*,\s*7\s*\)", t) or "hardcoded seven" in t:
+        print(path, "size list hardcoded to seven")
+        ok = False
+    if "european-king" not in t or "160 × 200 cm" not in t:
+        print(path, "European King 160 × 200 cm missing")
+        ok = False
+    if "rowHasPickerPrice" not in t or "return rowHasPickerPrice(row)" not in t:
+        print(path, "picker is not painting every priced Shopify size")
+        ok = False
+
+if "data-size-pick" not in funnel or "data-lp-sizes" not in funnel:
+    print("landing-funnel missing data-size-pick / size list")
+    ok = False
+if "size-rows" in funnel:
+    print("landing-funnel reintroduced size-rows markup")
+    ok = False
+
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "size picker chrome: one card system, centred ADD, last-odd centred, no dummy squares, note contrast"
+else
+  fail "size picker chrome regressed (two skins, jammed ADD, Emperor hole, dummy squares, or washed note)"
 fi
 
 if grep -q "how-to-choose-a-mattress" "$THEME/snippets/journal-article-body.liquid" \
@@ -1148,6 +1255,61 @@ if grep -q 'assign eyebrow_on_dark = color_on_dark' "$THEME/snippets/css-variabl
   pass "on-dark eyebrow token is snow, never gold"
 else
   fail "css-variables still paints gold eyebrows on dark"
+fi
+
+# Concierge delivery band: cream type on solid navy, no glass overlay.
+# Homepage and specification share landing-funnel + base.css.
+if grep -q 'Concierge delivery — cream type on solid navy' "$THEME/assets/base.css" \
+  && grep -q 'Concierge delivery — cream type on solid navy' "$ROOT/preview/base.css" \
+  && grep -q 'background: none !important' "$THEME/assets/base.css" \
+  && grep -q '.lp-section--delivery .lp-tier--pick' "$THEME/assets/base.css" \
+  && grep -q '.section--dark .lp-tier__desc' "$THEME/assets/base.css" \
+  && grep -q '.section--dark .lp-svc p' "$THEME/assets/base.css" \
+  && grep -q 'font-size: 1rem' "$THEME/assets/base.css" \
+  && grep -q '.lp-svc__item' "$THEME/assets/base.css" \
+  && ! grep -q 'background: color-mix(in srgb, var(--brand-surface, var(--brand-bg)) 70%, transparent)' "$THEME/assets/base.css" \
+  && ! grep -q 'background: color-mix(in srgb, var(--brand-surface, var(--brand-bg)) 70%, transparent)' "$ROOT/preview/base.css"; then
+  pass "delivery CSS is cream-on-navy with no glass fill in theme and preview"
+else
+  fail "delivery CSS still has glass overlay or is missing from preview/theme"
+fi
+
+if grep -q "layout == 'delivery'" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'section--dark' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'lp-delivery' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'lp-svc__item' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q '"layout": "delivery"' "$THEME/templates/page.specification.json" \
+  && grep -q '"ground": "dark"' "$THEME/templates/page.specification.json" \
+  && grep -q '"type": "landing-funnel"' "$THEME/templates/index.json" \
+  && grep -q '"anchor_id": "delivery"' "$THEME/templates/index.json" \
+  && grep -q '"delivery"' "$THEME/templates/index.json"; then
+  pass "homepage and specification share landing-funnel delivery (forced navy)"
+else
+  fail "delivery layout missing from homepage, specification, or landing-funnel"
+fi
+
+if grep -q 'lp-section--delivery section--dark' "$ROOT/preview/pages/specification.html" \
+  && grep -q 'lp-section--delivery section--dark' "$ROOT/preview/index.html" \
+  && grep -q 'id="delivery"' "$ROOT/preview/index.html" \
+  && grep -q 'It arrives compressed' "$ROOT/preview/index.html" \
+  && grep -q 'lp-svc__item' "$ROOT/preview/pages/specification.html"; then
+  pass "preview homepage and specification use the same navy delivery markup"
+else
+  fail "preview homepage or specification still uses old delivery markup"
+fi
+
+if grep -q '#cool-touch.section--dark .cool-touch__points span' "$THEME/assets/base.css" \
+  && grep -q 'color: var(--brand-on-dark) !important' "$THEME/assets/base.css"; then
+  pass "Cool Touch snow-on-navy lock is still present"
+else
+  fail "Cool Touch cream-on-navy lock was reverted"
+fi
+
+if grep -q 'bottom: 0 !important' "$THEME/assets/base.css" \
+  && grep -q '.float-basket' "$THEME/assets/base.css"; then
+  pass "sticky basket stays pinned to bottom: 0"
+else
+  fail "float-basket is not pinned to bottom: 0"
 fi
 
 if grep -q '.section--dark \[class\*="muted"\]' "$THEME/assets/base.css" \
