@@ -1,14 +1,25 @@
 {%- comment -%}
-  Journal index URL. Prefer a blog that actually has articles so live
-  Journal content is not hidden behind an empty Page.
+  Journal index URL. Coerce articles_count before any > 0 compare so a
+  missing blog cannot leak "Liquid error (...)" into href.
+  Index is the Page. Fallback /pages/journal. Never emit an error as a URL.
 {%- endcomment -%}
-{%- assign journal_count = blogs['journal'].articles_count | default: 0 | plus: 0 -%}
-{%- if journal_count > 0 -%}
-  {{- blogs['journal'].url -}}
-{%- elsif pages['journal'].handle == 'journal' -%}
-  {{- pages['journal'].url -}}
-{%- elsif blogs['journal'].handle == 'journal' -%}
-  {{- blogs['journal'].url -}}
-{%- else -%}
-  /pages/journal
-{%- endif -%}
+{%- liquid
+  assign journal_href = '/pages/journal'
+  assign journal_count = blogs['journal'].articles_count | default: 0 | plus: 0
+  if journal_count > 0
+    assign journal_href = '/pages/journal'
+  endif
+  assign maybe_href = pages['journal'].url | default: '/pages/journal' | strip
+  if maybe_href != blank
+    unless maybe_href contains 'Liquid error'
+      assign journal_href = maybe_href
+    endunless
+  endif
+  if journal_href == blank
+    assign journal_href = '/pages/journal'
+  endif
+  if journal_href contains 'Liquid error'
+    assign journal_href = '/pages/journal'
+  endif
+-%}
+{{- journal_href -}}
