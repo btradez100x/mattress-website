@@ -1,3 +1,11 @@
+# Regression results — Sunday 30 Aug 2026 (deploy compressed-arrival and lates)
+
+## Smoke
+- Command: not re-run on the dirty preview-server working tree; last committed packs on this branch were **PASSED**.
+- Scope note: Fast-forwarded Connect `v9` `9c6f061` → `7cf3393` (folder `valtora-theme/`). `shopify-theme` tree already matched at `1fedd1e` (no force-push). **Compressed-arrival CSS included** (`d205fc5`: cream type on solid navy, grey glass removed). Also Cool Touch snow-on-navy, footer debug stripped, sticky size bar, hero max-height restore, Choose-your-size one-card chrome, Brand_guidelines_a1e2 tokens. Checkout not modified. `VERSION` stays **10.1.0**. Checkpoint: `checkpoints/10.1.0-compressed-arrival-and-lates/`. GitHub Action skipped CLI push (secrets unset). Connect may lag a minute.
+
+---
+
 # Regression results — Sunday 30 Aug 2026 (Choose your size chrome restore)
 
 ## Smoke
