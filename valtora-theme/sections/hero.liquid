@@ -58,7 +58,7 @@
   {%- comment -%} Copy first so the product image stays clear (Apple-style stack on light) {%- endcomment -%}
   <div class="hero__content">
     {%- if section.settings.heading != blank -%}
-      <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">{{ section.settings.heading | newline_to_br }}</h1>
+      <h1 data-reveal-child data-reveal-first style="--reveal-delay: 0ms">{{ section.settings.heading }}</h1>
     {%- endif -%}
     {%- if section.settings.subheading != blank -%}
       <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">{{ section.settings.subheading }}</p>
@@ -88,6 +88,7 @@
         loading: 'eager',
         fetchpriority: 'high',
         sizes: '100vw',
+        class: 'hero__img',
         alt: brand
       %}
     {%- endif -%}

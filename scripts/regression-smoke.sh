@@ -1083,6 +1083,61 @@ else
   fail "manufacturing bands still share one ground"
 fi
 
+# Homepage light hero: same uncropped mattress photo on mobile and desktop.
+# A max-height banner + width:100% (cover or contain) shears desktop into a
+# panoramic strip. Both theme and preview CSS must share one natural-height rule.
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" <<'PY'
+import re, sys
+
+def light_hero_img_ok(path):
+    text = open(path).read()
+    # Caps that previously cropped the 2000x1116 photo on wide viewports.
+    if re.search(r"max-height:\s*min\(\s*5[28]vh", text) and "hero--light" in text:
+        # Only fail if it sits in a light-hero image rule.
+        for m in re.finditer(
+            r"\.hero--light \.hero__media img[^{]*\{([^}]+)\}",
+            text,
+        ):
+            body = m.group(1)
+            if re.search(r"max-height:\s*min\(", body):
+                print(f"{path}: light hero img still has max-height min()")
+                return False
+    if re.search(r"\.hero--light \.hero__media img[^{]*\{[^}]*max-height:\s*min\(", text):
+        print(f"{path}: light hero img max-height min() still present")
+        return False
+    if "max-height: none" not in text:
+        print(f"{path}: missing max-height: none")
+        return False
+    if "object-fit: contain" not in text:
+        print(f"{path}: missing object-fit contain")
+        return False
+    # Must not switch to a cropped art-directed frame at desktop.
+    desktop = re.search(
+        r"@media \(min-width: 900px\) \{(.*?)@keyframes",
+        text,
+        re.S,
+    )
+    if desktop:
+        chunk = desktop.group(1)
+        img_rules = re.findall(
+            r"\.hero--light \.hero__media img[^{]*\{([^}]+)\}",
+            chunk,
+        )
+        for body in img_rules:
+            if re.search(r"max-height:\s*min\(", body) or "object-fit: cover" in body:
+                print(f"{path}: desktop light hero still crops")
+                return False
+    return True
+
+ok = all(light_hero_img_ok(p) for p in sys.argv[1:])
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "light hero shows the full mattress at natural height on mobile and desktop"
+else
+  fail "light hero still uses a max-height banner crop on desktop or mobile"
+fi
+
 info "----------------------------------------"
 if [[ "$FAIL" -gt 0 ]]; then
   red "SMOKE FAILED — $FAIL check(s)"
