@@ -42,8 +42,10 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
   --dur-panel: 280ms;
   --dur-base: 450ms;
   --dur-wipe: 600ms;
-  --radius: 2px;
-  --radius-control: 2px;
+  --radius: 16px;
+  --radius-control: 12px;
+  --radius-card: 16px;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(31, 58, 95, 0.08);
 }
 
 /* Wordmark gold on cream header (not footer / not --dark). */
@@ -171,19 +173,40 @@ button:focus-visible {
   color: var(--brand-primary, #1F3A5F);
 }
 
-/* Zip markdown said --radius: 0; brand-guidelines.html cards/buttons use 2px. */
+/* Apple-level rounding: 12px CTAs, 16px cards. Not 0, not 2px. */
 html .btn:not(.btn--accent-line),
 html[data-brand-guidelines="v1"] .btn:not(.btn--accent-line),
 html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 .hero__cta .btn,
 .float-basket__btn,
 .sticky-reserve__btn,
+.size-option__add,
+.size-row__add,
+.checkout-stage__pay {
+  border-radius: var(--radius-control, 12px);
+}
+
+.size-option,
+.size-row,
 .size-note textarea,
 [data-size-note],
 .lp-card,
 .size-guide-tile,
-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
-select,
-textarea {
-  border-radius: var(--radius-control, 2px);
+.reserve-panel,
+.order-panel,
+.request-size-form input,
+.request-size-form select,
+.request-size-form textarea,
+.notify-form__input,
+.review-form__input {
+  border-radius: var(--radius-card, 16px);
+}
+
+.size-option,
+.size-row,
+.reserve-panel,
+.order-panel,
+.size-guide-tile,
+.lp-card {
+  box-shadow: var(--shadow-card);
 }
