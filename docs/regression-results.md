@@ -1,3 +1,11 @@
+# Regression results — Sunday 30 Aug 2026 (10.1.0-20260830 latest export)
+
+## Smoke
+- Command: not re-run on the dirty preview-server working tree; last committed packs on this branch were **PASSED**.
+- Scope note: Packaged latest `preview/` + `valtora-theme/` (working-tree snapshot) as `checkpoints/10.1.0-20260830/` and Downloads copies `numa-website-10.1.0-20260830-preview-and-theme.tar.gz` plus Shopify-uploadable `numa-website-10.1.0-20260830-valtora-theme.zip`. Committed line at pack: `acbccda` / `v9` `acbccda` / `shopify-theme` `1fedd1e`. Checkout not modified. `VERSION` stays **10.1.0**. Legal name Valtora FZE.
+
+---
+
 # Regression results — Sunday 30 Aug 2026 (deploy compressed-arrival and lates)
 
 ## Smoke
@@ -21,6 +29,16 @@
 - Command: `./scripts/regression-smoke.sh` (against committed `930d28a`; dirty sibling WIP excluded)
 - Result: **PASSED** (exit 0)
 - Scope note: Homepage light hero restored to the pre-`070a1cb` max-height band from `79db8e6` / `checkpoints/10.1.0-size-picker-and-contrast`. Caps: `min(52vh, 30rem)`, mobile `42vh`, desktop `58vh`. Headline stays one line. Checkout not modified. `VERSION` stays **10.1.0**. Checkpoint: `checkpoints/10.1.0-hero-size-revert/`. Connect: `shopify-theme` `4deb141`.
+
+---
+
+# Regression results — Sunday 30 Aug 2026 (pin choose-a-size bar)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Sticky-bar check: **PASSED** (bar `bottom: 0`, cream body spacer, no `float-basket-at-footer` dock)
+- Full gate: 2 unrelated FAIL on this dirty working tree (`main-blog.liquid` journal bake; `index.json` journal-home ground) — not part of this fix
+- Checkout unchanged. `VERSION` stays **10.1.0**. Connect `shopify-theme` `3adb5ec`.
 
 ---
 
