@@ -3507,9 +3507,13 @@
           row.getAttribute('data-size-id'),
           row.getAttribute('data-size-variant')
         );
-        if (existingQty > 0 && !pick) return;
+        if (!pick) {
+          applySelection(row);
+          return;
+        }
+        if (existingQty > 0) return;
         collapseStageB(true);
-        upsertActiveMattress(existingQty > 0 ? existingQty : 1, { size: sizeFromRow(row) });
+        upsertActiveMattress(1, { size: sizeFromRow(row) });
         updateContinueState();
         paintSticky();
       });
