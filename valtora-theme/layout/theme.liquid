@@ -104,7 +104,6 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'brand.css' | asset_url | stylesheet_tag }}
-    {{ 'mobile-fit.css' | asset_url | stylesheet_tag }}
 
     <script src="{{ 'utm-persistence.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
@@ -142,6 +141,7 @@
     {%- endif -%}
 
     {{ content_for_header }}
+    {{ 'mobile-fit.css' | asset_url | stylesheet_tag }}
 
     {%- capture valtora_legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
     <script>
