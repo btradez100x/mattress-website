@@ -1093,59 +1093,42 @@ else
   fail "manufacturing bands still share one ground"
 fi
 
-# Homepage light hero: same uncropped mattress photo on mobile and desktop.
-# A max-height banner + width:100% (cover or contain) shears desktop into a
-# panoramic strip. Both theme and preview CSS must share one natural-height rule.
+# Homepage light hero: controlled-height band (pre-070a1cb). Natural-height
+# contain with max-height:none made the 2000x1116 photo ~60-70vh. Restore the
+# 52vh/42vh/58vh caps from 79db8e6 / 10.1.0-size-picker-and-contrast.
 if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" <<'PY'
 import re, sys
 
 def light_hero_img_ok(path):
     text = open(path).read()
-    # Caps that previously cropped the 2000x1116 photo on wide viewports.
-    if re.search(r"max-height:\s*min\(\s*5[28]vh", text) and "hero--light" in text:
-        # Only fail if it sits in a light-hero image rule.
-        for m in re.finditer(
-            r"\.hero--light \.hero__media img[^{]*\{([^}]+)\}",
-            text,
-        ):
-            body = m.group(1)
-            if re.search(r"max-height:\s*min\(", body):
-                print(f"{path}: light hero img still has max-height min()")
-                return False
-    if re.search(r"\.hero--light \.hero__media img[^{]*\{[^}]*max-height:\s*min\(", text):
-        print(f"{path}: light hero img max-height min() still present")
-        return False
-    if "max-height: none" not in text:
-        print(f"{path}: missing max-height: none")
-        return False
-    if "object-fit: contain" not in text:
-        print(f"{path}: missing object-fit contain")
-        return False
-    # Must not switch to a cropped art-directed frame at desktop.
-    desktop = re.search(
-        r"@media \(min-width: 900px\) \{(.*?)@keyframes",
+    if re.search(
+        r"\.hero--light \.hero__media img[^{]*\{[^}]*max-height:\s*none",
         text,
-        re.S,
+    ):
+        print(f"{path}: light hero img still has max-height: none")
+        return False
+    base = re.search(
+        r"\.hero--light \.hero__media img[^{]*\{([^}]+)\}",
+        text,
     )
-    if desktop:
-        chunk = desktop.group(1)
-        img_rules = re.findall(
-            r"\.hero--light \.hero__media img[^{]*\{([^}]+)\}",
-            chunk,
-        )
-        for body in img_rules:
-            if re.search(r"max-height:\s*min\(", body) or "object-fit: cover" in body:
-                print(f"{path}: desktop light hero still crops")
-                return False
+    if not base or not re.search(r"max-height:\s*min\(\s*52vh,\s*30rem\s*\)", base.group(1)):
+        print(f"{path}: missing light hero max-height min(52vh, 30rem)")
+        return False
+    if "max-height: min(42vh, 20rem)" not in text:
+        print(f"{path}: missing mobile light hero max-height min(42vh, 20rem)")
+        return False
+    if "max-height: min(58vh, 36rem)" not in text:
+        print(f"{path}: missing desktop light hero max-height min(58vh, 36rem)")
+        return False
     return True
 
 ok = all(light_hero_img_ok(p) for p in sys.argv[1:])
 sys.exit(0 if ok else 1)
 PY
 then
-  pass "light hero shows the full mattress at natural height on mobile and desktop"
+  pass "light hero uses the pre-070a1cb max-height band on mobile and desktop"
 else
-  fail "light hero still uses a max-height banner crop on desktop or mobile"
+  fail "light hero still uses natural-height contain (giant photo)"
 fi
 
 # Dark-ground type: Cool Touch spans/captions/eyebrows are snow, never gold/ink.
