@@ -241,6 +241,7 @@
     <div class="lp-cards">
       {%- for block in section.blocks -%}
         {%- if block.type == 'card' -%}
+          {%- if block.settings.heading != blank or block.settings.text != blank -%}
           <article class="lp-card" {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
               <h3>{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h3>
@@ -249,6 +250,7 @@
               <p>{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</p>
             {%- endif -%}
           </article>
+          {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
     </div>
@@ -450,7 +452,7 @@
     <div class="lp-tiers">
       {%- for block in section.blocks -%}
         {%- if block.type == 'tier' -%}
-          <div class="lp-tier" {{ block.shopify_attributes }}>
+          <div class="lp-tier{% if block.settings.featured %} lp-tier--pick{% endif %}" {{ block.shopify_attributes }}>
             <div>
               {%- if block.settings.tag != blank -%}
                 <span class="lp-tier__tag">{% render 'landing-copy', text: block.settings.tag, featured_price: featured_price, layer_price: layer_price %}</span>
@@ -472,6 +474,7 @@
     <div class="lp-svc">
       {%- for block in section.blocks -%}
         {%- if block.type == 'card' -%}
+          {%- if block.settings.heading != blank or block.settings.text != blank -%}
           <div class="lp-svc__item" {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
               <h3>{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h3>
@@ -480,6 +483,7 @@
               <p>{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}</p>
             {%- endif -%}
           </div>
+          {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
     </div>

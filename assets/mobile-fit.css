@@ -146,3 +146,5 @@ body.nav-open {
     transform: none;
   }
 }
+
+/* Desktop page scroll is unlocked on html/body for every breakpoint above. */
