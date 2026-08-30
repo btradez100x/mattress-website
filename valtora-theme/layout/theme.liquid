@@ -142,6 +142,21 @@
 
     {{ content_for_header }}
     {{ 'mobile-fit.css' | asset_url | stylesheet_tag }}
+    <style id="page-scroll">
+      html, body {
+        overflow-x: clip;
+        overflow-y: auto !important;
+        height: auto;
+      }
+      html.nav-open, body.nav-open {
+        overflow: hidden !important;
+      }
+      #MainContent, .main-content, #reserve, [data-size-reserve], .reserve-panel {
+        height: auto;
+        max-height: none;
+        overflow-y: visible;
+      }
+    </style>
 
     {%- capture valtora_legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
     <script>

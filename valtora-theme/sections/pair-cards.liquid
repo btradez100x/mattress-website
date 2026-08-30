@@ -7,6 +7,7 @@
 >
   <div class="page-width pair-cards__grid">
     {%- for block in section.blocks -%}
+      {%- if block.settings.label != blank or block.settings.heading != blank or block.settings.body != blank -%}
       <article class="pair-card" {{ block.shopify_attributes }} data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 80 }}ms">
         {%- if block.settings.label != blank -%}
           <p class="section__eyebrow">{{ block.settings.label }}</p>
@@ -23,6 +24,7 @@
           </p>
         {%- endif -%}
       </article>
+      {%- endif -%}
     {%- endfor -%}
   </div>
 </section>

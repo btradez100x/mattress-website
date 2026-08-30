@@ -3,15 +3,42 @@
    Display 38px / body large 17px / caption 14px / page margin 20px.
    Cream (Snow) on Carbon. Ember is never body text. */
 
+/* Page scroll: clip X on every breakpoint. Never lock Y except an open modal. */
+html,
+body {
+  overflow-x: clip;
+  overflow-y: auto !important;
+  height: auto;
+}
+
+html.nav-open,
+body.nav-open {
+  overflow: hidden !important;
+}
+
+#MainContent,
+.main-content,
+#reserve,
+[data-size-reserve],
+.reserve-panel {
+  height: auto;
+  max-height: none;
+  overflow-y: visible;
+}
+
 @media (max-width: 899px) {
   html {
     --space-gutter: 20px;
     overflow-x: clip;
+    overflow-y: auto !important;
+    height: auto;
     max-width: 100%;
   }
 
   body {
     overflow-x: clip;
+    overflow-y: auto !important;
+    height: auto;
     max-width: 100%;
   }
 
@@ -119,3 +146,5 @@
     transform: none;
   }
 }
+
+/* Desktop page scroll is unlocked on html/body for every breakpoint above. */
