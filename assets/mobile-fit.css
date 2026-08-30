@@ -1,0 +1,121 @@
+/* 390px overflow lock. Loaded LAST so brand overlays cannot ship a desktop
+   type scale on a phone. Source: Brand_guidelines_a1e2 TOKENS.md
+   Display 38px / body large 17px / caption 14px / page margin 20px.
+   Cream (Snow) on Carbon. Ember is never body text. */
+
+@media (max-width: 899px) {
+  html {
+    --space-gutter: 20px;
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  img,
+  video,
+  svg,
+  .shopify-section,
+  .hero,
+  .hero__content,
+  .hero__media,
+  .hero__cta,
+  .hero h1,
+  .hero__sub,
+  .hero__img,
+  .announcement,
+  .announcement p,
+  .site-header,
+  .site-header__inner,
+  .float-basket,
+  .btn {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .announcement,
+  .announcement p {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .announcement {
+    padding: 12px 2.5rem 12px 20px;
+    overflow: visible;
+  }
+
+  .site-header__nav {
+    display: none !important;
+  }
+
+  .nav-toggle {
+    display: inline-flex !important;
+  }
+
+  .hero--light {
+    overflow-x: clip;
+  }
+
+  .hero--light .hero__content {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem 20px 0.25rem;
+  }
+
+  .hero h1,
+  .hero--light h1,
+  .hero.hero--light h1 {
+    font-size: clamp(2rem, 5vw + 1.1rem, 2.375rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+  }
+
+  .hero__sub,
+  .hero--light .hero__sub {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .hero__cta,
+  .hero--light .hero__cta {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    gap: 0.75rem;
+  }
+
+  .hero__cta .btn,
+  .hero--light .hero__cta .btn {
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .hero--light .hero__media,
+  .hero--light .hero__media img,
+  .hero--light .hero__img {
+    width: 100%;
+    max-width: 100%;
+    max-height: min(42vh, 20rem);
+    transform: none;
+  }
+}

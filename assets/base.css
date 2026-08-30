@@ -46,6 +46,8 @@ html[data-market='gb'] span[data-market-only='gb'] {
 html {
   overscroll-behavior-y: none;
   background: var(--brand-bg, #f5f4f1);
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -60,6 +62,8 @@ body {
   --header-height: 3.75rem;
   --float-basket-space: 5.5rem;
   overscroll-behavior-y: none;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 img,
@@ -484,8 +488,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --font-headline: 'Instrument Sans', system-ui, sans-serif;
       --font-mono: 'Geist Mono', ui-monospace, monospace;
       --wordmark-tracking: 0.02em;
-      --radius: 0;
-      --radius-control: 0;
+      --radius: 2px;
+      --radius-control: 2px;
       --transition: var(--dur-base) var(--ease);
       --hairline: #D6D2CA;
       --hairline-dark: #2E2E30;
@@ -788,13 +792,24 @@ a[data-reserve-continue][aria-disabled="true"] {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
   text-align: center;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  padding: 0.55rem var(--space-gutter);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+  padding: 0.55rem 2.5rem 0.55rem var(--space-gutter);
+  white-space: normal;
+  overflow-wrap: break-word;
+  overflow-x: clip;
   --brand-ink: var(--brand-on-dark);
   --eyebrow-color: var(--brand-on-dark);
   --color-foreground: var(--brand-on-dark);
+}
+
+.announcement p {
+  margin: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .announcement a {
@@ -1162,15 +1177,19 @@ body[data-page="manufacturing"] .site-header {
   letter-spacing: -0.03em;
   line-height: 1.02;
   margin-bottom: 0.75rem;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .hero__sub {
   font-size: clamp(1rem, 2.2vw, 1.2rem);
   line-height: 1.5;
-  max-width: 32rem;
+  max-width: min(32rem, 100%);
   margin-inline: auto;
   margin-bottom: 1.35rem;
   color: var(--brand-ink);
+  overflow-wrap: break-word;
 }
 
 .hero--dark .hero__sub {
@@ -1230,35 +1249,64 @@ body[data-page="manufacturing"] .site-header {
 
 /* Mobile / tablet light hero */
 @media (max-width: 899px) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  .hero--light {
+    overflow-x: clip;
+  }
+
   .hero--light .hero__media {
     height: auto;
     min-height: 0;
     margin-top: 0.15rem;
+    overflow-x: clip;
   }
 
   .hero--light .hero__media img {
     max-height: min(42vh, 20rem);
+    max-width: 100%;
+    transform: none;
   }
 
   .hero--light .hero__content {
-    padding: 1rem 0 0.25rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem var(--space-gutter) 0.25rem;
+    box-sizing: border-box;
   }
 
   body:has([data-float-total]:empty) .hero--light .hero__content {
     padding-bottom: 1.5rem;
   }
 
+  .hero h1,
   .hero--light h1 {
-    font-size: clamp(1.85rem, 8vw, 2.45rem);
+    font-size: clamp(2rem, 5vw + 1.1rem, 2.375rem);
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .hero--light .hero__sub {
+    font-size: 1.0625rem;
+    max-width: 100%;
   }
 
   .hero--light .hero__cta {
     flex-direction: column;
     align-items: stretch;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
   }
 
   .hero--light .hero__cta .btn {
     width: 100%;
+    max-width: 100%;
+    white-space: normal;
   }
 
   .hero--dark {
@@ -2453,7 +2501,7 @@ video[controls],
   text-align: left;
   background: var(--brand-bg);
   border: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent);
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
   cursor: pointer;
   transform: none;
   transition:
@@ -2634,7 +2682,7 @@ video[controls],
   min-height: 2.5rem;
   border: 1px solid color-mix(in srgb, var(--brand-primary) 22%, transparent);
   background: color-mix(in srgb, var(--brand-primary) 4%, var(--brand-bg));
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
 }
 
 .size-option.is-in-basket .size-option__qty,
@@ -2672,7 +2720,7 @@ video[controls],
   text-transform: uppercase;
   line-height: 1;
   cursor: pointer;
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
   pointer-events: none;
 }
 
@@ -2702,7 +2750,7 @@ video[controls],
   font-size: 0.95rem;
   line-height: 1;
   cursor: pointer;
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
   display: grid;
   place-items: center;
 }
@@ -2795,7 +2843,7 @@ video[controls],
   color: var(--brand-ink);
   background: var(--field-fill, var(--brand-surface));
   border: 1.5px solid var(--field-line, color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink)));
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
   padding: 1rem 1.15rem;
 }
 .size-note textarea::placeholder,
@@ -3561,7 +3609,7 @@ video[controls],
   border: 1.5px solid color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink));
   background: var(--brand-surface);
   color: var(--brand-ink);
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
 }
 .section--surface .review-form__input,
 [data-section-ground="surface"] .review-form__input {
@@ -4488,7 +4536,7 @@ video[controls],
   color: var(--brand-ink);
   background: var(--brand-bg);
   border: 1.5px solid color-mix(in srgb, var(--brand-primary) 55%, var(--brand-ink));
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
 }
 .section--surface .notify-form__input,
 .section--surface .request-size-form .notify-form__input,
@@ -4943,6 +4991,64 @@ body:has([data-float-total]:empty) .hero__cta {
 
 .float-basket__btn:hover {
   filter: brightness(0.97);
+}
+
+/* Lined basket: show immediately at the viewport bottom (mobile + desktop).
+   Do not wait for scroll / IntersectionObserver. Never display:none under 900px. */
+.float-basket.has-items,
+.float-basket.is-active,
+.float-basket.has-items[hidden],
+.float-basket.is-active[hidden] {
+  display: flex !important;
+  visibility: visible !important;
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto;
+  z-index: 60;
+}
+
+.float-basket.has-items .float-basket__count,
+.float-basket.has-items .float-basket__total,
+.float-basket.is-active .float-basket__count,
+.float-basket.is-active .float-basket__total {
+  color: var(--brand-bg, #f5f4f1);
+  -webkit-text-fill-color: var(--brand-bg, #f5f4f1);
+  background: none;
+}
+
+.float-basket.has-items .float-basket__btn,
+.float-basket.is-active .float-basket__btn {
+  background: var(--brand-bg, #f5f4f1);
+  color: var(--brand-primary, #1a1a1a);
+  -webkit-text-fill-color: var(--brand-primary, #1a1a1a);
+}
+
+@media (max-width: 899px) {
+  .float-basket,
+  .float-basket.has-items,
+  .float-basket.is-active,
+  .float-basket.has-items[hidden],
+  .float-basket.is-active[hidden] {
+    display: flex !important;
+  }
+
+  .float-basket.has-items,
+  .float-basket.is-active,
+  .float-basket.has-items[hidden],
+  .float-basket.is-active[hidden] {
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
 }
 
 .sticky-reserve {
@@ -7785,7 +7891,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   padding: 1.75rem 1.65rem 1.5rem;
   background: var(--brand-bg);
   border: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
-  border-radius: var(--radius-control, 0);
+  border-radius: var(--radius-control, 2px);
   color: inherit;
   text-decoration: none;
 }
@@ -8443,7 +8549,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-card {
   background: var(--brand-bg);
   padding: var(--s6, 2rem) var(--s5, 1.5rem);
-  border-radius: 0;
+  border-radius: var(--radius-control, 2px);
 }
 .section--surface .lp-card {
   background: var(--brand-surface);

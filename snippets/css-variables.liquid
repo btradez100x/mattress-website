@@ -183,8 +183,8 @@
     --space-gutter: 20px;
     --max-width: 1240px;
     --max-width-narrow: 40rem;
-    --radius: 0;
-    --radius-control: 0;
+    --radius: 2px;
+    --radius-control: 2px;
     --transition: {{ transition_token }};
     --sticky-reserve-offset: 0px;
     --hairline: {% if guidelines == 'v2' %}#D6D2CA{% else %}color-mix(in srgb, {{ color_primary }} 12%, transparent){% endif %};
@@ -252,7 +252,7 @@
   .section--dark .gold-rule.gold-rule--measure {
     border-top-color: var(--brand-accent);
   }
-  .btn { border-radius: 0; }
+  .btn { border-radius: var(--radius-control, 2px); }
   {% elsif font_set == 'classic' %}
   h1, h2, h3, h4 {
     font-weight: 400;
