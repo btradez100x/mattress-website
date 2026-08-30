@@ -30,8 +30,8 @@ html[data-brand-guidelines="v2"] {
   --dur-panel: 280ms;
   --dur-base: 450ms;
   --dur-wipe: 600ms;
-  --radius: 0;
-  --radius-control: 0;
+  --radius: 2px;
+  --radius-control: 2px;
 }
 
 /* Live v2 (and missing attribute): Carbon / Snow. Wordmark is Carbon on cream, Snow on dark. */
@@ -235,4 +235,21 @@ button:focus-visible {
 [data-section-ground="dark"] .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp):hover {
   background: var(--brand-surface, #E4E1DA);
   color: var(--carbon, #1A1A1A);
+}
+
+/* Zip markdown said --radius: 0; brand-guidelines.html cards/buttons use 2px.
+   Shopper asked to restore that curve on CTAs and boxes (not photos). */
+html .btn:not(.btn--accent-line),
+html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
+.hero__cta .btn,
+.float-basket__btn,
+.sticky-reserve__btn,
+.size-note textarea,
+[data-size-note],
+.lp-card,
+.size-guide-tile,
+input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+select,
+textarea {
+  border-radius: var(--radius-control, 2px);
 }
