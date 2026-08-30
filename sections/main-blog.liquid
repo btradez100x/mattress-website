@@ -24,7 +24,7 @@
         {%- else -%}
           <ul class="blog-index__grid" role="list">
             {%- for article in blog.articles -%}
-              <li class="blog-card" data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 50 }}ms">
+              <li class="blog-card{% unless article.image %} blog-card--text{% endunless %}" data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 50 }}ms">
                 <a class="blog-card__link" href="{{ article.url }}">
                   {%- if article.image -%}
                     <div class="blog-card__media">
@@ -38,8 +38,6 @@
                           alt: article.image.alt | default: article.title
                       }}
                     </div>
-                  {%- else -%}
-                    <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
                   {%- endif -%}
                   <div class="blog-card__body">
                     {%- if article.tags.size > 0 -%}
