@@ -1,13 +1,42 @@
-/* Numa live overlay — navy / gold / cream.
-   Gold is brand (wordmark on light, eyebrows on cream, 1px rules, focus).
-   On navy/dark sections, body/headings/captions stay cream. No gold paragraphs.
-   Does not last-win Carbon/Graphite over the v1 palette.
-   Do not restyle .size-row / hero here. */
+/* Numa live overlay — navy / cream / GOLD. Loaded LAST.
+   Beats the 7cf3393 Carbon/Snow last-wins (wordmark carbon, eyebrows graphite).
+   Gold paints: header wordmark, light eyebrows/kickers, 1px rules, focus.
+   Navy grounds. Cream body on navy. No gold paragraphs.
+   Do not restyle .size-row / hero / checkout here. */
 
-html {
-  --ember: var(--brand-accent, #8A6D3B);
-  --carbon: var(--brand-primary, #1F3A5F);
-  --snow: var(--brand-on-dark, #F7F5F1);
+html,
+html[data-preview-host],
+html:not([data-brand-guidelines]),
+html[data-brand-guidelines="v1"],
+html[data-brand-guidelines="v2"],
+html[data-brand-guidelines="v1"][data-color-scheme="signature"],
+html[data-brand-guidelines="v1"][data-color-scheme="classic_navy"],
+html[data-brand-guidelines="v1"][data-color-scheme="warm_charcoal"],
+html[data-brand-guidelines="v1"][data-color-scheme="cool_graphite"],
+html[data-brand-guidelines="v2"][data-color-scheme="v2_carbon"],
+html[data-brand-guidelines="v2"][data-color-scheme="v2_graphite"],
+html[data-brand-guidelines="v2"][data-color-scheme="v2_warm"],
+html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
+  --brand-primary: #1F3A5F;
+  --brand-accent: #8A6D3B;
+  --brand-gold: #8A6D3B;
+  --brand-bg: #F7F5F1;
+  --brand-surface: #EAE6DF;
+  --brand-ink: #222222;
+  --brand-on-dark: #F7F5F1;
+  --wordmark-color: #8A6D3B;
+  --wordmark-line-2: #1F3A5F;
+  --wordmark-line-2-on-dark: #F7F5F1;
+  --heading-color: #222222;
+  --eyebrow-color: #8A6D3B;
+  --eyebrow-on-dark: #F7F5F1;
+  --ground-light: #F7F5F1;
+  --ground-soft: #EAE6DF;
+  --ground-mid: #1F3A5F;
+  --ground-dark: #1F3A5F;
+  --ember: #8A6D3B;
+  --carbon: #1F3A5F;
+  --snow: #F7F5F1;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 120ms;
   --dur-panel: 280ms;
@@ -17,7 +46,32 @@ html {
   --radius-control: 2px;
 }
 
-/* Dark sections inherit cream type. Gold stays on hairlines, not body copy. */
+/* Wordmark gold on cream header (not footer / not --dark). */
+.wordmark,
+.site-header .wordmark,
+.wordmark:not(.wordmark--dark) {
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
+}
+.wordmark:hover,
+.site-header .wordmark:hover,
+.wordmark:not(.wordmark--dark):hover {
+  color: color-mix(in srgb, var(--brand-gold, var(--brand-accent, #8A6D3B)) 82%, #000);
+}
+.wordmark__text {
+  color: inherit;
+}
+.wordmark__product {
+  color: var(--wordmark-line-2, var(--brand-primary, #1F3A5F));
+}
+
+/* Gold eyebrows / kickers on light (cream) sections. */
+.section__eyebrow,
+.lp-kicker,
+.kicker {
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
+}
+
+/* Dark sections: cream type, readable. Gold stays on rules only. */
 .section--dark,
 .section[data-section-ground="dark"],
 .trust-bar--dark,
@@ -28,16 +82,16 @@ html {
 .mfg-hero,
 .wordmark--dark,
 .policy-cta {
-  --brand-ink: var(--brand-on-dark);
-  --heading-color: var(--brand-on-dark);
-  --eyebrow-color: var(--brand-on-dark);
-  --eyebrow-on-dark: var(--brand-on-dark);
-  --wordmark-color: var(--brand-on-dark);
-  --wordmark-line-2: var(--brand-on-dark);
-  --wordmark-line-2-on-dark: var(--brand-on-dark);
-  --color-foreground: var(--brand-on-dark);
-  --color-foreground-secondary: var(--brand-on-dark);
-  --color-heading: var(--brand-on-dark);
+  --brand-ink: var(--brand-on-dark, #F7F5F1);
+  --heading-color: var(--brand-on-dark, #F7F5F1);
+  --eyebrow-color: var(--brand-on-dark, #F7F5F1);
+  --eyebrow-on-dark: var(--brand-on-dark, #F7F5F1);
+  --wordmark-color: var(--brand-on-dark, #F7F5F1);
+  --wordmark-line-2: var(--brand-on-dark, #F7F5F1);
+  --wordmark-line-2-on-dark: var(--brand-on-dark, #F7F5F1);
+  --color-foreground: var(--brand-on-dark, #F7F5F1);
+  --color-foreground-secondary: var(--brand-on-dark, #F7F5F1);
+  --color-heading: var(--brand-on-dark, #F7F5F1);
 }
 
 .wordmark--dark,
@@ -59,9 +113,6 @@ html {
 .section--dark p,
 .section--dark li,
 .section--dark a,
-.section--dark .section__eyebrow,
-.section--dark .lp-kicker,
-.section--dark .kicker,
 .section--dark .section__lede,
 .section--dark .hero__sub,
 .section--dark .market-badge,
@@ -75,23 +126,37 @@ html {
   color: var(--brand-on-dark, #F7F5F1);
 }
 
+.section--dark .section__eyebrow,
+.section--dark .lp-kicker,
+.section--dark .kicker {
+  color: var(--brand-on-dark, #F7F5F1);
+}
+
+/* Gold 1px rules (light and navy). Measure rules stay full-width. */
 .gold-rule,
-.gold-rule.gold-rule--measure,
-.section--dark .gold-rule,
-.section--dark .gold-rule.gold-rule--measure {
-  width: 40px;
-  max-width: 40px;
+.section--dark .gold-rule {
+  width: 2.5rem;
+  max-width: 2.5rem;
   height: 0;
-  margin: 0 0 14px;
+  margin: 0 0 1.35rem;
   background: none;
   border: 0;
   border-top: 1px solid var(--brand-accent, #8A6D3B);
+}
+.gold-rule.gold-rule--measure,
+.section--dark .gold-rule.gold-rule--measure {
+  width: 100%;
+  max-width: none;
+  height: 1px;
+  margin: 2.25rem 0 0;
+  background: var(--brand-gold, var(--brand-accent, #8A6D3B));
+  border: 0;
 }
 
 .btn:focus-visible,
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--brand-accent, #8A6D3B);
+  outline: 2px solid var(--brand-gold, var(--brand-accent, #8A6D3B));
   outline-offset: 3px;
 }
 
@@ -106,8 +171,7 @@ button:focus-visible {
   color: var(--brand-primary, #1F3A5F);
 }
 
-/* Zip markdown said --radius: 0; brand-guidelines.html cards/buttons use 2px.
-   Shopper asked to restore that curve on CTAs and boxes (not photos). */
+/* Zip markdown said --radius: 0; brand-guidelines.html cards/buttons use 2px. */
 html .btn:not(.btn--accent-line),
 html[data-brand-guidelines="v1"] .btn:not(.btn--accent-line),
 html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
