@@ -1,7 +1,8 @@
 # Regression results — Sunday 30 Aug 2026 (restore Numa navy + gold)
 
 ## Smoke
-- Command: `./scripts/regression-smoke.sh` (run after this pack is committed)
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0), including navy/gold live tokens and cream-on-dark lock.
 - Scope note: Reverted `7cf3393` Carbon/Snow last-wins overlay. Live tokens are **navy `#1F3A5F` / cream `#F7F5F1` / gold `#8A6D3B`**. Gold is wordmark on light, eyebrows on cream, 1px rules, focus rings. On navy/dark, body/headings/captions stay cream (the requested contrast lock). Journal, size-row chrome, `#reserve` scroll, sticky bar, European King, MarketShown not reverted. Checkout not modified. `VERSION` stays **10.1.0**.
 
 ---
