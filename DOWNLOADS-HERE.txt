@@ -1,0 +1,41 @@
+NUMA WEBSITE EXPORT — look here
+
+Shopify theme (Admin → Online Store → Themes → Upload zip):
+  Numa-website-latest.zip
+
+Full preview + theme snapshot:
+  Numa-website-latest-preview-and-theme.tar.gz
+
+ABSOLUTE PATHS
+
+/home/ubuntu/Downloads/Numa-website-latest.zip
+/home/ubuntu/Downloads/Numa-website-latest-preview-and-theme.tar.gz
+/home/ubuntu/Downloads/README-EXPORT.txt
+
+/workspace/Downloads/Numa-website-latest.zip
+/workspace/Downloads/Numa-website-latest-preview-and-theme.tar.gz
+/workspace/Downloads/README-EXPORT.txt
+
+/workspace/downloads/Numa-website-latest.zip
+/workspace/downloads/Numa-website-latest-preview-and-theme.tar.gz
+/workspace/downloads/README-EXPORT.txt
+
+/workspace/Numa-website-latest.zip
+/workspace/Numa-website-latest-preview-and-theme.tar.gz
+/workspace/DOWNLOADS-HERE.txt
+
+/opt/cursor/artifacts/Numa-website-latest.zip
+/opt/cursor/artifacts/Numa-website-latest-preview-and-theme.tar.gz
+/opt/cursor/artifacts/README-EXPORT.txt
+
+/cursor/stores/user/artifacts/Numa-website-latest.zip
+/cursor/stores/user/artifacts/Numa-website-latest-preview-and-theme.tar.gz
+/cursor/stores/user/artifacts/README-EXPORT.txt
+
+/tmp/Numa-website-latest.zip
+/tmp/Numa-website-latest-preview-and-theme.tar.gz
+/tmp/README-EXPORT.txt
+
+VERSION stays 10.1.0. Checkout was not modified. Legal name Valtora FZE.
+Checkpoint: checkpoints/10.1.0-latest/
+SHA at pack: 723485a

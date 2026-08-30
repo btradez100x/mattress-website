@@ -7,3 +7,6 @@ node_modules/
 .dev.vars
 Valtora-Shopify-Theme.zip
 *.zip
+/downloads/
+/Downloads/
+/Numa-website-latest-preview-and-theme.tar.gz

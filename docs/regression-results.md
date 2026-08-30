@@ -1,3 +1,11 @@
+# Regression results — Sunday 30 Aug 2026 (latest Downloads export)
+
+## Smoke
+- Command: not re-run on the dirty working tree; last committed packs on this branch were **PASSED** for sticky-on-add.
+- Scope note: Fresh export for Downloads with simple names `Numa-website-latest.zip` (Shopify Admin) and `Numa-website-latest-preview-and-theme.tar.gz`. Paths listed in `DOWNLOADS-HERE.txt` and `README-EXPORT.txt`. Checkpoint `checkpoints/10.1.0-latest/`. Checkout not modified. `VERSION` stays **10.1.0**. Legal name Valtora FZE.
+
+---
+
 # Regression results — Sunday 30 Aug 2026 (sticky basket on first add)
 
 ## Smoke
