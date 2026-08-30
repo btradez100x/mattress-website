@@ -356,6 +356,16 @@ else
   fail "floating basket snippet missing"
 fi
 
+CSS="$THEME/assets/base.css"
+if grep -q "bottom: 0 !important" "$CSS" \
+  && grep -A2 "body.has-sticky-reserve {" "$CSS" | grep -q "padding-bottom: var(--float-basket-space" \
+  && ! grep -q "body.float-basket-at-footer .float-basket" "$CSS" \
+  && ! grep -q "function copyrightAtPageEnd" "$JS"; then
+  pass "choose-a-size bar pinned to viewport bottom (no footer grey slab)"
+else
+  fail "sticky basket still offsets from viewport bottom or docks into footer padding"
+fi
+
 if grep -q "upsertMattressLine" "$JS" \
   && grep -q "data-order-remove" "$JS" \
   && grep -q "data-size-qty" "$JS" \

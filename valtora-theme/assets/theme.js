@@ -5170,27 +5170,22 @@
     }
 
     function setFloatBasketSpace() {
-      var h = Math.ceil((bar.getBoundingClientRect && bar.getBoundingClientRect().height) || bar.offsetHeight || 72);
+      var prev = bar.style.transform;
+      bar.style.transform = 'none';
+      var rect = bar.getBoundingClientRect && bar.getBoundingClientRect();
+      var h = Math.ceil((rect && rect.height) || bar.offsetHeight || 72);
+      bar.style.transform = prev;
+      if (!isFinite(h) || h < 48) h = 72;
+      if (h > 140) h = 140;
       document.documentElement.style.setProperty('--float-basket-space', h + 'px');
     }
 
-    function copyrightAtPageEnd() {
-      var copyright =
-        document.querySelector('[data-footer-copyright]') || document.querySelector('.site-footer__bottom');
-      var footer = document.querySelector('.site-footer');
-      var el = copyright || footer;
-      if (!el) return false;
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var rect = el.getBoundingClientRect();
-      var doc = document.documentElement;
-      var atScrollEnd = doc.scrollHeight - window.scrollY - vh < 8;
-      return atScrollEnd || rect.bottom <= vh + 1;
-    }
-
     function update() {
+      document.body.classList.remove('float-basket-at-footer');
       if (suppressPage) {
         bar.hidden = true;
-        document.body.classList.remove('has-sticky-reserve', 'float-basket-at-footer');
+        document.body.classList.remove('has-sticky-reserve');
+        document.documentElement.style.setProperty('--float-basket-space', '0px');
         return;
       }
       // Unavailable size / request-a-size: keep the basket at the bottom even
@@ -5199,7 +5194,6 @@
         bar.hidden = false;
         bar.removeAttribute('hidden');
         document.body.classList.add('has-sticky-reserve');
-        document.body.classList.toggle('float-basket-at-footer', copyrightAtPageEnd());
         setFloatBasketSpace();
         return;
       }
@@ -5209,15 +5203,14 @@
         var show = heroCtaPassed && !reserveVisible;
         bar.hidden = !show;
         document.body.classList.toggle('has-sticky-reserve', show);
-        document.body.classList.toggle('float-basket-at-footer', show && copyrightAtPageEnd());
         if (show) setFloatBasketSpace();
+        else document.documentElement.style.setProperty('--float-basket-space', '0px');
         return;
       }
       // All other pages: always show the floating basket.
       bar.hidden = false;
       bar.removeAttribute('hidden');
       document.body.classList.add('has-sticky-reserve');
-      document.body.classList.toggle('float-basket-at-footer', copyrightAtPageEnd());
       setFloatBasketSpace();
     }
 
@@ -5252,9 +5245,6 @@
       if (hero) io.observe(hero);
       if (heroCta) io.observe(heroCta);
       if (reserve) io.observe(reserve);
-      var footerWatch =
-        document.querySelector('[data-footer-copyright]') || document.querySelector('.site-footer');
-      if (footerWatch) io.observe(footerWatch);
     }
 
     window.addEventListener('scroll', checkVisibility, { passive: true });
