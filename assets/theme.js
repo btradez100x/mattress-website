@@ -588,10 +588,18 @@
       .replace(/"/g, '&quot;');
   }
 
+  function rowHasPickerPrice(row) {
+    if (!row) return false;
+    var raw = Number(row.price_raw != null ? row.price_raw : row.priceRaw);
+    if (raw > 0) return true;
+    return !!(row.price && String(row.price).replace(/[^\d]/g, ''));
+  }
+
   function rowsForMarket(market) {
     var mkt = market || detectMarket();
     return readSizePriceRows().filter(function (row) {
-      return rowBelongsToMarket(row, mkt);
+      if (!rowBelongsToMarket(row, mkt)) return false;
+      return rowHasPickerPrice(row);
     });
   }
 
