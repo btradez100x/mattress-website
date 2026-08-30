@@ -9,7 +9,7 @@
   endif
 -%}
 <!doctype html>
-<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v2' }}" data-color-scheme="{{ settings.color_scheme | default: 'v2_carbon' }}" data-warranty-years="{{ settings.warranty_years | default: '25' | escape }}" data-trial-nights="{{ settings.trial_nights | default: '30' | escape }}" data-return-window-days="{{ settings.return_window_days | default: settings.trial_nights | default: '30' | escape }}" data-adjustment-period-months="{{ settings.adjustment_period_months | default: '12' | escape }}">
+<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}" data-warranty-years="{{ settings.warranty_years | default: '25' | escape }}" data-trial-nights="{{ settings.trial_nights | default: '30' | escape }}" data-return-window-days="{{ settings.return_window_days | default: settings.trial_nights | default: '30' | escape }}" data-adjustment-period-months="{{ settings.adjustment_period_months | default: '12' | escape }}">
   <head>
     <script>
       (function () {
@@ -44,7 +44,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     {%- liquid
-      assign guidelines = settings.brand_guidelines | default: 'v2'
+      assign guidelines = settings.brand_guidelines | default: 'v1'
       assign font_href_critical = ''
       assign font_href_deferred = ''
       assign preload_outfit = false

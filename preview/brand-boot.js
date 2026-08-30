@@ -46,11 +46,11 @@
       surface: '#EAE6DF',
       ink: '#222222',
       onDark: '#F7F5F1',
-      wordmark: '#1F3A5F',
+      wordmark: '#8A6D3B',
       wordmarkLine2: '#1F3A5F',
       wordmarkLine2OnDark: '#F7F5F1',
       heading: '#222222',
-      eyebrow: '#1F3A5F',
+      eyebrow: '#8A6D3B',
       eyebrowOnDark: '#F7F5F1',
     },
     classic_navy: {
@@ -61,7 +61,7 @@
       ink: '#222222',
       onDark: '#F7F5F1',
       wordmark: '#1F3A5F',
-      wordmarkLine2: '#1F3A5F',
+      wordmarkLine2: '#8A6D3B',
       wordmarkLine2OnDark: '#F7F5F1',
       heading: '#1F3A5F',
       eyebrow: '#1F3A5F',
@@ -74,7 +74,7 @@
       surface: '#E7E0D4',
       ink: '#1A1917',
       onDark: '#F5F1EA',
-      wordmark: '#2F2C28',
+      wordmark: '#9A7344',
       wordmarkLine2: '#2F2C28',
       wordmarkLine2OnDark: '#F5F1EA',
       heading: '#1A1917',
@@ -88,7 +88,7 @@
       surface: '#E4E7E6',
       ink: '#1C2124',
       onDark: '#F3F4F3',
-      wordmark: '#1E2A32',
+      wordmark: '#6E8494',
       wordmarkLine2: '#1E2A32',
       wordmarkLine2OnDark: '#F3F4F3',
       heading: '#1C2124',
@@ -103,7 +103,7 @@
       ink: '#1A1A1A',
       onDark: '#F5F4F1',
       wordmark: '#1A1A1A',
-      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2: '#8A6D3B',
       wordmarkLine2OnDark: '#F5F4F1',
       heading: '#1A1A1A',
       eyebrow: '#6B6B70',
@@ -117,7 +117,7 @@
       ink: '#3A3A3C',
       onDark: '#F5F4F1',
       wordmark: '#3A3A3C',
-      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2: '#8A6D3B',
       wordmarkLine2OnDark: '#F5F4F1',
       heading: '#3A3A3C',
       eyebrow: '#6B6B70',
@@ -131,7 +131,7 @@
       ink: '#1A1A1A',
       onDark: '#F7F4EE',
       wordmark: '#1A1A1A',
-      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2: '#9A7344',
       wordmarkLine2OnDark: '#F7F4EE',
       heading: '#1A1A1A',
       eyebrow: '#7A6A55',
@@ -145,7 +145,7 @@
       ink: '#1A1A1A',
       onDark: '#F3F4F3',
       wordmark: '#1A1A1A',
-      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2: '#6E8494',
       wordmarkLine2OnDark: '#F3F4F3',
       heading: '#1A1A1A',
       eyebrow: '#6B6B70',
@@ -186,9 +186,9 @@
   var name = 'Numa';
   var line = 'Mattresses';
   var business = 'Valtora FZE';
-  var guidelines = 'v2';
-  var fontSet = 'v2';
-  var scheme = 'v2_carbon';
+  var guidelines = 'v1';
+  var fontSet = 'modern';
+  var scheme = 'signature';
   var market = '';
   var taglineMarket = '';
 
@@ -207,6 +207,18 @@
     market = localStorage.getItem('valtoraPreviewMarket') || '';
     taglineMarket = localStorage.getItem('valtoraPreviewTaglineMarket') || market;
   } catch (e) {}
+
+  // a1e2 overlay defaulted preview to Carbon. Live Numa is navy/gold again.
+  if (guidelines === 'v2' && (!scheme || scheme === 'v2_carbon')) {
+    guidelines = 'v1';
+    fontSet = 'modern';
+    scheme = 'signature';
+    try {
+      localStorage.setItem('valtoraPreviewBrandGuidelines', 'v1');
+      localStorage.setItem('valtoraPreviewFontSet', 'modern');
+      localStorage.setItem('valtoraPreviewColorScheme', 'signature');
+    } catch (e2) {}
+  }
 
   if (guidelines === 'v2') {
     fontSet = 'v2';
@@ -288,7 +300,7 @@
       tokens.wordmark +
       ';' +
       '--wordmark-line-2:' +
-      (tokens.wordmarkLine2 || tokens.ink) +
+      (tokens.wordmarkLine2 || tokens.accent) +
       ';' +
       '--wordmark-line-2-on-dark:' +
       (tokens.wordmarkLine2OnDark || tokens.onDark) +

@@ -1,28 +1,28 @@
-# Brand guidelines — source of truth
+# Brand guidelines — live storefront
 
-**Always use the brand guidelines zip.** Do not invent tokens, do not fall back to the retired navy/gold *type* system, and do not use the older e144 pack unless this zip is byte-identical.
+**Live Numa is V1 navy / gold / cream.** The a1e2 zip described Carbon/Snow with Ember as ornament only. That overlay went too far: it deleted gold as a brand colour. Do not last-win Carbon `#1A1A1A` over the storefront.
 
-## Path others must use
+## Live tokens (restore these)
+
+| Token | Hex | Role |
+|---|---|---|
+| `--brand-primary` / Deep navy | `#1F3A5F` | Dark sections, CTAs, wordmark line 2 |
+| `--brand-accent` / Gold / Ember | `#8A6D3B` | Wordmark on light header, eyebrows on cream, 1px rules, focus rings |
+| `--brand-bg` / Cream | `#F7F5F1` | Primary background |
+| `--brand-surface` / Soft stone | `#EAE6DF` | Cards, surfaces |
+| `--brand-ink` | `#222222` | Body on cream |
+| `--brand-on-dark` / Cream | `#F7F5F1` | Body, headings, captions on navy |
+
+**On navy/dark sections:** body, headings, and captions stay cream. Do not paint gold paragraphs on navy. Gold may remain for small eyebrows on light grounds and for hairlines.
+
+## Zip (reference only)
 
 | What | Path |
 |---|---|
-| **Canonical zip (this pack)** | `docs/brand/Brand_guidelines_a1e2.zip` |
-| Upload that produced it | `/home/ubuntu/.cursor/projects/workspace/uploads/Brand_guidelines_a1e2.zip` |
+| Zip (not live type) | `docs/brand/Brand_guidelines_a1e2.zip` |
 | Extracted files | `docs/brand-guidelines-a1e2/Brand guidelines/` |
-| Complete written spec (supersedes the other files in the zip) | `docs/brand-guidelines-a1e2/Brand guidelines/BRAND-GUIDELINES.md` |
-| Token cheat-sheet for agents | `docs/brand/TOKENS.md` |
-| Live CSS overlay | `valtora-theme/assets/brand.css` (loaded last) |
+| Live CSS overlay | `valtora-theme/assets/brand.css` (loaded last: cream-on-dark + gold rules; does **not** force Carbon) |
 
-SHA-256 of this zip: `14380bb765d1e76a50a866e77627a36517d5c5a2580b8f55c348d3ee8b627b79`
-
-`Brand_guidelines_e144.zip` is **not** identical (different zip hash). Markdown/DOCX payloads match; still treat **a1e2** as the pack to open. Do not use e144 when a1e2 is present.
-
-## Which document wins inside the zip
-
-`BRAND-GUIDELINES.md` says it supersedes `brand-guidelines.html`, `13-BRAND-VOICE.md`, and `14-COMPONENT-SPEC.md`.
-
-The visual-assets DOCX still describes an older navy (`#1F3A5F`) / gold wordmark system. The complete spec **rejects that**: Version 2 navy + gold type was a mismatch with the product (white quilt + charcoal base). Live tokens are **Carbon / Snow / Ember**.
-
-User readability rule (always): **on-dark type is cream/snow. Gold is 1px ornament only.** Even if a figure in the visual DOCX shows a gold wordmark on navy, do not paint gold fill text on a dark ground.
+Theme settings: `brand_guidelines` = `v1`, `color_scheme` = `signature`. Checkout and VERSION are unchanged.
 
 Legal entity: **Valtora FZE**. Brand name remains a theme setting (never hard-code it).
