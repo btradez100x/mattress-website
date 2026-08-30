@@ -26,4 +26,4 @@ Cursor VM artifact copies (remote machine only):
   /workspace/artifacts/Numa-website-latest.tar.gz
 
 VERSION stays 10.1.0. Checkout was not modified. Legal name Valtora FZE.
-Pack SHA: 8df457a
+Pack SHA: 8526d79 (filled snow/cream cards, shopify-theme 54934aa)

@@ -8,7 +8,7 @@ Open this GitHub URL while logged into GitHub as the repo owner:
 
 https://github.com/btradez100x/mattress-website/raw/cursor/lates-changes-29th-2577/exports/Numa-website-latest.tar.gz
 
-That archive is `preview/` + `valtora-theme/` at **10.1.0** (cards + latest origin deploy). `*.zip` is gitignored, so the committed file is `.tar.gz`.
+That archive is `preview/` + `valtora-theme/` at **10.1.0** (filled snow/cream cards + shopify-theme `54934aa`). `*.zip` is gitignored, so the committed file is `.tar.gz`.
 
 ### Shopify Admin zip
 
@@ -35,4 +35,4 @@ Copies with simple names (inside the **remote VM**, not your Mac):
 `*.zip` is gitignored. GitHub is the path that works in Chrome without SSH.
 
 VERSION stays **10.1.0**. Checkout was not modified. Legal name Valtora FZE.
-Pack SHA: `8df457a`.
+Pack SHA: `8526d79`.
