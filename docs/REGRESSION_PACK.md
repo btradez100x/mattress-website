@@ -69,14 +69,15 @@ Record results in [`regression-results.md`](./regression-results.md) (copy a new
 | SM-07 | UTM first-touch | Visit with UTMs then Pay | Cart/order attributes include UTMs | P0 |
 | SM-08 | UTM persists across pages | Land with UTMs → browse → Pay | First-touch UTMs retained | P0 |
 | SM-09 | Brand name setting | Theme settings → Brand name | Wordmark updates; no hard-coded Sattva/Saatva | P0 |
-| SM-10 | Mobile reserve | 390×844 viewport | Size list usable; floating basket reachable; **no horizontal overflow**; hero h1 wraps at brand Display 38px | P0 |
+| SM-10 | Mobile reserve | 390×844 viewport | Size list usable; floating basket reachable; tapping ADD shows the bar immediately; **no horizontal overflow**; hero h1 wraps at brand Display 38px | P0 |
 | SM-11 | Theme check | `shopify theme check` | 0 errors | P0 |
 | SM-12 | Automated smoke | `./scripts/regression-smoke.sh` | Exit 0 (includes CX consistency) | P0 |
 | SM-13 | Stage A basket only | Open `#reserve`, select size | Panel shows lines + total + BNPL + Continue + one cancel line. **No** lead time | P0 |
 | SM-14 | Checkout page | Click Continue | Lands on /pages/checkout (or preview/pages/checkout.html); fires view_leadtime; page has delivery + terms + Pay; no nested scroll | P0 |
 | SM-15 | Qty persists across sizes | Add King qty 1, select Double | King counter remains visible | P0 |
 | SM-16 | Remove from basket | Click Remove (or qty to 0) | Line leaves basket; Continue disables if empty | P0 |
-| SM-17 | Floating basket | Scroll away from `#reserve` | Bottom bar: count · total · Continue (replaces old sticky bar) | P0 |
+| SM-17 | Floating basket | Add a size (mobile 390+) without scrolling, or scroll away from `#reserve` | On first qty > 0 the bottom bar appears immediately at `bottom:0`: N MATTRESSES · total · Continue. Empty cart may still wait for scroll past the hero CTA. No IntersectionObserver wait. | P0 |
+| SM-17b | Sticky on add (mobile) | At 390px, tap ADD / increment qty | Bar is `position:fixed; bottom:0` with `has-items` / `is-active`; count and price update; Continue works. Navy bar, cream type, white Continue. | P0 |
 | SM-18 | Deploy + public link | `./scripts/deploy-preview.sh` | Smoke pass; `share/PUBLIC_URL.txt` updated; public `/v4/` loads | P0 |
 | SM-19 | Cross-page brand chrome | Set brand/scheme on homepage; open manufacturing, cart, checkout, trust, blog | Same brand name, product line, colour scheme, announcement copy; no Aligna flash; titles stay `Page · Brand` | P0 |
 | SM-20 | Consistency script | `python3 scripts/regression-consistency.py` | Exit 0 | P0 |
