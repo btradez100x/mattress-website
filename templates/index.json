@@ -4,13 +4,13 @@
       "type": "hero",
       "settings": {
         "enable_section": true,
-        "heading": "Built to last.\nAdjusted to suit.",
+        "heading": "Built to last. Adjusted to suit.",
         "subheading": "A core made to outlast the frame it sits on. You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before.",
         "cta_label": "See sizes and prices",
         "cta_link": "#reserve",
         "tone": "light",
         "secondary_cta_label": "How it arrives",
-        "secondary_cta_link": "#swap",
+        "secondary_cta_link": "#delivery",
         "assurance": "Concierge unpacking included · The old one leaves with it"
       }
     },
@@ -361,6 +361,67 @@
         "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
         "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
         "ground": "dark"
+      }
+    },
+    "delivery": {
+      "type": "landing-funnel",
+      "blocks": {
+        "t1": {
+          "type": "tier",
+          "settings": {
+            "tag": "Included with every mattress",
+            "heading": "Concierge unpacking",
+            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
+            "price": "Complimentary",
+            "featured": true
+          }
+        },
+        "t2": {
+          "type": "tier",
+          "settings": {
+            "tag": "",
+            "heading": "Old mattress removal and recycling",
+            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
+            "price": "Complimentary",
+            "featured": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "Unrolled on the bed",
+            "text": "It settles evenly."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "Nothing left behind",
+            "text": "Carton, plastic, wrap. All of it leaves with it."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A window agreed in advance",
+            "text": "Notification on the day."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "layout": "delivery",
+        "anchor_id": "delivery",
+        "heading": "It arrives compressed.\nWe do not leave it that way.",
+        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
       }
     },
     "size-reserve": {
@@ -1112,6 +1173,16 @@
         "button_label_full": "Buy now",
         "ground": "bg"
       }
+    },
+    "journal-home": {
+      "type": "journal-home",
+      "settings": {
+        "eyebrow": "Journal",
+        "heading": "Journal",
+        "lede": "Clear, practical writing on comfort, cool sleep, support and how to choose a mattress that fits how you actually rest - without the hype.",
+        "cta_label": "Reserve yours",
+        "ground": "bg"
+      }
     }
   },
   "order": [
@@ -1119,6 +1190,7 @@
     "trust-bar-top",
     "pair-cards",
     "swap-explainer",
+    "delivery",
     "size-reserve",
     "cool-touch",
     "benefits",
@@ -1133,6 +1205,7 @@
     "faq",
     "lifestyle-collage",
     "big-idea",
-    "swap-process"
+    "swap-process",
+    "journal-home"
   ]
 }

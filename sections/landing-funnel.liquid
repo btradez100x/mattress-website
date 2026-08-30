@@ -116,11 +116,11 @@
 -%}
 {%- if section.settings.enable_section -%}
 <section
-  class="section lp-section lp-section--{{ layout }}{% render 'section-ground' %}"
+  class="section lp-section lp-section--{{ layout }}{% if layout == 'hero' and section.settings.image != blank or layout == 'hero' and section.settings.image_fallback != blank %} story-frame story-frame--split story-frame--end{% endif %}{% if layout == 'delivery' %} section--dark{% else %}{% render 'section-ground' %}{% endif %}"
   id="{{ sec_id }}"
   {% if layout == 'hero' %}data-lp-page data-lp-variant="{{ section.settings.lp_variant | escape }}"{% endif %}
   data-reveal
-  data-section-ground="{% render 'section-ground', as: 'value' %}"
+  data-section-ground="{% if layout == 'delivery' %}dark{% else %}{% render 'section-ground', as: 'value' %}{% endif %}"
   data-lp-featured="{{ featured_id | escape }}"
   data-lp-layer="{{ layer_price | escape }}"
 >
@@ -131,9 +131,7 @@
   {%- assign first_out = true -%}
   {%- for v in mattress.variants -%}
     {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
-    {%- capture v_mkt -%}{%- render 'size-variant-market', v: v -%}{%- endcapture -%}
-    {%- assign v_mkt = v_mkt | strip -%}
-    {%- if v_mkt != market -%}{%- continue -%}{%- endif -%}
+    {%- unless v.price > 0 -%}{%- continue -%}{%- endunless -%}
     {%- unless first_out -%},{%- endunless -%}
     {%- render 'size-variant-json', v: v -%}
     {%- assign first_out = false -%}
@@ -144,7 +142,34 @@
   {%- endif -%}
 
   {%- if layout == 'hero' -%}
-  <div class="page-width lp-hero">
+  {%- liquid
+    assign lp_fallback = section.settings.image_fallback | strip
+    assign lp_has_media = false
+    if section.settings.image != blank or lp_fallback != blank
+      assign lp_has_media = true
+    endif
+    assign lp_fit = section.settings.media_fit | default: 'contain'
+    assign lp_pos = section.settings.object_position | default: 'center center'
+    assign lp_alt = section.settings.image_alt | strip
+    if lp_alt == blank
+      assign lp_alt = brand | append: ' mattress'
+    endif
+  -%}
+  {%- if lp_has_media -%}
+    <figure class="story-frame__media" style="--story-fit: {{ lp_fit }}; --story-pos: {{ lp_pos | escape }};">
+      {% render 'theme-image',
+        image: section.settings.image,
+        fallback: lp_fallback,
+        alt: lp_alt,
+        class: 'story-frame__img',
+        loading: 'eager',
+        fetchpriority: 'high',
+        sizes: '(min-width: 900px) 52vw, 100vw'
+      %}
+    </figure>
+    <div class="story-frame__copy">
+  {%- endif -%}
+  <div class="page-width lp-hero{% if lp_has_media %} lp-hero--with-media{% endif %}">
     {%- if section.settings.kicker != blank -%}
       <p class="section__eyebrow lp-kicker">{% render 'landing-copy', text: section.settings.kicker, featured_price: hero_price, layer_price: layer_price %}</p>
     {%- endif -%}
@@ -177,6 +202,9 @@
       {%- endif -%}
     </div>
   </div>
+  {%- if lp_has_media -%}
+    </div>
+  {%- endif -%}
   {%- endif -%}
 
   {%- if layout == 'prose' -%}
@@ -410,7 +438,7 @@
   {%- endif -%}
 
   {%- if layout == 'delivery' -%}
-  <div class="page-width lp-narrow">
+  <div class="page-width lp-delivery">
     {%- if section.settings.heading != blank -%}
       <div class="lp-sec-head">
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
@@ -422,7 +450,7 @@
     <div class="lp-tiers">
       {%- for block in section.blocks -%}
         {%- if block.type == 'tier' -%}
-          <div class="lp-tier{% if block.settings.featured %} lp-tier--pick{% endif %}" {{ block.shopify_attributes }}>
+          <div class="lp-tier" {{ block.shopify_attributes }}>
             <div>
               {%- if block.settings.tag != blank -%}
                 <span class="lp-tier__tag">{% render 'landing-copy', text: block.settings.tag, featured_price: featured_price, layer_price: layer_price %}</span>
@@ -444,7 +472,7 @@
     <div class="lp-svc">
       {%- for block in section.blocks -%}
         {%- if block.type == 'card' -%}
-          <div {{ block.shopify_attributes }}>
+          <div class="lp-svc__item" {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
               <h3>{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h3>
             {%- endif -%}
@@ -804,6 +832,42 @@
       "id": "cost_col_c",
       "label": "Column C",
       "default": "Per year"
+    },
+    {
+      "type": "header",
+      "content": "Hero still"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero still"
+    },
+    {
+      "type": "text",
+      "id": "image_fallback",
+      "label": "Theme asset still filename",
+      "info": "Hero only. Leave blank for type-only landings."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Hero still alt text"
+    },
+    {
+      "type": "select",
+      "id": "media_fit",
+      "label": "Hero crop",
+      "options": [
+        { "value": "contain", "label": "Contain — do not clip the mattress" },
+        { "value": "cover", "label": "Cover" }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "text",
+      "id": "object_position",
+      "label": "Hero focal point",
+      "default": "center center"
     }
   ],
   "blocks": [
