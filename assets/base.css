@@ -1024,9 +1024,11 @@ a[data-reserve-continue][aria-disabled="true"] {
   }
 }
 
-html.nav-open,
-body.nav-open {
-  overflow: hidden;
+@media (max-width: 899px) {
+  html.nav-open,
+  body.nav-open {
+    overflow: hidden;
+  }
 }
 
 .main-content {
