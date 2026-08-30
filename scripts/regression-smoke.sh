@@ -1447,23 +1447,89 @@ else
   fail "dark type lock missing muted/kicker/Next sibling selectors"
 fi
 
-# Curved CTAs/cards: zip HTML uses 2px; do not flatten --radius-control back to 0.
-if grep -q -- '--radius: 2px' "$THEME/assets/brand.css" \
-  && grep -q -- '--radius-control: 2px' "$THEME/assets/brand.css" \
-  && grep -q -- '--radius: 2px' "$THEME/assets/base.css" \
-  && grep -q -- '--radius-control: 2px' "$THEME/assets/base.css" \
-  && grep -q -- '--radius: 2px' "$THEME/snippets/css-variables.liquid" \
-  && grep -q -- '--radius-control: 2px' "$THEME/snippets/css-variables.liquid" \
-  && grep -q -- '--radius-control: 2px' "$ROOT/preview/base.css" \
-  && grep -q -- '--radius-control: 2px' "$ROOT/preview/brand.css" \
-  && grep -q 'border-radius: var(--radius-control, 2px)' "$THEME/assets/base.css" \
-  && grep -q 'border-radius: var(--radius-control, 2px)' "$THEME/assets/brand.css" \
-  && ! grep -q -- '--radius-control: 0;' "$THEME/assets/brand.css" \
-  && ! grep -q -- '--radius-control: 0;' "$THEME/snippets/css-variables.liquid" \
-  && grep -q '.size-row {' "$THEME/assets/base.css"; then
-  pass "CTA/card radius restored to 2px (--radius / --radius-control)"
+# Apple-level rounding: buttons >= 12px, size cards 16px. Not 0, not 2px.
+if python3 - "$THEME/assets/base.css" "$THEME/assets/brand.css" "$THEME/snippets/css-variables.liquid" "$ROOT/preview/base.css" "$ROOT/preview/brand.css" <<'PY'
+from pathlib import Path
+import re, sys
+
+def px(val):
+    val = val.strip()
+    if val.endswith("px"):
+        return float(val[:-2])
+    if val.endswith("rem"):
+        return float(val[:-3]) * 16
+    return None
+
+def token(text, name):
+    m = re.search(rf"--{name}:\s*([^;]+);", text)
+    return m.group(1).strip() if m else None
+
+def rule_radius(text, selector):
+    # Exact top-level rule, not suffixes (__add) or earlier hover blocks.
+    if selector == ".size-option":
+        pat = r"\.size-option,\s*\.size-row\s*\{([^}]+)\}"
+    elif selector == ".btn":
+        pat = r"(?m)^\.btn\s*\{([^}]+)\}"
+    else:
+        pat = rf"{re.escape(selector)}\s*\{{([^}}]+)\}}"
+    m = re.search(pat, text)
+    if not m:
+        return None
+    rm = re.search(r"border-radius:\s*([^;]+);", m.group(1))
+    if not rm:
+        return None
+    raw = rm.group(1).strip()
+    var = re.search(r"var\(--([A-Za-z0-9-]+)(?:,\s*([^)]+))?\)", raw)
+    if var:
+        name, fallback = var.group(1), (var.group(2) or "").strip()
+        tok = token(text, name)
+        return tok or fallback
+    return raw
+
+ok = True
+for path in sys.argv[1:]:
+    text = Path(path).read_text()
+    control = token(text, "radius-control")
+    card = token(text, "radius-card") or token(text, "radius")
+    cpx = px(control) if control else None
+    rpx = px(card) if card else None
+    if cpx is None or cpx < 12:
+        print(path, "radius-control is", control, "(need >= 12px)")
+        ok = False
+    if rpx is None or rpx < 16:
+        print(path, "radius-card/radius is", card, "(need >= 16px)")
+        ok = False
+    if control in ("0", "0px", "2px") or card in ("0", "0px", "2px"):
+        print(path, "flattened radius token", control, card)
+        ok = False
+
+base = Path(sys.argv[1]).read_text()
+btn = rule_radius(base, ".btn")
+size = rule_radius(base, ".size-option")
+for label, raw, need in (("btn", btn, 12), ("size-option", size, 12)):
+    val = raw
+    if raw and raw.startswith("var("):
+        pass
+    n = px(val) if val and not str(val).startswith("var(") else None
+    if n is None and val:
+        inner = re.search(r"var\(--([A-Za-z0-9-]+)(?:,\s*([^)]+))?\)", val)
+        if inner:
+            tok = token(base, inner.group(1))
+            n = px(tok) if tok else px(inner.group(2) or "")
+    if n is None or n < need:
+        print(f".{label} border-radius is {raw!r} (need >= {need}px)")
+        ok = False
+
+if ".size-row {" not in base:
+    print("size-row CSS missing")
+    ok = False
+
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "CTA/card radius is Apple-level (>=12px buttons, 16px cards)"
 else
-  fail "CTA/card radius flattened to 0 or size-row CSS missing"
+  fail "CTA/card radius still 0/2px or below 12px"
 fi
 
 info "----------------------------------------"
