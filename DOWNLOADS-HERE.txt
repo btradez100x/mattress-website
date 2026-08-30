@@ -1,41 +1,24 @@
-NUMA WEBSITE EXPORT — look here
+NUMA WEBSITE EXPORT for Ben Acolatse
 
-Shopify theme (Admin → Online Store → Themes → Upload zip):
-  Numa-website-latest.zip
+DO NOT look in Mac Finder Downloads. The Cloud Agent VM path
+/home/benacolatse/Downloads is NOT your Mac Downloads folder.
 
-Full preview + theme snapshot:
-  Numa-website-latest-preview-and-theme.tar.gz
+DOWNLOAD IN CHROME (logged into GitHub):
+https://github.com/btradez100x/mattress-website/raw/cursor/theme-mac-download-9190/exports/Numa-website-latest.tar.gz
 
-ABSOLUTE PATHS
+That is the Shopify theme (same files as Numa-website-latest.zip).
+*.zip is gitignored so GitHub hosts the .tar.gz. Convert to zip on your Mac:
 
-/home/ubuntu/Downloads/Numa-website-latest.zip
-/home/ubuntu/Downloads/Numa-website-latest-preview-and-theme.tar.gz
-/home/ubuntu/Downloads/README-EXPORT.txt
+  mkdir numa-theme && tar -xzf ~/Downloads/Numa-website-latest.tar.gz -C numa-theme
+  cd numa-theme && zip -r ../Numa-website-latest.zip .
 
-/workspace/Downloads/Numa-website-latest.zip
-/workspace/Downloads/Numa-website-latest-preview-and-theme.tar.gz
-/workspace/Downloads/README-EXPORT.txt
+Agent page:
+https://cursor.com/agents/bc-e6e2f398-1483-5dca-bd0c-1695767e9190
 
-/workspace/downloads/Numa-website-latest.zip
-/workspace/downloads/Numa-website-latest-preview-and-theme.tar.gz
-/workspace/downloads/README-EXPORT.txt
+Cursor VM artifact copies (remote machine only):
+  /opt/cursor/artifacts/Numa-website-latest.zip
+  /opt/cursor/artifacts/Numa-website-latest.tar.gz
+  /workspace/artifacts/Numa-website-latest.zip
+  /workspace/artifacts/Numa-website-latest.tar.gz
 
-/workspace/Numa-website-latest.zip
-/workspace/Numa-website-latest-preview-and-theme.tar.gz
-/workspace/DOWNLOADS-HERE.txt
-
-/opt/cursor/artifacts/Numa-website-latest.zip
-/opt/cursor/artifacts/Numa-website-latest-preview-and-theme.tar.gz
-/opt/cursor/artifacts/README-EXPORT.txt
-
-/cursor/stores/user/artifacts/Numa-website-latest.zip
-/cursor/stores/user/artifacts/Numa-website-latest-preview-and-theme.tar.gz
-/cursor/stores/user/artifacts/README-EXPORT.txt
-
-/tmp/Numa-website-latest.zip
-/tmp/Numa-website-latest-preview-and-theme.tar.gz
-/tmp/README-EXPORT.txt
-
-VERSION stays 10.1.0. Checkout was not modified. Legal name Valtora FZE.
-Checkpoint: checkpoints/10.1.0-latest/
-SHA at pack: 723485a
+VERSION stays 10.1.0. Legal name Valtora FZE.
