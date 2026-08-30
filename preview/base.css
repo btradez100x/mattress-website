@@ -201,10 +201,41 @@ p:last-child {
   margin-block: 0;
 }
 
+#MainContent > .shopify-section:last-child,
+.lifestyle-collage {
+  outline: none;
+}
+
 #MainContent > .shopify-section + .shopify-section:has(> .section--dark),
 #MainContent > .shopify-section + .shopify-section:has(> .section--surface),
 #MainContent > .shopify-section + .shopify-section:has(> .section--bg),
 #MainContent > .section + .section--dark {
+  margin-top: -1px;
+}
+
+/* Footer sits outside #MainContent, so the wrapper-paint above cannot
+   cover it. An unpainted group + 1px rounding gap shows body cream as a
+   bright hairline on navy (the "Styled by" / footer join). */
+#shopify-section-group-footer-group,
+.shopify-section-group-footer-group,
+.shopify-section-group-is-footer-group,
+#shopify-section-footer,
+.shopify-section-group-footer-group > .shopify-section,
+.shopify-section-group-is-footer-group > .shopify-section {
+  background: var(--brand-primary);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+#MainContent + #shopify-section-group-footer-group,
+#MainContent + .shopify-section-group-footer-group,
+#MainContent + .shopify-section-group-is-footer-group,
+.main-content + .shopify-section-group-footer-group,
+.main-content + .shopify-section-group-is-footer-group,
+.main-content + .site-footer,
+#MainContent + .site-footer {
   margin-top: -1px;
 }
 
@@ -3497,12 +3528,30 @@ video[controls],
 .site-footer__grid {
   display: grid;
   gap: 2.5rem;
+  background: var(--brand-primary);
 }
 
 @media (min-width: 800px) {
   .site-footer__grid {
     grid-template-columns: 1.4fr 0.9fr 0.9fr 0.9fr;
   }
+}
+
+/* Shop / Help / Policies are bare <div>s. Leftover debug outlines
+   (`outline: 1px solid cyan`, inspector overlays, * { outline }) draw
+   neon boxes around those columns and skip the NUMA brand column. */
+.site-footer,
+.site-footer__grid,
+.site-footer__grid > *,
+.site-footer h3,
+.site-footer ul {
+  outline: none;
+  box-shadow: none;
+}
+
+.site-footer__grid > * {
+  background: var(--brand-primary);
+  border: 0;
 }
 
 .site-footer__brand p {
@@ -8925,6 +8974,23 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .mfg-hero .gold-rule,
 .mfg-band--dark .gold-rule {
   border-top-color: var(--brand-accent);
+}
+
+/* Last: strip debug/inspector outlines on the footer. Keep gold rules
+   and the cream copyright hairline. Restore keyboard focus. */
+html:not(.shopify-design-mode) #shopify-section-group-footer-group,
+html:not(.shopify-design-mode) .shopify-section-group-footer-group,
+html:not(.shopify-design-mode) .shopify-section-group-is-footer-group,
+html:not(.shopify-design-mode) #shopify-section-footer,
+html:not(.shopify-design-mode) .site-footer,
+html:not(.shopify-design-mode) .site-footer *:not(:focus-visible):not(.gold-rule) {
+  outline: none !important;
+}
+
+html:not(.shopify-design-mode) .site-footer a:focus-visible,
+html:not(.shopify-design-mode) .site-footer button:focus-visible {
+  outline: 2px solid var(--brand-accent) !important;
+  outline-offset: 3px;
 }
 
 
