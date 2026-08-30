@@ -1034,6 +1034,7 @@
         });
       }
       syncLandingRows(root);
+      paintSticky();
       addLandingToShopify(root, line, qty).catch(function (err) {
         setLandingStatus(
           root,
@@ -1063,10 +1064,11 @@
       paintSizes(root);
       paintMarketTabs(root.querySelector('[data-size-markets]'));
       root.addEventListener('click', function (e) {
-        var row = e.target.closest('.size-option');
+        var row = e.target.closest('.size-row, .size-option');
         if (!row || !root.contains(row)) return;
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
+        var pick = e.target.closest('[data-size-pick]');
         if (dec || inc) {
           var q = qtyForRow(row);
           if (dec) q -= 1;
@@ -1080,15 +1082,23 @@
               lp_variant: readLpVariant(),
             });
             syncLandingRows(root);
+            paintSticky();
             setLandingShopifyQty(root, zeroLine, 0).catch(function () {});
             return;
           }
           addOrUpdate(root, row, q, { qtyChanged: true });
+          paintSticky();
           return;
         }
         if (row.getAttribute('data-available') === 'false') return;
-        if (qtyForRow(row) > 0) return;
-        addOrUpdate(root, row, 1, {});
+        if (qtyForRow(row) > 0 && !pick) return;
+        addOrUpdate(root, row, pick ? Math.max(1, qtyForRow(row) || 1) : 1, {});
+        paintSticky();
+      });
+      root.addEventListener('pointerup', function (e) {
+        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+        if (!e.target.closest('[data-size-pick], [data-qty-inc], .size-row, .size-option')) return;
+        setTimeout(function () { paintSticky(); }, 0);
       });
       if ('IntersectionObserver' in window) {
         var seen = false;
@@ -2658,18 +2668,57 @@
     }, 0);
   }
 
-  function paintFloatBasketFromStore() {
-    var countEl = document.querySelector('[data-float-count]');
-    var totalEl = document.querySelector('[data-float-total]');
-    var continueEls = document.querySelectorAll('[data-float-continue]');
-    if (!countEl && !totalEl && !continueEls.length) return;
+  var paintingSticky = false;
+
+  function basketHasItems() {
     var lines = OrderStore.lines();
-    var n = mattressUnitsFromLines(lines);
-    var hasLines = lines.length > 0 || n > 0;
-    var totalText = hasLines ? formatOrderTotal(lines) : '';
-    if (countEl) countEl.textContent = hasLines ? (n === 1 ? '1 MATTRESS' : n + ' MATTRESSES') : 'Choose a size';
-    if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
-    applyOrderCtaLabels(hasLines);
+    return lines.length > 0 || mattressUnitsFromLines(lines) > 0;
+  }
+
+  function paintSticky() {
+    paintFloatBasketFromStore();
+  }
+
+  document.addEventListener('pointerup', function (e) {
+    if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+    if (!e.target || !e.target.closest) return;
+    if (!e.target.closest('[data-size-pick], [data-qty-inc], .size-row, .size-option')) return;
+    paintSticky();
+  });
+
+  function paintFloatBasketFromStore() {
+    if (paintingSticky) return;
+    paintingSticky = true;
+    try {
+      var bar = document.querySelector('[data-float-basket], [data-sticky-reserve]');
+      var countEl = document.querySelector('[data-float-count]');
+      var totalEl = document.querySelector('[data-float-total]');
+      var continueEls = document.querySelectorAll('[data-float-continue]');
+      if (!bar && !countEl && !totalEl && !continueEls.length) return;
+      var lines = OrderStore.lines();
+      var n = mattressUnitsFromLines(lines);
+      var hasLines = lines.length > 0 || n > 0;
+      var totalText = hasLines ? formatOrderTotal(lines) : '';
+      if (countEl) countEl.textContent = hasLines ? (n === 1 ? '1 MATTRESS' : n + ' MATTRESSES') : 'Choose a size';
+      if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
+      applyOrderCtaLabels(hasLines);
+      if (bar) {
+        bar.classList.toggle('has-items', hasLines);
+        bar.classList.toggle('is-active', hasLines);
+        if (hasLines) {
+          bar.hidden = false;
+          bar.removeAttribute('hidden');
+          document.body.classList.add('has-sticky-reserve');
+        }
+      }
+      try {
+        document.dispatchEvent(
+          new CustomEvent('valtora:float-basket-mode', { detail: { hasItems: hasLines } })
+        );
+      } catch (e) {}
+    } finally {
+      paintingSticky = false;
+    }
   }
 
   function syncOrderChrome() {
@@ -2942,17 +2991,8 @@
       }, 0);
     }
 
-    function updateFloatBasket(lines, totalText, units) {
-      var countEl = document.querySelector('[data-float-count]');
-      var totalEl = document.querySelector('[data-float-total]');
-      var continueEls = document.querySelectorAll('[data-float-continue]');
-      if (!countEl && !totalEl && !continueEls.length) return;
-      var n = units != null ? units : mattressUnits(lines || []);
-      var label = n === 1 ? '1 MATTRESS' : n + ' MATTRESSES';
-      var hasLines = (lines || []).length > 0 || n > 0;
-      if (countEl) countEl.textContent = hasLines ? label : 'Choose a size';
-      if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
-      applyOrderCtaLabels(hasLines);
+    function updateFloatBasket() {
+      paintSticky();
     }
 
     function renderOrderPanel() {
@@ -3212,7 +3252,7 @@
     }
 
     function syncSticky() {
-      paintFloatBasketFromStore();
+      paintSticky();
     }
 
     function updateRequestWhatsApp() {
@@ -3432,7 +3472,8 @@
       list.addEventListener('click', function (e) {
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
-        var row = e.target.closest('.size-option');
+        var pick = e.target.closest('[data-size-pick]');
+        var row = e.target.closest('.size-row, .size-option');
         if (!row) return;
         if ((dec || inc) && row) {
           e.preventDefault();
@@ -3450,10 +3491,12 @@
             syncSizeQtyUi();
             refreshTotals();
             updateContinueState();
+            paintSticky();
             return;
           }
           upsertActiveMattress(q, { size: sizeFromRow(row), qtyChanged: true });
           updateContinueState();
+          paintSticky();
           return;
         }
         if (row.getAttribute('data-available') === 'false') {
@@ -3464,10 +3507,20 @@
           row.getAttribute('data-size-id'),
           row.getAttribute('data-size-variant')
         );
+        if (!pick) {
+          applySelection(row);
+          return;
+        }
         if (existingQty > 0) return;
         collapseStageB(true);
         upsertActiveMattress(1, { size: sizeFromRow(row) });
         updateContinueState();
+        paintSticky();
+      });
+      list.addEventListener('pointerup', function (e) {
+        if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+        if (!e.target.closest('[data-size-pick], [data-qty-inc], .size-row, .size-option')) return;
+        setTimeout(function () { paintSticky(); }, 0);
       });
     }
 
@@ -5188,38 +5241,45 @@
       document.documentElement.style.setProperty('--float-basket-space', h + 'px');
     }
 
-    function update() {
-      document.body.classList.remove('float-basket-at-footer');
-      if (suppressPage) {
-        bar.hidden = true;
-        document.body.classList.remove('has-sticky-reserve');
-        document.documentElement.style.setProperty('--float-basket-space', '0px');
-        return;
-      }
-      // Unavailable size / request-a-size: keep the basket at the bottom even
-      // while #reserve is on screen (sidebar shows notify / request UI).
-      if (forceFloatBasket()) {
-        bar.hidden = false;
-        bar.removeAttribute('hidden');
-        document.body.classList.add('has-sticky-reserve');
-        setFloatBasketSpace();
-        return;
-      }
-      // Homepage / pages with #reserve: hide while reserve panel is in view,
-      // and suppress until the in-hero primary CTA has left the viewport.
-      if (reserve && sectionOn(reserve)) {
-        var show = heroCtaPassed && !reserveVisible;
-        bar.hidden = !show;
-        document.body.classList.toggle('has-sticky-reserve', show);
-        if (show) setFloatBasketSpace();
-        else document.documentElement.style.setProperty('--float-basket-space', '0px');
-        return;
-      }
-      // All other pages: always show the floating basket.
+    function showBar() {
       bar.hidden = false;
       bar.removeAttribute('hidden');
       document.body.classList.add('has-sticky-reserve');
       setFloatBasketSpace();
+    }
+
+    function hideBar() {
+      bar.hidden = true;
+      bar.classList.remove('is-active');
+      document.body.classList.remove('has-sticky-reserve');
+      document.documentElement.style.setProperty('--float-basket-space', '0px');
+    }
+
+    function update() {
+      document.body.classList.remove('float-basket-at-footer');
+      var hasItems = basketHasItems();
+      bar.classList.toggle('has-items', hasItems);
+      if (suppressPage) {
+        bar.classList.remove('has-items', 'is-active');
+        hideBar();
+        return;
+      }
+      // Lined basket, or notify/request mode: pin immediately. Do not wait
+      // for scroll, hero CTA, or IntersectionObserver — especially on mobile.
+      if (hasItems || forceFloatBasket()) {
+        bar.classList.add('is-active');
+        showBar();
+        return;
+      }
+      bar.classList.remove('is-active');
+      // Empty cart: keep today's CHOOSE A SIZE / See sizes and prices rules.
+      if (reserve && sectionOn(reserve)) {
+        var show = heroCtaPassed && !reserveVisible;
+        if (show) showBar();
+        else hideBar();
+        return;
+      }
+      showBar();
     }
 
     function checkVisibility() {
