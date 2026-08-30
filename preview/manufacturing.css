@@ -41,6 +41,11 @@
 .mfg-band--dark {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
+  --brand-ink: var(--brand-on-dark);
+  --heading-color: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --eyebrow-on-dark: var(--brand-on-dark);
+  --ground-mid: var(--brand-on-dark);
 }
 .mfg-build {
   display: grid;
@@ -168,7 +173,7 @@
   color: var(--brand-on-dark);
 }
 .mfg-band--dark .section__eyebrow {
-  color: var(--eyebrow-on-dark, var(--brand-accent));
+  color: var(--brand-on-dark);
 }
 .mfg-band--dark .mfg-line,
 .mfg-band--dark .lp-spec li,

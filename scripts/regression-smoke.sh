@@ -1138,6 +1138,33 @@ else
   fail "light hero still uses a max-height banner crop on desktop or mobile"
 fi
 
+# Dark-ground type: Cool Touch spans/captions/eyebrows are snow, never gold/ink.
+if grep -q '#cool-touch.section--dark .cool-touch__points span' "$THEME/assets/base.css" \
+  && grep -q '#cool-touch.section--dark .cool-touch__thumb-caption' "$THEME/assets/base.css" \
+  && grep -q '#cool-touch.section--dark .section__eyebrow' "$THEME/assets/base.css" \
+  && grep -q 'color: var(--brand-on-dark) !important' "$THEME/assets/base.css" \
+  && grep -q '#cool-touch.section--dark .cool-touch__points span' "$ROOT/preview/base.css"; then
+  pass "Cool Touch dark copy is forced snow with winning specificity"
+else
+  fail "Cool Touch spans/captions/eyebrow still lack a winning on-dark rule"
+fi
+
+if grep -q 'assign eyebrow_on_dark = color_on_dark' "$THEME/snippets/css-variables.liquid" \
+  && ! grep -q 'assign eyebrow_on_dark = color_accent' "$THEME/snippets/css-variables.liquid" \
+  && ! grep -q "assign eyebrow_on_dark = '#C4B49A'" "$THEME/snippets/css-variables.liquid"; then
+  pass "on-dark eyebrow token is snow, never gold"
+else
+  fail "css-variables still paints gold eyebrows on dark"
+fi
+
+if grep -q '.section--dark \[class\*="muted"\]' "$THEME/assets/base.css" \
+  && grep -q '.section--dark .kicker' "$THEME/assets/base.css" \
+  && grep -q '.policy-cta .section__eyebrow' "$THEME/assets/base.css"; then
+  pass "dark lock covers muted/kicker/figcaption/Next siblings"
+else
+  fail "dark type lock missing muted/kicker/Next sibling selectors"
+fi
+
 info "----------------------------------------"
 if [[ "$FAIL" -gt 0 ]]; then
   red "SMOKE FAILED — $FAIL check(s)"
