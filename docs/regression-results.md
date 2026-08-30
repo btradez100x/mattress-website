@@ -1,3 +1,11 @@
+# Regression results — Sunday 30 Aug 2026 (deploy size-picker-and-contrast)
+
+## Smoke
+- Command: not re-run on the dirty preview-server working tree; last committed pack on this branch was **PASSED** (880 consistency checks).
+- Scope note: Deployed committed `origin/v9` `fbad89c` to Connect `shopify-theme` `b93cdc1`. Size picker tiles + UK fallback, note/form contrast (gold focus, on-dark labels on navy bands), Snow/Surface/Dark section grounds. Manufacturing rewrite **not** on origin — existing how-it-is-made pack is included. Checkout not modified. `VERSION` stays **10.1.0**. Checkpoint: `checkpoints/10.1.0-size-picker-and-contrast/`. GitHub Action still skips CLI push (secrets unset). Connect may lag a minute.
+
+---
+
 # Regression results — Saturday 29 Aug 2026 (Journal research + CEO byline)
 
 ## Smoke
