@@ -1,3 +1,11 @@
+# Regression results — Sunday 30 Aug 2026 (deploy lates + filled cards to Connect)
+
+## Smoke
+- Command: not re-run on this Connect push; last committed packs on this branch were **PASSED** for navy/gold.
+- Scope note: Fast-forwarded Connect `v9` `acbccda` → this commit (folder `valtora-theme/` matches `shopify-theme` `54934aa`). **Filled cards included** (`3a89691` / `54934aa`). Also scroll unlock `8df457a`, gold `ea695aa`/`01de629`, radius `1c4d619`, journal-off-home. Checkout not modified. `VERSION` stays **10.1.0**. Checkpoint: `checkpoints/10.1.0-lates-connect-deploy/`. Store `7dbr1b-1q`.
+
+---
+
 # Regression results — Sunday 30 Aug 2026 (deploy lates to Connect)
 
 ## Smoke

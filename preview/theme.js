@@ -6198,24 +6198,14 @@
   function buildSizeGuideTile(row, tabKey, reserveBase) {
     var name = rowDisplayName(row, tabKey) || row.label || '';
     var dims = rowDimsText(row);
-    var bed = sizeGuideBedVars(row);
     var fits = row.fits || '';
     var price = row.price || '';
     var id = row.id || '';
     var href = (reserveBase || '/') + (id ? '?size=' + encodeURIComponent(id) : '') + '#reserve';
-    var splitClass = bed.pieces > 1 ? ' size-guide-tile__shape--split' : '';
     return (
       '<article class="size-guide-tile" data-size-id="' +
       escapeHtml(id) +
       '">' +
-      '<div class="size-guide-tile__bed" aria-hidden="true">' +
-      '<span class="size-guide-tile__shape' +
-      splitClass +
-      '" style="--bed-w: ' +
-      bed.w +
-      '; --bed-l: ' +
-      bed.l +
-      ';"></span></div>' +
       '<h3 class="size-guide-tile__name">' +
       escapeHtml(name) +
       '</h3>' +

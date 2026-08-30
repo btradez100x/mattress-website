@@ -19,14 +19,12 @@
     <ul class="blog-index__grid" role="list">
       {%- if journal_count > 0 -%}
         {%- for article in journal_blog.articles limit: 12 -%}
-          <li class="blog-card" data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 50 }}ms">
+          <li class="blog-card{% unless article.image %} blog-card--text{% endunless %}" data-reveal-child style="--reveal-delay: {{ forloop.index0 | times: 50 }}ms">
             <a class="blog-card__link" href="{{ article.url }}">
               {%- if article.image -%}
                 <div class="blog-card__media">
                   {{ article.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400,800,1200', sizes: '(min-width: 1100px) 30vw, 90vw', alt: article.image.alt | default: article.title }}
                 </div>
-              {%- else -%}
-                <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
               {%- endif -%}
               <div class="blog-card__body">
                 {%- if article.tags.size > 0 -%}
@@ -48,9 +46,8 @@
         {%- endfor -%}
       {%- endif -%}
       {%- unless published contains ',how-to-choose-a-mattress,' -%}
-        <li class="blog-card" data-reveal-child style="--reveal-delay: 0ms">
+        <li class="blog-card blog-card--text" data-reveal-child style="--reveal-delay: 0ms">
           <a class="blog-card__link" href="{% render 'journal-article-href', article_handle: 'how-to-choose-a-mattress' %}">
-            <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
             <div class="blog-card__body">
               <p class="blog-card__tag">Buying guide</p>
               <h2 class="blog-card__title">How to Choose a Mattress: A Practical Buying Guide</h2>
@@ -64,9 +61,8 @@
         </li>
       {%- endunless -%}
       {%- unless published contains ',mattress-firmness-guide,' -%}
-        <li class="blog-card" data-reveal-child style="--reveal-delay: 50ms">
+        <li class="blog-card blog-card--text" data-reveal-child style="--reveal-delay: 50ms">
           <a class="blog-card__link" href="{% render 'journal-article-href', article_handle: 'mattress-firmness-guide' %}">
-            <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
             <div class="blog-card__body">
               <p class="blog-card__tag">Firmness</p>
               <h2 class="blog-card__title">Mattress Firmness Guide: Soft, Medium and Firm Explained</h2>
@@ -80,9 +76,8 @@
         </li>
       {%- endunless -%}
       {%- unless published contains ',cooler-sleep-and-mattress-materials,' -%}
-        <li class="blog-card" data-reveal-child style="--reveal-delay: 100ms">
+        <li class="blog-card blog-card--text" data-reveal-child style="--reveal-delay: 100ms">
           <a class="blog-card__link" href="{% render 'journal-article-href', article_handle: 'cooler-sleep-and-mattress-materials' %}">
-            <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
             <div class="blog-card__body">
               <p class="blog-card__tag">Cool sleep</p>
               <h2 class="blog-card__title">Sleeping Hot? How Mattress Materials Affect Cooler Sleep</h2>
@@ -96,9 +91,8 @@
         </li>
       {%- endunless -%}
       {%- unless published contains ',mattress-support-and-back-comfort,' -%}
-        <li class="blog-card" data-reveal-child style="--reveal-delay: 150ms">
+        <li class="blog-card blog-card--text" data-reveal-child style="--reveal-delay: 150ms">
           <a class="blog-card__link" href="{% render 'journal-article-href', article_handle: 'mattress-support-and-back-comfort' %}">
-            <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
             <div class="blog-card__body">
               <p class="blog-card__tag">Support</p>
               <h2 class="blog-card__title">Mattress Support and Back Comfort: What Actually Helps</h2>
@@ -112,9 +106,8 @@
         </li>
       {%- endunless -%}
       {%- unless published contains ',when-to-replace-a-mattress,' -%}
-        <li class="blog-card" data-reveal-child style="--reveal-delay: 200ms">
+        <li class="blog-card blog-card--text" data-reveal-child style="--reveal-delay: 200ms">
           <a class="blog-card__link" href="{% render 'journal-article-href', article_handle: 'when-to-replace-a-mattress' %}">
-            <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
             <div class="blog-card__body">
               <p class="blog-card__tag">Longevity</p>
               <h2 class="blog-card__title">When to Replace a Mattress (And When to Refresh the Top)</h2>
@@ -128,9 +121,8 @@
         </li>
       {%- endunless -%}
       {%- unless published contains ',hybrid-vs-foam-vs-innerspring,' -%}
-        <li class="blog-card" data-reveal-child style="--reveal-delay: 250ms">
+        <li class="blog-card blog-card--text" data-reveal-child style="--reveal-delay: 250ms">
           <a class="blog-card__link" href="{% render 'journal-article-href', article_handle: 'hybrid-vs-foam-vs-innerspring' %}">
-            <div class="blog-card__media blog-card__media--empty" aria-hidden="true"></div>
             <div class="blog-card__body">
               <p class="blog-card__tag">Mattress types</p>
               <h2 class="blog-card__title">Hybrid vs Foam vs Innerspring Mattresses: Which Is Right?</h2>
