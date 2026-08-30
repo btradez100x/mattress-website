@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-font-set="v2" data-color-scheme="v2_carbon" data-brand-guidelines="v2" data-force-motion="true" data-warranty-years="25" data-trial-nights="30">
+<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="30">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#1A1A1A">
+    <meta name="theme-color" content="#1F3A5F">
     <title>Numa Mattresses</title>
     <meta name="description" content="A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order.">
     <meta name="application-name" content="Numa">
@@ -24,33 +24,35 @@
     <script type="application/json" id="ShareBrandData">{"brand":"Numa","line":"Mattresses","tagline":"A better bed, for life.","description":"A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order.","image":"assets/hero-mattress.jpg"}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2">
     <link rel="preload" as="image" href="./assets/hero-mattress.jpg" fetchpriority="high">
-    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
     <link rel="stylesheet" href="./base.css?v=brand-e144">
     <link rel="stylesheet" href="./brand.css?v=radius2">
     <link rel="stylesheet" href="./mobile-fit.css?v=390">
     <style>
       :root {
-        --brand-primary: #1A1A1A;
+        --brand-primary: #1F3A5F;
         --brand-accent: #8A6D3B;
-        --brand-bg: #F5F4F1;
-        --brand-surface: #E4E1DA;
-        --brand-ink: #1A1A1A;
-        --brand-on-dark: #F5F4F1;
-        --wordmark-color: #1A1A1A;
-        --wordmark-line-2: #3A3A3C;
-        --wordmark-line-2-on-dark: #E4E1DA;
-        --heading-color: #1A1A1A;
-        --eyebrow-color: #3A3A3C;
-        --eyebrow-on-dark: #E4E1DA;
-        --font-serif: 'Instrument Sans', system-ui, sans-serif;
-        --font-sans: 'Inter', system-ui, sans-serif;
-        --font-display: 'Instrument Sans', system-ui, sans-serif;
-        --font-text: 'Inter', system-ui, sans-serif;
-        --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
-        --font-headline: 'Instrument Sans', system-ui, sans-serif;
-        --font-mono: 'Geist Mono', ui-monospace, monospace;
-        --wordmark-tracking: -0.02em;
+        --brand-bg: #F7F5F1;
+        --brand-surface: #EAE6DF;
+        --brand-ink: #222222;
+        --brand-on-dark: #F7F5F1;
+        --wordmark-color: #8A6D3B;
+        --wordmark-line-2: #1F3A5F;
+        --wordmark-line-2-on-dark: #F7F5F1;
+        --heading-color: #222222;
+        --eyebrow-color: #8A6D3B;
+        --eyebrow-on-dark: #F7F5F1;
+        --font-serif: 'Fraunces', Georgia, serif;
+        --font-sans: 'Outfit', system-ui, sans-serif;
+        --font-display: 'Fraunces', Georgia, serif;
+        --font-text: 'Outfit', system-ui, sans-serif;
+        --font-wordmark: var(--font-sans);
+        --font-headline: var(--font-sans);
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+        --wordmark-tracking: 0.18em;
         --space-section: 72px;
         --space-gutter: 20px;
         --max-width: 1240px;
@@ -59,7 +61,7 @@
         --radius-control: 2px;
         --transition: var(--dur-base) var(--ease);
         --sticky-reserve-offset: 0px;
-        --hairline: #D6D2CA;
+        --hairline: color-mix(in srgb, var(--brand-primary) 12%, transparent);
         --hairline-dark: #2E2E30;
       }
       @media (min-width: 860px) {
@@ -399,8 +401,8 @@
         </label>
         <label>Guidelines
           <select id="PreviewBrandGuidelines" aria-label="Brand guidelines">
-            <option value="v1">V1 (retired)</option>
-            <option value="v2" selected>V2 (current)</option>
+            <option value="v1" selected>V1 (current)</option>
+            <option value="v2">V2 (optional)</option>
           </select>
         </label>
         <label id="PreviewFontSetWrap">Fonts
@@ -411,10 +413,10 @@
         </label>
         <label>Colour
           <select id="PreviewColorScheme" aria-label="Colour scheme">
-            <option value="v2_carbon" selected>Carbon + Ember (canonical)</option>
-            <option value="v2_graphite">Graphite + Ember</option>
-            <option value="v2_warm">Warm bone + bronze</option>
-            <option value="v2_cool">Cool steel accent</option>
+            <option value="signature" selected>Signature (gold wordmark)</option>
+            <option value="classic_navy">Classic navy (previous)</option>
+            <option value="warm_charcoal">Warm charcoal (bronze)</option>
+            <option value="cool_graphite">Cool graphite (steel accent)</option>
           </select>
         </label>
         <label>Phone UAE <input id="PreviewPhoneAe" type="text" value="" placeholder="+971 …" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
@@ -1922,7 +1924,7 @@
         };
 
         function currentGuidelines() {
-          return (guidelinesSelect && guidelinesSelect.value) || 'v2';
+          return (guidelinesSelect && guidelinesSelect.value) || 'v1';
         }
 
         function fillSchemeOptions(guidelines, preferred) {

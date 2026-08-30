@@ -392,10 +392,10 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-on-dark: #F7F5F1;
       --wordmark-color: #8A6D3B;
       --wordmark-line-2: #1F3A5F;
-      --wordmark-line-2-on-dark: #8A6D3B;
+      --wordmark-line-2-on-dark: #F7F5F1;
       --heading-color: #222222;
       --eyebrow-color: #8A6D3B;
-      --eyebrow-on-dark: #8A6D3B;
+      --eyebrow-on-dark: #F7F5F1;
       --font-serif: 'Fraunces', Georgia, serif;
       --font-sans: 'Outfit', system-ui, sans-serif;
       --font-wordmark: var(--font-sans);
@@ -418,10 +418,10 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-on-dark: #F7F5F1;
       --wordmark-color: #1F3A5F;
       --wordmark-line-2: #8A6D3B;
-      --wordmark-line-2-on-dark: #8A6D3B;
+      --wordmark-line-2-on-dark: #F7F5F1;
       --heading-color: #1F3A5F;
       --eyebrow-color: #1F3A5F;
-      --eyebrow-on-dark: #8A6D3B;
+      --eyebrow-on-dark: #F7F5F1;
     }
     html[data-brand-guidelines="v1"][data-color-scheme="warm_charcoal"] {
       --brand-primary: #2F2C28;
@@ -432,10 +432,10 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-on-dark: #F5F1EA;
       --wordmark-color: #9A7344;
       --wordmark-line-2: #2F2C28;
-      --wordmark-line-2-on-dark: #9A7344;
+      --wordmark-line-2-on-dark: #F5F1EA;
       --heading-color: #1A1917;
       --eyebrow-color: #9A7344;
-      --eyebrow-on-dark: #9A7344;
+      --eyebrow-on-dark: #F5F1EA;
     }
     html[data-brand-guidelines="v1"][data-color-scheme="cool_graphite"] {
       --brand-primary: #1E2A32;
@@ -446,10 +446,10 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --brand-on-dark: #F3F4F3;
       --wordmark-color: #6E8494;
       --wordmark-line-2: #1E2A32;
-      --wordmark-line-2-on-dark: #6E8494;
+      --wordmark-line-2-on-dark: #F3F4F3;
       --heading-color: #1C2124;
       --eyebrow-color: #6E8494;
-      --eyebrow-on-dark: #6E8494;
+      --eyebrow-on-dark: #F3F4F3;
     }
     html[data-brand-guidelines="v1"][data-font-set="classic"] {
       --font-serif: 'Cormorant Garamond', Georgia, serif;

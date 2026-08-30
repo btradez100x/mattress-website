@@ -169,7 +169,7 @@
       },
       {
         "type": "paragraph",
-        "content": "V2 is the live system from docs/brand (zip Brand_guidelines_a1e2): Carbon / Snow type, Ember as 1px ornament only. V1 navy / cream grounds are retired. On-dark type is always cream. See docs/brand/README.md."
+        "content": "V1 is the live Numa system: deep navy, cream/beige grounds, gold wordmark and eyebrows on light. On navy/dark sections, body and headings stay cream. V2 carbon/snow is optional, not the storefront default."
       },
       {
         "type": "select",
@@ -178,14 +178,14 @@
         "options": [
           {
             "value": "v1",
-            "label": "V1 - navy / cream (retired)"
+            "label": "V1 - navy / cream (current)"
           },
           {
             "value": "v2",
-            "label": "V2 - carbon / snow / ember (current)"
+            "label": "V2 - carbon / snow / ember (optional)"
           }
         ],
-        "default": "v2"
+        "default": "v1"
       },
       {
         "type": "header",
@@ -233,7 +233,7 @@
             "label": "V2 \u00b7 Cool steel accent"
           }
         ],
-        "default": "v2_carbon"
+        "default": "signature"
       },
       {
         "type": "color",
