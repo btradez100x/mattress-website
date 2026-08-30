@@ -1,0 +1,238 @@
+/* === BRAND GUIDELINES a1e2 — SOURCE OF TRUTH OVERLAY ===
+   Zip: docs/brand/Brand_guidelines_a1e2.zip
+   Spec: docs/brand-guidelines-a1e2/Brand guidelines/BRAND-GUIDELINES.md
+   Cheat-sheet: docs/brand/TOKENS.md
+   Loaded LAST. Gold/Ember = 1px ornament and focus rings only.
+   On-dark type is always Snow/cream. Do not restyle .size-row / hero here. */
+
+html,
+html[data-preview-host],
+html:not([data-brand-guidelines]),
+html[data-brand-guidelines="v1"],
+html[data-brand-guidelines="v2"] {
+  --ground-light: #F5F4F1;
+  --ground-soft: #E4E1DA;
+  --ground-mid: #3A3A3C;
+  --ground-dark: #1A1A1A;
+  --snow: #F5F4F1;
+  --bone: #E4E1DA;
+  --graphite: #3A3A3C;
+  --carbon: #1A1A1A;
+  --ember: #8A6D3B;
+  --hair: #D6D2CA;
+  --hair-dark: #2E2E30;
+  --brand-accent: #8A6D3B;
+  --brand-on-dark: #F5F4F1;
+  --hairline: #D6D2CA;
+  --hairline-dark: #2E2E30;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 120ms;
+  --dur-panel: 280ms;
+  --dur-base: 450ms;
+  --dur-wipe: 600ms;
+  --radius: 0;
+  --radius-control: 0;
+}
+
+/* Live v2 (and missing attribute): Carbon / Snow. Wordmark is Carbon on cream, Snow on dark. */
+html:not([data-brand-guidelines]),
+html[data-brand-guidelines="v2"],
+html[data-brand-guidelines="v2"][data-color-scheme="v2_carbon"],
+html[data-brand-guidelines="v2"][data-color-scheme="v2_warm"],
+html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
+  --brand-primary: #1A1A1A;
+  --brand-bg: #F5F4F1;
+  --brand-surface: #E4E1DA;
+  --brand-ink: #1A1A1A;
+  --brand-on-dark: #F5F4F1;
+  --wordmark-color: #1A1A1A;
+  --wordmark-line-2: #3A3A3C;
+  --wordmark-line-2-on-dark: #F5F4F1;
+  --heading-color: #1A1A1A;
+  --eyebrow-color: #3A3A3C;
+  --eyebrow-on-dark: #F5F4F1;
+  --font-display: 'Instrument Sans', system-ui, sans-serif;
+  --font-text: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Sans', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+  --font-headline: 'Instrument Sans', system-ui, sans-serif;
+  --wordmark-tracking: -0.02em;
+  --max-width: 1240px;
+  --space-section: 72px;
+  --space-gutter: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-brand-guidelines="v2"][data-color-scheme="v2_graphite"] {
+  --brand-primary: #3A3A3C;
+  --brand-bg: #F5F4F1;
+  --brand-surface: #E4E1DA;
+  --brand-ink: #3A3A3C;
+  --brand-on-dark: #F5F4F1;
+  --wordmark-color: #3A3A3C;
+  --wordmark-line-2: #3A3A3C;
+  --wordmark-line-2-on-dark: #F5F4F1;
+  --heading-color: #3A3A3C;
+  --eyebrow-color: #3A3A3C;
+  --eyebrow-on-dark: #F5F4F1;
+}
+
+html[data-brand-guidelines="v2"][data-color-scheme="v2_warm"] {
+  --brand-bg: #F7F4EE;
+  --brand-surface: #E8E2D6;
+  --brand-on-dark: #F7F4EE;
+  --wordmark-line-2-on-dark: #F7F4EE;
+  --eyebrow-on-dark: #F7F4EE;
+}
+
+html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
+  --brand-bg: #F3F4F3;
+  --brand-surface: #E4E7E6;
+  --brand-on-dark: #F3F4F3;
+  --wordmark-line-2-on-dark: #F3F4F3;
+  --eyebrow-on-dark: #F3F4F3;
+}
+
+@media (min-width: 860px) {
+  html:not([data-brand-guidelines]),
+  html[data-brand-guidelines="v2"] {
+    --space-section: 128px;
+    --space-gutter: 80px;
+  }
+}
+
+/* Retired v1: keep navy grounds if selected, but never gold fill text. */
+html[data-brand-guidelines="v1"],
+html[data-brand-guidelines="v1"][data-color-scheme="signature"],
+html[data-brand-guidelines="v1"][data-color-scheme="classic_navy"] {
+  --wordmark-color: #1F3A5F;
+  --wordmark-line-2: #1F3A5F;
+  --wordmark-line-2-on-dark: #F7F5F1;
+  --eyebrow-on-dark: #F7F5F1;
+  --brand-on-dark: #F7F5F1;
+}
+
+html[data-brand-guidelines="v1"][data-color-scheme="signature"] {
+  --heading-color: #222222;
+  --eyebrow-color: #1F3A5F;
+}
+
+html[data-brand-guidelines="v1"][data-color-scheme="classic_navy"] {
+  --heading-color: #1F3A5F;
+  --eyebrow-color: #1F3A5F;
+}
+
+html[data-brand-guidelines="v1"][data-color-scheme="warm_charcoal"] {
+  --wordmark-color: #2F2C28;
+  --wordmark-line-2: #2F2C28;
+  --wordmark-line-2-on-dark: #F5F1EA;
+  --eyebrow-on-dark: #F5F1EA;
+}
+
+html[data-brand-guidelines="v1"][data-color-scheme="cool_graphite"] {
+  --wordmark-color: #1E2A32;
+  --wordmark-line-2: #1E2A32;
+  --wordmark-line-2-on-dark: #F3F4F3;
+  --eyebrow-on-dark: #F3F4F3;
+}
+
+/* Dark sections inherit cream type. Gold stays on 1px rules only. */
+.section--dark,
+.section[data-section-ground="dark"],
+.trust-bar--dark,
+.site-footer,
+.announcement,
+.mfg-band--dark,
+.mfg-split__card--dark,
+.mfg-hero,
+.wordmark--dark,
+.policy-cta {
+  --brand-ink: var(--brand-on-dark);
+  --heading-color: var(--brand-on-dark);
+  --eyebrow-color: var(--brand-on-dark);
+  --eyebrow-on-dark: var(--brand-on-dark);
+  --wordmark-color: var(--brand-on-dark);
+  --wordmark-line-2: var(--brand-on-dark);
+  --wordmark-line-2-on-dark: var(--brand-on-dark);
+  --ground-mid: var(--brand-on-dark);
+  --color-foreground: var(--brand-on-dark);
+  --color-foreground-secondary: var(--brand-on-dark);
+  --color-heading: var(--brand-on-dark);
+}
+
+.wordmark {
+  color: var(--wordmark-color, var(--brand-ink, #1A1A1A));
+}
+.wordmark:hover {
+  color: var(--wordmark-color, var(--brand-ink, #1A1A1A));
+}
+.wordmark--dark,
+.wordmark--dark:hover,
+.site-footer .wordmark,
+.site-footer .wordmark:hover {
+  color: var(--brand-on-dark, #F5F4F1);
+}
+.wordmark__product {
+  color: var(--wordmark-line-2, var(--ground-mid, #3A3A3C));
+}
+.wordmark--dark .wordmark__product,
+.site-footer .wordmark__product {
+  color: var(--wordmark-line-2-on-dark, var(--brand-on-dark, #F5F4F1));
+}
+
+.section--dark,
+.section--dark h1,
+.section--dark h2,
+.section--dark h3,
+.section--dark h4,
+.section--dark p,
+.section--dark li,
+.section--dark a,
+.section--dark .section__eyebrow,
+.section--dark .lp-kicker,
+.section--dark .kicker,
+.section--dark .section__lede,
+.section--dark .hero__sub,
+.section--dark .market-badge,
+.site-footer,
+.site-footer a,
+.announcement,
+.announcement b,
+.announcement strong,
+.trust-bar--dark,
+.trust-bar--dark .trust-bar__label {
+  color: var(--brand-on-dark, #F5F4F1);
+}
+
+.gold-rule,
+.gold-rule.gold-rule--measure,
+.section--dark .gold-rule,
+.section--dark .gold-rule.gold-rule--measure {
+  width: 40px;
+  max-width: 40px;
+  height: 0;
+  margin: 0 0 14px;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--brand-accent, #8A6D3B);
+}
+
+.btn:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--brand-accent, #8A6D3B);
+  outline-offset: 3px;
+}
+
+.section--dark .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp),
+[data-section-ground="dark"] .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp) {
+  background: var(--brand-on-dark, #F5F4F1);
+  color: var(--carbon, #1A1A1A);
+}
+.section--dark .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp):hover,
+[data-section-ground="dark"] .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp):hover {
+  background: var(--brand-surface, #E4E1DA);
+  color: var(--carbon, #1A1A1A);
+}

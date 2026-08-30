@@ -23,6 +23,11 @@
 
   if (!isPreviewHost()) return;
 
+  var BOOT_SRC = '';
+  try {
+    BOOT_SRC = document.currentScript && document.currentScript.src ? document.currentScript.src : '';
+  } catch (e) {}
+
   var FONTS = {
     modern:
       'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap',
@@ -41,12 +46,12 @@
       surface: '#EAE6DF',
       ink: '#222222',
       onDark: '#F7F5F1',
-      wordmark: '#8A6D3B',
+      wordmark: '#1F3A5F',
       wordmarkLine2: '#1F3A5F',
-      wordmarkLine2OnDark: '#8A6D3B',
+      wordmarkLine2OnDark: '#F7F5F1',
       heading: '#222222',
-      eyebrow: '#8A6D3B',
-      eyebrowOnDark: '#8A6D3B',
+      eyebrow: '#1F3A5F',
+      eyebrowOnDark: '#F7F5F1',
     },
     classic_navy: {
       primary: '#1F3A5F',
@@ -56,11 +61,11 @@
       ink: '#222222',
       onDark: '#F7F5F1',
       wordmark: '#1F3A5F',
-      wordmarkLine2: '#8A6D3B',
-      wordmarkLine2OnDark: '#8A6D3B',
+      wordmarkLine2: '#1F3A5F',
+      wordmarkLine2OnDark: '#F7F5F1',
       heading: '#1F3A5F',
       eyebrow: '#1F3A5F',
-      eyebrowOnDark: '#8A6D3B',
+      eyebrowOnDark: '#F7F5F1',
     },
     warm_charcoal: {
       primary: '#2F2C28',
@@ -69,12 +74,12 @@
       surface: '#E7E0D4',
       ink: '#1A1917',
       onDark: '#F5F1EA',
-      wordmark: '#9A7344',
+      wordmark: '#2F2C28',
       wordmarkLine2: '#2F2C28',
-      wordmarkLine2OnDark: '#9A7344',
+      wordmarkLine2OnDark: '#F5F1EA',
       heading: '#1A1917',
       eyebrow: '#9A7344',
-      eyebrowOnDark: '#9A7344',
+      eyebrowOnDark: '#F5F1EA',
     },
     cool_graphite: {
       primary: '#1E2A32',
@@ -83,12 +88,12 @@
       surface: '#E4E7E6',
       ink: '#1C2124',
       onDark: '#F3F4F3',
-      wordmark: '#6E8494',
+      wordmark: '#1E2A32',
       wordmarkLine2: '#1E2A32',
-      wordmarkLine2OnDark: '#6E8494',
+      wordmarkLine2OnDark: '#F3F4F3',
       heading: '#1C2124',
       eyebrow: '#6E8494',
-      eyebrowOnDark: '#6E8494',
+      eyebrowOnDark: '#F3F4F3',
     },
     v2_carbon: {
       primary: '#1A1A1A',
@@ -98,11 +103,11 @@
       ink: '#1A1A1A',
       onDark: '#F5F4F1',
       wordmark: '#1A1A1A',
-      wordmarkLine2: '#8A6D3B',
-      wordmarkLine2OnDark: '#8A6D3B',
+      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2OnDark: '#F5F4F1',
       heading: '#1A1A1A',
       eyebrow: '#6B6B70',
-      eyebrowOnDark: '#9A9A9F',
+      eyebrowOnDark: '#F5F4F1',
     },
     v2_graphite: {
       primary: '#3A3A3C',
@@ -112,11 +117,11 @@
       ink: '#3A3A3C',
       onDark: '#F5F4F1',
       wordmark: '#3A3A3C',
-      wordmarkLine2: '#8A6D3B',
-      wordmarkLine2OnDark: '#8A6D3B',
+      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2OnDark: '#F5F4F1',
       heading: '#3A3A3C',
       eyebrow: '#6B6B70',
-      eyebrowOnDark: '#9A9A9F',
+      eyebrowOnDark: '#F5F4F1',
     },
     v2_warm: {
       primary: '#1A1A1A',
@@ -126,11 +131,11 @@
       ink: '#1A1A1A',
       onDark: '#F7F4EE',
       wordmark: '#1A1A1A',
-      wordmarkLine2: '#9A7344',
-      wordmarkLine2OnDark: '#9A7344',
+      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2OnDark: '#F7F4EE',
       heading: '#1A1A1A',
       eyebrow: '#7A6A55',
-      eyebrowOnDark: '#C4B49A',
+      eyebrowOnDark: '#F7F4EE',
     },
     v2_cool: {
       primary: '#1A1A1A',
@@ -140,11 +145,11 @@
       ink: '#1A1A1A',
       onDark: '#F3F4F3',
       wordmark: '#1A1A1A',
-      wordmarkLine2: '#6E8494',
-      wordmarkLine2OnDark: '#6E8494',
+      wordmarkLine2: '#3A3A3C',
+      wordmarkLine2OnDark: '#F3F4F3',
       heading: '#1A1A1A',
       eyebrow: '#6B6B70',
-      eyebrowOnDark: '#9A9A9F',
+      eyebrowOnDark: '#F3F4F3',
     },
   };
 
@@ -171,7 +176,7 @@
       wordmark: "'Instrument Sans', system-ui, sans-serif",
       headline: "'Instrument Sans', system-ui, sans-serif",
       mono: "'Geist Mono', ui-monospace, monospace",
-      tracking: '0.02em',
+      tracking: '-0.02em',
     },
   };
 
@@ -181,9 +186,9 @@
   var name = 'Numa';
   var line = 'Mattresses';
   var business = 'Valtora FZE';
-  var guidelines = 'v1';
-  var fontSet = 'modern';
-  var scheme = 'signature';
+  var guidelines = 'v2';
+  var fontSet = 'v2';
+  var scheme = 'v2_carbon';
   var market = '';
   var taglineMarket = '';
 
@@ -283,10 +288,10 @@
       tokens.wordmark +
       ';' +
       '--wordmark-line-2:' +
-      (tokens.wordmarkLine2 || tokens.accent) +
+      (tokens.wordmarkLine2 || tokens.ink) +
       ';' +
       '--wordmark-line-2-on-dark:' +
-      (tokens.wordmarkLine2OnDark || tokens.accent) +
+      (tokens.wordmarkLine2OnDark || tokens.onDark) +
       ';' +
       '--heading-color:' +
       tokens.heading +
@@ -327,6 +332,19 @@
     style.setAttribute('data-valtora-scheme', boot.scheme);
     style.setAttribute('data-valtora-guidelines', boot.guidelines);
     applyBrandFavicon(boot);
+    ensureBrandCss();
+  }
+
+  function ensureBrandCss() {
+    if (document.getElementById('valtora-brand-css')) return;
+    var link = document.createElement('link');
+    link.id = 'valtora-brand-css';
+    link.rel = 'stylesheet';
+    var dir = './';
+    if (BOOT_SRC) dir = BOOT_SRC.replace(/[^/]+$/, '');
+    else if (/\/blog\/|\/pages\//.test(location.pathname)) dir = '../';
+    link.href = dir + 'brand.css?v=a1e2';
+    (document.head || d).appendChild(link);
   }
 
   function applyFontAndTheme() {

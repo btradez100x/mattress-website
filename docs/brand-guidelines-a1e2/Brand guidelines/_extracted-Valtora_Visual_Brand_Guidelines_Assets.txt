@@ -1,0 +1,170 @@
+[BRAND]
+Name under test — always use the current name supplied, never invent one
+Visual Brand Guidelines
+For asset production — photography, AI imagery, video and ad creative
+v1 · August 2026
+1. What this is and how to use it
+This is the practical guide for anyone producing visual assets — photography, AI-generated imagery, video edits and ad creative. Read Sections 3 (the product) and 4 (the integrity rule) before generating anything: they are the two places where a mistake costs real money or credibility.
+The single test for anything you make
+Would this look at home next to Aesop, Apple, or a boutique hotel's website? If yes, it is on-brand. If it looks like a mass-market mattress retailer's sale banner, start again. Restraint wins.
+2. The brand in one page
+What we sell: a premium 35cm hybrid mattress with a replaceable comfort top, sold direct, made to order, at AED 8,999–14,999 / £1,999–2,999.
+The big idea: “Change your comfort, not your mattress.” The top unzips and swaps, so firmness can change over time and the bed is refreshed rather than replaced.
+Brand personality: confident, calm, expert, quietly premium. Never shouty, never salesy, never cluttered.
+Who we are talking to: affluent buyers in the UAE first (Western expats, affluent Indian, Emirati/Arab, and newly-arrived wealth), then the UK. Assume a discerning adult who researches before spending £2,000.
+Why restraint matters commercially
+At this price the buyer is comparing us to established premium brands. Busy, over-designed, discount-looking creative signals “cheap” faster than any words can, and directly reduces conversion. Space and calm signal expensive.
+3. The product — describe it accurately
+Every asset must show the real product. Learn these details so you can spot an error in a generated image:
+Feature
+Detail
+Height
+35cm — noticeably deep. This is a selling point; never make it look thin.
+Top panel
+White / off-white quilted, box-stitch pattern, soft and slightly pillowed.
+Side panel
+Dark charcoal, almost black, with fine vertical stitching running top to bottom.
+Edge
+Black piping where the white top meets the dark side.
+Handles
+Black fabric handles set into the side panel — several along each long side.
+The zip
+Runs around the perimeter between the white top and the dark base. This is the replaceable comfort top.
+Inside
+Cream and yellow foam layers, visible when the top is lifted out.
+4. The integrity rule — non-negotiable
+Real product, generated environment
+The mattress must always be the REAL product. The room around it may be generated. Placing a real mattress cutout into a generated bedroom is standard, honest practice. Generating or altering the product itself — changing its depth, colour, stitching, quilting, piping or handles — is misrepresentation. It is a legal risk in both the UK and UAE, and it destroys the trust the whole business depends on.
+If a generated image has changed the product, discard it. Do not “fix it in post”. Regenerate.
+The unzip-and-swap must be real footage. No AI tool can invent a mechanism it has never seen. That sequence is filmed, always.
+Also never
+Never imply a claim the product cannot support — no frost, ice or visible “cooling” effects; no medical, postural or health claims implied by imagery.
+Never include competitor products, branding, factory equipment, plastic wrapping, tools or bystanders in any frame.
+Never add fake awards, “as seen in” logos, review stars or certifications we have not earned.
+5. Colour
+A restrained palette: one deep anchor, one warm metallic accent, quiet neutrals. Few colours, used confidently.
+Deep Navy#1F3A5F
+Warm Gold#8A6D3B
+Off-White#F7F5F1
+Soft Stone#EAE6DF
+Ink#222222
+Rules
+Backgrounds: mostly off-white and stone — light, airy, premium. Deep navy used sparingly for contrast.
+Gold is an accent only — fine lines, small highlights, the wordmark. Never large gold fills; they read cheap.
+Text: ink or navy on light; off-white on dark. Keep contrast high for readability.
+Never: bright saturated colours, multiple accents, gradients, or colour used decoratively.
+One exception worth knowing: the yellow foam layer inside the mattress is a real product feature and a genuine asset — it instantly communicates “separate layers that come out”. Keep it, do not desaturate it away.
+6. Typography
+Role
+Typeface (free, Google Fonts)
+Weights
+Headlines and wordmark
+A refined serif: Cormorant Garamond, Fraunces or Playfair Display
+Regular / Medium
+Body, buttons, labels
+A clean sans: Inter, Work Sans or Manrope
+Regular / Medium / Semibold
+One serif and one sans. Never add a third typeface.
+Headlines set generously large with tight line-height. Body comfortable to read. Plenty of space between elements.
+Sentence case. No exclamation marks. Minimal text on images — the copy usually lives in the ad caption, not burned into the picture.
+7. The wordmark
+The logo is the brand name set in a locked typographic system — not an uploaded graphic. Because the name is still being tested, the SYSTEM is fixed and the name inside it can change.
+Locked — never vary
+Setting
+Typeface
+The chosen serif, one weight
+Case
+All capitals
+Letter-spacing
+Generous tracking, approx 0.12–0.18em — this is the main premium cue
+Colour
+Navy on light, off-white on dark. Single colour only
+Clear space
+Equal to the height of one letter on all sides
+Never stretch, rotate, add shadows, outlines or gradients, or place the wordmark on a busy background.
+Always use the current name supplied to you. Do not invent, abbreviate or restyle it.
+8. Imagery style
+Principles
+Restraint and space — clean backgrounds, generous negative space, one subject in focus.
+Natural, soft light — warm morning light or soft diffused studio light. No harsh flash, no busy scenes.
+Tactility — show texture: the knit of the cover, the zip, the stitching, the layers. Texture sells premium materials.
+Calm — nothing frantic, nothing cluttered, no visual noise.
+Do
+Aspirational but believable interiors — premium apartment or villa bedrooms, uncluttered, beautifully lit.
+Macro detail shots of materials and construction.
+The unzip-and-swap as the signature action — this is our most distinctive asset.
+Leave clear space in the frame where a headline will sit.
+Do not
+Busy showroom or retail mattress photography — that is precisely the tier we are displacing.
+Heavy text overlays, starbursts, price flashes, countdowns or sale badges.
+Generic stock clichés — couples bouncing on beds, people in pyjamas laughing, thumbs-up.
+Over-filtering, heavy grading, or unrealistic colour.
+9. Visual moods by campaign territory
+Ads test five positioning territories. Each has its own visual mood, but all sit inside the same palette and level of restraint.
+Territory
+Mood
+Light & palette
+The Adaptive System (lead)
+The swap in action — hands, layers, control
+Neutral, clean, product-focused
+Cool Sleep
+Airy, breathable, fresh, a sense of moving air
+Bright early-morning light, off-white, pale stone, muted sage
+Engineered Support
+Technical elegance — construction, zones, layers
+Clean, precise, diagram-friendly, neutral. Never clinical or medical
+Considered Luxury
+Craft, quiet opulence, made to order
+Golden hour, deep shadows, warm stone, aged brass
+Performance Edge
+Order, clarity, readiness
+Cool dawn light, grey, off-white, muted navy. No gym or hustle imagery
+10. AI generation rules
+Prefix every prompt with this: “Preserve the mattress exactly as provided — do not alter its shape, proportions, depth, colour, stitching, quilting pattern, piping or handles. Place it unchanged into the scene described.”
+Generate in the target aspect ratio natively. Do not generate everything portrait and crop later — cropping destroys the composition the prompt created.
+Generate at the tool's maximum resolution, then upscale to the final size. Current outputs at 896 x 1200 are roughly a third of what the site hero needs.
+Note that 3:4 is not the same as 4:5. Meta feed needs 4:5 set explicitly.
+Request two variants per scene, select the strongest, and upscale only the selected final.
+Frame loose — the same scene gets re-cropped to 16:9, 4:5, 1:1 and 9:16.
+Reference standard
+The floating product shot on a pale grey background is the register to hold — restrained, tactile, premium, vast negative space. Dark night-time city scenes are off-palette and read closer to a US mass-premium brand; use sparingly or regenerate in daylight with the lighter palette.
+11. Sizes and file delivery
+Full detail is in the separate AI Image Size Specification. Summary:
+Asset
+Aspect
+Final size
+Site hero
+16:9
+3000 x 1688
+Swap explainer (locked 16:9)
+16:9
+2400 x 1350
+Section images
+3:2
+2400 x 1600
+Product cutout (PNG)
+3:2
+2400 x 1600
+Meta feed portrait
+4:5
+1080 x 1350
+Meta feed square
+1:1
+1080 x 1080
+Stories / Reels / TikTok / Snap
+9:16
+1080 x 1920
+File rules
+JPEG or WebP for photography. PNG only for transparent cutouts and the favicon.
+Hero images under 300KB, all others under 200KB after compression. sRGB colour profile only.
+Naming: asset_territory_ratio_size.ext — e.g. hero-cool_16x9_3000.jpg, swap_9x16_1080.mp4
+Deliver both the large master and the web-sized version, so assets can be re-cropped without regenerating.
+12. Check before you deliver
+The product matches the real mattress exactly — 35cm depth, white quilted top, dark side panel, piping, handles.
+No competitor products, factory equipment, wrapping, tools, phones or bystanders in frame.
+No implied claims the product cannot support; no unearned badges, awards or review stars.
+Palette and lighting are consistent with the rest of the set — one coherent brand world.
+Generated in the correct aspect ratio, not cropped from another shape.
+Every asset has its 9:16 version for vertical placements.
+Correct file format, under the size limits, sRGB, named to convention.
+Both master and web-sized versions supplied.

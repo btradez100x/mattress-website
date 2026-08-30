@@ -1,0 +1,327 @@
+[BRAND]
+Name under validation - never hard-code it
+Brand Guidelines
+Version 3 - built on competitive research
+1. The competitive research, and what it found
+1.1 Who we studied
+Ultra-luxury beds: Hastens, Vispring, Savoir, Duxiana, Marshall and Stewart. Premium DTC: Simba, Emma, Eight Sleep, Saatva. High-end furniture and interiors: the Milan and London design landscape as reported through 2026.
+1.2 Finding one - the whole category competes on heritage, and we cannot
+Hastens founded 1852. Vispring 1901, and made the mattresses for the Titanic. Savoir created for the Savoy hotel. Every luxury bed brand's positioning rests on the same claim: we have been doing this for a century.
+We have no heritage and cannot manufacture it. Any attempt to imply age, tradition or lineage will read as pastiche and will be caught by a buyer who researches. This closes off the entire conventional route to luxury positioning in this category.
+1.3 Finding two - the most successful luxury bed brand differentiates on a PATTERN, not technology
+The single most useful thing the research produced
+Hastens is recognised worldwide by its blue and white check. Retailers describe it as 'pretty much their visual signature' and note that 'the bed is designed to be seen as much as felt'. Not the horsehair, not the spring count - the check.
+The lesson is not to copy a pattern. It is that in a category where every product looks broadly the same under a sheet, an ownable visual device does more work than any specification. It is the cheapest and most durable differentiator available, and almost nobody in premium DTC uses one.
+1.4 Finding three - warm Scandinavian minimalism is now the default, not a differentiator
+The design press through 2026 is consistent: the decade-long dominance of Scandinavian-inflected minimalism is giving way to material intensity, richer palettes, patinated metals, darker woods and visible evidence of the maker's hand. One editor put it plainly - this is not minimalism, minimalism stripped away; what is happening now adds back, but with discrimination.
+This matters because our version 1 and 2 guidelines described warm Scandinavian minimalism. Off-white, stone, restraint, whitespace. That is now what every premium DTC brand looks like, from Emma to Simba to every furniture startup. Being more restrained is not differentiation. It is camouflage.
+1.5 The gap we can own
+Territory
+Owned by
+Open to us
+Heritage and lineage
+Hastens, Vispring, Savoir
+No - and pretending is fatal
+Convenience and price
+Simba, Emma, Otty
+No - and we do not want it
+Warm minimal aesthetic
+Everyone in premium DTC
+No - it is the default
+Technology and data
+Eight Sleep
+Partially - but we have no sensors
+Honest modern engineering, with an ownable visual device
+Nobody
+YES
+2. The position this leads to
+Positioning statement
+We are not old. We are not pretending to be. [BRAND] is the mattress engineered now, for how people actually live - built to be refreshed rather than replaced, and made to order so nothing is wasted. Where the heritage brands offer a century, we offer a better idea.
+Why this works against the incumbents
+Against
+Their claim
+Our counter
+Hastens, Vispring, Savoir
+A century of craft
+A century of doing it the same way. We changed the part that wears.
+Simba, Emma, Otty
+Convenience and discount
+Made for you, not stacked in a warehouse.
+Eight Sleep
+Technology and tracking
+No subscription, no app, no sensors to fail. Just a better bed.
+Brand essence
+A better bed, for life. Refresh it, do not replace it.
+Personality
+Modern, exact, quietly confident, unsentimental. We do not romanticise the past because we did not come from it. We are interested in how things are made now.
+3. The Line - our visual device
+This is the wow factor
+Our mattress has a zip that runs the full perimeter, separating the white quilted top from the dark base. It is the visible expression of the one thing no competitor offers. It is structurally unique to the product. And it is a single, clean, horizontal line where two materials meet.
+The Line becomes the brand device - the equivalent of what the check is for Hastens. Product-derived, instantly recognisable, and impossible to copy without copying the product.
+What The Line is
+A single horizontal rule where two tones meet: light above, dark below. Nothing more. It is not a logo, not an icon, not a graphic flourish. It is a structural device that appears throughout the system.
+Where it appears
+Application
+Expression
+Section dividers
+A hairline rule with light above and dark below, or a tonal shift at the same edge
+Page structure
+Major sections separated by the transition rather than by whitespace alone
+Logo lockup
+An optional fine rule set beneath the wordmark at the same proportion
+Photography
+Compose to place the product's real zip line on a horizontal third
+Packaging
+A single band where the two materials of the box meet
+Order portal
+Stage progression rendered as a line advancing, not a bar filling
+Video
+Transitions as a horizontal wipe, never a fade or a cut
+Rules
+Always horizontal. Never angled, curved, vertical or decorative.
+Always a true division between two tones - not a rule floating on one background.
+Hairline weight: 1px on screen, 0.25pt in print. It should be noticed, not announced.
+One per view. Two Lines competing destroys the device.
+Never coloured. It is the meeting of two tones, not a stroke in a brand colour.
+4. Colour - derived from the product, not from a mood board
+Version 2 specified off-white, stone, navy and gold. The product is white and charcoal. That mismatch was a mistake: the palette should come from the object, and the object already has the highest-contrast, most confident colourway in the category.
+Snow#F5F4F1
+Bone#E4E1DA
+Graphite#3A3A3C
+Carbon#1A1A1A
+Ember#8A6D3B
+Roles
+Colour
+Role
+Use
+Snow F5F4F1
+Light ground
+The top surface. Primary background, product grounds
+Bone E4E1DA
+Secondary light
+Cards, table stripes, subtle separation
+Graphite 3A3A3C
+Mid dark
+Secondary dark surfaces, borders, muted text
+Carbon 1A1A1A
+Dark ground
+The base. Headings, dark sections, the wordmark, body text
+Ember 8A6D3B
+Accent, sparing
+Fine detail only. Never a fill. Never more than 2% of a view
+The contrast principle
+Light above, dark below. This is the product and it is now the layout logic. Pages move between light and dark grounds, divided by The Line. That structural rhythm is more distinctive than any palette of neutrals, and it is derived from the object rather than applied to it.
+Accessibility - WCAG 2.2 AA
+Combination
+Ratio
+Status
+Carbon 1A1A1A on Snow F5F4F1
+16.4:1
+AAA
+Snow F5F4F1 on Carbon 1A1A1A
+16.4:1
+AAA
+Graphite 3A3A3C on Snow F5F4F1
+10.1:1
+AAA
+Ember 8A6D3B on Snow F5F4F1
+4.8:1
+AA - not below 16px
+Snow F5F4F1 on Graphite 3A3A3C
+10.1:1
+AAA
+Minimum 4.5:1 body text, 3:1 large text and UI. Never rely on colour alone. Focus states always visible.
+5. Typography
+Where the category reaches for a serif to signal heritage, we do not. A precise, modern sans as the display face is itself a positioning statement - it says engineered, not inherited. This is a deliberate break from every competitor studied.
+Role
+Typeface
+Weights
+Use
+Display
+A precise grotesque - Neue Haas Grotesk, Suisse Int'l, or Inter Tight
+Medium, Semibold
+Wordmark, H1, H2
+Text
+The same family, lighter weights
+Regular, Medium
+Body, UI, labels, tables
+Numerals
+Tabular figures throughout
+-
+Prices, dimensions, specifications
+Scale
+Level
+Desktop
+Mobile
+Line height
+Tracking
+Display / H1
+64px
+38px
+1.02
+-0.02em
+H2
+44px
+30px
+1.1
+-0.015em
+H3
+24px
+20px
+1.25
+-0.01em
+Body large
+19px
+17px
+1.55
+0
+Body
+16px
+16px
+1.6
+0
+Caption
+14px
+14px
+1.5
+0
+Label
+12px
+12px
+1.4
+0.14em, uppercase
+Rules
+One typeface family only. The contrast comes from weight and scale, not from mixing faces.
+Display sizes set very tight with negative tracking. This is the typographic signature.
+Tabular figures for every number so specifications and prices align in columns.
+Body never below 16px. Measure 60 to 75 characters.
+Never justify. Never letterspace lowercase body text.
+6. Layout
+Spacing scale
+4  8  12  16  24  32  48  64  96  128  192  (px)
+Grid
+Desktop: 12 columns, 24px gutters, 1240px max width, 80px minimum page margin.
+Mobile: 4 columns, 16px gutters, 20px page margin.
+Section rhythm: 128px desktop, 72px mobile.
+The alternating ground principle
+Sections alternate between light and dark grounds, divided by The Line. Not every section - roughly every third. The rhythm of light, light, dark is what makes the structure feel composed rather than scrolled. This replaces whitespace as the primary spatial signal and is what differentiates the layout from the sea of all-cream premium DTC sites.
+Material intensity, not flat minimalism
+Surfaces may carry subtle texture - a fine paper grain, a woven suggestion - at very low opacity. Never a visible pattern.
+Photography is large and full-bleed at section transitions.
+Empty space is generous but purposeful. This is composed, not sparse.
+7. Imagery
+Direction
+Editorial, not catalogue. The reference set is architectural photography and design press, not furniture retail. Strong single images, considered composition, real light.
+Principles
+High contrast. The product is white and near-black - photograph it that way rather than washing it into beige.
+Real light with direction. Raking side light reveals the quilting and the weave. Flat lighting kills both.
+Materiality. Texture is the argument: the knit, the zip teeth, the stitch, the layer edge.
+Compose to The Line. Place the product's real zip on a horizontal third wherever the frame allows.
+Treatment
+Attribute
+Specification
+Colour temperature
+Neutral. Never warmed to beige, never cooled to blue
+Contrast
+Higher than category norm. Retain detail in both extremes
+Saturation
+Low. Near-neutral. The product carries no colour
+Shadow
+Deep and clean. Shadows are structure, not softness
+Grain
+None
+Crop
+Loose. Nothing important within 10% of an edge
+Never
+Showroom or retail mattress photography.
+Beige-washed lifestyle interiors that could belong to any brand.
+Text overlays, badges, starbursts, price flashes.
+Stock cliches - couples bouncing, thumbs up, pyjama laughter.
+8. Motion
+Principles
+Motion is horizontal. Where a transition is needed, it moves along The Line. Wipes, not fades. This is the device expressed in time.
+Nothing bounces or overshoots. This brand is exact. Springs and elastic easing belong to a different personality.
+One movement per view. Simultaneous animation reads as cheap.
+Specification
+Interaction
+Duration
+Easing
+Hover, small state change
+120ms
+ease-out
+Scroll reveal
+450ms
+cubic-bezier(0.22, 1, 0.36, 1)
+Section wipe transition
+600ms
+cubic-bezier(0.22, 1, 0.36, 1)
+Panel or modal
+280ms
+ease-out
+Reveal: opacity 0 to 1 with translateY 20px to 0. Trigger at 20% in viewport, once only.
+Stagger siblings by 50ms maximum.
+Respect prefers-reduced-motion. Disable reveals and autoplay entirely where requested.
+Video muted always, captioned where speech occurs, poster frame on every instance.
+9. Design tokens
+--ground-light:   #F5F4F1;   /* Snow      */
+--ground-soft:    #E4E1DA;   /* Bone      */
+--ground-mid:     #3A3A3C;   /* Graphite  */
+--ground-dark:    #1A1A1A;   /* Carbon    */
+--accent:         #8A6D3B;   /* Ember     */
+--font:           'Neue Haas Grotesk', 'Inter Tight', system-ui, sans-serif;
+--font-numeric:   tabular-nums;
+--space-1:4px;  --space-2:8px;   --space-3:12px;  --space-4:16px;
+--space-5:24px; --space-6:32px;  --space-7:48px;  --space-8:64px;
+--space-9:96px; --space-10:128px; --space-11:192px;
+--line:           1px solid;      /* The Line - hairline only */
+--radius:         0px;            /* nothing is rounded */
+--ease:           cubic-bezier(0.22, 1, 0.36, 1);
+--dur-fast:       120ms;
+--dur-base:       450ms;
+--dur-wipe:       600ms;
+10. Verbal identity
+Voice
+Exact, calm, unsentimental. We state facts and let them do the work. We never reach for adjectives where a number will serve.
+The heritage counter
+When the category says 'since 1852', we say what we did instead. Never disparage the incumbents - they make fine beds. Simply be specific about the present. 'Made after you order it.' '37cm. Seven zones.' 'Replace the layer, keep the bed.' Specificity beats nostalgia when the buyer is comparing.
+Headline formulas
+Formula
+Example
+Contrast
+Change your comfort, not your mattress.
+Flat statement
+Made to order. Made to last.
+Specification as line
+37cm. Seven zones. One bed, for decades.
+Counter-heritage
+We did not inherit this. We engineered it.
+Conventions
+Sentence case everywhere except the wordmark. No exclamation marks.
+Numerals for all measurements and prices. Tabular figures.
+Hyphens, never em or en dashes.
+British English. Second person.
+Use: engineered, exact, made to order, refresh, replace the layer, seven zones.
+Avoid: heritage, timeless, artisanal, luxury (as an adjective), revolutionary, hurry.
+11. AI-generated content
+The integrity rule
+The product is always the real product. The environment may be generated. Generating or altering the mattress itself - depth, colour, stitching, quilting, piping, handles - is misrepresentation, a legal risk in the UK and UAE, and destroys the trust everything else is built on.
+If a generation has changed the product, discard and regenerate. Never fix in post.
+The swap sequence must be real footage.
+"Preserve the mattress exactly as provided - do not alter its shape,
+proportions, depth, colour, stitching, quilting pattern, piping or
+handles. Place it unchanged into the scene described. High contrast,
+neutral colour temperature, directional light, deep clean shadows."
+Generate natively in the target aspect ratio. Generate at maximum resolution then upscale.
+Never generate people appearing to endorse, nor anything resembling a review, award or certification.
+A human approves every asset.
+12. The check
+Does it look like it came from a brand that engineers rather than inherits? If it looks heritage, it is wrong.
+Is The Line present, once, horizontal, as a true division between two tones?
+Is the contrast high? If the image has been warmed into beige, it is the default aesthetic and it is wrong.
+One typeface family, weight and scale doing the work.
+Product matches reality exactly - 37cm, white quilted top, dark side panel, piping, handles.
+Contrast ratios pass AA. Nothing relies on colour alone.
+Sentence case, no exclamation marks, hyphens not em dashes, numerals for measurements.
+Motion is horizontal, single, and respects prefers-reduced-motion.
+No unearned badges, awards, reviews or heritage implications.
+A human has approved it.

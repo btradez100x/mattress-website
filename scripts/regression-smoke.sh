@@ -640,6 +640,7 @@ if grep -q "brand.css" "$THEME/layout/theme.liquid" \
   && grep -q -- '--ground-light: #F5F4F1' "$THEME/assets/brand.css" \
   && grep -q -- '--wordmark-line-2-on-dark: #F5F4F1' "$THEME/assets/brand.css" \
   && grep -q -- 'cubic-bezier(0.22, 1, 0.36, 1)' "$THEME/assets/brand.css" \
+  && grep -q "docs/brand/Brand_guidelines_a1e2.zip" "$ROOT/docs/brand/README.md" \
   && awk '
     /base\.css/ { base=NR }
     /brand\.css/ { brand=NR }
