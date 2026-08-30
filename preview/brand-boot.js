@@ -284,6 +284,9 @@
       '--brand-accent:' +
       tokens.accent +
       ';' +
+      '--brand-gold:' +
+      tokens.accent +
+      ';' +
       '--brand-bg:' +
       tokens.bg +
       ';' +

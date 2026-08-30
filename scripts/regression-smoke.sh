@@ -661,6 +661,8 @@ if grep -q "brand.css" "$THEME/layout/theme.liquid" \
   && grep -q '"brand_guidelines": "v1"' "$THEME/config/settings_data.json" \
   && grep -q '"color_scheme": "signature"' "$THEME/config/settings_data.json" \
   && grep -q -- '--wordmark-color: #8A6D3B' "$THEME/assets/base.css" \
+  && grep -q -- '--brand-gold: #8A6D3B' "$THEME/assets/brand.css" \
+  && grep -q -- 'color: var(--brand-gold, var(--brand-accent, #8A6D3B))' "$THEME/assets/brand.css" \
   && grep -q -- 'color: var(--brand-on-dark, #F7F5F1)' "$THEME/assets/brand.css" \
   && grep -q -- 'border-top: 1px solid var(--brand-accent, #8A6D3B)' "$THEME/assets/brand.css" \
   && ! grep -q -- '--brand-primary: #1A1A1A' "$THEME/assets/brand.css" \
@@ -670,7 +672,7 @@ if grep -q "brand.css" "$THEME/layout/theme.liquid" \
     /brand\.css/ { brand=NR }
     END { exit !(base && brand && brand>base) }
   ' "$THEME/layout/theme.liquid"; then
-  pass "brand.css last-wins cream-on-dark; live tokens are navy/gold/cream"
+  pass "brand.css last-wins cream-on-dark; gold paints wordmark and kickers"
 else
   fail "navy/gold live tokens missing, carbon overlay still last-wins, or brand.css not after base.css"
 fi
