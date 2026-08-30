@@ -1,4 +1,14 @@
-# Regression results — Sunday 30 Aug 2026 (10.1.0-20260830 latest export)
+# Regression results — Sunday 30 Aug 2026 (sticky basket on first add)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: sticky-on-add checks **PASSED**; full suite still fails on in-flight manufacturing copy and `--radius-control: 2px` brand-token assertions (other agents). Checkout and VERSION unchanged.
+- New gates: `paintSticky` / `basketHasItems` / `.float-basket.has-items`; SM-17 and SM-17b in `docs/REGRESSION_PACK.md`.
+- Scope note: Homepage `#reserve` used to hide `[data-sticky-reserve]` until the hero CTA left the viewport **and** the reserve panel was off-screen (`heroCtaPassed && !reserveVisible`), so ADD on mobile never revealed the bar. First qty > 0 now adds `has-items` / `is-active` and pins the navy bar at `bottom: 0` immediately. Empty cart still uses CHOOSE A SIZE / See sizes and prices. Touch ADD/`data-size-pick` calls the same `paintSticky()` as click. No gold fill. `VERSION` stays **10.1.0**.
+
+---
+
+
 
 ## Smoke
 - Command: not re-run on the dirty preview-server working tree; last committed packs on this branch were **PASSED**.
