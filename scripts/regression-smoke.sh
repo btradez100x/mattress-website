@@ -85,7 +85,6 @@ REQUIRED_PATHS=(
   "templates/page.journal.json"
   "sections/main-journal.liquid"
   "sections/main-blog.liquid"
-  "sections/journal-home.liquid"
   "snippets/journal-article-body.liquid"
   "snippets/journal-baked-index.liquid"
   "snippets/journal-article-layout.liquid"
@@ -1071,10 +1070,26 @@ if grep -q "how-to-choose-a-mattress" "$THEME/snippets/journal-article-body.liqu
   && grep -q "Ben Acolatse" "$THEME/snippets/journal-author.liquid" \
   && grep -q "CEO" "$THEME/snippets/journal-author.liquid" \
   && ! grep -q "New notes, in time" "$THEME/sections/main-journal.liquid" \
-  && grep -q "articles_count" "$THEME/snippets/journal-index-href.liquid"; then
+  && grep -q "articles_count" "$THEME/snippets/journal-index-href.liquid" \
+  && grep -q "plus: 0" "$THEME/snippets/journal-baked-index.liquid" \
+  && grep -q "journal_count > 0" "$THEME/snippets/journal-baked-index.liquid" \
+  && ! grep -q "articles_count > 0" "$THEME/snippets/journal-baked-index.liquid"; then
   pass "Journal keeps baked notes, CEO byline, and prefers a populated blog"
 else
   fail "Journal missing baked notes, CEO byline, or populated-blog-first nav"
+fi
+
+if ! grep -q "journal-home" "$THEME/templates/index.json" \
+  && ! test -f "$THEME/sections/journal-home.liquid" \
+  && ! grep -q "journal-baked-index" "$THEME/templates/index.json" \
+  && grep -q ">Journal<" "$ROOT/preview/index.html" \
+  && ! grep -q "journal-with-panels" "$ROOT/preview/index.html" \
+  && ! grep -q "journal-home" "$ROOT/preview/index.html" \
+  && ! grep -q 'id="journal"' "$ROOT/preview/index.html" \
+  && grep -q "journal-baked-index" "$THEME/sections/main-journal.liquid"; then
+  pass "Journal stays on /pages/journal and header, not the homepage"
+else
+  fail "Journal leaked onto the homepage or left the dedicated page/header"
 fi
 
 MFG="$THEME/sections/manufacturing.liquid"

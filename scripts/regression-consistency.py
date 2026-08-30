@@ -967,11 +967,26 @@ def check_mobile_overflow_and_dark_lock() -> None:
             bad(f"{rel}: cyan debug outline present")
         else:
             ok(f"{rel}: no * outline cyan")
-    journal = ROOT / "valtora-theme" / "sections" / "journal-home.liquid"
-    if journal.exists() and "journal-baked-index" in journal.read_text(encoding="utf-8"):
-        ok("journal-home.liquid still renders baked notes")
+    index_json = (ROOT / "valtora-theme" / "templates" / "index.json").read_text(encoding="utf-8")
+    journal_home = ROOT / "valtora-theme" / "sections" / "journal-home.liquid"
+    preview_home = (ROOT / "preview" / "index.html").read_text(encoding="utf-8")
+    baked = (ROOT / "valtora-theme" / "snippets" / "journal-baked-index.liquid").read_text(
+        encoding="utf-8"
+    )
+    if "journal-home" in index_json or journal_home.exists():
+        bad("Journal must not appear on the homepage (index.json / journal-home.liquid)")
+    elif "journal-with-panels" in preview_home or 'id="journal"' in preview_home:
+        bad("preview/index.html still has a homepage Journal section")
+    elif ">Journal<" not in preview_home:
+        bad("preview/index.html missing header Journal link")
     else:
-        bad("journal-home.liquid missing baked index")
+        ok("Journal is off the homepage and kept in header nav")
+    if "articles_count > 0" in baked:
+        bad("journal-baked-index.liquid still compares articles_count to 0")
+    elif "plus: 0" in baked and "journal_count > 0" in baked:
+        ok("journal-baked-index.liquid coerces articles_count before comparing")
+    else:
+        bad("journal-baked-index.liquid missing string-vs-0 guard")
     main_blog = ROOT / "valtora-theme" / "sections" / "main-blog.liquid"
     if main_blog.exists() and "journal-baked-index" in main_blog.read_text(encoding="utf-8"):
         ok("main-blog.liquid still renders baked notes")
