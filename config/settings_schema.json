@@ -169,7 +169,7 @@
       },
       {
         "type": "paragraph",
-        "content": "V1 is the original navy / cream system. V2 is the product-derived carbon / snow / ember system (Instrument Sans + Inter + Geist Mono). Colour schemes below are filtered by version in practice - pick a matching scheme for the selected guidelines."
+        "content": "V2 is the live system from docs/brand (zip Brand_guidelines_a1e2): Carbon / Snow type, Ember as 1px ornament only. V1 navy / cream grounds are retired. On-dark type is always cream. See docs/brand/README.md."
       },
       {
         "type": "select",
@@ -178,14 +178,14 @@
         "options": [
           {
             "value": "v1",
-            "label": "V1 - navy / cream (current)"
+            "label": "V1 - navy / cream (retired)"
           },
           {
             "value": "v2",
-            "label": "V2 - carbon / snow / ember (new)"
+            "label": "V2 - carbon / snow / ember (current)"
           }
         ],
-        "default": "v1"
+        "default": "v2"
       },
       {
         "type": "header",
@@ -233,7 +233,7 @@
             "label": "V2 \u00b7 Cool steel accent"
           }
         ],
-        "default": "signature"
+        "default": "v2_carbon"
       },
       {
         "type": "color",
