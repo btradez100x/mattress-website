@@ -1,3 +1,12 @@
+# Regression results — Monday 31 Aug 2026 (restore 2px cards + cream-on-navy delivery)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: radius/delivery/navy-gold/scroll checks **PASSED**. One pre-existing CX fail remains: `header.liquid Journal must use journal-index-href` (from `221c8a3`, not this change). Checkout and VERSION unchanged.
+- Scope note: Restored picker + delivery CSS from `01de629` (before radius bump `1c4d619` and filled-card `3a89691`). Live radius is **2px** (`--radius` / `--radius-control`). Kept gold header, cream type on navy, page-scroll unlock, Journal off the homepage. Connect `shopify-theme` `873aa0c`. Checkpoint: `checkpoints/10.1.0-subtle-2px-cards/`. Store `7dbr1b-1q`.
+
+---
+
 # Regression results — Sunday 30 Aug 2026 (deploy lates + filled cards to Connect)
 
 ## Smoke
