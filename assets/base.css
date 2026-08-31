@@ -2506,9 +2506,11 @@ video[controls],
   min-height: 11.25rem;
   padding: 1.75rem 1.65rem 1.45rem;
   text-align: left;
-  background: var(--brand-bg);
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent);
-  border-radius: var(--radius-control, 2px);
+  background: #fff;
+  background-color: #fff;
+  border: 1px solid rgba(31, 58, 95, 0.14);
+  border-radius: 0.35rem;
+  box-shadow: none;
   cursor: pointer;
   transform: none;
   transition:
@@ -2558,10 +2560,10 @@ video[controls],
 .size-option.is-active,
 .size-row.is-in-basket,
 .size-row.is-active {
-  background: color-mix(in srgb, var(--brand-primary) 8%, var(--brand-bg));
+  background: color-mix(in srgb, var(--brand-primary) 8%, #fff);
   border-color: var(--brand-primary);
   border-width: 1.5px;
-  box-shadow: none;
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
 }
 
 .size-option.is-in-basket::before,
@@ -7892,7 +7894,8 @@ html.shopify-design-mode .section--wipe.is-wiping {
   padding: 1.75rem 1.65rem 1.5rem;
   background: var(--brand-bg);
   border: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
-  border-radius: var(--radius-control, 2px);
+  border-radius: 0.35rem;
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
   color: inherit;
   text-decoration: none;
 }
@@ -8878,7 +8881,9 @@ html.shopify-design-mode .section--wipe.is-wiping {
   font-size: 1rem;
   color: color-mix(in srgb, var(--brand-ink) 78%, transparent);
 }
-/* Concierge delivery — cream type on solid navy. No glass, no nested cards. */
+/* Concierge delivery — original cards on navy (4fee53a / a178418 chrome).
+   White fill, 0.35rem radius, shadow. Navy type on the cards. Cream headings.
+   No grey glass, no type-only flatten, no 16px filled-card system. */
 .lp-section--delivery,
 #delivery.lp-section,
 #delivery.section {
@@ -8897,26 +8902,31 @@ html.shopify-design-mode .section--wipe.is-wiping {
   max-width: 38rem;
 }
 .lp-tiers {
-  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
   margin-top: 2.75rem;
+  border: 0;
   background: none;
   box-shadow: none;
 }
-.lp-tier {
+.lp-tier,
+.lp-tier--pick {
   display: flex;
   gap: 1.25rem 2.5rem;
   align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 2rem 0;
-  border: 0;
-  background: none;
+  padding: 1.6rem 1.5rem;
+  background: #fff;
+  background-color: #fff;
+  color: var(--brand-primary, #1F3A5F);
+  border: 1px solid rgba(31, 58, 95, 0.14);
+  border-radius: 0.35rem;
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
 }
 .lp-tier:last-child {
-  border-bottom: 0;
-}
-.lp-tier--pick {
-  background: none;
+  border-bottom: 1px solid rgba(31, 58, 95, 0.14);
 }
 .lp-tier__tag {
   display: block;
@@ -8924,7 +8934,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: inherit;
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
   opacity: 1;
 }
 .lp-tier__name {
@@ -8933,14 +8943,14 @@ html.shopify-design-mode .section--wipe.is-wiping {
   font-weight: 600;
   font-size: 1.25rem;
   letter-spacing: -0.02em;
-  color: inherit;
+  color: var(--brand-primary, #1F3A5F);
 }
 .lp-tier__desc {
   margin: 0;
   max-width: 46ch;
   font-size: 1rem;
   line-height: 1.55;
-  color: inherit;
+  color: var(--brand-primary, #1F3A5F);
   opacity: 1;
 }
 .lp-tier__price {
@@ -8949,50 +8959,52 @@ html.shopify-design-mode .section--wipe.is-wiping {
   font-size: 1.125rem;
   letter-spacing: -0.02em;
   white-space: nowrap;
-  color: inherit;
+  color: var(--brand-primary, #1F3A5F);
 }
 .lp-svc {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  margin-top: 2.75rem;
+  gap: 1.15rem;
+  margin-top: 1.15rem;
   background: none;
   border: 0;
 }
 .lp-svc > div,
 .lp-svc__item {
-  background: none;
-  padding: 0.15rem 1.75rem;
-  border: 0;
-  box-shadow: none;
-  border-left: 1px solid color-mix(in srgb, var(--brand-on-dark, #f5f4f1) 48%, var(--brand-accent, #8a6d3b));
+  background: #fff;
+  background-color: #fff;
+  color: var(--brand-primary, #1F3A5F);
+  padding: 1.6rem 1.35rem;
+  border: 1px solid rgba(31, 58, 95, 0.14);
+  border-radius: 0.35rem;
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
 }
 .lp-svc > div:first-child,
-.lp-svc__item:first-child {
-  border-left: 0;
-  padding-left: 0;
-}
+.lp-svc__item:first-child,
 .lp-svc > div:last-child,
 .lp-svc__item:last-child {
-  padding-right: 0;
+  padding-left: 1.6rem;
+  padding-right: 1.35rem;
+  border-left: 1px solid rgba(31, 58, 95, 0.14);
 }
 .section--surface .lp-svc > div,
 .section--dark .lp-svc > div,
 .section--surface .lp-svc__item,
 .section--dark .lp-svc__item {
-  background: none;
+  background: #fff;
+  background-color: #fff;
 }
 .lp-svc h3 {
   margin: 0 0 0.45rem;
   font-size: 1.0625rem;
   line-height: 1.35;
-  color: inherit;
+  color: var(--brand-primary, #1F3A5F);
 }
 .lp-svc p {
   margin: 0;
   font-size: 1rem;
   line-height: 1.5;
-  color: inherit;
+  color: var(--brand-primary, #1F3A5F);
   opacity: 1;
 }
 @media (max-width: 720px) {
@@ -9001,14 +9013,14 @@ html.shopify-design-mode .section--wipe.is-wiping {
   }
   .lp-svc > div,
   .lp-svc__item {
-    border-left: 0;
-    padding: 1.35rem 0;
-    border-top: 1px solid color-mix(in srgb, var(--brand-on-dark, #f5f4f1) 48%, var(--brand-accent, #8a6d3b));
+    border-left: 1px solid rgba(31, 58, 95, 0.14);
+    padding: 1.6rem 1.35rem;
+    border-top: 1px solid rgba(31, 58, 95, 0.14);
   }
   .lp-svc > div:first-child,
   .lp-svc__item:first-child {
-    border-top: 0;
-    padding-top: 0;
+    border-top: 1px solid rgba(31, 58, 95, 0.14);
+    padding-top: 1.6rem;
   }
 }
 .lp-steps {
@@ -9218,21 +9230,6 @@ html.shopify-design-mode .section--wipe.is-wiping {
 #cool-touch.section--dark .cool-touch__thumb-caption,
 #cool-touch.section--dark .cool-touch__caption,
 #cool-touch.section--dark figcaption,
-.lp-section--delivery,
-.lp-section--delivery.section--dark,
-#delivery.section--dark,
-.section--dark .lp-tiers,
-.section--dark .lp-tier,
-.section--dark .lp-tier--pick,
-.section--dark .lp-tier__tag,
-.section--dark .lp-tier__name,
-.section--dark .lp-tier__desc,
-.section--dark .lp-tier__price,
-.section--dark .lp-svc,
-.section--dark .lp-svc h3,
-.section--dark .lp-svc p,
-.section--dark .lp-svc > div,
-.section--dark .lp-svc__item,
 .lp-section--delivery h2,
 .lp-section--delivery .section__lede,
 #delivery h2,
@@ -9280,69 +9277,56 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 
 
+
 .lp-section--delivery .lp-tiers,
-.lp-section--delivery .lp-tier,
-.lp-section--delivery .lp-tier--pick,
 .lp-section--delivery .lp-svc,
-.lp-section--delivery .lp-svc > div,
-.lp-section--delivery .lp-svc__item,
 #delivery .lp-tiers,
-#delivery .lp-tier,
-#delivery .lp-tier--pick,
-#delivery .lp-svc,
-#delivery .lp-svc > div,
-#delivery .lp-svc__item,
-.section--dark .lp-tiers,
-.section--dark .lp-tier,
-.section--dark .lp-tier--pick,
-.section--dark .lp-svc,
-.section--dark .lp-svc > div,
-.section--dark .lp-svc__item {
+#delivery .lp-svc {
   background: none !important;
   background-color: transparent !important;
   box-shadow: none !important;
+}
+
+.lp-section--delivery .lp-tier,
+.lp-section--delivery .lp-tier--pick,
+.lp-section--delivery .lp-svc > div,
+.lp-section--delivery .lp-svc__item,
+#delivery .lp-tier,
+#delivery .lp-tier--pick,
+#delivery .lp-svc > div,
+#delivery .lp-svc__item {
+  --brand-ink: #222222;
+  --heading-color: var(--brand-primary, #1F3A5F);
+  background: #fff !important;
+  background-color: #fff !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+  border: 1px solid rgba(31, 58, 95, 0.14);
+  border-radius: 0.35rem;
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   opacity: 1 !important;
 }
-.lp-section--delivery .lp-svc > div,
-.lp-section--delivery .lp-svc__item,
-#delivery .lp-svc > div,
-#delivery .lp-svc__item,
-.section--dark .lp-svc > div,
-.section--dark .lp-svc__item {
-  border-left: 1px solid color-mix(in srgb, var(--brand-on-dark) 48%, var(--brand-accent));
-  border-top: 0;
-  border-right: 0;
-  border-bottom: 0;
+
+.lp-section--delivery .lp-tier__name,
+.lp-section--delivery .lp-tier__desc,
+.lp-section--delivery .lp-tier__price,
+.lp-section--delivery .lp-svc h3,
+.lp-section--delivery .lp-svc p,
+#delivery .lp-tier__name,
+#delivery .lp-tier__desc,
+#delivery .lp-tier__price,
+#delivery .lp-svc h3,
+#delivery .lp-svc p {
+  color: var(--brand-primary, #1F3A5F) !important;
+  opacity: 1 !important;
 }
-.lp-section--delivery .lp-svc > div:first-child,
-.lp-section--delivery .lp-svc__item:first-child,
-#delivery .lp-svc > div:first-child,
-#delivery .lp-svc__item:first-child,
-.section--dark .lp-svc > div:first-child,
-.section--dark .lp-svc__item:first-child {
-  border-left: 0;
+
+.lp-section--delivery .lp-tier__tag,
+#delivery .lp-tier__tag {
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B)) !important;
 }
-@media (max-width: 720px) {
-  .lp-section--delivery .lp-svc > div,
-  .lp-section--delivery .lp-svc__item,
-  #delivery .lp-svc > div,
-  #delivery .lp-svc__item,
-  .section--dark .lp-svc > div,
-  .section--dark .lp-svc__item {
-    border-left: 0;
-    border-top: 1px solid color-mix(in srgb, var(--brand-on-dark) 48%, var(--brand-accent));
-  }
-  .lp-section--delivery .lp-svc > div:first-child,
-  .lp-section--delivery .lp-svc__item:first-child,
-  #delivery .lp-svc > div:first-child,
-  #delivery .lp-svc__item:first-child,
-  .section--dark .lp-svc > div:first-child,
-  .section--dark .lp-svc__item:first-child {
-    border-top: 0;
-  }
-}
+
 
 .section--dark .gold-rule,
 .section--dark .gold-rule.gold-rule--measure,
