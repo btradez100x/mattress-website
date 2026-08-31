@@ -1368,17 +1368,19 @@ else
   fail "css-variables still paints gold eyebrows on dark"
 fi
 
-# Concierge delivery band: spec table panel restored from fbad89c.
-# One cream fill, navy type, row/column hairlines. Not floating cards.
-if grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$THEME/assets/base.css" \
-  && grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$ROOT/preview/base.css" \
-  && grep -q 'grid-template-columns: repeat(auto-fit, minmax(210px, 1fr))' "$THEME/assets/base.css" \
+# Concierge delivery: original cards on navy (4fee53a chrome).
+if grep -q 'Concierge delivery — original cards on navy' "$THEME/assets/base.css" \
+  && grep -q 'Concierge delivery — original cards on navy' "$ROOT/preview/base.css" \
   && grep -q '.lp-section--delivery .lp-tier--pick' "$THEME/assets/base.css" \
+  && grep -q '.lp-section--delivery .lp-tier__desc' "$THEME/assets/base.css" \
+  && grep -q 'border-radius: 0.35rem' "$THEME/assets/base.css" \
   && grep -q '.lp-svc__item' "$THEME/assets/base.css" \
-  && grep -q 'border-radius: 0 !important' "$THEME/assets/base.css"; then
-  pass "delivery CSS is the original spec table panel (cream fill, navy type)"
+  && grep -q 'box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08)' "$THEME/assets/base.css" \
+  && ! grep -q 'background: color-mix(in srgb, var(--brand-surface, var(--brand-bg)) 70%, transparent)' "$THEME/assets/base.css" \
+  && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css"; then
+  pass "delivery CSS is original cards on navy, no glass, no 16px filled system"
 else
-  fail "delivery CSS is not the restored fbad89c table/panel layout"
+  fail "delivery CSS still has glass, flatten, or 16px filled-card chrome"
 fi
 
 if grep -q "layout == 'delivery'" "$THEME/sections/landing-funnel.liquid" \
@@ -1448,27 +1450,18 @@ else
   fail "dark type lock missing muted/kicker/Next sibling selectors"
 fi
 
-# Curved CTAs/cards: zip HTML uses 2px; do not flatten --radius-control back to 0
-# and do not bump to 12px / 16px.
-if grep -q -- '--radius: 2px' "$THEME/assets/brand.css" \
-  && grep -q -- '--radius-control: 2px' "$THEME/assets/brand.css" \
-  && grep -q -- '--radius: 2px' "$THEME/assets/base.css" \
-  && grep -q -- '--radius-control: 2px' "$THEME/assets/base.css" \
-  && grep -q -- '--radius: 2px' "$THEME/snippets/css-variables.liquid" \
-  && grep -q -- '--radius-control: 2px' "$THEME/snippets/css-variables.liquid" \
-  && grep -q -- '--radius-control: 2px' "$ROOT/preview/base.css" \
-  && grep -q -- '--radius-control: 2px' "$ROOT/preview/brand.css" \
-  && grep -q 'border-radius: var(--radius-control, 2px)' "$THEME/assets/base.css" \
-  && grep -q 'border-radius: var(--radius-control, 2px)' "$THEME/assets/brand.css" \
-  && ! grep -q -- '--radius-control: 0;' "$THEME/assets/brand.css" \
-  && ! grep -q -- '--radius-control: 0;' "$THEME/snippets/css-variables.liquid" \
-  && ! grep -q -- '--radius-control: 12px' "$THEME/assets/brand.css" \
-  && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css" \
+# Original card chrome: 0.35rem (4fee53a). Not 2px fake radius, not 16px filled-card.
+if grep -q 'border-radius: 0.35rem' "$THEME/assets/base.css" \
+  && grep -q -- '--radius: 0.35rem' "$THEME/assets/brand.css" \
+  && grep -q -- '--radius-control: 0.35rem' "$THEME/assets/brand.css" \
+  && grep -q '.size-option,' "$THEME/assets/base.css" \
   && grep -q '.size-row {' "$THEME/assets/base.css" \
-  && grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$THEME/assets/base.css"; then
-  pass "CTA/card radius restored to 2px (--radius / --radius-control); delivery is spec table panel"
+  && grep -q 'Concierge delivery — original cards on navy' "$THEME/assets/base.css" \
+  && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css" \
+  && ! grep -q -- '--radius: 2px' "$THEME/assets/brand.css"; then
+  pass "card chrome restored to original 0.35rem fill+radius+shadow (not 2px, not 16px)"
 else
-  fail "CTA/card radius not 2px, 12/16px leaked, or size-row/delivery CSS missing"
+  fail "card chrome is still 2px, 16px, or missing size-row"
 fi
 
 info "----------------------------------------"

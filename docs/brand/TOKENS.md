@@ -19,8 +19,9 @@ Live storefront uses **V1 Signature**, not Carbon/Snow from the a1e2 zip. Gold i
 
 | Token | Value | Use |
 |---|---|---|
-| `--radius` / `--radius-control` | **2px** | CTAs, size cards, YOUR ORDER, note field. Original subtle curve (`2dc913c` / `01de629`). |
+| `.btn` | **12px** | Page CTAs. Sticky Continue rounded; bar full-bleed. |
+| Size / delivery cards | **0.35rem** | Original `4fee53a` chrome: white fill, hairline, selected shadow. Not 2px, not 16px. |
 
-Do not bump to 12px / 16px. Photos stay square. Sticky basket **bar** stays full-bleed.
+Photos stay square. Do not reintroduce 2px fake radius or the 16px filled-card system.
 
 Optional V2 schemes (Carbon `#1A1A1A`, Graphite `#3A3A3C`, Snow `#F5F4F1`) remain in Theme settings but are not the default.
