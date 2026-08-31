@@ -42,8 +42,8 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
   --dur-panel: 280ms;
   --dur-base: 450ms;
   --dur-wipe: 600ms;
-  --radius: 2px;
-  --radius-control: 2px;
+  --radius: 0.35rem;
+  --radius-control: 0.35rem;
 }
 
 /* Wordmark gold on cream header (not footer / not --dark). */
@@ -171,19 +171,76 @@ button:focus-visible {
   color: var(--brand-primary, #1F3A5F);
 }
 
-/* Zip markdown said --radius: 0; brand-guidelines.html cards/buttons use 2px. */
+/* Page CTAs 12px. Original cards 0.35rem (4fee53a). Not 2px, not 16px. */
 html .btn:not(.btn--accent-line),
 html[data-brand-guidelines="v1"] .btn:not(.btn--accent-line),
 html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 .hero__cta .btn,
 .float-basket__btn,
 .sticky-reserve__btn,
-.size-note textarea,
-[data-size-note],
-.lp-card,
-.size-guide-tile,
-input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
-select,
-textarea {
-  border-radius: var(--radius-control, 2px);
+.checkout-stage__pay {
+  border-radius: 12px;
+}
+
+/* Original size/delivery card chrome last-wins. Does not empty .size-row. */
+.size-option,
+.size-row,
+.lp-section--delivery .lp-tier,
+.lp-section--delivery .lp-tier--pick,
+.lp-section--delivery .lp-svc > div,
+.lp-section--delivery .lp-svc__item,
+#delivery .lp-tier,
+#delivery .lp-tier--pick,
+#delivery .lp-svc > div,
+#delivery .lp-svc__item,
+.size-guide-tile {
+  background: #fff;
+  background-color: #fff;
+  border: 1px solid rgba(31, 58, 95, 0.14);
+  border-radius: 0.35rem;
+}
+
+.size-option.is-in-basket,
+.size-option.is-active,
+.size-row.is-in-basket,
+.size-row.is-active,
+.lp-section--delivery .lp-tier,
+.lp-section--delivery .lp-tier--pick,
+.lp-section--delivery .lp-svc > div,
+.lp-section--delivery .lp-svc__item,
+#delivery .lp-tier,
+#delivery .lp-tier--pick,
+#delivery .lp-svc > div,
+#delivery .lp-svc__item,
+.size-guide-tile {
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
+}
+
+.lp-section--delivery .lp-tier,
+.lp-section--delivery .lp-tier--pick,
+.lp-section--delivery .lp-svc > div,
+.lp-section--delivery .lp-svc__item,
+#delivery .lp-tier,
+#delivery .lp-tier--pick,
+#delivery .lp-svc > div,
+#delivery .lp-svc__item {
+  color: var(--brand-primary, #1F3A5F);
+}
+
+.lp-section--delivery .lp-tier__name,
+.lp-section--delivery .lp-tier__desc,
+.lp-section--delivery .lp-tier__price,
+.lp-section--delivery .lp-svc h3,
+.lp-section--delivery .lp-svc p,
+#delivery .lp-tier__name,
+#delivery .lp-tier__desc,
+#delivery .lp-tier__price,
+#delivery .lp-svc h3,
+#delivery .lp-svc p {
+  color: var(--brand-primary, #1F3A5F);
+}
+
+.lp-section--delivery .lp-tier__tag,
+#delivery .lp-tier__tag {
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
 }
