@@ -1,10 +1,8 @@
 {%- liquid
   assign manufacturing_url = pages['manufacturing'].url | default: '/pages/manufacturing'
-  comment
-    Journal nav is always the Page. Never put a Liquid error string in href.
-  endcomment
-  assign journal_url = '/pages/journal'
 -%}
+{%- capture journal_url -%}{% render 'journal-index-href' %}{%- endcapture -%}
+{%- assign journal_url = journal_url | strip -%}
 {%- liquid
   assign large_sizes_url = pages['large-sizes'].url | default: '/pages/large-sizes'
   assign european_king_url = pages['european-king'].url | default: '/pages/european-king'
