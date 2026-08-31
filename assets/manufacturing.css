@@ -167,7 +167,9 @@
 .mfg-band--dark .section__lede,
 .mfg-band--dark .rte,
 .mfg-band--dark .rte p,
-.mfg-band--dark .mfg-heritage {
+.mfg-band--dark .mfg-heritage,
+.mfg-band--dark .lp-outcome__name,
+.mfg-band--dark .lp-outcome__desc {
   color: var(--brand-on-dark);
 }
 .mfg-band--dark .section__eyebrow {
@@ -175,7 +177,8 @@
 }
 .mfg-band--dark .mfg-line,
 .mfg-band--dark .lp-spec li,
-.mfg-band--dark .lp-steps li {
+.mfg-band--dark .lp-steps li,
+.mfg-band--dark .lp-outcome__item {
   border-color: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
 }
 .mfg-band--dark .lp-spec b,
@@ -183,23 +186,10 @@
 .mfg-band--dark .lp-note-line {
   color: color-mix(in srgb, var(--brand-on-dark) 65%, transparent);
 }
-.mfg-band--dark .lp-steps b {
-  color: var(--brand-on-dark);
-}
+.mfg-band--dark .lp-steps b,
 .mfg-band--dark .lp-sizegrid__s,
-.mfg-band--dark .lp-outcome__name,
-.mfg-band--dark .lp-outcome__desc,
-.mfg-band--dark .lp-sizegrid__d {
-  color: var(--brand-primary, #1F3A5F);
-}
-.mfg-band--dark .lp-outcome__item,
-.mfg-band--surface .lp-sizegrid > div,
-.mfg-sizes .lp-sizegrid > div {
-  background: var(--brand-bg, #F7F5F1);
-  background-color: var(--brand-bg, #F7F5F1);
-  border-radius: var(--radius-card, 16px);
-  box-shadow: var(--shadow-card);
-  color: var(--brand-primary, #1F3A5F);
+.mfg-band--dark .lp-outcome__name {
+  color: var(--brand-on-dark);
 }
 .mfg-band--dark .btn {
   background: var(--brand-on-dark);
