@@ -968,10 +968,10 @@ def check_mobile_overflow_and_dark_lock() -> None:
         else:
             ok(f"{rel}: no * outline cyan")
     journal = ROOT / "valtora-theme" / "sections" / "journal-home.liquid"
-    if journal.exists() and "journal-baked-index" in journal.read_text(encoding="utf-8"):
-        ok("journal-home.liquid still renders baked notes")
+    if journal.exists():
+        bad("journal-home.liquid is present; Journal must stay off the homepage")
     else:
-        bad("journal-home.liquid missing baked index")
+        ok("journal-home.liquid absent (Journal off homepage)")
     main_blog = ROOT / "valtora-theme" / "sections" / "main-blog.liquid"
     if main_blog.exists() and "journal-baked-index" in main_blog.read_text(encoding="utf-8"):
         ok("main-blog.liquid still renders baked notes")
