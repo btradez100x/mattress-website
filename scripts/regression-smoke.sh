@@ -1368,18 +1368,16 @@ else
   fail "css-variables still paints gold eyebrows on dark"
 fi
 
-# Concierge delivery: original cards on navy (4fee53a chrome).
-if grep -q 'Concierge delivery — original cards on navy' "$THEME/assets/base.css" \
-  && grep -q 'Concierge delivery — original cards on navy' "$ROOT/preview/base.css" \
+# Concierge delivery: spec table panel restored from fbad89c. Not cards.
+if grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$THEME/assets/base.css" \
+  && grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$ROOT/preview/base.css" \
+  && grep -q 'grid-template-columns: repeat(auto-fit, minmax(210px, 1fr))' "$THEME/assets/base.css" \
   && grep -q '.lp-section--delivery .lp-tier--pick' "$THEME/assets/base.css" \
-  && grep -q '.lp-section--delivery .lp-tier__desc' "$THEME/assets/base.css" \
-  && grep -q 'border-radius: 0.35rem' "$THEME/assets/base.css" \
   && grep -q '.lp-svc__item' "$THEME/assets/base.css" \
-  && grep -q 'box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08)' "$THEME/assets/base.css" \
-  && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css"; then
-  pass "delivery CSS is original cards on navy, no glass, no 16px filled system"
+  && grep -q 'border-radius: 0 !important' "$THEME/assets/base.css"; then
+  pass "delivery CSS is the original spec table panel (cream fill, navy type)"
 else
-  fail "delivery CSS still has glass, flatten, or 16px filled-card chrome"
+  fail "delivery CSS is not the restored fbad89c table/panel layout"
 fi
 
 if grep -q "layout == 'delivery'" "$THEME/sections/landing-funnel.liquid" \
@@ -1455,7 +1453,7 @@ if grep -q 'border-radius: 0.35rem' "$THEME/assets/base.css" \
   && grep -q -- '--radius-control: 0.35rem' "$THEME/assets/brand.css" \
   && grep -q '.size-option,' "$THEME/assets/base.css" \
   && grep -q '.size-row {' "$THEME/assets/base.css" \
-  && grep -q 'Concierge delivery — original cards on navy' "$THEME/assets/base.css" \
+  && grep -q '.size-option,' "$THEME/assets/base.css" \
   && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css" \
   && ! grep -q -- '--radius: 2px' "$THEME/assets/brand.css"; then
   pass "card chrome restored to original 0.35rem fill+radius+shadow (not 2px, not 16px)"

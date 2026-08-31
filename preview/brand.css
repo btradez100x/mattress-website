@@ -182,17 +182,9 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
   border-radius: 12px;
 }
 
-/* Original size/delivery card chrome last-wins. Does not empty .size-row. */
+/* Original size card chrome last-wins (picker only). Does not empty .size-row. */
 .size-option,
 .size-row,
-.lp-section--delivery .lp-tier,
-.lp-section--delivery .lp-tier--pick,
-.lp-section--delivery .lp-svc > div,
-.lp-section--delivery .lp-svc__item,
-#delivery .lp-tier,
-#delivery .lp-tier--pick,
-#delivery .lp-svc > div,
-#delivery .lp-svc__item,
 .size-guide-tile {
   background: #fff !important;
   background-color: #fff !important;
@@ -204,18 +196,25 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 .size-option.is-active,
 .size-row.is-in-basket,
 .size-row.is-active,
-.lp-section--delivery .lp-tier,
-.lp-section--delivery .lp-tier--pick,
-.lp-section--delivery .lp-svc > div,
-.lp-section--delivery .lp-svc__item,
-#delivery .lp-tier,
-#delivery .lp-tier--pick,
-#delivery .lp-svc > div,
-#delivery .lp-svc__item,
 .size-guide-tile {
   box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08) !important;
 }
 
+/* Delivery spec table last-wins. Not cards. Cream panel, navy type, radius 0. */
+.lp-section--delivery .lp-tiers,
+#delivery .lp-tiers {
+  background: var(--brand-bg, #F7F5F1) !important;
+  background-color: var(--brand-bg, #F7F5F1) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+}
+.lp-section--delivery .lp-svc,
+#delivery .lp-svc {
+  background: color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
 .lp-section--delivery .lp-tier,
 .lp-section--delivery .lp-tier--pick,
 .lp-section--delivery .lp-svc > div,
@@ -224,9 +223,19 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 #delivery .lp-tier--pick,
 #delivery .lp-svc > div,
 #delivery .lp-svc__item {
-  color: var(--brand-primary, #1F3A5F);
+  background: none !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--brand-primary, #1F3A5F) !important;
 }
-
+.lp-section--delivery .lp-svc > div,
+.lp-section--delivery .lp-svc__item,
+#delivery .lp-svc > div,
+#delivery .lp-svc__item {
+  background: var(--brand-bg, #F7F5F1) !important;
+  background-color: var(--brand-bg, #F7F5F1) !important;
+}
 .lp-section--delivery .lp-tier__name,
 .lp-section--delivery .lp-tier__desc,
 .lp-section--delivery .lp-tier__price,
@@ -237,10 +246,15 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 #delivery .lp-tier__price,
 #delivery .lp-svc h3,
 #delivery .lp-svc p {
-  color: var(--brand-primary, #1F3A5F);
+  color: var(--brand-primary, #1F3A5F) !important;
 }
-
 .lp-section--delivery .lp-tier__tag,
 #delivery .lp-tier__tag {
-  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B)) !important;
+}
+.lp-section--delivery .lp-tier__desc,
+.lp-section--delivery .lp-svc p,
+#delivery .lp-tier__desc,
+#delivery .lp-svc p {
+  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 82%, var(--brand-bg, #F7F5F1)) !important;
 }
