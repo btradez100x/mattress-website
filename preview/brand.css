@@ -194,10 +194,10 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 #delivery .lp-svc > div,
 #delivery .lp-svc__item,
 .size-guide-tile {
-  background: #fff;
-  background-color: #fff;
+  background: #fff !important;
+  background-color: #fff !important;
   border: 1px solid rgba(31, 58, 95, 0.14);
-  border-radius: 0.35rem;
+  border-radius: 0.35rem !important;
 }
 
 .size-option.is-in-basket,
@@ -213,7 +213,7 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 #delivery .lp-svc > div,
 #delivery .lp-svc__item,
 .size-guide-tile {
-  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08) !important;
 }
 
 .lp-section--delivery .lp-tier,
