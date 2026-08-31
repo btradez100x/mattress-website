@@ -1368,21 +1368,17 @@ else
   fail "css-variables still paints gold eyebrows on dark"
 fi
 
-# Concierge delivery band: cream type on solid navy, no glass overlay.
-# Homepage and specification share landing-funnel + base.css.
-if grep -q 'Concierge delivery — cream type on solid navy' "$THEME/assets/base.css" \
-  && grep -q 'Concierge delivery — cream type on solid navy' "$ROOT/preview/base.css" \
-  && grep -q 'background: none !important' "$THEME/assets/base.css" \
+# Concierge delivery band: spec table panel restored from fbad89c.
+# One cream fill, navy type, row/column hairlines. Not floating cards.
+if grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$THEME/assets/base.css" \
+  && grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$ROOT/preview/base.css" \
+  && grep -q 'grid-template-columns: repeat(auto-fit, minmax(210px, 1fr))' "$THEME/assets/base.css" \
   && grep -q '.lp-section--delivery .lp-tier--pick' "$THEME/assets/base.css" \
-  && grep -q '.section--dark .lp-tier__desc' "$THEME/assets/base.css" \
-  && grep -q '.section--dark .lp-svc p' "$THEME/assets/base.css" \
-  && grep -q 'font-size: 1rem' "$THEME/assets/base.css" \
   && grep -q '.lp-svc__item' "$THEME/assets/base.css" \
-  && ! grep -q 'background: color-mix(in srgb, var(--brand-surface, var(--brand-bg)) 70%, transparent)' "$THEME/assets/base.css" \
-  && ! grep -q 'background: color-mix(in srgb, var(--brand-surface, var(--brand-bg)) 70%, transparent)' "$ROOT/preview/base.css"; then
-  pass "delivery CSS is cream-on-navy with no glass fill in theme and preview"
+  && grep -q 'border-radius: 0 !important' "$THEME/assets/base.css"; then
+  pass "delivery CSS is the original spec table panel (cream fill, navy type)"
 else
-  fail "delivery CSS still has glass overlay or is missing from preview/theme"
+  fail "delivery CSS is not the restored fbad89c table/panel layout"
 fi
 
 if grep -q "layout == 'delivery'" "$THEME/sections/landing-funnel.liquid" \
@@ -1469,8 +1465,8 @@ if grep -q -- '--radius: 2px' "$THEME/assets/brand.css" \
   && ! grep -q -- '--radius-control: 12px' "$THEME/assets/brand.css" \
   && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css" \
   && grep -q '.size-row {' "$THEME/assets/base.css" \
-  && grep -q 'Concierge delivery — cream type on solid navy' "$THEME/assets/base.css"; then
-  pass "CTA/card radius restored to 2px (--radius / --radius-control); delivery is cream type on navy"
+  && grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$THEME/assets/base.css"; then
+  pass "CTA/card radius restored to 2px (--radius / --radius-control); delivery is spec table panel"
 else
   fail "CTA/card radius not 2px, 12/16px leaked, or size-row/delivery CSS missing"
 fi
