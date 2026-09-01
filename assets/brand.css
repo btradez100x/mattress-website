@@ -299,7 +299,16 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 .lp-section--built .section__eyebrow,
 #how-it-is-built .section__eyebrow,
 .lp-section--built .lp-kicker,
-#how-it-is-built .lp-kicker {
+#how-it-is-built .lp-kicker,
+.section--surface .lp-outcome__kicker,
+.section--bg .lp-outcome__kicker,
+.section--surface .lp-outcome .lp-kicker,
+.section--bg .lp-outcome .lp-kicker,
+.mfg-band:not(.mfg-band--dark) .lp-outcome__kicker,
+.mfg-band:not(.mfg-band--dark) .lp-kicker,
+.mfg-intro .lp-kicker,
+.mfg-band--surface .lp-kicker,
+.mfg-order .lp-kicker {
   color: var(--brand-gold, var(--brand-accent, #8A6D3B)) !important;
 }
 .lp-section--built .lp-sec-head h2,
@@ -308,4 +317,11 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 #how-it-is-built .lp-card h3,
 .lp-built .lp-card h3 {
   color: var(--brand-primary, #1F3A5F) !important;
+}
+.section--dark .lp-outcome__kicker,
+.section--dark .lp-outcome .lp-kicker,
+.section--dark .lp-outcome .section__eyebrow,
+.mfg-band--dark .lp-outcome__kicker,
+.mfg-band--dark .lp-outcome .lp-kicker {
+  color: var(--brand-on-dark, #F7F5F1) !important;
 }

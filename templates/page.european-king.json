@@ -25,6 +25,7 @@
         "enable_section": true,
         "ground": "surface",
         "layout": "prose",
+        "kicker": "The size",
         "heading": "One hundred and sixty centimetres",
         "body": "<p>Continental bed frames, IKEA included, take a mattress 160 centimetres wide. It is a standard across most of Europe and it is the size we build.</p><p>The British King is 150. Ten centimetres narrower, which sounds like nothing until it is a gap down one side of your bed and sheets that will not sit flat.</p>"
       }
@@ -136,6 +137,7 @@
         "o1": {
           "type": "card",
           "settings": {
+            "kicker": "The feel",
             "heading": "You do not choose the feel. You discover it.",
             "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
           }
@@ -143,6 +145,7 @@
         "o2": {
           "type": "card",
           "settings": {
+            "kicker": "Arrival",
             "heading": "It arrives finished.",
             "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
           }
@@ -150,6 +153,7 @@
         "o3": {
           "type": "card",
           "settings": {
+            "kicker": "Twenty five years",
             "heading": "It stays right for twenty five years.",
             "text": "The part that softens renews. The part that lasts, lasts."
           }
@@ -165,6 +169,7 @@
         "ground": "surface",
         "layout": "outcome",
         "anchor_id": "outcome",
+        "kicker": "The outcome",
         "heading": "A bed that becomes yours,\nand stays that way."
       }
     },

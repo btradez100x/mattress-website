@@ -26,6 +26,7 @@
         "ground": "surface",
         "layout": "size_table",
         "mattress_product": "the-mattress",
+        "kicker": "Sizes",
         "heading": "Every size we make",
         "lede": "All made to order. All 35cm deep. All with the same replaceable comfort layer.",
         "table_note": "European King fits IKEA and most continental bed frames."
@@ -106,6 +107,7 @@
         "o1": {
           "type": "card",
           "settings": {
+            "kicker": "The feel",
             "heading": "You do not choose the feel. You discover it.",
             "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
           }
@@ -113,6 +115,7 @@
         "o2": {
           "type": "card",
           "settings": {
+            "kicker": "Arrival",
             "heading": "It arrives finished.",
             "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
           }
@@ -120,6 +123,7 @@
         "o3": {
           "type": "card",
           "settings": {
+            "kicker": "Twenty five years",
             "heading": "It stays right for twenty five years.",
             "text": "The part that softens renews. The part that lasts, lasts."
           }
@@ -135,6 +139,7 @@
         "ground": "surface",
         "layout": "outcome",
         "anchor_id": "outcome",
+        "kicker": "The outcome",
         "heading": "A bed that becomes yours,\nand stays that way."
       }
     },

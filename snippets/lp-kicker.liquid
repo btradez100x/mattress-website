@@ -1,0 +1,6 @@
+{%- if text != blank -%}
+  <p class="section__eyebrow lp-kicker{% if class != blank %} {{ class }}{% endif %}">{% render 'landing-copy', text: text, featured_price: featured_price, layer_price: layer_price %}</p>
+  {%- unless rule == false -%}
+    <hr class="gold-rule">
+  {%- endunless -%}
+{%- endif -%}
