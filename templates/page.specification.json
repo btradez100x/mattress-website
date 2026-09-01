@@ -24,6 +24,7 @@
         "c1": {
           "type": "card",
           "settings": {
+            "kicker": "The core",
             "heading": "Pocket springs, individually housed",
             "text": "Each spring moves on its own, so one person turning over does not move the other. It is the part that carries the twenty five year guarantee."
           }
@@ -31,6 +32,7 @@
         "c2": {
           "type": "card",
           "settings": {
+            "kicker": "The layer",
             "heading": "A comfort layer that comes out",
             "text": "The top ten centimetres are what soften. Ours unzip and lift away, so the bed is renewed rather than replaced."
           }
@@ -38,6 +40,7 @@
         "c3": {
           "type": "card",
           "settings": {
+            "kicker": "To order",
             "heading": "Made after you order it",
             "text": "Nothing is built before someone wants it. No warehouse, no stock to clear."
           }
@@ -52,6 +55,8 @@
         "enable_section": true,
         "ground": "surface",
         "layout": "cards",
+        "anchor_id": "how-it-is-built",
+        "kicker": "Construction",
         "heading": "How it is built",
         "lede": "Three decisions that determine whether a mattress is still good in twenty years."
       }
