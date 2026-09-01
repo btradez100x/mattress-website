@@ -220,9 +220,12 @@
 
   {%- if layout == 'prose' -%}
   <div class="page-width{% if section.settings.body_2 == blank %} lp-narrow{% endif %}">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
@@ -293,9 +296,12 @@
 
   {%- if layout == 'spec' -%}
   <div class="page-width lp-narrow">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
@@ -328,9 +334,12 @@
 
   {%- if layout == 'size_table' -%}
   <div class="page-width">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head lp-narrow">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
@@ -392,9 +401,12 @@
 
   {%- if layout == 'cost' -%}
   <div class="page-width lp-narrow">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
@@ -436,15 +448,19 @@
 
   {%- if layout == 'outcome' -%}
   <div class="page-width lp-narrow">
-    {%- if section.settings.heading != blank -%}
-      <div class="lp-sec-head" style="text-align:center">
-        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
+      <div class="lp-sec-head lp-outcome-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
+          <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
       </div>
     {%- endif -%}
     <div class="lp-outcome">
       {%- for block in section.blocks -%}
         {%- if block.type == 'card' -%}
           <div class="lp-outcome__item" {{ block.shopify_attributes }}>
+            {% render 'lp-kicker', text: block.settings.kicker, featured_price: featured_price, layer_price: layer_price, class: 'lp-outcome__kicker' %}
             {%- if block.settings.heading != blank -%}
               <p class="lp-outcome__name">{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</p>
             {%- endif -%}
@@ -463,9 +479,12 @@
 
   {%- if layout == 'delivery' -%}
   <div class="page-width lp-delivery">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
@@ -516,9 +535,12 @@
 
   {%- if layout == 'steps' -%}
   <div class="page-width lp-narrow">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
@@ -541,9 +563,12 @@
 
   {%- if layout == 'stats' -%}
   <div class="page-width lp-narrow">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
@@ -570,9 +595,12 @@
 
   {%- if layout == 'size_grid' -%}
   <div class="page-width lp-narrow">
-    {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank or section.settings.kicker != blank -%}
       <div class="lp-sec-head">
+        {% render 'lp-kicker', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}
+        {%- if section.settings.heading != blank -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}

@@ -74,7 +74,8 @@
         "mattress_product": "the-mattress",
         "featured_size": "super-king",
         "heading": "What is in it",
-        "lede": "Thirty five centimetres, built in two parts, closed with a zip."
+        "lede": "Thirty five centimetres, built in two parts, closed with a zip.",
+        "kicker": "Specification"
       }
     },
     "kept": {
@@ -123,6 +124,7 @@
         "layout": "cards",
         "heading": "Worth knowing",
         "lede": "Three things people ask before they order.",
+        "kicker": "Before you order",
         "promise_title": "Adjust to Desire.",
         "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full."
       }
@@ -133,6 +135,7 @@
         "o1": {
           "type": "card",
           "settings": {
+            "kicker": "The feel",
             "heading": "You do not choose the feel. You discover it.",
             "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
           }
@@ -140,6 +143,7 @@
         "o2": {
           "type": "card",
           "settings": {
+            "kicker": "Arrival",
             "heading": "It arrives finished.",
             "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
           }
@@ -147,6 +151,7 @@
         "o3": {
           "type": "card",
           "settings": {
+            "kicker": "Twenty five years",
             "heading": "It stays right for twenty five years.",
             "text": "The part that softens renews. The part that lasts, lasts."
           }
@@ -162,6 +167,7 @@
         "ground": "surface",
         "layout": "outcome",
         "anchor_id": "outcome",
+        "kicker": "The outcome",
         "heading": "A bed that becomes yours,\nand stays that way."
       }
     },

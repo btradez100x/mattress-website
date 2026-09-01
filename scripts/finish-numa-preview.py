@@ -9,19 +9,27 @@ INDEX = ROOT / "preview" / "index.html"
 OUTCOME_DELIVERY = """
       <section class="section lp-section section--surface" id="outcome" data-reveal data-section-ground="surface">
         <div class="page-width lp-narrow">
-          <div class="lp-sec-head" style="text-align:center">
+          <div class="lp-sec-head lp-outcome-head">
+            <p class="section__eyebrow lp-kicker">The outcome</p>
+            <hr class="gold-rule">
             <h2>A bed that becomes yours,<br>and stays that way.</h2>
           </div>
           <div class="lp-outcome">
             <div class="lp-outcome__item">
+              <p class="section__eyebrow lp-kicker lp-outcome__kicker">The feel</p>
+              <hr class="gold-rule">
               <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
               <p class="lp-outcome__desc">Feel is discovered over months of use. You have a year with us. We adjust it until it is.</p>
             </div>
             <div class="lp-outcome__item">
+              <p class="section__eyebrow lp-kicker lp-outcome__kicker">Arrival</p>
+              <hr class="gold-rule">
               <p class="lp-outcome__name">It arrives finished.</p>
               <p class="lp-outcome__desc">Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</p>
             </div>
             <div class="lp-outcome__item">
+              <p class="section__eyebrow lp-kicker lp-outcome__kicker">Twenty five years</p>
+              <hr class="gold-rule">
               <p class="lp-outcome__name">It stays right for twenty five years.</p>
               <p class="lp-outcome__desc">The part that softens renews. The part that lasts, lasts.</p>
             </div>
@@ -109,19 +117,27 @@ ABOUT_MAIN = """
       </section>
       <section class="section lp-section section--surface" id="outcome" data-reveal data-section-ground="surface">
         <div class="page-width lp-narrow">
-          <div class="lp-sec-head" style="text-align:center">
+          <div class="lp-sec-head lp-outcome-head">
+            <p class="section__eyebrow lp-kicker">The outcome</p>
+            <hr class="gold-rule">
             <h2>A bed that becomes yours,<br>and stays that way.</h2>
           </div>
           <div class="lp-outcome">
             <div class="lp-outcome__item">
+              <p class="section__eyebrow lp-kicker lp-outcome__kicker">The feel</p>
+              <hr class="gold-rule">
               <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
               <p class="lp-outcome__desc">Feel is discovered over months of use. You have a year with us. We adjust it until it is.</p>
             </div>
             <div class="lp-outcome__item">
+              <p class="section__eyebrow lp-kicker lp-outcome__kicker">Arrival</p>
+              <hr class="gold-rule">
               <p class="lp-outcome__name">It arrives finished.</p>
               <p class="lp-outcome__desc">Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</p>
             </div>
             <div class="lp-outcome__item">
+              <p class="section__eyebrow lp-kicker lp-outcome__kicker">Twenty five years</p>
+              <hr class="gold-rule">
               <p class="lp-outcome__name">It stays right for twenty five years.</p>
               <p class="lp-outcome__desc">The part that softens renews. The part that lasts, lasts.</p>
             </div>
