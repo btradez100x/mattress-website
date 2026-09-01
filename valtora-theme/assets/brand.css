@@ -71,12 +71,12 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
   color: var(--brand-gold, var(--brand-accent, #8A6D3B));
 }
 
-/* Dark sections: cream type, readable. Gold stays on rules only. */
+/* Dark sections: cream type, readable. Gold stays on rules and the
+   announcement bar (restored brand gold on navy). */
 .section--dark,
 .section[data-section-ground="dark"],
 .trust-bar--dark,
 .site-footer,
-.announcement,
 .mfg-band--dark,
 .mfg-split__card--dark,
 .mfg-hero,
@@ -118,9 +118,6 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
 .section--dark .market-badge,
 .site-footer,
 .site-footer a,
-.announcement,
-.announcement b,
-.announcement strong,
 .trust-bar--dark,
 .trust-bar--dark .trust-bar__label {
   color: var(--brand-on-dark, #F7F5F1);
@@ -200,7 +197,15 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
   box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08) !important;
 }
 
-/* Delivery spec table last-wins. Not cards. Cream panel, navy type, radius 0. */
+/* Delivery spec table last-wins. Not cards. Cream panel, navy type, 2px outer radius. */
+.lp-section--delivery .lp-delivery-panel,
+#delivery .lp-delivery-panel {
+  background: var(--brand-bg, #F7F5F1) !important;
+  background-color: var(--brand-bg, #F7F5F1) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+}
 .lp-section--delivery .lp-tiers,
 #delivery .lp-tiers {
   background: var(--brand-bg, #F7F5F1) !important;
@@ -256,7 +261,19 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 .lp-section--delivery .lp-svc p,
 #delivery .lp-tier__desc,
 #delivery .lp-svc p {
-  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 82%, var(--brand-bg, #F7F5F1)) !important;
+  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 88%, #000) !important;
+}
+
+/* Gold announcement on navy. Lift #8A6D3B so it reads as gold, not cream. */
+.announcement,
+.announcement p,
+.announcement a,
+.announcement b,
+.announcement strong {
+  color: color-mix(in srgb, var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2) !important;
+}
+.announcement__dismiss {
+  color: var(--brand-on-dark, #F7F5F1) !important;
 }
 
 /* How it is built last-wins. Cream panel, hairline columns, 2px radius. Not cards. */

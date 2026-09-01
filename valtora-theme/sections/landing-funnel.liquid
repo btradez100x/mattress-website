@@ -471,14 +471,15 @@
         {%- endif -%}
       </div>
     {%- endif -%}
+    <div class="lp-delivery-panel">
     <div class="lp-tiers">
       {%- for block in section.blocks -%}
         {%- if block.type == 'tier' -%}
           <div class="lp-tier{% if block.settings.featured %} lp-tier--pick{% endif %}" {{ block.shopify_attributes }}>
-            <div>
-              {%- if block.settings.tag != blank -%}
-                <span class="lp-tier__tag">{% render 'landing-copy', text: block.settings.tag, featured_price: featured_price, layer_price: layer_price %}</span>
-              {%- endif -%}
+            {%- if block.settings.tag != blank -%}
+              <span class="lp-tier__tag">{% render 'landing-copy', text: block.settings.tag, featured_price: featured_price, layer_price: layer_price %}</span>
+            {%- endif -%}
+            <div class="lp-tier__copy">
               {%- if block.settings.heading != blank -%}
                 <p class="lp-tier__name">{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</p>
               {%- endif -%}
@@ -508,6 +509,7 @@
           {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
+    </div>
     </div>
   </div>
   {%- endif -%}

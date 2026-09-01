@@ -682,6 +682,15 @@ else
   fail "navy/gold live tokens missing, carbon overlay still last-wins, or brand.css not after base.css"
 fi
 
+if grep -q '.announcement,' "$THEME/assets/brand.css" \
+  && grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/brand.css" \
+  && grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/base.css" \
+  && ! grep -q 'color: #e8a184' "$THEME/assets/base.css"; then
+  pass "announcement bar copy is restored gold on navy"
+else
+  fail "announcement bar is still cream or missing brand-accent gold"
+fi
+
 if grep -q -- '--ease-luxury' "$THEME/assets/base.css" "$ROOT/preview/base.css" \
   || grep -q -- '--ease-out-expo' "$THEME/assets/base.css" "$ROOT/preview/base.css" \
   || grep -q -- '--motion-hover' "$THEME/assets/base.css" "$ROOT/preview/base.css"; then
