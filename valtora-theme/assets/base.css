@@ -7761,7 +7761,11 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin-inline: auto;
 }
 .policy-cta .gold-rule {
+  display: block;
+  width: 2.5rem;
+  max-width: 2.5rem;
   margin-inline: auto;
+  align-self: center;
 }
 .policy-cta .section__lede {
   margin-inline: auto;
