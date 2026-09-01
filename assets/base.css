@@ -792,19 +792,19 @@ a[data-reserve-continue][aria-disabled="true"] {
 /* Announcement */
 .announcement {
   background: var(--brand-primary);
-  color: var(--brand-on-dark);
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
   text-align: center;
   font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   line-height: 1.5;
   padding: 0.55rem 2.5rem 0.55rem var(--space-gutter);
   white-space: normal;
   overflow-wrap: break-word;
   overflow-x: clip;
-  --brand-ink: var(--brand-on-dark);
-  --eyebrow-color: var(--brand-on-dark);
-  --color-foreground: var(--brand-on-dark);
+  --brand-ink: var(--brand-gold, var(--brand-accent, #8A6D3B));
+  --eyebrow-color: var(--brand-gold, var(--brand-accent, #8A6D3B));
+  --color-foreground: var(--brand-gold, var(--brand-accent, #8A6D3B));
 }
 
 .announcement p {
@@ -8998,7 +8998,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 #delivery.section {
   background: var(--brand-primary);
   color: var(--brand-on-dark);
-  padding-block: calc(var(--space-section, 4.5rem) + 0.25rem);
+  padding-block: calc(var(--space-section, 4.5rem) + 0.5rem);
 }
 .lp-section--delivery .lp-narrow,
 .lp-delivery,
@@ -9008,29 +9008,50 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 .lp-section--delivery .lp-sec-head,
 #delivery .lp-sec-head {
-  max-width: 38rem;
+  max-width: 40rem;
+  margin-bottom: 2.75rem;
+}
+.lp-section--delivery .lp-sec-head h2,
+#delivery .lp-sec-head h2 {
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.03em;
+}
+.lp-delivery-panel {
+  margin-top: 0;
+  background: var(--brand-bg, #F7F5F1);
+  color: var(--brand-primary, #1F3A5F);
+  border: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 14%, transparent);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: none;
 }
 .lp-tiers {
-  border: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent);
-  margin-top: 2rem;
+  border: 0;
+  margin-top: 0;
   background: var(--brand-bg, #F7F5F1);
   box-shadow: none;
   border-radius: 0;
 }
 .lp-tier,
 .lp-tier--pick {
-  display: flex;
-  gap: 1.6rem;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 1.6rem 1.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "tag tag"
+    "copy price";
+  column-gap: 2.25rem;
+  row-gap: 0;
+  align-items: start;
+  padding: 2rem 2.35rem 1.95rem;
   border: 0;
   border-bottom: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent);
   background: none;
   box-shadow: none;
   border-radius: 0;
   color: var(--brand-primary, #1F3A5F);
+}
+.lp-tier:not(:has(.lp-tier__tag)) {
+  grid-template-areas: "copy price";
 }
 .lp-tier:last-child {
   border-bottom: 0;
@@ -9039,35 +9060,49 @@ html.shopify-design-mode .section--wipe.is-wiping {
   background: none;
 }
 .lp-tier__tag {
+  grid-area: tag;
   display: block;
-  margin-bottom: 0.4rem;
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
+  margin: 0 0 1.05rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
   text-transform: uppercase;
   color: var(--brand-gold, var(--brand-accent, #8A6D3B));
   opacity: 1;
 }
+.lp-tier > div,
+.lp-tier__copy {
+  grid-area: copy;
+  min-width: 0;
+}
 .lp-tier__name {
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.5rem;
   font-family: var(--font-headline, var(--font-sans));
   font-weight: 600;
   font-size: 1.125rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  line-height: 1.28;
   color: var(--brand-primary, #1F3A5F);
 }
 .lp-tier__desc {
   margin: 0;
-  max-width: 46ch;
-  font-size: 0.9rem;
+  max-width: 48ch;
+  font-size: 0.9375rem;
   line-height: 1.55;
-  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 82%, var(--brand-bg, #F7F5F1));
+  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 88%, #000);
   opacity: 1;
 }
 .lp-tier__price {
+  grid-area: price;
+  justify-self: end;
+  align-self: start;
+  padding-top: 0.12em;
   font-family: var(--font-headline, var(--font-sans));
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1rem;
   letter-spacing: -0.02em;
+  line-height: 1.28;
   white-space: nowrap;
   color: var(--brand-primary, #1F3A5F);
 }
@@ -9077,14 +9112,15 @@ html.shopify-design-mode .section--wipe.is-wiping {
   gap: 1px;
   margin-top: 0;
   background: color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent);
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent);
   box-shadow: none;
   border-radius: 0;
 }
 .lp-svc > div,
 .lp-svc__item {
   background: var(--brand-bg, #F7F5F1);
-  padding: 1.6rem 1.35rem;
+  padding: 1.9rem 2.1rem 1.95rem;
   border: 0;
   box-shadow: none;
   border-radius: 0;
@@ -9094,8 +9130,8 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-svc__item:first-child,
 .lp-svc > div:last-child,
 .lp-svc__item:last-child {
-  padding-left: 1.35rem;
-  padding-right: 1.35rem;
+  padding-left: 2.1rem;
+  padding-right: 2.1rem;
 }
 .section--surface .lp-svc > div,
 .section--dark .lp-svc > div,
@@ -9104,26 +9140,40 @@ html.shopify-design-mode .section--wipe.is-wiping {
   background: var(--brand-bg, #F7F5F1);
 }
 .lp-svc h3 {
-  margin: 0 0 0.55rem;
-  font-size: 1.05rem;
-  line-height: 1.35;
+  margin: 0 0 0.4rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
   color: var(--brand-primary, #1F3A5F);
 }
 .lp-svc p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.5;
-  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 82%, var(--brand-bg, #F7F5F1));
+  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 88%, #000);
   opacity: 1;
 }
 @media (max-width: 720px) {
   .lp-svc {
     grid-template-columns: 1fr;
   }
+  .lp-tier,
+  .lp-tier--pick {
+    padding: 1.7rem 1.45rem 1.6rem;
+    column-gap: 1.15rem;
+  }
   .lp-svc > div,
   .lp-svc__item {
     border: 0;
-    padding: 1.6rem 1.35rem;
+    padding: 1.6rem 1.45rem;
+  }
+  .lp-svc > div:first-child,
+  .lp-svc__item:first-child,
+  .lp-svc > div:last-child,
+  .lp-svc__item:last-child {
+    padding-left: 1.45rem;
+    padding-right: 1.45rem;
   }
   .lp-svc > div:first-child,
   .lp-svc__item:first-child {
@@ -9240,8 +9290,8 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 .announcement b,
 .announcement strong {
-  color: #e8a184;
-  font-weight: 500;
+  color: inherit;
+  font-weight: 600;
 }
 .announcement {
   position: relative;
@@ -9307,7 +9357,6 @@ html.shopify-design-mode .section--wipe.is-wiping {
 #cool-touch.section--dark,
 .trust-bar--dark,
 .site-footer,
-.announcement,
 .mfg-band--dark,
 .mfg-split__card--dark,
 .mfg-hero,
@@ -9375,18 +9424,43 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .site-footer p,
 .site-footer .payment-marks__pill,
 .site-footer .payment-marks__pill--bnpl,
-.announcement,
-.announcement a,
 .trust-bar--dark .trust-bar__label,
 .trust-bar--dark .trust-bar__sub {
   color: var(--brand-on-dark) !important;
   opacity: 1 !important;
 }
 
+/* Gold announcement on navy. #8A6D3B is ~2.4:1 on #1F3A5F; lift toward
+   antique gold so the bar reads as the original gold, not cream. */
+.announcement,
+.announcement p,
+.announcement a,
+.announcement b,
+.announcement strong {
+  color: color-mix(in srgb, var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2) !important;
+  opacity: 1 !important;
+}
+.announcement__dismiss {
+  color: var(--brand-on-dark, #F7F5F1) !important;
+  opacity: 0.55;
+}
 
 
 
 
+
+
+.lp-section--delivery .lp-delivery-panel,
+#delivery .lp-delivery-panel {
+  --brand-ink: var(--brand-primary, #1F3A5F);
+  --heading-color: var(--brand-primary, #1F3A5F);
+  --color-foreground: var(--brand-primary, #1F3A5F);
+  background: var(--brand-bg, #F7F5F1) !important;
+  background-color: var(--brand-bg, #F7F5F1) !important;
+  box-shadow: none !important;
+  border-radius: 2px !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+}
 
 .lp-section--delivery .lp-tiers,
 #delivery .lp-tiers {
@@ -9465,7 +9539,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-section--delivery .lp-svc p,
 #delivery .lp-tier__desc,
 #delivery .lp-svc p {
-  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 82%, var(--brand-bg, #F7F5F1)) !important;
+  color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 88%, #000) !important;
 }
 
 .section--dark .gold-rule,
