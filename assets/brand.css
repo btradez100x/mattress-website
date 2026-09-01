@@ -135,6 +135,7 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
 /* Gold 1px rules (light and navy). Measure rules stay full-width. */
 .gold-rule,
 .section--dark .gold-rule {
+  display: block;
   width: 2.5rem;
   max-width: 2.5rem;
   height: 0;
@@ -151,6 +152,18 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
   margin: 2.25rem 0 0;
   background: var(--brand-gold, var(--brand-accent, #8A6D3B));
   border: 0;
+}
+
+/* Centered kicker stacks (Journal NEXT, policy CTAs): 40px rule under the label. */
+.policy-cta .gold-rule,
+.section--dark.policy-cta .gold-rule,
+.section--dark .policy-cta__inner > .gold-rule,
+.lp-configure-head .gold-rule {
+  display: block;
+  width: 2.5rem;
+  max-width: 2.5rem;
+  margin-inline: auto;
+  align-self: center;
 }
 
 .btn:focus-visible,
