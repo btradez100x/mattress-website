@@ -1404,6 +1404,50 @@ else
   fail "preview homepage or specification still uses old delivery markup"
 fi
 
+# How it is built: cream panel with hairline columns, gold kickers. Not Apple cards.
+if grep -q 'lp-section--built' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'lp-card__kicker' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'How it is built — one cream panel with hairline columns' "$THEME/assets/base.css" \
+  && grep -q 'How it is built — one cream panel with hairline columns' "$ROOT/preview/base.css" \
+  && grep -q 'How it is built last-wins' "$THEME/assets/brand.css" \
+  && grep -q '"anchor_id": "how-it-is-built"' "$THEME/templates/page.specification.json" \
+  && grep -q 'id="how-it-is-built"' "$ROOT/preview/pages/specification.html" \
+  && grep -q 'lp-card__kicker' "$ROOT/preview/pages/specification.html" \
+  && grep -q 'lp-built' "$ROOT/preview/pages/specification.html" \
+  && grep -q 'gold-rule' "$ROOT/preview/pages/specification.html"; then
+  pass "How it is built is a cream hairline panel with gold kickers"
+else
+  fail "How it is built is still cramped lp-cards without panel language"
+fi
+
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" <<'PY'
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    text = open(path).read()
+    start = text.find("How it is built — one cream panel with hairline columns")
+    if start < 0:
+        print(path, "missing how-it-is-built CSS")
+        ok = False
+        continue
+    block = text[start:start + 3500]
+    if "border-radius: 16px" in block or "border-radius: 12px" in block:
+        print(path, "how-it-is-built uses 12/16px radius")
+        ok = False
+    if "box-shadow:" in block and "box-shadow: none" not in block:
+        print(path, "how-it-is-built has a real shadow")
+        ok = False
+    if "padding: 2rem 2rem" not in block and "padding: 2rem" not in block:
+        print(path, "how-it-is-built missing 32px cell padding")
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "How it is built CSS stays 2px panel, no 16px cards"
+else
+  fail "How it is built CSS drifted into card chrome"
+fi
+
 if grep -q '#cool-touch.section--dark .cool-touch__points span' "$THEME/assets/base.css" \
   && grep -q 'color: var(--brand-on-dark) !important' "$THEME/assets/base.css"; then
   pass "Cool Touch snow-on-navy lock is still present"

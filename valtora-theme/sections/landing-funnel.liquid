@@ -102,6 +102,17 @@
     assign sec_id = 'lp-' | append: layout | append: '-' | append: section.id
   endif
 
+  assign heading_down = section.settings.heading | strip | downcase
+  assign is_built = false
+  if layout == 'cards'
+    if sec_id == 'how-it-is-built' or heading_down == 'how it is built'
+      assign is_built = true
+    endif
+  endif
+  if is_built and section.settings.anchor_id == blank
+    assign sec_id = 'how-it-is-built'
+  endif
+
   capture lead_window
     render 'lead-time', product_type: 'mattress'
   endcapture
@@ -116,7 +127,7 @@
 -%}
 {%- if section.settings.enable_section -%}
 <section
-  class="section lp-section lp-section--{{ layout }}{% if layout == 'hero' and section.settings.image != blank or layout == 'hero' and section.settings.image_fallback != blank %} story-frame story-frame--split story-frame--end{% endif %}{% if layout == 'delivery' %} section--dark{% else %}{% render 'section-ground' %}{% endif %}"
+  class="section lp-section lp-section--{{ layout }}{% if is_built %} lp-section--built{% endif %}{% if layout == 'hero' and section.settings.image != blank or layout == 'hero' and section.settings.image_fallback != blank %} story-frame story-frame--split story-frame--end{% endif %}{% if layout == 'delivery' %} section--dark{% else %}{% render 'section-ground' %}{% endif %}"
   id="{{ sec_id }}"
   {% if layout == 'hero' %}data-lp-page data-lp-variant="{{ section.settings.lp_variant | escape }}"{% endif %}
   data-reveal
@@ -232,17 +243,28 @@
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
       <div class="lp-sec-head lp-narrow">
+        {%- if section.settings.kicker != blank -%}
+          <p class="section__eyebrow lp-kicker">{% render 'landing-copy', text: section.settings.kicker, featured_price: featured_price, layer_price: layer_price %}</p>
+          <hr class="gold-rule">
+        {%- endif -%}
         <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
         {%- if section.settings.lede != blank -%}
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
       </div>
     {%- endif -%}
-    <div class="lp-cards">
+    <div class="lp-cards{% if is_built %} lp-built{% endif %}">
+      {%- assign built_i = 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'card' -%}
           {%- if block.settings.heading != blank or block.settings.text != blank -%}
+          {%- assign built_i = built_i | plus: 1 -%}
           <article class="lp-card" {{ block.shopify_attributes }}>
+            {%- if block.settings.kicker != blank -%}
+              <p class="lp-card__kicker">{% render 'landing-copy', text: block.settings.kicker, featured_price: featured_price, layer_price: layer_price %}</p>
+            {%- elsif is_built -%}
+              <p class="lp-card__kicker">{% if built_i < 10 %}0{% endif %}{{ built_i }}</p>
+            {%- endif -%}
             {%- if block.settings.heading != blank -%}
               <h3>{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h3>
             {%- endif -%}
@@ -879,6 +901,7 @@
       "type": "card",
       "name": "Card",
       "settings": [
+        { "type": "text", "id": "kicker", "label": "Eyebrow" },
         { "type": "text", "id": "heading", "label": "Heading" },
         { "type": "textarea", "id": "text", "label": "Text" }
       ]
