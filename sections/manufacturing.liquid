@@ -57,6 +57,7 @@ and stays that way.'
   <div class="mfg-intro">
     <div class="page-width">
       <p class="section__eyebrow lp-kicker">{{ eyebrow | replace: '[Brand]', brand | escape }}</p>
+      <hr class="gold-rule">
       <h1>{{ heading | replace: '[Brand]', brand | newline_to_br }}</h1>
       <p class="section__lede lp-lede">{{ lede | replace: '[Brand]', brand | escape }}</p>
     </div>
@@ -111,6 +112,8 @@ and stays that way.'
 
   <div class="mfg-band">
     <div class="page-width mfg-order">
+      <p class="section__eyebrow lp-kicker">To order</p>
+      <hr class="gold-rule">
       <h2>{{ made_heading | escape }}</h2>
       <div class="rte">{{ made_body }}</div>
       {%- if heritage != blank -%}
@@ -135,6 +138,8 @@ and stays that way.'
 
   <div class="mfg-band mfg-band--surface">
     <div class="page-width mfg-sizes">
+      <p class="section__eyebrow lp-kicker">Sizes</p>
+      <hr class="gold-rule">
       <h2>{{ sizes_heading | escape }}</h2>
       {%- if sizes_lede != blank -%}
         <p class="section__lede">{{ sizes_lede | escape }}</p>
@@ -164,9 +169,11 @@ and stays that way.'
     </div>
   </div>
 
-  <div class="mfg-band mfg-band--dark" id="outcome">
+  <div class="mfg-band mfg-band--surface" id="outcome">
     <div class="page-width lp-narrow mfg-close">
-      <div class="lp-sec-head" style="text-align:center">
+      <div class="lp-sec-head lp-outcome-head">
+        <p class="section__eyebrow lp-kicker">The outcome</p>
+        <hr class="gold-rule">
         <h2>{{ outcome_heading | newline_to_br }}</h2>
       </div>
       <div class="lp-outcome">
@@ -174,6 +181,10 @@ and stays that way.'
           {%- for block in section.blocks -%}
             {%- if block.type == 'outcome' -%}
               <div class="lp-outcome__item" {{ block.shopify_attributes }}>
+                {%- if block.settings.kicker != blank -%}
+                  <p class="section__eyebrow lp-kicker lp-outcome__kicker">{{ block.settings.kicker | escape }}</p>
+                  <hr class="gold-rule">
+                {%- endif -%}
                 <p class="lp-outcome__name">{{ block.settings.heading | escape }}</p>
                 <p class="lp-outcome__desc">{{ block.settings.text | escape }}</p>
               </div>
@@ -181,14 +192,20 @@ and stays that way.'
           {%- endfor -%}
         {%- else -%}
           <div class="lp-outcome__item">
+            <p class="section__eyebrow lp-kicker lp-outcome__kicker">The feel</p>
+            <hr class="gold-rule">
             <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
             <p class="lp-outcome__desc">Feel is discovered over months of use. You have a year with us. We adjust it until it is.</p>
           </div>
           <div class="lp-outcome__item">
+            <p class="section__eyebrow lp-kicker lp-outcome__kicker">Arrival</p>
+            <hr class="gold-rule">
             <p class="lp-outcome__name">It arrives finished.</p>
             <p class="lp-outcome__desc">Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</p>
           </div>
           <div class="lp-outcome__item">
+            <p class="section__eyebrow lp-kicker lp-outcome__kicker">Twenty five years</p>
+            <hr class="gold-rule">
             <p class="lp-outcome__name">It stays right for twenty five years.</p>
             <p class="lp-outcome__desc">The part that softens renews. The part that lasts, lasts.</p>
           </div>
@@ -384,6 +401,7 @@ and stays that way.'
       "name": "Outcome",
       "limit": 3,
       "settings": [
+        { "type": "text", "id": "kicker", "label": "Eyebrow" },
         { "type": "text", "id": "heading", "label": "Heading" },
         { "type": "textarea", "id": "text", "label": "Text" }
       ]
@@ -407,9 +425,9 @@ and stays that way.'
         { "type": "size", "settings": { "label": "European King", "dims": "160 × 200cm" } },
         { "type": "size", "settings": { "label": "Super King", "dims": "180 × 200cm" } },
         { "type": "size", "settings": { "label": "Emperor", "dims": "200 × 200cm" } },
-        { "type": "outcome", "settings": { "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
-        { "type": "outcome", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
-        { "type": "outcome", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
+        { "type": "outcome", "settings": { "kicker": "The feel", "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
+        { "type": "outcome", "settings": { "kicker": "Arrival", "heading": "It arrives finished.", "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it." } },
+        { "type": "outcome", "settings": { "kicker": "Twenty five years", "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
       ]
     }
   ]

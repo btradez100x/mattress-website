@@ -48,6 +48,7 @@
         "enable_section": true,
         "ground": "surface",
         "layout": "stats",
+        "kicker": "The waste",
         "heading": "Why it ends up in the ground",
         "body": "<p>A mattress is not one material. It is steel, foam and textile bonded together, and separating them is manual, slow work. For years the cost of pulling one apart has been higher than the value of what comes out, so most were buried.</p><p>That is changing, but not fast enough. The industry target is to divert three quarters of mattresses from landfill by 2028, and it is currently not on track to meet it.</p>",
         "table_note": "Figures from National Bed Federation end-of-life mattress research."
