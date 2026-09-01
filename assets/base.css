@@ -8575,6 +8575,116 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin: 0;
   font-size: 0.9375rem;
 }
+/* How it is built — one cream panel with hairline columns.
+   Specification table language, not floating 16px Apple cards. */
+.lp-section--built .lp-sec-head,
+#how-it-is-built .lp-sec-head {
+  margin-bottom: 2.5rem;
+}
+.lp-section--built .lp-sec-head h2,
+#how-it-is-built .lp-sec-head h2 {
+  font-family: var(--font-serif, var(--font-headline, Georgia, serif));
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--brand-primary, #1F3A5F);
+}
+.lp-section--built .lp-cards,
+#how-it-is-built .lp-cards,
+.lp-built {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  background: var(--brand-bg, #F7F5F1);
+  border: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 14%, transparent);
+  border-radius: 2px;
+  box-shadow: none;
+  overflow: hidden;
+}
+.section--surface .lp-section--built .lp-cards,
+.lp-section--built.section--surface .lp-cards,
+#how-it-is-built.section--surface .lp-cards,
+.section--surface .lp-built {
+  background: var(--brand-bg, #F7F5F1);
+}
+.lp-section--built .lp-card,
+#how-it-is-built .lp-card,
+.lp-built .lp-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: transparent;
+  padding: 2rem 2rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border-right: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent);
+  color: var(--brand-ink, #222222);
+}
+.lp-section--built .lp-card:last-child,
+#how-it-is-built .lp-card:last-child,
+.lp-built .lp-card:last-child {
+  border-right: 0;
+}
+.section--surface .lp-section--built .lp-card,
+.lp-section--built.section--surface .lp-card,
+#how-it-is-built.section--surface .lp-card,
+.section--surface .lp-built .lp-card {
+  background: transparent;
+}
+.lp-section--built .lp-card__kicker,
+#how-it-is-built .lp-card__kicker,
+.lp-built .lp-card__kicker {
+  margin: 0 0 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  font-variant: small-caps;
+  font-variant-caps: all-small-caps;
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
+}
+.lp-section--built .lp-card h3,
+#how-it-is-built .lp-card h3,
+.lp-built .lp-card h3 {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif, var(--font-headline, Georgia, serif));
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+  color: var(--brand-primary, #1F3A5F);
+}
+.lp-section--built .lp-card p,
+#how-it-is-built .lp-card p,
+.lp-built .lp-card p {
+  margin: 0;
+  max-width: 34ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--brand-ink, #222222) 86%, transparent);
+}
+@media (max-width: 720px) {
+  .lp-section--built .lp-cards,
+  #how-it-is-built .lp-cards,
+  .lp-built {
+    grid-template-columns: 1fr;
+  }
+  .lp-section--built .lp-card,
+  #how-it-is-built .lp-card,
+  .lp-built .lp-card {
+    padding: 1.5rem 1.5rem;
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-primary, #1F3A5F) 12%, transparent);
+  }
+  .lp-section--built .lp-card:last-child,
+  #how-it-is-built .lp-card:last-child,
+  .lp-built .lp-card:last-child {
+    border-bottom: 0;
+  }
+}
 .lp-spec {
   list-style: none;
   padding: 0;

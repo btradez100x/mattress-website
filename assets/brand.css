@@ -271,3 +271,37 @@ html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
 #delivery .lp-svc p {
   color: color-mix(in srgb, var(--brand-primary, #1F3A5F) 82%, var(--brand-bg, #F7F5F1)) !important;
 }
+
+/* How it is built last-wins. Cream panel, hairline columns, 2px radius. Not cards. */
+.lp-section--built .lp-cards,
+#how-it-is-built .lp-cards,
+.lp-built {
+  background: var(--brand-bg, #F7F5F1) !important;
+  background-color: var(--brand-bg, #F7F5F1) !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+.lp-section--built .lp-card,
+#how-it-is-built .lp-card,
+.lp-built .lp-card {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.lp-section--built .lp-card__kicker,
+#how-it-is-built .lp-card__kicker,
+.lp-built .lp-card__kicker,
+.lp-section--built .section__eyebrow,
+#how-it-is-built .section__eyebrow,
+.lp-section--built .lp-kicker,
+#how-it-is-built .lp-kicker {
+  color: var(--brand-gold, var(--brand-accent, #8A6D3B)) !important;
+}
+.lp-section--built .lp-sec-head h2,
+#how-it-is-built .lp-sec-head h2,
+.lp-section--built .lp-card h3,
+#how-it-is-built .lp-card h3,
+.lp-built .lp-card h3 {
+  color: var(--brand-primary, #1F3A5F) !important;
+}
