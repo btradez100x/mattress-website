@@ -1,17 +1,113 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero",
       "settings": {
         "enable_section": true,
+        "brand_name_override": "",
         "heading": "Built to last. Adjusted to suit.",
         "subheading": "A core made to outlast the frame it sits on. You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before.",
         "cta_label": "See sizes and prices",
         "cta_link": "#reserve",
-        "tone": "light",
         "secondary_cta_label": "How it arrives",
         "secondary_cta_link": "#delivery",
-        "assurance": "Concierge unpacking included · The old one leaves with it"
+        "assurance": "Concierge unpacking included · The old one leaves with it",
+        "tone": "light",
+        "override_primary": "",
+        "override_accent": ""
+      }
+    },
+    "trust-bar-top": {
+      "type": "trust-bar",
+      "blocks": {
+        "tb1": {
+          "type": "item",
+          "settings": {
+            "icon": "deposit",
+            "label": "Cancel before dispatch",
+            "sublabel": "Refund any time before dispatch",
+            "market_visibility": "all",
+            "link": "/pages/refunds-deposit"
+          }
+        },
+        "tb2": {
+          "type": "item",
+          "settings": {
+            "icon": "trial",
+            "label": "Adjust to Desire",
+            "sublabel": "Sleep on it. Tell us how it should feel.",
+            "market_visibility": "all",
+            "link": "/pages/trial"
+          }
+        },
+        "tb3": {
+          "type": "item",
+          "settings": {
+            "icon": "warranty",
+            "label": "[X]-year core warranty",
+            "sublabel": "On the spring core",
+            "market_visibility": "all",
+            "link": "/pages/warranty"
+          }
+        },
+        "tb4": {
+          "type": "item",
+          "settings": {
+            "icon": "craft",
+            "label": "Made to order",
+            "sublabel": "Built after you order it, never from stock",
+            "market_visibility": "all",
+            "link": "/pages/manufacturing"
+          }
+        },
+        "oeko": {
+          "type": "item",
+          "settings": {
+            "icon": "chemicals",
+            "label": "No harmful chemicals",
+            "sublabel": "Materials chosen for cleaner sleep",
+            "market_visibility": "all",
+            "link": "#specs"
+          }
+        },
+        "oeko_tex": {
+          "type": "item",
+          "settings": {
+            "icon": "oeko",
+            "label": "OEKO-TEX® STANDARD 100",
+            "sublabel": "Textiles independently tested",
+            "market_visibility": "all",
+            "link": "#specs"
+          }
+        }
+      },
+      "block_order": [
+        "tb1",
+        "tb2",
+        "tb3",
+        "tb4",
+        "oeko",
+        "oeko_tex"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "enable_marquee": true,
+        "marquee_duration": 40,
+        "pause_on_hover": true,
+        "surface": false,
+        "show_lead_line": true,
+        "lead_line": "",
+        "anchor_id": "trust-top"
       }
     },
     "pair-cards": {
@@ -48,14 +144,204 @@
         "ground": "dark"
       }
     },
-    "big-idea": {
-      "type": "big-idea",
+    "swap-explainer": {
+      "type": "swap-explainer",
       "settings": {
-        "enable_section": false,
-        "eyebrow": "The Swap System",
-        "heading": "A better bed, for life.",
-        "body": "The part that softens is the top ten centimetres. Ours separates, so you renew that layer instead of the bed.",
-        "ground": "surface"
+        "enable_section": true,
+        "ground": "bg",
+        "eyebrow": "How it works",
+        "heading": "Unzip. Lift out. Swap in.",
+        "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>",
+        "body": "When the layer wears, replace the layer. The bed underneath has years left in it.",
+        "flip_line": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes.",
+        "dual_use": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>",
+        "top_cta_label": "See the comfort layer",
+        "top_cta_url": "",
+        "ownership_cost_gb": "<p>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
+        "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
+        "fallback_video": "swap-explainer.mp4"
+      }
+    },
+    "delivery": {
+      "type": "landing-funnel",
+      "blocks": {
+        "t1": {
+          "type": "tier",
+          "settings": {
+            "tag": "Included with every mattress",
+            "heading": "Concierge unpacking",
+            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
+            "price": "Complimentary",
+            "featured": true
+          }
+        },
+        "t2": {
+          "type": "tier",
+          "settings": {
+            "tag": "",
+            "heading": "Old mattress removal and recycling",
+            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
+            "price": "Complimentary",
+            "featured": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "Unrolled on the bed",
+            "text": "It settles evenly."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "Nothing left behind",
+            "text": "Carton, plastic, wrap. All of it leaves with it."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A window agreed in advance",
+            "text": "Notification on the day."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "layout": "delivery",
+        "anchor_id": "delivery",
+        "lp_variant": "",
+        "mattress_product": "",
+        "featured_size": "",
+        "kicker": "",
+        "heading": "It arrives compressed.\nWe do not leave it that way.",
+        "lede": "Roll packing gets it up the stairs. It is not how it should be left.",
+        "body": "",
+        "body_2": "",
+        "cta_label": "Reserve yours",
+        "cta_size": "",
+        "cta_link": "",
+        "secondary_cta_label": "",
+        "secondary_cta_link": "",
+        "show_price": false,
+        "price_mode": "featured",
+        "price_caption": "",
+        "promise_title": "",
+        "promise_body": "",
+        "table_note": "",
+        "cost_mode": "king_own",
+        "cost_col_a": "Price",
+        "cost_col_b": "Life",
+        "cost_col_c": "Per year",
+        "image_fallback": "",
+        "image_alt": "",
+        "media_fit": "contain",
+        "object_position": "center center"
+      }
+    },
+    "size-reserve": {
+      "type": "size-reserve",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "anchor_id": "reserve",
+        "mattress_product": "the-mattress",
+        "eyebrow": "Sizes and prices",
+        "heading": "Choose your size.",
+        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
+        "market_force": "auto",
+        "deposit_product": "",
+        "deposit_label": "",
+        "bnpl_microcopy": "",
+        "continue_label_full": "Continue",
+        "continue_label_split": "Continue",
+        "button_label_full": "Buy now",
+        "button_label_split": "Pay",
+        "comfort_top_product": "",
+        "leadtime_placement": "staged",
+        "continue_path": "",
+        "configure_funnel": false,
+        "leadtime_vague_text": "Made to order. We confirm your delivery date before dispatch.",
+        "stage_b_heading": "Before you order",
+        "oos_message": "This size is not in the current allocation. Leave your email and we will notify you when it opens.",
+        "notify_button_label": "Notify me",
+        "request_size_enabled": true,
+        "request_size_label": "Request a size",
+        "request_size_sublabel": "Tell us what you need - we will discuss it with you",
+        "request_size_intro": "Need a size that is not listed? Type it below and we will discuss options, lead time, and pricing with you.",
+        "request_size_placeholder": "e.g. 140 × 200 cm, or Super King split",
+        "request_size_button": "Send size request",
+        "order_terms_title_full": "Order terms",
+        "order_terms_full": "<ul><li>Cancel any time before dispatch for a full refund, no questions asked.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>",
+        "order_terms_title_split": "Payment and order terms",
+        "order_terms_split": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>",
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "size_guide_label": "Size guide",
+        "size_guide_link": ""
+      }
+    },
+    "cool-touch": {
+      "type": "cool-touch",
+      "blocks": {
+        "c1": {
+          "type": "point",
+          "settings": {
+            "enabled": true,
+            "title": "Cool to the touch",
+            "text": "It does not feel warm when you get in"
+          }
+        },
+        "c2": {
+          "type": "point",
+          "settings": {
+            "enabled": true,
+            "title": "Contours without trapping",
+            "text": "It shapes to you. It does not hold the heat"
+          }
+        },
+        "c3": {
+          "type": "media",
+          "settings": {
+            "enabled": true,
+            "caption": "Cover knit",
+            "fallback_asset": "cover-macro.jpg"
+          }
+        },
+        "c4": {
+          "type": "media",
+          "settings": {
+            "enabled": true,
+            "caption": "Surface detail",
+            "fallback_asset": "handle-detail.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "surface": false,
+        "gallery_enabled": true,
+        "anchor_id": "cool-touch",
+        "eyebrow": "Cool touch",
+        "heading": "Engineered to sleep cool.",
+        "body": "Heat is why people give up on a mattress they used to love. This one lets it out.",
+        "image_caption": "Cool-knit cover detail"
       }
     },
     "benefits": {
@@ -120,8 +406,70 @@
       ],
       "settings": {
         "enable_section": true,
-        "heading": "Five feels. One bed.",
-        "ground": "bg"
+        "ground": "bg",
+        "heading": "Five feels. One bed."
+      }
+    },
+    "measure-size": {
+      "type": "measure-size",
+      "blocks": {
+        "m1": {
+          "type": "step",
+          "settings": {
+            "title": "Measure the sleeping surface",
+            "body": "<p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+          }
+        },
+        "m2": {
+          "type": "step",
+          "settings": {
+            "title": "Or measure the base",
+            "body": "<p>If you are buying for a new bed, measure the usable bed base or slatted area (inside the rails). That is the footprint your mattress must fill.</p>"
+          }
+        },
+        "m3": {
+          "type": "step",
+          "settings": {
+            "title": "Match width × length",
+            "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>"
+          }
+        },
+        "m4": {
+          "type": "step",
+          "settings": {
+            "title": "Between sizes or custom?",
+            "body": "<p>If nothing lines up, use <strong>Request a size</strong> and we will discuss options, lead time, and pricing with you on WhatsApp.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "surface": false,
+        "anchor_id": "measure",
+        "eyebrow": "Before you reserve",
+        "heading": "Measure in centimetres. Order the size that matches.",
+        "lede": "Bed sizes vary between manufacturers. Always trust the centimetre dimensions, not the name on the label.",
+        "guide_label": "Full size guide",
+        "guide_link": "/pages/size-guide"
+      }
+    },
+    "founder-note": {
+      "type": "founder-note",
+      "settings": {
+        "enable_section": false,
+        "ground": "dark",
+        "eyebrow": "A note from Ben",
+        "heading": "No two bodies want the same bed.",
+        "note": "<p>My family have bad backs. Several of them, across two generations.</p><p>I watched them choose a mattress in four minutes with their shoes off, and then live with it for eight years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in four minutes.</p><p>So yours arrives medium firm. You live with it over months. You have a year with us. You tell us how it should feel. We adjust it until it is right.</p>",
+        "name": "Ben Acolatse",
+        "role": "Founder"
       }
     },
     "product-specs": {
@@ -222,50 +570,17 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "bg",
         "label": "Full specification",
         "hint": "Every layer, stated",
         "note": "You are spending real money on something you cannot open. Here is what is inside it.",
         "spec_id": "mattress",
         "anchor_id": "specs",
-        "dark": false,
-        "ground": "bg"
-      }
-    },
-    "swap-explainer": {
-      "type": "swap-explainer",
-      "settings": {
-        "enable_section": true,
-        "eyebrow": "How it works",
-        "heading": "Unzip. Lift out. Swap in.",
-        "body": "When the layer wears, replace the layer. The bed underneath has years left in it.",
-        "flip_line": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes.",
-        "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>",
-        "ownership_cost_gb": "<p>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
-        "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
-        "dual_use": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>",
-        "top_cta_label": "See the comfort layer",
-        "ground": "bg"
+        "dark": false
       }
     },
     "social-proof": {
       "type": "social-proof",
-      "settings": {
-        "enable_section": false,
-        "eyebrow": "Customer reviews",
-        "heading": "What owners say.",
-        "subheading": "Verified purchase reviews from the founding allocations.",
-        "empty_text": "Reviews will appear here shortly.",
-        "load_more_label": "Show more reviews",
-        "page_size": 6,
-        "enable_reviews": false,
-        "enable_submissions": true,
-        "require_purchase": true,
-        "write_cta": "Write a review",
-        "form_heading": "Write a review",
-        "form_lede": "Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear.",
-        "submit_label": "Submit review",
-        "ground": "surface"
-      },
       "blocks": {
         "oeko": {
           "type": "proof",
@@ -285,465 +600,23 @@
       "block_order": [
         "oeko",
         "proof_oeko"
-      ]
-    },
-    "offer": {
-      "type": "offer",
-      "blocks": {
-        "o1": {
-          "type": "offer_item",
-          "settings": {
-            "title": "Adjust to Desire",
-            "text": "Sleep on it. Decide at home."
-          }
-        },
-        "o2": {
-          "type": "offer_item",
-          "settings": {
-            "title": "[X]-year warranty",
-            "text": "On the spring core."
-          }
-        },
-        "o3": {
-          "type": "offer_item",
-          "settings": {
-            "title": "Made to order",
-            "text": "Built after you order it, never from stock.",
-            "market_visibility": "all",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "o4": {
-          "type": "offer_item",
-          "settings": {
-            "title": "Cancel before dispatch",
-            "text": "Full refund any time before your mattress ships.",
-            "payment_mode_visibility": "full"
-          }
-        },
-        "oeko": {
-          "type": "offer_item",
-          "settings": {
-            "title": "No harmful chemicals",
-            "text": "Materials chosen for cleaner sleep.",
-            "market_visibility": "all",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "offer_oeko": {
-          "type": "offer_item",
-          "settings": {
-            "title": "OEKO-TEX® STANDARD 100",
-            "text": "Textiles independently tested for harmful substances.",
-            "market_visibility": "all",
-            "payment_mode_visibility": "all"
-          }
-        }
-      },
-      "block_order": [
-        "o1",
-        "o2",
-        "o3",
-        "o4",
-        "oeko",
-        "offer_oeko"
       ],
       "settings": {
-        "enable_section": true,
-        "eyebrow": "Buy with confidence",
-        "heading": "Order with confidence.",
-        "body": "Made to order. Cancel any time before dispatch. Honest lead times.",
-        "cta_label": "See sizes and prices",
-        "cta_link": "#reserve",
-        "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
-        "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
-        "replacement_top_price_gb": "A replacement comfort layer is £299. A new mattress is not.",
-        "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
-        "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
-        "ground": "dark"
-      }
-    },
-    "delivery": {
-      "type": "landing-funnel",
-      "blocks": {
-        "t1": {
-          "type": "tier",
-          "settings": {
-            "tag": "Included with every mattress",
-            "heading": "Concierge unpacking",
-            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
-            "price": "Complimentary",
-            "featured": true
-          }
-        },
-        "t2": {
-          "type": "tier",
-          "settings": {
-            "tag": "",
-            "heading": "Old mattress removal and recycling",
-            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
-            "price": "Complimentary",
-            "featured": false
-          }
-        },
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "Unrolled on the bed",
-            "text": "It settles evenly."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "Nothing left behind",
-            "text": "Carton, plastic, wrap. All of it leaves with it."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "A window agreed in advance",
-            "text": "Notification on the day."
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "c1",
-        "c2",
-        "c3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "dark",
-        "layout": "delivery",
-        "anchor_id": "delivery",
-        "heading": "It arrives compressed.\nWe do not leave it that way.",
-        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
-      }
-    },
-    "size-reserve": {
-      "type": "size-reserve",
-      "blocks": {},
-      "block_order": [],
-      "settings": {
-        "enable_section": true,
-        "mattress_product": "the-mattress",
-        "eyebrow": "Sizes and prices",
-        "heading": "Choose your size.",
-        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
-        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
-        "market_force": "auto",
-        "request_size_enabled": true,
-        "deposit_terms_link": "/pages/refunds-deposit",
-        "anchor_id": "reserve",
-        "leadtime_placement": "staged",
-        "stage_b_heading": "Before you order",
-        "continue_label_full": "Continue",
-        "button_label_full": "Buy now",
-        "ground": "surface"
-      }
-    },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "faq_1": {
-          "type": "item",
-          "settings": {
-            "question": "Why does it take 8 to 10 weeks?",
-            "answer": "Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_2": {
-          "type": "item",
-          "settings": {
-            "question": "Can I change my mind after ordering?",
-            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have [N] nights.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_3": {
-          "type": "item",
-          "settings": {
-            "question": "What if it is late?",
-            "answer": "We give a delivery window rather than a single date because international freight can move. If we are going to miss the window we will tell you before you find out, and you can cancel for a full refund at any point before dispatch.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_4": {
-          "type": "item",
-          "settings": {
-            "question": "What if I do not like it?",
-            "answer": "You have a year with us. Feel is discovered over months of use. If it is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_5": {
-          "type": "item",
-          "settings": {
-            "question": "How much is a comfort layer?",
-            "answer": "GBP 299. A new mattress does not cost GBP 299, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same layer works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_6": {
-          "type": "item",
-          "settings": {
-            "question": "Is the price negotiable?",
-            "answer": "No. We sell direct and price the same for everyone, which is how the price stays where it is.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_7": {
-          "type": "item",
-          "settings": {
-            "question": "Do I pay in full today?",
-            "answer": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna. Cancel any time before dispatch for a full refund.",
-            "answer_gb": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna. Cancel any time before dispatch for a full refund.",
-            "answer_ae": "Yes. You pay the full mattress price at checkout. You can spread the cost with Tabby or Tamara. Cancel any time before dispatch for a full refund.",
-            "payment_mode_visibility": "full"
-          }
-        },
-        "faq_8": {
-          "type": "item",
-          "settings": {
-            "question": "How does the split payment work?",
-            "answer": "You pay part today to place the order. The balance is due before dispatch. Cancel any time before dispatch for a full refund of amounts paid.",
-            "payment_mode_visibility": "split"
-          }
-        },
-        "faq_9": {
-          "type": "item",
-          "settings": {
-            "question": "Which size should I choose?",
-            "answer": "Use the size selector on this page. Dimensions are always shown in centimetres, so measure your bed and match the numbers rather than the name. The size guide has every size in full.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_11": {
-          "type": "item",
-          "settings": {
-            "question": "What is the warranty?",
-            "answer": "[X]-year warranty on the spring core.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_feel": {
-          "type": "item",
-          "settings": {
-            "question": "What does it feel like?",
-            "answer": "Medium to medium firm, and you choose which. Most people want a mattress in that range, so that is where we built ours.\n\nTurn the comfort layer over and it moves between the two. If you want to go further in either direction, a soft or firm comfort layer will take you there.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_flip": {
-          "type": "item",
-          "settings": {
-            "question": "How do I change the firmness?",
-            "answer": "Unzip the cover, turn the comfort layer over, zip it up. Two minutes, no tools, and it costs nothing. One side is medium, the other is medium firm.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_further": {
-          "type": "item",
-          "settings": {
-            "question": "What if I want it softer or firmer than that?",
-            "answer": "The mattress covers medium to medium firm because that is what most people want. If you want to go outside that, a comfort layer will take you there - softer or firmer, in the same 10cm that already sits inside the mattress.\n\nYou do not need to decide now. Sleep on it first.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_partner": {
-          "type": "item",
-          "settings": {
-            "question": "What if my partner and I want different firmnesses?",
-            "answer": "The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your [N] nights and we will collect it and refund you in full.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_look": {
-          "type": "item",
-          "settings": {
-            "question": "Will my mattress look exactly like the photographs?",
-            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have [N] nights to tell us and we will collect it and refund you in full.",
-            "payment_mode_visibility": "all"
-          }
-        },
-        "faq_motion": {
-          "type": "item",
-          "settings": {
-            "question": "Will I feel my partner moving?",
-            "answer": "Much less than on a conventional sprung mattress. Every spring is individually wrapped in its own pocket, so it compresses on its own rather than pulling its neighbours with it. Add 10cm of foam above that and most movement is absorbed before it reaches you.\n\nIt is not complete isolation - no sprung mattress is - but if you are currently woken every time your partner turns over, this will be a noticeable change.",
-            "payment_mode_visibility": "all"
-          }
-        }
-      },
-      "block_order": [
-        "faq_1",
-        "faq_look",
-        "faq_feel",
-        "faq_flip",
-        "faq_further",
-        "faq_partner",
-        "faq_2",
-        "faq_3",
-        "faq_4",
-        "faq_5",
-        "faq_6",
-        "faq_7",
-        "faq_8",
-        "faq_9",
-        "faq_11",
-        "faq_motion"
-      ],
-      "settings": {
-        "enable_section": true,
-        "eyebrow": "Questions",
-        "heading": "Clear answers.",
-        "ground": "surface"
-      }
-    },
-    "trust-bar-top": {
-      "type": "trust-bar",
-      "blocks": {
-        "tb1": {
-          "type": "item",
-          "settings": {
-            "icon": "deposit",
-            "label": "Cancel before dispatch",
-            "sublabel": "Refund any time before dispatch",
-            "link": "/pages/refunds-deposit"
-          }
-        },
-        "tb2": {
-          "type": "item",
-          "settings": {
-            "icon": "trial",
-            "label": "Adjust to Desire",
-            "sublabel": "Sleep on it. Tell us how it should feel.",
-            "link": "/pages/trial"
-          }
-        },
-        "tb3": {
-          "type": "item",
-          "settings": {
-            "icon": "warranty",
-            "label": "[X]-year core warranty",
-            "sublabel": "On the spring core",
-            "link": "/pages/warranty"
-          }
-        },
-        "tb4": {
-          "type": "item",
-          "settings": {
-            "icon": "craft",
-            "label": "Made to order",
-            "sublabel": "Built after you order it, never from stock",
-            "link": "/pages/manufacturing"
-          }
-        },
-        "oeko": {
-          "type": "item",
-          "settings": {
-            "icon": "chemicals",
-            "label": "No harmful chemicals",
-            "sublabel": "Materials chosen for cleaner sleep",
-            "link": "#specs",
-            "market_visibility": "all"
-          }
-        },
-        "oeko_tex": {
-          "type": "item",
-          "settings": {
-            "icon": "oeko",
-            "label": "OEKO-TEX® STANDARD 100",
-            "sublabel": "Textiles independently tested",
-            "link": "#specs",
-            "market_visibility": "all"
-          }
-        }
-      },
-      "block_order": [
-        "tb1",
-        "tb2",
-        "tb3",
-        "tb4",
-        "oeko",
-        "oeko_tex"
-      ],
-      "settings": {
-        "enable_section": true,
-        "surface": false,
-        "show_lead_line": true,
-        "anchor_id": "trust-top",
-        "enable_marquee": true,
-        "marquee_duration": 40,
-        "pause_on_hover": true,
-        "ground": "surface"
-      }
-    },
-    "measure-size": {
-      "type": "measure-size",
-      "blocks": {
-        "m1": {
-          "type": "step",
-          "settings": {
-            "title": "Measure the sleeping surface",
-            "body": "<p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
-          }
-        },
-        "m2": {
-          "type": "step",
-          "settings": {
-            "title": "Or measure the base",
-            "body": "<p>If you are buying for a new bed, measure the usable bed base or slatted area (inside the rails). That is the footprint your mattress must fill.</p>"
-          }
-        },
-        "m3": {
-          "type": "step",
-          "settings": {
-            "title": "Match width × length",
-            "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>"
-          }
-        },
-        "m4": {
-          "type": "step",
-          "settings": {
-            "title": "Between sizes or custom?",
-            "body": "<p>If nothing lines up, use <strong>Request a size</strong> and we will discuss options, lead time, and pricing with you on WhatsApp.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "m1",
-        "m2",
-        "m3",
-        "m4"
-      ],
-      "settings": {
-        "enable_section": true,
-        "surface": false,
-        "anchor_id": "measure",
-        "eyebrow": "Before you reserve",
-        "heading": "Measure in centimetres. Order the size that matches.",
-        "lede": "Bed sizes vary between manufacturers. Always trust the centimetre dimensions, not the name on the label.",
-        "guide_label": "Full size guide",
-        "guide_link": "/pages/size-guide",
-        "ground": "surface"
-      }
-    },
-    "founder-note": {
-      "type": "founder-note",
-      "settings": {
-        "enable_section": true,
-        "eyebrow": "A note from Ben",
-        "heading": "No two bodies want the same bed.",
-        "note": "<p>My family have bad backs. Several of them, across two generations.</p><p>I watched them choose a mattress in four minutes with their shoes off, and then live with it for eight years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in four minutes.</p><p>So yours arrives medium firm. You live with it over months. You have a year with us. You tell us how it should feel. We adjust it until it is right.</p>",
-        "name": "Ben Acolatse",
-        "role": "Founder",
-        "ground": "dark"
+        "enable_section": false,
+        "ground": "surface",
+        "enable_reviews": false,
+        "enable_submissions": true,
+        "require_purchase": true,
+        "eyebrow": "Customer reviews",
+        "heading": "What owners say.",
+        "subheading": "Verified purchase reviews from the founding allocations.",
+        "write_cta": "Write a review",
+        "form_heading": "Write a review",
+        "form_lede": "Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear.",
+        "submit_label": "Submit review",
+        "empty_text": "Reviews will appear here shortly.",
+        "load_more_label": "Show more reviews",
+        "page_size": 6
       }
     },
     "press-logos": {
@@ -919,11 +792,11 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "surface",
         "eyebrow": "As seen on",
         "heading": "Press & recognition.",
         "subheading": "Selected coverage, mentions, and distinctions.",
-        "awards_heading": "Awards",
-        "ground": "surface"
+        "awards_heading": "Awards"
       }
     },
     "ugc-social": {
@@ -967,114 +840,323 @@
       ],
       "settings": {
         "enable_section": false,
+        "ground": "bg",
         "eyebrow": "From social",
         "heading": "Seen in real homes.",
-        "subheading": "Short clips from TikTok and Instagram.",
-        "ground": "bg"
+        "subheading": "Short clips from TikTok and Instagram."
       }
     },
-    "swap-process": {
-      "type": "swap-process",
+    "offer": {
+      "type": "offer",
       "blocks": {
-        "s1": {
-          "type": "step",
+        "o1": {
+          "type": "offer_item",
           "settings": {
-            "enabled": true,
-            "step_label": "01",
-            "title": "Unzip",
-            "text": "Open the zip that runs around the mattress.",
-            "fallback_asset": "handle-detail.jpg"
+            "title": "Adjust to Desire",
+            "text": "Sleep on it. Decide at home.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
           }
         },
-        "s2": {
-          "type": "step",
+        "o2": {
+          "type": "offer_item",
           "settings": {
-            "enabled": true,
-            "step_label": "02",
-            "title": "Lift out",
-            "text": "Remove the comfort layer as a single layer.",
-            "fallback_asset": "swap-poster.jpg"
+            "title": "[X]-year warranty",
+            "text": "On the spring core.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
           }
         },
-        "s3": {
-          "type": "step",
+        "o3": {
+          "type": "offer_item",
           "settings": {
-            "enabled": true,
-            "step_label": "03",
-            "title": "Swap in",
-            "text": "Fit a new layer when the comfort layer is worn - keep the engineered core.",
-            "fallback_asset": "cover-macro.jpg"
+            "title": "Made to order",
+            "text": "Built after you order it, never from stock.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "o4": {
+          "type": "offer_item",
+          "settings": {
+            "title": "Cancel before dispatch",
+            "text": "Full refund any time before your mattress ships.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "full"
+          }
+        },
+        "oeko": {
+          "type": "offer_item",
+          "settings": {
+            "title": "No harmful chemicals",
+            "text": "Materials chosen for cleaner sleep.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "offer_oeko": {
+          "type": "offer_item",
+          "settings": {
+            "title": "OEKO-TEX® STANDARD 100",
+            "text": "Textiles independently tested for harmful substances.",
+            "market_visibility": "all",
+            "payment_mode_visibility": "all"
           }
         }
       },
       "block_order": [
-        "s1",
-        "s2",
-        "s3"
-      ],
-      "settings": {
-        "enable_section": false,
-        "dark": false,
-        "anchor_id": "swap-process",
-        "eyebrow": "The changeable layer",
-        "heading": "Unzip. Lift out. Swap in.",
-        "body": "A visual walkthrough of the replaceable comfort layer - swap it when worn, keep the engineered core.",
-        "surface": true,
-        "ground": "bg"
-      }
-    },
-    "cool-touch": {
-      "type": "cool-touch",
-      "blocks": {
-        "c1": {
-          "type": "point",
-          "settings": {
-            "enabled": true,
-            "title": "Cool to the touch",
-            "text": "It does not feel warm when you get in"
-          }
-        },
-        "c2": {
-          "type": "point",
-          "settings": {
-            "enabled": true,
-            "title": "Contours without trapping",
-            "text": "It shapes to you. It does not hold the heat"
-          }
-        },
-        "c3": {
-          "type": "media",
-          "settings": {
-            "enabled": true,
-            "caption": "Cover knit",
-            "fallback_asset": "cover-macro.jpg"
-          }
-        },
-        "c4": {
-          "type": "media",
-          "settings": {
-            "enabled": true,
-            "caption": "Surface detail",
-            "fallback_asset": "handle-detail.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4"
+        "o1",
+        "o2",
+        "o3",
+        "o4",
+        "oeko",
+        "offer_oeko"
       ],
       "settings": {
         "enable_section": true,
-        "surface": false,
-        "gallery_enabled": true,
-        "anchor_id": "cool-touch",
-        "eyebrow": "Cool touch",
-        "heading": "Engineered to sleep cool.",
-        "body": "Heat is why people give up on a mattress they used to love. This one lets it out.",
-        "image_caption": "Cool-knit cover detail",
-        "ground": "dark"
+        "ground": "dark",
+        "eyebrow": "Buy with confidence",
+        "heading": "Order with confidence.",
+        "body": "Made to order. Cancel any time before dispatch. Honest lead times.",
+        "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
+        "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
+        "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
+        "replacement_top_price_gb": "A replacement comfort layer is £299. A new mattress is not.",
+        "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
+        "cta_label": "See sizes and prices",
+        "cta_link": "#reserve",
+        "cta_note": ""
+      }
+    },
+    "size-reserve-2": {
+      "type": "size-reserve",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "anchor_id": "reserve-late",
+        "mattress_product": "the-mattress",
+        "eyebrow": "Sizes and prices",
+        "heading": "Choose your size.",
+        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
+        "market_force": "auto",
+        "deposit_product": "",
+        "deposit_label": "",
+        "bnpl_microcopy": "",
+        "continue_label_full": "Continue",
+        "continue_label_split": "Continue",
+        "button_label_full": "Buy now",
+        "button_label_split": "Pay",
+        "comfort_top_product": "",
+        "leadtime_placement": "staged",
+        "continue_path": "",
+        "configure_funnel": false,
+        "leadtime_vague_text": "Made to order. We confirm your delivery date before dispatch.",
+        "stage_b_heading": "Before you order",
+        "oos_message": "This size is not in the current allocation. Leave your email and we will notify you when it opens.",
+        "notify_button_label": "Notify me",
+        "request_size_enabled": true,
+        "request_size_label": "Request a size",
+        "request_size_sublabel": "Tell us what you need - we will discuss it with you",
+        "request_size_intro": "Need a size that is not listed? Type it below and we will discuss options, lead time, and pricing with you.",
+        "request_size_placeholder": "e.g. 140 × 200 cm, or Super King split",
+        "request_size_button": "Send size request",
+        "order_terms_title_full": "Order terms",
+        "order_terms_full": "<ul><li>Cancel any time before dispatch for a full refund, no questions asked.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>",
+        "order_terms_title_split": "Payment and order terms",
+        "order_terms_split": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>",
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "size_guide_label": "Size guide",
+        "size_guide_link": ""
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_1": {
+          "type": "item",
+          "settings": {
+            "question": "Why does it take 8 to 10 weeks?",
+            "answer": "Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_look": {
+          "type": "item",
+          "settings": {
+            "question": "Will my mattress look exactly like the photographs?",
+            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have [N] nights to tell us and we will collect it and refund you in full.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_feel": {
+          "type": "item",
+          "settings": {
+            "question": "What does it feel like?",
+            "answer": "Medium to medium firm, and you choose which. Most people want a mattress in that range, so that is where we built ours.\n\nTurn the comfort layer over and it moves between the two. If you want to go further in either direction, a soft or firm comfort layer will take you there.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_flip": {
+          "type": "item",
+          "settings": {
+            "question": "How do I change the firmness?",
+            "answer": "Unzip the cover, turn the comfort layer over, zip it up. Two minutes, no tools, and it costs nothing. One side is medium, the other is medium firm.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_further": {
+          "type": "item",
+          "settings": {
+            "question": "What if I want it softer or firmer than that?",
+            "answer": "The mattress covers medium to medium firm because that is what most people want. If you want to go outside that, a comfort layer will take you there - softer or firmer, in the same 10cm that already sits inside the mattress.\n\nYou do not need to decide now. Sleep on it first.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_partner": {
+          "type": "item",
+          "settings": {
+            "question": "What if my partner and I want different firmnesses?",
+            "answer": "The flip changes the whole mattress, not one side of it, so you will need to agree. Most couples find one setting works once they have both slept on it for a fortnight. If you cannot agree, tell us within your [N] nights and we will collect it and refund you in full.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_2": {
+          "type": "item",
+          "settings": {
+            "question": "Can I change my mind after ordering?",
+            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have [N] nights.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_3": {
+          "type": "item",
+          "settings": {
+            "question": "What if it is late?",
+            "answer": "We give a delivery window rather than a single date because international freight can move. If we are going to miss the window we will tell you before you find out, and you can cancel for a full refund at any point before dispatch.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_4": {
+          "type": "item",
+          "settings": {
+            "question": "What if I do not like it?",
+            "answer": "You have a year with us. Feel is discovered over months of use. If it is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_5": {
+          "type": "item",
+          "settings": {
+            "question": "How much is a comfort layer?",
+            "answer": "GBP 299. A new mattress does not cost GBP 299, which is the point - you refresh the layer that wears rather than replacing the whole bed.\n\nThe same layer works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_6": {
+          "type": "item",
+          "settings": {
+            "question": "Is the price negotiable?",
+            "answer": "No. We sell direct and price the same for everyone, which is how the price stays where it is.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_7": {
+          "type": "item",
+          "settings": {
+            "question": "Do I pay in full today?",
+            "answer": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna. Cancel any time before dispatch for a full refund.",
+            "answer_gb": "Yes. You pay the full mattress price at checkout. You can spread the cost with Klarna. Cancel any time before dispatch for a full refund.",
+            "answer_ae": "Yes. You pay the full mattress price at checkout. You can spread the cost with Tabby or Tamara. Cancel any time before dispatch for a full refund.",
+            "payment_mode_visibility": "full"
+          }
+        },
+        "faq_8": {
+          "type": "item",
+          "settings": {
+            "question": "How does the split payment work?",
+            "answer": "You pay part today to place the order. The balance is due before dispatch. Cancel any time before dispatch for a full refund of amounts paid.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "split"
+          }
+        },
+        "faq_9": {
+          "type": "item",
+          "settings": {
+            "question": "Which size should I choose?",
+            "answer": "Use the size selector on this page. Dimensions are always shown in centimetres, so measure your bed and match the numbers rather than the name. The size guide has every size in full.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_11": {
+          "type": "item",
+          "settings": {
+            "question": "What is the warranty?",
+            "answer": "[X]-year warranty on the spring core.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        },
+        "faq_motion": {
+          "type": "item",
+          "settings": {
+            "question": "Will I feel my partner moving?",
+            "answer": "Much less than on a conventional sprung mattress. Every spring is individually wrapped in its own pocket, so it compresses on its own rather than pulling its neighbours with it. Add 10cm of foam above that and most movement is absorbed before it reaches you.\n\nIt is not complete isolation - no sprung mattress is - but if you are currently woken every time your partner turns over, this will be a noticeable change.",
+            "answer_gb": "",
+            "answer_ae": "",
+            "payment_mode_visibility": "all"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_look",
+        "faq_feel",
+        "faq_flip",
+        "faq_further",
+        "faq_partner",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "faq_9",
+        "faq_11",
+        "faq_motion"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "eyebrow": "Questions",
+        "heading": "Clear answers."
       }
     },
     "lifestyle-collage": {
@@ -1145,33 +1227,72 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "dark",
         "surface": true,
         "anchor_id": "lifestyle",
+        "eyebrow": "",
         "heading": "Styled by [Brand]",
-        "body": "Soft light. Quiet rooms. Real homes, not a showroom aisle.",
-        "ground": "dark"
+        "body": "Soft light. Quiet rooms. Real homes, not a showroom aisle."
       }
     },
-    "size-reserve-2": {
-      "type": "size-reserve",
-      "blocks": {},
-      "block_order": [],
+    "big-idea": {
+      "type": "big-idea",
       "settings": {
-        "enable_section": true,
-        "mattress_product": "the-mattress",
-        "eyebrow": "Sizes and prices",
-        "heading": "Choose your size.",
-        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
-        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
-        "market_force": "auto",
-        "request_size_enabled": true,
-        "deposit_terms_link": "/pages/refunds-deposit",
-        "anchor_id": "reserve-late",
-        "leadtime_placement": "staged",
-        "stage_b_heading": "Before you order",
-        "continue_label_full": "Continue",
-        "button_label_full": "Buy now",
-        "ground": "bg"
+        "enable_section": false,
+        "ground": "surface",
+        "eyebrow": "The Swap System",
+        "heading": "A better bed, for life.",
+        "body": "The part that softens is the top ten centimetres. Ours separates, so you renew that layer instead of the bed."
+      }
+    },
+    "swap-process": {
+      "type": "swap-process",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "enabled": true,
+            "step_label": "01",
+            "title": "Unzip",
+            "text": "Open the zip that runs around the mattress.",
+            "fallback_asset": "handle-detail.jpg"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "enabled": true,
+            "step_label": "02",
+            "title": "Lift out",
+            "text": "Remove the comfort layer as a single layer.",
+            "fallback_asset": "swap-poster.jpg"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "enabled": true,
+            "step_label": "03",
+            "title": "Swap in",
+            "text": "Fit a new layer when the comfort layer is worn - keep the engineered core.",
+            "fallback_asset": "cover-macro.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "enable_section": false,
+        "ground": "bg",
+        "dark": false,
+        "surface": true,
+        "anchor_id": "swap-process",
+        "eyebrow": "The changeable layer",
+        "heading": "Unzip. Lift out. Swap in.",
+        "body": "A visual walkthrough of the replaceable comfort layer - swap it when worn, keep the engineered core."
       }
     }
   },
