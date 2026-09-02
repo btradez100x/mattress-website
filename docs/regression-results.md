@@ -1,4 +1,14 @@
-# Regression results — Wednesday 2 Sep 2026 (fix spec WebP srcset)
+# Regression results — Wednesday 2 Sep 2026 (save 11.1.0-cta-spec)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 997 passed, 0 failed
+- Scope note: Kept milestone **11.1.0-cta-spec**. Version **was** bumped (`VERSION` and Shopify `theme_version` are **11.1.0**). CTA spec: radius 0, Carbon/Snow primary, hairline secondary, quiet underline, no hover scale. Labels stay Reserve yours / See sizes and prices. Checkout not modified. Journal off homepage. MarketShown untouched. Checkpoint: `checkpoints/11.1.0-cta-spec/`. Deploy: `v9` `1efe6e1`, `shopify-theme` `09b672b`. Store `7dbr1b-1q`. Hard-refresh homepage, `/pages/configure`, `/pages/specification`, `/pages/large-sizes`. Spec page: `preview/cta-spec.html`.
+
+---
+
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
