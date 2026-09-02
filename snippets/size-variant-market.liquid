@@ -1,15 +1,29 @@
 {%- comment -%}
   Mattress variant market: ae | gb | eu | us | au
-  Prefers custom.market. Does not treat "European King" as Europe —
-  GB sells that size. US/AU titles are never classified as GB.
+  Prefers MarketShown (custom.market_shown), then custom.market.
+  Does not treat "European King" as Europe — GB sells that size.
   Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
+  capture shown_csv
+    render 'size-variant-shown', v: v
+  endcapture
+  assign shown_up = shown_csv | strip | upcase
   assign v_market = v.metafields.custom.market | strip | downcase
   assign v_title_down = v.title | downcase
   assign v_opt_down = v.option1 | downcase
   assign v_sku_down = v.sku | downcase
   assign blob = v_title_down | append: ' ' | append: v_opt_down | append: ' ' | append: v_sku_down
+
+  if shown_up contains 'GB' or shown_up contains 'UK'
+    assign v_market = 'gb'
+  elsif shown_up contains 'AE' or shown_up contains 'UAE'
+    assign v_market = 'ae'
+  elsif shown_up contains 'US'
+    assign v_market = 'us'
+  elsif shown_up contains 'EU' or shown_up contains 'EUROPE'
+    assign v_market = 'eu'
+  endif
 
   if v_market == 'uk'
     assign v_market = 'gb'
