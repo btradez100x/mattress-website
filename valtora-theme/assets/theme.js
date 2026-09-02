@@ -873,24 +873,104 @@
     return iso || 'GB';
   }
 
+  function unwrapShownMetafield(val, depth) {
+    if (val == null || val === false) return null;
+    if (depth > 5) return val;
+    if (typeof val === 'string' || typeof val === 'number') return val;
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'object') {
+      if (Object.prototype.hasOwnProperty.call(val, 'value') && val.value != null && val.value !== '') {
+        return unwrapShownMetafield(val.value, (depth || 0) + 1);
+      }
+      if (Array.isArray(val.values) && val.values.length) return val.values;
+    }
+    return val;
+  }
+
+  function shownRawHasTokens(val) {
+    if (val == null || val === false || val === '') return false;
+    if (Array.isArray(val)) return val.length > 0;
+    if (typeof val === 'string') return String(val).replace(/^\s+|\s+$/g, '').length > 0;
+    if (typeof val === 'number') return true;
+    if (typeof val === 'object') return true;
+    return false;
+  }
+
+  function flattenShownRaw(val) {
+    var raw = [];
+    function pushOne(item) {
+      if (item == null || item === false || item === '') return;
+      if (Array.isArray(item)) {
+        item.forEach(pushOne);
+        return;
+      }
+      if (typeof item === 'object') {
+        var piece =
+          item.iso_code ||
+          item.isoCode ||
+          item.country_iso ||
+          item.country_code ||
+          item.handle ||
+          item.name;
+        if (piece && piece !== item) {
+          pushOne(piece);
+          return;
+        }
+        if (item.value != null && item.value !== item) {
+          pushOne(item.value);
+        }
+        return;
+      }
+      String(item)
+        .split(/[,;/|]/)
+        .forEach(function (part) {
+          if (part && String(part).trim()) raw.push(part);
+        });
+    }
+    pushOne(val);
+    return raw;
+  }
+
   function rowShownTokens(row) {
     if (!row) return [];
+    // Primary Admin key is custom.MarketShown (camelCase, no underscore).
+    // Aliases keep old catalog JSON working. Never use row.market — that is
+    // title-inferred (California King → us) and would hide UK extras.
+    var custom =
+      (row.metafields && (row.metafields.custom || row.metafields)) ||
+      row.custom ||
+      null;
+    var sources = [];
+    if (custom) sources.push(custom);
+    sources.push(row);
+    var keys = [
+      'MarketShown',
+      'market_shown',
+      'market-shown',
+      'Market_Shown',
+      'shown',
+      'shown_countries'
+    ];
     var raw = [];
-    if (Array.isArray(row.shown) && row.shown.length) raw = raw.concat(row.shown);
-    else if (row.shown && typeof row.shown === 'string') {
-      raw = raw.concat(String(row.shown).split(/[,;/|]/));
+    var picked = false;
+    var si;
+    var ki;
+    for (si = 0; si < sources.length && !picked; si++) {
+      var obj = sources[si];
+      if (!obj) continue;
+      for (ki = 0; ki < keys.length; ki++) {
+        var unwrapped = unwrapShownMetafield(obj[keys[ki]]);
+        if (shownRawHasTokens(unwrapped)) {
+          raw = flattenShownRaw(unwrapped);
+          picked = true;
+          break;
+        }
+      }
     }
-    if (Array.isArray(row.shown_countries) && row.shown_countries.length) {
-      raw = raw.concat(row.shown_countries);
-    }
-    // markets is derived from Market Shown in Liquid / preview JSON.
-    // Never use row.market — that is title-inferred (California King → us)
-    // and would hide UK-orderable extras from the picker.
     if (!raw.length && Array.isArray(row.markets) && row.markets.length) {
-      raw = raw.concat(row.markets);
-    }
-    else if (!raw.length && row.markets && typeof row.markets === 'string') {
-      raw = raw.concat(String(row.markets).split(/[,;/|]/));
+      raw = row.markets.slice();
+    } else if (!raw.length && row.markets && typeof row.markets === 'string') {
+      raw = String(row.markets).split(/[,;/|]/);
     }
     var seen = {};
     var out = [];

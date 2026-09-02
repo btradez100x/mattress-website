@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Proof: picker and size guide share one filterCatalogRows function.
- * Market Shown (custom.market_shown) is the catalog. Ghana (GH) is not a
+ * Market Shown (custom.MarketShown) is the catalog. Ghana (GH) is not a
  * defined market → UK/GB set. UK extras (California King with GB) appear on
  * configure. Blank Market Shown is not all 18. Title-inferred US does not
  * hide UK extras.
@@ -42,7 +42,15 @@ var marketLiq = fs.readFileSync(
 );
 var baseCss = fs.readFileSync(path.join(root, 'valtora-theme/assets/base.css'), 'utf8');
 
-assert(/custom\.market_shown/.test(shownLiq), 'shown snippet must read custom.market_shown');
+assert(/custom\.MarketShown/.test(shownLiq), 'shown snippet must read custom.MarketShown');
+var shownAssign = shownLiq.split('{%- liquid')[1] || shownLiq;
+assert(
+  shownAssign.indexOf('custom.MarketShown') !== -1 &&
+    shownAssign.indexOf('custom.MarketShown') < shownAssign.indexOf('custom.market_shown'),
+  'custom.MarketShown must be read before market_shown aliases'
+);
+assert(/"MarketShown"/.test(jsonLiq), 'catalog JSON must emit MarketShown');
+assert(/MarketShown/.test(themeJs), 'theme.js must read MarketShown');
 assert(/definition name: Market Shown/i.test(shownLiq), 'must document Market Shown');
 assert(/"shown_defined"/.test(jsonLiq), 'JSON must emit shown_defined');
 assert(/"available": true/.test(jsonLiq), 'JSON must mark made-to-order variants available even at inventory 0');
@@ -58,7 +66,7 @@ assert(
   'blank Market Shown must not use available as show-all 18'
 );
 assert(/shown_up != blank/.test(inCountry), 'SSR must prefer Market Shown when it is set');
-assert(/custom\.market_shown/.test(reserveLiq), 'configure schema must name custom.market_shown');
+assert(/custom\.MarketShown/.test(reserveLiq), 'configure schema must name custom.MarketShown');
 assert(/render 'size-picker-tiles'/.test(reserveLiq), 'size-reserve must SSR tiles so JS cannot leave a blank grid');
 assert(/SIZE_MAPS\.gb/.test(themeJs) && /ukFallbackCatalogRows/.test(themeJs), 'empty filter must fall back to UK/GB catalog');
 assert(/function filterCatalogRows/.test(themeJs), 'shared filterCatalogRows must exist');
@@ -342,6 +350,41 @@ assert.deepStrictEqual(
     return r.id;
   }),
   'picker and size guide must use the same catalogRowsForPaint catalog'
+);
+
+
+assert.strictEqual(
+  fns.rowShownTokens({ MarketShown: ['GB', 'US'], shown: ['US'], market: 'us' }).join(','),
+  'GB,US',
+  'rowShownTokens must prefer MarketShown over shown / title-inferred market'
+);
+assert.strictEqual(
+  fns.rowShownTokens({ market_shown: ['GB'], shown: [] }).join(','),
+  'GB',
+  'rowShownTokens must fall back to market_shown alias'
+);
+assert.strictEqual(
+  fns.rowShownTokens({ 'market-shown': 'GB,US' }).join(','),
+  'GB,US',
+  'rowShownTokens must fall back to market-shown alias'
+);
+assert.strictEqual(
+  fns.rowShownTokens({ Market_Shown: ['GB'] }).join(','),
+  'GB',
+  'rowShownTokens must fall back to Market_Shown alias'
+);
+assert.strictEqual(
+  fns.rowShownTokens({ shown: ['GB'] }).join(','),
+  'GB',
+  'rowShownTokens must still accept baked shown[] catalog JSON'
+);
+assert.strictEqual(
+  fns.rowMatchesCountry(
+    { label: 'California King', market: 'us', MarketShown: ['GB', 'US'], shown: ['US'] },
+    'GB'
+  ),
+  true,
+  'MarketShown GB must show California King even if shown[] and title say US'
 );
 
 console.log('PROOF GH→GB: ' + fns.resolveCatalogIso(json, 'GH'));
