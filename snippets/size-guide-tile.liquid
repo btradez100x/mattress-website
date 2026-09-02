@@ -1,6 +1,6 @@
 {%- comment -%}
   Size guide tile. Expects:
-  label, dims, width_cm, length_cm, pieces, price, fits, size_id, market_only, hidden, reserve_href
+  label, dims, price, fits, size_id, market_only, hidden, reserve_href
 {%- endcomment -%}
 <article
   class="size-guide-tile"
@@ -8,12 +8,6 @@
   {% if market_only != blank %}data-market-only="{{ market_only }}"{% endif %}
   {% if hidden == true or hidden == 'true' %}hidden{% endif %}
 >
-  <div class="size-guide-tile__bed" aria-hidden="true">
-    <span
-      class="size-guide-tile__shape{% if pieces > 1 %} size-guide-tile__shape--split{% endif %}"
-      style="--bed-w: {{ width_cm | replace: '-100', '' | default: 150 }}; --bed-l: {{ length_cm | default: 200 }};"
-    ></span>
-  </div>
   <h3 class="size-guide-tile__name">{{ label }}</h3>
   <p class="size-guide-tile__dims">{{ dims }}</p>
   {%- if fits != blank -%}
