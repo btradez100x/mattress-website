@@ -59,18 +59,22 @@ assert(
 );
 assert(/shown_up != blank/.test(inCountry), 'SSR must prefer Market Shown when it is set');
 assert(/custom\.market_shown/.test(reserveLiq), 'configure schema must name custom.market_shown');
+assert(/render 'size-picker-tiles'/.test(reserveLiq), 'size-reserve must SSR tiles so JS cannot leave a blank grid');
+assert(/SIZE_MAPS\.gb/.test(themeJs) && /ukFallbackCatalogRows/.test(themeJs), 'empty filter must fall back to UK/GB catalog');
 assert(/function filterCatalogRows/.test(themeJs), 'shared filterCatalogRows must exist');
+assert(/function catalogRowsForPaint/.test(themeJs), 'catalogRowsForPaint must wrap the shared filter with a UK fallback');
+assert(/function paintSizeGrid/.test(themeJs), 'paintSizeGrid must exist so an empty filter cannot wipe the picker');
 assert(
-  /function filterSizesForMarket\(mkt\) \{\s*return filterCatalogRows\(allRows, detectCountryIso\(\)\);/.test(
+  /function filterSizesForMarket\(mkt\) \{\s*return catalogRowsForPaint\(allRows, detectCountryIso\(\)\);/.test(
     themeJs
   ),
-  'configure picker must use filterCatalogRows(detectCountryIso)'
+  'configure picker must paint catalogRowsForPaint (filter + UK fallback)'
 );
 assert(
-  /function rowsForSizeGuide\(market\) \{\s*var primary = filterCatalogRows\(readSizePriceRows\(\), detectCountryIso\(\)\);/.test(
+  /function rowsForSizeGuide\(market\) \{\s*return catalogRowsForPaint\(readSizePriceRows\(\), detectCountryIso\(\)\);/.test(
     themeJs
   ),
-  'size guide JS must use the same filterCatalogRows as configure'
+  'size guide JS must use the same catalogRowsForPaint as configure'
 );
 assert(
   /function catalogRowsFrom\(rows, iso\) \{\s*return filterCatalogRows\(rows, iso\);/.test(themeJs),
@@ -121,17 +125,21 @@ assert(
 );
 assert(/for v in mattress\.variants/.test(catalogLiq), 'catalog JSON must loop product.variants');
 
+var sizeMaps = themeJs.match(/var SIZE_MAPS = \{[\s\S]*?\n  \};/);
+assert(sizeMaps, 'SIZE_MAPS missing');
 var europe = themeJs.match(/var EUROPE_ISOS = \{[\s\S]*?\n  \};/);
 assert(europe, 'EUROPE_ISOS missing');
 var shownStart = themeJs.indexOf('function normalizeShownToken');
-var catalogEnd = themeJs.indexOf('function catalogRowsForCountry');
+var catalogEnd = themeJs.indexOf('function marketToTabKey');
 assert(shownStart > 0 && catalogEnd > shownStart, 'cannot extract catalog functions');
 
 var fnSrc =
+  sizeMaps[0] +
+  '\n' +
   europe[0] +
   '\n' +
   themeJs.slice(shownStart, catalogEnd) +
-  '\nmodule.exports = { filterCatalogRows: filterCatalogRows, catalogRowsFrom: catalogRowsFrom, rowMatchesCountry: rowMatchesCountry, rowShownTokens: rowShownTokens, rowShownDefined: rowShownDefined, resolveCatalogIso: resolveCatalogIso };\n';
+  '\nmodule.exports = { filterCatalogRows: filterCatalogRows, catalogRowsFrom: catalogRowsFrom, catalogRowsForPaint: catalogRowsForPaint, ukFallbackCatalogRows: ukFallbackCatalogRows, rowMatchesCountry: rowMatchesCountry, rowShownTokens: rowShownTokens, rowShownDefined: rowShownDefined, resolveCatalogIso: resolveCatalogIso };\n';
 
 var tmp = path.join(root, 'scripts/.prove-eighteen-catalog-fns.js');
 fs.writeFileSync(tmp, fnSrc);
@@ -301,8 +309,31 @@ assert.strictEqual(
   'blank Market Shown on every variant must not list all 18 for Ghana'
 );
 
-var guide = fns.filterCatalogRows(json, 'GH');
-var picker = fns.filterCatalogRows(json, 'GH');
+var paintedBlank = fns.catalogRowsForPaint(allBlank, 'GH');
+assert.strictEqual(paintedBlank.length, 7, 'empty filter must paint 7 classic UK sizes, not a blank grid');
+assert(
+  paintedBlank.every(function (row) {
+    return ['single', 'small-double', 'double', 'king', 'european-king', 'super-king', 'emperor'].indexOf(row.id) !== -1;
+  }),
+  'UK fallback must be classic SIZE_MAPS.gb ids'
+);
+assert.strictEqual(
+  fns.catalogRowsForPaint([], 'GH').length,
+  7,
+  'missing JSON must still paint SIZE_MAPS.gb (7 tiles)'
+);
+assert.strictEqual(
+  fns.catalogRowsForPaint(json, 'GH').length,
+  gb.length,
+  'populated Market Shown catalog still uses the shared filter'
+);
+var ukPaint = fns.ukFallbackCatalogRows(json);
+assert(ukPaint.some(function (r) { return r.label === 'California King'; }), 'UK fallback includes Market Shown GB extras');
+assert(ukPaint.some(function (r) { return r.label === 'Single'; }), 'UK fallback includes classic Single');
+assert(!ukPaint.some(function (r) { return r.label === 'US Twin'; }), 'UK fallback must not include US Twin');
+
+var guide = fns.catalogRowsForPaint(json, 'GH');
+var picker = fns.catalogRowsForPaint(json, 'GH');
 assert.deepStrictEqual(
   guide.map(function (r) {
     return r.id;
@@ -310,7 +341,7 @@ assert.deepStrictEqual(
   picker.map(function (r) {
     return r.id;
   }),
-  'picker and size guide must use the same filterCatalogRows catalog'
+  'picker and size guide must use the same catalogRowsForPaint catalog'
 );
 
 console.log('PROOF GH→GB: ' + fns.resolveCatalogIso(json, 'GH'));
@@ -318,4 +349,6 @@ console.log('PROOF UK/GH catalog (' + labels.length + '): ' + labels.join(' | ')
 console.log('PROOF UK extra on configure: California King');
 console.log('PROOF US Twin excluded: ' + (labels.indexOf('US Twin') === -1));
 console.log('PROOF shared function: filterCatalogRows');
+console.log('PROOF empty-filter tiles: ' + paintedBlank.length);
+console.log('PROOF missing-JSON tiles: ' + fns.catalogRowsForPaint([], 'GB').length);
 console.log('ok');

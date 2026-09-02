@@ -757,15 +757,22 @@
     return parseInt(digits, 10) * 100;
   }
 
-  function readSizePriceRows() {
-    var el = document.querySelector('[data-size-price-config]');
-    if (!el) return [];
+  function parseSizePriceJson(text) {
     try {
-      var parsed = JSON.parse(el.textContent.trim());
-      return Array.isArray(parsed) ? parsed : [];
+      var parsed = JSON.parse(String(text || '').replace(/^\uFEFF/, '').trim());
+      if (Array.isArray(parsed)) return parsed;
+      if (parsed && Array.isArray(parsed.variants)) return parsed.variants;
+      if (parsed && Array.isArray(parsed.sizes)) return parsed.sizes;
+      return [];
     } catch (e) {
       return [];
     }
+  }
+
+  function readSizePriceRows() {
+    var el = document.querySelector('[data-size-price-config]');
+    if (!el) return [];
+    return parseSizePriceJson(el.textContent);
   }
 
   function shopifyCartAddUrl() {
@@ -870,6 +877,9 @@
     if (!row) return [];
     var raw = [];
     if (Array.isArray(row.shown) && row.shown.length) raw = raw.concat(row.shown);
+    else if (row.shown && typeof row.shown === 'string') {
+      raw = raw.concat(String(row.shown).split(/[,;/|]/));
+    }
     if (Array.isArray(row.shown_countries) && row.shown_countries.length) {
       raw = raw.concat(row.shown_countries);
     }
@@ -878,6 +888,9 @@
     // and would hide UK-orderable extras from the picker.
     if (!raw.length && Array.isArray(row.markets) && row.markets.length) {
       raw = raw.concat(row.markets);
+    }
+    else if (!raw.length && row.markets && typeof row.markets === 'string') {
+      raw = raw.concat(String(row.markets).split(/[,;/|]/));
     }
     var seen = {};
     var out = [];
@@ -944,22 +957,118 @@
   }
 
   function filterCatalogRows(rows, browserIso) {
-    rows = rows || [];
-    var country = resolveCatalogIso(rows, browserIso);
-    var matched = rows.filter(function (row) {
-      return rowMatchesCountry(row, country);
-    });
+    try {
+      rows = Array.isArray(rows) ? rows : [];
+      var country = resolveCatalogIso(rows, browserIso);
+      var matched = rows.filter(function (row) {
+        return rowMatchesCountry(row, country);
+      });
+      return dedupeCatalogRows(matched);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  var CLASSIC_GB_IDS = {
+    single: 1,
+    'small-double': 1,
+    double: 1,
+    king: 1,
+    'european-king': 1,
+    'super-king': 1,
+    emperor: 1
+  };
+
+  function catalogRowKey(row) {
+    if (!row) return '';
+    var vid = row.variant_id || row.variantId;
+    if (vid) return 'v:' + String(vid);
+    return 'i:' + String(row.id || row.label || '').toLowerCase();
+  }
+
+  function dedupeCatalogRows(rows) {
     var seen = {};
-    return matched.filter(function (row) {
+    return (rows || []).filter(function (row) {
       if (!row) return false;
-      var vid = row.variant_id || row.variantId;
-      var key = vid
-        ? 'v:' + String(vid)
-        : 'i:' + String(row.id || row.label || '').toLowerCase();
+      var key = catalogRowKey(row);
       if (!key || key === 'v:' || key === 'i:' || seen[key]) return false;
       seen[key] = true;
       return true;
     });
+  }
+
+  function handleizeSize(value) {
+    return String(value || '')
+      .toLowerCase()
+      .replace(/['’]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  function isClassicGbRow(row) {
+    if (!row) return false;
+    var id = handleizeSize(row.id);
+    var label = handleizeSize(row.label);
+    return !!(CLASSIC_GB_IDS[id] || CLASSIC_GB_IDS[label]);
+  }
+
+  function sizeMapsGbRows() {
+    return (SIZE_MAPS.gb || []).map(function (s) {
+      return Object.assign(
+        {
+          market: 'gb',
+          markets: ['GB'],
+          shown: ['GB'],
+          shown_defined: true,
+          available: true,
+          price: '',
+          price_raw: 0
+        },
+        s
+      );
+    });
+  }
+
+  function ukFallbackCatalogRows(rows) {
+    rows = Array.isArray(rows) ? rows : [];
+    var shownGb = [];
+    try {
+      shownGb = filterCatalogRows(rows, 'GB');
+    } catch (e) {
+      shownGb = [];
+    }
+    var out = [];
+    var seen = {};
+    function add(row) {
+      if (!row) return;
+      var key = catalogRowKey(row);
+      if (!key || key === 'v:' || key === 'i:' || seen[key]) return;
+      seen[key] = true;
+      out.push(row);
+    }
+    (SIZE_MAPS.gb || []).forEach(function (classic) {
+      rows.forEach(function (row) {
+        if (handleizeSize(row.id) !== classic.id && handleizeSize(row.label) !== classic.id) {
+          return;
+        }
+        if (rowShownDefined(row) && !rowMatchesCountry(row, 'GB')) return;
+        add(row);
+      });
+    });
+    shownGb.forEach(add);
+    if (out.length) return out;
+    return sizeMapsGbRows();
+  }
+
+  function catalogRowsForPaint(rows, browserIso) {
+    var filtered = [];
+    try {
+      filtered = filterCatalogRows(rows, browserIso);
+    } catch (e) {
+      filtered = [];
+    }
+    if (filtered.length) return filtered;
+    return ukFallbackCatalogRows(rows);
   }
 
   function catalogRowsFrom(rows, iso) {
@@ -967,7 +1076,7 @@
   }
 
   function catalogRowsForCountry(iso) {
-    return filterCatalogRows(readSizePriceRows(), iso);
+    return catalogRowsForPaint(readSizePriceRows(), iso);
   }
 
   var MARKET_TABS = [
@@ -1082,7 +1191,30 @@
   }
 
   function rowsForMarket(market) {
-    return filterCatalogRows(readSizePriceRows(), detectCountryIso());
+    return catalogRowsForPaint(readSizePriceRows(), detectCountryIso());
+  }
+
+  function paintSizeGrid(list, rows, tab, addLabel) {
+    if (!list) return 0;
+    var painted = rows || [];
+    if (!painted.length) {
+      return list.querySelectorAll('.size-option, .size-row').length;
+    }
+    list.innerHTML = painted
+      .map(function (s) {
+        var mapped = s;
+        if (!s.dims && !s.width_cm) {
+          var fromMap = (SIZE_MAPS.gb || []).filter(function (row) {
+            return row.id === s.id;
+          })[0];
+          if (fromMap) {
+            mapped = Object.assign({}, s, { dims: fromMap.dims, label: s.label || fromMap.label });
+          }
+        }
+        return buildSizeTileMarkup(mapped, tab, addLabel);
+      })
+      .join('');
+    return painted.length;
   }
 
   function buildSizeTileMarkup(s, market, addLabel) {
@@ -1189,7 +1321,7 @@
 
   function fillLandingPrices() {
     var market = detectMarket();
-    var rows = filterCatalogRows(readSizePriceRows(), detectCountryIso());
+    var rows = catalogRowsForPaint(readSizePriceRows(), detectCountryIso());
     document.querySelectorAll('[data-lp-size-table]').forEach(function (tbody) {
       if (!rows.length) return;
       tbody.innerHTML = rows
@@ -1342,13 +1474,7 @@
     }
 
     function rowsForTab(tabKey) {
-      var rows = filterCatalogRows(allRows(), detectCountryIso());
-      if (rows.length) return rows;
-      if (document.documentElement.getAttribute('data-preview') === 'true' && !allRows().length) {
-        var mkt = tabKeyToMarket(tabKey) || detectMarket();
-        return (SIZE_MAPS[mkt] || SIZE_MAPS.gb || []).slice();
-      }
-      return [];
+      return catalogRowsForPaint(allRows(), detectCountryIso());
     }
 
     function setLandingStatus(root, msg) {
@@ -1460,18 +1586,18 @@
     function paintSizes(root) {
       var list = root.querySelector('[data-lp-sizes]');
       if (!list) return;
-      var market = detectMarket();
-      var tab = marketToTabKey(market);
-      root.setAttribute('data-market', market);
-      root.setAttribute('data-selector-tab', tab);
-      paintMarketTabs(root.querySelector('[data-size-markets]'));
-      var rows = rowsForMarket(market);
-      list.innerHTML = rows.map(function (row) {
-        return buildSizeTileMarkup(row, tab, 'Add');
-      }).join('');
-      hydratePolicyStrips(root);
-      syncLandingRows(root);
-      ensurePriceAnchor();
+      try {
+        var market = detectMarket();
+        var tab = marketToTabKey(market);
+        root.setAttribute('data-market', market);
+        root.setAttribute('data-selector-tab', tab);
+        paintMarketTabs(root.querySelector('[data-size-markets]'));
+        var rows = rowsForTab(tab) || rowsForMarket(market);
+        paintSizeGrid(list, rows, tab, 'Add');
+        hydratePolicyStrips(root);
+        syncLandingRows(root);
+        ensurePriceAnchor();
+      } catch (e) {}
     }
 
     function addOrUpdate(root, row, qty, opts) {
@@ -3796,19 +3922,20 @@
 
     var allRows = [];
     if (configEl) {
+      allRows = parseSizePriceJson(configEl.textContent);
+    }
+    if (!allRows.length) {
       try {
-        var parsed = JSON.parse(configEl.textContent.trim());
-        if (Array.isArray(parsed) && parsed.length) allRows = parsed;
-      } catch (e) {}
+        allRows = readSizePriceRows();
+      } catch (e) {
+        allRows = [];
+      }
     }
     function filterSizesForMarket(mkt) {
-      return filterCatalogRows(allRows, detectCountryIso());
+      return catalogRowsForPaint(allRows, detectCountryIso());
     }
     var selectorTab = marketToTabKey(market);
     sizes = filterSizesForMarket(market);
-    if (!sizes.length && root.getAttribute('data-preview') === 'true' && !allRows.length) {
-      sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
-    }
 
     function eventParams(extra) {
       var size = currentSize();
@@ -4045,27 +4172,12 @@
 
     function rebuildSizeButtons() {
       if (!list) return;
-      paintMarketTabs(root.querySelector('[data-size-markets]'));
-      list.innerHTML = sizes
-        .map(function (s) {
-          var mapped = s;
-          if (!s.dims && !s.width_cm) {
-            var fromMap = (SIZE_MAPS[market] || SIZE_MAPS.gb).filter(function (row) {
-              return row.id === s.id;
-            })[0];
-            if (fromMap) {
-              mapped = Object.assign({}, s, { dims: fromMap.dims, label: s.label || fromMap.label });
-            }
-          }
-          return buildSizeTileMarkup(mapped, selectorTab, addLabel);
-        })
-        .join('');
-      var requestEntry = root.querySelector('.size-request-entry');
-      if (requestEntry && list.contains(requestEntry) === false) {
-        /* request trigger stays outside the list */
-      }
-      hydratePolicyStrips(root);
-      syncSizeQtyUi();
+      try {
+        paintMarketTabs(root.querySelector('[data-size-markets]'));
+        paintSizeGrid(list, sizes, selectorTab, addLabel);
+        hydratePolicyStrips(root);
+        syncSizeQtyUi();
+      } catch (e) {}
     }
 
     if (list) {
@@ -4082,9 +4194,6 @@
         root.getAttribute('data-finance-name') || marketFinanceName(market);
       selectorTab = marketToTabKey(market);
       sizes = filterSizesForMarket(market);
-      if (!sizes.length && root.getAttribute('data-preview') === 'true' && !allRows.length) {
-        sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
-      }
       rebuildSizeButtons();
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
       if (typeof refreshTotals === 'function') refreshTotals();
@@ -5658,7 +5767,11 @@
   }
 
   function initAllReserves() {
-    document.querySelectorAll('[data-size-reserve]').forEach(initSizeReserve);
+    document.querySelectorAll('[data-size-reserve]').forEach(function (root) {
+      try {
+        initSizeReserve(root);
+      } catch (e) {}
+    });
   }
 
   function unlockPageOverflow() {
@@ -6827,14 +6940,7 @@
   }
 
   function rowsForSizeGuide(market) {
-    var primary = filterCatalogRows(readSizePriceRows(), detectCountryIso());
-    if (!primary.length && document.documentElement.getAttribute('data-preview') === 'true' && !readSizePriceRows().length) {
-      var resolved = isSizeMarket(market) ? market : 'gb';
-      primary = (SIZE_MAPS[resolved] || SIZE_MAPS.gb || []).map(function (s) {
-        return Object.assign({ market: resolved, markets: [marketToTabKey(resolved)] }, s);
-      });
-    }
-    return primary;
+    return catalogRowsForPaint(readSizePriceRows(), detectCountryIso());
   }
 
   function buildSizeGuideTile(row, tabKey, reserveBase) {
@@ -6902,11 +7008,10 @@
       if (staticEmpty) staticEmpty.hidden = true;
       if (!grid) return;
       if (!rows.length) {
-        if (emptyEl) {
+        if (emptyEl && !grid.querySelector('.size-guide-tile')) {
           emptyEl.hidden = false;
           emptyEl.removeAttribute('hidden');
         }
-        grid.innerHTML = '';
         return;
       }
       if (emptyEl) emptyEl.hidden = true;
