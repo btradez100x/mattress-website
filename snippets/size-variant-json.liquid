@@ -1,7 +1,8 @@
 {%- comment -%}
   One mattress variant as JSON for the size selector.
-  Emits every variant. The picker and size guide filter with custom.market_shown
-  (Market Shown) in JS — same catalog on both pages.
+  Emits every variant. The picker and size guide filter with custom.MarketShown
+  (camelCase, no underscore) in JS — same catalog on both pages.
+  JSON key MarketShown matches variant.metafields.custom.MarketShown.
   available is always true (made-to-order; inventory 0 still sells).
   in_market is Shopify publication in this market (available / available_for_sale)
   and is only used when Market Shown is blank.
@@ -324,6 +325,7 @@
   "price_raw": {{ v.price | json }},
   "variant_id": {{ v.id | json }},
   "market": {{ v_market | json }},
+  "MarketShown": [{% assign sfirst = true %}{% if shown_s != blank %}{% for tok in shown_parts %}{% assign t = tok | strip | upcase %}{% if t == blank %}{% continue %}{% endif %}{% unless sfirst %},{% endunless %}{{ t | json }}{% assign sfirst = false %}{% endfor %}{% endif %}],
   "shown": [{% assign sfirst = true %}{% if shown_s != blank %}{% for tok in shown_parts %}{% assign t = tok | strip | upcase %}{% if t == blank %}{% continue %}{% endif %}{% unless sfirst %},{% endunless %}{{ t | json }}{% assign sfirst = false %}{% endfor %}{% endif %}],
   "markets": [{% assign mfirst = true %}{% if tab_gb %}{% unless mfirst %},{% endunless %}"GB"{% assign mfirst = false %}{% endif %}{% if tab_uae %}{% unless mfirst %},{% endunless %}"UAE"{% assign mfirst = false %}{% endif %}{% if tab_us %}{% unless mfirst %},{% endunless %}"US"{% assign mfirst = false %}{% endif %}{% if tab_eu %}{% unless mfirst %},{% endunless %}"EU"{% assign mfirst = false %}{% endif %}],
   "available": true,

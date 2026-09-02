@@ -2,8 +2,11 @@
   Market Shown tokens for a variant, comma-separated, uppercase.
 
   Source of truth — Shopify Admin definition name: Market Shown
-  Namespace and key: custom.market_shown
-  Also tries custom.MarketShown, custom.markets_shown, and custom.shown_markets.
+  Namespace and key: custom.MarketShown (camelCase, NO underscore)
+  Liquid: variant.metafields.custom.MarketShown
+
+  Aliases if MarketShown is missing: custom.market_shown, custom.market-shown,
+  custom.Market_Shown, then older markets_shown / shown_markets keys.
   List, JSON, market objects, or plain text.
 
   If this snippet prints blank, populate Market Shown on each variant
@@ -15,24 +18,39 @@
   Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
-  assign raw = v.metafields.custom.market_shown.value
+  assign raw = v.metafields.custom.MarketShown.value
   if raw == blank
-    assign raw = v.metafields.custom.MarketShown.value
+    assign raw = v.metafields.custom.MarketShown
+  endif
+  if raw == blank
+    assign raw = v.metafields['custom']['MarketShown'].value
+  endif
+  if raw == blank
+    assign raw = v.metafields['custom']['MarketShown']
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.market_shown.value
   endif
   if raw == blank
     assign raw = v.metafields.custom.market_shown
   endif
   if raw == blank
-    assign raw = v.metafields.custom.MarketShown
+    assign raw = v.metafields.custom['market-shown'].value
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom['market-shown']
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.Market_Shown.value
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.Market_Shown
   endif
   if raw == blank
     assign raw = v.metafields.custom.markets_shown.value | default: v.metafields.custom.markets_shown
   endif
   if raw == blank
     assign raw = v.metafields.custom.shown_markets.value | default: v.metafields.custom.shown_markets
-  endif
-  if raw == blank
-    assign raw = v.metafields.shopify.market_shown.value | default: v.metafields.shopify.market_shown
   endif
 
   assign csv = ''
