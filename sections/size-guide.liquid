@@ -1,8 +1,8 @@
 {%- comment -%}
   Size guide: variants whose Market Shown (custom.market_shown) includes
-  the visitor country. Unknown country → UK/GB. Not every product variant.
-  A UK extra set in Market Shown appears here and on Configure. US-only
-  (US Twin with Market Shown = US) does not.
+  the visitor country. Unknown country (Ghana / GH) → UK/GB set. Not every
+  product variant. A UK extra set in Market Shown appears here and on Configure.
+  US-only (US Twin with Market Shown = US) does not. Blank is not all 18.
 {%- endcomment -%}
 {%- liquid
   capture size_market
@@ -38,23 +38,19 @@
   assign reserve_base = routes.root_url | default: '/'
   assign tile_count = 0
   assign gb_tile_count = 0
-  assign catalog_iso = localization.country.iso_code | upcase | strip
-  if catalog_iso == 'UK'
+  capture catalog_iso
+    render 'size-catalog-iso', mattress: mattress
+  endcapture
+  assign catalog_iso = catalog_iso | strip | upcase
+  if catalog_iso == blank
     assign catalog_iso = 'GB'
   endif
-  if size_market == 'gb' or catalog_iso == blank
-    assign catalog_iso = 'GB'
-  elsif size_market == 'ae'
-    assign catalog_iso = 'AE'
-  elsif size_market == 'us'
-    assign catalog_iso = 'US'
-  elsif size_market == 'eu'
-    if catalog_iso == blank
-      assign catalog_iso = 'EU'
-    endif
+  assign browser_iso = localization.country.iso_code | upcase | strip
+  if browser_iso == 'UK'
+    assign browser_iso = 'GB'
   endif
 -%}
-<section class="policy-page size-guide-page" data-size-guide data-market="{{ size_market }}" data-reserve-href="{{ reserve_base }}">
+<section class="policy-page size-guide-page" data-size-guide data-market="{{ size_market }}" data-catalog-iso="{{ catalog_iso }}" data-reserve-href="{{ reserve_base }}">
   <script type="application/json" data-size-price-config>
     {%- render 'size-catalog-json', mattress: mattress -%}
   </script>
@@ -79,7 +75,7 @@
         <p class="size-guide-catalog__lede">Names follow local convention. Figures are always width × length in centimetres. European King is 160 × 200 cm where that size is made.</p>
       </header>
 
-      <p class="size-guide-fallback" data-size-guide-uk-note hidden>
+      <p class="size-guide-fallback" data-size-guide-uk-note{% unless browser_iso != blank and catalog_iso == 'GB' and browser_iso != 'GB' %} hidden{% endunless %}>
         This country is not set up yet. Showing United Kingdom sizes.
       </p>
       <p class="size-guide-empty" data-size-guide-empty hidden>
@@ -253,7 +249,7 @@
       "type": "product",
       "id": "mattress_product",
       "label": "Mattress product",
-      "info": "Every published variant is listed. If blank, the theme looks up handle the-mattress, then mattress."
+      "info": "Variants whose Market Shown includes the visitor country. Unknown countries (Ghana) use the UK/GB set. If blank, the theme looks up handle the-mattress, then mattress."
     },
     {
       "type": "text",

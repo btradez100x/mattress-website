@@ -1,0 +1,49 @@
+{%- comment -%}
+  Catalog country for the size guide and configure picker.
+
+  Browser country: localization.country.iso_code (GH for Ghana).
+  Defined markets: the union of Market Shown (custom.market_shown) tokens
+  on the mattress variants.
+
+  If the browser ISO is not in that set (Ghana is not GB/US/AE/EU),
+  output GB so both pages use the UK Market Shown set.
+
+  Expects: mattress (product)
+{%- endcomment -%}
+{%- liquid
+  assign browser = localization.country.iso_code | upcase | strip
+  if browser == 'UK'
+    assign browser = 'GB'
+  endif
+
+  assign defined_csv = ''
+  if mattress != blank
+    for v in mattress.variants
+      capture shown_csv
+        render 'size-variant-shown', v: v
+      endcapture
+      assign shown_up = shown_csv | strip | upcase | replace: ', ', ',' | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
+      if shown_up != blank
+        if defined_csv != blank
+          assign defined_csv = defined_csv | append: ','
+        endif
+        assign defined_csv = defined_csv | append: shown_up
+      endif
+    endfor
+  endif
+  assign wrapped = ',' | append: defined_csv | append: ','
+  assign browser_token = ',' | append: browser | append: ','
+  assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
+  assign iso_bar = '|' | append: browser | append: '|'
+  assign catalog_iso = 'GB'
+  if browser == blank
+    assign catalog_iso = 'GB'
+  elsif wrapped contains browser_token
+    assign catalog_iso = browser
+  elsif europe_isos contains iso_bar and wrapped contains ',EU,'
+    assign catalog_iso = browser
+  else
+    assign catalog_iso = 'GB'
+  endif
+-%}
+{{- catalog_iso -}}
