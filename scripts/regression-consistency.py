@@ -1115,6 +1115,14 @@ def check_redesign() -> None:
     else:
         bad("theme.js must not set factory video src until the visitor scrolls")
 
+    rd_img = (ROOT / "valtora-theme" / "snippets" / "rd-img.liquid").read_text(encoding="utf-8")
+    if re.search(r"\|\s*asset_img_url", rd_img):
+        bad("rd-img.liquid must not use asset_img_url on theme WebP (srcset 404s)")
+    elif "asset_url" in rd_img:
+        ok("rd-img.liquid serves theme assets with asset_url")
+    else:
+        bad("rd-img.liquid missing asset_url fallback")
+
     if "rootMargin: '-40px'" in js or 'rootMargin: "-40px"' in js:
         ok("redesign observer uses rootMargin -40px")
     else:

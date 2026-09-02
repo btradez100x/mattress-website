@@ -1,3 +1,13 @@
+# Regression results — Wednesday 2 Sep 2026 (fix spec WebP srcset)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 997 passed, 0 failed
+- Scope note: Theme WebP on Specification (and the other redesign pages) used `asset_img_url` srcset. Shopify cannot resize theme WebP, those URLs 404, and the browser never uses `src`. `rd-img.liquid` now serves theme files with `asset_url`. No VERSION bump.
+
+---
+
 # Regression results — Wednesday 2 Sep 2026 (save 11.0.0-nine-page-redesign)
 
 ## Smoke
