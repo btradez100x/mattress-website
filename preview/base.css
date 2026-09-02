@@ -3843,11 +3843,28 @@ video[controls],
 }
 
 .gold-rule {
+  display: block;
   width: 2.5rem;
   height: 1px;
   background: var(--brand-accent);
   margin: 0 0 1.35rem;
   border: none;
+}
+
+.gold-kicker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content;
+  max-width: 100%;
+}
+.gold-kicker .section__eyebrow {
+  margin-bottom: 0.45rem;
+}
+.gold-kicker--center,
+.policy-cta .gold-kicker {
+  align-items: center;
+  margin-inline: auto;
 }
 
 .gold-rule.gold-rule--measure {
@@ -7802,6 +7819,10 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin-inline: auto;
 }
 .policy-cta .gold-rule {
+  margin-inline: auto;
+}
+.policy-cta .section__eyebrow {
+  width: fit-content;
   margin-inline: auto;
 }
 .policy-cta .section__lede {

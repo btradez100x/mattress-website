@@ -57,8 +57,10 @@
 
   <div class="section section--dark policy-hero">
     <div class="page-width policy-hero__copy">
-      <p class="section__eyebrow">Sizing</p>
-      <hr class="gold-rule">
+      <div class="gold-kicker">
+        <p class="section__eyebrow">Sizing</p>
+        <hr class="gold-rule">
+      </div>
       <h1>{{ section.settings.heading }}</h1>
       {%- if section.settings.intro != blank -%}
         <p class="section__lede policy-hero__lede">{{ section.settings.intro }}</p>
@@ -69,8 +71,10 @@
   <div class="section section--surface size-guide-catalog">
     <div class="page-width size-guide-catalog__inner">
       <header class="size-guide-catalog__head">
-        <p class="section__eyebrow" data-size-guide-market-label>{{ market_label }}</p>
-        <hr class="gold-rule">
+        <div class="gold-kicker">
+          <p class="section__eyebrow" data-size-guide-market-label>{{ market_label }}</p>
+          <hr class="gold-rule">
+        </div>
         <h2 data-size-guide-heading>Every size we make for this market</h2>
         <p class="size-guide-catalog__lede">Names follow local convention. Figures are always width × length in centimetres. European King is 160 × 200 cm where that size is made.</p>
       </header>
@@ -232,8 +236,10 @@
 
   <div class="section section--dark policy-cta" data-section-ground="dark">
     <div class="page-width policy-cta__inner">
-      <p class="section__eyebrow">Next</p>
-      <hr class="gold-rule">
+      <div class="gold-kicker gold-kicker--center">
+        <p class="section__eyebrow">Next</p>
+        <hr class="gold-rule">
+      </div>
       <p class="policy-cta__action">
         <a class="btn" href="{{ reserve_base }}#reserve">Reserve your size</a>
       </p>

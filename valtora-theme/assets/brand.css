@@ -195,6 +195,32 @@ html .lp-outcome__kicker {
   border: 0;
 }
 
+/* Last-wins: brand.css must not left-align the 40px stub in a centred band. */
+.gold-kicker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content;
+  max-width: 100%;
+}
+.gold-kicker--center,
+.policy-cta .gold-kicker {
+  align-items: center;
+  margin-inline: auto;
+}
+.policy-cta .gold-rule,
+.section--dark.policy-cta .gold-rule,
+.policy-cta .gold-kicker .gold-rule,
+.gold-kicker--center .gold-rule {
+  margin-left: auto;
+  margin-right: auto;
+  margin-inline: auto;
+}
+.policy-cta .section__eyebrow {
+  width: fit-content;
+  margin-inline: auto;
+}
+
 .btn:focus-visible,
 a:focus-visible,
 button:focus-visible {

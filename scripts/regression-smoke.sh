@@ -706,6 +706,16 @@ else
   fail "navy/gold live tokens missing, carbon overlay still last-wins, or brand.css not after base.css"
 fi
 
+if grep -q "policy-cta .gold-rule" "$THEME/assets/brand.css" \
+  && grep -A 8 "policy-cta .gold-rule" "$THEME/assets/brand.css" | grep -q "margin-inline: auto" \
+  && grep -q "policy-cta .gold-rule" "$ROOT/preview/brand.css" \
+  && grep -q "gold-kicker--center" "$THEME/assets/brand.css" \
+  && grep -q "gold-kicker--center" "$THEME/sections/size-guide.liquid"; then
+  pass "size-guide Next gold stub is centred under the kicker (brand.css last-wins)"
+else
+  fail "policy-cta gold-rule still left-aligned after brand.css"
+fi
+
 if grep -q 'HTML .banner lock' "$THEME/assets/brand.css" \
   && grep -q 'color: #C4A46A' "$THEME/assets/brand.css" \
   && grep -q 'background: #1A1A1A' "$THEME/assets/base.css" \
