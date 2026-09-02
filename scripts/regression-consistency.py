@@ -553,8 +553,9 @@ def check_size_picker_chrome() -> None:
             "catalogRowsFrom" in js_text
             and "if (!tokens.length) return true" in js_text
             and "var sizes = [];" in js_text
+            and "existingQty + 1" in js_text
         ):
-            ok(f"{rel}: GB MarketShown paints every Shopify size (blank shown = all)")
+            ok(f"{rel}: picker paints every Shopify variant (no SIZE_MAPS ceiling)")
         else:
             bad(f"{rel}: picker hardcodes a size count instead of Shopify rows")
 

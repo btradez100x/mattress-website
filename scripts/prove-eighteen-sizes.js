@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Proof: size catalog JSON + Market Shown filter include US Twin etc. for GB
- * when Market Shown is blank. SIZE_MAPS.gb is not a live ceiling.
+ * Proof: size catalog JSON emits every variant. Live picker does not filter
+ * by Market Shown, SIZE_MAPS, or title-inferred market.
  */
 'use strict';
 
@@ -20,6 +20,7 @@ var catalogLiq = fs.readFileSync(
   path.join(root, 'valtora-theme/snippets/size-catalog-json.liquid'),
   'utf8'
 );
+var baseCss = fs.readFileSync(path.join(root, 'valtora-theme/assets/base.css'), 'utf8');
 
 assert(
   !/unless tab_gb or tab_uae or tab_us or tab_eu/.test(jsonLiq),
@@ -38,26 +39,42 @@ assert(
   'JSON must keep US/AU/UAE titles (do not strip (UAE))'
 );
 assert(
-  /if shown_up == blank/.test(inCountry) && /assign hit = true/.test(inCountry),
-  'SSR in-country must treat blank Market Shown as shown'
+  /^\s*1\s*$/m.test(inCountry) && /Always shown/.test(inCountry),
+  'SSR in-country must emit every published variant (no Market Shown gate)'
 );
 assert(
-  !/render 'size-variant-market'/.test(inCountry),
-  'SSR in-country must not infer market from title when shown is blank'
+  !/if shown_up == blank/.test(inCountry),
+  'SSR in-country must not depend on blank Market Shown Liquid'
 );
 assert(
   !/v\.metafields\.custom\.enabled == false/.test(catalogLiq),
   'catalog JSON must emit every variant, including enabled=false'
 );
 assert(
-  /hasShownField/.test(
-    themeJs.slice(themeJs.indexOf('function rowShownTokens'), themeJs.indexOf('function countryMatchesToken'))
-  ),
-  'live JSON always emits shown[]; markets fallback is preview-only when shown is absent'
+  /for v in mattress\.variants/.test(catalogLiq),
+  'catalog JSON must loop product.variants'
 );
 assert(
-  !/if \(!raw\.length && row\.market\) raw\.push/.test(themeJs),
-  'rowShownTokens must not fall back to inferred row.market'
+  /pointer-events:\s*auto/.test(baseCss) &&
+    /size-option__add[\s\S]*pointer-events:\s*auto/.test(baseCss),
+  'ADD must receive pointer events'
+);
+assert(
+  /position:\s*sticky/.test(baseCss) &&
+    /\.order-panel \{[\s\S]*position:\s*sticky/.test(baseCss),
+  'YOUR ORDER panel must be position:sticky'
+);
+assert(
+  /overflow-x:\s*visible/.test(baseCss),
+  'body must not clip overflow-x (that kills sticky)'
+);
+assert(
+  /data-size-pick/.test(themeJs) && /size-option__add/.test(themeJs),
+  'ADD markup must be a data-size-pick control'
+);
+assert(
+  /existingQty \+ 1/.test(themeJs),
+  'ADD click must increment qty'
 );
 assert(
   /var sizes = \[\];/.test(themeJs),
@@ -140,31 +157,33 @@ assert(labels.indexOf('Split King (Pair)') !== -1, 'must include Split King (Pai
 assert(labels.indexOf('Queen (UAE)') !== -1, 'must include Queen (UAE)');
 assert(labels.indexOf('King (UAE)') !== -1, 'must include King (UAE)');
 assert(labels.indexOf('Super King (UAE)') !== -1, 'must include Super King (UAE)');
+assert(labels.indexOf('Emperor') !== -1, 'must include Emperor');
 assert(labels.indexOf('Single') !== -1, 'must include 0-inventory Single');
 assert(labels.indexOf('Small Double') !== -1, 'must include 0-inventory Small Double');
 assert.strictEqual(fns.rowShownTokens(json[7]).length, 0, 'US Twin shown tokens must be empty when metafield blank');
-assert.strictEqual(fns.rowMatchesCountry(json[7], 'GB'), true, 'blank Market Shown must match GB');
 
 var liveWithStaleMarkets = Object.assign({}, json[7], { shown: [], markets: ['US'], market: 'us' });
 assert.strictEqual(
-  fns.rowMatchesCountry(liveWithStaleMarkets, 'GB'),
-  true,
-  'live shown:[] must ignore inferred markets:[US]'
+  fns.catalogRowsFrom([liveWithStaleMarkets].concat(json.slice(0, 7)), 'GB').filter(function (r) {
+    return r.label === 'US Twin';
+  }).length,
+  1,
+  'live catalog must include US Twin even with inferred markets:[US]'
 );
 
 var onlyUs = JSON.parse(JSON.stringify(json));
 onlyUs[7].shown = ['US'];
 var gbWhenUsTwinRestricted = fns.catalogRowsFrom(onlyUs, 'GB');
 assert(
-  gbWhenUsTwinRestricted.every(function (r) {
-    return r.label !== 'US Twin';
+  gbWhenUsTwinRestricted.some(function (r) {
+    return r.label === 'US Twin';
   }),
-  'US Twin with MarketShown=US must drop from GB'
+  'live picker must still show US Twin when Market Shown is US — Market Shown is not a ceiling'
 );
 assert.strictEqual(
   gbWhenUsTwinRestricted.length,
-  17,
-  'restricting US Twin to US should leave 17 for GB, got ' + gbWhenUsTwinRestricted.length
+  18,
+  'Market Shown must not hide sizes; expected 18, got ' + gbWhenUsTwinRestricted.length
 );
 
 console.log(
@@ -178,4 +197,5 @@ console.log(
 );
 console.log('PROOF GB picker labels (' + labels.length + '): ' + labels.join(' | '));
 console.log('PROOF includes US Twin: ' + (labels.indexOf('US Twin') !== -1));
+console.log('PROOF JSON emits ' + json.length + ' sizes');
 console.log('ok');

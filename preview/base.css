@@ -62,8 +62,10 @@ body {
   -webkit-font-smoothing: antialiased;
   --header-height: 3.75rem;
   --float-basket-space: 5.5rem;
-  overflow-x: clip;
-  overflow-y: auto !important;
+  /* overflow-x: clip on body makes body the sticky containing block (full
+     content height), so YOUR ORDER never sticks. Keep clip on html only. */
+  overflow-x: visible;
+  overflow-y: visible;
   height: auto;
   max-width: 100%;
 }
@@ -1254,10 +1256,15 @@ body[data-page="manufacturing"] .site-header {
 
 /* Mobile / tablet light hero */
 @media (max-width: 899px) {
-  html,
-  body {
+  html {
     overflow-x: clip;
     overflow-y: auto !important;
+    height: auto;
+  }
+
+  body {
+    overflow-x: visible;
+    overflow-y: visible;
     height: auto;
   }
 
@@ -2412,6 +2419,13 @@ video[controls],
   width: 100%;
   max-width: 68rem;
   margin-inline: auto;
+  overflow: visible;
+}
+
+[data-reserve-section],
+.shopify-section:has([data-size-reserve]),
+.shopify-section:has(.size-reserve__layout) {
+  overflow: visible;
 }
 
 .page-width.size-reserve__layout {
@@ -2719,6 +2733,8 @@ video[controls],
   min-height: 2.5rem;
   height: auto;
   padding: 0 1.15rem;
+  appearance: none;
+  -webkit-appearance: none;
   border: 1px solid var(--brand-primary);
   background: var(--brand-primary);
   color: var(--brand-on-dark, #f7f5f1);
@@ -2730,7 +2746,9 @@ video[controls],
   line-height: 1;
   cursor: pointer;
   border-radius: var(--radius-control, 2px);
-  pointer-events: none;
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .size-option.is-in-basket .size-option__add,
@@ -4912,9 +4930,15 @@ body:has([data-float-total]:empty) .hero__cta {
 }
 
 @media (min-width: 900px) {
-  .reserve-panel {
+  .size-reserve__layout > .reserve-panel,
+  .size-reserve__layout > .order-panel,
+  .size-reserve__layout > aside,
+  .reserve-panel,
+  .order-panel {
     position: sticky;
-    top: calc(var(--sticky-offset, 0px) + var(--header-height, 3.75rem) + 3.25rem);
+    top: calc(var(--sticky-offset, 0px) + var(--header-height, 3.75rem) + 0.75rem);
+    align-self: start;
+    z-index: 6;
     max-height: none;
     overflow: visible;
   }

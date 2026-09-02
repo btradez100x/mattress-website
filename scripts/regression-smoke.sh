@@ -393,10 +393,11 @@ if grep -q "upsertMattressLine" "$JS" \
   && grep -q "data-order-remove" "$JS" \
   && grep -q "data-size-qty" "$JS" \
   && grep -q "wrap.hidden = !available" "$JS" \
-  && ! grep -q "upsertActiveMattress(existingQty" "$JS"; then
-  pass "order store supports upsert, remove; size click does not auto-add"
+  && grep -q "upsertActiveMattress(existingQty + 1" "$JS" \
+  && grep -q "data-size-pick" "$JS"; then
+  pass "order store supports upsert, remove; ADD increments qty"
 else
-  fail "theme.js missing basket upsert/remove or size-click still auto-adds"
+  fail "theme.js missing basket upsert/remove or ADD does not increment"
 fi
 
 if command -v node >/dev/null 2>&1; then
@@ -780,11 +781,11 @@ else
   fail "preview Super King is not £3,299"
 fi
 
-if grep -q 'custom.market' "$THEME/sections/size-reserve.liquid" \
-  && grep -q 'price_raw' "$THEME/sections/size-reserve.liquid" \
+if grep -q 'price_raw' "$THEME/sections/size-reserve.liquid" \
   && grep -q 'mattress.variants' "$THEME/sections/size-reserve.liquid" \
-  && grep -q 'custom.enabled' "$THEME/sections/size-reserve.liquid"; then
-  pass "size-reserve loops Shopify variants and respects custom.enabled"
+  && grep -q 'custom.enabled' "$THEME/sections/size-reserve.liquid" \
+  && grep -q 'size-catalog-json' "$THEME/sections/size-reserve.liquid"; then
+  pass "size-reserve loops Shopify variants; Market Shown is not a ceiling"
 else
   fail "size-reserve is not reading product.variants / custom.enabled"
 fi
@@ -1061,8 +1062,8 @@ for path in js_paths:
     if "european-king" not in t or "160 × 200 cm" not in t:
         print(path, "European King 160 × 200 cm missing")
         ok = False
-    if "catalogRowsFrom" not in t or "if (!tokens.length) return true" not in t or "var sizes = [];" not in t:
-        print(path, "picker is not painting every Shopify size from Market Shown")
+    if "catalogRowsFrom" not in t or "if (!tokens.length) return true" not in t or "var sizes = [];" not in t or "existingQty + 1" not in t:
+        print(path, "picker is not painting every Shopify size / ADD does not increment")
         ok = False
 
 if "data-size-pick" not in funnel or "data-lp-sizes" not in funnel:
