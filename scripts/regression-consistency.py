@@ -127,10 +127,10 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
                 bad(f"{rel}: manufacturing still carries the old origin story (that belongs on About)")
             else:
                 ok(f"{rel}: manufacturing does not carry the founder origin story")
-            if "Built in two parts" not in text or ("The sizes" not in text and "Fifteen sizes" not in text):
-                bad(f"{rel}: manufacturing missing the how-it-is-built replacement copy")
+            if "Wound, pocketed" not in text and "Assembled by hand" not in text:
+                bad(f"{rel}: manufacturing missing the factory replacement copy")
             else:
-                ok(f"{rel}: manufacturing uses how-it-is-built copy")
+                ok(f"{rel}: manufacturing uses factory how-it-is-built copy")
         if re.search(r'href="#(swap|specs|lifestyle|reserve|founder|faq|cool-touch|swap-video)"', text):
             bad(f"{rel}: homepage section links are in-page hashes (need homepage + hash)")
         else:
@@ -235,10 +235,10 @@ def check_theme_js() -> None:
         bad("journal-index-href missing populated-blog-first resolution")
     if "all_products['the-mattress'].url" in header_liquid or "| default: '/products/the-mattress'" in header_liquid:
         bad("header.liquid The mattress still points at /products/the-mattress (unpublished SKU 404)")
-    elif "mattress_url" in header_liquid and "#reserve" in header_liquid:
-        ok("header.liquid The mattress goes to homepage #reserve")
+    elif "specification_url" in header_liquid and "The mattress" in header_liquid:
+        ok("header.liquid The mattress goes to specification")
     else:
-        bad("header.liquid The mattress missing homepage #reserve destination")
+        bad("header.liquid The mattress missing specification destination")
     if "pages['journal'].url" in footer_liquid and "/pages/journal" in footer_liquid:
         if "| default: '/blogs/journal'" in footer_liquid or '| default: "/blogs/journal"' in footer_liquid:
             bad("footer.liquid Journal still falls back to /blogs/journal")
@@ -602,11 +602,9 @@ def check_funnel_chrome():
             ok(f"{rel}: :root does not hardcode brand colours")
 
     for rel in (
-        "preview/pages/specification.html",
         "preview/pages/large-sizes.html",
         "preview/pages/european-king.html",
         "preview/pages/what-it-buys.html",
-        "preview/pages/support.html",
         "preview/pages/cooling.html",
         "preview/pages/split-king.html",
     ):
@@ -1076,6 +1074,75 @@ def check_mobile_overflow_and_dark_lock() -> None:
         bad("main-blog.liquid missing baked index")
 
 
+def check_redesign() -> None:
+    spec = ROOT / "preview" / "pages" / "specification.html"
+    mfg = ROOT / "preview" / "pages" / "manufacturing.html"
+    css = (ROOT / "valtora-theme" / "assets" / "redesign.css").read_text(encoding="utf-8")
+    js = (ROOT / "valtora-theme" / "assets" / "theme.js").read_text(encoding="utf-8")
+    spec_text = spec.read_text(encoding="utf-8") if spec.exists() else ""
+    mfg_text = mfg.read_text(encoding="utf-8") if mfg.exists() else ""
+
+    layers = re.findall(r'data-rd-layer="(0[1-8])"', spec_text)
+    if layers == [f"{i:02d}" for i in range(1, 9)]:
+        ok("specification has eight spec_layer_view markers in order")
+    else:
+        bad(f"specification layer markers {layers}")
+
+    if 'class="layer-benefit"' in spec_text and "Air moves sideways through those channels" in spec_text:
+        ok("specification layer-benefit contrast copy present")
+    else:
+        bad("specification missing layer-benefit copy")
+
+    videos = re.findall(r"<video[^>]*>", mfg_text)
+    if len(videos) >= 2 and all("preload=\"none\"" in v and " src=" not in v for v in videos):
+        ok("manufacturing videos use preload=none without src (E4)")
+    else:
+        bad("manufacturing videos must be preload=none with data-src only")
+
+    if "prefers-reduced-motion: reduce" in css and ".rd .reveal" in css:
+        ok("redesign .reveal respects prefers-reduced-motion (E6)")
+    else:
+        bad("redesign.css must keep .reveal motion inside prefers-reduced-motion")
+
+    for event in ("spec_layer_view", "spec_scroll_complete", "video_start", "video_complete", "media_gallery_view"):
+        if f"'{event}'" in js or f'"{event}"' in js:
+            ok(f"theme.js fires {event}")
+        else:
+            bad(f"theme.js missing {event}")
+
+    if "pageHasScrolled" in js and "videoQueue" in js:
+        ok("factory videos wait for scroll before setting src (E4)")
+    else:
+        bad("theme.js must not set factory video src until the visitor scrolls")
+
+    if "rootMargin: '-40px'" in js or 'rootMargin: "-40px"' in js:
+        ok("redesign observer uses rootMargin -40px")
+    else:
+        bad("redesign observer must use rootMargin -40px")
+
+    assets = [
+        "coolknit-macro.webp",
+        "product-floating.webp",
+        "spring.mp4",
+        "compression.mp4",
+        "spring-poster.webp",
+    ]
+    for name in assets:
+        theme_file = ROOT / "valtora-theme" / "assets" / name
+        preview_file = ROOT / "preview" / "assets" / ("video" if name.endswith(".mp4") or "poster" in name else "img") / name
+        if name.endswith(".mp4") or name.endswith("-poster.webp"):
+            preview_file = ROOT / "preview" / "assets" / "video" / name
+        if theme_file.exists() and preview_file.exists():
+            ok(f"asset present: {name}")
+        else:
+            bad(f"missing asset {name}")
+
+    if "Fifteen centimetres of comfort" in spec_text and "20cm" in spec_text:
+        ok("specification states 20cm core / 15cm comfort")
+    else:
+        bad("specification figures must be 20cm core, 15cm comfort, 35cm total")
+
+
 def main() -> int:
     print("Valtora consistency gate (preview + chrome)")
     print("----------------------------------------")
@@ -1091,6 +1158,7 @@ def main() -> int:
     check_json_templates_uploadable()
     check_warranty_years_setting()
     check_trade_page()
+    check_redesign()
 
     roots = [
         ROOT / "preview" / "pages",

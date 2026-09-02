@@ -102,6 +102,9 @@
       <h3>Shop</h3>
       <ul>
         <li><a href="{{ configure_url }}">Reserve yours</a></li>
+        <li><a href="{{ pages['large-sizes'].url | default: '/pages/large-sizes' }}">Large sizes</a></li>
+        <li><a href="{{ pages['european-king'].url | default: '/pages/european-king' }}">European King</a></li>
+        <li><a href="{{ pages['split-king'].url | default: '/pages/split-king' }}">Split King</a></li>
         {%- if settings.comfort_tops_enabled -%}
           <li><a href="{{ layer_url }}">Comfort layer</a></li>
         {%- endif -%}
@@ -120,6 +123,7 @@
         <li><a href="{{ size_guide_url }}">Size guide</a></li>
         <li><a href="{{ delivery_url }}">Delivery and lead time</a></li>
         <li><a href="{{ pages['mattress-recycling'].url | default: '/pages/mattress-recycling' }}">Old mattress removal and recycling</a></li>
+        <li><a href="{{ pages['support'].url | default: '/pages/support' }}">Support</a></li>
         <li><a href="{{ pages['about'].url | default: '/pages/about' }}">About</a></li>
         <li><a href="{{ order_status_url }}">Order status</a></li>
         <li><a href="{{ contact_url }}">Contact</a></li>

@@ -2564,6 +2564,137 @@
     update();
   }
 
+  function initRedesignMedia() {
+    var root = document.querySelector('.rd');
+    if (!root) return;
+    var seen = {
+      layer: {},
+      image: {},
+      videoStart: {},
+      videoComplete: {},
+      scrollComplete: false
+    };
+
+    function fire(name, params) {
+      if (typeof vTrack === 'function') vTrack(name, params || {});
+    }
+
+    var videoQueue = [];
+    var videosMayLoad = false;
+
+    function pageHasScrolled() {
+      return (window.scrollY || document.documentElement.scrollTop || 0) > 8;
+    }
+
+    function loadVideo(video) {
+      if (!video || video.getAttribute('data-rd-loaded') === '1') return;
+      var src = video.getAttribute('data-src');
+      if (!src) return;
+      // E4: no mp4 bytes until the visitor scrolls. Hero footage can sit in
+      // the first viewport; poster stays until then.
+      if (!videosMayLoad && !pageHasScrolled()) {
+        if (videoQueue.indexOf(video) === -1) videoQueue.push(video);
+        return;
+      }
+      video.setAttribute('data-rd-loaded', '1');
+      video.src = src;
+      video.addEventListener('play', function () {
+        var id = video.getAttribute('data-video-id') || '';
+        if (seen.videoStart[id]) return;
+        seen.videoStart[id] = true;
+        fire('video_start', {
+          video_id: id,
+          page_path: location.pathname || ''
+        });
+      });
+      function completeOnce() {
+        var id = video.getAttribute('data-video-id') || '';
+        if (seen.videoComplete[id]) return;
+        seen.videoComplete[id] = true;
+        fire('video_complete', {
+          video_id: id,
+          page_path: location.pathname || ''
+        });
+      }
+      video.addEventListener('ended', completeOnce);
+      video.addEventListener('timeupdate', function () {
+        if (!video.duration) return;
+        if (video.currentTime >= video.duration - 0.35) completeOnce();
+      });
+      var play = video.play();
+      if (play && play.catch) play.catch(function () {});
+    }
+
+    function onEnter(el) {
+      if (el.classList.contains('reveal')) el.classList.add('in');
+      if (el.classList.contains('layer') || el.hasAttribute('data-rd-layer')) {
+        var num = el.getAttribute('data-rd-layer') || '';
+        var name = el.getAttribute('data-rd-layer-name') || '';
+        if (num && !seen.layer[num]) {
+          seen.layer[num] = true;
+          fire('spec_layer_view', {
+            layer_number: num,
+            layer_name: name
+          });
+        }
+        if (num === '08' && !seen.scrollComplete) {
+          seen.scrollComplete = true;
+          fire('spec_scroll_complete', { page_path: location.pathname || '' });
+        }
+      }
+      if (el.classList.contains('full-bleed') || el.hasAttribute('data-rd-image')) {
+        var imageId = el.getAttribute('data-rd-image') || '';
+        if (!imageId) {
+          var img = el.querySelector('img');
+          if (img && img.getAttribute('src')) {
+            var parts = img.getAttribute('src').split('/');
+            imageId = (parts[parts.length - 1] || '').replace(/\.[^.]+$/, '');
+          }
+        }
+        if (imageId && !seen.image[imageId]) {
+          seen.image[imageId] = true;
+          fire('media_gallery_view', { image_id: imageId });
+        }
+      }
+      if (el.hasAttribute('data-rd-video') || el.classList.contains('rd-video')) {
+        loadVideo(el);
+      }
+      var nested = el.querySelectorAll('[data-rd-video], .rd-video');
+      nested.forEach(loadVideo);
+    }
+
+    var nodes = root.querySelectorAll('.reveal, .layer, .full-bleed, [data-rd-video], .rd-video');
+    if (!nodes.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      nodes.forEach(onEnter);
+      return;
+    }
+
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          onEnter(e.target);
+          io.unobserve(e.target);
+        });
+      },
+      { rootMargin: '-40px', threshold: 0 }
+    );
+    nodes.forEach(function (el) { io.observe(el); });
+
+    window.addEventListener(
+      'scroll',
+      function onRedesignVideoScroll() {
+        if (!pageHasScrolled()) return;
+        videosMayLoad = true;
+        window.removeEventListener('scroll', onRedesignVideoScroll);
+        videoQueue.splice(0).forEach(loadVideo);
+      },
+      { passive: true }
+    );
+  }
+
   function initInViewVideo() {
     var videos = document.querySelectorAll('.theme-video, .big-idea__media video, .media-feature__media video');
     if (!videos.length || !('IntersectionObserver' in window)) return;
@@ -6805,6 +6936,7 @@
     initPreviewAnnouncement();
     applyPreviewTopsFlag();
     initReveal();
+    initRedesignMedia();
     initSectionGrounds();
     initSectionWipes();
     initTrustMarquee();

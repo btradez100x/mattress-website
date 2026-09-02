@@ -1,3 +1,13 @@
+# Regression results — Wednesday 2 Sep 2026 (nine-page redesign)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 996 passed, 0 failed
+- Scope note: Nine-page redesign from the supplied package (specification rewrite, manufacturing replacement, about media, new support, landing-page media). Nav is The mattress / How it is made / Support / About / Trade. Spec figures 20cm core / 15cm comfort / 35cm. Factory videos stay `preload="none"` with no `src` until the visitor scrolls. Preview verified: specification, manufacturing, about, support, large-sizes (Shopify size picker kept). Cursor browser MCP was unavailable; checked via local preview server and headless Chrome. No VERSION bump. Not deployed.
+
+---
+
 # Regression results — Wednesday 2 Sep 2026 (deploy 10.1.0-size-guide-gold-kicker)
 
 ## Smoke

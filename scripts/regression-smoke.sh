@@ -280,7 +280,7 @@ if grep -q "data-lp-qty" "$THEME/sections/landing-funnel.liquid" \
   && grep -q "function shopifyCartAddUrl" "$THEME/assets/theme.js" \
   && grep -q "function addLandingToShopify" "$THEME/assets/theme.js" \
   && grep -q "function shopifyCartAddUrl" "$ROOT/preview/theme.js" \
-  && grep -q "data-lp-qty" "$ROOT/preview/pages/specification.html"; then
+  && grep -q "data-lp-qty" "$ROOT/preview/pages/large-sizes.html"; then
   pass "landing configure adds to Shopify cart with quantity"
 else
   fail "landing configure missing Shopify cart add or quantity stepper"
@@ -1164,28 +1164,26 @@ import json, sys
 data = json.load(open(sys.argv[1]))
 main = data["sections"]["main"]
 blob = json.dumps(data)
-sys.exit(0 if main.get("type") == "manufacturing"
+sys.exit(0 if main.get("type") == "redesign"
          and "Small Double" not in blob
          and "California King" not in blob
          and "landing-funnel" not in blob
-         and "keep every layer" in blob
-         and "1.8 / 2.0mm" in blob
          else 1)
 PY
 then
-  pass "page.manufacturing.json uses manufacturing section, UK six, 20/10/35"
+  pass "page.manufacturing.json uses redesign factory page"
 else
   fail "page.manufacturing.json is still stacked landing-funnel or has phantom sizes"
 fi
 
-if grep -q "mfg-stack" "$MFG_PREVIEW" \
-  && grep -q "keep every layer" "$MFG_PREVIEW" \
-  && grep -q "1.8 / 2.0mm" "$MFG_PREVIEW" \
-  && grep -q "Made by experts who have been making mattresses for 49 years." "$MFG_PREVIEW" \
+if grep -q "Wound, pocketed" "$MFG_PREVIEW" \
+  && grep -q "Assembled by hand" "$MFG_PREVIEW" \
+  && grep -q 'data-video-id="spring"' "$MFG_PREVIEW" \
+  && grep -q 'preload="none"' "$MFG_PREVIEW" \
   && ! grep -q "Small Double" "$MFG_PREVIEW" \
   && ! grep -q "California King" "$MFG_PREVIEW" \
-  && ! grep -q "Handmade" "$MFG_PREVIEW"; then
-  pass "preview manufacturing matches how-it-is-built brief"
+  && ! grep -q "An ethos, not a catalogue find" "$MFG_PREVIEW"; then
+  pass "preview manufacturing matches factory redesign"
 else
   fail "preview manufacturing missing brief copy or still has phantom sizes"
 fi
@@ -1194,14 +1192,12 @@ if python3 - "$THEME/templates/page.specification.json" "$THEME/templates/page.w
 import json, sys
 spec = json.load(open(sys.argv[1]))
 buys = json.load(open(sys.argv[2]))
-kept_spec = spec.get("sections", {}).get("kept", {}).get("settings", {})
-kept_buys = buys.get("sections", {}).get("kept", {}).get("settings", {})
-ok = kept_spec.get("heading") == "Built to be kept" and kept_spec.get("enable_section") is False
-ok = ok and kept_buys.get("heading") == "Built to be kept" and kept_buys.get("enable_section") is True
+ok = spec.get("sections", {}).get("main", {}).get("type") == "redesign"
+ok = ok and buys.get("sections", {}).get("main", {}).get("type") == "redesign"
 sys.exit(0 if ok else 1)
 PY
 then
-  pass "Built to be kept stays on what-it-buys, off specification"
+  pass "specification and what-it-buys use the redesign section"
 else
   fail "Built to be kept enable flags drifted from the brief"
 fi
@@ -1221,6 +1217,8 @@ def enabled_grounds(data):
         if st.get("enable_section") is False:
             continue
         g = st.get("ground")
+        if g in (None, "") and sec.get("type") in ("redesign",):
+            continue
         if sec.get("type") == "hero":
             g = "dark" if st.get("tone") == "dark" else (g or "bg")
         out.append((sid, g or "missing"))
@@ -1266,8 +1264,8 @@ for sid, g in want.items():
         fail.append(f"index {sid} expected {g} got {got}")
 
 about = json.loads((root / "page.about.json").read_text())
-if about["sections"]["hero"]["settings"].get("ground") == about["sections"]["story"]["settings"].get("ground"):
-    fail.append("about hero/story share a ground")
+if about["sections"].get("main", {}).get("type") != "redesign":
+    fail.append("about is not the redesign section")
 
 if fail:
     print("\n".join(fail))
@@ -1442,24 +1440,20 @@ if grep -q "layout == 'delivery'" "$THEME/sections/landing-funnel.liquid" \
   && grep -q 'section--dark' "$THEME/sections/landing-funnel.liquid" \
   && grep -q 'lp-delivery' "$THEME/sections/landing-funnel.liquid" \
   && grep -q 'lp-svc__item' "$THEME/sections/landing-funnel.liquid" \
-  && grep -q '"layout": "delivery"' "$THEME/templates/page.specification.json" \
-  && grep -q '"ground": "dark"' "$THEME/templates/page.specification.json" \
   && grep -q '"type": "landing-funnel"' "$THEME/templates/index.json" \
   && grep -q '"anchor_id": "delivery"' "$THEME/templates/index.json" \
   && grep -q '"delivery"' "$THEME/templates/index.json"; then
-  pass "homepage and specification share landing-funnel delivery (forced navy)"
+  pass "homepage shares landing-funnel delivery (forced navy)"
 else
-  fail "delivery layout missing from homepage, specification, or landing-funnel"
+  fail "delivery layout missing from homepage or landing-funnel"
 fi
 
-if grep -q 'lp-section--delivery section--dark' "$ROOT/preview/pages/specification.html" \
-  && grep -q 'lp-section--delivery section--dark' "$ROOT/preview/index.html" \
+if grep -q 'lp-section--delivery section--dark' "$ROOT/preview/index.html" \
   && grep -q 'id="delivery"' "$ROOT/preview/index.html" \
-  && grep -q 'It arrives compressed' "$ROOT/preview/index.html" \
-  && grep -q 'lp-svc__item' "$ROOT/preview/pages/specification.html"; then
-  pass "preview homepage and specification use the same navy delivery markup"
+  && grep -q 'It arrives compressed' "$ROOT/preview/index.html"; then
+  pass "preview homepage uses navy delivery markup"
 else
-  fail "preview homepage or specification still uses old delivery markup"
+  fail "preview homepage still uses old delivery markup"
 fi
 
 # How it is built: cream panel with hairline columns, gold kickers. Not Apple cards.
@@ -1468,12 +1462,9 @@ if grep -q 'lp-section--built' "$THEME/sections/landing-funnel.liquid" \
   && grep -q 'How it is built — one cream panel with hairline columns' "$THEME/assets/base.css" \
   && grep -q 'How it is built — one cream panel with hairline columns' "$ROOT/preview/base.css" \
   && grep -q 'How it is built last-wins' "$THEME/assets/brand.css" \
-  && grep -q '"anchor_id": "how-it-is-built"' "$THEME/templates/page.specification.json" \
-  && grep -q 'id="how-it-is-built"' "$ROOT/preview/pages/specification.html" \
-  && grep -q 'lp-card__kicker' "$ROOT/preview/pages/specification.html" \
-  && grep -q 'lp-built' "$ROOT/preview/pages/specification.html" \
-  && grep -q 'gold-rule' "$ROOT/preview/pages/specification.html"; then
-  pass "How it is built is a cream hairline panel with gold kickers"
+  && grep -q 'data-rd-layer="08"' "$ROOT/preview/pages/specification.html" \
+  && grep -q 'layer-benefit' "$ROOT/preview/pages/specification.html"; then
+  pass "specification is eight layers; how-it-is-built panel CSS remains"
 else
   fail "How it is built is still cramped lp-cards without panel language"
 fi

@@ -1,237 +1,10 @@
 {
   "sections": {
-    "hero": {
-      "type": "landing-funnel",
+    "main": {
+      "type": "redesign",
       "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "hero",
-        "lp_variant": "B-eurokingIKEA",
-        "mattress_product": "the-mattress",
-        "featured_size": "european-king",
-        "kicker": "European King · 160 x 200cm",
-        "heading": "The size your bed\nwas built for.",
-        "lede": "IKEA King is 160 by 200 centimetres. British King is 150. We make the first one, made to order, and tailor the feel after you have slept on it.",
-        "cta_label": "Reserve yours",
-        "cta_size": "european-king",
-        "cta_link": "#configure",
-        "show_price": true,
-        "price_mode": "featured"
-      }
-    },
-    "problem": {
-      "type": "landing-funnel",
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "prose",
-        "kicker": "The size",
-        "heading": "One hundred and sixty centimetres",
-        "body": "<p>Continental bed frames, IKEA included, take a mattress 160 centimetres wide. It is a standard across most of Europe and it is the size we build.</p><p>The British King is 150. Ten centimetres narrower, which sounds like nothing until it is a gap down one side of your bed and sheets that will not sit flat.</p>"
-      }
-    },
-    "instead": {
-      "type": "landing-funnel",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "The exact size",
-            "text": "160 by 200 centimetres, made to order. It fits the frame you already own."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "Thirty five centimetres",
-            "text": "A pocket sprung core with a comfort layer above it, closed with a zip so the top can be renewed without the bed."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "A feel you settle later",
-            "text": "You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us."
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "dark",
-        "layout": "cards",
-        "heading": "What it is"
-      }
-    },
-    "spec": {
-      "type": "landing-funnel",
-      "blocks": {
-        "s1": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Size",
-            "text": "160 x 200cm. Fits IKEA and most continental frames."
-          }
-        },
-        "s2": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Depth",
-            "text": "35cm. 20cm core, 10cm comfort layer."
-          }
-        },
-        "s3": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Core",
-            "text": "Pocket springs. Twenty five year guarantee."
-          }
-        },
-        "s4": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Comfort layer",
-            "text": "Removable and reversible. Two feels. You do not choose. It arrives with both."
-          }
-        },
-        "s5": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Bedding",
-            "text": "Takes standard European King linen, widely available online."
-          }
-        },
-        "s6": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Made",
-            "text": "To order."
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4",
-        "s5",
-        "s6"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "spec",
-        "anchor_id": "spec",
-        "heading": "Specification",
-        "promise_title": "Adjust to Desire.",
-        "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
-      }
-    },
-    "outcome": {
-      "type": "landing-funnel",
-      "blocks": {
-        "o1": {
-          "type": "card",
-          "settings": {
-            "kicker": "The feel",
-            "heading": "You do not choose the feel. You discover it.",
-            "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
-          }
-        },
-        "o2": {
-          "type": "card",
-          "settings": {
-            "kicker": "Arrival",
-            "heading": "It arrives finished.",
-            "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
-          }
-        },
-        "o3": {
-          "type": "card",
-          "settings": {
-            "kicker": "Twenty five years",
-            "heading": "It stays right for twenty five years.",
-            "text": "The part that softens renews. The part that lasts, lasts."
-          }
-        }
-      },
-      "block_order": [
-        "o1",
-        "o2",
-        "o3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "outcome",
-        "anchor_id": "outcome",
-        "kicker": "The outcome",
-        "heading": "A bed that becomes yours,\nand stays that way."
-      }
-    },
-    "delivery": {
-      "type": "landing-funnel",
-      "blocks": {
-        "t1": {
-          "type": "tier",
-          "settings": {
-            "tag": "Included with every mattress",
-            "heading": "Concierge unpacking",
-            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
-            "price": "Complimentary",
-            "featured": true
-          }
-        },
-        "t2": {
-          "type": "tier",
-          "settings": {
-            "tag": "",
-            "heading": "Old mattress removal and recycling",
-            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
-            "price": "Complimentary",
-            "featured": false
-          }
-        },
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "Unrolled on the bed",
-            "text": "It settles evenly."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "Nothing left behind",
-            "text": "Carton, plastic, wrap. All of it leaves with it."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "A window agreed in advance",
-            "text": "Notification on the day."
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "c1",
-        "c2",
-        "c3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "dark",
-        "layout": "delivery",
-        "anchor_id": "delivery",
-        "heading": "It arrives compressed.\nWe do not leave it that way.",
-        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
+        "page_key": "european-king",
+        "lp_variant": "B-eurokingIKEA"
       }
     },
     "configure": {
@@ -242,20 +15,15 @@
         "layout": "configure",
         "anchor_id": "configure",
         "mattress_product": "the-mattress",
-        "featured_size": "european-king",
         "kicker": "Reserve yours",
         "heading": "Choose your size",
-        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer."
+        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer.",
+        "featured_size": "european-king"
       }
     }
   },
   "order": [
-    "hero",
-    "problem",
-    "instead",
-    "spec",
-    "outcome",
-    "delivery",
+    "main",
     "configure"
   ]
 }

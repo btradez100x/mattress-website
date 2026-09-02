@@ -12,6 +12,7 @@
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../base.css?v=brand-e144">
     <link rel="stylesheet" href="../brand.css?v=radius2">
+    <link rel="stylesheet" href="../redesign.css?v=rd1">
     <style>
       :root {
         --brand-primary: #1F3A5F;
@@ -20,30 +21,19 @@
         --brand-surface: #EAE6DF;
         --brand-ink: #222222;
         --brand-on-dark: #F7F5F1;
-        --wordmark-color: #8A6D3B;
-        --wordmark-line-2: #1F3A5F;
-        --wordmark-line-2-on-dark: #F7F5F1;
-        --heading-color: #222222;
-        --eyebrow-color: #8A6D3B;
-        --eyebrow-on-dark: #F7F5F1;
+        --eyebrow-on-dark: #8A6D3B;
         --font-serif: 'Instrument Sans', system-ui, sans-serif;
         --font-sans: 'Inter', system-ui, sans-serif;
         --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
         --font-headline: 'Instrument Sans', system-ui, sans-serif;
-        --font-mono: 'Geist Mono', ui-monospace, monospace;
         --wordmark-tracking: 0.18em;
-        --space-section: 72px;
-        --space-gutter: 20px;
-        --max-width: 1240px;
+        --space-section: clamp(5.5rem, 12vw, 9rem);
+        --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
+        --max-width: 72rem;
         --max-width-narrow: 40rem;
         --radius: 16px;
         --radius-control: 12px;
         --transition: var(--dur-base) var(--ease);
-        --sticky-reserve-offset: 0px;
-        --hairline: #D6D2CA;
-      }
-      @media (min-width: 860px) {
-        :root { --space-section: 128px; --space-gutter: 80px; }
       }
       .preview-banner {
         background: var(--brand-primary);
@@ -70,20 +60,10 @@
           </span>
         </a>
         <nav class="site-header__nav" aria-label="Primary">
-          <a href="../index.html#reserve">The mattress</a>
-          <div class="site-header__item">
-            <a href="./size-guide.html">Sizes</a>
-            <div class="site-header__sub">
-              <a href="./large-sizes.html">Large sizes</a>
-              <a href="./european-king.html">European King</a>
-              <a href="./split-king.html">Split King</a>
-              <a href="./size-guide.html">Size guide</a>
-            </div>
-          </div>
-          <a href="./specification.html">Specification</a>
+          <a href="./specification.html">The mattress</a>
           <a href="./manufacturing.html">How it is made</a>
+          <a href="./support.html">Support</a>
           <a href="./about.html">About</a>
-          <a href="../blog/index.html">Journal</a>
           <a href="./trade.html">Trade</a>
         </nav>
         <div class="site-header__actions"><a class="site-header__order" href="./cart.html" data-order-link hidden aria-label="Order"><span class="site-header__order-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" focusable="false"><path d="M5 8h14l-1.1 10.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span><span class="site-header__order-label">Order</span><span class="site-header__order-count" data-order-count hidden>0</span></a>
@@ -94,159 +74,57 @@
         </div>
       </div>
       <div class="nav-panel" id="MobileNav" data-nav-panel aria-hidden="true">
-                <a href="../index.html#reserve">The mattress</a>
-        <div class="site-header__item">
-          <a href="./size-guide.html">Sizes</a>
-          <div class="site-header__sub">
-            <a href="./large-sizes.html">Large sizes</a>
-            <a href="./european-king.html">European King</a>
-              <a href="./split-king.html">Split King</a>
-            <a href="./size-guide.html">Size guide</a>
-          </div>
-        </div>
-        <a href="./specification.html">Specification</a>
+                <a href="./specification.html">The mattress</a>
         <a href="./manufacturing.html">How it is made</a>
+        <a href="./support.html">Support</a>
         <a href="./about.html">About</a>
-        <a href="../blog/index.html">Journal</a>
         <a href="./trade.html">Trade</a>
         <a href="#configure">Reserve yours</a>
       </div>
     </header>
 
     <main>
-      <script type="application/json" data-size-price-config>
-[{"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true,"markets":["UAE"],"pieces":1,"names":{"GB":"","US":"","UAE":"Single"}},{"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true,"markets":["UAE"],"pieces":1,"names":{"GB":"","US":"","UAE":"Queen"}},{"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true,"markets":["UAE"],"pieces":1,"names":{"GB":"","US":"","UAE":"King"}},{"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false,"markets":["UAE"],"pieces":1,"names":{"GB":"","US":"","UAE":"Super King"}},{"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true,"markets":["GB","UAE"],"pieces":1,"names":{"GB":"Single","US":"","UAE":""}},{"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","price":"£2,249","price_raw":224900,"available":true,"markets":["GB","UAE"],"pieces":1,"names":{"GB":"Small Double","US":"","UAE":""}},{"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true,"markets":["GB"],"pieces":1,"names":{"GB":"Double","US":"","UAE":""}},{"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true,"markets":["GB"],"pieces":1,"names":{"GB":"King","US":"","UAE":""}},{"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true,"markets":["GB","UAE"],"pieces":1,"names":{"GB":"European King","US":"","UAE":"Queen"},"fits":"Fits IKEA frames"},{"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":true,"markets":["GB","UAE"],"pieces":1,"names":{"GB":"Super King","US":"","UAE":"King"}},{"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,699","price_raw":369900,"available":true,"markets":["GB","UAE"],"pieces":1,"names":{"GB":"Emperor","US":"","UAE":"Super King"}},{"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true,"markets":["GB","UAE"],"pieces":1,"names":{"GB":"European King","US":"","UAE":"Queen"},"fits":"Fits IKEA frames"},{"market":"us","id":"twin","label":"Twin","dims":"99 × 191 cm","price":"£1,999","price_raw":199900,"available":true,"markets":["US"],"pieces":1,"names":{"GB":"","US":"Twin","UAE":""}},{"market":"us","id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","price":"£2,049","price_raw":204900,"available":true,"markets":["US"],"pieces":1,"names":{"GB":"","US":"Twin XL","UAE":""}},{"market":"us","id":"full","label":"Full","dims":"137 × 191 cm","price":"£2,499","price_raw":249900,"available":true,"markets":["US"],"pieces":1,"names":{"GB":"","US":"Full","UAE":""}},{"market":"us","id":"queen","label":"Queen","dims":"152 × 203 cm","price":"£2,999","price_raw":299900,"available":true,"markets":["US"],"pieces":1,"names":{"GB":"","US":"Queen","UAE":""}},{"market":"us","id":"us-king","label":"King","dims":"193 × 203 cm","price":"£3,399","price_raw":339900,"available":true,"markets":["US"],"pieces":1,"names":{"GB":"","US":"King","UAE":""}},{"market":"us","id":"california-king","label":"California King","dims":"183 × 213 cm","price":"£3,399","price_raw":339900,"available":true,"markets":["GB","US"],"shown":["GB","US"],"shown_defined":true,"pieces":1,"names":{"GB":"","US":"California King","UAE":""}},{"market":"us","id":"split-king","label":"Split King","dims":"2 × 106 × 213 cm","price":"£3,699","price_raw":369900,"available":true,"markets":["US"],"pieces":2,"names":{"GB":"","US":"Split King","UAE":""}}]
-</script>
-      <section class="section lp-section lp-section--hero section--bg" id="lp-hero" data-lp-page data-lp-variant="A-sizes" data-reveal data-section-ground="bg" data-lp-featured="emperor">
-        <div class="page-width lp-hero">
-          <p class="section__eyebrow lp-kicker">Emperor · 200 x 200cm</p>
-          <h1>A bed that becomes yours,<br>and stays that way.</h1>
-          <p class="section__lede lp-lede">Emperor is 200 by 200 centimetres. Twenty wider than a Super King, and the largest size that still takes bedding you can buy anywhere. Made to order, and tailored to your feel after you have slept on it.</p>
-          <div class="lp-cta-row">
-            <a class="btn" href="#configure">Reserve yours</a>
-            <div class="lp-price" data-lp-hero-price data-lp-size="emperor" data-lp-price-mode="featured" hidden>
-              <span class="lp-price__value num" data-lp-price></span>
-              <small>Emperor · 200 x 200cm</small>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section lp-section section--surface" data-reveal data-section-ground="surface">
-        <div class="page-width">
-          <div class="lp-sec-head lp-narrow">
-            <p class="section__eyebrow lp-kicker">Sizes</p>
-            <hr class="gold-rule">
-            <h2>Every size we make</h2>
-            <p class="section__lede">All made to order. All 35cm deep. All with the same replaceable comfort layer.</p>
-          </div>
-          <table class="lp-table">
-            <thead><tr><th>Size</th><th>Dimensions</th><th class="lp-num">Price</th></tr></thead>
-            <tbody data-lp-size-table></tbody>
-          </table>
-          <p class="lp-note-line">European King fits IKEA and most continental bed frames.</p>
-        </div>
-      </section>
-      <section class="section lp-section section--dark" data-reveal data-section-ground="dark">
-        <div class="page-width">
-          <div class="lp-sec-head"><h2>Why it is 200 wide</h2></div>
-          <div class="lp-cols">
-            <div class="rte">
-              <p>Emperor gives each sleeper a full metre. A Super King gives ninety centimetres, which is the width of a single bed. For two adults, one of whom moves, the difference is a night uninterrupted.</p>
-              <p>It is also the largest size that still takes bedding you can buy anywhere, and the largest most rooms will hold without the room becoming a bed with walls around it.</p>
-            </div>
-            <div class="rte">
-              <p>We make to order, so the size exists because someone wants it, not because a machine was already set up for it.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section lp-section section--bg" data-reveal data-section-ground="bg" data-lp-layer>
-        <div class="page-width lp-narrow">
-          <div class="lp-sec-head">
-            <h2>Built in two parts</h2>
-            <p class="section__lede">A mattress does not wear out. The top ten centimetres wear out. Ours separates. A pocket sprung core built to last twenty five years, and a comfort layer above it that unzips and lifts off.</p>
-          </div>
-          <ul class="lp-spec">
-            <li><b>Depth</b><span>35cm. 20cm core, 10cm comfort layer.</span></li>
-            <li><b>Core</b><span>Pocket springs. Twenty five year guarantee.</span></li>
-            <li><b>Comfort layer</b><span>Removable and reversible. Two feels. You do not choose. It arrives with both.</span></li>
-            <li><b>Comfort layer, later</b><span><span data-layer-price-text></span> when it eventually softens, instead of a new mattress.</span></li>
-            <li><b>Made</b><span>To order.</span></li>
-          </ul>
-          <div class="lp-promise"><p><strong>Emperor comfort promise.</strong> If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth <span data-layer-price-text></span>. Emperor is made to order at 200 x 200cm and is not covered by the 30-day return trial. Your statutory cancellation rights are unaffected.</p></div>
-        </div>
-      </section>
+      <div class="rd" data-lp-page data-lp-variant="A-sizes">
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">Emperor &middot; 200 &times; 200cm</p>
+<h1>A bed that becomes yours,<br>and stays that way.</h1>
+<p class="lede">Emperor is 200 by 200 centimetres. Twenty wider than a Super King, and the largest size that still takes bedding you can buy anywhere. Handmade to order, and tailored to your feel after you have slept on it.</p>
+<div class="cta-row"><a class="btn" href="#configure">Choose your size</a><span><span class="addprice" style="font-size:26px">&pound;3,699</span><span class="mono" style="display:block;margin-top:4px">Emperor &middot; 200 &times; 200cm</span></span></div></div>
+<figure class="figure "><img src="../assets/img/room-city.webp" alt="Emperor mattress in a city bedroom" loading="eager" decoding="async" width="1400" height="781"></figure>
+</div></div></section>
 
-      <section class="section lp-section section--surface" id="outcome" data-reveal data-section-ground="surface">
-        <div class="page-width lp-narrow">
-          <div class="lp-sec-head lp-outcome-head">
-            <p class="section__eyebrow lp-kicker">The outcome</p>
-            <hr class="gold-rule">
-            <h2>A bed that becomes yours,<br>and stays that way.</h2>
-          </div>
-          <div class="lp-outcome">
-            <div class="lp-outcome__item">
-              <p class="section__eyebrow lp-kicker lp-outcome__kicker">The feel</p>
-              <hr class="gold-rule">
-              <p class="lp-outcome__name">You do not choose the feel. You discover it.</p>
-              <p class="lp-outcome__desc">Feel is discovered over months of use. You have a year with us. We adjust it until it is.</p>
-            </div>
-            <div class="lp-outcome__item">
-              <p class="section__eyebrow lp-kicker lp-outcome__kicker">Arrival</p>
-              <hr class="gold-rule">
-              <p class="lp-outcome__name">It arrives finished.</p>
-              <p class="lp-outcome__desc">Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</p>
-            </div>
-            <div class="lp-outcome__item">
-              <p class="section__eyebrow lp-kicker lp-outcome__kicker">Twenty five years</p>
-              <hr class="gold-rule">
-              <p class="lp-outcome__name">It stays right for twenty five years.</p>
-              <p class="lp-outcome__desc">The part that softens renews. The part that lasts, lasts.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section lp-section lp-section--delivery section--dark" id="delivery" data-reveal data-section-ground="dark">
-        <div class="page-width lp-delivery">
-          <div class="lp-sec-head">
-            <h2>It arrives compressed.<br>We do not leave it that way.</h2>
-            <p class="section__lede">Roll packing gets it up the stairs. It is not how it should be left.</p>
-          </div>
-          <div class="lp-delivery-panel">
-          <div class="lp-tiers">
-            <div class="lp-tier">
-              <span class="lp-tier__tag">Included with every mattress</span>
-              <div class="lp-tier__copy">
-                <p class="lp-tier__name">Concierge unpacking</p>
-                <p class="lp-tier__desc">Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.</p>
-              </div>
-              <span class="lp-tier__price">Complimentary</span>
-            </div>
-            <div class="lp-tier">
-              <div class="lp-tier__copy">
-                <p class="lp-tier__name">Old mattress removal and recycling</p>
-                <p class="lp-tier__desc">Taken away on the same visit. Nothing in the hall, nothing to arrange.</p>
-              </div>
-              <span class="lp-tier__price">Complimentary</span>
-            </div>
-          </div>
-          <div class="lp-svc">
-            <div class="lp-svc__item">
-              <h3>Unrolled on the bed</h3>
-              <p>It settles evenly.</p>
-            </div>
-            <div class="lp-svc__item">
-              <h3>Nothing left behind</h3>
-              <p>Carton, plastic, wrap. All of it leaves with it.</p>
-            </div>
-            <div class="lp-svc__item">
-              <h3>A window agreed in advance</h3>
-              <p>Notification on the day.</p>
-            </div>
-          </div>
-          </div>
-        </div>
-      </section>
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="split">
+<div><p class="kicker">The size</p><h2>Why it is 200 wide</h2>
+<p style="margin-top:20px">Emperor gives each sleeper a full metre. A Super King gives ninety centimetres, which is the width of a single bed. For two adults, one of whom moves, the difference is a night uninterrupted.</p>
+<p>It is also the largest size that still takes bedding you can buy anywhere, and the largest most rooms will hold without the room becoming a bed with walls around it.</p>
+<p>We make to order, so the size exists because someone wants it, not because a machine was already set up for it.</p></div>
+<figure class="figure "><img src="../assets/img/room-wide.webp" alt="A wide bedroom with a large mattress" loading="lazy" decoding="async" width="1400" height="781"></figure>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Built in two parts</p><h2>The part that softens comes out.</h2></div>
+<p>A mattress does not wear out. The top five centimetres wear out, and the rest goes to landfill with it.</p>
+<p>Ours separates. A twenty centimetre seven-zone pocket sprung core built to last twenty five years, and a comfort layer above it that unzips and lifts off.</p>
+<ul class="spec" style="margin-top:34px">
+<li><b>Depth</b><span>35cm total. 20cm core, 15cm comfort above it.</span></li>
+<li><b>Core</b><span>Seven-zone pocket springs, 1.8 and 2.0mm wire. Twenty five year guarantee.</span></li>
+<li><b>Comfort layer</b><span>Removable and reversible. Medium one face, medium firm the other. You do not choose - it arrives with both.</span></li>
+<li><b>Replacement layer</b><span>&pound;299 when it eventually softens, instead of &pound;3,699.</span></li>
+<li><b>Made</b><span>To order, in any of fifteen sizes.</span></li>
+</ul></div></div></section>
+
+<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="coolknit-macro"><img src="../assets/img/coolknit-macro.webp" alt="Cool-knit cover detail" loading="lazy" decoding="async" width="1400" height="781"></figure></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="./configure.html">Choose your size</a></p>
+</div></div></section>
+      </div>
       <section class="section lp-section lp-section--configure section--surface" id="configure" data-reveal data-section-ground="surface">
         <div class="page-width size-reserve__layout" data-lp-configure data-lp-preselect="emperor" data-checkout-path="./cart.html" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-lp-policy-default="Comfort layer included · Adjusted to Desire for a year · Concierge unpacking included · 30-day return" data-lp-policy-emperor="Comfort layer included · Made to order · Concierge unpacking included · Not covered by the 30-day return trial">
           <div>
@@ -309,6 +187,9 @@
             <h3>Shop</h3>
             <ul>
               <li><a href="./configure.html">Reserve yours</a></li>
+              <li><a href="./large-sizes.html">Large sizes</a></li>
+              <li><a href="./european-king.html">European King</a></li>
+              <li><a href="./split-king.html">Split King</a></li>
             </ul>
           </div>
           <div>
@@ -317,6 +198,7 @@
               <li><a href="./size-guide.html">Size guide</a></li>
               <li><a href="./delivery.html">Delivery and lead time</a></li>
               <li><a href="./mattress-recycling.html">Old mattress removal and recycling</a></li>
+              <li><a href="./support.html">Support</a></li>
               <li><a href="./about.html">About</a></li>
               <li><a href="./order-status.html">Order status</a></li>
               <li><a href="./contact.html">Contact</a></li>

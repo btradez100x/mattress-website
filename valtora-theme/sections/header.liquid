@@ -9,6 +9,7 @@
   assign split_king_url = pages['split-king'].url | default: '/pages/split-king'
   assign size_guide_url = pages['size-guide'].url | default: '/pages/size-guide'
   assign specification_url = pages['specification'].url | default: '/pages/specification'
+  assign support_url = pages['support'].url | default: '/pages/support'
   assign about_url = pages['about'].url | default: '/pages/about'
   assign trade_url = pages['trade'].url | default: '/pages/trade'
   assign recycling_url = pages['mattress-recycling'].url | default: '/pages/mattress-recycling'
@@ -65,7 +66,7 @@
         {%- assign nav_href = journal_url -%}
       {%- endif -%}
       {%- if link_title_down == 'the mattress' or link.url contains '/products/the-mattress' -%}
-        {%- assign nav_href = mattress_url -%}
+        {%- assign nav_href = specification_url -%}
       {%- endif -%}
       {%- if link.links.size > 0 -%}
         <div class="site-header__item">
@@ -82,7 +83,7 @@
                 {%- assign child_href = journal_url -%}
               {%- endif -%}
               {%- if child_title_down == 'the mattress' or child.url contains '/products/the-mattress' -%}
-                {%- assign child_href = mattress_url -%}
+                {%- assign child_href = specification_url -%}
               {%- endif -%}
               <a href="{{ child_href }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
             {%- endfor -%}
@@ -93,20 +94,10 @@
       {%- endif -%}
     {%- endfor -%}
   {%- else -%}
-    <a href="{{ mattress_url }}"{% if template.name == 'index' %} aria-current="page"{% endif %}>The mattress</a>
-    <div class="site-header__item">
-      <a href="{{ size_guide_url }}"{% if template.suffix == 'size-guide' %} aria-current="page"{% endif %}>Sizes</a>
-      <div class="site-header__sub">
-        <a href="{{ large_sizes_url }}"{% if template.suffix == 'large-sizes' %} aria-current="page"{% endif %}>Large sizes</a>
-        <a href="{{ european_king_url }}"{% if template.suffix == 'european-king' %} aria-current="page"{% endif %}>European King</a>
-        <a href="{{ split_king_url }}"{% if template.suffix == 'split-king' %} aria-current="page"{% endif %}>Split King</a>
-        <a href="{{ size_guide_url }}"{% if template.suffix == 'size-guide' %} aria-current="page"{% endif %}>Size guide</a>
-      </div>
-    </div>
-    <a href="{{ specification_url }}"{% if template.suffix == 'specification' %} aria-current="page"{% endif %}>Specification</a>
+    <a href="{{ specification_url }}"{% if template.suffix == 'specification' %} aria-current="page"{% endif %}>The mattress</a>
     <a href="{{ manufacturing_url }}"{% if template.suffix == 'manufacturing' %} aria-current="page"{% endif %}>How it is made</a>
+    <a href="{{ support_url }}"{% if template.suffix == 'support' %} aria-current="page"{% endif %}>Support</a>
     <a href="{{ about_url }}"{% if template.suffix == 'about' %} aria-current="page"{% endif %}>About</a>
-    <a href="{{ journal_url }}"{% if template.suffix == 'journal' or request.path contains '/journal' %} aria-current="page"{% endif %}>Journal</a>
   {%- endif -%}
   {%- unless menu_has_trade -%}
     <a href="{{ trade_url }}"{% if template.suffix == 'trade' %} aria-current="page"{% endif %}>Trade</a>

@@ -1,0 +1,21 @@
+{%- comment -%}
+  Factory video. No src until in view. preload=none is required (E4).
+{%- endcomment -%}
+{%- liquid
+  assign file = file | default: ''
+  assign poster_file = poster | default: ''
+  assign video_id = video_id | default: 'factory'
+  assign label = alt | default: 'Factory footage'
+-%}
+<video
+  class="rd-video"
+  data-rd-video
+  data-video-id="{{ video_id | escape }}"
+  data-src="{{ file | asset_url }}"
+  poster="{{ poster_file | asset_url }}"
+  muted
+  loop
+  playsinline
+  preload="none"
+  aria-label="{{ label | escape }}"
+></video>

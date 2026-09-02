@@ -16,19 +16,10 @@ BANNER = """    <div class="announcement" role="region" aria-label="Announcement
       <button type="button" class="announcement__dismiss" data-announcement-dismiss aria-label="Dismiss">×</button>
     </div>"""
 
-NAV_DESKTOP = """          <a href="../index.html#reserve">The mattress</a>
-          <div class="site-header__item">
-            <a href="./size-guide.html">Sizes</a>
-            <div class="site-header__sub">
-              <a href="./large-sizes.html">Large sizes</a>
-              <a href="./european-king.html">European King</a>
-              <a href="./size-guide.html">Size guide</a>
-            </div>
-          </div>
-          <a href="./specification.html">Specification</a>
+NAV_DESKTOP = """          <a href="./specification.html">The mattress</a>
           <a href="./manufacturing.html">How it is made</a>
+          <a href="./support.html">Support</a>
           <a href="./about.html">About</a>
-          <a href="../blog/index.html">Journal</a>
           <a href="./trade.html">Trade</a>"""
 
 NAV_HOME = NAV_DESKTOP.replace("./", "./pages/").replace("../index.html", "#reserve").replace("../blog", "./blog")

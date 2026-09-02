@@ -1,0 +1,485 @@
+{%- liquid
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
+  assign page_key = section.settings.page_key | default: template.suffix
+  if page_key == blank
+    assign page_key = template.suffix
+  endif
+  if market == 'ae'
+    assign layer_price = settings.comfort_layer_price_ae | strip
+  else
+    assign layer_price = settings.comfort_layer_price_gb | strip
+  endif
+-%}
+<div class="rd" data-lp-page data-lp-variant="{{ section.settings.lp_variant | escape }}">
+{% if page_key == 'specification' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">The specification</p>
+<h1>Eight layers.<br>Each one earning<br>its place.</h1>
+<p class="lede">You are spending real money on something you cannot open. So here is every layer, what it is made of, and what it does for you once you are lying on it.</p>
+<div class="cta-row"><a class="btn" href="#layers">See the build</a><a class="btn btn--ghost btn-line" href="{{ pages['configure'].url | default: '/pages/configure' }}">Reserve yours</a></div></div>
+<figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "Numa mattress in profile", width: 1600, height: 904, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow" style="text-align:center">
+<p class="kicker">Thirty five centimetres</p>
+<h2>Built in two halves,<br>closed with a zip.</h2>
+<p class="lede" style="margin:20px auto 0;max-width:34em">Fifteen centimetres of comfort above, twenty centimetres of support below. The top half comes out. The bottom half carries a twenty five year guarantee.</p></div>
+<div class="stack">
+<div><p class="d">400g</p><p class="l">Cool-knit cover</p></div>
+<div><p class="d">15cm</p><p class="l">Comfort, removable</p></div>
+<div><p class="d">20cm</p><p class="l">Seven-zone core</p></div>
+<div><p class="d">7</p><p class="l">Support zones</p></div>
+<div><p class="d">35cm</p><p class="l">Finished depth</p></div>
+</div></div></section>
+
+<section class="rd-sec" id="layers"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">Top to bottom</p><h2>Every layer, stated</h2>
+<p class="lede" style="margin:16px auto 0;max-width:34em">In the order you meet them, from the surface down to the frame.</p></div>
+<div class="layer reveal" data-rd-layer="01" data-rd-layer-name="Cool-Knit cover">
+<div class="layer-n"><span class="mono">01</span></div>
+<div class="layer-body"><h3>Cool-Knit cover</h3><p class="layer-spec mono">400g &middot; zip access all the way round</p>
+<p>A 400 gram knitted cover, not a laminate. Knit moves air where a bonded surface holds it, so warmth leaves through the top rather than gathering under you.</p><p class="layer-benefit">It unzips the whole way round. That is how the comfort layer comes out, and it is the reason this mattress is renewed rather than replaced.</p></div>
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'coolknit-macro.webp', alt: "Cool-Knit cover, 400 gram", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="02" data-rd-layer-name="Gel memory foam">
+<div class="layer-n"><span class="mono">02</span></div>
+<div class="layer-body"><h3>Gel memory foam</h3><p class="layer-spec mono">1cm &middot; 28 density</p>
+<p>The highest density we use anywhere in the build, and only one centimetre of it. Gel infusion is what stops memory foam behaving the way memory foam usually does.</p><p class="layer-benefit">It contours to your shoulder and hip without holding the heat that contouring normally creates.</p></div>
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'quilt-macro.webp', alt: "Quilted surface, gel layer beneath", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="03" data-rd-layer-name="Comfort foam">
+<div class="layer-n"><span class="mono">03</span></div>
+<div class="layer-body"><h3>Comfort foam</h3><p class="layer-spec mono">1.5cm &middot; 20 density</p>
+<p>The give you feel in the first second. Softer and lower density than the gel above it, so the surface yields before the support underneath engages.</p><p class="layer-benefit">It is the difference between lying on a mattress and settling into one.</p></div>
+<div class="layer-media empty"></div></div><div class="layer reveal" data-rd-layer="04" data-rd-layer-name="Wave-profile foam">
+<div class="layer-n"><span class="mono">04</span></div>
+<div class="layer-body"><h3>Wave-profile foam</h3><p class="layer-spec mono">2.5cm &middot; 20 density</p>
+<p>Cut into a wave rather than left flat. The profile creates channels through the middle of the comfort stack.</p><p class="layer-benefit">Air moves sideways through those channels instead of being trapped between two solid layers. It is a structural answer to heat, not a coating.</p></div>
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'quilt-edge.webp', alt: "Wave-profile cut, visible at the edge", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="05" data-rd-layer-name="Flippable comfort layer">
+<div class="layer-n"><span class="mono">05</span></div>
+<div class="layer-body"><h3>Flippable comfort layer</h3><p class="layer-spec mono">10cm &middot; 2cm at 2540 over 8cm at 2580</p>
+<p>Two densities bonded into one layer, and the whole thing lifts out. One face is medium. Turn it over and it is medium firm.</p><p class="layer-benefit">You do not choose a firmness when you order. The mattress arrives with both, and if neither is right we build you a third to your description, with our compliments.</p></div>
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "The comfort layer sits above the core", width: 1600, height: 904, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="06" data-rd-layer-name="Seven-zone pocket spring core">
+<div class="layer-n"><span class="mono">06</span></div>
+<div class="layer-body"><h3>Seven-zone pocket spring core</h3><p class="layer-spec mono">20cm &middot; 7 zones &middot; 1.8 and 2.0mm wire</p>
+<p>Twenty centimetres of individually pocketed springs, arranged in seven zones along the length of the bed. Heavier 2.0mm wire under the hips and shoulders where load concentrates, 1.8mm where it does not.</p><p class="layer-benefit">Each spring moves alone, so one person turning over does not move the other side. Seven zones means the bed holds your spine level instead of letting your hips drop.</p></div>
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'coolknit-side.webp', alt: "Side panel, over the spring core", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="07" data-rd-layer-name="Encased perimeter">
+<div class="layer-n"><span class="mono">07</span></div>
+<div class="layer-body"><h3>Encased perimeter</h3><p class="layer-spec mono">7cm &middot; 35 density</p>
+<p>A dense foam wall around the entire spring unit, 35 density, seven centimetres deep.</p><p class="layer-benefit">You can sit on the edge to put your shoes on without sliding off it, and the usable sleeping surface runs to the seam rather than stopping short of it.</p></div>
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'coolknit-handle.webp', alt: "Encased perimeter and carry handle", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="08" data-rd-layer-name="Anti-slip underside">
+<div class="layer-n"><span class="mono">08</span></div>
+<div class="layer-body"><h3>Anti-slip underside</h3><p class="layer-spec mono">Full base</p>
+<p>A gripped base rather than a plain fabric one.</p><p class="layer-benefit">It stays where you put it, on a slatted frame or a divan, without the annual shove back into position.</p></div>
+<div class="layer-media empty"></div></div>
+</div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="split">
+<figure class="figure ">{% render 'rd-img', file: 'quilt-macro-2.webp', alt: "Quilted surface detail", width: 1400, height: 781, loading: 'lazy' %}</figure>
+<div><p class="kicker">What it adds up to</p><h2>Softness you feel first.<br>Support you feel for<br>twenty five years.</h2>
+<p style="margin-top:20px">The top five centimetres are three foams doing three different jobs: contour without heat, immediate give, and airflow through the middle. Beneath them, ten centimetres of flippable comfort layer that lifts out and can be rebuilt to your preference.</p>
+<p>Under all of it, twenty centimetres of seven-zone pocket springs that will still be doing their job long after the layer above has been renewed twice.</p>
+<div class="pull"><p>The part that softens comes out. The part that holds you does not.</p></div></div>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<p class="kicker">Adjust to Desire</p>
+<h2>If the feel is not right,<br>we make it right.</h2>
+<p style="margin-top:22px">Sleep on it for a month. Then tell us how it should feel - softer, firmer, more give under the hip, whatever words you have. We build a new comfort layer to that description and send it, with our compliments. Worth {{ layer_price | default: '£299' }}.</p>
+<p>Nothing goes back. Nothing is disassembled. You unzip the cover, lift the old layer out, drop the new one in.</p>
+<div class="cta-row"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a><a class="btn btn--ghost btn-line" href="{{ pages['manufacturing'].url | default: '/pages/manufacturing' }}">See how it is made</a></div>
+</div></div></section>
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'manufacturing' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="narrow">
+<p class="kicker">How it is made</p>
+<h1>Wound, pocketed,<br>stacked, closed.</h1>
+<p class="lede">Nothing is built before somebody orders it. Every mattress starts as wire on a spool and ends as a roll in a box, and both of those happen after you have chosen your size.</p>
+</div></div>
+<div class="wrap" style="margin-top:60px"><figure class="figure ">{% render 'rd-video', file: 'spring.mp4', poster: 'spring-poster.webp', video_id: 'spring', alt: 'Factory footage' %}<figcaption>On the line &middot; Springs wound and pocketed</figcaption></figure></div>
+</section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">The core</p><h2>Seven zones,<br>two wire gauges.</h2></div>
+<p>The spring unit is wound from steel wire on the factory floor, then each spring is sealed into its own fabric pocket so it can move without dragging its neighbours with it.</p>
+<p>Ours is arranged in seven zones along the length of the bed. Heavier two millimetre wire sits under the hips and shoulders where load concentrates. One point eight millimetre runs everywhere else. That is why the bed holds a spine level rather than letting the heaviest part of a body sink first.</p>
+<div class="pull"><p>Twenty centimetres of springs, each one working on its own.</p></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">Materials</p><h2>What goes in</h2>
+<p class="lede" style="margin:16px auto 0;max-width:36em">Chosen for what they do over a decade, not for what they cost in a year.</p></div>
+<div class="matgrid">
+<div><p class="k">Cover</p><h3>400 gram cool-knit</h3><p>Knitted rather than laminated, so air moves through the surface instead of being held against it. Zipped the whole way round.</p></div>
+<div><p class="k">Comfort</p><h3>Gel-infused memory foam</h3><p>Twenty eight density, the highest in the build. Gel infusion is what lets it contour without holding heat.</p></div>
+<div><p class="k">Airflow</p><h3>Wave-profile foam</h3><p>Cut into a wave rather than left flat, so channels run through the middle of the comfort stack and warmth has somewhere to go.</p></div>
+<div><p class="k">Support</p><h3>Pocket spring steel</h3><p>Two wire gauges, 1.8 and 2.0 millimetre, wound and pocketed in house. Seven zones along the bed.</p></div>
+<div><p class="k">Edge</p><h3>Encased perimeter foam</h3><p>Thirty five density, seven centimetres, wrapped around the entire spring unit so the edge holds when you sit on it.</p></div>
+<div><p class="k">Base</p><h3>Anti-slip underside</h3><p>Gripped rather than plain, so the mattress stays where it is put on slats or a divan.</p></div>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">On the bench</p><h2>Assembled by hand</h2></div>
+<div class="step"><span class="n">01</span><div><h3>The unit is built</h3>
+<p>Springs are wound, pocketed and joined into a single unit at your size. Not cut down from a larger one - built to the dimensions you ordered.</p></div></div>
+<div class="step"><span class="n">02</span><div><h3>The perimeter is encased</h3>
+<p>Thirty five density foam is fitted around the whole spring unit, seven centimetres deep, so the edge behaves like the middle.</p></div></div>
+<div class="step"><span class="n">03</span><div><h3>The comfort layer is built separately</h3>
+<p>Two densities bonded into one ten centimetre layer, medium on one face and medium firm on the other. It is made as its own product, because it has to come out again.</p></div></div>
+<div class="step"><span class="n">04</span><div><h3>The stack is assembled</h3>
+<p>Gel memory foam, comfort foam and wave-profile foam are laid over the comfort layer, and the whole assembly is placed on the core.</p></div></div>
+<div class="step"><span class="n">05</span><div><h3>The cover is closed</h3>
+<p>Cool-knit cover fitted, tape edge finished, zip run the full way round so the comfort layer can be reached without tools.</p></div></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">Then it is rolled</p><h2>Compressed, so it<br>reaches the room.</h2>
+<p class="lede" style="margin:16px auto 0;max-width:36em">A thirty five centimetre mattress does not go up a staircase in one piece. Compression is how it gets there, and it is not how we leave it.</p></div>
+<div class="narrow"><figure class="figure ">{% render 'rd-video', file: 'compression.mp4', poster: 'compression-poster.webp', video_id: 'compression', alt: 'Factory footage' %}<figcaption>Compression and roll packing</figcaption></figure></div>
+<div class="narrow" style="margin-top:40px">
+<p style="color:#C9C5BD">Rolled, boxed, and unrolled again on your bed by the people who deliver it. It reaches most of its height within hours and settles fully over the first night.</p>
+<p style="color:#C9C5BD">Every piece of packaging leaves with them. So does your old mattress.</p></div>
+</div></section>
+
+<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="room-suite">{% render 'rd-img', file: 'room-suite.webp', alt: "Numa mattress in a bedroom", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'about' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="narrow">
+<p class="kicker">About &middot; Est. 2026</p>
+<h1>Nobody has thirty nights<br>to spare. Twice.</h1>
+<p class="lede">Numa was built because the people closest to me kept buying the wrong mattress and then living with it, because getting it right was harder than putting up with it.</p>
+</div></div>
+<div class="wrap" style="margin-top:64px"><figure class="figure full-bleed" data-rd-image="room-calm">{% render 'rd-img', file: 'room-calm.webp', alt: "A quiet bedroom at first light", width: 1400, height: 781, loading: 'eager', fetchpriority: 'high' %}</figure></div>
+</section>
+<section class="rd-sec"><div class="wrap"><div class="narrow story">
+<p class="first">My family have bad backs. Several of them, across two generations, and I have listened to the same conversation for most of my adult life.</p>
+<p>Someone would decide the mattress was the problem. A Saturday in a showroom, four minutes lying on a bed with their shoes off. They would choose something, it would arrive weeks later, and within a month they would know it was wrong.</p>
+<p>Too firm. Or too soft, which they only worked out once their shoulder started aching. Or right for one of them and wrong for the other.</p>
+<p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p>
+<p>And then they kept it. Eight years. Sometimes ten.</p>
+<p>Not because they were stubborn. Because the alternative was hopeless. To actually get it right you would have to sleep on a mattress for thirty nights to know, then send it back, then wait for another, then sleep on that one for thirty nights. Months of it. A part-time job with no guarantee at the end, carried out in the one place you go to stop working.</p>
+<div class="pull"><p>The whole burden of getting it right sits with the person who knows least, at the moment they know least.</p></div>
+<p>So they do what anyone would. They accept the first one, tell themselves it will settle, and quietly stop mentioning their back.</p>
+<p>That is the part I could not leave alone. Not that the mattress was wrong, but that being wrong was treated as the customer&rsquo;s problem to solve, using a method nobody has the time or the will to see through.</p>
+</div></div></section>
+<section class="rd-sec rd-sec--bone rd-sec--flush"><figure class="figure full-bleed" data-rd-image="coolknit-corner">{% render 'rd-img', file: 'coolknit-corner.webp', alt: "The corner of a Numa mattress, cover and edge", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+<section class="rd-sec"><div class="wrap"><div class="narrow story">
+<p>Numa is built so that burden is ours. You do not choose a feel. You cannot know how a mattress feels in four minutes. You live with the bed, and the feel is discovered over months of use. You have a year with us. Softer, firmer, more give under the hip, whatever it is in whatever words you have. We send the layer that takes you there, and you keep it, with our compliments. No trial-and-error, no sending anything back, no starting again.</p>
+<p>You have a year with us. We do the rest.</p>
+<div class="pull"><p>A bed that becomes yours, and stays that way.</p></div>
+<p>That is why the top comes off. It began as a way to fix a wrong guess and it turned out to solve something larger. The part of a mattress that softens is the fifteen centimetres of comfort, and everything beneath it is usually still sound at year ten. Renewing the layer keeps the bed right for twenty five years instead of watching it drift wrong over eight.</p>
+<p>The rest followed from the same thought. If somebody is spending three thousand pounds on a bed, it should not arrive as a box in their hallway. Concierge unpacking. Unrolled where it belongs. The packaging leaves with it. The old one leaves too.</p>
+<p>We named it Numa after the second king of Rome, remembered for ending a long war and giving the city forty three years of quiet. It is also, almost exactly, the Arabic word for a night&rsquo;s sleep. Two languages, one meaning, and it seemed like the right thing to call a bed.</p>
+<p>We started in 2026 and we are small. That is deliberate for now, because I want to work with you personally to get your bed right. Write to me and it is me who answers.</p>
+<div class="sig"><p class="n">Ben Acolatse</p><p class="r">Founder · Numa · Est. 2026</p></div>
+</div></div></section>
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'support' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">Support</p>
+<h1>Support is the core.<br>Comfort is the layer.</h1>
+<p class="lede">A back that hurts in the morning is usually a core that has stopped holding. Ours is twenty centimetres of seven-zone pocket springs, guaranteed for twenty five years, with the comfort settled separately.</p>
+<div class="cta-row"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a><a class="btn btn--ghost btn-line" href="{{ pages['specification'].url | default: '/pages/specification' }}">See the build</a></div></div>
+<figure class="figure ">{% render 'rd-img', file: 'product-profile.webp', alt: "Numa mattress in profile", width: 1400, height: 622, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Two problems</p><h2>Support and comfort are not the same job.</h2></div>
+<p>Most mattresses solve both with the same five centimetres, which is why fixing one makes the other worse. Softer for the shoulder means less under the hip. Firmer for the back means pressure at the shoulder.</p>
+<div class="pull"><p>Ours separates them. The core holds. The layer adapts.</p></div>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">The core</p><h2>Seven zones along the bed</h2>
+<p class="lede" style="margin:16px auto 0;max-width:36em">Heavier two millimetre wire under the hips and shoulders. One point eight everywhere else.</p></div>
+<div class="split" style="margin-top:52px">
+<figure class="figure ">{% render 'rd-img', file: 'coolknit-side.webp', alt: "Side panel over the seven-zone spring core", width: 1400, height: 781, loading: 'lazy' %}</figure>
+<div><h3>Why zoning matters for a back</h3>
+<p style="margin-top:14px">Your hips are the heaviest part of you and they sink first. On a single-tension mattress that tips the spine out of line for eight hours a night, and you feel it at seven in the morning rather than at eleven at night.</p>
+<p>Seven zones put the firmest springs exactly where the load concentrates, so the heaviest part of you is held level with the lightest.</p>
+<h3 style="margin-top:30px">Each spring works alone</h3>
+<p style="margin-top:14px">Individually pocketed, so movement does not travel. One person turning over does not move the other side of the bed.</p></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="split rev">
+<figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "The comfort layer above the core", width: 1600, height: 904, loading: 'lazy' %}</figure>
+<div><p class="kicker">Adjust to Desire</p><h2>You do not have to get it right.</h2>
+<p style="margin-top:20px">Which is fortunate, because nobody can. Firm or soft, medium or medium firm - it is an impossible question to answer in a showroom and a costly one to answer wrong.</p>
+<p>So you do not answer it. Every mattress arrives the same. Sleep on it for a month, tell us where it is wrong, and we make a new comfort layer to that description. With our compliments, worth {{ layer_price | default: '£299' }}.</p></div>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<div class="sec-head"><h2>Specification</h2></div>
+<ul class="spec">
+<li><b>Core</b><span>20cm seven-zone pocket springs, 1.8 and 2.0mm wire. Twenty five year guarantee.</span></li>
+<li><b>Perimeter</b><span>7cm encased foam at 35 density. The edge holds when you sit on it.</span></li>
+<li><b>Comfort layer</b><span>10cm, removable, two densities. Medium one face, medium firm the other.</span></li>
+<li><b>Surface</b><span>Gel memory foam, comfort foam and wave-profile foam over a 400g cool-knit cover.</span></li>
+<li><b>Depth</b><span>35cm finished.</span></li>
+<li><b>Trial</b><span>30 nights. Adjust to Desire first, refund second.</span></li>
+</ul>
+</div></div></section>
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'large-sizes' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">Emperor &middot; 200 &times; 200cm</p>
+<h1>A bed that becomes yours,<br>and stays that way.</h1>
+<p class="lede">Emperor is 200 by 200 centimetres. Twenty wider than a Super King, and the largest size that still takes bedding you can buy anywhere. Handmade to order, and tailored to your feel after you have slept on it.</p>
+<div class="cta-row"><a class="btn" href="#configure">Choose your size</a><span><span class="addprice" style="font-size:26px">&pound;3,699</span><span class="mono" style="display:block;margin-top:4px">Emperor &middot; 200 &times; 200cm</span></span></div></div>
+<figure class="figure ">{% render 'rd-img', file: 'room-city.webp', alt: "Emperor mattress in a city bedroom", width: 1400, height: 781, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="split">
+<div><p class="kicker">The size</p><h2>Why it is 200 wide</h2>
+<p style="margin-top:20px">Emperor gives each sleeper a full metre. A Super King gives ninety centimetres, which is the width of a single bed. For two adults, one of whom moves, the difference is a night uninterrupted.</p>
+<p>It is also the largest size that still takes bedding you can buy anywhere, and the largest most rooms will hold without the room becoming a bed with walls around it.</p>
+<p>We make to order, so the size exists because someone wants it, not because a machine was already set up for it.</p></div>
+<figure class="figure ">{% render 'rd-img', file: 'room-wide.webp', alt: "A wide bedroom with a large mattress", width: 1400, height: 781, loading: 'lazy' %}</figure>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Built in two parts</p><h2>The part that softens comes out.</h2></div>
+<p>A mattress does not wear out. The top five centimetres wear out, and the rest goes to landfill with it.</p>
+<p>Ours separates. A twenty centimetre seven-zone pocket sprung core built to last twenty five years, and a comfort layer above it that unzips and lifts off.</p>
+<ul class="spec" style="margin-top:34px">
+<li><b>Depth</b><span>35cm total. 20cm core, 15cm comfort above it.</span></li>
+<li><b>Core</b><span>Seven-zone pocket springs, 1.8 and 2.0mm wire. Twenty five year guarantee.</span></li>
+<li><b>Comfort layer</b><span>Removable and reversible. Medium one face, medium firm the other. You do not choose - it arrives with both.</span></li>
+<li><b>Replacement layer</b><span>&pound;299 when it eventually softens, instead of &pound;3,699.</span></li>
+<li><b>Made</b><span>To order, in any of fifteen sizes.</span></li>
+</ul></div></div></section>
+
+<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="coolknit-macro">{% render 'rd-img', file: 'coolknit-macro.webp', alt: "Cool-knit cover detail", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'european-king' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">European King &middot; 160 &times; 200cm</p>
+<h1>The size your bed<br>was built for.</h1>
+<p class="lede">IKEA King is 160 by 200 centimetres. British King is 150. We make the first one, handmade to order, and tailor the feel after you have slept on it.</p>
+<div class="cta-row"><a class="btn" href="#configure">Choose your size</a><span><span class="addprice" style="font-size:26px">&pound;3,199</span><span class="mono" style="display:block;margin-top:4px">European King &middot; 160 &times; 200cm</span></span></div></div>
+<figure class="figure ">{% render 'rd-img', file: 'room-soft.webp', alt: "European King mattress in a bedroom", width: 1400, height: 781, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">The size</p><h2>One hundred and sixty centimetres</h2></div>
+<p>Continental bed frames, IKEA included, take a mattress 160 centimetres wide. It is a standard across most of Europe and it is the size we build.</p>
+<p>The British King is 150. Ten centimetres narrower, which sounds like nothing until it is a gap down one side of your bed and sheets that will not sit flat.</p>
+<p>So we make the size the frame was designed for, handmade to order, and tailor the feel after you have slept on it.</p>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">What it is</p><h2>The same build, the right width</h2></div>
+<div class="grid-3">
+<div><h3>The exact size</h3><p>160 by 200 centimetres, made to order. It fits the frame you already own.</p></div>
+<div><h3>Thirty five centimetres</h3><p>A seven-zone pocket spring core with a comfort layer above it, closed with a zip so the top can be renewed without the bed.</p></div>
+<div><h3>A feel you settle later</h3><p>Sleep on it for a month. Tell us how it should feel. We make it that way, with our compliments.</p></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="room-marble">{% render 'rd-img', file: 'room-marble.webp', alt: "A continental bedroom", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<div class="sec-head"><h2>Specification</h2></div>
+<ul class="spec">
+<li><b>Size</b><span>160 &times; 200cm. Fits IKEA and most continental frames.</span></li>
+<li><b>Depth</b><span>35cm. 20cm seven-zone core, 15cm comfort above it.</span></li>
+<li><b>Core</b><span>Pocket springs, individually housed. Twenty five year guarantee.</span></li>
+<li><b>Comfort layer</b><span>Removable and reversible. Medium one face, medium firm the other.</span></li>
+<li><b>Bedding</b><span>Takes standard European King linen, widely available online.</span></li>
+</ul></div></div></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'what-it-buys' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">Super King &middot; 180 &times; 200cm</p>
+<h1>What &pound;3,299<br>actually buys.</h1>
+<p class="lede">A seven-zone pocket spring core built to last twenty five years, a comfort layer tailored to you after you have slept on it, and concierged delivery that leaves with the old one.</p>
+<div class="cta-row"><a class="btn" href="#configure">Choose your size</a><a class="btn btn--ghost btn-line" href="#breakdown">See the breakdown</a></div></div>
+<figure class="figure ">{% render 'rd-img', file: 'product-plain.webp', alt: "Numa mattress on a plain ground", width: 1376, height: 768, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone" id="breakdown"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Where the money goes</p><h2>What is in it</h2>
+<p class="lede" style="margin-top:16px">Thirty five centimetres, built in two halves, closed with a zip.</p></div>
+<ul class="spec">
+<li><b>The core</b><span>Twenty centimetres of individually pocketed springs in seven zones, with 2.0mm wire under the hips and shoulders and 1.8mm elsewhere. It is the slowest part of the build and the reason it lasts.</span></li>
+<li><b>The perimeter</b><span>Seven centimetres of 35 density foam encasing the whole spring unit, so the edge holds when you sit on it.</span></li>
+<li><b>The comfort layer</b><span>Ten centimetres, two densities, built as its own product because it has to be replaceable. Medium one face, medium firm the other.</span></li>
+<li><b>The surface</b><span>Gel memory foam, comfort foam and wave-profile airflow foam under a 400 gram cool-knit cover.</span></li>
+<li><b>Made to order</b><span>Nothing is built before you buy it. No warehouse, no stock write-off, no clearance sale of last season&rsquo;s tension.</span></li>
+</ul></div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="split">
+<figure class="figure ">{% render 'rd-img', file: 'product-floating-2.webp', alt: "The two halves of the mattress", width: 1400, height: 791, loading: 'lazy' %}</figure>
+<div><p class="kicker">Built to come apart</p><h2>The part that softens renews.</h2>
+<p style="margin-top:20px">A pocket sprung core lasts twenty five years. The five centimetres above it last seven or eight. Every mattress you have thrown away was thrown away because of the part that wears fastest, while the part doing the work was still sound.</p>
+<p>Ours unzips. When the comfort layer softens you replace the layer and keep the core. It is why the mattress is built in two pieces rather than one, and why we guarantee the core for twenty five years.</p></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">Worth knowing</p><h2>Three things people ask</h2></div>
+<div class="grid-3">
+<div><h3>You settle the feel after</h3><p>Sleep on it for a month, then tell us how it should feel. We make a new comfort layer to that preference, with our compliments.</p></div>
+<div><h3>It is made after you order</h3><p>Which takes weeks rather than days, and is the reason nothing sits in a warehouse waiting to be discounted.</p></div>
+<div><h3>It arrives finished</h3><p>Concierged to the room of your choice, unrolled onto the bed, packaging gone. The old one leaves with it.</p></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'cooling' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">Temperature</p>
+<h1>Heat sits in the<br>top five centimetres.</h1>
+<p class="lede">A pocket spring core is mostly air. What holds warmth is the layer directly under you, and on ours that layer comes out.</p>
+<div class="cta-row"><a class="btn" href="#configure">Choose your size</a><a class="btn btn--ghost btn-line" href="{{ pages['specification'].url | default: '/pages/specification' }}">See the build</a></div></div>
+<figure class="figure ">{% render 'rd-img', file: 'coolknit-macro.webp', alt: "Cool-knit cover, macro", width: 1400, height: 781, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Three answers</p><h2>Cooling built into the structure, not sprayed onto it.</h2></div>
+<p>Foam holds heat because it is solid and it wraps. Our comfort stack is built to move air through itself, and the core beneath is largely open.</p>
+<div class="pull"><p>If it sleeps warm, you change five centimetres. Not the bed.</p></div>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">How it stays cool</p><h2>Three layers doing it</h2></div>
+<div class="grid-3" style="margin-bottom:0">
+<div><p class="mono" style="color:var(--ember);margin-bottom:10px">400 gram</p><h3>Cool-knit cover</h3><p>Knitted rather than laminated. Air passes through the surface instead of being held against it by a bonded film.</p></div>
+<div><p class="mono" style="color:var(--ember);margin-bottom:10px">1cm &middot; 28 density</p><h3>Gel-infused memory foam</h3><p>Gel is what lets memory foam contour to a shoulder without holding the warmth that contouring normally creates.</p></div>
+<div><p class="mono" style="color:var(--ember);margin-bottom:10px">2.5cm &middot; wave cut</p><h3>Wave-profile foam</h3><p>Cut into a wave, so channels run through the middle of the comfort stack. Warmth moves sideways and leaves rather than gathering between two solid layers.</p></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="split">
+<figure class="figure ">{% render 'rd-img', file: 'quilt-edge.webp', alt: "Wave-profile cut visible at the edge", width: 1400, height: 781, loading: 'lazy' %}</figure>
+<div><p class="kicker">And beneath it</p><h2>Twenty centimetres<br>of mostly air.</h2>
+<p style="margin-top:20px">A seven-zone pocket spring core is an open structure. Air moves between every coil, so warmth leaves downward as well as upward instead of being trapped by a solid slab of foam.</p>
+<p>It is the reason a sprung mattress sleeps cooler than an all-foam one before anything is added to it.</p></div>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<p class="kicker">Adjust to Desire</p><h2>Still sleeping warm?<br>We remake the layer.</h2>
+<p style="margin-top:22px">Sleep on it for a month. If it still runs warmer than you want, tell us and we build a new comfort layer to that, with our compliments. Worth {{ layer_price | default: '£299' }}. Nothing goes back and nothing is disassembled.</p>
+</div></div></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% elsif page_key == 'split-king' %}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div><p class="kicker">Split King &middot; 2 &times; 106 &times; 213cm</p>
+<h1>One bed.<br>Two answers.</h1>
+<p class="lede">Two mattresses, linked. Each side supported on its own, each comfort layer tailored separately. What suits one of you does not have to be what suits the other.</p>
+<div class="cta-row"><a class="btn" href="#configure">Choose your size</a><span><span class="addprice" style="font-size:26px">&pound;4,499</span><span class="mono" style="display:block;margin-top:4px">Split King &middot; pair</span></span></div></div>
+<figure class="figure ">{% render 'rd-img', file: 'stack-sizes.webp', alt: "Split King units", width: 1600, height: 893, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Why two</p><h2>Two people rarely want<br>the same bed.</h2></div>
+<p>One sleeps hot, one is cold. One has a bad back, one has a bad shoulder. A single mattress makes that a negotiation, and somebody loses it every night for a decade.</p>
+<div class="pull"><p>Two halves. Two comfort layers. Neither of you compromises.</p></div>
+<p>Each side is a complete mattress with its own seven-zone pocket spring core and its own removable layer. After a month, you each tell us how your side should feel. We make two layers, to two descriptions.</p>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap">
+<div class="sec-head narrow" style="text-align:center"><p class="kicker">How it goes together</p><h2>One surface, two beds</h2></div>
+<div class="split" style="margin-top:52px">
+<figure class="figure ">{% render 'rd-img', file: 'room-dark.webp', alt: "A split king bed dressed as one", width: 1400, height: 781, loading: 'lazy' %}</figure>
+<div><ul class="spec">
+<li><b>Linked</b><span>Joined along the inner edge so they behave as one bed and do not drift apart.</span></li>
+<li><b>One surface</b><span>Dressed with a single fitted sheet. The join sits between you, not under either of you.</span></li>
+<li><b>Two answers</b><span>Each layer is changed on its own. One of you can go softer without the other going with them.</span></li>
+<li><b>Any staircase</b><span>Each half rolls and boxes separately, so it reaches rooms a single large mattress cannot.</span></li>
+</ul></div></div></div></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<ul class="spec">
+<li><b>The feel</b><span><strong>You do not choose the feel. You discover it.</strong><br>Sleep on it for a month. Tell us how it should feel. We make it that way.</span></li>
+<li><b>Arriving</b><span><strong>It arrives finished.</strong><br>Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</span></li>
+<li><b>Twenty five years</b><span><strong>It stays right for twenty five years.</strong><br>The part that softens renews. The part that lasts, lasts.</span></li>
+</ul>
+<p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
+</div></div></section>
+{% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Redesign page",
+  "settings": [
+    { "type": "select", "id": "page_key", "label": "Page", "options": [
+      { "value": "specification", "label": "specification" },
+      { "value": "manufacturing", "label": "manufacturing" },
+      { "value": "about", "label": "about" },
+      { "value": "support", "label": "support" },
+      { "value": "large-sizes", "label": "large-sizes" },
+      { "value": "european-king", "label": "european-king" },
+      { "value": "what-it-buys", "label": "what-it-buys" },
+      { "value": "cooling", "label": "cooling" },
+      { "value": "split-king", "label": "split-king" }
+    ], "default": "specification" },
+    { "type": "text", "id": "lp_variant", "label": "Landing variant" }
+  ],
+  "presets": [{ "name": "Redesign page" }]
+}
+{% endschema %}
