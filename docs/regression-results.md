@@ -2,8 +2,8 @@
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
-- Result: **PASSED** (exit 0) on the pre-rebase tree; re-run after rebase before claiming done.
-- Scope note: New `/pages/trade` (template `page.trade`). Reply copy is **within 5 working days, approximately**, driven by Theme settings → **Reply within (working days)** (`reply_working_days`, default 5) via `[D]` / `[D-days]` / `[D-reply]`. Trade email is `trade_email`. Trade is in header nav and footer as Trade and contract. Homepage **Styled by Numa** collage is explicit stone (`ground: surface`) so it is not the navy footer (`ground: dark` on live). Trade outcome uses stone. No VERSION bump. Not yet deployed. Live needs an Admin Page handle `trade` assigned to template **trade**.
+- Result: **PASSED** (exit 0). Consistency: 979 passed, 0 failed.
+- Scope note: New `/pages/trade` (template `page.trade`). Reply copy is **within 5 working days, approximately**, driven by Theme settings → **Reply within (working days)** (`reply_working_days`, default 5) via `[D]` / `[D-days]` / `[D-reply]`. Trade email is `trade_email`. Trade is in header nav and footer as Trade and contract. Homepage **Styled by Numa** collage is snow (`ground: bg`, `#F7F5F1`) so it is not the navy footer and not the stone FAQ. No VERSION bump. Not yet deployed. Live needs an Admin Page handle `trade` assigned to template **trade**.
 
 ---
 

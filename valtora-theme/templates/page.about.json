@@ -60,7 +60,7 @@
       ],
       "settings": {
         "enable_section": true,
-        "ground": "surface",
+        "ground": "bg",
         "layout": "outcome",
         "anchor_id": "outcome",
         "kicker": "The outcome",

@@ -1245,7 +1245,7 @@ want = {
     "founder-note": "dark",
     "offer": "dark",
     "faq": "surface",
-    "lifestyle-collage": "dark",
+    "lifestyle-collage": "bg",
 }
 for sid, g in want.items():
     got = idx["sections"][sid]["settings"].get("ground")
