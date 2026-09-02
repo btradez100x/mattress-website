@@ -6,6 +6,14 @@ Checkout was not modified.
 
 This checkpoint locks the sitewide concierge unpacking announcement bar to the HTML bar in `i-cooling.html`. Do not invent a new bar. Do not paint the whole bar gold.
 
+## Deploy SHAs
+
+| Tree | SHA | What it is |
+|---|---|---|
+| Feature / `cursor/cooling-bar-ref-565f` | `d0880e9` | HTML `.banner` mapped onto `.announcement` + this checkpoint |
+| Connect source `v9` | `d0880e9` | Same commit |
+| Connect / `shopify-theme` | `003ae3e` | Theme subtree (base, brand, mobile-fit, announcement-bar) |
+
 Copy:
 
 > Concierge unpacking **included with every mattress** · To the room of your choice, packaging taken away
