@@ -76,21 +76,8 @@
       <div class="size-guide-grid" data-size-guide-grid>
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
-            {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: catalog_iso -%}{%- endcapture -%}
-            {%- capture in_gb -%}{%- render 'size-variant-in-country', v: v, country_iso: 'GB' -%}{%- endcapture -%}
-            {%- assign in_country = in_country | strip -%}
-            {%- assign in_gb = in_gb | strip -%}
-            {%- if in_gb == '1' -%}
-              {%- assign gb_tile_count = gb_tile_count | plus: 1 -%}
-            {%- endif -%}
-            {%- assign in_market = false -%}
-            {%- if in_country == '1' -%}
-              {%- assign in_market = true -%}
-            {%- endif -%}
-            {%- unless in_market -%}
-              {%- continue -%}
-            {%- endunless -%}
             {%- assign tile_count = tile_count | plus: 1 -%}
+            {%- assign gb_tile_count = gb_tile_count | plus: 1 -%}
             {%- assign size_id = v.option1 | handle -%}
             {%- if size_id == blank -%}
               {%- assign size_id = v.title | handle -%}
@@ -244,7 +231,7 @@
       "type": "product",
       "id": "mattress_product",
       "label": "Mattress product",
-      "info": "Variants for the visitor's browser country come from Market Shown (custom.market_shown). If that country has no market, the United Kingdom list is shown. If blank, the theme looks up handle the-mattress, then mattress."
+      "info": "Every published variant is listed. If blank, the theme looks up handle the-mattress, then mattress."
     },
     {
       "type": "text",

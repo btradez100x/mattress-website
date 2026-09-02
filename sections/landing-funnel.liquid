@@ -41,16 +41,6 @@
 
   if mattress != blank
     for v in mattress.variants
-      if v.metafields.custom.enabled == false
-        continue
-      endif
-      capture in_country
-        render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code
-      endcapture
-      assign in_country = in_country | strip
-      if in_country != '1'
-        continue
-      endif
       assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
       if size_id == blank
         assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
@@ -78,16 +68,6 @@
     endfor
     if from_price == blank
       for v in mattress.variants
-        if v.metafields.custom.enabled == false
-          continue
-        endif
-        capture in_gb
-          render 'size-variant-in-country', v: v, country_iso: 'GB'
-        endcapture
-        assign in_gb = in_gb | strip
-        if in_gb != '1'
-          continue
-        endif
         assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
         if size_id == blank
           assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
@@ -350,9 +330,6 @@
       <tbody data-lp-size-table>
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
-            {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code -%}{%- endcapture -%}
-            {%- assign in_country = in_country | strip -%}
-            {%- unless in_country == '1' -%}{%- continue -%}{%- endunless -%}
             {%- render 'size-catalog-row', v: v -%}
           {%- endfor -%}
         {%- endif -%}
@@ -397,9 +374,6 @@
       <tbody data-lp-size-table>
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
-            {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code -%}{%- endcapture -%}
-            {%- assign in_country = in_country | strip -%}
-            {%- unless in_country == '1' -%}{%- continue -%}{%- endunless -%}
             {%- render 'size-catalog-row', v: v -%}
           {%- endfor -%}
         {%- endif -%}
