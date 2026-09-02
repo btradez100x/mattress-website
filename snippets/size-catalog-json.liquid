@@ -1,0 +1,17 @@
+{%- comment -%}
+  Every enabled mattress variant as JSON. No market or size allowlist.
+  Expects: mattress (product)
+{%- endcomment -%}
+[
+{%- assign catalog_first = true -%}
+{%- if mattress != blank -%}
+  {%- for v in mattress.variants -%}
+    {%- if v.metafields.custom.enabled == false -%}
+      {%- continue -%}
+    {%- endif -%}
+    {%- unless catalog_first -%},{%- endunless -%}
+    {%- render 'size-variant-json', v: v -%}
+    {%- assign catalog_first = false -%}
+  {%- endfor -%}
+{%- endif -%}
+]

@@ -1,0 +1,37 @@
+{%- comment -%}
+  MarketShown tokens for a variant, comma-separated, uppercase.
+  Definition name is Market Shown; Shopify key is custom.market_shown.
+  Also reads custom.MarketShown. List, JSON, or plain text.
+  Expects: v (variant)
+{%- endcomment -%}
+{%- liquid
+  assign raw = v.metafields.custom.market_shown.value
+  if raw == blank
+    assign raw = v.metafields.custom.MarketShown.value
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.market_shown
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.MarketShown
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.markets_shown.value | default: v.metafields.custom.markets_shown
+  endif
+  if raw == blank
+    assign raw = v.metafields.shopify.market_shown.value | default: v.metafields.shopify.market_shown
+  endif
+
+  assign csv = ''
+  if raw != blank
+    assign csv = raw | join: ','
+    if csv == blank or csv == raw
+      assign csv = raw | append: ''
+    endif
+    assign csv = csv | replace: '[', '' | replace: ']', '' | replace: '"', '' | replace: "'", '' | replace: ';', ',' | replace: '|', ',' | replace: '/', ','
+    assign csv = csv | replace: 'United Kingdom', 'GB' | replace: 'UNITED KINGDOM', 'GB' | replace: 'Great Britain', 'GB'
+    assign csv = csv | replace: 'United Arab Emirates', 'AE' | replace: 'UNITED ARAB EMIRATES', 'AE'
+    assign csv = csv | replace: 'United States of America', 'US' | replace: 'United States', 'US' | replace: 'UNITED STATES', 'US'
+  endif
+-%}
+{{- csv | strip -}}
