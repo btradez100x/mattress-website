@@ -1,7 +1,8 @@
 {%- comment -%}
   Mattress variant market: ae | gb | eu | us | au
-  Prefers MarketShown (custom.market_shown), then custom.market.
+  Prefers Market Shown (custom.market_shown), then custom.market.
   Does not treat "European King" as Europe — GB sells that size.
+  Does not infer US from California King / Split King titles — those can be UK.
   Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
@@ -34,14 +35,12 @@
   if v_market == blank
     if blob contains 'matt-ae' or blob contains '(uae)' or blob contains ' uae'
       assign v_market = 'ae'
-    elsif blob contains 'matt-us' or blob contains 'us full' or blob contains 'us queen' or blob contains 'us king' or blob contains 'us twin' or blob contains 'twin xl' or blob contains 'twin-xl' or blob contains 'california' or blob contains 'split king'
+    elsif blob contains 'matt-us' or blob contains 'us full' or blob contains 'us queen' or blob contains 'us king' or blob contains 'us twin' or blob contains 'twin xl' or blob contains 'twin-xl'
       assign v_market = 'us'
     elsif blob contains 'matt-au' or blob contains 'au super' or blob contains 'australian'
       assign v_market = 'au'
     elsif blob contains 'matt-eu'
       assign v_market = 'eu'
-    elsif blob contains 'matt-uk' or blob contains 'matt-gb'
-      assign v_market = 'gb'
     else
       assign v_market = 'gb'
     endif

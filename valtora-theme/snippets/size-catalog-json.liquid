@@ -1,8 +1,9 @@
 {%- comment -%}
   Every mattress variant as JSON, including price 0, inventory 0, and
   US/AU/UAE titles. SIZE_MAPS is not a live ceiling. The picker and size
-  guide then keep only rows whose Market Shown (custom.market_shown) includes
-  the browser country. Blank Market Shown uses in_market, not "show all 18".
+  guide share filterCatalogRows: Market Shown (custom.market_shown) for the
+  browser country. If that country is not a defined Market Shown market
+  (Ghana / GH), both pages use the UK/GB set. Blank Market Shown is not all 18.
   Expects: mattress (product)
 {%- endcomment -%}
 [

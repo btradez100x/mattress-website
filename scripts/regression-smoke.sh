@@ -252,10 +252,14 @@ PY
 done
 
 if grep -q '"value": "configure"' "$THEME/sections/landing-funnel.liquid" \
-  && grep -q "data-lp-configure" "$THEME/sections/landing-funnel.liquid"; then
-  pass "landing-funnel has inline configure layout"
+  && grep -q "data-lp-configure" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "size-reserve__layout" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "order-panel" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "Reserve yours" "$THEME/sections/landing-funnel.liquid" \
+  && ! grep -q 'section__eyebrow">Configure<' "$THEME/sections/landing-funnel.liquid"; then
+  pass "landing-funnel has inline size-pick with Reserve yours + YOUR ORDER"
 else
-  fail "landing-funnel missing inline configure layout"
+  fail "landing-funnel missing Reserve yours kicker or sticky YOUR ORDER panel"
 fi
 
 if grep -q "data-lp-qty" "$THEME/sections/landing-funnel.liquid" \
@@ -778,6 +782,12 @@ else
   fail "bnpl_microcopy default is not empty / figure-free"
 fi
 
+if node "$ROOT/scripts/prove-eighteen-sizes.js"; then
+  pass "picker and size guide share filterCatalogRows; GH maps to GB catalog"
+else
+  fail "Market Shown catalog proof failed"
+fi
+
 if grep -q '"price":"£3,299"' "$ROOT/preview/index.html" \
   && grep -q '"price_raw":329900' "$ROOT/preview/index.html" \
   && ! grep -q '£3,499' "$ROOT/preview/index.html"; then
@@ -1067,8 +1077,8 @@ for path in js_paths:
     if "european-king" not in t or "160 × 200 cm" not in t:
         print(path, "European King 160 × 200 cm missing")
         ok = False
-    if "catalogRowsFrom" not in t or "if (!tokens.length) return true" not in t or "var sizes = [];" not in t or "existingQty + 1" not in t:
-        print(path, "picker is not painting every Shopify size / ADD does not increment")
+    if "filterCatalogRows" not in t or "if (!tokens.length) return true" in t or "var sizes = [];" not in t or "existingQty + 1" not in t:
+        print(path, "picker is not painting Market Shown catalog / ADD does not increment")
         ok = False
 
 if "data-size-pick" not in funnel or "data-lp-sizes" not in funnel:

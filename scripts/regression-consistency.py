@@ -550,12 +550,12 @@ def check_size_picker_chrome() -> None:
         else:
             bad(f"{rel}: European King 160 × 200 cm missing")
         if (
-            "catalogRowsFrom" in js_text
-            and "if (!tokens.length) return true" in js_text
+            "filterCatalogRows" in js_text
             and "var sizes = [];" in js_text
             and "existingQty + 1" in js_text
+            and "if (!tokens.length) return true" not in js_text
         ):
-            ok(f"{rel}: picker paints every Shopify variant (no SIZE_MAPS ceiling)")
+            ok(f"{rel}: picker paints Market Shown catalog (no SIZE_MAPS ceiling, blank is not all 18)")
         else:
             bad(f"{rel}: picker hardcodes a size count instead of Shopify rows")
 
@@ -902,6 +902,14 @@ def check_reserve_cta_copy() -> None:
         ROOT / "preview",
         ROOT / "scripts" / "finish-numa-preview.py",
     ]
+    kicker_re = re.compile(
+        r'"(?:kicker|eyebrow)"\s*:\s*"Configure(?: yours)?"',
+        re.I,
+    )
+    eyebrow_re = re.compile(
+        r'section__eyebrow[^>]*>Configure(?: yours)?<',
+        re.I,
+    )
     hits: list[str] = []
     files: list[Path] = []
     for root in roots:
@@ -918,9 +926,13 @@ def check_reserve_cta_copy() -> None:
         text = path.read_text(encoding="utf-8", errors="replace")
         rel = path.relative_to(ROOT)
         for i, line in enumerate(text.splitlines(), 1):
-            if "section__eyebrow" in line or '"eyebrow"' in line:
-                continue
-            if cta_re.search(line) or label_re.search(line) or assign_re.search(line):
+            if (
+                cta_re.search(line)
+                or label_re.search(line)
+                or assign_re.search(line)
+                or kicker_re.search(line)
+                or eyebrow_re.search(line)
+            ):
                 hits.append(f"{rel}:{i}")
     if hits:
         bad("shopper CTA still says Configure: " + "; ".join(hits[:8]))

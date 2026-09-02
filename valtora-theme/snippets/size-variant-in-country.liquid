@@ -2,16 +2,9 @@
   Outputs 1 when the variant belongs in country_iso.
 
   Source of truth: custom.market_shown (Admin definition: Market Shown).
-  Browser country → that list. Unknown / blank country → UK/GB.
-
-  Do not treat a blank metafield as "show all 18".
-  Blank Market Shown on the GB default: include if Shopify published the
-  variant to this market (variant.available or variant.available_for_sale).
-  If Market Shown contains GB/UK, include. US Twin with Market Shown = US
-  only must not output 1 for GB.
-
-  If Liquid cannot read the metafield, populate Market Shown on each
-  variant — namespace.key is custom.market_shown.
+  Blank Market Shown is not "show all 18".
+  US Twin with Market Shown = US must not output 1 for GB.
+  A UK extra (California King with Market Shown including GB) outputs 1 for GB.
 
   Expects: v, country_iso
 {%- endcomment -%}
@@ -46,10 +39,6 @@
       if wrapped contains ',EU,' or wrapped contains ',EUROPE,' or wrapped contains iso_token
         assign hit = true
       endif
-    endif
-  else
-    if v.available_for_sale or v.available
-      assign hit = true
     endif
   endif
 -%}
