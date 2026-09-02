@@ -26,6 +26,7 @@
       })();
     </script>
     {% render 'meta-tags' %}
+    {% render 'consent-defaults' %}
     {%- if settings.gtm_container_id != blank -%}
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -90,6 +91,7 @@
     {%- endif -%}
 
     {{ content_for_header }}
+    {% render 'consent-update' %}
     {{ 'mobile-fit.css' | asset_url | stylesheet_tag }}
     <style id="page-scroll">
       html, body {

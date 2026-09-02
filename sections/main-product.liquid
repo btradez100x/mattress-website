@@ -25,7 +25,7 @@
           <p class="section__eyebrow">{{ settings.brand_name }}</p>
           <h1 style="font-size:clamp(2rem,4vw,2.75rem);">{{ product.title }}</h1>
           {%- unless is_mattress -%}
-            <p class="reserve-panel__price">{{ product.selected_or_first_available_variant.price | money }}</p>
+            <p class="reserve-panel__price" id="price-anchor">{{ product.selected_or_first_available_variant.price | money }}</p>
           {%- endunless -%}
           <div class="rte">{{ product.description }}</div>
           {%- if is_mattress -%}

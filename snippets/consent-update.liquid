@@ -1,0 +1,46 @@
+{%- comment -%}
+  Update Consent Mode from Shopify Customer Privacy after content_for_header.
+  Theme events still push to dataLayer without email/name/phone.
+{%- endcomment -%}
+<script>
+  (function () {
+    function applyConsent() {
+      try {
+        var p = window.Shopify && window.Shopify.customerPrivacy;
+        if (!p) return;
+        var analytics = true;
+        var marketing = true;
+        if (typeof p.analyticsProcessingAllowed === 'function') {
+          analytics = !!p.analyticsProcessingAllowed();
+        }
+        if (typeof p.marketingAllowed === 'function') {
+          marketing = !!p.marketingAllowed();
+        }
+        if (typeof p.shouldShowBanner === 'function' && !p.shouldShowBanner()) {
+          analytics = true;
+        }
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('consent', 'update', {
+          analytics_storage: analytics ? 'granted' : 'denied',
+          ad_storage: marketing ? 'granted' : 'denied',
+          ad_user_data: marketing ? 'granted' : 'denied',
+          ad_personalization: marketing ? 'granted' : 'denied'
+        });
+      } catch (e) {}
+    }
+    function bootPrivacy() {
+      if (!window.Shopify || typeof window.Shopify.loadFeatures !== 'function') {
+        applyConsent();
+        return;
+      }
+      window.Shopify.loadFeatures([{ name: 'consent-tracking-api', version: '0.1' }], function (err) {
+        if (err) return;
+        applyConsent();
+        document.addEventListener('visitorConsentCollected', applyConsent);
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootPrivacy);
+    else bootPrivacy();
+  })();
+</script>

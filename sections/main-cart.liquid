@@ -62,7 +62,10 @@
             <div class="cart-service-lines" data-cart-services>
               <div class="cart-service-line">
                 <div class="cart-service-line__label">
-                  Old mattress removal and recycling
+                  <label class="cart-service-line__check">
+                    <input type="checkbox" data-old-mattress-removal checked>
+                    Old mattress removal and recycling
+                  </label>
                   <a href="{{ pages['mattress-recycling'].url | default: '/pages/mattress-recycling' }}">We carry the cost. Read what happens to it</a>
                 </div>
                 <span class="cart-service-line__value">Complimentary</span>

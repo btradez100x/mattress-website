@@ -180,6 +180,12 @@
     Object.keys(extra).forEach(function (k) {
       if (extra[k] != null && extra[k] !== '') attrs[k] = String(extra[k]);
     });
+    try {
+      var lp = sessionStorage.getItem('numa_lp_variant') || sessionStorage.getItem('valtora_lp_variant');
+      var sid = sessionStorage.getItem('numa_session_id');
+      if (lp && !attrs.lp_variant) attrs.lp_variant = lp;
+      if (sid && !attrs.session_id) attrs.session_id = sid;
+    } catch (e) {}
     return attrs;
   }
 

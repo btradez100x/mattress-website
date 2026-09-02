@@ -231,7 +231,7 @@
         <a class="btn btn--ghost" href="{{ section.settings.secondary_cta_link | default: '#spec' }}">{{ section.settings.secondary_cta_label }}</a>
       {%- endif -%}
       {%- if section.settings.show_price -%}
-        <div class="lp-price" data-lp-hero-price data-lp-size="{{ featured_id | escape }}" data-lp-price-mode="{{ section.settings.price_mode | escape }}"{% if hero_price == blank %} hidden{% endif %}>
+        <div class="lp-price" id="price-anchor" data-lp-hero-price data-lp-size="{{ featured_id | escape }}" data-lp-price-mode="{{ section.settings.price_mode | escape }}"{% if hero_price == blank %} hidden{% endif %}>
           <span class="lp-price__value num" data-lp-price>
             {%- if section.settings.price_mode == 'from' and from_price != blank -%}From {{ from_price }}
             {%- else -%}{{ hero_price }}{%- endif -%}

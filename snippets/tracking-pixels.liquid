@@ -4,6 +4,8 @@
   settings.gtm_container_id is set (script high in head, noscript after body).
   Do not load gtm.js here — this snippet sits too late and would duplicate.
   Theme pushes events to dataLayer via vTrack; platforms are configured in GTM.
+  Every vTrack event includes lp_variant + session_id. First-touch lp_variant
+  is stored as numa_lp_variant and written to the cart as an order attribute.
   Meta and GA4 must not load as direct scripts.
   Optional TikTok / Snapchat / Clarity remain as legacy fallbacks only when GTM is blank.
 {%- endcomment -%}

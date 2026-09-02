@@ -328,23 +328,166 @@
 
   window.__valtoraPaintContactHours = paintContactHours;
 
-  function readLpVariant() {
-    var fromDom = document.querySelector('[data-lp-variant]');
-    var fromNuma = window.NUMA && window.NUMA.lp_variant;
-    var stored = '';
+  var NUMA_LP_KEY = 'numa_lp_variant';
+  var NUMA_SID_KEY = 'numa_session_id';
+  var NUMA_GCLID_KEY = 'numa_gclid';
+  var LEGACY_LP_KEY = 'valtora_lp_variant';
+  var lastConfigureSize = '';
+  var lpViewFiredThisLoad = false;
+
+  function storageGet(key) {
     try {
-      stored = sessionStorage.getItem('valtora_lp_variant') || '';
+      return sessionStorage.getItem(key) || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function storageSet(key, val) {
+    try {
+      sessionStorage.setItem(key, String(val == null ? '' : val));
     } catch (e) {}
-    var v = (fromDom && fromDom.getAttribute('data-lp-variant')) || fromNuma || stored || '';
-    v = String(v || '').trim();
-    if (v) {
-      try {
-        sessionStorage.setItem('valtora_lp_variant', v);
-      } catch (err) {}
+  }
+
+  function uuidv4() {
+    try {
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+      if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+        var buf = new Uint8Array(16);
+        crypto.getRandomValues(buf);
+        buf[6] = (buf[6] & 0x0f) | 0x40;
+        buf[8] = (buf[8] & 0x3f) | 0x80;
+        var hex = [];
+        var i;
+        for (i = 0; i < 16; i++) hex.push(('0' + buf[i].toString(16)).slice(-2));
+        return (
+          hex.slice(0, 4).join('') +
+          '-' +
+          hex.slice(4, 6).join('') +
+          '-' +
+          hex.slice(6, 8).join('') +
+          '-' +
+          hex.slice(8, 10).join('') +
+          '-' +
+          hex.slice(10).join('')
+        );
+      }
+    } catch (e) {}
+    return 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+  }
+
+  function ensureSessionId() {
+    var id = storageGet(NUMA_SID_KEY);
+    if (!id) {
+      id = uuidv4();
+      storageSet(NUMA_SID_KEY, id);
+    }
+    return id;
+  }
+
+  function queryParam(name) {
+    try {
+      return new URLSearchParams(location.search).get(name) || '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function persistGclid(gclid) {
+    gclid = String(gclid || '').trim();
+    if (!gclid) return;
+    storageSet(NUMA_GCLID_KEY, gclid);
+  }
+
+  function readStoredGclid() {
+    return storageGet(NUMA_GCLID_KEY) || '';
+  }
+
+  function captureLpVariantOnce() {
+    var stored = storageGet(NUMA_LP_KEY) || storageGet(LEGACY_LP_KEY);
+    var gclidNow = queryParam('gclid');
+    if (gclidNow) persistGclid(gclidNow);
+    if (stored) {
+      storageSet(NUMA_LP_KEY, stored);
+      storageSet(LEGACY_LP_KEY, stored);
       window.NUMA = window.NUMA || {};
-      window.NUMA.lp_variant = v;
+      window.NUMA.lp_variant = stored;
+      return stored;
+    }
+
+    var fromUrl = String(queryParam('lp_variant') || '').trim();
+    var fromUtm = String(queryParam('utm_content') || '').trim();
+    if (!fromUtm) {
+      var utm0 = (window.ValtoraUTM && window.ValtoraUTM.get && window.ValtoraUTM.get()) || {};
+      fromUtm = String(utm0.utm_content || '').trim();
+    }
+    var fromAdGroup = String(
+      queryParam('adgroupid') || queryParam('ad_group_id') || queryParam('campaignid') || ''
+    ).trim();
+    var fromDom = '';
+    var el = document.querySelector('[data-lp-variant]');
+    if (el) fromDom = String(el.getAttribute('data-lp-variant') || '').trim();
+
+    var v = fromUrl || fromUtm || fromAdGroup || fromDom || 'direct';
+    storageSet(NUMA_LP_KEY, v);
+    storageSet(LEGACY_LP_KEY, v);
+    window.NUMA = window.NUMA || {};
+    window.NUMA.lp_variant = v;
+    if (!gclidNow) {
+      var utmGclid =
+        ((window.ValtoraUTM && window.ValtoraUTM.get && window.ValtoraUTM.get()) || {}).gclid || '';
+      persistGclid(utmGclid);
     }
     return v;
+  }
+
+  function readLpVariant() {
+    return captureLpVariantOnce() || 'direct';
+  }
+
+  function readSessionId() {
+    return ensureSessionId();
+  }
+
+  function detectCurrencyCode() {
+    var m =
+      (document.body && document.body.getAttribute('data-market')) ||
+      document.documentElement.getAttribute('data-market') ||
+      detectMarket() ||
+      'gb';
+    if (m === 'us') return 'USD';
+    if (m === 'ae') return 'AED';
+    if (m === 'eu') return 'EUR';
+    return 'GBP';
+  }
+
+  function marketingAllowed() {
+    try {
+      var p = window.Shopify && window.Shopify.customerPrivacy;
+      if (p && typeof p.marketingAllowed === 'function') return !!p.marketingAllowed();
+    } catch (e) {}
+    return true;
+  }
+
+  function persistNumaAttribution() {
+    var lp = readLpVariant();
+    var sid = readSessionId();
+    var gclid = readStoredGclid();
+    if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
+      window.ValtoraUTM.setAttribute('lp_variant', lp);
+      window.ValtoraUTM.setAttribute('session_id', sid);
+      if (gclid) window.ValtoraUTM.setAttribute('gclid', gclid);
+    }
+  }
+
+  function attributionProperties() {
+    var props = {
+      _lp_variant: readLpVariant(),
+      _session_id: readSessionId(),
+    };
+    var gclid = readStoredGclid();
+    if (gclid) props._gclid = gclid;
+    return props;
   }
 
   function vTrack(name, params) {
@@ -369,8 +512,9 @@
       },
       params
     );
-    var lp = readLpVariant();
-    if (lp && payload.lp_variant == null) payload.lp_variant = lp;
+    payload.lp_variant = payload.lp_variant || readLpVariant() || 'direct';
+    payload.session_id = payload.session_id || readSessionId();
+    payload.transport_type = payload.transport_type || 'beacon';
     var utm =
       (window.ValtoraUTM && window.ValtoraUTM.get && window.ValtoraUTM.get()) || {};
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(
@@ -378,12 +522,23 @@
         if (utm[k] && payload[k] == null) payload[k] = utm[k];
       }
     );
+    if (readStoredGclid() && payload.gclid == null) payload.gclid = readStoredGclid();
+    if (!marketingAllowed()) {
+      delete payload.gclid;
+      delete payload.fbclid;
+    }
+    delete payload.email;
+    delete payload.phone;
+    delete payload.first_name;
+    delete payload.last_name;
+    delete payload.address;
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(payload);
-    // Legacy direct SDKs only when GTM is not present (no double-count).
     if (!window.google_tag_manager) {
       try {
-        if (typeof gtag === 'function') gtag('event', name, payload);
+        if (typeof gtag === 'function') {
+          gtag('event', name, Object.assign({}, payload, { transport_type: 'beacon' }));
+        }
         if (typeof fbq === 'function') fbq('trackCustom', name, payload);
         if (typeof ttq !== 'undefined' && ttq.track) ttq.track(name, payload);
       } catch (err) {}
@@ -401,6 +556,193 @@
     vTrack(name, params);
   }
   window.vTrackOnce = vTrackOnce;
+
+  function trackConfigureComplete(size, value) {
+    size = String(size || '');
+    if (!size) return;
+    if (size === lastConfigureSize) return;
+    lastConfigureSize = size;
+    var payload = { size: size };
+    if (value != null && value !== '') payload.value = value;
+    vTrack('configure_complete', payload);
+  }
+
+  function observeConfigureStart(root) {
+    if (!root) return;
+    function fire() {
+      var pre = '';
+      try {
+        pre = new URLSearchParams(location.search).get('size') || '';
+      } catch (err) {}
+      if (!pre && root.getAttribute) {
+        pre = root.getAttribute('data-lp-preselect') || '';
+      }
+      vTrackOnce('configure_start', {
+        size_preselected: !!pre,
+        size: pre || '',
+      });
+    }
+    if (sessionFlag('vt_configure_start')) return;
+    if (!('IntersectionObserver' in window)) {
+      fire();
+      return;
+    }
+    var io = new IntersectionObserver(
+      function (entries) {
+        if (sessionFlag('vt_configure_start')) {
+          io.disconnect();
+          return;
+        }
+        if (entries.some(function (en) { return en.isIntersecting; })) {
+          fire();
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(root);
+  }
+
+  function isLpViewPage() {
+    if (document.querySelector('[data-lp-page]')) return true;
+    var body = document.body;
+    if (!body) return false;
+    var cls = ' ' + (body.className || '') + ' ';
+    if (/\stemplate-product\s/.test(cls)) return true;
+    if (/\stemplate-index\s/.test(cls)) return true;
+    if (/\stemplate-page-configure\s/.test(cls)) return true;
+    if (/\stemplate-page-manufacturing\s/.test(cls)) return true;
+    return false;
+  }
+
+  function fireLpView() {
+    if (lpViewFiredThisLoad) return;
+    if (!isLpViewPage()) return;
+    lpViewFiredThisLoad = true;
+    var utm = (window.ValtoraUTM && window.ValtoraUTM.get && window.ValtoraUTM.get()) || {};
+    vTrack('lp_view', {
+      page_path: location.pathname || '',
+      gclid: readStoredGclid() || queryParam('gclid') || utm.gclid || '',
+      utm_source: utm.utm_source || queryParam('utm_source') || '',
+      utm_medium: utm.utm_medium || queryParam('utm_medium') || '',
+      utm_campaign: utm.utm_campaign || queryParam('utm_campaign') || '',
+      utm_content: utm.utm_content || queryParam('utm_content') || '',
+      utm_term: utm.utm_term || queryParam('utm_term') || queryParam('keyword') || '',
+    });
+  }
+
+  function ensurePriceAnchor() {
+    var existing = document.getElementById('price-anchor');
+    if (existing) return existing;
+    var candidate =
+      document.querySelector('[data-lp-hero-price]') ||
+      document.querySelector('[data-display-price]') ||
+      document.querySelector('.lp-price') ||
+      document.querySelector('.size-option__price') ||
+      document.querySelector('.size-row__price') ||
+      document.querySelector('.reserve-panel__price');
+    if (candidate && !document.getElementById('price-anchor')) {
+      candidate.id = 'price-anchor';
+    }
+    return document.getElementById('price-anchor');
+  }
+
+  function initScrollPastPrice() {
+    var el = ensurePriceAnchor();
+    if (!el || sessionFlag('vt_scroll_past_price')) return;
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(
+      function (entries) {
+        if (sessionFlag('vt_scroll_past_price')) {
+          io.disconnect();
+          return;
+        }
+        entries.forEach(function (entry) {
+          if (sessionFlag('vt_scroll_past_price')) return;
+          var rect = entry.boundingClientRect;
+          if (!entry.isIntersecting && rect.bottom < 0) {
+            vTrackOnce('scroll_past_price', {});
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: [0, 0.01] }
+    );
+    io.observe(el);
+  }
+
+  function initScrollDepth() {
+    var marks = { 25: false, 50: false, 75: false, 100: false };
+    function onScrollPercent() {
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - window.innerHeight;
+      var pct = max > 0 ? (window.scrollY / max) * 100 : 100;
+      [25, 50, 75, 100].forEach(function (p) {
+        if (!marks[p] && pct >= p) {
+          marks[p] = true;
+          vTrack('scroll_depth', { percent: p });
+        }
+      });
+    }
+    window.addEventListener('scroll', onScrollPercent, { passive: true });
+    onScrollPercent();
+  }
+
+  function initEngagedSession() {
+    var scrolled = false;
+    var started = Date.now();
+    function maybeFire() {
+      if (sessionFlag('vt_engaged_session')) return;
+      if (scrolled && Date.now() - started >= 10000) {
+        vTrackOnce('engaged_session', {});
+      }
+    }
+    window.addEventListener(
+      'scroll',
+      function () {
+        scrolled = true;
+        maybeFire();
+      },
+      { passive: true }
+    );
+    setTimeout(maybeFire, 10000);
+  }
+
+  function initRemovalToggle(root) {
+    var scope = root || document;
+    var inputs = scope.querySelectorAll('[data-old-mattress-removal]');
+    if (!inputs.length) return;
+    var stored = storageGet('numa_old_mattress_removal');
+    inputs.forEach(function (input) {
+      if (input.getAttribute('data-removal-ready') === '1') return;
+      input.setAttribute('data-removal-ready', '1');
+      if (stored === 'yes' || stored === 'no') input.checked = stored === 'yes';
+      input.addEventListener('change', function () {
+        var added = !!input.checked;
+        storageSet('numa_old_mattress_removal', added ? 'yes' : 'no');
+        if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
+          window.ValtoraUTM.setAttribute('old_mattress_removal', added ? 'yes' : 'no');
+        }
+        vTrack('add_service', {
+          service: 'old_mattress_removal',
+          action: added ? 'added' : 'removed',
+        });
+      });
+    });
+  }
+
+  function initNumaTracking() {
+    captureLpVariantOnce();
+    persistNumaAttribution();
+    fireLpView();
+    initScrollDepth();
+    initEngagedSession();
+    initScrollPastPrice();
+    initRemovalToggle(document);
+    window.addEventListener('pageshow', function (e) {
+      if (e && e.persisted) return;
+    });
+  }
 
   function parseLayerPriceCents() {
     var raw = parseInt(document.documentElement.getAttribute('data-layer-price-raw'), 10);
@@ -948,47 +1290,7 @@
     fillLandingPrices();
     document.addEventListener('preview:market-changed', fillLandingPrices);
     if (!page) return;
-    var params = new URLSearchParams(location.search);
-    var variant = page.getAttribute('data-lp-variant') || '';
-    if (variant) {
-      window.NUMA = window.NUMA || {};
-      window.NUMA.lp_variant = variant;
-      try {
-        sessionStorage.setItem('valtora_lp_variant', variant);
-      } catch (e) {}
-    }
-    vTrackOnce('lp_view', {
-      lp_variant: readLpVariant(),
-      keyword: params.get('keyword') || params.get('utm_term') || '',
-      gclid: params.get('gclid') || '',
-    });
-    var marks = { 25: false, 50: false, 75: false, 100: false };
-    function onScrollPercent() {
-      var doc = document.documentElement;
-      var max = doc.scrollHeight - window.innerHeight;
-      var pct = max > 0 ? (window.scrollY / max) * 100 : 100;
-      [25, 50, 75, 100].forEach(function (p) {
-        if (!marks[p] && pct >= p) {
-          marks[p] = true;
-          vTrack('scroll_depth', { percent: p, lp_variant: readLpVariant() });
-        }
-      });
-    }
-    window.addEventListener('scroll', onScrollPercent, { passive: true });
-    var scrolled = false;
-    var started = Date.now();
-    window.addEventListener(
-      'scroll',
-      function () {
-        scrolled = true;
-      },
-      { passive: true, once: true }
-    );
-    window.addEventListener('pagehide', function () {
-      if (!scrolled && Date.now() - started < 10000) {
-        vTrack('bounce', { under_10s: true, lp_variant: readLpVariant() });
-      }
-    });
+    captureLpVariantOnce();
   }
 
   function withPersistedUtm(href) {
@@ -1034,7 +1336,7 @@
       };
       var note = readSizeNote(host);
       if (note) properties['Anything we should know'] = note;
-      return properties;
+      return Object.assign(properties, attributionProperties());
     }
 
     function setLandingShopifyQty(host, line, qty) {
@@ -1136,24 +1438,27 @@
       }).join('');
       hydratePolicyStrips(root);
       syncLandingRows(root);
+      ensurePriceAnchor();
     }
 
     function addOrUpdate(root, row, qty, opts) {
       opts = opts || {};
       var line = lineFromRow(root, row);
       line.quantity = qty;
+      var prevQty = qtyForRow(row);
       OrderStore.upsertMattressLine(line);
       var sizeId = line.sizeId;
-      if (opts.qtyChanged) {
-        vTrack('quantity_changed', { size: sizeId, quantity: qty, lp_variant: readLpVariant() });
-      } else {
-        vTrack('configure_complete', { size: sizeId, lp_variant: readLpVariant() });
+      var unitValue = line.priceRaw / 100 || undefined;
+      if (qty > prevQty) {
+        trackConfigureComplete(sizeId, unitValue);
         vTrack('add_to_basket', {
           size: sizeId,
-          value: (line.priceRaw / 100) * qty || undefined,
+          value: unitValue,
+          currency: detectCurrencyCode(),
           trial_eligible: sizeId !== 'emperor',
-          lp_variant: readLpVariant(),
         });
+      } else if (qty !== prevQty) {
+        vTrack('quantity_changed', { size: sizeId, quantity: qty });
       }
       syncLandingRows(root);
       paintSticky();
@@ -1201,7 +1506,6 @@
             vTrack('quantity_changed', {
               size: row.getAttribute('data-size-id'),
               quantity: 0,
-              lp_variant: readLpVariant(),
             });
             syncLandingRows(root);
             paintSticky();
@@ -1229,29 +1533,7 @@
         if (!e.target.closest('[data-size-pick], [data-qty-inc], .size-row, .size-option')) return;
         setTimeout(function () { paintSticky(); }, 0);
       });
-      if ('IntersectionObserver' in window) {
-        var seen = false;
-        var io = new IntersectionObserver(
-          function (entries) {
-            if (seen) return;
-            if (entries.some(function (en) { return en.isIntersecting; })) {
-              seen = true;
-              var pre = root.getAttribute('data-lp-preselect') || '';
-              try {
-                pre = new URLSearchParams(location.search).get('size') || pre;
-              } catch (err) {}
-              vTrackOnce('configure_start', {
-                size_preselected: !!pre,
-                size: pre || '',
-                lp_variant: readLpVariant(),
-              });
-              io.disconnect();
-            }
-          },
-          { threshold: 0.35 }
-        );
-        io.observe(root);
-      }
+      observeConfigureStart(root);
     });
     document.addEventListener('preview:market-changed', function () {
       roots.forEach(function (root) {
@@ -1365,8 +1647,11 @@
     payload.contains_mattress = containsMattress;
     payload.accessory_only = !containsMattress && lastLines.length > 0;
     payload.transaction_id = orderId;
+    payload.currency = payload.currency || detectCurrencyCode();
     var sizeLine = lastLines.filter(isMattressLine)[0];
     if (sizeLine && sizeLine.sizeId && payload.size == null) payload.size = sizeLine.sizeId;
+    payload.lp_variant = readLpVariant();
+    payload.session_id = readSessionId();
     vTrack('purchase', payload);
     lastLines.forEach(function (line) {
       if (line.itemType === 'top') {
@@ -3041,6 +3326,7 @@
       var before = OrderStore.lines().filter(function (l) {
         return l.itemType === 'mattress' || !l.itemType;
       }).length;
+      var prevQty = lineQtyForSize(size.id, size.variantId || size.variant_id);
       OrderStore.upsertMattressLine({
         itemType: 'mattress',
         sizeId: size.id,
@@ -3057,16 +3343,19 @@
         leadMax: leadMax,
       });
       if (!opts.silent) {
-        if (opts.qtyChanged) {
+        var addValue = sizePriceRaw(size) / 100 || undefined;
+        if (qty > prevQty) {
+          trackConfigureComplete(size.id, addValue);
+          vTrack('add_to_basket', eventParams({
+            size: size.id,
+            value: addValue,
+            currency: detectCurrencyCode(),
+            trial_eligible: size.id !== 'emperor',
+          }));
+        } else if (qty !== prevQty) {
           vTrack('quantity_changed', eventParams({
             size: size.id,
             quantity: qty,
-          }));
-        } else {
-          vTrack('add_to_basket', eventParams({
-            size: size.id,
-            value: sizePriceRaw(size) / 100 || undefined,
-            trial_eligible: size.id !== 'emperor',
           }));
         }
       }
@@ -3436,11 +3725,10 @@
             value: sizePriceRaw(currentSize()) / 100 || undefined,
             price: sizePriceRaw(currentSize()) / 100 || undefined,
           }));
-          if (root.getAttribute('data-configure-funnel') === 'true') {
-            vTrackOnce('configure_complete', eventParams({
-              size: btn.getAttribute('data-size-id') || '',
-            }));
-          }
+          trackConfigureComplete(
+            btn.getAttribute('data-size-id') || '',
+            sizePriceRaw(currentSize()) / 100 || undefined
+          );
         }
       } else {
         syncSizeQtyUi();
@@ -3878,6 +4166,7 @@
       if (sizeNote) {
         payload.properties['Anything we should know'] = sizeNote;
       }
+      Object.assign(payload.properties, attributionProperties());
       if (paymentMode === 'split') {
         payload.properties['Balance due'] = 'Due before dispatch';
         payload.properties['Split percent'] = root.getAttribute('data-split-percent') || '50';
@@ -3945,7 +4234,11 @@
           .map(function (l) { return l.dims; })
           .filter(Boolean)
           .join(', ') || primary.dims || '',
+        lp_variant: readLpVariant(),
+        session_id: readSessionId(),
       };
+      var gclidAttr = readStoredGclid();
+      if (gclidAttr) orderAttrs.gclid = gclidAttr;
       if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
         Object.keys(orderAttrs).forEach(function (k) {
           window.ValtoraUTM.setAttribute(k, orderAttrs[k]);
@@ -4029,19 +4322,10 @@
       });
     }
 
+    observeConfigureStart(list || root);
     refreshTotals();
     syncSizeQtyUi();
     syncOrderChrome();
-    if (root.getAttribute('data-configure-funnel') === 'true') {
-      var preSize = '';
-      try {
-        preSize = new URLSearchParams(location.search).get('size') || '';
-      } catch (err) {}
-      vTrackOnce('configure_start', eventParams({
-        size_preselected: !!preSize,
-        size: preSize,
-      }));
-    }
   }
 
   function initCartPage() {
@@ -4108,7 +4392,10 @@
         'beforeend',
         '<li class="cart-line cart-service-line">' +
           '<div class="cart-line__copy cart-service-line__label">' +
+          '<label class="cart-service-line__check">' +
+          '<input type="checkbox" data-old-mattress-removal checked> ' +
           'Old mattress removal and recycling' +
+          '</label>' +
           '<a href="' +
           recyclingHref +
           '">We carry the cost. Read what happens to it</a>' +
@@ -4134,18 +4421,38 @@
     }
 
     paint();
-    document.addEventListener('valtora:order-changed', paint);
-    var leadMin = 8;
-    var leadMax = 10;
-    try {
-      var firstLine = OrderStore.lines()[0];
-      if (firstLine && firstLine.leadMin) leadMin = parseInt(firstLine.leadMin, 10) || leadMin;
-      if (firstLine && firstLine.leadMax) leadMax = parseInt(firstLine.leadMax, 10) || leadMax;
-    } catch (e) {}
-    vTrackOnce('basket_view', {
-      value: OrderStore.orderValue(),
-      lead_time_weeks: leadMin === leadMax ? String(leadMin) : leadMin + '-' + leadMax,
+    initRemovalToggle(page);
+    document.addEventListener('valtora:order-changed', function () {
+      paint();
+      initRemovalToggle(page);
     });
+    var basketViewFired = false;
+    function fireBasketViewIfLeadTime() {
+      if (basketViewFired) return;
+      var el =
+        page.querySelector('[data-cart-leadtime]') ||
+        page.querySelector('[data-lead-line]') ||
+        page.querySelector('[data-lead-window-label]');
+      if (!el || el.hidden) return;
+      var cs = window.getComputedStyle ? window.getComputedStyle(el) : null;
+      if (cs && (cs.display === 'none' || cs.visibility === 'hidden')) return;
+      var textLead = String(el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!textLead || !/\d/.test(textLead)) return;
+      var weeks = '';
+      var range = textLead.match(/(\d+)\s*(?:to|-|–)\s*(\d+)/);
+      if (range) weeks = range[1] === range[2] ? range[1] : range[1] + '-' + range[2];
+      else {
+        var one = textLead.match(/(\d+)/);
+        weeks = one ? one[1] : '';
+      }
+      if (!weeks) return;
+      basketViewFired = true;
+      vTrack('basket_view', {
+        value: OrderStore.orderValue(),
+        lead_time_weeks: weeks,
+      });
+    }
+    fireBasketViewIfLeadTime();
 
     if (linesEl) {
       linesEl.addEventListener('click', function (e) {
@@ -4492,7 +4799,8 @@
                   body: JSON.stringify({
                     id: Number(line.variantId),
                     quantity: parseInt(line.quantity, 10) || 1,
-                    properties: {
+                    properties: Object.assign(
+                      {
                       Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
                       Market: String(line.market || market).toUpperCase(),
                       'Item type':
@@ -4506,6 +4814,8 @@
                       _lead_min: String(line.leadMin != null ? line.leadMin : leadMinDefault),
                       _lead_max: String(line.leadMax != null ? line.leadMax : leadMaxDefault),
                     },
+                      attributionProperties()
+                    ),
                   }),
                 }).then(function (res) {
                   if (!res.ok) throw new Error('Add failed');
@@ -5506,17 +5816,6 @@
       vTrackOnce('view_proposition', {});
     });
 
-    document.querySelectorAll('section[id], [data-admin-section]').forEach(function (sec) {
-      var name =
-        sec.getAttribute('data-admin-section') ||
-        sec.id ||
-        sec.getAttribute('data-section-type') ||
-        'section';
-      observeDwell(sec, 1000, 'valtora_scroll_' + name, function () {
-        vTrack('scroll_depth', { section: name });
-      });
-    });
-
     var path = location.pathname || '';
     var isThanks =
       /thank_you|thank-you|order-confirmed/.test(document.body.className + ' ' + path) ||
@@ -6454,6 +6753,7 @@
     initFunnelTracking();
     initLandingFunnel();
     initLandingConfigure();
+    initNumaTracking();
     initExitIntent();
     initAnnouncementDismiss();
     // Cross-tab / cross-page: when localStorage basket changes, refresh UI from

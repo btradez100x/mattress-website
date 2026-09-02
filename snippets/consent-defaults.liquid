@@ -1,0 +1,18 @@
+{%- comment -%}
+  Consent Mode defaults BEFORE GTM. Analytics events carry no personal data
+  (session_id is a random UUID). Ads storage stays denied until Shopify
+  Customer Privacy grants marketing. Do not load extra pixels here.
+{%- endcomment -%}
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    analytics_storage: 'granted',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+</script>
