@@ -1,9 +1,10 @@
-# Regression results — Wednesday 2 Sep 2026 (trade page + collage ground)
+# Regression results — Wednesday 2 Sep 2026 (deploy 10.1.0-trade-page-and-collage-ground)
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
-- Result: **PASSED** (exit 0). Consistency: 979 passed, 0 failed.
-- Scope note: New `/pages/trade` (template `page.trade`). Reply copy is **within 5 working days, approximately**, driven by Theme settings → **Reply within (working days)** (`reply_working_days`, default 5) via `[D]` / `[D-days]` / `[D-reply]`. Trade email is `trade_email`. Trade is in header nav and footer as Trade and contract. Homepage **Styled by Numa** collage is snow (`ground: bg`, `#F7F5F1`) so it is not the navy footer and not the stone FAQ. No VERSION bump. Not yet deployed. Live needs an Admin Page handle `trade` assigned to template **trade**.
+- Result: **PASSED** (exit 0)
+- Consistency: 979 passed, 0 failed
+- Scope note: Homepage **Styled by Numa** collage is snow (`ground: bg`) so it is not the navy footer. FAQ stays stone. New `/pages/trade` with 5-day reply setting. Checkpoint: `checkpoints/10.1.0-trade-page-and-collage-ground/`. Deploy: `v9` `0ba9123`, `shopify-theme` `78a6f1c`. Live needs an Admin Page handle `trade` assigned to template **trade**. No VERSION bump.
 
 ---
 
