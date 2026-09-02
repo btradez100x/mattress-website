@@ -412,7 +412,7 @@
         <label>WhatsApp UAE <input id="PreviewWhatsAppAe" type="text" inputmode="tel" placeholder="9715XXXXXXXX" value="" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8.5rem;color:#000;background:#F7F5F1;"></label>
         <label>WhatsApp UK <input id="PreviewWhatsAppGb" type="text" inputmode="tel" placeholder="447XXXXXXXXX" value="" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8.5rem;color:#000;background:#F7F5F1;"></label>
         <button type="button" id="PreviewSectionsToggle" class="preview-banner__btn" aria-expanded="false" aria-controls="PreviewSectionsPanel">Sections</button>
-        <label style="cursor:pointer;"><input type="checkbox" id="PreviewReviewsEntries" checked> Show reviews</label>
+        <label style="cursor:pointer;" title="Theme setting: Show Numa-written review pack"><input type="checkbox" id="PreviewReviewsEntries" checked> Show Numa-written pack</label>
         <label style="cursor:pointer;"><input type="checkbox" id="PreviewReviewsSubmit" checked> Write review</label>
         <label>Lead window <input id="PreviewLeadWindow" type="text" value="8 to 10 weeks" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
         <label>Lead line <input id="PreviewLeadLine" type="text" value="Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:18rem;color:#000;background:#F7F5F1;" title="Use [lead] for the lead window"></label>
@@ -1005,7 +1005,7 @@
       </section>
 
       <!-- Social proof / reviews -->
-      <section class="section" id="reviews" data-preview-reviews-section data-reveal data-reviews data-reviews-show-entries="true" data-reviews-url="./assets/reviews.json" data-reviews-page-size="12" data-admin-section="reviews" data-section-ground="dark">
+      <section class="section section--dark" id="reviews" data-preview-reviews-section data-reveal data-reviews data-reviews-show-entries="true" data-reviews-url="./assets/reviews.json" data-reviews-page-size="12" data-admin-section="reviews" data-section-ground="dark">
         <div class="page-width">
           <div class="reviews__header">
             <div>
@@ -1793,28 +1793,14 @@
         var form = document.getElementById('PreviewReviewForm');
         var success = document.getElementById('PreviewReviewSuccess');
         var writeLinks = document.querySelectorAll('a[href="#write-review"]');
-        var grid = section && section.querySelector('[data-reviews-grid]');
-        var emptyEl = section && section.querySelector('[data-reviews-empty]');
-        var summaryEl = section && section.querySelector('[data-reviews-summary]');
-        var moreBtn = section && section.querySelector('[data-reviews-more]');
 
         function applyEntries() {
           if (!section) return;
           var show = !entriesToggle || entriesToggle.checked;
           section.setAttribute('data-reviews-show-entries', show ? 'true' : 'false');
-          if (show) {
-            section.setAttribute('data-reviews-url', './assets/reviews.json');
-            if (summaryEl) summaryEl.hidden = false;
-            if (emptyEl) emptyEl.hidden = true;
-            section.removeAttribute('data-reviews-ready');
-            document.dispatchEvent(new CustomEvent('preview:reviews-reload'));
-          } else {
-            section.setAttribute('data-reviews-url', '');
-            if (grid) grid.innerHTML = '';
-            if (emptyEl) emptyEl.hidden = false;
-            if (summaryEl) summaryEl.hidden = true;
-            if (moreBtn) moreBtn.hidden = true;
-          }
+          section.setAttribute('data-reviews-url', './assets/reviews.json');
+          section.removeAttribute('data-reviews-ready');
+          document.dispatchEvent(new CustomEvent('preview:reviews-reload'));
           try {
             localStorage.setItem('valtoraPreviewReviewsEntries', show ? '1' : '0');
           } catch (e) {}

@@ -643,16 +643,20 @@ fi
 
 if python3 -c "
 import json, sys
-need = ('id','rating','title','body','author','location','size','date','verified','published')
+need = ('id','rating','title','body','author','location','size','date','verified','published','source')
 for p in ('$THEME/assets/reviews.json', '$ROOT/preview/assets/reviews.json'):
     d = json.load(open(p))
     reviews = d.get('reviews') or []
     assert len(reviews) == 500, (p, len(reviews))
     assert all(r.get('published') is not False and r.get('visible') is not False for r in reviews), p
+    assert all(r.get('source') == 'seed' for r in reviews), (p, 'seed tag')
     sample = reviews[0]
     missing = [k for k in need if k not in sample]
     assert not missing, (p, missing)
     assert d.get('summary', {}).get('count') == 500, p
+    hidden = [r for r in reviews if str(r.get('source') or '').lower() in ('seed','authored')]
+    shown_off = [r for r in reviews if str(r.get('source') or '').lower() not in ('seed','authored')]
+    assert len(hidden) == 500 and len(shown_off) == 0, (p, 'toggle-off filter')
 sd = json.load(open('$THEME/config/settings_data.json'))
 assert sd.get('current', {}).get('reviews_enabled') is True, 'reviews_enabled'
 idx = json.load(open('$THEME/templates/index.json'))
@@ -660,9 +664,20 @@ sp = idx.get('sections', {}).get('social-proof', {}).get('settings', {})
 assert sp.get('enable_section') is True, 'index enable_section'
 assert sp.get('enable_reviews') is True, 'index enable_reviews'
 "; then
-  pass "reviews.json has 500 published entries; Social proof enabled"
+  pass "reviews.json has 500 seed entries; Social proof section stays on"
 else
-  fail "reviews.json missing published entries or Social proof still off"
+  fail "reviews.json missing seed tags or Social proof still off"
+fi
+
+if grep -q "Show Numa-written review pack" "$THEME/config/settings_schema.json" \
+  && grep -q "Show Numa-written review pack" "$THEME/sections/social-proof.liquid" \
+  && grep -q "reviewSource" "$THEME/assets/theme.js" \
+  && grep -q "src === 'seed'" "$THEME/assets/theme.js" \
+  && grep -q "data-reviews-url=\"{{ reviews_url }}\"" "$THEME/sections/social-proof.liquid" \
+  && ! grep -q "data-reviews-url=\"{% if reviews_on %}" "$THEME/sections/social-proof.liquid"; then
+  pass "reviews toggle filters seed pack only; customer reviews always load"
+else
+  fail "reviews toggle still hides the whole pack or section URL"
 fi
 
 MARKERS="data-checkout-page data-checkout-flow data-reserve-stage-b data-stageb-summary data-checkout-lines data-checkout-item-count data-checkout-subtotal data-bnpl-monthly data-order-large-terms data-order-large-ack data-checkout-pay data-pay-label data-cart-status data-leadtime-block data-lead-window-label data-leadtime-copy data-checkout-empty"

@@ -6000,8 +6000,6 @@
     var root = document.querySelector('[data-reviews]');
     if (!root) return;
 
-    var showEntries = root.getAttribute('data-reviews-show-entries') !== 'false';
-    var url = root.getAttribute('data-reviews-url');
     var pageSize = parseInt(root.getAttribute('data-reviews-page-size'), 10) || 6;
     var grid = root.querySelector('[data-reviews-grid]');
     var moreBtn = root.querySelector('[data-reviews-more]');
@@ -6013,18 +6011,24 @@
     var shown = 0;
     var reviews = [];
 
+    function showSeedPack() {
+      return root.getAttribute('data-reviews-show-entries') !== 'false';
+    }
+
+    // Seed/authored = Numa-written pack. Missing source defaults to customer
+    // after that pack is tagged, so new entries stay visible when the toggle is off.
+    function reviewSource(r) {
+      var src = String((r && r.source) || '').toLowerCase();
+      if (src === 'seed' || src === 'authored') return 'seed';
+      return 'customer';
+    }
+
     function showEmpty() {
       if (grid) grid.innerHTML = '';
       if (emptyEl) emptyEl.hidden = false;
       if (moreBtn) moreBtn.hidden = true;
       if (summaryEl) summaryEl.hidden = true;
     }
-
-    if (!showEntries || !url) {
-      showEmpty();
-      return;
-    }
-    if (summaryEl) summaryEl.hidden = false;
 
     function stars(rating) {
       var full = Math.round(rating);
@@ -6098,45 +6102,61 @@
           'Based on ' + summary.count.toLocaleString() + ' reviews';
       }
       if (starsEl) starsEl.textContent = stars(summary.average);
+      if (summaryEl) summaryEl.hidden = false;
     }
 
-    if (!url) {
-      if (emptyEl) emptyEl.hidden = false;
-      return;
-    }
+    function loadReviews() {
+      var url = root.getAttribute('data-reviews-url');
+      shown = 0;
+      reviews = [];
+      if (grid) grid.innerHTML = '';
+      if (moreBtn) moreBtn.hidden = true;
 
-    fetch(url)
-      .then(function (res) {
-        if (!res.ok) throw new Error('reviews fetch failed');
-        return res.json();
-      })
-      .then(function (data) {
-        reviews = (Array.isArray(data.reviews) ? data.reviews : []).filter(function (r) {
-          if (!r || typeof r !== 'object') return false;
-          if (r.published === false || r.visible === false) return false;
-          return true;
-        });
-        if (data.summary) {
-          applySummary(data.summary);
-        } else if (reviews.length) {
+      if (!url) {
+        showEmpty();
+        return;
+      }
+
+      fetch(url)
+        .then(function (res) {
+          if (!res.ok) throw new Error('reviews fetch failed');
+          return res.json();
+        })
+        .then(function (data) {
+          var allowSeed = showSeedPack();
+          reviews = (Array.isArray(data.reviews) ? data.reviews : []).filter(function (r) {
+            if (!r || typeof r !== 'object') return false;
+            if (r.published === false || r.visible === false) return false;
+            if (reviewSource(r) === 'seed') return allowSeed;
+            return true;
+          });
+          if (!reviews.length) {
+            showEmpty();
+            return;
+          }
           var sum = 0;
           reviews.forEach(function (r) {
             sum += Number(r.rating) || 0;
           });
           applySummary({ average: sum / reviews.length, count: reviews.length });
-        }
-        if (!reviews.length) showEmpty();
-        else paint();
-      })
-      .catch(function () {
-        if (emptyEl) emptyEl.hidden = false;
-      });
-
-    if (moreBtn) {
-      moreBtn.addEventListener('click', function () {
-        paint();
-      });
+          if (emptyEl) emptyEl.hidden = true;
+          paint();
+        })
+        .catch(function () {
+          showEmpty();
+        });
     }
+
+    if (root.getAttribute('data-reviews-bound') !== '1') {
+      root.setAttribute('data-reviews-bound', '1');
+      if (moreBtn) {
+        moreBtn.addEventListener('click', function () {
+          paint();
+        });
+      }
+      document.addEventListener('preview:reviews-reload', loadReviews);
+    }
+    loadReviews();
   }
 
   function initStickyReserve() {
