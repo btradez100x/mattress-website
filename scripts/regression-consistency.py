@@ -549,8 +549,12 @@ def check_size_picker_chrome() -> None:
             ok(f"{rel}: European King 160 × 200 cm present")
         else:
             bad(f"{rel}: European King 160 × 200 cm missing")
-        if "return rowHasPickerPrice(row)" in js_text:
-            ok(f"{rel}: GB MarketShown paints every priced Shopify size")
+        if (
+            "catalogRowsFrom" in js_text
+            and "if (!tokens.length) return true" in js_text
+            and "var sizes = [];" in js_text
+        ):
+            ok(f"{rel}: GB MarketShown paints every Shopify size (blank shown = all)")
         else:
             bad(f"{rel}: picker hardcodes a size count instead of Shopify rows")
 
@@ -587,6 +591,9 @@ def check_funnel_chrome():
         "preview/pages/large-sizes.html",
         "preview/pages/european-king.html",
         "preview/pages/what-it-buys.html",
+        "preview/pages/support.html",
+        "preview/pages/cooling.html",
+        "preview/pages/split-king.html",
     ):
         p = ROOT / rel
         if not p.exists():

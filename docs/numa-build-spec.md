@@ -28,6 +28,9 @@ These affect every string on the site. Full detail in `numa-tone-of-voice.md`.
 | `e-mattress-recycling.html` | `/mattress-recycling` | Linked from basket. Mandatory link |
 | `f-about.html` | `/about` | Footer and main nav. Never linked from a product hero |
 | `g-manufacturing.html` | `/manufacturing` | Replaces the existing page entirely |
+| `h-support.html` | `/pages/support` | Back pain and support. T7. |
+| `i-cooling.html` | `/pages/cooling` | Temperature. T8. |
+| `j-split-king.html` | `/pages/split-king` | Zip and link / Split King 2 × 106 × 213cm. T10. |
 
 All seven share one `:root` block. Change tokens in one place.
 

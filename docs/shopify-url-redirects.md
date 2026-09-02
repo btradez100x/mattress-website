@@ -90,6 +90,12 @@ The theme looks up these handles. Prefer renaming the handle to match (Shopify c
 | `/manufacturing` | `/pages/manufacturing` | How it is made | Confirm handle is `manufacturing`, not `how-it-is-made`. Template: **manufacturing**. |
 | `/configure` | `/pages/configure` | Choose your size | Confirm handle is `configure`, not `choose-your-size`. Template: **configure**. |
 | `/journal` | `/pages/journal` | **Missing** | Create the page first. |
+| `/mattresses/support` | `/pages/support` | Support | Template: **support**. Create the page if missing. |
+| `/mattresses/cooling` | `/pages/cooling` | Cooling | Template: **cooling**. Create the page if missing. |
+| `/mattresses/split-king` | `/pages/split-king` | Split King | Template: **split-king**. Create the page if missing. |
+| `/support` | `/pages/support` | Support | Short path for ads. |
+| `/cooling` | `/pages/cooling` | Cooling | Short path for ads. |
+| `/split-king` | `/pages/split-king` | Split King | Short path for ads. |
 | `/basket` | `/cart` | (Shopify cart) | No page needed. `/cart` cannot be a **from** path; it is a valid **to** path. |
 
 Pages in Admin that are **not** in this redirect list (leave them): Contact, Cookies, Privacy, Terms, Cancellations and refunds, Warranty, Size Guide, Delivery, Checkout, Order Confirmed, Order Status, Sleep on it for a year (hidden).

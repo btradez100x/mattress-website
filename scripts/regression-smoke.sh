@@ -53,6 +53,9 @@ REQUIRED_PATHS=(
   "templates/page.european-king.json"
   "templates/page.specification.json"
   "templates/page.what-it-buys.json"
+  "templates/page.support.json"
+  "templates/page.cooling.json"
+  "templates/page.split-king.json"
   "templates/page.configure.json"
   "sections/landing-funnel.liquid"
   "snippets/trial-tokens.liquid"
@@ -233,7 +236,7 @@ else
 fi
 
 # Landing templates use default theme layout (GTM + UTM)
-for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json; do
+for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json page.support.json page.cooling.json page.split-king.json; do
   if python3 - "$THEME/templates/$tpl" <<'PY'
 import json, sys
 data = json.load(open(sys.argv[1]))
@@ -1058,8 +1061,8 @@ for path in js_paths:
     if "european-king" not in t or "160 × 200 cm" not in t:
         print(path, "European King 160 × 200 cm missing")
         ok = False
-    if "rowHasPickerPrice" not in t or "return rowHasPickerPrice(row)" not in t:
-        print(path, "picker is not painting every priced Shopify size")
+    if "catalogRowsFrom" not in t or "if (!tokens.length) return true" not in t or "var sizes = [];" not in t:
+        print(path, "picker is not painting every Shopify size from Market Shown")
         ok = False
 
 if "data-size-pick" not in funnel or "data-lp-sizes" not in funnel:
@@ -1198,6 +1201,9 @@ for fname in [
     "page.european-king.json",
     "page.specification.json",
     "page.what-it-buys.json",
+    "page.support.json",
+    "page.cooling.json",
+    "page.split-king.json",
 ]:
     assert_neighbours(fname, json.loads((root / fname).read_text()))
 

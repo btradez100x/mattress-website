@@ -8,4 +8,10 @@ Redirect from,Redirect to
 /manufacturing,/pages/manufacturing
 /configure,/pages/configure
 /journal,/pages/journal
+/mattresses/support,/pages/support
+/mattresses/cooling,/pages/cooling
+/mattresses/split-king,/pages/split-king
+/support,/pages/support
+/cooling,/pages/cooling
+/split-king,/pages/split-king
 /basket,/cart
