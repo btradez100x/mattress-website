@@ -1,6 +1,6 @@
 {%- comment -%}
-  Landing-page copy tokens. Brand, warranty, trial nights, layer price, featured size price.
-  Tokens: [Brand] [X] [X]-year [N] [N]-night [layer] [price]
+  Landing-page copy tokens. Brand, warranty, trial nights, reply days, layer price, featured size price.
+  Tokens: [Brand] [X] [X]-year [N] [N]-night [D] [D-days] [D-reply] [layer] [price]
 {%- endcomment -%}
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa' | strip
@@ -22,4 +22,5 @@
 -%}
 {%- capture out -%}{% render 'warranty-tokens', text: out %}{%- endcapture -%}
 {%- capture out -%}{% render 'trial-tokens', text: out %}{%- endcapture -%}
+{%- capture out -%}{% render 'reply-tokens', text: out %}{%- endcapture -%}
 {{- out | strip -}}

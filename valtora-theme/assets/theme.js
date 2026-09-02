@@ -1314,6 +1314,17 @@
     captureLpVariantOnce();
   }
 
+  function initTradeEnquiry() {
+    document.querySelectorAll('[data-trade-enquiry]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        vTrack('trade_enquiry_click', {
+          lp_variant: readLpVariant() || 'trade',
+          link_position: el.getAttribute('data-trade-enquiry') || ''
+        });
+      });
+    });
+  }
+
   function withPersistedUtm(href) {
     if (!href) return href;
     if (window.ValtoraUTM && typeof window.ValtoraUTM.applyToHref === 'function') {
@@ -6859,6 +6870,7 @@
     initReviews();
     initFunnelTracking();
     initLandingFunnel();
+    initTradeEnquiry();
     initLandingConfigure();
     initNumaTracking();
     initExitIntent();

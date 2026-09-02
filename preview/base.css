@@ -9664,4 +9664,87 @@ html:not(.shopify-design-mode) .site-footer button:focus-visible {
   outline-offset: 3px;
 }
 
+.lp-size-groups {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem 1.75rem;
+  margin-top: 1.9rem;
+}
+@media (max-width: 800px) {
+  .lp-size-groups {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .lp-size-groups {
+    grid-template-columns: 1fr;
+  }
+}
+.lp-size-groups h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.65625rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.lp-size-groups p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.lp-trade-contact {
+  background: var(--brand-ink, #222);
+  color: var(--brand-on-dark, #f7f5f1);
+  padding: 2.75rem 2.5rem;
+}
+.lp-trade-contact h2 {
+  margin: 0 0 0.9rem;
+  color: inherit;
+}
+.lp-trade-contact p,
+.lp-trade-contact .rte {
+  color: color-mix(in srgb, var(--brand-on-dark) 78%, transparent);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 52ch;
+}
+.lp-trade-contact__mail {
+  display: inline-block;
+  margin-top: 1.35rem;
+  padding-bottom: 0.2rem;
+  font-family: var(--font-headline, var(--font-sans));
+  font-weight: 600;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  letter-spacing: -0.025em;
+  color: var(--brand-accent, #8a6d3b);
+  text-decoration: none;
+  border-bottom: 1px solid var(--brand-accent, #8a6d3b);
+}
+.lp-trade-contact__note {
+  display: block;
+  margin-top: 1.6rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-on-dark) 55%, transparent);
+}
+.lp-outcome__mail {
+  text-align: center;
+  margin-top: 2.25rem;
+}
+.lp-outcome__mail a {
+  color: inherit;
+}
+@media (max-width: 620px) {
+  .lp-trade-contact {
+    padding: 2rem 1.35rem;
+  }
+}
 
+.section--dark .lp-outcome__item {
+  border-color: color-mix(in srgb, var(--brand-on-dark) 16%, transparent);
+}
+.section--dark .lp-outcome__desc {
+  color: color-mix(in srgb, var(--brand-on-dark) 78%, transparent);
+}

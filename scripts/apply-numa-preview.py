@@ -28,7 +28,8 @@ NAV_DESKTOP = """          <a href="../index.html#reserve">The mattress</a>
           <a href="./specification.html">Specification</a>
           <a href="./manufacturing.html">How it is made</a>
           <a href="./about.html">About</a>
-          <a href="../blog/index.html">Journal</a>"""
+          <a href="../blog/index.html">Journal</a>
+          <a href="./trade.html">Trade</a>"""
 
 NAV_HOME = NAV_DESKTOP.replace("./", "./pages/").replace("../index.html", "#reserve").replace("../blog", "./blog")
 # homepage uses ./pages/ and #reserve — handled separately
@@ -64,7 +65,8 @@ HELP_LI = """              <li><a href="./size-guide.html">Size guide</a></li>
               <li><a href="./mattress-recycling.html">Old mattress removal and recycling</a></li>
               <li><a href="./about.html">About</a></li>
               <li><a href="./order-status.html">Order status</a></li>
-              <li><a href="./contact.html">Contact</a></li>"""
+              <li><a href="./contact.html">Contact</a></li>
+              <li><a href="./trade.html">Trade and contract</a></li>"""
 
 
 def patch_html(text: str, *, home: bool = False) -> str:

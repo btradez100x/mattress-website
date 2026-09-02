@@ -798,6 +798,13 @@
         "info": "Shown in the footer and contact page."
       },
       {
+        "type": "text",
+        "id": "trade_email",
+        "label": "Trade and contract enquiries email",
+        "default": "trade@numamattress.com",
+        "info": "Shown on the Trade page mailto links. If empty, those links fall back to the contact page."
+      },
+      {
         "type": "paragraph",
         "content": "Phone and WhatsApp are set per country under UAE / UK below. The storefront uses the visitor\u2019s market (or Default market)."
       },
@@ -884,10 +891,22 @@
         "info": "Used when the visitor country is not UK, UAE, USA, Europe, Ghana, or Nigeria, or if that market field is blank. Time zone follows Default market."
       },
       {
+        "type": "range",
+        "id": "reply_working_days",
+        "min": 1,
+        "max": 15,
+        "step": 1,
+        "unit": "d",
+        "label": "Reply within (working days)",
+        "default": 5,
+        "info": "Trade page and anywhere [D], [D-days], or [D-reply] appears. Default copy reads 'within 5 working days, approximately'."
+      },
+      {
         "type": "text",
         "id": "response_time_note",
         "label": "Response-time note",
-        "default": "We reply within one working day."
+        "default": "We reply within [D] working days, approximately.",
+        "info": "Footer and contact page. Use [D] for the working-days number above. Leave blank to hide."
       },
       {
         "type": "header",

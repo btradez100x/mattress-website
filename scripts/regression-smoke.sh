@@ -59,6 +59,7 @@ REQUIRED_PATHS=(
   "templates/page.cooling.json"
   "templates/page.split-king.json"
   "templates/page.configure.json"
+  "templates/page.trade.json"
   "sections/landing-funnel.liquid"
   "snippets/trial-tokens.liquid"
   "templates/page.size-guide.json"
@@ -238,7 +239,7 @@ else
 fi
 
 # Landing templates use default theme layout (GTM + UTM)
-for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json page.support.json page.cooling.json page.split-king.json; do
+for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json page.support.json page.cooling.json page.split-king.json page.trade.json; do
   if python3 - "$THEME/templates/$tpl" <<'PY'
 import json, sys
 data = json.load(open(sys.argv[1]))
@@ -250,6 +251,19 @@ PY
     fail "$tpl overrides layout and would skip theme GTM/UTM"
   fi
 done
+
+if grep -q '"id": "trade_email"' "$THEME/config/settings_schema.json" \
+  && grep -q '"id": "reply_working_days"' "$THEME/config/settings_schema.json" \
+  && grep -q '"layout": "trade_contact"' "$THEME/templates/page.trade.json" \
+  && grep -Fq 'Replies [D-reply]' "$THEME/templates/page.trade.json" \
+  && grep -q "data-trade-enquiry" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "function initTradeEnquiry" "$THEME/assets/theme.js" \
+  && grep -q "within 5 working days, approximately" "$ROOT/preview/pages/trade.html" \
+  && ! grep -q "one working day" "$ROOT/preview/pages/trade.html"; then
+  pass "Trade page: configurable reply days, trade email, 5-day copy"
+else
+  fail "Trade page missing theme setting, mailto, or still says one working day"
+fi
 
 if grep -q '"value": "configure"' "$THEME/sections/landing-funnel.liquid" \
   && grep -q "data-lp-configure" "$THEME/sections/landing-funnel.liquid" \

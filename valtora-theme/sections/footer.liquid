@@ -34,6 +34,7 @@
   assign delivery_url = section.settings.delivery_link | default: pages['delivery-lead-time'].url | default: '/pages/delivery-lead-time'
   assign size_guide_url = section.settings.size_guide_link | default: pages['size-guide'].url | default: '/pages/size-guide'
   assign contact_url = section.settings.contact_link | default: pages['contact'].url | default: '/pages/contact'
+  assign trade_url = pages['trade'].url | default: '/pages/trade'
   assign privacy_url = section.settings.privacy_link | default: pages['privacy'].url | default: '/pages/privacy'
   assign terms_url = section.settings.terms_link | default: pages['terms'].url | default: '/pages/terms'
   assign cookies_url = section.settings.cookies_link | default: pages['cookies'].url | default: '/pages/cookies'
@@ -82,7 +83,8 @@
           <p>{{ contact_hours_html }}</p>
         {%- endif -%}
         {%- if settings.response_time_note != blank -%}
-          <p class="site-footer__response">{{ settings.response_time_note }}</p>
+          {%- capture response_note -%}{% render 'reply-tokens', text: settings.response_time_note %}{%- endcapture -%}
+          <p class="site-footer__response">{{ response_note | strip }}</p>
         {%- endif -%}
         {%- if settings.whatsapp_enabled -%}
           <p class="site-footer__whatsapp">{% render 'whatsapp-button', variant: 'inline' %}</p>
@@ -121,6 +123,7 @@
         <li><a href="{{ pages['about'].url | default: '/pages/about' }}">About</a></li>
         <li><a href="{{ order_status_url }}">Order status</a></li>
         <li><a href="{{ contact_url }}">Contact</a></li>
+        <li><a href="{{ trade_url }}">Trade and contract</a></li>
       </ul>
     </div>
 

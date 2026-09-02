@@ -1,3 +1,12 @@
+# Regression results — Wednesday 2 Sep 2026 (trade page + collage ground)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0) on the pre-rebase tree; re-run after rebase before claiming done.
+- Scope note: New `/pages/trade` (template `page.trade`). Reply copy is **within 5 working days, approximately**, driven by Theme settings → **Reply within (working days)** (`reply_working_days`, default 5) via `[D]` / `[D-days]` / `[D-reply]`. Trade email is `trade_email`. Trade is in header nav and footer as Trade and contract. Homepage **Styled by Numa** collage is explicit stone (`ground: surface`) so it is not the navy footer (`ground: dark` on live). Trade outcome uses stone. No VERSION bump. Not yet deployed. Live needs an Admin Page handle `trade` assigned to template **trade**.
+
+---
+
 # Regression results — Monday 31 Aug 2026 (restore 2px cards + cream-on-navy delivery)
 
 ## Smoke

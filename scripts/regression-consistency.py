@@ -815,6 +815,69 @@ def check_warranty_years_setting() -> None:
             ok(f"{rel} warranty years come from data-warranty-years")
 
 
+def check_trade_page() -> None:
+    """Trade page reply window comes from Theme settings, not one working day."""
+    schema = (ROOT / "valtora-theme" / "config" / "settings_schema.json").read_text(encoding="utf-8")
+    if '"id": "trade_email"' in schema and '"id": "reply_working_days"' in schema:
+        ok("settings_schema.json has trade_email and reply_working_days")
+    else:
+        bad("settings_schema.json missing trade_email or reply_working_days")
+
+    data = json.loads((ROOT / "valtora-theme" / "config" / "settings_data.json").read_text(encoding="utf-8"))
+    current = data.get("current") or {}
+    if int(current.get("reply_working_days") or 0) == 5:
+        ok("settings_data.json reply_working_days is 5")
+    else:
+        bad(f"settings_data.json reply_working_days is {current.get('reply_working_days')!r}, expected 5")
+    if current.get("trade_email"):
+        ok("settings_data.json has trade_email")
+    else:
+        bad("settings_data.json missing trade_email")
+
+    snippet = ROOT / "valtora-theme" / "snippets" / "reply-tokens.liquid"
+    if snippet.exists() and "[D-reply]" in snippet.read_text(encoding="utf-8"):
+        ok("snippets/reply-tokens.liquid resolves [D-reply]")
+    else:
+        bad("missing snippets/reply-tokens.liquid")
+
+    tpl = ROOT / "valtora-theme" / "templates" / "page.trade.json"
+    if not tpl.exists():
+        bad("missing templates/page.trade.json")
+        return
+    raw = tpl.read_text(encoding="utf-8")
+    if "[D-reply]" in raw and "one working day" not in raw:
+        ok("page.trade.json uses [D-reply] and not one working day")
+    else:
+        bad("page.trade.json must use [D-reply] and must not say one working day")
+
+    preview = ROOT / "preview" / "pages" / "trade.html"
+    if not preview.exists():
+        bad("missing preview/pages/trade.html")
+        return
+    html = preview.read_text(encoding="utf-8")
+    if "within 5 working days, approximately" not in html:
+        bad("preview/pages/trade.html missing 5 working days copy")
+    elif "one working day" in html:
+        bad("preview/pages/trade.html still says one working day")
+    elif 'data-trade-enquiry="contact"' not in html or 'data-trade-enquiry="footer"' not in html:
+        bad("preview/pages/trade.html missing trade_enquiry_click hooks")
+    elif ">Trade</a>" not in html:
+        bad("preview/pages/trade.html missing Trade in the header")
+    else:
+        ok("preview/pages/trade.html has 5-day replies, Trade nav, and enquiry tracking")
+
+    header = (ROOT / "valtora-theme" / "sections" / "header.liquid").read_text(encoding="utf-8")
+    footer = (ROOT / "valtora-theme" / "sections" / "footer.liquid").read_text(encoding="utf-8")
+    if "pages['trade']" in header and ">Trade</a>" in header:
+        ok("header.liquid includes Trade in desktop and mobile nav")
+    else:
+        bad("header.liquid must include Trade")
+    if "Trade and contract" in footer:
+        ok("footer.liquid includes Trade and contract")
+    else:
+        bad("footer.liquid must include Trade and contract")
+
+
 def check_json_templates_uploadable() -> None:
     """Shopify silently drops JSON templates on zip upload if they fail platform checks."""
     theme = ROOT / "valtora-theme"
@@ -1013,6 +1076,7 @@ def main() -> int:
     check_no_filters_in_render_args()
     check_json_templates_uploadable()
     check_warranty_years_setting()
+    check_trade_page()
 
     roots = [
         ROOT / "preview" / "pages",
