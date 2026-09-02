@@ -130,7 +130,7 @@
         <span class="site-header__order-count" data-order-count{% unless order_line_count > 0 %} hidden{% endunless %}>{{ order_line_count }}</span>
       </a>
       {%- if section.settings.show_reserve_cta -%}
-        <a class="btn" href="{{ reserve_href }}">
+        <a class="btn btn--sm" href="{{ reserve_href }}">
           {{ reserve_label }}
         </a>
       {%- endif -%}

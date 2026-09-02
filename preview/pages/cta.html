@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numa — CTA specification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --snow:#F5F4F1; --bone:#E4E1DA; --hair:#D6D2CA; --hair-dk:#2E2E30;
+  --graphite:#3A3A3C; --carbon:#1A1A1A; --ember:#8A6D3B; --ember-lt:#C4A46A;
+  --display:'Instrument Sans',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'Geist Mono',ui-monospace,monospace;
+
+  /* ── THE RULE ─────────────────────────── */
+  --radius: 0;
+  /* ─────────────────────────────────────── */
+
+  --btn-pad-y: 15px;
+  --btn-pad-x: 30px;
+  --btn-pad-y-sm: 11px;
+  --btn-pad-x-sm: 20px;
+  --btn-pad-y-lg: 19px;
+  --btn-pad-x-lg: 38px;
+  --btn-font: 15px;
+  --btn-weight: 500;
+  --btn-track: -.01em;
+  --btn-transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--snow);color:var(--carbon);font-family:var(--body);
+ font-size:16px;line-height:1.6;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;
+ font-variant-numeric:tabular-nums}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:600;letter-spacing:-.03em;line-height:1.06}
+h1{font-size:clamp(34px,5.5vw,56px)}
+h2{font-size:28px;margin-bottom:14px}
+h3{font-size:16px;letter-spacing:-.02em;margin-bottom:10px}
+p{margin:0 0 14px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--graphite);margin:0 0 16px}
+.lede{font-size:19px;line-height:1.5;color:var(--graphite);letter-spacing:-.014em;max-width:38em}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite)}
+header{padding:88px 0 56px;border-bottom:1px solid var(--hair)}
+section{padding:64px 0;border-bottom:1px solid var(--hair)}
+section:last-of-type{border-bottom:0}
+.sec-head{margin-bottom:36px;max-width:44em}
+
+/* ══ THE BUTTON ══════════════════════════ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  font-family:var(--body); font-weight:var(--btn-weight); font-size:var(--btn-font);
+  letter-spacing:var(--btn-track); line-height:1;
+  padding:var(--btn-pad-y) var(--btn-pad-x);
+  border-radius:var(--radius);          /* 0 */
+  border:1px solid transparent;
+  background:var(--carbon); color:var(--snow);
+  text-decoration:none; cursor:pointer;
+  transition:var(--btn-transition);
+  min-height:48px;                       /* touch target */
+}
+.btn:hover{background:var(--graphite)}
+.btn:active{background:#000}
+.btn:focus-visible{outline:2px solid var(--ember); outline-offset:3px}
+.btn:disabled,.btn[aria-disabled="true"]{background:var(--hair);color:var(--graphite);cursor:not-allowed}
+
+.btn--line{background:transparent;color:var(--carbon);border-color:var(--hair)}
+.btn--line:hover{background:var(--bone);border-color:var(--hair)}
+.btn--line:active{background:var(--hair)}
+
+.btn--quiet{background:transparent;color:var(--carbon);border-color:transparent;padding-left:0;padding-right:0}
+.btn--quiet::after{content:"";display:block;height:1px;background:var(--carbon);
+  position:absolute;left:0;right:0;bottom:10px;transform:scaleX(1);transform-origin:left;transition:transform .2s}
+.btn--quiet{position:relative}
+.btn--quiet:hover{background:transparent;color:var(--ember)}
+.btn--quiet:hover::after{background:var(--ember)}
+
+.btn--sm{padding:var(--btn-pad-y-sm) var(--btn-pad-x-sm);font-size:13.5px;min-height:40px}
+.btn--lg{padding:var(--btn-pad-y-lg) var(--btn-pad-x-lg);font-size:16px;min-height:56px}
+.btn--block{display:flex;width:100%}
+
+.on-dark .btn{background:var(--snow);color:var(--carbon)}
+.on-dark .btn:hover{background:var(--bone)}
+.on-dark .btn--line{background:transparent;color:var(--snow);border-color:var(--hair-dk)}
+.on-dark .btn--line:hover{background:#242426;border-color:#3A3A3C}
+.on-dark .btn:focus-visible{outline-color:var(--ember-lt)}
+/* ════════════════════════════════════════ */
+
+.demo{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:34px;background:var(--bone);border:1px solid var(--hair)}
+.demo.dark{background:var(--carbon);border-color:var(--hair-dk)}
+.demo.snow{background:var(--snow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
+.grid>div{background:var(--snow);padding:26px 24px}
+.grid p{font-size:14.5px;color:var(--graphite);margin:0}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite);
+ text-align:left;font-weight:400;padding:0 14px 12px 0}
+td{padding:13px 14px 13px 0;border-top:1px solid var(--hair);vertical-align:top}
+td.m,th.m{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+code{font-family:var(--mono);font-size:12.5px;background:var(--bone);padding:2px 6px}
+pre{font-family:var(--mono);font-size:12.5px;line-height:1.75;background:var(--carbon);color:#D8D4CC;
+ padding:24px;overflow-x:auto;margin:0}
+pre .c{color:#8E8A82}
+pre .k{color:var(--ember-lt)}
+.yn{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair);border:1px solid var(--hair)}
+.yn>div{background:var(--snow);padding:26px 24px}
+.yn .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.yn .yes .t{color:#1D7A4E}.yn .no .t{color:#B3251E}
+.yn p{font-size:14.5px;margin:0 0 9px}
+.yn p:last-child{margin:0}
+@media(max-width:700px){.yn{grid-template-columns:1fr}}
+.radius-demo{display:flex;gap:20px;flex-wrap:wrap;margin-top:22px}
+.rd{text-align:center}
+.rd .box{width:150px;height:52px;background:var(--carbon);color:var(--snow);display:grid;place-items:center;
+ font-family:var(--body);font-size:14px;font-weight:500}
+.rd .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite);margin-top:9px}
+.rd.wrong .box{opacity:.4}
+.rd.wrong .lbl{color:#B3251E}
+.note{border-left:1px solid var(--carbon);padding:4px 0 4px 22px;margin:26px 0}
+.note p{margin:0;font-size:15px}
+footer{padding:56px 0 80px}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+</style></head>
+<body>
+
+<header><div class="wrap">
+<p class="kicker">Component specification</p>
+<h1>Calls to action</h1>
+<p class="lede" style="margin-top:22px">Every button on the site. Radius, sizes, states, hierarchy and the labels that go inside them.</p>
+</div></header>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">The rule</p><h2>The radius is zero.</h2>
+<p>Nothing on this site is rounded. Not buttons, not cards, not inputs, not badges, not the basket counter.</p></div>
+
+<div class="radius-demo">
+  <div class="rd"><div class="box" style="border-radius:0">Reserve yours</div><p class="lbl">0 &middot; correct</p></div>
+  <div class="rd wrong"><div class="box" style="border-radius:4px">Reserve yours</div><p class="lbl">4px &middot; no</p></div>
+  <div class="rd wrong"><div class="box" style="border-radius:8px">Reserve yours</div><p class="lbl">8px &middot; no</p></div>
+  <div class="rd wrong"><div class="box" style="border-radius:999px">Reserve yours</div><p class="lbl">Pill &middot; no</p></div>
+</div>
+
+<div class="note"><p>A square corner is a decision that has to be held everywhere or it reads as an oversight. One rounded input in a checkout undoes the discipline of forty square components, because the eye finds the inconsistency before it finds the pattern.</p></div>
+
+<p>It is a single token. Change it in one place and the whole site follows, which is exactly why it must not be overridden locally.</p>
+<pre><span class="c">/* The only place radius is declared */</span>
+:root{
+  <span class="k">--radius</span>: 0;
+}
+
+<span class="c">/* Every component references it. Never a literal value. */</span>
+.btn{ border-radius: <span class="k">var(--radius)</span>; }
+.card{ border-radius: <span class="k">var(--radius)</span>; }
+.input{ border-radius: <span class="k">var(--radius)</span>; }</pre>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">Hierarchy</p><h2>Three levels, and only one primary per view.</h2></div>
+<div class="demo snow">
+  <button class="btn">Reserve yours</button>
+  <button class="btn btn--line">See the specification</button>
+  <a href="#" class="btn btn--quiet">How it is made</a>
+</div>
+<div class="grid" style="margin-top:26px">
+<div><h3>Primary</h3><p>Carbon fill, Snow text. The one action the page exists for. <strong>Never more than one visible at a time.</strong> If a section needs two, one of them is secondary.</p></div>
+<div><h3>Secondary</h3><p>Transparent with a hairline border. Sits beside the primary for the alternative path — usually more information rather than a competing action.</p></div>
+<div><h3>Quiet</h3><p>An underlined text link at button scale. For onward navigation that is not an action. No border, no fill.</p></div>
+</div>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">Sizes</p><h2>Three, and the default covers most of it.</h2></div>
+<div class="demo snow">
+  <button class="btn btn--sm">Small</button>
+  <button class="btn">Default</button>
+  <button class="btn btn--lg">Large</button>
+</div>
+<table style="margin-top:30px">
+<thead><tr><th>Size</th><th class="m">Padding</th><th class="m">Font</th><th class="m">Min height</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td>Small</td><td class="m">11 / 20</td><td class="m">13.5px</td><td class="m">40px</td><td>Inside cards, table rows, the basket line</td></tr>
+<tr><td>Default</td><td class="m">15 / 30</td><td class="m">15px</td><td class="m">48px</td><td>Everything. Hero, sections, forms</td></tr>
+<tr><td>Large</td><td class="m">19 / 38</td><td class="m">16px</td><td class="m">56px</td><td>The single checkout action, and nowhere else</td></tr>
+</tbody></table>
+<div class="note"><p>Minimum height is a touch target, not a visual choice. 48px is the accessible floor and the small variant only drops to 40px because it never appears alone on mobile.</p></div>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">States</p><h2>Five, all of them required.</h2></div>
+<table>
+<thead><tr><th>State</th><th class="m">Primary</th><th class="m">Secondary</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>Default</td><td class="m">bg Carbon</td><td class="m">border Hair</td><td>&mdash;</td></tr>
+<tr><td>Hover</td><td class="m">bg Graphite</td><td class="m">bg Bone</td><td>180ms ease. Never Ember — it is not a fill colour</td></tr>
+<tr><td>Active</td><td class="m">bg #000</td><td class="m">bg Hair</td><td>No transform, no scale, no shadow</td></tr>
+<tr><td>Focus</td><td class="m">2px Ember, 3px offset</td><td class="m">2px Ember, 3px offset</td><td><code>:focus-visible</code> only. Never remove the outline</td></tr>
+<tr><td>Disabled</td><td class="m">bg Hair, Graphite text</td><td class="m">border Hair, Graphite text</td><td>Also set <code>aria-disabled</code></td></tr>
+</tbody></table>
+<div class="demo snow" style="margin-top:30px">
+  <button class="btn">Hover me</button>
+  <button class="btn" disabled>Disabled</button>
+  <button class="btn btn--line">Tab to me</button>
+</div>
+<div class="note"><p>Ember is never a button background. It appears on focus outlines and on the quiet variant's hover, and nowhere else in this component.</p></div>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">On dark</p><h2>Inverted, same geometry.</h2></div>
+<div class="demo dark on-dark">
+  <button class="btn">Choose your size</button>
+  <button class="btn btn--line">See the build</button>
+</div>
+<p style="margin-top:22px">On a Carbon ground the primary becomes Snow fill with Carbon text. The secondary keeps a transparent fill and takes the dark hairline. Focus outlines switch to the lighter Ember so they stay visible.</p>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">Mobile</p><h2>Full width below 600px, one action per row.</h2></div>
+<div class="demo snow" style="flex-direction:column;align-items:stretch;max-width:380px">
+  <button class="btn btn--block">Add to basket</button>
+  <button class="btn btn--line btn--block">See the specification</button>
+</div>
+<p style="margin-top:22px">Buttons stack rather than sitting side by side. A 50/50 split on a narrow screen produces two targets that are both too small and reads as indecision about which one matters.</p>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">Labels</p><h2>Sentence case, verb first, no more than four words.</h2></div>
+<div class="yn">
+<div class="yes"><p class="t">Write</p>
+<p>Reserve yours</p><p>Choose your size</p><p>Add to basket</p><p>See the specification</p><p>Talk to us</p></div>
+<div class="no"><p class="t">Do not write</p>
+<p>Reserve Yours &mdash; Title Case</p><p>Buy now! &mdash; exclamation</p><p>Click here &mdash; describes the mechanic</p><p>Shop the collection now &mdash; too long</p><p>Learn more &mdash; says nothing</p></div>
+</div>
+<div class="note"><p>The label describes what happens next, from the reader's side. "See the specification" tells them where they land. "Learn more" does not.</p></div>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">Spacing</p><h2>14px between buttons. 34px above a group.</h2></div>
+<pre>.cta-row{
+  display: flex;
+  gap: <span class="k">14px</span>;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: <span class="k">34px</span>;
+}
+
+<span class="c">/* Below 600px, stack and fill */</span>
+@media (max-width: 600px){
+  .cta-row{ flex-direction: column; align-items: stretch; }
+  .cta-row .btn{ width: 100%; }
+}</pre>
+</div></section>
+
+<section><div class="wrap">
+<div class="sec-head"><p class="kicker">Reference</p><h2>The component, complete.</h2></div>
+<pre>.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--body); font-weight: 500; font-size: 15px;
+  letter-spacing: -.01em; line-height: 1;
+  padding: 15px 30px;
+  border-radius: <span class="k">var(--radius)</span>;   <span class="c">/* 0 */</span>
+  border: 1px solid transparent;
+  background: var(--carbon); color: var(--snow);
+  text-decoration: none; cursor: pointer;
+  min-height: 48px;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.btn:hover        { background: var(--graphite); }
+.btn:active       { background: #000; }
+.btn:focus-visible{ outline: 2px solid var(--ember); outline-offset: 3px; }
+.btn:disabled     { background: var(--hair); color: var(--graphite); cursor: not-allowed; }
+
+.btn--line { background: transparent; color: var(--carbon); border-color: var(--hair); }
+.btn--sm   { padding: 11px 20px; font-size: 13.5px; min-height: 40px; }
+.btn--lg   { padding: 19px 38px; font-size: 16px;   min-height: 56px; }
+.btn--block{ display: flex; width: 100%; }</pre>
+<div class="note"><p>No shadows. No gradients. No transforms on hover. No scale on active. The button changes colour and nothing else, because movement in a button is decoration and this is an instrument for buying a bed.</p></div>
+</div></section>
+
+<footer><div class="wrap"><p class="mono">Numa &middot; CTA specification &middot; Radius 0</p></div></footer>
+</body></html>

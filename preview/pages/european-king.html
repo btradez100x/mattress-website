@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../base.css?v=brand-e144">
-    <link rel="stylesheet" href="../brand.css?v=radius2">
-    <link rel="stylesheet" href="../redesign.css?v=rd1">
+    <link rel="stylesheet" href="../base.css?v=cta-111">
+    <link rel="stylesheet" href="../brand.css?v=cta-111">
+    <link rel="stylesheet" href="../redesign.css?v=cta-111">
     <style>
       :root {
         --brand-primary: #1F3A5F;
@@ -31,8 +31,8 @@
         --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
         --max-width: 72rem;
         --max-width-narrow: 40rem;
-        --radius: 16px;
-        --radius-control: 12px;
+        --radius: 0;
+        --radius-control: 0;
         --transition: var(--dur-base) var(--ease);
       }
       .preview-banner {
@@ -229,7 +229,7 @@
     <div class="float-basket" data-float-basket data-sticky-reserve hidden>
       <span class="float-basket__count" data-float-count>Choose a size</span>
       <strong class="float-basket__total" data-float-total data-sticky-price></strong>
-      <a class="float-basket__btn" data-float-continue data-checkout-href="./cart.html" href="#configure">Reserve yours</a>
+      <a class="btn btn--sm float-basket__btn" data-float-continue data-checkout-href="./cart.html" href="#configure">Reserve yours</a>
     </div>
 
     <script src="../utm-persistence.js?v=wo-v9-utm1"></script>

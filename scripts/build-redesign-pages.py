@@ -219,8 +219,8 @@ def chrome(meta: dict) -> tuple[str, str]:
         --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
         --max-width: 72rem;
         --max-width-narrow: 40rem;
-        --radius: 16px;
-        --radius-control: 12px;
+        --radius: 0;
+        --radius-control: 0;
         --transition: var(--dur-base) var(--ease);
       }}
       .preview-banner {{

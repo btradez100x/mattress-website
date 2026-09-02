@@ -1540,18 +1540,19 @@ else
   fail "dark type lock missing muted/kicker/Next sibling selectors"
 fi
 
-# Original card chrome: 0.35rem (4fee53a). Not 2px fake radius, not 16px filled-card.
-if grep -q 'border-radius: 0.35rem' "$THEME/assets/base.css" \
-  && grep -q -- '--radius: 0.35rem' "$THEME/assets/brand.css" \
-  && grep -q -- '--radius-control: 0.35rem' "$THEME/assets/brand.css" \
+# CTA spec: radius 0 on the token. Size-row chrome stays (do not empty).
+if grep -q -- '--radius: 0' "$THEME/assets/brand.css" \
+  && grep -q -- '--radius-control: 0' "$THEME/assets/brand.css" \
+  && grep -q 'CTA spec last-wins' "$THEME/assets/brand.css" \
   && grep -q '.size-option,' "$THEME/assets/base.css" \
   && grep -q '.size-row {' "$THEME/assets/base.css" \
   && grep -q '.size-option,' "$THEME/assets/base.css" \
   && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css" \
-  && ! grep -q -- '--radius: 2px' "$THEME/assets/brand.css"; then
-  pass "card chrome restored to original 0.35rem fill+radius+shadow (not 2px, not 16px)"
+  && ! grep -q -- '--radius: 2px' "$THEME/assets/brand.css" \
+  && ! grep -q 'border-radius: 12px' "$THEME/assets/brand.css"; then
+  pass "CTA spec radius 0; size-row chrome remains (not 12px buttons, not emptied)"
 else
-  fail "card chrome is still 2px, 16px, or missing size-row"
+  fail "CTA radius token missing, 12px buttons returned, or size-row emptied"
 fi
 
 

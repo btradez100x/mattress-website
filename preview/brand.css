@@ -42,8 +42,8 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
   --dur-panel: 280ms;
   --dur-base: 450ms;
   --dur-wipe: 600ms;
-  --radius: 0.35rem;
-  --radius-control: 0.35rem;
+  --radius: 0;
+  --radius-control: 0;
 }
 
 /* Type lock — zip roles. html:root beats later landing-page :root Outfit/Fraunces. */
@@ -228,36 +228,100 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
-.section--dark .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp),
-[data-section-ground="dark"] .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp) {
-  background: var(--brand-on-dark, #F7F5F1);
-  color: var(--brand-primary, #1F3A5F);
-}
-.section--dark .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp):hover,
-[data-section-ground="dark"] .btn:not(.btn--ghost):not(.btn--accent-line):not(.btn--whatsapp):hover {
-  background: var(--brand-surface, #EAE6DF);
-  color: var(--brand-primary, #1F3A5F);
-}
-
-/* Page CTAs 12px. Original cards 0.35rem (4fee53a). Not 2px, not 16px. */
-html .btn:not(.btn--accent-line),
-html[data-brand-guidelines="v1"] .btn:not(.btn--accent-line),
-html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line),
+/* CTA spec last-wins. Radius 0. Carbon fill on light. Ember is never a fill. */
+html .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
+html[data-brand-guidelines="v1"] .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
+html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
 .hero__cta .btn,
 .float-basket__btn,
 .sticky-reserve__btn,
 .checkout-stage__pay {
-  border-radius: 12px;
+  border-radius: var(--radius, 0);
 }
 
-/* Original size card chrome last-wins (picker only). Does not empty .size-row. */
+html .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--quiet):not(.btn--accent-line):not(.btn--whatsapp),
+html[data-brand-guidelines="v1"] .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--quiet):not(.btn--accent-line):not(.btn--whatsapp),
+html[data-brand-guidelines="v2"] .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--quiet):not(.btn--accent-line):not(.btn--whatsapp) {
+  background: #1A1A1A;
+  color: #F5F4F1;
+  text-transform: none;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  box-shadow: none;
+  transform: none;
+}
+
+html .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--quiet):not(.btn--accent-line):not(.btn--whatsapp):hover {
+  background: #3A3A3C;
+  color: #F5F4F1;
+  transform: none;
+  box-shadow: none;
+}
+
+html .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--quiet):not(.btn--accent-line):not(.btn--whatsapp):active {
+  background: #000;
+  transform: none;
+  box-shadow: none;
+}
+
+html .btn--line,
+html .btn--ghost,
+html .btn-line {
+  background: transparent;
+  color: #1A1A1A;
+  border-color: #D6D2CA;
+}
+
+html .btn--line:hover,
+html .btn--ghost:hover,
+html .btn-line:hover {
+  background: #E4E1DA;
+  border-color: #D6D2CA;
+  color: #1A1A1A;
+}
+
+.section--dark .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
+[data-section-ground="dark"] .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp) {
+  background: #F5F4F1;
+  color: #1A1A1A;
+}
+.section--dark .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp):hover,
+[data-section-ground="dark"] .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp):hover {
+  background: #E4E1DA;
+  color: #1A1A1A;
+}
+
+.section--dark .btn--line,
+.section--dark .btn--ghost,
+.section--dark .btn-line,
+[data-section-ground="dark"] .btn--line,
+[data-section-ground="dark"] .btn--ghost,
+[data-section-ground="dark"] .btn-line {
+  background: transparent;
+  color: #F5F4F1;
+  border-color: #2E2E30;
+}
+
+.float-basket .btn,
+.float-basket__btn,
+.sticky-reserve__btn {
+  background: #F5F4F1;
+  color: #1A1A1A;
+  border-radius: 0;
+}
+.float-basket .btn:hover,
+.float-basket__btn:hover,
+.sticky-reserve__btn:hover {
+  background: #E4E1DA;
+  color: #1A1A1A;
+}
 .size-option,
 .size-row,
 .size-guide-tile {
   background: #fff !important;
   background-color: #fff !important;
   border: 1px solid rgba(31, 58, 95, 0.14);
-  border-radius: 0.35rem !important;
+  border-radius: var(--radius, 0) !important;
 }
 
 .size-option.is-in-basket,

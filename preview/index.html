@@ -26,8 +26,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="./assets/hero-mattress.jpg" fetchpriority="high">
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./base.css?v=brand-e144">
-    <link rel="stylesheet" href="./brand.css?v=radius2">
+<link rel="stylesheet" href="./base.css?v=cta-111">
+    <link rel="stylesheet" href="./brand.css?v=cta-111">
     <link rel="stylesheet" href="./mobile-fit.css?v=390">
     <style>
       :root {
@@ -55,8 +55,8 @@
         --space-gutter: 20px;
         --max-width: 1240px;
         --max-width-narrow: 40rem;
-        --radius: 16px;
-        --radius-control: 12px;
+        --radius: 0;
+        --radius-control: 0;
         --transition: var(--dur-base) var(--ease);
         --sticky-reserve-offset: 0px;
         --hairline: color-mix(in srgb, var(--brand-primary) 12%, transparent);
@@ -140,8 +140,8 @@
         --font-headline: 'Instrument Sans', system-ui, sans-serif;
         --font-mono: 'Geist Mono', ui-monospace, monospace;
         --wordmark-tracking: 0.02em;
-        --radius: 16px;
-        --radius-control: 12px;
+        --radius: 0;
+        --radius-control: 0;
         --transition: var(--dur-base) var(--ease);
         --hairline: #D6D2CA;
         --hairline-dark: #2E2E30;
@@ -253,7 +253,7 @@
         letter-spacing: -0.03em;
       }
       html[data-brand-guidelines="v2"] .btn {
-        border-radius: 2px;
+        border-radius: 0;
       }
 
       .preview-banner {
@@ -523,7 +523,7 @@
           <a href="./pages/trade.html">Trade</a>
         </nav>
         <div class="site-header__actions"><a class="site-header__order" href="./pages/cart.html" data-order-link hidden aria-label="Order"><span class="site-header__order-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" focusable="false"><path d="M5 8h14l-1.1 10.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg></span><span class="site-header__order-label">Order</span><span class="site-header__order-count" data-order-count hidden>0</span></a>
-          <a class="btn" href="#reserve">Reserve yours</a>
+          <a class="btn btn--sm" href="#reserve">Reserve yours</a>
           <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="MobileNav" aria-label="Open menu">
             <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
           </button>
@@ -547,7 +547,7 @@
           <p class="hero__sub" data-reveal-child data-reveal-first style="--reveal-delay: 50ms">A core made to outlast the frame it sits on. You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before.</p>
           <div class="hero__cta" data-reveal-child data-reveal-first style="--reveal-delay: 150ms">
             <a class="btn" href="#reserve" data-hero-cta>See sizes and prices</a>
-            <a class="btn btn--ghost hero__secondary" href="#delivery">How it arrives</a>
+            <a class="btn btn--ghost btn--line hero__secondary" href="#delivery">How it arrives</a>
           </div>
           <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Concierge unpacking included · The old one leaves with it</p>
         </div>
@@ -1609,7 +1609,7 @@
         <div class="float-basket" data-float-basket data-sticky-reserve hidden>
       <span class="float-basket__count" data-float-count>1 mattress</span>
       <strong class="float-basket__total" data-float-total data-sticky-price>-</strong>
-      <a class="float-basket__btn" data-float-continue data-checkout-href="./pages/checkout.html" href="#reserve">See sizes and prices</a>
+      <a class="btn btn--sm float-basket__btn" data-float-continue data-checkout-href="./pages/checkout.html" href="#reserve">See sizes and prices</a>
     </div>
 
     <script>
