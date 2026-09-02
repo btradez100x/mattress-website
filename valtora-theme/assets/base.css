@@ -3625,6 +3625,28 @@ video[controls],
   opacity: 0.85;
 }
 
+.section--dark .review,
+[data-section-ground="dark"] .review {
+  border-top-color: color-mix(in srgb, var(--brand-on-dark) 18%, transparent);
+}
+
+.section--dark .review__title,
+.section--dark .review__verified,
+.section--dark .review__author,
+.section--dark .review__quote,
+.section--dark .reviews__count,
+.section--dark .reviews__score,
+.section--dark .reviews__empty,
+[data-section-ground="dark"] .review__title,
+[data-section-ground="dark"] .review__verified,
+[data-section-ground="dark"] .review__author,
+[data-section-ground="dark"] .review__quote,
+[data-section-ground="dark"] .reviews__count,
+[data-section-ground="dark"] .reviews__score,
+[data-section-ground="dark"] .reviews__empty {
+  color: var(--brand-on-dark);
+}
+
 .reviews__actions {
   margin-top: 2rem;
   display: flex;
