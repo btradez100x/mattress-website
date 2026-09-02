@@ -68,7 +68,7 @@
         {{ section.settings.cta_label | default: 'See sizes and prices' }}
       </a>
       {%- if section.settings.secondary_cta_label != blank -%}
-        <a class="btn btn--ghost hero__secondary" href="{{ section.settings.secondary_cta_link | default: '#swap-video' }}">
+        <a class="btn btn--ghost btn--line hero__secondary" href="{{ section.settings.secondary_cta_link | default: '#swap-video' }}">
           {{ section.settings.secondary_cta_label }}
         </a>
       {%- endif -%}

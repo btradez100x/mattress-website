@@ -158,8 +158,8 @@
     --space-gutter: 20px;
     --max-width: 1240px;
     --max-width-narrow: 40rem;
-    --radius: 0.35rem;
-    --radius-control: 0.35rem;
+    --radius: 0;
+    --radius-control: 0;
     --transition: {{ transition_token }};
     --sticky-reserve-offset: 0px;
     --hairline: {% if guidelines == 'v2' %}#D6D2CA{% else %}color-mix(in srgb, {{ color_primary }} 12%, transparent){% endif %};
@@ -240,6 +240,6 @@
   .section--dark .gold-rule.gold-rule--measure {
     border-top-color: var(--brand-accent);
   }
-  .btn { border-radius: 12px; }
+  .btn { border-radius: var(--radius, 0); }
   {% endif %}
 {% endstyle %}

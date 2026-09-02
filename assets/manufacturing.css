@@ -191,7 +191,7 @@
 .mfg-band--dark .lp-outcome__name {
   color: var(--brand-on-dark);
 }
-.mfg-band--dark .btn {
-  background: var(--brand-on-dark);
-  color: var(--brand-primary);
+.mfg-band--dark .btn:not(.btn--ghost):not(.btn--line):not(.btn-line) {
+  background: var(--btn-snow, #F5F4F1);
+  color: var(--btn-carbon, #1A1A1A);
 }

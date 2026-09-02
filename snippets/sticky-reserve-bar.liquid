@@ -6,7 +6,7 @@
   <span class="float-basket__count" data-float-count>Choose a size</span>
   <strong class="float-basket__total" data-float-total data-sticky-price></strong>
   <a
-    class="float-basket__btn"
+    class="btn btn--sm float-basket__btn"
     data-float-continue
     data-checkout-href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
     href="{% if template.name == 'index' %}#reserve{% else %}{{ routes.root_url }}#reserve{% endif %}"
