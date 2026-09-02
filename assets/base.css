@@ -791,27 +791,30 @@ a[data-reserve-continue][aria-disabled="true"] {
   color: var(--brand-on-dark);
 }
 
-/* Announcement */
+/* Announcement — HTML .banner from i-cooling.html. Not a new bar. */
 .announcement {
-  background: var(--brand-primary);
-  color: var(--brand-gold, var(--brand-accent, #8A6D3B));
+  background: #1A1A1A;
+  color: #F5F4F1;
   text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  padding: 11px 24px;
+  font-family: var(--font-mono, 'Geist Mono', 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   line-height: 1.5;
-  padding: 0.55rem 2.5rem 0.55rem var(--space-gutter);
   white-space: normal;
   overflow-wrap: break-word;
   overflow-x: clip;
-  --brand-ink: var(--brand-gold, var(--brand-accent, #8A6D3B));
-  --eyebrow-color: var(--brand-gold, var(--brand-accent, #8A6D3B));
-  --color-foreground: var(--brand-gold, var(--brand-accent, #8A6D3B));
 }
 
 .announcement p {
   margin: 0;
   max-width: 100%;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   white-space: normal;
   overflow-wrap: break-word;
 }
@@ -9348,8 +9351,8 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 .announcement b,
 .announcement strong {
-  color: inherit;
-  font-weight: 600;
+  color: #C4A46A;
+  font-weight: 500;
 }
 .announcement {
   position: relative;
@@ -9488,19 +9491,31 @@ html.shopify-design-mode .section--wipe.is-wiping {
   opacity: 1 !important;
 }
 
-/* Gold announcement on navy. #8A6D3B is ~2.4:1 on #1F3A5F; lift toward
-   antique gold so the bar reads as the original gold, not cream. */
-.announcement,
+/* HTML .banner lock. Snow on carbon; gold only on b. Do not paint the whole bar gold. */
+.announcement {
+  background: #1A1A1A !important;
+  color: #F5F4F1 !important;
+  text-align: center;
+  padding: 11px 24px;
+  font-family: var(--font-mono, 'Geist Mono', 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
 .announcement p,
-.announcement a,
+.announcement a {
+  color: #F5F4F1 !important;
+  opacity: 1 !important;
+}
 .announcement b,
 .announcement strong {
-  color: color-mix(in srgb, var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2) !important;
+  color: #C4A46A !important;
+  font-weight: 500;
   opacity: 1 !important;
 }
 .announcement__dismiss {
-  color: var(--brand-on-dark, #F7F5F1) !important;
-  opacity: 0.55;
+  color: #F5F4F1 !important;
+  opacity: 0.7;
 }
 
 
