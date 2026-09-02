@@ -822,11 +822,11 @@ fi
 
 if grep -q 'price_raw' "$THEME/sections/size-reserve.liquid" \
   && grep -q 'mattress.variants' "$THEME/sections/size-reserve.liquid" \
-  && grep -q 'custom.market_shown' "$THEME/sections/size-reserve.liquid" \
+  && grep -q 'custom.MarketShown' "$THEME/sections/size-reserve.liquid" \
   && grep -q 'size-catalog-json' "$THEME/sections/size-reserve.liquid"; then
   pass "size-reserve loops Shopify variants; Market Shown is the catalog"
 else
-  fail "size-reserve is not reading product.variants / custom.market_shown"
+  fail "size-reserve is not reading product.variants / custom.MarketShown"
 fi
 
 if grep -q 'Not in this allocation' "$THEME/assets/theme.js" \
