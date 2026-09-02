@@ -755,9 +755,9 @@
       {
         "type": "checkbox",
         "id": "reviews_enabled",
-        "label": "Show published review entries",
+        "label": "Show Numa-written review pack",
         "default": true,
-        "info": "Keeps the Reviews section on the page. When off, visitors see the empty state instead of reviews.json content."
+        "info": "Turns off the 500 seed reviews we wrote. Customer reviews still show. Does not hide the Social proof section — use Customize → Social proof → Show this section for that."
       },
       {
         "type": "checkbox",
@@ -775,7 +775,7 @@
       },
       {
         "type": "paragraph",
-        "content": "Approved reviews: add them to the reviews.json theme asset, or connect a reviews app block in the Social proof section."
+        "content": "Approved customer reviews: add them to the reviews.json theme asset with source \"customer\" (or omit source). The Numa-written pack is tagged source \"seed\". Or connect a reviews app block in Social proof."
       }
     ]
   },

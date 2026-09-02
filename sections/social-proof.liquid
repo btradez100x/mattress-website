@@ -37,7 +37,7 @@
   data-section-ground="{% render 'section-ground', as: 'value' %}"
   data-reviews
   data-reviews-show-entries="{% if reviews_on %}true{% else %}false{% endif %}"
-  data-reviews-url="{% if reviews_on %}{{ reviews_url }}{% endif %}"
+  data-reviews-url="{{ reviews_url }}"
   data-reviews-page-size="{{ section.settings.page_size | default: 6 }}"
 >
   <div class="page-width">
@@ -49,7 +49,7 @@
           <p class="section__lede">{{ section.settings.subheading }}</p>
         {%- endif -%}
       </div>
-      <div class="reviews__summary" data-reviews-summary aria-live="polite"{% unless reviews_on %} hidden{% endunless %}>
+      <div class="reviews__summary" data-reviews-summary aria-live="polite">
         <p class="reviews__score">
           <span data-reviews-average>-</span>
           <span class="reviews__score-max">/ 5</span>
@@ -73,7 +73,7 @@
     {%- endfor -%}
 
     <div class="reviews__grid" data-reviews-grid></div>
-    <p class="reviews__empty" data-reviews-empty{% if reviews_on %} hidden{% endif %}>{{ section.settings.empty_text }}</p>
+    <p class="reviews__empty" data-reviews-empty hidden>{{ section.settings.empty_text }}</p>
 
     <div class="reviews__actions">
       <button class="btn btn--ghost" type="button" data-reviews-more hidden>
@@ -320,9 +320,9 @@
     {
       "type": "checkbox",
       "id": "enable_reviews",
-      "label": "Show published review entries",
+      "label": "Show Numa-written review pack",
       "default": true,
-      "info": "Off = keep the Reviews section and empty state, but hide reviews.json content. Also controlled by Theme settings → Reviews."
+      "info": "Off = hide the 500 Numa-written (source seed) reviews. Customer reviews stay visible. Does not hide this section — use Show this section for that. Also controlled by Theme settings → Reviews."
     },
     {
       "type": "checkbox",
