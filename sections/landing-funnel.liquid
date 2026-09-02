@@ -127,6 +127,21 @@
     assign cta_href = section.settings.cta_link
   endif
 
+  assign trade_email = settings.trade_email | strip
+  assign trade_mailto = ''
+  if trade_email != blank
+    assign trade_mailto = 'mailto:' | append: trade_email | append: '?subject=Trade%20enquiry'
+  endif
+  assign trade_contact_url = pages['contact'].url | default: '/pages/contact'
+  assign cta_link_raw = section.settings.cta_link | strip
+  if section.settings.cta_trade_email or cta_link_raw == 'trade-email' or layout == 'trade_contact'
+    if trade_mailto != blank
+      assign cta_href = trade_mailto
+    else
+      assign cta_href = trade_contact_url
+    endif
+  endif
+
   assign sec_id = section.settings.anchor_id | strip
   if sec_id == blank and layout == 'configure'
     assign sec_id = 'configure'
@@ -215,6 +230,7 @@
     {%- if section.settings.lede != blank -%}
       <p class="section__lede lp-lede">{% render 'landing-copy', text: section.settings.lede, featured_price: hero_price, layer_price: layer_price %}</p>
     {%- endif -%}
+    {%- if section.settings.cta_label != blank or section.settings.secondary_cta_label != blank or section.settings.show_price -%}
     <div class="lp-cta-row">
       {%- if section.settings.cta_label != blank -%}
         <a class="btn" href="{{ cta_href }}">{{ section.settings.cta_label }}</a>
@@ -236,6 +252,7 @@
         </div>
       {%- endif -%}
     </div>
+    {%- endif -%}
   </div>
   {%- if lp_has_media -%}
     </div>
@@ -490,7 +507,11 @@
       {%- endfor -%}
     </div>
     {%- if section.settings.cta_label != blank -%}
-      <p class="lp-cta-band__btn" style="text-align:center;margin-top:2.25rem"><a class="btn" href="{{ cta_href }}">{{ section.settings.cta_label }}</a></p>
+      {%- if cta_href contains 'mailto:' -%}
+        <p class="lp-outcome__mail"><a href="{{ cta_href }}" data-trade-enquiry="footer">{{ section.settings.cta_label }}</a></p>
+      {%- else -%}
+        <p class="lp-cta-band__btn" style="text-align:center;margin-top:2.25rem"><a class="btn" href="{{ cta_href }}">{{ section.settings.cta_label }}</a></p>
+      {%- endif -%}
     {%- endif -%}
   </div>
   {%- endif -%}
@@ -563,6 +584,9 @@
           <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
         {%- endif -%}
       </div>
+    {%- endif -%}
+    {%- if section.settings.body != blank -%}
+      <div class="rte">{% render 'landing-copy', text: section.settings.body, featured_price: featured_price, layer_price: layer_price %}</div>
     {%- endif -%}
     <ol class="lp-steps">
       {%- for block in section.blocks -%}
@@ -637,6 +661,61 @@
     {%- if section.settings.table_note != blank -%}
       <p class="lp-note-line">{% render 'landing-copy', text: section.settings.table_note, featured_price: featured_price, layer_price: layer_price %}</p>
     {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'size_groups' -%}
+  <div class="page-width lp-narrow">
+    {%- if section.settings.heading != blank -%}
+      <div class="lp-sec-head">
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.lede != blank -%}
+          <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="lp-size-groups">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'card' -%}
+          <div {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h3>{% render 'landing-copy', text: block.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              {%- capture size_group_text -%}{% render 'landing-copy', text: block.settings.text, featured_price: featured_price, layer_price: layer_price %}{%- endcapture -%}
+              <p>{{ size_group_text | strip | newline_to_br }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.table_note != blank -%}
+      <p class="lp-note-line">{% render 'landing-copy', text: section.settings.table_note, featured_price: featured_price, layer_price: layer_price %}</p>
+    {%- endif -%}
+  </div>
+  {%- endif -%}
+
+  {%- if layout == 'trade_contact' -%}
+  <div class="page-width lp-narrow">
+    <div class="lp-trade-contact" id="contact">
+      {%- if section.settings.heading != blank -%}
+        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+      {%- endif -%}
+      {%- if section.settings.lede != blank -%}
+        <p>{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <div class="rte">{% render 'landing-copy', text: section.settings.body, featured_price: featured_price, layer_price: layer_price %}</div>
+      {%- endif -%}
+      {%- if trade_mailto != blank -%}
+        <a class="lp-trade-contact__mail" href="{{ trade_mailto }}" data-trade-enquiry="contact">{{ trade_email }}</a>
+      {%- else -%}
+        <a class="lp-trade-contact__mail" href="{{ trade_contact_url }}">Contact us</a>
+      {%- endif -%}
+      {%- if section.settings.table_note != blank -%}
+        <span class="lp-trade-contact__note">{% render 'landing-copy', text: section.settings.table_note, featured_price: featured_price, layer_price: layer_price %}</span>
+      {%- endif -%}
+    </div>
   </div>
   {%- endif -%}
 
@@ -784,7 +863,9 @@
         { "value": "steps", "label": "Numbered steps" },
         { "value": "stats", "label": "Stat figures" },
         { "value": "size_grid", "label": "Size name grid" },
+        { "value": "size_groups", "label": "Size groups (no price)" },
         { "value": "notice", "label": "Notice box" },
+        { "value": "trade_contact", "label": "Trade contact" },
         { "value": "configure", "label": "Inline size selector" }
       ],
       "default": "hero"
@@ -820,7 +901,7 @@
       "type": "text",
       "id": "kicker",
       "label": "Kicker",
-      "info": "Tokens: [X] warranty years, [N] trial nights, [layer] comfort layer price, [price] featured size price, [Brand]. On the inline size selector, blank becomes Reserve yours — never Configure."
+      "info": "Tokens: [X] warranty years, [N] trial nights, [D] reply working days, [D-days], [D-reply], [layer] comfort layer price, [price] featured size price, [Brand]. On the inline size selector, blank becomes Reserve yours — never Configure."
     },
     {
       "type": "textarea",
@@ -862,7 +943,14 @@
       "type": "url",
       "id": "cta_link",
       "label": "CTA link override",
-      "info": "Leave blank to use /pages/configure. Use #configure for the inline size selector on the same page."
+      "info": "Leave blank to use /pages/configure. Use #configure for the inline size selector."
+    },
+    {
+      "type": "checkbox",
+      "id": "cta_trade_email",
+      "label": "CTA uses the trade enquiry email",
+      "default": false,
+      "info": "Mailto from Theme settings → Trade and contract enquiries email. Overrides the CTA link."
     },
     {
       "type": "text",

@@ -10,7 +10,23 @@
   assign size_guide_url = pages['size-guide'].url | default: '/pages/size-guide'
   assign specification_url = pages['specification'].url | default: '/pages/specification'
   assign about_url = pages['about'].url | default: '/pages/about'
+  assign trade_url = pages['trade'].url | default: '/pages/trade'
   assign recycling_url = pages['mattress-recycling'].url | default: '/pages/mattress-recycling'
+  assign menu_has_trade = false
+  if section.settings.menu != blank
+    for link in section.settings.menu.links
+      assign lt = link.title | strip | downcase
+      if lt == 'trade' or lt == 'trade and contract' or link.url contains '/pages/trade'
+        assign menu_has_trade = true
+      endif
+      for child in link.links
+        assign ct = child.title | strip | downcase
+        if ct == 'trade' or ct == 'trade and contract' or child.url contains '/pages/trade'
+          assign menu_has_trade = true
+        endif
+      endfor
+    endfor
+  endif
   assign home_hash = ''
   unless template.name == 'index'
     assign home_hash = routes.root_url
@@ -92,6 +108,9 @@
     <a href="{{ about_url }}"{% if template.suffix == 'about' %} aria-current="page"{% endif %}>About</a>
     <a href="{{ journal_url }}"{% if template.suffix == 'journal' or request.path contains '/journal' %} aria-current="page"{% endif %}>Journal</a>
   {%- endif -%}
+  {%- unless menu_has_trade -%}
+    <a href="{{ trade_url }}"{% if template.suffix == 'trade' %} aria-current="page"{% endif %}>Trade</a>
+  {%- endunless -%}
 {%- endcapture -%}
 <header class="site-header">
   <div class="site-header__inner">

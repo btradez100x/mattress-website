@@ -1,0 +1,123 @@
+{
+  "sections": {
+    "hero": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "hero",
+        "lp_variant": "trade",
+        "kicker": "Trade and contract",
+        "heading": "Every bed in the building,\nmade to order.",
+        "lede": "Hotels, serviced apartments, short lets and developments. Built to your specification in any quantity, in the size the room takes, and delivered room by room.",
+        "cta_label": "",
+        "show_price": false
+      }
+    },
+    "changes": {
+      "type": "landing-funnel",
+      "blocks": {
+        "c1": { "type": "spec_item", "settings": { "label": "Any size we can make", "text": "Fifteen sizes as standard, British, European, American and Australian. If a room takes 160 by 200 or 183 by 213, that is what goes in it." } },
+        "c2": { "type": "spec_item", "settings": { "label": "One specification across the estate", "text": "Every room the same build, the same depth, the same feel. A guest moving between properties finds the same bed." } },
+        "c3": { "type": "spec_item", "settings": { "label": "A comfort layer you replace, not a mattress", "text": "The top five centimetres are what wear. Renew the layer and the core stays. On a hundred rooms that is the difference between a refurbishment and a delivery." } },
+        "c4": { "type": "spec_item", "settings": { "label": "Delivered room by room", "text": "Concierged to each room, unrolled, positioned, packaging taken away. Old mattresses removed and recycled on the same visit." } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "steps",
+        "heading": "What a made-to-order supplier changes",
+        "body": "<p>Contract mattresses are bought from stock, which means the size range is whatever the warehouse holds and the specification is whatever was made last quarter. Rooms get fitted around the mattress.</p><blockquote class=\"lp-pull\"><p>Nothing is built before you order it. So the bed fits the room, rather than the other way round.</p></blockquote>",
+        "cta_label": ""
+      }
+    },
+    "sectors": {
+      "type": "landing-funnel",
+      "blocks": {
+        "s1": { "type": "card", "settings": { "heading": "Hotels", "text": "From a single floor to a full estate. One specification, phased delivery, and a comfort layer that renews between refurbishment cycles." } },
+        "s2": { "type": "card", "settings": { "heading": "Serviced apartments", "text": "Mixed room sizes and high turnover. European King and Split King for continental frames and twin configurations." } },
+        "s3": { "type": "card", "settings": { "heading": "Short lets and holiday homes", "text": "Small quantities, high scrutiny. The mattress is the most reviewed object in the property." } },
+        "s4": { "type": "card", "settings": { "heading": "Property developers", "text": "Furnished handover at scale. Specification agreed once, delivered against a completion schedule." } },
+        "s5": { "type": "card", "settings": { "heading": "Interior designers", "text": "Sizes to suit the room rather than the catalogue, and a build specification you can put in a schedule." } },
+        "s6": { "type": "card", "settings": { "heading": "Care and residential", "text": "Durability and a renewable surface, with a core guaranteed for twenty five years." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6"],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "cards",
+        "heading": "Who we work with",
+        "cta_label": ""
+      }
+    },
+    "sizes": {
+      "type": "landing-funnel",
+      "blocks": {
+        "g1": { "type": "card", "settings": { "heading": "British", "text": "Single 90 × 190\nSmall Double 120 × 190\nDouble 135 × 190\nKing 150 × 200\nSuper King 180 × 200\nEmperor 200 × 200" } },
+        "g2": { "type": "card", "settings": { "heading": "European", "text": "European King 160 × 200" } },
+        "g3": { "type": "card", "settings": { "heading": "American", "text": "Twin 99 × 191\nTwin XL 91 × 213\nFull 137 × 191\nQueen 152 × 203\nKing 193 × 203\nCalifornia King 183 × 213\nSplit King 2 × 106 × 213" } },
+        "g4": { "type": "card", "settings": { "heading": "Other", "text": "Australian Super King 203 × 203" } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4"],
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "size_groups",
+        "heading": "Sizes",
+        "lede": "Fifteen as standard. Anything with both dimensions at or under 213 centimetres can be quoted.",
+        "table_note": "Every size, one construction. Thirty five centimetres, pocket sprung core, removable comfort layer.",
+        "cta_label": ""
+      }
+    },
+    "order": {
+      "type": "landing-funnel",
+      "blocks": {
+        "o1": { "type": "spec_item", "settings": { "label": "Specification", "text": "Sizes, quantities, and any variation on the standard build. We will send a sample to the property if it helps the decision." } },
+        "o2": { "type": "spec_item", "settings": { "label": "Quotation", "text": "Priced against quantity, with delivery scheduled to your dates rather than ours." } },
+        "o3": { "type": "spec_item", "settings": { "label": "Production", "text": "Built to the order. Lead times are confirmed at quotation and held." } },
+        "o4": { "type": "spec_item", "settings": { "label": "Delivery and installation", "text": "Room by room, unrolled and positioned. Old mattresses removed and recycled on the same visit." } },
+        "o5": { "type": "spec_item", "settings": { "label": "Renewal", "text": "Comfort layers reordered as the estate needs them, without replacing a single core." } }
+      },
+      "block_order": ["o1", "o2", "o3", "o4", "o5"],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "steps",
+        "heading": "How an order works",
+        "cta_label": ""
+      }
+    },
+    "contact": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "trade_contact",
+        "anchor_id": "contact",
+        "heading": "Talk to us about a project",
+        "lede": "Tell us the property, the number of rooms and the sizes you need. If you do not know the sizes yet, tell us the rooms and we will work them out.",
+        "table_note": "Replies [D-reply] · Samples available to properties",
+        "cta_label": ""
+      }
+    },
+    "outcome": {
+      "type": "landing-funnel",
+      "blocks": {
+        "t1": { "type": "card", "settings": { "heading": "One specification, every room.", "text": "Built to order, so the bed fits the room rather than the room fitting the bed." } },
+        "t2": { "type": "card", "settings": { "heading": "It arrives finished.", "text": "Concierged. Room by room. Unrolled and positioned. The old ones leave with it." } },
+        "t3": { "type": "card", "settings": { "heading": "It stays right for twenty five years.", "text": "The part that softens renews. The part that lasts, lasts." } }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "outcome",
+        "heading": "A bed that becomes yours,\nand stays that way.",
+        "cta_label": "Start a conversation",
+        "cta_trade_email": true
+      }
+    }
+  },
+  "order": ["hero", "changes", "sectors", "sizes", "order", "contact", "outcome"]
+}

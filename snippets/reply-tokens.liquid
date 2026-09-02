@@ -1,0 +1,26 @@
+{%- comment -%}
+  Reply-window copy. Theme settings → Reply within (working days).
+  Tokens: [D]  [D-days]  [D-reply]
+  [D] = 5
+  [D-days] = 5 working days
+  [D-reply] = within 5 working days, approximately
+{%- endcomment -%}
+{%- liquid
+  assign days = settings.reply_working_days | default: 5 | plus: 0
+  if days < 1
+    assign days = 5
+  endif
+  assign days_s = days | append: ''
+  if days == 1
+    assign unit = 'working day'
+  else
+    assign unit = 'working days'
+  endif
+  assign d_days = days_s | append: ' ' | append: unit
+  assign d_reply = 'within ' | append: d_days | append: ', approximately'
+  assign out = text | default: ''
+  assign out = out | replace: '[D-reply]', d_reply
+  assign out = out | replace: '[D-days]', d_days
+  assign out = out | replace: '[D]', days_s
+-%}
+{{- out -}}

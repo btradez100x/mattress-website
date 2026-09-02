@@ -22,7 +22,8 @@
       <hr class="gold-rule">
       <h1>{{ section.settings.heading }}</h1>
       {%- if section.settings.body != blank -%}
-        <p class="section__lede policy-hero__lede">{{ section.settings.body }}</p>
+        {%- capture contact_body -%}{% render 'reply-tokens', text: section.settings.body %}{%- endcapture -%}
+        <p class="section__lede policy-hero__lede">{{ contact_body | strip }}</p>
       {%- endif -%}
     </div>
   </div>
@@ -81,9 +82,11 @@
           </li>
         {%- endif -%}
         {%- if settings.response_time_note != blank -%}
+          {%- capture response_note -%}{% render 'reply-tokens', text: settings.response_time_note %}{%- endcapture -%}
+          {%- assign response_note = response_note | strip -%}
           <li>
             <strong>Response</strong>
-            <span>{{ settings.response_time_note }}</span>
+            <span>{{ response_note }}</span>
           </li>
         {%- endif -%}
       </ul>
@@ -129,7 +132,7 @@
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Questions about sizing, lead times, or your order - we reply within one working day. WhatsApp is usually fastest."
+      "default": "Questions about sizing, lead times, or your order - we reply within [D] working days, approximately. WhatsApp is usually fastest."
     }
   ]
 }
