@@ -26,6 +26,7 @@ body.nav-open {
 .main-content,
 #reserve,
 [data-size-reserve],
+[data-lp-configure],
 [data-reserve-section],
 .size-reserve__layout,
 .reserve-panel,
