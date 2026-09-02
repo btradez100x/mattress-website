@@ -316,8 +316,8 @@
     "UAE": {{ name_ae | json }}
   },
   "dims": {{ dims | json }},
-  "width_cm": {% if width_cm != blank %}{{ width_cm }}{% else %}null{% endif %},
-  "length_cm": {% if length_cm != blank %}{{ length_cm }}{% else %}null{% endif %},
+  "width_cm": {% if width_cm != blank %}{{ width_cm | plus: 0 | json }}{% else %}null{% endif %},
+  "length_cm": {% if length_cm != blank %}{{ length_cm | plus: 0 | json }}{% else %}null{% endif %},
   "pieces": {{ pieces | json }},
   "fits": {{ fits | json }},
   "price": {% if v.price > 0 %}{{ v.price | money | json }}{% else %}""{% endif %},

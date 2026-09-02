@@ -1,0 +1,55 @@
+{%- comment -%}
+  One Choose-your-size tile. Matches theme.js buildSizeTileMarkup.
+  Expects: size_id, label, dims, price, price_raw, variant_id, pieces, popular, fits, add_label
+{%- endcomment -%}
+{%- liquid
+  assign add_label = add_label | default: 'Add'
+  assign pieces_n = pieces | plus: 0
+  if pieces_n < 1
+    assign pieces_n = 1
+  endif
+  assign price_raw_n = price_raw | plus: 0
+-%}
+<li>
+  <div
+    class="size-option{% if popular == true or popular == 'true' %} size-option--popular{% endif %}"
+    data-size-id="{{ size_id | escape }}"
+    data-size-label="{{ label | escape }}"
+    data-size-dims="{{ dims | escape }}"
+    data-size-price="{{ price | escape }}"
+    data-size-price-raw="{{ price_raw_n }}"
+    data-size-variant="{{ variant_id }}"
+    data-size-pieces="{{ pieces_n }}"
+    data-available="true"
+    data-qty="0"
+  >
+    <button
+      type="button"
+      class="size-option__pick"
+      data-size-pick
+      aria-label="Add {{ label | escape }}{% if dims != blank %}, {{ dims | escape }}{% endif %}{% if price != blank %}, {{ price | escape }}{% endif %}"
+    >
+      <span class="size-option__main">
+        <span class="size-option__label">
+          {{ label }}
+          {%- if popular == true or popular == 'true' -%}
+            <span class="size-option__popular">Most popular</span>
+          {%- endif -%}
+        </span>
+        <span class="size-option__dims">{{ dims }}</span>
+        {%- if fits != blank -%}
+          <span class="size-option__note">{{ fits }}</span>
+        {%- endif -%}
+      </span>
+    </button>
+    <div class="size-option__foot">
+      <span class="size-option__price">{{ price }}</span>
+      <button type="button" class="size-option__add" data-size-pick>{{ add_label }}</button>
+      <span class="size-option__qty" data-size-qty data-qty-stepper data-lp-qty>
+        <button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease quantity">&minus;</button>
+        <span class="size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>
+        <button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase quantity">+</button>
+      </span>
+    </div>
+  </div>
+</li>

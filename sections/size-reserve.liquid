@@ -64,6 +64,13 @@
     assign comfort_top_price = section.settings.comfort_top_product.price | money
     assign comfort_top_price_raw = section.settings.comfort_top_product.price
   endif
+  capture catalog_iso
+    render 'size-catalog-iso', mattress: mattress
+  endcapture
+  assign catalog_iso = catalog_iso | strip | upcase
+  if catalog_iso == blank
+    assign catalog_iso = 'GB'
+  endif
 -%}
 {%- capture lead_window -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
 {%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'min' -%}{%- endcapture -%}
@@ -132,7 +139,7 @@
       {%- endif -%}
 
       <div class="size-picker">
-      <ul class="size-list" data-size-list aria-label="Mattress size"></ul>
+      <ul class="size-list" data-size-list aria-label="Mattress size">{%- render 'size-picker-tiles', mattress: mattress, catalog_iso: catalog_iso, add_label: settings.size_add_label -%}</ul>
       </div>
       {%- if section.settings.request_size_enabled -%}
         <div class="size-request-entry">
@@ -439,7 +446,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Prices, size names and sort order come from this Shopify product. The size list is Market Shown (custom.market_shown) for the browser country — the same catalog as the size guide via filterCatalogRows. Extra sizes set for UK appear here, not only the classic seven. Ghana is not a defined market and uses the UK/GB set. US Twin with Market Shown = US does not appear for a UK/Ghana browser. Blank Market Shown is not all 18. SIZE_MAPS is not a live ceiling. Made-to-order sizes with 0 inventory still sell. custom.dims / width_cm / length_cm are centimetres. Optional custom.popular highlights a size."
+      "content": "Prices, size names and sort order come from this Shopify product. The size list is Market Shown (custom.market_shown) for the browser country — the same catalog as the size guide via filterCatalogRows. Extra sizes set for UK appear here, not only the classic seven. Ghana is not a defined market and uses the UK/GB set. If that filter is empty, the picker falls back to classic UK sizes plus Market Shown GB extras — it never paints a blank grid. US Twin with Market Shown = US does not appear for a UK/Ghana browser. Blank Market Shown is not all 18. Made-to-order sizes with 0 inventory still sell. custom.dims / width_cm / length_cm are centimetres. Optional custom.popular highlights a size."
     },
     {
       "type": "product",

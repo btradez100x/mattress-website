@@ -200,7 +200,62 @@
             -%}
           {%- endfor -%}
         </div>
-      {%- elsif mattress == blank or tile_count == 0 and gb_tile_count == 0 -%}
+      {%- elsif tile_count == 0 and gb_tile_count == 0 and mattress != blank -%}
+        <div class="size-guide-grid" data-size-guide-uk-grid>
+          {%- assign classic_gb = '|single|small-double|double|king|european-king|super-king|emperor|' -%}
+          {%- assign classic_painted = 0 -%}
+          {%- for v in mattress.variants -%}
+            {%- assign size_id = v.option1 | handle -%}
+            {%- if size_id == blank -%}
+              {%- assign size_id = v.title | handle -%}
+            {%- endif -%}
+            {%- if size_id == blank -%}
+              {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
+            {%- endif -%}
+            {%- assign sid_token = '|' | append: size_id | append: '|' -%}
+            {%- unless classic_gb contains sid_token -%}
+              {%- continue -%}
+            {%- endunless -%}
+            {%- assign classic_painted = classic_painted | plus: 1 -%}
+            {%- assign tile_label = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb | default: v.option1 | default: v.title -%}
+            {%- assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm -%}
+            {%- assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm -%}
+            {%- assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces | default: 1 -%}
+            {%- assign fits = v.metafields.custom.fits_note.value | default: v.metafields.custom.fits_note -%}
+            {%- assign dims = v.metafields.custom.dims -%}
+            {%- if width_cm != blank and length_cm != blank -%}
+              {%- if pieces > 1 -%}
+                {%- assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+              {%- else -%}
+                {%- assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- assign tile_price = '' -%}
+            {%- if v.price > 0 -%}
+              {%- assign tile_price = v.price | money -%}
+            {%- endif -%}
+            {%- assign reserve_href = reserve_base | append: '?size=' | append: size_id | append: '#reserve' -%}
+            {%- render 'size-guide-tile',
+              label: tile_label,
+              dims: dims,
+              width_cm: width_cm,
+              length_cm: length_cm,
+              pieces: pieces,
+              price: tile_price,
+              fits: fits,
+              size_id: size_id,
+              market_only: 'gb',
+              hidden: false,
+              reserve_href: reserve_href
+            -%}
+          {%- endfor -%}
+        </div>
+        {%- if classic_painted == 0 -%}
+          <p class="size-guide-empty" data-size-guide-empty-static>
+            Sizes load from the mattress product. Connect The Mattress in this section, or create a product whose handle is the-mattress.
+          </p>
+        {%- endif -%}
+      {%- elsif mattress == blank -%}
         <p class="size-guide-empty" data-size-guide-empty-static>
           Sizes load from the mattress product. Connect The Mattress in this section, or create a product whose handle is the-mattress.
         </p>
