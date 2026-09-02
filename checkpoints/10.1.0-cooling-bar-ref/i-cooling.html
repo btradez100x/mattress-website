@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mattresses that sleep cool · Numa</title>
+<meta name="description" content="A knitted cover, an open pocket spring core, and a comfort layer you can change if it still sleeps warm.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>:root{
+  --snow:#F5F4F1; --bone:#E4E1DA; --bone-2:#D6D2CA;
+  --graphite:#3A3A3C; --carbon:#1A1A1A; --carbon-2:#3A3A3C;
+  --ember:#8A6D3B; --ember-soft:#E4E1DA;
+  --display:'Instrument Sans',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'Geist Mono','IBM Plex Mono',ui-monospace,monospace;
+  --max:1080px; --narrow:660px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--snow);color:var(--carbon);font-family:var(--body);
+  font-size:17px;line-height:1.6;letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+.narrow{max-width:var(--narrow);margin-left:auto;margin-right:auto}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:600;letter-spacing:-.03em;line-height:1.05}
+h1{font-size:clamp(38px,6.4vw,68px)}
+h2{font-size:clamp(26px,3.8vw,40px)}
+h3{font-size:19px;letter-spacing:-.02em;line-height:1.3}
+p{margin:0 0 16px}
+a{color:var(--ember)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--graphite)}
+.lede{font-size:clamp(18px,2.1vw,21px);line-height:1.5;color:var(--carbon-2);letter-spacing:-.014em}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--graphite)}
+
+/* THE LINE - the seam where the comfort layer meets the core */
+/* The Line: the meeting of two tones. Never coloured. One per view. */
+.line{height:0;border-top:1px solid var(--bone-2);margin:0}
+.line-full{height:1px;background:var(--bone-2)}
+
+nav{border-bottom:1px solid var(--bone-2);background:var(--snow);position:sticky;top:0;z-index:10}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:18px;padding-bottom:18px}
+.brand{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.03em}
+.navcta{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--carbon);text-decoration:none;border-bottom:2px solid var(--ember);padding-bottom:3px}
+
+.hero{padding:84px 0 0}
+.hero h1{margin:22px 0 0}
+.hero .lede{margin:24px 0 0;max-width:30em}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:36px 0 0}
+.btn{display:inline-block;background:var(--carbon);color:var(--snow);text-decoration:none;
+  font-family:var(--body);font-weight:500;font-size:15px;padding:15px 30px;border-radius:0;
+  letter-spacing:-.01em;transition:background .18s}
+.btn:hover{background:var(--graphite)}
+.btn-ghost{background:transparent;color:var(--carbon);border:1px solid var(--bone-2)}
+.btn-ghost:hover{background:var(--bone);color:var(--carbon)}
+.price{font-family:var(--display);font-weight:600;font-size:30px;letter-spacing:-.03em}
+.price small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--graphite);display:block;margin-top:5px;font-weight:400}
+
+section{padding:76px 0}
+section.bone{background:var(--bone)}
+section.dark{background:var(--carbon);color:var(--snow)}
+section.dark h2,section.dark h3,section.dark .t-name{color:var(--snow)}
+section.dark p,section.dark .t-desc{color:#C9C5BD}
+section.dark .kicker,section.dark .mono{color:#8E8A82}
+section.dark .tier{border-color:#2E2E30}
+section.dark a{color:var(--ember)}
+.sec-head{margin-bottom:38px}
+.sec-head h2{margin-bottom:16px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--bone-2);border:1px solid var(--bone-2)}
+.cell{background:var(--snow);padding:30px 26px}
+section.bone .cell{background:var(--bone)}
+.cell h3{margin-bottom:10px}
+.cell p{font-size:15px;color:var(--carbon-2);margin:0}
+@media(max-width:720px){.grid-2{grid-template-columns:1fr;gap:28px}}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite);
+  text-align:left;font-weight:400;padding:0 0 12px}
+td{padding:15px 0;border-top:1px solid var(--bone-2);vertical-align:top}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+
+.spec{list-style:none;padding:0;margin:0}
+.spec li{display:flex;gap:20px;padding:16px 0;border-top:1px solid var(--bone-2);font-size:15.5px}
+.spec li:first-child{border-top:0}
+.spec b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--graphite);font-weight:400;width:132px;flex:none;padding-top:3px}
+
+.promise{border-left:1px solid var(--carbon);padding:4px 0 4px 24px;margin:34px 0}
+.promise p{margin:0;font-size:16px}
+.promise strong{font-weight:600}
+
+footer{border-top:1px solid var(--bone-2);padding:44px 0 64px;background:var(--snow)}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+@media(prefers-reduced-motion:no-preference){
+  .hero .kicker,.hero h1,.hero .lede,.hero .cta-row{animation:rise .6s cubic-bezier(.16,1,.3,1) both}
+  .hero h1{animation-delay:.05s}.hero .lede{animation-delay:.11s}.hero .cta-row{animation-delay:.17s}
+}
+@keyframes rise{from{opacity:0;transform:translateY(11px)}to{opacity:1;transform:none}}
+
+.basket{display:none;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
+ letter-spacing:.1em;text-transform:uppercase;color:var(--carbon);text-decoration:none}
+.basket[data-count]:not([data-count="0"]){display:inline-flex}
+.basket .dot{min-width:18px;height:18px;border-radius:0;background:var(--carbon);color:var(--snow);
+ display:grid;place-items:center;font-size:10px;letter-spacing:0;padding:0 5px}
+nav .right{display:flex;align-items:center;gap:22px}
+.trust{display:flex;gap:26px;flex-wrap:wrap;margin-top:30px;padding-top:22px;border-top:1px solid var(--bone-2)}
+.trust span{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--graphite)}
+
+.banner{background:var(--carbon);color:var(--snow);text-align:center;padding:11px 24px;
+ font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase}
+.banner b{color:#C4A46A;font-weight:500}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;
+ background:var(--bone-2);border:1px solid var(--bone-2);margin-top:34px}
+.svc div{background:var(--snow);padding:26px 22px}
+section.bone .svc div{background:var(--bone)}
+.svc h3{margin-bottom:9px}
+.svc p{font-size:14.5px;color:var(--carbon-2);margin:0}
+.tiers{border:1px solid var(--bone-2);margin-top:34px}
+.tier{padding:26px 24px;border-bottom:1px solid var(--bone-2);display:flex;gap:26px;
+ align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.tier:last-child{border-bottom:0}
+.tier.pick{background:var(--bone)}
+.tier .t-name{font-family:var(--display);font-weight:600;font-size:18px;letter-spacing:-.02em;margin-bottom:7px}
+.tier .t-desc{font-size:14.5px;color:var(--carbon-2);max-width:46ch;margin:0}
+.tier .t-price{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.02em;white-space:nowrap}
+.tier .t-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+ color:var(--graphite);display:block;margin-bottom:6px}
+
+.media{background:var(--bone);border:1px solid var(--bone-2);display:grid;place-items:center;
+ text-align:center;padding:44px 24px}
+.media.wide{aspect-ratio:21/9}.media.sq{aspect-ratio:1/1}
+.media .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--graphite);margin-bottom:10px;display:block}
+.media .brief{font-size:14px;color:var(--carbon-2);max-width:44ch;line-height:1.5;margin:0}
+.mediagrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bone-2);border:1px solid var(--bone-2)}
+@media(max-width:700px){.mediagrid{grid-template-columns:1fr}}
+.pull{border-left:1px solid var(--carbon);padding:6px 0 6px 26px;margin:40px 0}
+.pull p{font-family:var(--display);font-weight:600;font-size:clamp(21px,2.7vw,27px);
+ line-height:1.28;letter-spacing:-.025em;color:var(--carbon);margin:0}
+.build{border-top:1px solid var(--bone-2);margin-top:34px}
+.build .row{display:flex;gap:30px;padding:26px 0;border-bottom:1px solid var(--bone-2);align-items:flex-start}
+.build .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--graphite);flex:none;width:56px;padding-top:5px}
+.build h3{margin-bottom:8px}
+.build p{font-size:15.5px;color:var(--carbon-2);margin:0;max-width:52ch}
+@media(max-width:620px){.build .row{flex-direction:column;gap:8px}.build .n{padding-top:0}}
+</style></head>
+<body>
+<div class="banner">Concierge unpacking <b>included with every mattress</b> &middot; To the room of your choice, packaging taken away</div>
+<nav><div class="wrap"><a href="/" class="brand" style="text-decoration:none;color:inherit">NUMA</a>
+<span class="right"><a class="navcta" href="/configure">Configure yours</a></span></div></nav>
+<section class="hero"><div class="wrap">
+<p class="kicker">Temperature</p>
+<h1>Heat sits in the<br>top five centimetres.</h1>
+<p class="lede">A pocket spring core is mostly air. What holds warmth is the layer directly under you, and on ours that layer comes out.</p>
+</div></section>
+<div class="wrap" style="margin-top:56px"><div class="media wide"><div><span class="lbl">Hero media</span><p class="brief">Cutaway or raking-light shot showing air space between pocket springs. Cool neutral light. The gap between coils is the subject.</p></div></div></div>
+
+<section><div class="wrap"><div class="narrow">
+<div class="sec-head"><h2>Where the warmth comes from</h2></div>
+<p>Foam holds heat because it is solid and it wraps. A pocket spring core is largely open, so air moves through it and warmth leaves rather than gathering.</p>
+<p>What can still sleep warm is the comfort layer, because it is the part in contact with you. Which is the part that unzips.</p>
+<div class="pull"><p>If it sleeps warm, you change five centimetres. Not the bed.</p></div>
+</div></div></section>
+
+<section class="bone"><div class="wrap">
+<div class="narrow"><div class="sec-head"><h2>What it is made of</h2></div></div>
+<div class="mediagrid" style="margin-top:26px"><div class="media sq"><div><span class="lbl">Media A</span><p class="brief">Macro of the knitted cover, raking light, weave structure visible. Snow ground.</p></div></div><div class="media sq"><div><span class="lbl">Media B</span><p class="brief">A single pocket spring held in the hand against a Carbon ground. Scale and construction.</p></div></div></div>
+<div class="narrow"><div class="build">
+ <div class="row"><span class="n">01</span><div><h3>Knitted cover</h3><p>Woven rather than laminated, so it moves air rather than trapping it against the surface.</p></div></div>
+ <div class="row"><span class="n">02</span><div><h3>Open core</h3><p>Thirty centimetres of pocketed springs with air between every coil.</p></div></div>
+ <div class="row"><span class="n">03</span><div><h3>A layer that changes</h3><p>If it still sleeps warm after a month, tell us. We make you another, with our compliments.</p></div></div>
+</div></div></div></section>
+<section class="dark"><div class="wrap"><div class="narrow">
+<div class="sec-head" style="text-align:center"><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
+<div class="tiers" style="border:0;margin-top:8px">
+ <div class="tier" style="display:block;border-color:#2E2E30"><p class="t-name" style="font-size:21px;margin-bottom:9px">You do not choose the feel. You discover it.</p><p class="t-desc" style="max-width:52ch;font-size:16px">Sleep on it for a month. Tell us how it should feel. We make it that way.</p></div>
+ <div class="tier" style="display:block;border-color:#2E2E30"><p class="t-name" style="font-size:21px;margin-bottom:9px">It arrives finished.</p><p class="t-desc" style="max-width:52ch;font-size:16px">Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.</p></div>
+ <div class="tier" style="display:block;border-color:#2E2E30"><p class="t-name" style="font-size:21px;margin-bottom:9px">It stays right for twenty five years.</p><p class="t-desc" style="max-width:52ch;font-size:16px">The part that softens renews. The part that lasts, lasts.</p></div>
+</div>
+<p style="text-align:center;margin-top:36px"><a href="/configure">Choose your size</a></p>
+</div></div></section>
+<footer><div class="wrap foot"><span class="mono">NUMA</span><span class="mono">Handmade to order &middot; United Kingdom</span></div></footer>
+</body></html>

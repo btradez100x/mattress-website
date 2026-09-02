@@ -686,13 +686,16 @@ else
   fail "navy/gold live tokens missing, carbon overlay still last-wins, or brand.css not after base.css"
 fi
 
-if grep -q '.announcement,' "$THEME/assets/brand.css" \
-  && grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/brand.css" \
-  && grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/base.css" \
-  && ! grep -q 'color: #e8a184' "$THEME/assets/base.css"; then
-  pass "announcement bar copy is restored gold on navy"
+if grep -q 'HTML .banner lock' "$THEME/assets/brand.css" \
+  && grep -q 'color: #C4A46A' "$THEME/assets/brand.css" \
+  && grep -q 'background: #1A1A1A' "$THEME/assets/base.css" \
+  && grep -q 'letter-spacing: 0.09em' "$THEME/assets/base.css" \
+  && grep -q 'color: #C4A46A' "$THEME/assets/base.css" \
+  && ! grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/base.css" \
+  && ! grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/brand.css"; then
+  pass "announcement bar matches HTML .banner (carbon, snow, mono, gold b)"
 else
-  fail "announcement bar is still cream or missing brand-accent gold"
+  fail "announcement bar does not match i-cooling.html .banner"
 fi
 
 if grep -q -- '--ease-luxury' "$THEME/assets/base.css" "$ROOT/preview/base.css" \

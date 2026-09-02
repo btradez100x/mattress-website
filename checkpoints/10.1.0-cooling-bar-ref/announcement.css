@@ -1,0 +1,122 @@
+/* Locked 10.1.0-cooling-bar-ref
+   HTML source: i-cooling.html .banner
+   Theme class: .announcement (existing bar, not a new one)
+*/
+
+/* ---------- HTML .banner (copied from i-cooling.html) ---------- */
+:root {
+  --carbon: #1A1A1A;
+  --snow: #F5F4F1;
+  --mono: 'Geist Mono', 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+.banner {
+  background: var(--carbon);
+  color: var(--snow);
+  text-align: center;
+  padding: 11px 24px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.banner b {
+  color: #C4A46A;
+  font-weight: 500;
+}
+
+/* ---------- Live theme .announcement (mapped from .banner) ---------- */
+/* valtora-theme/assets/base.css + brand.css last-wins + mobile-fit wrap */
+
+.announcement {
+  background: #1A1A1A;
+  color: #F5F4F1;
+  text-align: center;
+  padding: 11px 24px;
+  font-family: var(--font-mono, 'Geist Mono', 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: break-word;
+  overflow-x: clip;
+  position: relative;
+}
+
+.announcement p {
+  margin: 0;
+  max-width: 100%;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.announcement a {
+  color: #F5F4F1;
+  text-decoration: none;
+}
+
+.announcement b,
+.announcement strong {
+  color: #C4A46A;
+  font-weight: 500;
+}
+
+.announcement[hidden] {
+  display: none !important;
+}
+
+.announcement__dismiss {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: #F5F4F1;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* Last-wins (brand.css / end of base.css). Gold only on b. */
+.announcement {
+  background: #1A1A1A !important;
+  color: #F5F4F1 !important;
+  text-align: center;
+  padding: 11px 24px;
+  font-family: var(--font-mono, 'Geist Mono', 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.announcement p,
+.announcement a {
+  color: #F5F4F1 !important;
+  opacity: 1 !important;
+}
+.announcement b,
+.announcement strong {
+  color: #C4A46A !important;
+  font-weight: 500;
+  opacity: 1 !important;
+}
+
+@media (max-width: 899px) {
+  .announcement,
+  .announcement p {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .announcement {
+    padding: 11px 24px;
+    overflow: visible;
+  }
+}
