@@ -100,7 +100,6 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-headline, var(--font-sans));
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.035em;
@@ -123,6 +122,16 @@ h3 {
   font-size: clamp(1.2rem, 2.2vw, 1.4rem);
   letter-spacing: -0.025em;
   font-weight: 600;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display, var(--font-headline, var(--font-sans)));
+}
+
+h3,
+h4 {
+  font-family: var(--font-text, var(--font-sans));
 }
 
 p {
@@ -312,7 +321,7 @@ p:last-child {
 }
 
 .section__eyebrow {
-  font-family: var(--font-sans);
+  font-family: var(--font-mono, var(--font-sans));
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -400,18 +409,22 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --heading-color: #222222;
       --eyebrow-color: #8A6D3B;
       --eyebrow-on-dark: #F7F5F1;
-      --font-serif: 'Fraunces', Georgia, serif;
-      --font-sans: 'Outfit', system-ui, sans-serif;
-      --font-wordmark: var(--font-sans);
-      --font-headline: var(--font-sans);
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+      --font-serif: 'Instrument Sans', system-ui, sans-serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+      --font-headline: 'Instrument Sans', system-ui, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, monospace;
+      --font-display: 'Instrument Sans', system-ui, sans-serif;
+      --font-text: 'Inter', system-ui, sans-serif;
       --wordmark-tracking: 0.18em;
     }
     html[data-brand-guidelines="v1"][data-font-set="modern"] {
-      --font-serif: 'Fraunces', Georgia, serif;
-      --font-sans: 'Outfit', system-ui, sans-serif;
-      --font-wordmark: var(--font-sans);
-      --font-headline: var(--font-sans);
+      --font-serif: 'Instrument Sans', system-ui, sans-serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+      --font-headline: 'Instrument Sans', system-ui, sans-serif;
+      --font-display: 'Instrument Sans', system-ui, sans-serif;
+      --font-text: 'Inter', system-ui, sans-serif;
     }
     html[data-brand-guidelines="v1"][data-color-scheme="classic_navy"] {
       --brand-primary: #1F3A5F;
@@ -456,20 +469,14 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       --eyebrow-on-dark: #F3F4F3;
     }
     html[data-brand-guidelines="v1"][data-font-set="classic"] {
-      --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-sans: 'Manrope', system-ui, sans-serif;
-      --font-wordmark: var(--font-serif);
-      --font-headline: var(--font-serif);
+      --font-serif: 'Instrument Sans', system-ui, sans-serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+      --font-headline: 'Instrument Sans', system-ui, sans-serif;
+      --font-display: 'Instrument Sans', system-ui, sans-serif;
+      --font-text: 'Inter', system-ui, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, monospace;
     }
-    html[data-brand-guidelines="v1"][data-font-set="classic"] h1,
-    html[data-brand-guidelines="v1"][data-font-set="classic"] h2,
-    html[data-brand-guidelines="v1"][data-font-set="classic"] h3,
-    html[data-brand-guidelines="v1"][data-font-set="classic"] h4 {
-      font-weight: 400;
-      letter-spacing: -0.015em;
-    }
-    html[data-brand-guidelines="v1"][data-font-set="classic"] h1 { letter-spacing: -0.02em; }
-    html[data-brand-guidelines="v1"][data-font-set="classic"] .wordmark__text { font-weight: 400; }
 
     /* -- V2 brand guidelines (product-derived carbon / snow / ember) -- */
     html[data-brand-guidelines="v2"] {
@@ -7949,7 +7956,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 .size-guide-tile__name {
   margin: 0;
-  font-family: var(--font-serif, var(--font-headline, Georgia, serif));
+  font-family: var(--font-display, var(--font-headline, var(--font-sans)));
   font-size: clamp(1.45rem, 2.4vw, 1.85rem);
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -8606,7 +8613,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 .lp-section--built .lp-sec-head h2,
 #how-it-is-built .lp-sec-head h2 {
-  font-family: var(--font-serif, var(--font-headline, Georgia, serif));
+  font-family: var(--font-display, var(--font-headline, var(--font-sans)));
   font-weight: 500;
   letter-spacing: -0.03em;
   color: var(--brand-primary, #1F3A5F);
@@ -8673,7 +8680,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 #how-it-is-built .lp-card h3,
 .lp-built .lp-card h3 {
   margin: 0 0 1rem;
-  font-family: var(--font-serif, var(--font-headline, Georgia, serif));
+  font-family: var(--font-display, var(--font-headline, var(--font-sans)));
   font-size: clamp(1.25rem, 2vw, 1.5rem);
   font-weight: 500;
   letter-spacing: -0.03em;

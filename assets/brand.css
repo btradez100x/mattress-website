@@ -46,6 +46,51 @@ html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"] {
   --radius-control: 0.35rem;
 }
 
+/* Type lock — zip roles. html:root beats later landing-page :root Outfit/Fraunces. */
+html:root,
+html[data-preview-host]:root,
+html:not([data-brand-guidelines]):root,
+html[data-brand-guidelines="v1"]:root,
+html[data-brand-guidelines="v2"]:root,
+html[data-brand-guidelines="v1"][data-color-scheme="signature"]:root,
+html[data-brand-guidelines="v1"][data-color-scheme="classic_navy"]:root,
+html[data-brand-guidelines="v1"][data-color-scheme="warm_charcoal"]:root,
+html[data-brand-guidelines="v1"][data-color-scheme="cool_graphite"]:root,
+html[data-brand-guidelines="v2"][data-color-scheme="v2_carbon"]:root,
+html[data-brand-guidelines="v2"][data-color-scheme="v2_graphite"]:root,
+html[data-brand-guidelines="v2"][data-color-scheme="v2_warm"]:root,
+html[data-brand-guidelines="v2"][data-color-scheme="v2_cool"]:root {
+  --font-display: 'Instrument Sans', system-ui, sans-serif;
+  --font-headline: 'Instrument Sans', system-ui, sans-serif;
+  --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+  --font-serif: 'Instrument Sans', system-ui, sans-serif;
+  --font-text: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+html body {
+  font-family: var(--font-text, var(--font-sans));
+}
+html h1,
+html h2,
+html .wordmark__text {
+  font-family: var(--font-display, var(--font-headline));
+}
+html h3,
+html h4 {
+  font-family: var(--font-text, var(--font-sans));
+}
+html .section__eyebrow,
+html .lp-kicker,
+html .kicker,
+html .wordmark__product,
+html .lp-card__kicker,
+html .lp-outcome__kicker {
+  font-family: var(--font-mono);
+}
+
+
 /* Wordmark gold on cream header (not footer / not --dark). */
 .wordmark,
 .site-header .wordmark,

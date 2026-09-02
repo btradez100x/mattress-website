@@ -43,10 +43,6 @@
     endif
   endif
 
-  assign fav_serif = false
-  if guidelines != 'v2' and font_set == 'classic'
-    assign fav_serif = true
-  endif
 
   assign fav_initials = ''
   assign brand_words = brand | split: ' '
@@ -74,10 +70,7 @@
     assign fav_size = '13'
   endif
 
-  assign fav_font = 'system-ui, -apple-system, Segoe UI, sans-serif'
-  if fav_serif
-    assign fav_font = 'Georgia, Times New Roman, serif'
-  endif
+  assign fav_font = 'Instrument Sans, system-ui, sans-serif'
 -%}
 {%- if settings.favicon != blank -%}
   <link rel="icon" type="image/png" sizes="32x32" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
