@@ -2,19 +2,19 @@
   One mattress size as a catalog table row. Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
-  assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', ''
+  assign size_id = v.option1 | handle
   if size_id == blank
-    assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+    assign size_id = v.title | handle
   endif
   if size_id == blank
-    assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+    assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', ''
   endif
   assign size_label = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb
   if size_label == blank
-    assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
+    assign size_label = v.option1
   endif
   if size_label == blank
-    assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
+    assign size_label = v.title
   endif
   assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm
   assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm
