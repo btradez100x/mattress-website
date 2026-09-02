@@ -1,10 +1,10 @@
-# Regression results — Wednesday 2 Sep 2026 (size-guide dummy boxes)
+# Regression results — Wednesday 2 Sep 2026 (deploy 10.1.0-size-guide-no-dummy-boxes)
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 981 passed, 0 failed
-- Scope note: Size Guide cards no longer render the grey filled mattress slabs (or outline stand-ins). Tiles are name, centimetres, price, and Reserve this size only. Brand forbids filled icons and cheap bed pictograms. Live still needs a deploy for the Shopify theme. No VERSION bump.
+- Scope note: Size Guide cards no longer render the grey filled mattress slabs. Tiles are name, centimetres, price, and Reserve this size only. Checkpoint: `checkpoints/10.1.0-size-guide-no-dummy-boxes/`. Deploy: `v9` `bf24e1a`, `shopify-theme` `dfaa09c`. Hard-refresh `/pages/size-guide` if the old slabs are cached. No VERSION bump.
 
 ---
 
