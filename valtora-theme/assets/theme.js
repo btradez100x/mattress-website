@@ -514,13 +514,34 @@
     return s;
   }
 
+  function catalogIsoForMarket(market, fallbackIso) {
+    var iso = normalizeShownToken(fallbackIso || detectCountryIso()) || 'GB';
+    var m = String(market || '').toLowerCase();
+    if (m === 'ae') return 'AE';
+    if (m === 'us') return 'US';
+    if (m === 'eu') return iso && EUROPE_ISOS[iso] ? iso : 'EU';
+    if (m === 'gb' || m === 'uk') return 'GB';
+    return iso || 'GB';
+  }
+
+  function rowShownDefined(row) {
+    if (!row) return false;
+    if (row.shown_defined === true) return true;
+    if (row.shown_defined === false) return false;
+    if (Array.isArray(row.shown) && row.shown.length) return true;
+    if (Array.isArray(row.shown_countries) && row.shown_countries.length) return true;
+    if (!Array.isArray(row.shown) && !Array.isArray(row.shown_countries) && row.markets && row.markets.length) {
+      return true;
+    }
+    return false;
+  }
+
   function rowShownTokens(row) {
     if (!row) return [];
     var raw = [];
-    var hasShownField = Array.isArray(row.shown) || Array.isArray(row.shown_countries);
     if (row.shown && row.shown.length) raw = raw.concat(row.shown);
     if (row.shown_countries && row.shown_countries.length) raw = raw.concat(row.shown_countries);
-    if (!hasShownField && row.markets && row.markets.length) {
+    if (!Array.isArray(row.shown) && !Array.isArray(row.shown_countries) && row.markets && row.markets.length) {
       raw = raw.concat(row.markets);
     }
     var seen = {};
@@ -544,34 +565,30 @@
   }
 
   function rowMatchesCountry(row, iso) {
-    var tokens = rowShownTokens(row);
-    if (!tokens.length) return true;
-    var i;
-    for (i = 0; i < tokens.length; i++) {
-      if (countryMatchesToken(iso, tokens[i])) return true;
+    var country = normalizeShownToken(iso) || 'GB';
+    if (rowShownDefined(row)) {
+      var tokens = rowShownTokens(row);
+      var i;
+      for (i = 0; i < tokens.length; i++) {
+        if (countryMatchesToken(country, tokens[i])) return true;
+      }
+      return false;
     }
-    return false;
+    if (row && row.in_market === false) return false;
+    if (row && row.available_for_sale === false && row.shopify_available === false) return false;
+    return true;
   }
 
   function catalogRowsFrom(rows, iso) {
     rows = rows || [];
-    var preview = false;
-    try {
-      preview =
-        document.documentElement.getAttribute('data-preview') === 'true' ||
-        document.documentElement.getAttribute('data-preview-host') === '1';
-    } catch (e) {}
-    var matched = rows;
-    if (preview) {
-      var country = normalizeShownToken(iso || detectCountryIso()) || 'GB';
+    var country = normalizeShownToken(iso || detectCountryIso()) || 'GB';
+    var matched = rows.filter(function (row) {
+      return rowMatchesCountry(row, country);
+    });
+    if (!matched.length && country !== 'GB') {
       matched = rows.filter(function (row) {
-        return rowMatchesCountry(row, country);
+        return rowMatchesCountry(row, 'GB');
       });
-      if (!matched.length) {
-        matched = rows.filter(function (row) {
-          return rowMatchesCountry(row, 'GB');
-        });
-      }
     }
     var seen = {};
     return matched.filter(function (row) {
@@ -702,8 +719,7 @@
   }
 
   function rowsForMarket(market) {
-    void market;
-    return catalogRowsFrom(readSizePriceRows());
+    return catalogRowsFrom(readSizePriceRows(), catalogIsoForMarket(market));
   }
 
   function buildSizeTileMarkup(s, market, addLabel) {
@@ -992,7 +1008,7 @@
     }
 
     function rowsForTab(tabKey) {
-      var rows = catalogRowsFrom(allRows());
+      var rows = catalogRowsFrom(allRows(), catalogIsoForMarket(tabKeyToMarket(tabKey)));
       if (rows.length) return rows;
       if (document.documentElement.getAttribute('data-preview') === 'true' && !allRows().length) {
         var mkt = tabKeyToMarket(tabKey) || detectMarket();
@@ -3250,8 +3266,7 @@
       } catch (e) {}
     }
     function filterSizesForMarket(mkt) {
-      void mkt;
-      return catalogRowsFrom(allRows);
+      return catalogRowsFrom(allRows, catalogIsoForMarket(mkt));
     }
     var selectorTab = marketToTabKey(market);
     sizes = filterSizesForMarket(market);
@@ -6290,7 +6305,7 @@
   }
 
   function rowsForSizeGuide(market) {
-    var primary = catalogRowsFrom(readSizePriceRows());
+    var primary = catalogRowsFrom(readSizePriceRows(), catalogIsoForMarket(market));
     if (!primary.length && document.documentElement.getAttribute('data-preview') === 'true' && !readSizePriceRows().length) {
       var resolved = isSizeMarket(market) ? market : 'gb';
       primary = (SIZE_MAPS[resolved] || SIZE_MAPS.gb || []).map(function (s) {
