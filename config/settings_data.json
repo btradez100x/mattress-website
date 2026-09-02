@@ -55,7 +55,7 @@
     "adjustment_period_months": 12,
     "comfort_layer_price_gb": "£299",
     "comfort_layer_price_ae": "AED 1,200",
-    "reviews_enabled": false,
+    "reviews_enabled": true,
     "reviews_allow_submissions": true,
     "reviews_require_purchase": true,
     "contact_email": "hello@aligna.com",
