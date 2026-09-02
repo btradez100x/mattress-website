@@ -14,20 +14,12 @@
     assign mattress = all_products['mattress']
   endif
 
-  assign catalog_iso = localization.country.iso_code | upcase | strip
-  if catalog_iso == 'UK'
+  capture catalog_iso
+    render 'size-catalog-iso', mattress: mattress
+  endcapture
+  assign catalog_iso = catalog_iso | strip | upcase
+  if catalog_iso == blank
     assign catalog_iso = 'GB'
-  endif
-  if market == 'gb' or catalog_iso == blank
-    assign catalog_iso = 'GB'
-  elsif market == 'ae'
-    assign catalog_iso = 'AE'
-  elsif market == 'us'
-    assign catalog_iso = 'US'
-  elsif market == 'eu'
-    if catalog_iso == blank
-      assign catalog_iso = 'EU'
-    endif
   endif
 
   assign trial = settings.trial_nights | default: '30' | strip
