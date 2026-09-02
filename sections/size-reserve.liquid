@@ -184,7 +184,7 @@
         </p>
       {%- elsif first_out -%}
         <p class="reserve-panel__note" style="color:var(--brand-accent);">
-          No sizes for this country yet. Variants render from the mattress product. Every published variant is listed; Market Shown is not required. If a size is missing, publish it to this market in Shopify Admin.
+          No sizes for this country yet. Variants render from the mattress product. Market Shown (custom.market_shown) is the catalog: every size set for this country appears here, including extras beyond the classic UK seven. US-only sizes do not. If a UK size is missing, set Market Shown to include UK/GB on that variant.
         </p>
       {%- endif -%}
     </div>
@@ -439,13 +439,13 @@
     },
     {
       "type": "paragraph",
-      "content": "Prices, size names and sort order come from this Shopify product. Every published variant is listed, including inventory 0 and international titles. Market Shown is not required and is not used to hide sizes. SIZE_MAPS is not a live ceiling. If a size is missing on the storefront, publish that variant to this market in Shopify Admin. Made-to-order sizes with 0 inventory still sell. custom.dims / width_cm / length_cm are centimetres. custom.enabled is not used to hide sizes. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
+      "content": "Prices, size names and sort order come from this Shopify product. The size list is Market Shown (custom.market_shown) for the browser country — the same catalog as the size guide. Extra sizes set for UK appear here, not only the classic seven. US Twin with Market Shown = US does not appear for a UK browser. Blank Market Shown uses variant.available / available_for_sale in this market, not show-all. SIZE_MAPS is not a live ceiling. Made-to-order sizes with 0 inventory still sell. custom.dims / width_cm / length_cm are centimetres. Optional custom.popular highlights a size."
     },
     {
       "type": "product",
       "id": "mattress_product",
       "label": "Mattress product",
-      "info": "Every published variant is listed. If blank, the theme looks up handle the-mattress, then mattress, then the page product."
+      "info": "Every Market Shown size for this country is listed. If blank, the theme looks up handle the-mattress, then mattress, then the page product."
     },
     {
       "type": "text",

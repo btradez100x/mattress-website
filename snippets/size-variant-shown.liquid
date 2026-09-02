@@ -1,7 +1,17 @@
 {%- comment -%}
-  MarketShown tokens for a variant, comma-separated, uppercase.
-  Definition name is Market Shown; Shopify key is custom.market_shown.
-  Also reads custom.MarketShown. List, JSON, or plain text.
+  Market Shown tokens for a variant, comma-separated, uppercase.
+
+  Source of truth — Shopify Admin definition name: Market Shown
+  Namespace and key: custom.market_shown
+  Also tries custom.MarketShown, custom.markets_shown, and custom.shown_markets.
+  List, JSON, market objects, or plain text.
+
+  If this snippet prints blank, populate Market Shown on each variant
+  (Settings → Custom data → Variants → Market Shown) with GB/UK, US, AE, EU.
+  US Twin with Market Shown = US must not appear on the UK size guide.
+  A UK extra (for example California King with Market Shown including UK/GB)
+  must appear on both the size guide and Configure / add-to-basket.
+
   Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
@@ -19,14 +29,37 @@
     assign raw = v.metafields.custom.markets_shown.value | default: v.metafields.custom.markets_shown
   endif
   if raw == blank
+    assign raw = v.metafields.custom.shown_markets.value | default: v.metafields.custom.shown_markets
+  endif
+  if raw == blank
     assign raw = v.metafields.shopify.market_shown.value | default: v.metafields.shopify.market_shown
   endif
 
   assign csv = ''
+  assign parts = ''
+  assign looped = false
   if raw != blank
-    assign csv = raw | join: ','
-    if csv == blank or csv == raw
-      assign csv = raw | append: ''
+    for item in raw
+      assign looped = true
+      assign piece = item.iso_code | default: item.isoCode | default: item.country_iso | default: item.country_code | default: item.handle | default: item.name
+      if piece == blank
+        assign piece = item | append: ''
+      endif
+      assign piece = piece | strip
+      if piece != blank
+        if parts != blank
+          assign parts = parts | append: ','
+        endif
+        assign parts = parts | append: piece
+      endif
+    endfor
+    if looped and parts != blank
+      assign csv = parts
+    else
+      assign csv = raw | join: ','
+      if csv == blank or csv == raw
+        assign csv = raw | append: ''
+      endif
     endif
     assign csv = csv | replace: '[', '' | replace: ']', '' | replace: '"', '' | replace: "'", '' | replace: ';', ',' | replace: '|', ',' | replace: '/', ','
     assign csv = csv | replace: 'United Kingdom', 'GB' | replace: 'UNITED KINGDOM', 'GB' | replace: 'Great Britain', 'GB'
