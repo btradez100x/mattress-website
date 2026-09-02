@@ -4952,7 +4952,8 @@ body:has([data-float-total]:empty) .hero__cta {
   .reserve-panel,
   .order-panel {
     position: sticky;
-    top: calc(var(--sticky-offset, 0px) + var(--header-height, 3.75rem) + 0.75rem);
+    /* Sit under header + announcement, never tighter than 1rem. ~5–6rem. */
+    top: max(1rem, calc(var(--sticky-offset, 0px) + var(--header-height, 3.75rem) + 1.5rem));
     align-self: start;
     z-index: 6;
     max-height: none;

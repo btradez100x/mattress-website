@@ -87,6 +87,15 @@ assert(
   /position:\s*sticky/.test(baseCss) && /\.order-panel \{[\s\S]*position:\s*sticky/.test(baseCss),
   'YOUR ORDER panel must be position:sticky'
 );
+assert(
+  /top:\s*max\(\s*1rem/.test(baseCss),
+  'YOUR ORDER sticky top must be max(1rem, header + announcement offset)'
+);
+var themeLiq = fs.readFileSync(path.join(root, 'valtora-theme/layout/theme.liquid'), 'utf8');
+assert(
+  /<style id="page-scroll">[\s\S]*body \{\s*overflow-x:\s*visible/.test(themeLiq),
+  'page-scroll must not clip overflow-x on body (that kills sticky)'
+);
 var funnelLiq = fs.readFileSync(
   path.join(root, 'valtora-theme/sections/landing-funnel.liquid'),
   'utf8'
