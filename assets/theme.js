@@ -517,10 +517,12 @@
   function rowShownTokens(row) {
     if (!row) return [];
     var raw = [];
+    var hasShownField = Array.isArray(row.shown) || Array.isArray(row.shown_countries);
     if (row.shown && row.shown.length) raw = raw.concat(row.shown);
     if (row.shown_countries && row.shown_countries.length) raw = raw.concat(row.shown_countries);
-    if (row.markets && row.markets.length) raw = raw.concat(row.markets);
-    if (!raw.length && row.market) raw.push(row.market);
+    if (!hasShownField && row.markets && row.markets.length) {
+      raw = raw.concat(row.markets);
+    }
     var seen = {};
     var out = [];
     raw.forEach(function (t) {
@@ -543,6 +545,7 @@
 
   function rowMatchesCountry(row, iso) {
     var tokens = rowShownTokens(row);
+    if (!tokens.length) return true;
     var i;
     for (i = 0; i < tokens.length; i++) {
       if (countryMatchesToken(iso, tokens[i])) return true;
@@ -563,9 +566,12 @@
     }
     var seen = {};
     return matched.filter(function (row) {
-      var id = String((row && (row.id || row.label)) || '').toLowerCase();
-      if (!id || seen[id]) return false;
-      seen[id] = true;
+      var vid = row && (row.variant_id || row.variantId);
+      var key = vid
+        ? 'v:' + String(vid)
+        : 'i:' + String((row && (row.id || row.label)) || '').toLowerCase();
+      if (!key || key === 'v:' || key === 'i:' || seen[key]) return false;
+      seen[key] = true;
       return true;
     });
   }
@@ -700,7 +706,7 @@
     var label = rowDisplayName(s, market) || s.label || '';
     var dims = rowDimsText(s);
     var fits = s.fits || '';
-    var available = s.available !== false;
+    var available = true;
     var popular = !!s.popular;
     var price = s.price || '';
     var vid = s.variant_id || s.variantId || '';
@@ -987,7 +993,9 @@
         mkt === 'ae' ? 'AE' : mkt === 'us' ? 'US' : mkt === 'eu' ? 'EU' : 'GB'
       );
       if (rows.length) return rows;
-      if (!allRows().length) return (SIZE_MAPS[mkt] || SIZE_MAPS.gb || []).slice();
+      if (document.documentElement.getAttribute('data-preview') === 'true' && !allRows().length) {
+        return (SIZE_MAPS[mkt] || SIZE_MAPS.gb || []).slice();
+      }
       return [];
     }
 
@@ -3207,7 +3215,7 @@
       stageB.classList.add('is-collapsed');
     }
 
-    var sizes = SIZE_MAPS[market] || SIZE_MAPS.gb;
+    var sizes = [];
     var configEl = null;
     var sectionEl = root.closest('section') || root.parentElement;
     if (sectionEl) {
@@ -3507,10 +3515,8 @@
       syncSizeQtyUi();
     }
 
-    if (list && !list.querySelector('.size-row, .size-option[data-size-id]')) {
+    if (list) {
       rebuildSizeButtons();
-    } else if (list) {
-      syncSizeQtyUi();
     }
 
     root._valtoraOnMarketChange = function () {
@@ -6284,7 +6290,7 @@
       else iso = 'GB';
     }
     var primary = catalogRowsForCountry(iso);
-    if (!primary.length && !readSizePriceRows().length) {
+    if (!primary.length && document.documentElement.getAttribute('data-preview') === 'true' && !readSizePriceRows().length) {
       var resolved = isSizeMarket(market) ? market : 'gb';
       primary = (SIZE_MAPS[resolved] || SIZE_MAPS.gb || []).map(function (s) {
         return Object.assign({ market: resolved, markets: [marketToTabKey(resolved)] }, s);

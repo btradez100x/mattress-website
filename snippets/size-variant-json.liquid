@@ -1,20 +1,21 @@
 {%- comment -%}
   One mattress variant as JSON for the size selector.
-  Reads custom.market_shown (Market Shown) plus width_cm / length_cm / pieces /
-  name_* / fits_note when present; falls back to custom.market, custom.dims, and option1.
+  Emits every variant. Market filter uses custom.market_shown only.
+  Blank shown means published / show — do not infer US/AE/AU from the title.
+  available is always true (made-to-order; inventory 0 still sells).
   Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
-  assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+  assign size_id = v.option1 | handle
   if size_id == blank
-    assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+    assign size_id = v.title | handle
   endif
   if size_id == blank
-    assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+    assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', ''
   endif
-  assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
+  assign size_label = v.option1
   if size_label == blank
-    assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
+    assign size_label = v.title
   endif
 
   assign name_gb = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb
@@ -86,8 +87,27 @@
       endif
     endif
   endif
+  if size_id == 'us-twin'
+    assign dim_id = 'twin'
+  elsif size_id == 'us-twin-xl'
+    assign dim_id = 'twin-xl'
+  elsif size_id == 'us-full'
+    assign dim_id = 'full'
+  elsif size_id == 'us-queen'
+    assign dim_id = 'queen'
+  elsif size_id == 'split-king-pair'
+    assign dim_id = 'split-king'
+  elsif size_id == 'queen-uae'
+    assign dim_id = 'queen'
+  elsif size_id == 'king-uae'
+    assign dim_id = 'king'
+  elsif size_id == 'super-king-uae'
+    assign dim_id = 'super-king'
+  else
+    assign dim_id = size_id
+  endif
   if width_cm == blank or length_cm == blank
-    case size_id
+    case dim_id
       when 'small-double'
         if width_cm == blank
           assign width_cm = 120
@@ -167,6 +187,13 @@
         if length_cm == blank
           assign length_cm = 213
         endif
+      when 'au-super-king'
+        if width_cm == blank
+          assign width_cm = 183
+        endif
+        if length_cm == blank
+          assign length_cm = 203
+        endif
       when 'split-king'
         if pieces == 1
           assign pieces = 2
@@ -198,7 +225,7 @@
       when 'king', 'super-king'
         if width_cm == blank or length_cm == blank
           if v_market == 'ae'
-            if size_id == 'king'
+            if dim_id == 'king'
               if width_cm == blank
                 assign width_cm = 180
               endif
@@ -218,7 +245,7 @@
               assign length_cm = 203
             endif
           else
-            if size_id == 'king'
+            if dim_id == 'king'
               if width_cm == blank
                 assign width_cm = 150
               endif
@@ -277,17 +304,6 @@
       endif
     endfor
   endif
-  unless tab_gb or tab_uae or tab_us or tab_eu
-    if v_market == 'gb'
-      assign tab_gb = true
-    elsif v_market == 'ae'
-      assign tab_uae = true
-    elsif v_market == 'us'
-      assign tab_us = true
-    elsif v_market == 'eu'
-      assign tab_eu = true
-    endif
-  endunless
 -%}
 {
   "id": {{ size_id | json }},
@@ -308,6 +324,7 @@
   "market": {{ v_market | json }},
   "shown": [{% assign sfirst = true %}{% if shown_s != blank %}{% for tok in shown_parts %}{% assign t = tok | strip | upcase %}{% if t == blank %}{% continue %}{% endif %}{% unless sfirst %},{% endunless %}{{ t | json }}{% assign sfirst = false %}{% endfor %}{% endif %}],
   "markets": [{% assign mfirst = true %}{% if tab_gb %}{% unless mfirst %},{% endunless %}"GB"{% assign mfirst = false %}{% endif %}{% if tab_uae %}{% unless mfirst %},{% endunless %}"UAE"{% assign mfirst = false %}{% endif %}{% if tab_us %}{% unless mfirst %},{% endunless %}"US"{% assign mfirst = false %}{% endif %}{% if tab_eu %}{% unless mfirst %},{% endunless %}"EU"{% assign mfirst = false %}{% endif %}],
-  "available": {{ v.available | json }},
+  "available": true,
+  "shown_defined": {% if shown_s != blank %}true{% else %}false{% endif %},
   "popular": {% if v.metafields.custom.popular == true %}true{% else %}false{% endif %}
 }
