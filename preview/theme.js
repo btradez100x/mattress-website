@@ -6111,9 +6111,22 @@
         return res.json();
       })
       .then(function (data) {
-        reviews = Array.isArray(data.reviews) ? data.reviews : [];
-        if (data.summary) applySummary(data.summary);
-        paint();
+        reviews = (Array.isArray(data.reviews) ? data.reviews : []).filter(function (r) {
+          if (!r || typeof r !== 'object') return false;
+          if (r.published === false || r.visible === false) return false;
+          return true;
+        });
+        if (data.summary) {
+          applySummary(data.summary);
+        } else if (reviews.length) {
+          var sum = 0;
+          reviews.forEach(function (r) {
+            sum += Number(r.rating) || 0;
+          });
+          applySummary({ average: sum / reviews.length, count: reviews.length });
+        }
+        if (!reviews.length) showEmpty();
+        else paint();
       })
       .catch(function () {
         if (emptyEl) emptyEl.hidden = false;

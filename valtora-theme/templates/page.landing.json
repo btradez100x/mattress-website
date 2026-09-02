@@ -212,14 +212,14 @@
     "social-proof": {
       "type": "social-proof",
       "settings": {
-        "enable_section": false,
+        "enable_section": true,
         "eyebrow": "Customer reviews",
         "heading": "What owners say.",
         "subheading": "Verified purchase reviews from the founding allocations.",
         "empty_text": "Reviews will appear here shortly.",
         "load_more_label": "Show more reviews",
-        "page_size": 6,
-        "enable_reviews": false,
+        "page_size": 12,
+        "enable_reviews": true,
         "enable_submissions": true,
         "require_purchase": true,
         "write_cta": "Write a review",

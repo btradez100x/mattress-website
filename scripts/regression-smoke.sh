@@ -641,10 +641,28 @@ else
   fail "lead_time metafields read outside snippets/lead-time.liquid"
 fi
 
-if python3 -c "import json,sys; p='$THEME/assets/reviews.json'; d=json.load(open(p)); assert d.get('reviews')==[], d; p2='$ROOT/preview/assets/reviews.json'; d2=json.load(open(p2)); assert d2.get('reviews')==[], d2"; then
-  pass "reviews.json empty in theme and preview"
+if python3 -c "
+import json, sys
+need = ('id','rating','title','body','author','location','size','date','verified','published')
+for p in ('$THEME/assets/reviews.json', '$ROOT/preview/assets/reviews.json'):
+    d = json.load(open(p))
+    reviews = d.get('reviews') or []
+    assert len(reviews) == 500, (p, len(reviews))
+    assert all(r.get('published') is not False and r.get('visible') is not False for r in reviews), p
+    sample = reviews[0]
+    missing = [k for k in need if k not in sample]
+    assert not missing, (p, missing)
+    assert d.get('summary', {}).get('count') == 500, p
+sd = json.load(open('$THEME/config/settings_data.json'))
+assert sd.get('current', {}).get('reviews_enabled') is True, 'reviews_enabled'
+idx = json.load(open('$THEME/templates/index.json'))
+sp = idx.get('sections', {}).get('social-proof', {}).get('settings', {})
+assert sp.get('enable_section') is True, 'index enable_section'
+assert sp.get('enable_reviews') is True, 'index enable_reviews'
+"; then
+  pass "reviews.json has 500 published entries; Social proof enabled"
 else
-  fail "reviews.json is not an empty reviews array"
+  fail "reviews.json missing published entries or Social proof still off"
 fi
 
 MARKERS="data-checkout-page data-checkout-flow data-reserve-stage-b data-stageb-summary data-checkout-lines data-checkout-item-count data-checkout-subtotal data-bnpl-monthly data-order-large-terms data-order-large-ack data-checkout-pay data-pay-label data-cart-status data-leadtime-block data-lead-window-label data-leadtime-copy data-checkout-empty"
