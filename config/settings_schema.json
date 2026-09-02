@@ -56,7 +56,7 @@
         "type": "text",
         "id": "company_number",
         "label": "Company number",
-        "info": "Shown on Privacy, Terms, Cookies, contact, and the footer when filled. Leave blank to hide the row. UK can override under Business details → Company number (UK)."
+        "info": "Shown on Privacy, Terms, Cookies, contact, and the footer when filled. Leave blank to hide the row. UK can override under Business details \u2192 Company number (UK)."
       },
       {
         "type": "textarea",
@@ -277,21 +277,25 @@
         "content": "Typography"
       },
       {
+        "type": "paragraph",
+        "content": "Type is locked to the brand guidelines: Instrument Sans (headings / wordmark), Inter (body), Geist Mono (labels). Theme font-set controls below are unused."
+      },
+      {
         "type": "select",
         "id": "font_set",
-        "label": "Font set",
+        "label": "Font set (unused \u2014 locked to guidelines)",
         "options": [
           {
             "value": "modern",
-            "label": "Modern - Outfit (Apple / Nike)"
+            "label": "Brand \u2014 Instrument Sans / Inter / Geist Mono"
           },
           {
             "value": "classic",
-            "label": "Classic - Cormorant + Manrope"
+            "label": "Brand \u2014 Instrument Sans / Inter / Geist Mono"
           }
         ],
         "default": "modern",
-        "info": "V1 only. V2 always uses Instrument Sans + Inter + Geist Mono."
+        "info": "Live storefront always loads Instrument Sans, Inter and Geist Mono. Do not mix serif."
       },
       {
         "type": "paragraph",
@@ -300,43 +304,43 @@
       {
         "type": "select",
         "id": "font_sans",
-        "label": "Modern sans override",
+        "label": "Modern sans override (unused)",
         "options": [
           {
             "value": "outfit",
-            "label": "Outfit (modern / Apple-like)"
+            "label": "Inter (locked)"
           },
           {
             "value": "work_sans",
-            "label": "Work Sans"
+            "label": "Inter (locked)"
           },
           {
             "value": "inter",
-            "label": "Inter"
+            "label": "Inter (locked)"
           },
           {
             "value": "manrope",
-            "label": "Manrope"
+            "label": "Inter (locked)"
           }
         ],
-        "default": "outfit"
+        "default": "inter"
       },
       {
         "type": "select",
         "id": "font_serif",
-        "label": "Accent serif",
+        "label": "Accent serif (unused \u2014 no serif)",
         "options": [
           {
             "value": "fraunces",
-            "label": "Fraunces"
+            "label": "Instrument Sans (locked)"
           },
           {
             "value": "cormorant",
-            "label": "Cormorant Garamond"
+            "label": "Instrument Sans (locked)"
           },
           {
             "value": "playfair",
-            "label": "Playfair Display"
+            "label": "Instrument Sans (locked)"
           }
         ],
         "default": "fraunces"
@@ -344,15 +348,15 @@
       {
         "type": "select",
         "id": "wordmark_font",
-        "label": "Modern wordmark style",
+        "label": "Modern wordmark style (unused)",
         "options": [
           {
             "value": "sans",
-            "label": "Sans (Apple / Nike)"
+            "label": "Instrument Sans (locked)"
           },
           {
             "value": "serif",
-            "label": "Serif (classic)"
+            "label": "Instrument Sans (locked)"
           }
         ],
         "default": "sans"
@@ -360,15 +364,15 @@
       {
         "type": "select",
         "id": "headline_font",
-        "label": "Modern headline style",
+        "label": "Modern headline style (unused)",
         "options": [
           {
             "value": "sans",
-            "label": "Sans (Apple / Nike)"
+            "label": "Instrument Sans (locked)"
           },
           {
             "value": "serif",
-            "label": "Serif (editorial)"
+            "label": "Instrument Sans (locked)"
           }
         ],
         "default": "sans"
@@ -380,7 +384,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "The storefront follows the visitor’s Shopify / browser country (UK, UAE, US, Europe). Unlisted countries use the UK. Prefer Shopify Markets for currency. Shoppers do not switch country tabs."
+        "content": "The storefront follows the visitor\u2019s Shopify / browser country (UK, UAE, US, Europe). Unlisted countries use the UK. Prefer Shopify Markets for currency. Shoppers do not switch country tabs."
       },
       {
         "type": "select",
@@ -458,7 +462,7 @@
         "type": "text",
         "id": "splitit_merchant_id",
         "label": "Splitit merchant ID",
-        "info": "Terminal Id from Splitit Hub (Merchants Management → Terminals). Leave blank to disable regardless of the checkbox."
+        "info": "Terminal Id from Splitit Hub (Merchants Management \u2192 Terminals). Leave blank to disable regardless of the checkbox."
       },
       {
         "type": "text",
@@ -591,7 +595,7 @@
         "type": "text",
         "id": "comfort_layer_price_gb",
         "label": "Comfort layer price (GB)",
-        "default": "£299",
+        "default": "\u00a3299",
         "info": "Named replacement-layer value on landing pages ([layer]). Matches the live store figure. Leave blank to use the comfort layer product price when that product exists."
       },
       {
@@ -676,7 +680,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Prefer Google Tag Manager. Theme code pushes events to dataLayer via vTrack; Meta and GA4 are configured in GTM only (no direct theme scripts). Meta / GA4 ID fields below are documentation of which IDs are in use."
+        "content": "Prefer Google Tag Manager. Theme code pushes events to dataLayer via vTrack (lp_view, configure_start, configure_complete, add_to_basket, add_service, basket_view, begin_checkout, purchase, plus scroll_depth, scroll_past_price, engaged_session). Every event carries lp_variant and session_id. Meta and GA4 are configured in GTM only — no direct theme scripts. Map add_to_basket as the primary conversion."
       },
       {
         "type": "text",
@@ -940,7 +944,7 @@
         "id": "legal_entity_name_ae",
         "label": "Legal name (UAE)",
         "default": "Valtora FZE",
-        "info": "Fallback if Brand → Legal name is blank. Trading as still uses Brand name + Product line."
+        "info": "Fallback if Brand \u2192 Legal name is blank. Trading as still uses Brand name + Product line."
       },
       {
         "type": "text",
@@ -984,7 +988,7 @@
         "type": "text",
         "id": "legal_entity_name_gb",
         "label": "Legal name (UK)",
-        "info": "Overrides Brand → Legal name for UK visitors. Leave blank to use Legal name. Trading as still uses Brand name + Product line."
+        "info": "Overrides Brand \u2192 Legal name for UK visitors. Leave blank to use Legal name. Trading as still uses Brand name + Product line."
       },
       {
         "type": "text",
