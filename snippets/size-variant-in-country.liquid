@@ -1,7 +1,56 @@
 {%- comment -%}
-  Always shown. Live Liquid was dropping US/AU/UAE sizes when Market Shown
-  was blank or unreadable, so the picker no longer filters by country here.
-  Every product.variant that Shopify publishes to the storefront is included.
-  Expects: v, country_iso (unused; kept so existing renders stay valid)
+  Outputs 1 when the variant belongs in country_iso.
+
+  Source of truth: custom.market_shown (Admin definition: Market Shown).
+  Browser country → that list. Unknown / blank country → UK/GB.
+
+  Do not treat a blank metafield as "show all 18".
+  Blank Market Shown on the GB default: include if Shopify published the
+  variant to this market (variant.available or variant.available_for_sale).
+  If Market Shown contains GB/UK, include. US Twin with Market Shown = US
+  only must not output 1 for GB.
+
+  If Liquid cannot read the metafield, populate Market Shown on each
+  variant — namespace.key is custom.market_shown.
+
+  Expects: v, country_iso
 {%- endcomment -%}
-1
+{%- liquid
+  assign iso = country_iso | upcase | strip
+  if iso == blank or iso == 'UK'
+    assign iso = 'GB'
+  endif
+  capture shown_csv
+    render 'size-variant-shown', v: v
+  endcapture
+  assign shown_up = shown_csv | strip | upcase | replace: ', ', ',' | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
+  assign wrapped = ',' | append: shown_up | append: ','
+  assign iso_token = ',' | append: iso | append: ','
+  assign hit = false
+  if shown_up != blank
+    if wrapped contains iso_token
+      assign hit = true
+    endif
+    if iso == 'GB' and wrapped contains ',GB,'
+      assign hit = true
+    endif
+    if iso == 'AE' and wrapped contains ',AE,'
+      assign hit = true
+    endif
+    if iso == 'US' and wrapped contains ',US,'
+      assign hit = true
+    endif
+    assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
+    assign iso_bar = '|' | append: iso | append: '|'
+    if europe_isos contains iso_bar or iso == 'EU'
+      if wrapped contains ',EU,' or wrapped contains ',EUROPE,' or wrapped contains iso_token
+        assign hit = true
+      endif
+    endif
+  else
+    if v.available_for_sale or v.available
+      assign hit = true
+    endif
+  endif
+-%}
+{%- if hit -%}1{%- endif -%}
