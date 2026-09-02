@@ -1,3 +1,13 @@
+# Regression results — Wednesday 2 Sep 2026 (deploy 10.1.0-size-guide-gold-kicker)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 981 passed, 0 failed
+- Scope note: Size Guide Next gold stub is centred under the kicker. Checkpoint: `checkpoints/10.1.0-size-guide-gold-kicker/`. Deploy: `v9` `8260b26`, `shopify-theme` `8f906fc`. Hard-refresh `/pages/size-guide`. No VERSION bump.
+
+---
+
 # Regression results — Wednesday 2 Sep 2026 (deploy 10.1.0-size-guide-no-dummy-boxes)
 
 ## Smoke
