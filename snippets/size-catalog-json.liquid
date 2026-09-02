@@ -3,7 +3,9 @@
   US/AU/UAE titles. SIZE_MAPS is not a live ceiling. The picker and size
   guide share filterCatalogRows: Market Shown (custom.market_shown) for the
   browser country. If that country is not a defined Market Shown market
-  (Ghana / GH), both pages use the UK/GB set. Blank Market Shown is not all 18.
+  (Ghana / GH), both pages use the UK/GB set. If the filter is empty, paint
+  falls back to classic UK sizes plus Market Shown GB extras so the grid
+  cannot be blank. Blank Market Shown is not all 18.
   Expects: mattress (product)
 {%- endcomment -%}
 [

@@ -1,0 +1,138 @@
+{%- comment -%}
+  SSR Choose-your-size tiles so the grid cannot be blank if JS fails.
+
+  Same catalog as theme.js catalogRowsForPaint:
+  1. Market Shown for catalog_iso (Ghana / unknown already resolved to GB)
+  2. If that set is empty, UK/GB catalog: classic seven + Market Shown GB extras
+  3. If JSON/product still yields nothing, SIZE_MAPS.gb static tiles
+
+  Expects: mattress, catalog_iso, add_label
+{%- endcomment -%}
+{%- liquid
+  assign iso = catalog_iso | upcase | strip
+  if iso == blank or iso == 'UK'
+    assign iso = 'GB'
+  endif
+  assign add_label = add_label | default: 'Add'
+  assign classic_gb = '|single|small-double|double|king|european-king|super-king|emperor|'
+  assign tile_count = 0
+  assign gb_count = 0
+  assign classic_count = 0
+
+  if mattress != blank
+    for v in mattress.variants
+      capture in_country
+        render 'size-variant-in-country', v: v, country_iso: iso
+      endcapture
+      capture in_gb
+        render 'size-variant-in-country', v: v, country_iso: 'GB'
+      endcapture
+      assign in_country = in_country | strip
+      assign in_gb = in_gb | strip
+      assign size_id = v.option1 | handle
+      if size_id == blank
+        assign size_id = v.title | handle
+      endif
+      if size_id == blank
+        assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', ''
+      endif
+      assign sid_token = '|' | append: size_id | append: '|'
+      if in_country == '1'
+        assign tile_count = tile_count | plus: 1
+      endif
+      if in_gb == '1'
+        assign gb_count = gb_count | plus: 1
+      endif
+      if classic_gb contains sid_token
+        assign classic_count = classic_count | plus: 1
+      endif
+    endfor
+  endif
+
+  assign use_uk_fallback = false
+  if tile_count == 0
+    assign use_uk_fallback = true
+  endif
+  assign painted = 0
+-%}
+{%- if mattress != blank -%}
+  {%- for v in mattress.variants -%}
+    {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: iso -%}{%- endcapture -%}
+    {%- capture in_gb -%}{%- render 'size-variant-in-country', v: v, country_iso: 'GB' -%}{%- endcapture -%}
+    {%- assign in_country = in_country | strip -%}
+    {%- assign in_gb = in_gb | strip -%}
+    {%- assign size_id = v.option1 | handle -%}
+    {%- if size_id == blank -%}
+      {%- assign size_id = v.title | handle -%}
+    {%- endif -%}
+    {%- if size_id == blank -%}
+      {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
+    {%- endif -%}
+    {%- assign sid_token = '|' | append: size_id | append: '|' -%}
+    {%- assign is_classic = false -%}
+    {%- if classic_gb contains sid_token -%}
+      {%- assign is_classic = true -%}
+    {%- endif -%}
+    {%- capture shown_csv -%}{%- render 'size-variant-shown', v: v -%}{%- endcapture -%}
+    {%- assign shown_up = shown_csv | strip -%}
+    {%- assign show_tile = false -%}
+    {%- if use_uk_fallback -%}
+      {%- if in_gb == '1' -%}
+        {%- assign show_tile = true -%}
+      {%- elsif is_classic and shown_up == blank -%}
+        {%- assign show_tile = true -%}
+      {%- endif -%}
+    {%- elsif in_country == '1' -%}
+      {%- assign show_tile = true -%}
+    {%- endif -%}
+    {%- unless show_tile -%}
+      {%- continue -%}
+    {%- endunless -%}
+    {%- assign painted = painted | plus: 1 -%}
+    {%- assign tile_label = v.option1 | default: v.title -%}
+    {%- if v.metafields.custom.name_gb != blank -%}
+      {%- assign tile_label = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb -%}
+    {%- endif -%}
+    {%- assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm -%}
+    {%- assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm -%}
+    {%- assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces | default: 1 -%}
+    {%- assign fits = v.metafields.custom.fits_note.value | default: v.metafields.custom.fits_note -%}
+    {%- assign dims = v.metafields.custom.dims -%}
+    {%- if width_cm != blank and length_cm != blank -%}
+      {%- if pieces > 1 -%}
+        {%- assign dims = pieces | append: ' × ' | append: width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+      {%- else -%}
+        {%- assign dims = width_cm | append: ' × ' | append: length_cm | append: ' cm' -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- assign tile_price = '' -%}
+    {%- if v.price > 0 -%}
+      {%- assign tile_price = v.price | money -%}
+    {%- endif -%}
+    {%- assign is_popular = false -%}
+    {%- if v.metafields.custom.popular == true -%}
+      {%- assign is_popular = true -%}
+    {%- endif -%}
+    {%- render 'size-picker-tile',
+      size_id: size_id,
+      label: tile_label,
+      dims: dims,
+      price: tile_price,
+      price_raw: v.price,
+      variant_id: v.id,
+      pieces: pieces,
+      popular: is_popular,
+      fits: fits,
+      add_label: add_label
+    -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if painted == 0 -%}
+  {%- render 'size-picker-tile', size_id: 'single', label: 'Single', dims: '90 × 190 cm', price: '', price_raw: 0, variant_id: '', pieces: 1, popular: false, fits: '', add_label: add_label -%}
+  {%- render 'size-picker-tile', size_id: 'small-double', label: 'Small Double', dims: '120 × 190 cm', price: '', price_raw: 0, variant_id: '', pieces: 1, popular: false, fits: '', add_label: add_label -%}
+  {%- render 'size-picker-tile', size_id: 'double', label: 'Double', dims: '135 × 190 cm', price: '', price_raw: 0, variant_id: '', pieces: 1, popular: false, fits: '', add_label: add_label -%}
+  {%- render 'size-picker-tile', size_id: 'king', label: 'King', dims: '150 × 200 cm', price: '', price_raw: 0, variant_id: '', pieces: 1, popular: false, fits: '', add_label: add_label -%}
+  {%- render 'size-picker-tile', size_id: 'european-king', label: 'European King', dims: '160 × 200 cm', price: '', price_raw: 0, variant_id: '', pieces: 1, popular: false, fits: 'Fits IKEA frames', add_label: add_label -%}
+  {%- render 'size-picker-tile', size_id: 'super-king', label: 'Super King', dims: '180 × 200 cm', price: '', price_raw: 0, variant_id: '', pieces: 1, popular: false, fits: '', add_label: add_label -%}
+  {%- render 'size-picker-tile', size_id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', price: '', price_raw: 0, variant_id: '', pieces: 1, popular: false, fits: '', add_label: add_label -%}
+{%- endif -%}
