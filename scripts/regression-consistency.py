@@ -530,6 +530,14 @@ def check_size_picker_chrome() -> None:
             bad(f"{rel}: 1:1 grey placeholder squares on size tiles")
         else:
             ok(f"{rel}: no 1:1 grey dummy squares on size-option/size-row/size-guide-tile")
+        if (
+            ".size-guide-tile__shape" in text
+            or ".size-guide-tile__plan" in text
+            or ".size-guide-tile__bed" in text
+        ):
+            bad(f"{rel}: size-guide still has dummy bed/plan boxes")
+        else:
+            ok(f"{rel}: size-guide tiles have no dummy bed boxes")
         if "--field-fill:" in text and "--field-line:" in text and "var(--field-fill" in text:
             ok(f"{rel}: size-note keeps distinct fill/border")
         else:
@@ -541,7 +549,13 @@ def check_size_picker_chrome() -> None:
             ok(f"{rel}: tiles use shared size-option class + ADD")
         else:
             bad(f"{rel}: tiles missing shared size-option class")
-        if "size-option__media" in js_text or "size-option__bed" in js_text:
+        if (
+            "size-option__media" in js_text
+            or "size-option__bed" in js_text
+            or "size-guide-tile__shape" in js_text
+            or "size-guide-tile__plan" in js_text
+            or "size-guide-tile__bed" in js_text
+        ):
             bad(f"{rel}: grey dummy image boxes returned to size tiles")
         else:
             ok(f"{rel}: size tiles have no dummy image boxes")

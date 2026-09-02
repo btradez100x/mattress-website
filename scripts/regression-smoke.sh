@@ -1059,6 +1059,9 @@ for path in css_paths:
     if re.search(r"\.(size-option|size-row)[^{]*\{[^}]*aspect-ratio:\s*1\s*/\s*1", block):
         print(path, "size cards have 1:1 grey placeholder squares")
         ok = False
+    if ".size-guide-tile__shape" in text or ".size-guide-tile__plan" in text or ".size-guide-tile__bed" in text:
+        print(path, "size-guide still has dummy bed/plan boxes")
+        ok = False
     if re.search(r"\.(size-option|size-row)::after[^{]*\{[^}]*content:\s*['\"](?!none)", block):
         print(path, "size cards generate dummy ::after boxes")
         ok = False
@@ -1082,7 +1085,7 @@ for path in js_paths:
     if 'class="size-option' not in t or "size-option__add" not in t or "size-option__qty" not in t:
         print(path, "tile markup missing shared size-option ADD/qty")
         ok = False
-    if "size-option__media" in t or "size-option__bed" in t:
+    if "size-option__media" in t or "size-option__bed" in t or "size-guide-tile__shape" in t or "size-guide-tile__plan" in t or "size-guide-tile__bed" in t:
         print(path, "size tiles grew dummy image boxes")
         ok = False
     if re.search(r"\.slice\(\s*0\s*,\s*7\s*\)", t) or "hardcoded seven" in t:

@@ -7931,7 +7931,6 @@ html.shopify-design-mode .section--wipe.is-wiping {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  min-height: 18rem;
   padding: 1.75rem 1.65rem 1.5rem;
   background: var(--brand-bg);
   border: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
@@ -7939,27 +7938,6 @@ html.shopify-design-mode .section--wipe.is-wiping {
   box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08);
   color: inherit;
   text-decoration: none;
-}
-.size-guide-tile__bed {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  height: 5.25rem;
-  width: 100%;
-  margin-bottom: 1.15rem;
-}
-.size-guide-tile__shape {
-  display: block;
-  height: 100%;
-  width: auto;
-  max-width: 72%;
-  aspect-ratio: var(--bed-w, 150) / var(--bed-l, 200);
-  background: color-mix(in srgb, var(--brand-surface) 70%, var(--brand-primary) 8%);
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 22%, transparent);
-}
-.size-guide-tile__shape--split {
-  box-shadow: 0.45rem 0 0 0 color-mix(in srgb, var(--brand-surface) 70%, var(--brand-primary) 8%);
-  margin-right: 0.45rem;
 }
 .size-guide-tile__name {
   margin: 0;

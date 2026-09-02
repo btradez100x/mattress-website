@@ -6695,30 +6695,6 @@
     return 'United Kingdom';
   }
 
-  function sizeGuideBedVars(row) {
-    var w = parseInt(row && row.width_cm, 10);
-    var l = parseInt(row && row.length_cm, 10);
-    var pieces = parseInt(row && row.pieces, 10) || 1;
-    var dims = (row && (rowDimsText(row) || row.dims)) || '';
-    if (!(w && l) && dims) {
-      var range = String(dims).match(/(\d+)\s*-\s*\d+\s*[×x]\s*(\d+)/);
-      var triple = String(dims).match(/(\d+)\s*[×x]\s*(\d+)\s*[×x]\s*(\d+)/);
-      var pair = String(dims).match(/(\d+)\s*[×x]\s*(\d+)/);
-      if (range) {
-        w = parseInt(range[1], 10);
-        l = parseInt(range[2], 10);
-      } else if (triple) {
-        pieces = parseInt(triple[1], 10) || pieces;
-        w = parseInt(triple[2], 10);
-        l = parseInt(triple[3], 10);
-      } else if (pair) {
-        w = parseInt(pair[1], 10);
-        l = parseInt(pair[2], 10);
-      }
-    }
-    return { w: w || 150, l: l || 200, pieces: pieces };
-  }
-
   function rowsForSizeGuide(market) {
     var primary = filterCatalogRows(readSizePriceRows(), detectCountryIso());
     if (!primary.length && document.documentElement.getAttribute('data-preview') === 'true' && !readSizePriceRows().length) {
@@ -6733,24 +6709,14 @@
   function buildSizeGuideTile(row, tabKey, reserveBase) {
     var name = rowDisplayName(row, tabKey) || row.label || '';
     var dims = rowDimsText(row);
-    var bed = sizeGuideBedVars(row);
     var fits = row.fits || '';
     var price = row.price || '';
     var id = row.id || '';
     var href = (reserveBase || '/') + (id ? '?size=' + encodeURIComponent(id) : '') + '#reserve';
-    var splitClass = bed.pieces > 1 ? ' size-guide-tile__shape--split' : '';
     return (
       '<article class="size-guide-tile" data-size-id="' +
       escapeHtml(id) +
       '">' +
-      '<div class="size-guide-tile__bed" aria-hidden="true">' +
-      '<span class="size-guide-tile__shape' +
-      splitClass +
-      '" style="--bed-w: ' +
-      bed.w +
-      '; --bed-l: ' +
-      bed.l +
-      ';"></span></div>' +
       '<h3 class="size-guide-tile__name">' +
       escapeHtml(name) +
       '</h3>' +
