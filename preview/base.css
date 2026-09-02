@@ -2434,7 +2434,10 @@ video[controls],
 
 [data-reserve-section],
 .shopify-section:has([data-size-reserve]),
-.shopify-section:has(.size-reserve__layout) {
+.shopify-section:has(.size-reserve__layout),
+.shopify-section:has([data-lp-configure]),
+.lp-section--configure,
+[data-lp-configure] {
   overflow: visible;
 }
 
@@ -4943,6 +4946,9 @@ body:has([data-float-total]:empty) .hero__cta {
   .size-reserve__layout > .reserve-panel,
   .size-reserve__layout > .order-panel,
   .size-reserve__layout > aside,
+  [data-lp-configure] > .reserve-panel,
+  [data-lp-configure] > .order-panel,
+  [data-lp-configure] > aside,
   .reserve-panel,
   .order-panel {
     position: sticky;
@@ -8814,14 +8820,17 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin-top: var(--s6, 2rem);
 }
 .lp-configure-head {
-  text-align: center;
+  text-align: left;
 }
 .lp-configure-head .gold-rule {
-  margin-inline: auto;
+  margin-inline: 0;
 }
 .lp-configure-head .section__lede {
-  margin: var(--s4, 1rem) auto 0;
+  margin: var(--s4, 1rem) 0 0;
   max-width: 30em;
+}
+.lp-section--configure .size-reserve__layout {
+  overflow: visible;
 }
 .lp-sizes {
   margin-top: var(--s6, 2rem);
@@ -9395,6 +9404,15 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .cart-service-line a {
   display: inline-block;
   margin-top: 0.25rem;
+}
+.cart-service-line__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.cart-service-line__check input {
+  margin-top: 0.2rem;
 }
 .cart-story p {
   font-size: 1.05rem;

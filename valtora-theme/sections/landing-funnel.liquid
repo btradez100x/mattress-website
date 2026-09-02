@@ -665,9 +665,17 @@
       assign policy_emperor = 'Comfort layer included · Made to order · Concierge unpacking included · Not covered by the ' | append: return_days | append: '-day return trial'
       assign policy_default = policy_default | strip
       assign policy_emperor = policy_emperor | strip
+      assign size_kicker = section.settings.kicker | strip
+      if size_kicker == blank
+        assign size_kicker = 'Reserve yours'
+      endif
+      assign first_price = featured_price
+      if first_price == blank
+        assign first_price = from_price
+      endif
     -%}
   <div
-    class="page-width lp-narrow"
+    class="page-width size-reserve__layout"
     data-lp-configure
     data-market="{{ market }}"
     data-lp-preselect="{{ featured_id | escape }}"
@@ -677,12 +685,16 @@
     data-lead-max="{{ lt_max | strip | escape }}"
     data-lp-policy-default="{{ policy_default | escape }}"
     data-lp-policy-emperor="{{ policy_emperor | escape }}"
+    data-add-label="{{ settings.size_add_label | default: 'Add' | escape }}"
   >
+    <div>
     <div class="lp-sec-head lp-configure-head">
-      {%- if section.settings.heading != blank -%}
-        <p class="section__eyebrow">Configure</p>
+      {%- if section.settings.heading != blank or size_kicker != blank -%}
+        {% render 'lp-kicker', text: size_kicker, featured_price: featured_price, layer_price: layer_price %}
         <hr class="gold-rule">
-        <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- if section.settings.heading != blank -%}
+          <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
+        {%- endif -%}
       {%- endif -%}
       {%- if section.settings.lede != blank -%}
         <p class="section__lede">{% render 'landing-copy', text: section.settings.lede, featured_price: featured_price, layer_price: layer_price %}</p>
@@ -703,6 +715,29 @@
     </div>
     <p class="lp-add-status" data-lp-add-status hidden role="status"></p>
     <div class="lp-policy size-policy" data-lp-policy data-size-policy>{{ policy_default }}</div>
+    </div>
+    <aside class="reserve-panel order-panel" data-reserve-panel>
+      <div data-reserve-available>
+        <div data-reserve-stage-a>
+          <p class="order-basket__eyebrow">Your order</p>
+          {% render 'order-builder', section: section, market: market, first_price: first_price %}
+          <p class="order-basket__lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
+          <div data-order-retail hidden>
+            <a
+              class="btn"
+              style="width:100%;text-align:center;"
+              data-reserve-continue
+              data-checkout-href="{{ cart_url }}"
+              href="{{ cart_url }}"
+            >
+              Continue
+            </a>
+            <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
+          </div>
+        </div>
+      </div>
+      <p class="reserve-status" data-reserve-status hidden></p>
+    </aside>
   </div>
   {%- endif -%}
 </section>
@@ -785,7 +820,7 @@
       "type": "text",
       "id": "kicker",
       "label": "Kicker",
-      "info": "Tokens: [X] warranty years, [N] trial nights, [layer] comfort layer price, [price] featured size price, [Brand]"
+      "info": "Tokens: [X] warranty years, [N] trial nights, [layer] comfort layer price, [price] featured size price, [Brand]. On the inline size selector, blank becomes Reserve yours — never Configure."
     },
     {
       "type": "textarea",

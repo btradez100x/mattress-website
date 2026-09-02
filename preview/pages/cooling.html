@@ -224,8 +224,11 @@
         </div>
       </section>
       <section class="section lp-section lp-section--configure section--bg" id="configure" data-reveal data-section-ground="bg">
-        <div class="page-width lp-narrow" data-lp-configure data-checkout-path="./cart.html" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-lp-policy-default="Comfort layer included · Adjusted to Desire for a year · Concierge unpacking included · 30-day return" data-lp-policy-emperor="Comfort layer included · Made to order · Concierge unpacking included · Not covered by the 30-day return trial">
+        <div class="page-width size-reserve__layout" data-lp-configure data-checkout-path="./cart.html" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-lp-policy-default="Comfort layer included · Adjusted to Desire for a year · Concierge unpacking included · 30-day return" data-lp-policy-emperor="Comfort layer included · Made to order · Concierge unpacking included · Not covered by the 30-day return trial">
+          <div>
           <div class="lp-sec-head lp-configure-head">
+            <p class="section__eyebrow lp-kicker">Reserve yours</p>
+            <hr class="gold-rule">
             <h2>Choose your size</h2>
             <p class="section__lede">You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer.</p>
           </div>
@@ -239,6 +242,27 @@
           </div>
           <p class="lp-add-status" data-lp-add-status hidden role="status"></p>
           <p class="lp-policy size-policy" data-lp-policy data-size-policy>Comfort layer included · Adjusted to Desire for a year · Concierge unpacking included · 30-day return</p>
+          </div>
+          <aside class="reserve-panel order-panel" data-reserve-panel>
+            <div data-reserve-available>
+              <div data-reserve-stage-a>
+                <p class="order-basket__eyebrow">Your order</p>
+                <input type="hidden" name="quantity" value="1" data-qty-input>
+                <ul class="order-basket__list" data-order-lines-list role="list"></ul>
+                <span class="visually-hidden" data-selected-size>-</span>
+                <span class="visually-hidden" data-selected-dims></span>
+                <div class="order-basket__tot">
+                  <span data-order-total-label>Total</span>
+                  <strong data-order-total data-display-price></strong>
+                </div>
+                <div data-order-retail hidden>
+                  <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./cart.html" href="./cart.html">Continue</a>
+                  <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
+                </div>
+              </div>
+            </div>
+            <p class="reserve-status" data-reserve-status hidden></p>
+          </aside>
         </div>
       </section>
     </main>

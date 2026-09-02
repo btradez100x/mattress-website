@@ -87,6 +87,21 @@ assert(
   /position:\s*sticky/.test(baseCss) && /\.order-panel \{[\s\S]*position:\s*sticky/.test(baseCss),
   'YOUR ORDER panel must be position:sticky'
 );
+var funnelLiq = fs.readFileSync(
+  path.join(root, 'valtora-theme/sections/landing-funnel.liquid'),
+  'utf8'
+);
+assert(
+  /\[data-lp-configure\] > aside/.test(baseCss) &&
+    /size-reserve__layout/.test(funnelLiq) &&
+    /order-panel/.test(funnelLiq),
+  'specification size-pick must use size-reserve__layout with a sticky YOUR ORDER aside'
+);
+assert(
+  /Reserve yours/.test(funnelLiq) && !/<p class="section__eyebrow">Configure<\/p>/.test(funnelLiq),
+  'landing size-pick kicker must be Reserve yours, never Configure'
+);
+assert(/function paintOrderBasketFromStore/.test(themeJs), 'landing ADD must paint YOUR ORDER lines');
 assert(/overflow-x:\s*visible/.test(baseCss), 'body must not clip overflow-x (that kills sticky)');
 assert(/data-size-pick/.test(themeJs) && /size-option__add/.test(themeJs), 'ADD markup must be a data-size-pick control');
 assert(/existingQty \+ 1/.test(themeJs), 'ADD click must increment qty');
