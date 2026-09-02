@@ -15,13 +15,15 @@
 
 **On navy/dark sections:** body, headings, and captions stay cream. Do not paint gold paragraphs on navy. Gold may remain for small eyebrows on light grounds and for hairlines.
 
-## Zip (reference only)
+## Zip (type is live; colour overlay is V1 navy / gold / cream)
 
 | What | Path |
 |---|---|
-| Zip (not live type) | `docs/brand/Brand_guidelines_a1e2.zip` |
+| Zip | `docs/brand/Brand_guidelines_a1e2.zip` |
 | Extracted files | `docs/brand-guidelines-a1e2/Brand guidelines/` |
-| Live CSS overlay | `valtora-theme/assets/brand.css` (loaded last: cream-on-dark + gold rules; does **not** force Carbon) |
+| Live CSS overlay | `valtora-theme/assets/brand.css` (loaded last: cream-on-dark + gold rules + type lock; does **not** force Carbon) |
+
+**Type:** Instrument Sans (headings / wordmark), Inter (body), Geist Mono (labels). Loaded once from `theme.liquid`. No serif.
 
 Theme settings: `brand_guidelines` = `v1`, `color_scheme` = `signature`. Checkout and VERSION are unchanged.
 

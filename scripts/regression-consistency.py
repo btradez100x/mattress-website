@@ -409,14 +409,14 @@ def check_theme_js() -> None:
         ok("theme.liquid marks shopify-design-mode on first paint")
     else:
         bad("theme.liquid missing request.design_mode class (editor can look empty)")
-    if "display=swap" in theme_liquid:
-        ok("theme.liquid Google Fonts use display=swap")
+    if "display=swap" in theme_liquid and "Instrument+Sans" in theme_liquid and "family=Inter" in theme_liquid and "Geist+Mono" in theme_liquid:
+        ok("theme.liquid loads Instrument Sans + Inter + Geist Mono with display=swap")
     else:
-        bad("theme.liquid missing font-display swap on Google Fonts")
-    if "fonts.gstatic.com/s/outfit/" in theme_liquid and "rel=\"preload\"" in theme_liquid:
-        ok("theme.liquid preloads Outfit woff2 for first paint")
+        bad("theme.liquid must load guideline fonts once (Instrument Sans, Inter, Geist Mono)")
+    if "fonts.gstatic.com/s/outfit/" in theme_liquid or "family=Outfit" in theme_liquid or "Fraunces" in theme_liquid:
+        bad("theme.liquid must not load Outfit or Fraunces")
     else:
-        bad("theme.liquid should preload the Outfit woff2 used on first paint")
+        ok("theme.liquid does not load competing Outfit/Fraunces")
     hero_liquid = (ROOT / "valtora-theme" / "sections" / "hero.liquid").read_text(encoding="utf-8")
     if "fetchpriority: 'high'" in hero_liquid and "loading: 'eager'" in hero_liquid:
         ok("hero.liquid LCP image is eager + fetchpriority high")

@@ -30,9 +30,9 @@
 
   var FONTS = {
     modern:
-      'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap',
+      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
     classic:
-      'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap',
+      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
     v2:
       'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
   };
@@ -154,31 +154,20 @@
   };
 
   var FONT_TOKENS = {
-    modern: {
-      serif: "'Fraunces', Georgia, serif",
-      sans: "'Outfit', system-ui, sans-serif",
-      wordmark: "var(--font-sans)",
-      headline: "var(--font-sans)",
-      mono: "ui-monospace, SFMono-Regular, Menlo, monospace",
-      tracking: '0.18em',
-    },
-    classic: {
-      serif: "'Cormorant Garamond', Georgia, serif",
-      sans: "'Manrope', system-ui, sans-serif",
-      wordmark: "var(--font-serif)",
-      headline: "var(--font-serif)",
-      mono: "ui-monospace, SFMono-Regular, Menlo, monospace",
-      tracking: '0.18em',
-    },
-    v2: {
+    zip: {
       serif: "'Instrument Sans', system-ui, sans-serif",
       sans: "'Inter', system-ui, sans-serif",
       wordmark: "'Instrument Sans', system-ui, sans-serif",
       headline: "'Instrument Sans', system-ui, sans-serif",
+      display: "'Instrument Sans', system-ui, sans-serif",
+      text: "'Inter', system-ui, sans-serif",
       mono: "'Geist Mono', ui-monospace, monospace",
-      tracking: '-0.02em',
+      tracking: '0.18em',
     },
   };
+  FONT_TOKENS.modern = FONT_TOKENS.zip;
+  FONT_TOKENS.classic = FONT_TOKENS.zip;
+  FONT_TOKENS.v2 = FONT_TOKENS.zip;
 
   var d = document.documentElement;
   d.setAttribute('data-preview-host', '1');
@@ -322,6 +311,12 @@
       ';' +
       '--font-sans:' +
       fonts.sans +
+      ';' +
+      '--font-display:' +
+      (fonts.display || fonts.headline) +
+      ';' +
+      '--font-text:' +
+      (fonts.text || fonts.sans) +
       ';' +
       '--font-wordmark:' +
       fonts.wordmark +
@@ -485,9 +480,7 @@
 
   function faviconDataUri(initials, bg, fg, serif) {
     var size = initials.length > 1 ? 13 : 18;
-    var font = serif
-      ? "Georgia, 'Times New Roman', serif"
-      : "system-ui, -apple-system, 'Segoe UI', sans-serif";
+    var font = "Instrument Sans, system-ui, sans-serif";
     var svg =
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">' +
       '<rect width="32" height="32" rx="7" fill="' +
@@ -509,7 +502,7 @@
     boot = boot || window.__valtoraPreviewBoot;
     if (!boot) return;
     var tokens = schemeTokens(boot.scheme);
-    var serif = boot.guidelines !== 'v2' && boot.fontSet === 'classic';
+    var serif = false;
     var href = faviconDataUri(
       brandInitials(boot.name),
       tokens.primary,

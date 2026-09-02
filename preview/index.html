@@ -24,11 +24,9 @@
     <script type="application/json" id="ShareBrandData">{"brand":"Numa","line":"Mattresses","tagline":"A better bed, for life.","description":"A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order.","image":"assets/hero-mattress.jpg"}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2">
-    <link rel="preload" as="image" href="./assets/hero-mattress.jpg" fetchpriority="high">
-    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
-    <link rel="stylesheet" href="./base.css?v=brand-e144">
+<link rel="preload" as="image" href="./assets/hero-mattress.jpg" fetchpriority="high">
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./base.css?v=brand-e144">
     <link rel="stylesheet" href="./brand.css?v=radius2">
     <link rel="stylesheet" href="./mobile-fit.css?v=390">
     <style>
@@ -45,13 +43,13 @@
         --heading-color: #222222;
         --eyebrow-color: #8A6D3B;
         --eyebrow-on-dark: #F7F5F1;
-        --font-serif: 'Fraunces', Georgia, serif;
-        --font-sans: 'Outfit', system-ui, sans-serif;
-        --font-display: 'Fraunces', Georgia, serif;
-        --font-text: 'Outfit', system-ui, sans-serif;
-        --font-wordmark: var(--font-sans);
-        --font-headline: var(--font-sans);
-        --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+        --font-serif: 'Instrument Sans', system-ui, sans-serif;
+        --font-sans: 'Inter', system-ui, sans-serif;
+        --font-display: 'Instrument Sans', system-ui, sans-serif;
+        --font-text: 'Inter', system-ui, sans-serif;
+        --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+        --font-headline: 'Instrument Sans', system-ui, sans-serif;
+        --font-mono: 'Geist Mono', ui-monospace, monospace;
         --wordmark-tracking: 0.18em;
         --space-section: 72px;
         --space-gutter: 20px;
@@ -116,21 +114,11 @@
         --eyebrow-on-dark: #F3F4F3;
       }
       html[data-brand-guidelines="v1"][data-font-set="classic"] {
-        --font-serif: 'Cormorant Garamond', Georgia, serif;
-        --font-sans: 'Manrope', system-ui, sans-serif;
-        --font-wordmark: var(--font-serif);
-        --font-headline: var(--font-serif);
+        --font-serif: 'Instrument Sans', system-ui, sans-serif;
+        --font-sans: 'Inter', system-ui, sans-serif;
+        --font-wordmark: 'Instrument Sans', system-ui, sans-serif;
+        --font-headline: 'Instrument Sans', system-ui, sans-serif;
       }
-      html[data-brand-guidelines="v1"][data-font-set="classic"] h1,
-      html[data-brand-guidelines="v1"][data-font-set="classic"] h2,
-      html[data-brand-guidelines="v1"][data-font-set="classic"] h3,
-      html[data-brand-guidelines="v1"][data-font-set="classic"] h4 {
-        font-weight: 400;
-        letter-spacing: -0.015em;
-      }
-      html[data-brand-guidelines="v1"][data-font-set="classic"] h1 { letter-spacing: -0.02em; }
-      html[data-brand-guidelines="v1"][data-font-set="classic"] .wordmark__text { font-weight: 400; }
-
       /* -- V2 brand guidelines (product-derived carbon / snow / ember) -- */
       html[data-brand-guidelines="v2"] {
         --brand-primary: #1A1A1A;
@@ -407,8 +395,8 @@
         </label>
         <label id="PreviewFontSetWrap">Fonts
           <select id="PreviewFontSet" aria-label="Font set">
-            <option value="modern">Modern (Outfit)</option>
-            <option value="classic">Classic (Cormorant)</option>
+            <option value="modern">Brand (Instrument Sans / Inter)</option>
+            <option value="classic">Brand (locked)</option>
           </select>
         </label>
         <label>Colour
@@ -1898,8 +1886,8 @@
         var guidelinesSelect = document.getElementById('PreviewBrandGuidelines');
         var fontLink = document.getElementById('PreviewFontLink');
         var fonts = {
-          modern: 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap',
-          classic: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap',
+          modern: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
+          classic: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
           v2: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap'
         };
         var schemeOptions = {

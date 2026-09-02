@@ -2,6 +2,18 @@
 
 Live storefront uses **V1 Signature**, not Carbon/Snow from the a1e2 zip. Gold is a brand colour on light grounds. On navy, type is cream.
 
+## Type
+
+Live type is the a1e2 zip system. One load in `theme.liquid`. Do not mix serif.
+
+| Token | Value | Role |
+|---|---|---|
+| `--font-display` / `--font-headline` / `--font-wordmark` | `'Instrument Sans', system-ui, sans-serif` | Headings, wordmark, prices |
+| `--font-text` / `--font-sans` | `'Inter', system-ui, sans-serif` | Body, H3, UI |
+| `--font-mono` | `'Geist Mono', ui-monospace, monospace` | Labels, eyebrows, measurements |
+
+`--font-serif` is an alias of Instrument Sans so leftover rules cannot swap to Georgia/Fraunces.
+
 ## Colour
 
 | Token | Hex | Role |

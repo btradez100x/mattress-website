@@ -72,11 +72,6 @@
       assign eyebrow_color = '#3A3A3C'
       assign eyebrow_on_dark = color_on_dark
     endif
-    assign sans_stack = "'Inter', system-ui, sans-serif"
-    assign serif_stack = "'Instrument Sans', system-ui, sans-serif"
-    assign mono_stack = "'Geist Mono', ui-monospace, monospace"
-    assign wordmark_font = 'serif'
-    assign headline_font = 'serif'
     assign wordmark_tracking_em = '-0.02'
     assign transition_token = 'var(--dur-base) var(--ease)'
   else
@@ -118,37 +113,13 @@
     endif
     assign wordmark_line_2_on_dark = color_on_dark
 
-    if font_set == 'classic'
-      assign sans_stack = "'Manrope', system-ui, sans-serif"
-      assign serif_stack = "'Cormorant Garamond', Georgia, serif"
-      assign wordmark_font = 'serif'
-      assign headline_font = 'serif'
-    else
-      case settings.font_sans
-        when 'work_sans'
-          assign sans_stack = "'Work Sans', system-ui, sans-serif"
-        when 'inter'
-          assign sans_stack = "'Inter', system-ui, sans-serif"
-        when 'manrope'
-          assign sans_stack = "'Manrope', system-ui, sans-serif"
-        else
-          assign sans_stack = "'Outfit', system-ui, sans-serif"
-      endcase
-      case settings.font_serif
-        when 'playfair'
-          assign serif_stack = "'Playfair Display', Georgia, serif"
-        when 'cormorant'
-          assign serif_stack = "'Cormorant Garamond', Georgia, serif"
-        else
-          assign serif_stack = "'Fraunces', Georgia, serif"
-      endcase
-      assign wordmark_font = settings.wordmark_font | default: 'sans'
-      assign headline_font = settings.headline_font | default: 'sans'
-    endif
-    assign mono_stack = "ui-monospace, SFMono-Regular, Menlo, monospace"
     assign wordmark_tracking_em = settings.wordmark_tracking | divided_by: 100.0
     assign transition_token = 'var(--dur-base) var(--ease)'
   endif
+
+  assign display_stack = "'Instrument Sans', system-ui, sans-serif"
+  assign text_stack = "'Inter', system-ui, sans-serif"
+  assign mono_stack = "'Geist Mono', ui-monospace, monospace"
 -%}
 {% style %}
   :root {
@@ -166,11 +137,11 @@
     --eyebrow-color: {{ eyebrow_color }};
     --eyebrow-on-dark: {{ eyebrow_on_dark }};
 
-    --font-serif: {{ serif_stack }};
-    --font-sans: {{ sans_stack }};
+    --font-serif: {{ display_stack }};
+    --font-sans: {{ text_stack }};
     --font-mono: {{ mono_stack }};
-    --font-wordmark: {% if wordmark_font == 'serif' %}var(--font-serif){% else %}var(--font-sans){% endif %};
-    --font-headline: {% if headline_font == 'serif' %}var(--font-serif){% else %}var(--font-sans){% endif %};
+    --font-wordmark: {{ display_stack }};
+    --font-headline: {{ display_stack }};
 
     --wordmark-tracking: {{ wordmark_tracking_em }}em;
     --ground-light: {% if guidelines == 'v2' %}#F5F4F1{% else %}#F7F5F1{% endif %};
@@ -193,8 +164,8 @@
     --sticky-reserve-offset: 0px;
     --hairline: {% if guidelines == 'v2' %}#D6D2CA{% else %}color-mix(in srgb, {{ color_primary }} 12%, transparent){% endif %};
     --hairline-dark: #2E2E30;
-    --font-display: {{ serif_stack }};
-    --font-text: {{ sans_stack }};
+    --font-display: {{ display_stack }};
+    --font-text: {{ text_stack }};
   }
 
   @media (min-width: 860px) {
@@ -208,22 +179,35 @@
     --sticky-reserve-offset: 5.75rem;
   }
 
+  h1, h2 {
+    font-family: var(--font-display, var(--font-headline));
+  }
+  h3, h4 {
+    font-family: var(--font-text, var(--font-sans));
+  }
+  .section__eyebrow,
+  .lp-kicker,
+  .kicker,
+  .wordmark__product {
+    font-family: var(--font-mono);
+  }
+  .wordmark__text {
+    font-family: var(--font-wordmark, var(--font-display));
+  }
+
   {% if guidelines == 'v2' %}
   h1, h2 {
-    font-family: var(--font-headline);
     font-weight: 700;
     letter-spacing: -0.035em;
     line-height: 1.1;
   }
   h1 { letter-spacing: -0.045em; line-height: 1.02; }
   h3, h4 {
-    font-family: var(--font-sans);
     font-weight: 600;
     letter-spacing: -0.015em;
   }
   .section__eyebrow,
   .wordmark__product {
-    font-family: var(--font-mono);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-weight: 500;
@@ -257,14 +241,5 @@
     border-top-color: var(--brand-accent);
   }
   .btn { border-radius: 12px; }
-  {% elsif font_set == 'classic' %}
-  h1, h2, h3, h4 {
-    font-weight: 400;
-    letter-spacing: -0.015em;
-  }
-  h1 { font-weight: 400; letter-spacing: -0.02em; }
-  .wordmark__text {
-    font-weight: 400;
-  }
   {% endif %}
 {% endstyle %}
