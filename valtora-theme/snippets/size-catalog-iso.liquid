@@ -15,6 +15,9 @@
   if browser == 'UK'
     assign browser = 'GB'
   endif
+  if browser == 'UAE'
+    assign browser = 'AE'
+  endif
 
   assign defined_csv = ''
   if mattress != blank
@@ -22,7 +25,9 @@
       capture shown_csv
         render 'size-variant-shown', v: v
       endcapture
-      assign shown_up = shown_csv | strip | upcase | replace: ', ', ',' | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
+      assign shown_up = shown_csv | strip | upcase
+      assign shown_up = shown_up | replace: '&bull;', ',' | replace: '&#8226;', ',' | replace: '&#x2022;', ',' | replace: '•', ',' | replace: '·', ',' | replace: ';', ',' | replace: '|', ',' | replace: '/', ',' | replace: ' ', ','
+      assign shown_up = shown_up | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
       if shown_up != blank
         if defined_csv != blank
           assign defined_csv = defined_csv | append: ','
@@ -40,6 +45,10 @@
     assign catalog_iso = 'GB'
   elsif wrapped contains browser_token
     assign catalog_iso = browser
+  elsif browser == 'AE' and wrapped contains ',UAE,'
+    assign catalog_iso = 'AE'
+  elsif browser == 'GB' and wrapped contains ',UK,'
+    assign catalog_iso = 'GB'
   elsif europe_isos contains iso_bar and wrapped contains ',EU,'
     assign catalog_iso = browser
   else

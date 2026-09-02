@@ -16,7 +16,9 @@
   capture shown_csv
     render 'size-variant-shown', v: v
   endcapture
-  assign shown_up = shown_csv | strip | upcase | replace: ', ', ',' | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
+  assign shown_up = shown_csv | strip | upcase
+  assign shown_up = shown_up | replace: '&bull;', ',' | replace: '&#8226;', ',' | replace: '&#x2022;', ',' | replace: '•', ',' | replace: '·', ',' | replace: ';', ',' | replace: '|', ',' | replace: '/', ',' | replace: ' ', ','
+  assign shown_up = shown_up | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE' | replace: ',,', ','
   assign wrapped = ',' | append: shown_up | append: ','
   assign iso_token = ',' | append: iso | append: ','
   assign hit = false
@@ -24,14 +26,20 @@
     if wrapped contains iso_token
       assign hit = true
     endif
-    if iso == 'GB' and wrapped contains ',GB,'
-      assign hit = true
+    if iso == 'GB' or iso == 'UK'
+      if wrapped contains ',GB,' or wrapped contains ',UK,'
+        assign hit = true
+      endif
     endif
-    if iso == 'AE' and wrapped contains ',AE,'
-      assign hit = true
+    if iso == 'AE' or iso == 'UAE'
+      if wrapped contains ',AE,' or wrapped contains ',UAE,'
+        assign hit = true
+      endif
     endif
-    if iso == 'US' and wrapped contains ',US,'
-      assign hit = true
+    if iso == 'US' or iso == 'USA'
+      if wrapped contains ',US,' or wrapped contains ',USA,'
+        assign hit = true
+      endif
     endif
     assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
     assign iso_bar = '|' | append: iso | append: '|'

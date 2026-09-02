@@ -387,6 +387,146 @@ assert.strictEqual(
   'MarketShown GB must show California King even if shown[] and title say US'
 );
 
+assert(/custom\.marketshown/.test(shownLiq), 'shown snippet must also read custom.marketshown');
+assert(
+  shownAssign.indexOf('custom.MarketShown') < shownAssign.indexOf('custom.marketshown') &&
+    shownAssign.indexOf('custom.marketshown') < shownAssign.indexOf('custom.market_shown'),
+  'custom.MarketShown then marketshown then snake_case fallbacks'
+);
+assert(/replace: '•'/.test(shownLiq), 'shown snippet must split U+2022 bullet lists');
+assert(/replace: '•'/.test(inCountry), 'in-country must tokenize bullet lists');
+assert(/SHOWN_SPLIT_RE/.test(themeJs), 'JS tokenizer must split Admin bullet lists');
+
+assert.deepStrictEqual(
+  fns.rowShownTokens({ MarketShown: 'GB • US' }),
+  ['GB', 'US'],
+  'GB • US contains GB and US'
+);
+assert.deepStrictEqual(
+  fns.rowShownTokens({ MarketShown: 'UAE • GB' }),
+  ['AE', 'GB'],
+  'UAE • GB tokenizes UAE→AE and GB'
+);
+assert.deepStrictEqual(fns.rowShownTokens({ MarketShown: 'GB' }), ['GB'], 'plain GB matches');
+assert.deepStrictEqual(
+  fns.rowShownTokens({ MarketShown: 'GB • US • UAE' }),
+  ['GB', 'US', 'AE'],
+  'three-country Admin list tokenizes to a set'
+);
+assert.deepStrictEqual(
+  fns.rowShownTokens({ MarketShown: '["GB","US"]' }),
+  ['GB', 'US'],
+  'JSON array string must flatten to tokens'
+);
+assert.deepStrictEqual(
+  fns.rowShownTokens({ MarketShown: 'GB &bull; US' }),
+  ['GB', 'US'],
+  'HTML entity &bull; must split like a bullet'
+);
+assert.deepStrictEqual(
+  fns.rowShownTokens({ marketshown: 'GB • UAE' }),
+  ['GB', 'AE'],
+  'custom.marketshown alias must tokenize bullets'
+);
+assert.strictEqual(
+  fns.rowMatchesCountry({ MarketShown: 'GB • US' }, 'GB'),
+  true,
+  'GB • US contains GB'
+);
+assert.strictEqual(
+  fns.rowMatchesCountry({ MarketShown: 'UAE • GB' }, 'GB'),
+  true,
+  'UAE • GB contains GB'
+);
+assert.strictEqual(fns.rowMatchesCountry({ MarketShown: 'GB' }, 'GB'), true, 'GB matches GB');
+assert.strictEqual(
+  fns.rowMatchesCountry({ MarketShown: 'US' }, 'GB'),
+  false,
+  'US alone does not match GB'
+);
+assert.strictEqual(
+  fns.rowMatchesCountry({ MarketShown: 'UAE' }, 'AE'),
+  true,
+  'UAE token must match the AE market'
+);
+assert.strictEqual(
+  fns.rowMatchesCountry({ MarketShown: 'GB • US' }, 'GH'),
+  false,
+  'GH is not a MarketShown token — catalog ISO maps GH to GB first'
+);
+
+var adminShown = {
+  Single: 'GB • UAE',
+  'Small Double': 'GB • US • UAE',
+  Double: 'GB',
+  King: 'GB',
+  'European King': 'UAE • GB',
+  'Super King': 'GB • UAE',
+  Emperor: 'GB • UAE',
+  'US Twin': 'GB • US',
+  'US Twin XL': 'GB • US',
+  'US Full': 'GB • US',
+  'US Queen': 'GB • US',
+  'US King': 'GB • US',
+  'California King': 'GB • US',
+  'AU Super King': 'GB • UAE'
+};
+
+var adminRows = titles.map(function (label, i) {
+  var extra = {
+    shown: [],
+    markets: [],
+    available: true
+  };
+  if (adminShown[label]) {
+    extra.MarketShown = adminShown[label];
+    extra.shown_defined = true;
+  } else {
+    extra.MarketShown = '';
+    extra.shown_defined = false;
+  }
+  return rowFor(label, i, extra);
+});
+
+var adminGb = fns.catalogRowsForPaint(adminRows, 'GB');
+var adminLabels = adminGb.map(function (r) {
+  return r.label;
+});
+var expectedUk = Object.keys(adminShown);
+assert(
+  adminLabels.length > 7,
+  'UK grid with populated MarketShown must exceed classic SIZE_MAPS.gb (7), got ' +
+    adminLabels.length
+);
+assert.strictEqual(
+  adminLabels.length,
+  expectedUk.length,
+  'UK tiles must be every variant whose tokens include GB, not a 7-tile ceiling'
+);
+expectedUk.forEach(function (label) {
+  assert(adminLabels.indexOf(label) !== -1, label + ' has GB in MarketShown and must appear');
+});
+assert(adminLabels.indexOf('Queen (UAE)') === -1, 'Queen (UAE) without GB must not appear');
+assert(adminLabels.indexOf('King (UAE)') === -1, 'King (UAE) without GB must not appear');
+assert(adminLabels.indexOf('Super King (UAE)') === -1, 'Super King (UAE) without GB must not appear');
+assert(adminLabels.indexOf('Split King (Pair)') === -1, 'Split King (Pair) without GB must not appear');
+assert.deepStrictEqual(
+  fns.catalogRowsForPaint(adminRows, 'GH').map(function (r) {
+    return r.label;
+  }),
+  adminLabels,
+  'Ghana visitor must see the same GB-token catalog as UK'
+);
+assert.deepStrictEqual(
+  fns.filterCatalogRows(adminRows, 'GB').map(function (r) {
+    return r.id;
+  }),
+  fns.catalogRowsForPaint(adminRows, 'GB').map(function (r) {
+    return r.id;
+  }),
+  'size guide and picker share filterCatalogRows when MarketShown is populated'
+);
+
 console.log('PROOF GH→GB: ' + fns.resolveCatalogIso(json, 'GH'));
 console.log('PROOF UK/GH catalog (' + labels.length + '): ' + labels.join(' | '));
 console.log('PROOF UK extra on configure: California King');
@@ -394,4 +534,6 @@ console.log('PROOF US Twin excluded: ' + (labels.indexOf('US Twin') === -1));
 console.log('PROOF shared function: filterCatalogRows');
 console.log('PROOF empty-filter tiles: ' + paintedBlank.length);
 console.log('PROOF missing-JSON tiles: ' + fns.catalogRowsForPaint([], 'GB').length);
+console.log('PROOF Admin GB • US tokens: ' + fns.rowShownTokens({ MarketShown: 'GB • US' }).join(','));
+console.log('PROOF Admin UK tiles (' + adminLabels.length + '): ' + adminLabels.join(' | '));
 console.log('ok');

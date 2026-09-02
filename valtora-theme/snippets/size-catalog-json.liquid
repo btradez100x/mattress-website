@@ -2,10 +2,10 @@
   Every mattress variant as JSON, including price 0, inventory 0, and
   US/AU/UAE titles.   SIZE_MAPS is not a live ceiling. The picker and size
   guide share filterCatalogRows: Market Shown (custom.MarketShown) for the
-  browser country. If that country is not a defined Market Shown market
-  (Ghana / GH), both pages use the UK/GB set. If the filter is empty, paint
-  falls back to classic UK sizes plus Market Shown GB extras so the grid
-  cannot be blank. Blank Market Shown is not all 18.
+  browser country. Multi-country values (GB • US) tokenize as a set.
+  If that country is not a defined Market Shown market (Ghana / GH), both
+  pages use the UK/GB set. Classic 7 only if the filtered set is empty.
+  Blank Market Shown is not all 18.
   Expects: mattress (product)
 {%- endcomment -%}
 [

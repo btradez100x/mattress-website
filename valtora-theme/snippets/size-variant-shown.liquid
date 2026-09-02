@@ -4,10 +4,17 @@
   Source of truth — Shopify Admin definition name: Market Shown
   Namespace and key: custom.MarketShown (camelCase, NO underscore)
   Liquid: variant.metafields.custom.MarketShown
+  Also: custom.marketshown (all lowercase). Snake_case is fallback only.
 
-  Aliases if MarketShown is missing: custom.market_shown, custom.market-shown,
-  custom.Market_Shown, then older markets_shown / shown_markets keys.
-  List, JSON, market objects, or plain text.
+  Admin list metafields often serialize as "GB • UAE" (U+2022 BULLET) with
+  spaces, or as an array, or "GB, US". Tokenize as a SET of codes — never
+  treat the whole string as one country. Split on bullet, middle dot,
+  commas, pipes, slashes, semicolons, whitespace, and HTML entities.
+  UK→GB, UAE→AE (UAE still matches the AE market), USA→US.
+
+  Aliases if MarketShown is missing: custom.marketshown, custom.market_shown,
+  custom.market-shown, custom.Market_Shown, then older markets_shown /
+  shown_markets keys. List, JSON, market objects, or plain text.
 
   If this snippet prints blank, populate Market Shown on each variant
   (Settings → Custom data → Variants → Market Shown) with GB/UK, US, AE, EU.
@@ -27,6 +34,18 @@
   endif
   if raw == blank
     assign raw = v.metafields['custom']['MarketShown']
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.marketshown.value
+  endif
+  if raw == blank
+    assign raw = v.metafields.custom.marketshown
+  endif
+  if raw == blank
+    assign raw = v.metafields['custom']['marketshown'].value
+  endif
+  if raw == blank
+    assign raw = v.metafields['custom']['marketshown']
   endif
   if raw == blank
     assign raw = v.metafields.custom.market_shown.value
@@ -79,10 +98,17 @@
         assign csv = raw | append: ''
       endif
     endif
-    assign csv = csv | replace: '[', '' | replace: ']', '' | replace: '"', '' | replace: "'", '' | replace: ';', ',' | replace: '|', ',' | replace: '/', ','
-    assign csv = csv | replace: 'United Kingdom', 'GB' | replace: 'UNITED KINGDOM', 'GB' | replace: 'Great Britain', 'GB'
+    assign csv = csv | replace: '[', '' | replace: ']', '' | replace: '"', '' | replace: "'", ''
+    assign csv = csv | replace: '&bull;', ',' | replace: '&#8226;', ',' | replace: '&#x2022;', ',' | replace: '&#X2022;', ','
+    assign csv = csv | replace: '&middot;', ',' | replace: '&#183;', ',' | replace: '&nbsp;', ',' | replace: '&#160;', ','
+    assign csv = csv | replace: '•', ',' | replace: '·', ',' | replace: ';', ',' | replace: '|', ',' | replace: '/', ','
+    assign csv = csv | replace: 'United Kingdom', 'GB' | replace: 'UNITED KINGDOM', 'GB' | replace: 'Great Britain', 'GB' | replace: 'GREAT BRITAIN', 'GB'
     assign csv = csv | replace: 'United Arab Emirates', 'AE' | replace: 'UNITED ARAB EMIRATES', 'AE'
-    assign csv = csv | replace: 'United States of America', 'US' | replace: 'United States', 'US' | replace: 'UNITED STATES', 'US'
+    assign csv = csv | replace: 'United States of America', 'US' | replace: 'UNITED STATES OF AMERICA', 'US' | replace: 'United States', 'US' | replace: 'UNITED STATES', 'US'
+    assign csv = csv | replace: ', ', ',' | replace: ' ,', ',' | replace: '  ', ' '
+    assign csv = csv | replace: ' ', ','
+    assign csv = csv | upcase | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
+    assign csv = csv | replace: ',,', ',' | replace: ',,', ','
   endif
 -%}
 {{- csv | strip -}}

@@ -896,12 +896,42 @@
     return false;
   }
 
+  var SHOWN_ENTITY_RE =
+    /&bull;|&#0*8226;|&#x0*2022;|&middot;|&#0*183;|&#x0*b7;|&nbsp;|&#0*160;|&#x0*a0;/gi;
+  // Admin list metafields render as "GB • US" (U+2022). Also split middle
+  // dots, commas, pipes, slashes, semicolons, whitespace, and HTML entities.
+  var SHOWN_SPLIT_RE = /[\u2022\u00B7\u00A0,;|/\\\s]+/;
+
   function flattenShownRaw(val) {
     var raw = [];
     function pushOne(item) {
       if (item == null || item === false || item === '') return;
+      if (typeof item === 'number' && isFinite(item)) {
+        raw.push(String(item));
+        return;
+      }
       if (Array.isArray(item)) {
         item.forEach(pushOne);
+        return;
+      }
+      if (typeof item === 'string') {
+        var s = item.replace(/^\s+|\s+$/g, '');
+        if (!s) return;
+        if (
+          (s.charAt(0) === '[' && s.charAt(s.length - 1) === ']') ||
+          (s.charAt(0) === '{' && s.charAt(s.length - 1) === '}')
+        ) {
+          try {
+            pushOne(JSON.parse(s));
+            return;
+          } catch (e) {}
+        }
+        s.replace(SHOWN_ENTITY_RE, '\u2022')
+          .split(SHOWN_SPLIT_RE)
+          .forEach(function (part) {
+            part = String(part || '').replace(/^\s+|\s+$/g, '');
+            if (part) raw.push(part);
+          });
         return;
       }
       if (typeof item === 'object') {
@@ -922,7 +952,8 @@
         return;
       }
       String(item)
-        .split(/[,;/|]/)
+        .replace(SHOWN_ENTITY_RE, '\u2022')
+        .split(SHOWN_SPLIT_RE)
         .forEach(function (part) {
           if (part && String(part).trim()) raw.push(part);
         });
@@ -945,6 +976,7 @@
     sources.push(row);
     var keys = [
       'MarketShown',
+      'marketshown',
       'market_shown',
       'market-shown',
       'Market_Shown',
@@ -968,9 +1000,9 @@
       }
     }
     if (!raw.length && Array.isArray(row.markets) && row.markets.length) {
-      raw = row.markets.slice();
+      raw = flattenShownRaw(row.markets);
     } else if (!raw.length && row.markets && typeof row.markets === 'string') {
-      raw = String(row.markets).split(/[,;/|]/);
+      raw = flattenShownRaw(row.markets);
     }
     var seen = {};
     var out = [];
@@ -1002,6 +1034,10 @@
     var t = normalizeShownToken(token);
     if (!c || !t) return false;
     if (c === t) return true;
+    // UAE is an Admin alias for the AE market; UK is an alias for GB.
+    if ((c === 'AE' || c === 'UAE') && (t === 'AE' || t === 'UAE')) return true;
+    if ((c === 'GB' || c === 'UK') && (t === 'GB' || t === 'UK')) return true;
+    if ((c === 'US' || c === 'USA') && (t === 'US' || t === 'USA')) return true;
     if (t === 'EU' && EUROPE_ISOS[c]) return true;
     return false;
   }
@@ -1147,6 +1183,9 @@
     } catch (e) {
       filtered = [];
     }
+    // SIZE_MAPS.gb is not a ceiling. When MarketShown is populated, return
+    // every matching variant (US Twin, California King, AU Super King, …).
+    // Classic 7 only if the filtered set is truly empty (JSON missing/throw).
     if (filtered.length) return filtered;
     return ukFallbackCatalogRows(rows);
   }

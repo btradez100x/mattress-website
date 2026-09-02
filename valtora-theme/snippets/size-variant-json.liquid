@@ -278,7 +278,9 @@
     render 'size-variant-shown', v: v
   endcapture
   assign shown_csv = shown_csv | strip
-  assign shown_s = shown_csv | upcase | replace: ', ', ',' | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
+  assign shown_s = shown_csv | upcase
+  assign shown_s = shown_s | replace: '&bull;', ',' | replace: '&#8226;', ',' | replace: '&#x2022;', ',' | replace: '•', ',' | replace: '·', ',' | replace: ';', ',' | replace: '|', ',' | replace: '/', ',' | replace: ' ', ','
+  assign shown_s = shown_s | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE' | replace: ',,', ','
   assign shown_parts = shown_s | split: ','
   assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|EU|EUROPE|'
 
