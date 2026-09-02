@@ -1,8 +1,10 @@
 {%- comment -%}
   One mattress variant as JSON for the size selector.
-  Emits every variant. Market filter uses custom.market_shown only.
-  Blank shown means published / show — do not infer US/AE/AU from the title.
+  Emits every variant. The picker and size guide filter with custom.market_shown
+  (Market Shown) in JS — same catalog on both pages.
   available is always true (made-to-order; inventory 0 still sells).
+  in_market is Shopify publication in this market (available / available_for_sale)
+  and is only used when Market Shown is blank.
   Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
@@ -326,5 +328,6 @@
   "markets": [{% assign mfirst = true %}{% if tab_gb %}{% unless mfirst %},{% endunless %}"GB"{% assign mfirst = false %}{% endif %}{% if tab_uae %}{% unless mfirst %},{% endunless %}"UAE"{% assign mfirst = false %}{% endif %}{% if tab_us %}{% unless mfirst %},{% endunless %}"US"{% assign mfirst = false %}{% endif %}{% if tab_eu %}{% unless mfirst %},{% endunless %}"EU"{% assign mfirst = false %}{% endif %}],
   "available": true,
   "shown_defined": {% if shown_s != blank %}true{% else %}false{% endif %},
+  "in_market": {% if v.available_for_sale or v.available %}true{% else %}false{% endif %},
   "popular": {% if v.metafields.custom.popular == true %}true{% else %}false{% endif %}
 }

@@ -1,6 +1,8 @@
 {%- comment -%}
-  Size guide: full catalog from Shopify variants for the visitor country.
-  UK default when the country is not set up. GB includes Small Double and European King.
+  Size guide: variants whose Market Shown (custom.market_shown) includes
+  the visitor country. Unknown country → UK/GB. Not every product variant.
+  A UK extra set in Market Shown appears here and on Configure. US-only
+  (US Twin with Market Shown = US) does not.
 {%- endcomment -%}
 {%- liquid
   capture size_market
@@ -37,8 +39,19 @@
   assign tile_count = 0
   assign gb_tile_count = 0
   assign catalog_iso = localization.country.iso_code | upcase | strip
-  if catalog_iso == blank or catalog_iso == 'UK'
+  if catalog_iso == 'UK'
     assign catalog_iso = 'GB'
+  endif
+  if size_market == 'gb' or catalog_iso == blank
+    assign catalog_iso = 'GB'
+  elsif size_market == 'ae'
+    assign catalog_iso = 'AE'
+  elsif size_market == 'us'
+    assign catalog_iso = 'US'
+  elsif size_market == 'eu'
+    if catalog_iso == blank
+      assign catalog_iso = 'EU'
+    endif
   endif
 -%}
 <section class="policy-page size-guide-page" data-size-guide data-market="{{ size_market }}" data-reserve-href="{{ reserve_base }}">
@@ -76,8 +89,17 @@
       <div class="size-guide-grid" data-size-guide-grid>
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
+            {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: catalog_iso -%}{%- endcapture -%}
+            {%- capture in_gb -%}{%- render 'size-variant-in-country', v: v, country_iso: 'GB' -%}{%- endcapture -%}
+            {%- assign in_country = in_country | strip -%}
+            {%- assign in_gb = in_gb | strip -%}
+            {%- if in_gb == '1' -%}
+              {%- assign gb_tile_count = gb_tile_count | plus: 1 -%}
+            {%- endif -%}
+            {%- unless in_country == '1' -%}
+              {%- continue -%}
+            {%- endunless -%}
             {%- assign tile_count = tile_count | plus: 1 -%}
-            {%- assign gb_tile_count = gb_tile_count | plus: 1 -%}
             {%- assign size_id = v.option1 | handle -%}
             {%- if size_id == blank -%}
               {%- assign size_id = v.title | handle -%}
