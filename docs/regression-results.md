@@ -1,3 +1,13 @@
+# Regression results — Wednesday 2 Sep 2026 (save 11.0.0-nine-page-redesign)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 996 passed, 0 failed
+- Scope note: Kept milestone **11.0.0-nine-page-redesign**. Version **was** bumped (`VERSION` and Shopify `theme_version` are **11.0.0**). Zip `Valtora-Shopify-Theme-11.0.0-nine-page-redesign.zip` in Downloads and `checkpoints/11.0.0-nine-page-redesign/`. Since 10.0.0: nine-page redesign (specification rewrite, factory videos, about media, support, landing media), trade page, size-guide polish, landing cart add. Does not replace `10.0.0-numa-storefront` or `10.1.0-manufacturing-and-landing-cart`. Not deployed.
+
+---
+
 # Regression results — Wednesday 2 Sep 2026 (deploy 10.1.0-nine-page-redesign)
 
 ## Smoke

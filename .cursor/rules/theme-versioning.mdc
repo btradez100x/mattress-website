@@ -7,7 +7,7 @@ alwaysApply: true
 
 Source of truth: repo-root `VERSION` (line 1 = `X.Y.Z`, line 2 = kebab-case slug). Shopify `theme_version` must match line 1.
 
-Current line: **10.0.0** (`numa-storefront`). V9 / V9.1 / V9.2 = 9.0.0 / 9.1.0 / 9.2.0. 9.3.0 = storefront-polish-review. 9.4.0 = landing-pages-and-gtm.
+Current line: **11.0.0** (`nine-page-redesign`). 10.1.0 = manufacturing-and-landing-cart. 10.0.0 = numa-storefront. V9 / V9.1 / V9.2 = 9.0.0 / 9.1.0 / 9.2.0. 9.3.0 = storefront-polish-review. 9.4.0 = landing-pages-and-gtm.
 
 ## Export name
 
