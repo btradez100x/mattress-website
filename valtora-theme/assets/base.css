@@ -9396,6 +9396,15 @@ html.shopify-design-mode .section--wipe.is-wiping {
   display: inline-block;
   margin-top: 0.25rem;
 }
+.cart-service-line__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.cart-service-line__check input {
+  margin-top: 0.2rem;
+}
 .cart-story p {
   font-size: 1.05rem;
   line-height: 1.66;

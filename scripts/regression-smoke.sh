@@ -34,6 +34,8 @@ REQUIRED_PATHS=(
   "snippets/meta-tags.liquid"
   "snippets/favicon.liquid"
   "snippets/tracking-pixels.liquid"
+  "snippets/consent-defaults.liquid"
+  "snippets/consent-update.liquid"
   "snippets/whatsapp-button.liquid"
   "snippets/payment-marks.liquid"
   "snippets/size-market.liquid"
@@ -1522,6 +1524,64 @@ if grep -q 'border-radius: 0.35rem' "$THEME/assets/base.css" \
   pass "card chrome restored to original 0.35rem fill+radius+shadow (not 2px, not 16px)"
 else
   fail "card chrome is still 2px, 16px, or missing size-row"
+fi
+
+
+# Numa paid-test tracking (pixels/GTM/events/consent). Do not ship extra marketing scripts.
+if grep -q "numa_lp_variant" "$JS" \
+  && grep -q "numa_session_id" "$JS" \
+  && grep -q "payload.session_id" "$JS" \
+  && grep -q "transport_type" "$JS" \
+  && grep -q "function captureLpVariantOnce" "$JS" \
+  && grep -q "function initNumaTracking" "$JS" \
+  && grep -q "engaged_session" "$JS" \
+  && grep -q "scroll_past_price" "$JS" \
+  && grep -q "add_service" "$JS" \
+  && grep -q "old_mattress_removal" "$JS" \
+  && grep -q "lead_time_weeks" "$JS" \
+  && grep -q "function fireBasketViewIfLeadTime" "$JS" \
+  && grep -q "initNumaTracking();" "$JS"; then
+  pass "theme.js has Numa event contract (lp_variant, session_id, eight events, engagement)"
+else
+  fail "theme.js missing Numa tracking contract"
+fi
+
+if grep -q "vTrack('lp_view'" "$JS" \
+  && grep -q "page_path" "$JS" \
+  && ! grep -q "vTrackOnce('lp_view'" "$JS"; then
+  pass "lp_view fires per load, not once per session"
+else
+  fail "lp_view is still vTrackOnce or missing page_path"
+fi
+
+if grep -q 'id="price-anchor"' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'id="price-anchor"' "$THEME/snippets/order-builder.liquid"; then
+  pass "price-anchor id on landing price and order total"
+else
+  fail "price-anchor id missing"
+fi
+
+if grep -q "consent-defaults" "$THEME/layout/theme.liquid" \
+  && grep -q "consent-update" "$THEME/layout/theme.liquid" \
+  && grep -q "analytics_storage" "$THEME/snippets/consent-defaults.liquid" \
+  && grep -q "ad_storage" "$THEME/snippets/consent-defaults.liquid"; then
+  pass "Consent Mode defaults before GTM and Shopify privacy update after header"
+else
+  fail "consent mode snippets missing from theme.liquid"
+fi
+
+if grep -q "data-old-mattress-removal" "$THEME/sections/main-cart.liquid" \
+  && grep -q "attrs.lp_variant" "$THEME/assets/utm-persistence.js"; then
+  pass "cart removal toggle + lp_variant order attribute"
+else
+  fail "cart add_service toggle or lp_variant cart attribute missing"
+fi
+
+if grep -q "overflow-y: auto !important" "$THEME/layout/theme.liquid" \
+  && ! grep -q "journal-home" "$THEME/templates/index.json"; then
+  pass "page-scroll stays unlocked and Journal stays off the homepage"
+else
+  fail "page-scroll re-locked or Journal returned to homepage"
 fi
 
 info "----------------------------------------"
