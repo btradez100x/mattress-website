@@ -76,9 +76,6 @@
       <div class="size-guide-grid" data-size-guide-grid>
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
-            {%- if v.metafields.custom.enabled == false -%}
-              {%- continue -%}
-            {%- endif -%}
             {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: catalog_iso -%}{%- endcapture -%}
             {%- capture in_gb -%}{%- render 'size-variant-in-country', v: v, country_iso: 'GB' -%}{%- endcapture -%}
             {%- assign in_country = in_country | strip -%}
@@ -94,9 +91,12 @@
               {%- continue -%}
             {%- endunless -%}
             {%- assign tile_count = tile_count | plus: 1 -%}
-            {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
+            {%- assign size_id = v.option1 | handle -%}
             {%- if size_id == blank -%}
-              {%- assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', '' -%}
+              {%- assign size_id = v.title | handle -%}
+            {%- endif -%}
+            {%- if size_id == blank -%}
+              {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
             {%- endif -%}
             {%- assign tile_label = v.option1 | default: v.title -%}
             {%- if size_market == 'us' and v.metafields.custom.name_us != blank -%}
@@ -146,17 +146,17 @@
         </p>
         <div class="size-guide-grid" data-size-guide-uk-grid>
           {%- for v in mattress.variants -%}
-            {%- if v.metafields.custom.enabled == false -%}
-              {%- continue -%}
-            {%- endif -%}
             {%- capture in_gb -%}{%- render 'size-variant-in-country', v: v, country_iso: 'GB' -%}{%- endcapture -%}
             {%- assign in_gb = in_gb | strip -%}
             {%- unless in_gb == '1' -%}
               {%- continue -%}
             {%- endunless -%}
-            {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
+            {%- assign size_id = v.option1 | handle -%}
             {%- if size_id == blank -%}
-              {%- assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', '' -%}
+              {%- assign size_id = v.title | handle -%}
+            {%- endif -%}
+            {%- if size_id == blank -%}
+              {%- assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', '' | replace: 'matt-us-', '' -%}
             {%- endif -%}
             {%- assign tile_label = v.metafields.custom.name_gb.value | default: v.metafields.custom.name_gb | default: v.option1 | default: v.title -%}
             {%- assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm -%}

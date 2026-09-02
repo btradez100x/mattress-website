@@ -87,9 +87,6 @@
   assign first_out = true
   if mattress != blank
     for v in mattress.variants
-      if v.metafields.custom.enabled == false
-        continue
-      endif
       assign first_out = false
       if first_price == blank and v.price > 0
         assign first_price = v.price | money
@@ -442,7 +439,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Prices, size names, availability and sort order come from this Shopify product. Each variant uses Market Shown (custom.market_shown) for the visitor country, with the United Kingdom list as the default when that country has no market. custom.dims / width_cm / length_cm are centimetres. custom.enabled = false withdraws the size. Leave it blank or true to show it. Temporarily unavailable (notify) uses Shopify inventory: track quantity, 0, do not continue selling. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
+      "content": "Prices, size names and sort order come from this Shopify product. Every variant is emitted, including inventory 0 and international titles. Market Shown (custom.market_shown) is the only live filter: if it lists GB/UK the size shows in Britain; if it is blank the size is treated as published and shown. SIZE_MAPS.gb is not a live ceiling. Made-to-order sizes with 0 inventory still sell. custom.dims / width_cm / length_cm are centimetres. custom.enabled is not used to hide sizes. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
     },
     {
       "type": "product",

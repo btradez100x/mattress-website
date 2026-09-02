@@ -1,14 +1,12 @@
 {%- comment -%}
-  Every enabled mattress variant as JSON. No market or size allowlist.
+  Every mattress variant as JSON. No market or size allowlist.
+  Includes price 0, inventory 0, and US/AU/UAE titles.
   Expects: mattress (product)
 {%- endcomment -%}
 [
 {%- assign catalog_first = true -%}
 {%- if mattress != blank -%}
   {%- for v in mattress.variants -%}
-    {%- if v.metafields.custom.enabled == false -%}
-      {%- continue -%}
-    {%- endif -%}
     {%- unless catalog_first -%},{%- endunless -%}
     {%- render 'size-variant-json', v: v -%}
     {%- assign catalog_first = false -%}

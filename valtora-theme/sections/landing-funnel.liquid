@@ -350,7 +350,6 @@
       <tbody data-lp-size-table>
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
-            {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
             {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code -%}{%- endcapture -%}
             {%- assign in_country = in_country | strip -%}
             {%- unless in_country == '1' -%}{%- continue -%}{%- endunless -%}
@@ -398,7 +397,6 @@
       <tbody data-lp-size-table>
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
-            {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
             {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code -%}{%- endcapture -%}
             {%- assign in_country = in_country | strip -%}
             {%- unless in_country == '1' -%}{%- continue -%}{%- endunless -%}
