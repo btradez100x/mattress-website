@@ -476,6 +476,104 @@
     })[0];
   }
 
+  function detectCountryIso() {
+    var iso =
+      (window.ValtoraTheme && window.ValtoraTheme.countryIso) ||
+      (document.documentElement && document.documentElement.getAttribute('data-country')) ||
+      (window.Shopify && window.Shopify.country) ||
+      '';
+    iso = String(iso || '').trim().toUpperCase();
+    if (iso === 'UK') iso = 'GB';
+    if (iso) return iso;
+    var market = detectMarket();
+    if (market === 'ae') return 'AE';
+    if (market === 'us') return 'US';
+    if (market === 'eu') return 'EU';
+    return 'GB';
+  }
+
+  function normalizeShownToken(token) {
+    var s = String(token || '').trim().toUpperCase().replace(/[_-]+/g, ' ');
+    if (!s) return '';
+    if (
+      s === 'UK' ||
+      s === 'GBR' ||
+      s === 'UNITED KINGDOM' ||
+      s === 'GREAT BRITAIN'
+    ) {
+      return 'GB';
+    }
+    if (s === 'UAE' || s === 'ARE' || s === 'UNITED ARAB EMIRATES') return 'AE';
+    if (s === 'USA' || s === 'UNITED STATES' || s === 'UNITED STATES OF AMERICA') return 'US';
+    if (s === 'EUROPE' || s === 'EEA' || s === 'EU') return 'EU';
+    s = s.replace(/[^A-Z0-9]/g, '');
+    if (s === 'UK' || s === 'GBR') return 'GB';
+    if (s === 'UAE' || s === 'ARE') return 'AE';
+    if (s === 'USA') return 'US';
+    if (s === 'EUROPE' || s === 'EEA') return 'EU';
+    return s;
+  }
+
+  function rowShownTokens(row) {
+    if (!row) return [];
+    var raw = [];
+    if (row.shown && row.shown.length) raw = raw.concat(row.shown);
+    if (row.shown_countries && row.shown_countries.length) raw = raw.concat(row.shown_countries);
+    if (row.markets && row.markets.length) raw = raw.concat(row.markets);
+    if (!raw.length && row.market) raw.push(row.market);
+    var seen = {};
+    var out = [];
+    raw.forEach(function (t) {
+      var n = normalizeShownToken(t);
+      if (!n || seen[n]) return;
+      seen[n] = true;
+      out.push(n);
+    });
+    return out;
+  }
+
+  function countryMatchesToken(iso, token) {
+    var c = normalizeShownToken(iso);
+    var t = normalizeShownToken(token);
+    if (!c || !t) return false;
+    if (c === t) return true;
+    if (t === 'EU' && EUROPE_ISOS[c]) return true;
+    return false;
+  }
+
+  function rowMatchesCountry(row, iso) {
+    var tokens = rowShownTokens(row);
+    var i;
+    for (i = 0; i < tokens.length; i++) {
+      if (countryMatchesToken(iso, tokens[i])) return true;
+    }
+    return false;
+  }
+
+  function catalogRowsFrom(rows, iso) {
+    rows = rows || [];
+    var country = normalizeShownToken(iso || detectCountryIso()) || 'GB';
+    var matched = rows.filter(function (row) {
+      return rowMatchesCountry(row, country);
+    });
+    if (!matched.length) {
+      matched = rows.filter(function (row) {
+        return rowMatchesCountry(row, 'GB');
+      });
+    }
+    var seen = {};
+    return matched.filter(function (row) {
+      var id = String((row && (row.id || row.label)) || '').toLowerCase();
+      if (!id || seen[id]) return false;
+      seen[id] = true;
+      return true;
+    });
+  }
+
+  function catalogRowsForCountry(iso) {
+    return catalogRowsFrom(readSizePriceRows(), iso);
+  }
+
   var MARKET_TABS = [
     { key: 'GB', code: 'gb', label: 'United Kingdom' },
     { key: 'UAE', code: 'ae', label: 'United Arab Emirates' },
@@ -515,21 +613,13 @@
   function rowBelongsToMarket(row, market) {
     if (!row) return false;
     var m = String(market || '').toLowerCase();
-    if (!isSizeMarket(m)) m = 'gb';
-    var id = String(row.id || '').toLowerCase();
-    var label = String(row.label || '').toLowerCase();
-    var blob = id + ' ' + label;
-    var isUs =
-      /^(twin|twin-xl|us-king|us-full|us-queen|california-king|split-king)$/.test(id) ||
-      /(^|[\s(])us[- ](full|queen|king|twin)/.test(' ' + blob) ||
-      /california/.test(blob);
-    var isAu = /(^|\b)au[- ]|\baustralian\b/.test(blob);
-    if (isUs && m !== 'us') return false;
-    if (isAu && m !== 'au') return false;
-    if (row.market) return String(row.market).toLowerCase() === m;
-    if (isUs) return m === 'us';
-    if (isAu) return m === 'au';
-    return false;
+    var iso = detectCountryIso();
+    if (m === 'ae') iso = 'AE';
+    else if (m === 'us') iso = 'US';
+    else if (m === 'eu') iso = iso && EUROPE_ISOS[iso] ? iso : 'EU';
+    else if (m === 'gb' || m === 'uk') iso = 'GB';
+    else if (!iso) iso = 'GB';
+    return rowMatchesCountry(row, iso);
   }
 
   function rowShownInTab(row, tabKey) {
@@ -596,11 +686,14 @@
   }
 
   function rowsForMarket(market) {
-    var mkt = market || detectMarket();
-    return readSizePriceRows().filter(function (row) {
-      if (!rowBelongsToMarket(row, mkt)) return false;
-      return rowHasPickerPrice(row);
-    });
+    var iso = detectCountryIso();
+    if (market && isSizeMarket(market)) {
+      if (market === 'ae') iso = 'AE';
+      else if (market === 'us') iso = 'US';
+      else if (market === 'eu') iso = iso && EUROPE_ISOS[iso] ? iso : 'EU';
+      else if (market === 'gb') iso = 'GB';
+    }
+    return catalogRowsForCountry(iso);
   }
 
   function buildSizeTileMarkup(s, market, addLabel) {
@@ -707,23 +800,23 @@
 
   function fillLandingPrices() {
     var market = detectMarket();
-    var rows = readSizePriceRows().filter(function (row) {
-      return rowBelongsToMarket(row, market);
-    });
+    var rows = catalogRowsForCountry(detectCountryIso());
     document.querySelectorAll('[data-lp-size-table]').forEach(function (tbody) {
       if (!rows.length) return;
       tbody.innerHTML = rows
         .map(function (row) {
           var price = row.price || '';
+          var dims = rowDimsText(row) || row.dims || '';
+          var name = rowDisplayName(row, marketToTabKey(detectMarket())) || row.label || '';
           return (
             '<tr data-size-id="' +
             String(row.id || '').replace(/"/g, '') +
             '"><td><strong>' +
-            (row.label || '') +
+            escapeHtml(name) +
             '</strong></td><td class="num">' +
-            (row.dims || '') +
+            escapeHtml(dims) +
             '</td><td class="lp-num num" data-lp-row-price>' +
-            price +
+            escapeHtml(price) +
             '</td></tr>'
           );
         })
@@ -890,9 +983,12 @@
 
     function rowsForTab(tabKey) {
       var mkt = tabKeyToMarket(tabKey) || detectMarket();
-      return allRows().filter(function (row) {
-        return rowBelongsToMarket(row, mkt);
-      });
+      var rows = catalogRowsForCountry(
+        mkt === 'ae' ? 'AE' : mkt === 'us' ? 'US' : mkt === 'eu' ? 'EU' : 'GB'
+      );
+      if (rows.length) return rows;
+      if (!allRows().length) return (SIZE_MAPS[mkt] || SIZE_MAPS.gb || []).slice();
+      return [];
     }
 
     function setLandingStatus(root, msg) {
@@ -3138,13 +3234,17 @@
     }
     function filterSizesForMarket(mkt) {
       var resolved = isSizeMarket(mkt) ? mkt : 'gb';
-      return allRows.filter(function (row) {
-        return rowBelongsToMarket(row, resolved);
-      });
+      var iso = detectCountryIso();
+      if (resolved === 'ae') iso = 'AE';
+      else if (resolved === 'us') iso = 'US';
+      else if (resolved === 'eu') iso = iso && EUROPE_ISOS[iso] ? iso : 'EU';
+      else iso = iso || 'GB';
+      if (resolved === 'gb') iso = iso && countryToSizeMarket(iso) === 'gb' ? iso : 'GB';
+      return catalogRowsFrom(allRows, iso);
     }
     var selectorTab = marketToTabKey(market);
     sizes = filterSizesForMarket(market);
-    if (!sizes.length && root.getAttribute('data-preview') === 'true') {
+    if (!sizes.length && root.getAttribute('data-preview') === 'true' && !allRows.length) {
       sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
     }
 
@@ -3423,7 +3523,7 @@
         root.getAttribute('data-finance-name') || marketFinanceName(market);
       selectorTab = marketToTabKey(market);
       sizes = filterSizesForMarket(market);
-      if (!sizes.length && root.getAttribute('data-preview') === 'true') {
+      if (!sizes.length && root.getAttribute('data-preview') === 'true' && !allRows.length) {
         sizes = (SIZE_MAPS[market] || SIZE_MAPS.gb).slice();
       }
       rebuildSizeButtons();
@@ -6176,23 +6276,21 @@
   }
 
   function rowsForSizeGuide(market) {
-    var resolved = isSizeMarket(market) ? market : 'gb';
-    var rows = readSizePriceRows();
-    var primary = rows.filter(function (row) {
-      return rowBelongsToMarket(row, resolved);
-    });
-    if (!primary.length) {
+    var iso = detectCountryIso();
+    if (market && isSizeMarket(market) && market !== detectMarket()) {
+      if (market === 'ae') iso = 'AE';
+      else if (market === 'us') iso = 'US';
+      else if (market === 'eu') iso = 'EU';
+      else iso = 'GB';
+    }
+    var primary = catalogRowsForCountry(iso);
+    if (!primary.length && !readSizePriceRows().length) {
+      var resolved = isSizeMarket(market) ? market : 'gb';
       primary = (SIZE_MAPS[resolved] || SIZE_MAPS.gb || []).map(function (s) {
-        return Object.assign({ market: resolved }, s);
+        return Object.assign({ market: resolved, markets: [marketToTabKey(resolved)] }, s);
       });
     }
-    var seen = {};
-    return primary.filter(function (row) {
-      var id = row.id || row.label || '';
-      if (!id || seen[id]) return false;
-      seen[id] = true;
-      return true;
-    });
+    return primary;
   }
 
   function buildSizeGuideTile(row, tabKey, reserveBase) {

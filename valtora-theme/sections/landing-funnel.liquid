@@ -44,11 +44,11 @@
       if v.metafields.custom.enabled == false
         continue
       endif
-      capture v_mkt
-        render 'size-variant-market', v: v
+      capture in_country
+        render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code
       endcapture
-      assign v_market = v_mkt | strip
-      if v_market != market
+      assign in_country = in_country | strip
+      if in_country != '1'
         continue
       endif
       assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
@@ -76,6 +76,37 @@
         endif
       endif
     endfor
+    if from_price == blank
+      for v in mattress.variants
+        if v.metafields.custom.enabled == false
+          continue
+        endif
+        capture in_gb
+          render 'size-variant-in-country', v: v, country_iso: 'GB'
+        endcapture
+        assign in_gb = in_gb | strip
+        if in_gb != '1'
+          continue
+        endif
+        assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+        if size_id == blank
+          assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+        endif
+        if from_price == blank or v.price < from_raw
+          if v.price > 0
+            assign from_price = v.price | money
+            assign from_raw = v.price
+          endif
+        endif
+        if featured_id != blank and size_id == featured_id and featured_price == blank
+          assign featured_label = v.option1 | default: v.title
+          assign featured_dims = v.metafields.custom.dims
+          if v.price > 0
+            assign featured_price = v.price | money
+          endif
+        endif
+      endfor
+    endif
   endif
 
   assign hero_price = featured_price
@@ -135,19 +166,10 @@
   data-lp-featured="{{ featured_id | escape }}"
   data-lp-layer="{{ layer_price | escape }}"
 >
-  {%- if layout == 'hero' or layout == 'configure' -%}
+  {%- if layout == 'hero' or layout == 'configure' or layout == 'size_table' or layout == 'spec' -%}
     {%- if mattress != blank -%}
 <script type="application/json" data-size-price-config>
-  [
-  {%- assign first_out = true -%}
-  {%- for v in mattress.variants -%}
-    {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
-    {%- unless v.price > 0 -%}{%- continue -%}{%- endunless -%}
-    {%- unless first_out -%},{%- endunless -%}
-    {%- render 'size-variant-json', v: v -%}
-    {%- assign first_out = false -%}
-  {%- endfor -%}
-  ]
+  {%- render 'size-catalog-json', mattress: mattress -%}
 </script>
     {%- endif -%}
   {%- endif -%}
@@ -317,6 +339,26 @@
         {%- endif -%}
       {%- endfor -%}
     </ul>
+    <table class="lp-table lp-spec-sizes">
+      <thead>
+        <tr>
+          <th>Size</th>
+          <th>Dimensions</th>
+          <th class="lp-num">Price</th>
+        </tr>
+      </thead>
+      <tbody data-lp-size-table>
+        {%- if mattress != blank -%}
+          {%- for v in mattress.variants -%}
+            {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
+            {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code -%}{%- endcapture -%}
+            {%- assign in_country = in_country | strip -%}
+            {%- unless in_country == '1' -%}{%- continue -%}{%- endunless -%}
+            {%- render 'size-catalog-row', v: v -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </tbody>
+    </table>
     {%- if section.settings.promise_title != blank or section.settings.promise_body != blank -%}
       <div class="lp-promise">
         <p>
@@ -357,38 +399,10 @@
         {%- if mattress != blank -%}
           {%- for v in mattress.variants -%}
             {%- if v.metafields.custom.enabled == false -%}{%- continue -%}{%- endif -%}
-            {%- liquid
-              assign v_market = v.metafields.custom.market | strip | downcase
-              if v_market == blank
-                assign v_title_down = v.title | downcase
-                assign v_sku_down = v.sku | downcase
-                if v_title_down contains 'uae' or v_sku_down contains 'matt-ae'
-                  assign v_market = 'ae'
-                elsif v_title_down contains 'european' or v_sku_down contains 'matt-eu' or v_sku_down contains 'european-king'
-                  assign v_market = 'eu'
-                else
-                  assign v_market = 'gb'
-                endif
-              endif
-              assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
-              if size_id == blank
-                assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
-              endif
-              if size_id == blank
-                assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
-              endif
-              assign size_label = v.option1 | replace: ' (UAE)', '' | replace: ' (EU)', ''
-              if size_label == blank
-                assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
-              endif
-            -%}
-            {%- if v_market == market -%}
-              <tr data-size-id="{{ size_id | escape }}">
-                <td><strong>{{ size_label }}</strong></td>
-                <td class="num">{{ v.metafields.custom.dims }}</td>
-                <td class="lp-num num" data-lp-row-price>{% if v.price > 0 %}{{ v.price | money }}{% endif %}</td>
-              </tr>
-            {%- endif -%}
+            {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: localization.country.iso_code -%}{%- endcapture -%}
+            {%- assign in_country = in_country | strip -%}
+            {%- unless in_country == '1' -%}{%- continue -%}{%- endunless -%}
+            {%- render 'size-catalog-row', v: v -%}
           {%- endfor -%}
         {%- endif -%}
       </tbody>

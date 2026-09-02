@@ -1,7 +1,7 @@
 {%- comment -%}
   One mattress variant as JSON for the size selector.
-  Reads MarketShown / width_cm / length_cm / pieces / name_* / fits_note when
-  present; falls back to custom.market, custom.dims, and option1.
+  Reads custom.market_shown (Market Shown) plus width_cm / length_cm / pieces /
+  name_* / fits_note when present; falls back to custom.market, custom.dims, and option1.
   Expects: v (variant)
 {%- endcomment -%}
 {%- liquid
@@ -244,35 +244,38 @@
     endif
   endif
 
-  assign shown = v.metafields.custom.MarketShown.value
-  if shown == blank
-    assign shown = v.metafields.custom.market_shown.value
-  endif
-  if shown == blank
-    assign shown = v.metafields.custom.MarketShown
-  endif
-  if shown == blank
-    assign shown = v.metafields.custom.market_shown
-  endif
+  capture shown_csv
+    render 'size-variant-shown', v: v
+  endcapture
+  assign shown_csv = shown_csv | strip
+  assign shown_s = shown_csv | upcase | replace: ', ', ',' | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US' | replace: 'GBR', 'GB' | replace: 'ARE', 'AE'
+  assign shown_parts = shown_s | split: ','
+  assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|EU|EUROPE|'
 
   assign tab_gb = false
   assign tab_uae = false
   assign tab_us = false
   assign tab_eu = false
-  if shown != blank
-    assign shown_s = shown | join: ',' | upcase
-    if shown_s contains 'GB' or shown_s contains 'UK'
+  if shown_s != blank
+    if shown_s contains 'GB'
       assign tab_gb = true
     endif
-    if shown_s contains 'UAE' or shown_s contains 'AE'
+    if shown_s contains 'AE'
       assign tab_uae = true
     endif
     if shown_s contains 'US'
       assign tab_us = true
     endif
-    if shown_s contains 'EU'
-      assign tab_eu = true
-    endif
+    for tok in shown_parts
+      assign t = tok | strip | upcase
+      if t == blank
+        continue
+      endif
+      assign t_token = '|' | append: t | append: '|'
+      if europe_isos contains t_token
+        assign tab_eu = true
+      endif
+    endfor
   endif
   unless tab_gb or tab_uae or tab_us or tab_eu
     if v_market == 'gb'
@@ -303,6 +306,7 @@
   "price_raw": {{ v.price | json }},
   "variant_id": {{ v.id | json }},
   "market": {{ v_market | json }},
+  "shown": [{% assign sfirst = true %}{% if shown_s != blank %}{% for tok in shown_parts %}{% assign t = tok | strip | upcase %}{% if t == blank %}{% continue %}{% endif %}{% unless sfirst %},{% endunless %}{{ t | json }}{% assign sfirst = false %}{% endfor %}{% endif %}],
   "markets": [{% assign mfirst = true %}{% if tab_gb %}{% unless mfirst %},{% endunless %}"GB"{% assign mfirst = false %}{% endif %}{% if tab_uae %}{% unless mfirst %},{% endunless %}"UAE"{% assign mfirst = false %}{% endif %}{% if tab_us %}{% unless mfirst %},{% endunless %}"US"{% assign mfirst = false %}{% endif %}{% if tab_eu %}{% unless mfirst %},{% endunless %}"EU"{% assign mfirst = false %}{% endif %}],
   "available": {{ v.available | json }},
   "popular": {% if v.metafields.custom.popular == true %}true{% else %}false{% endif %}

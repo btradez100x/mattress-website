@@ -8716,6 +8716,9 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-spec span {
   font-variant-numeric: tabular-nums;
 }
+.lp-spec-sizes {
+  margin-top: var(--s7, 2.5rem);
+}
 .lp-table {
   width: 100%;
   border-collapse: collapse;

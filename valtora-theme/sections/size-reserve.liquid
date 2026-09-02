@@ -81,29 +81,22 @@
   data-section-ground="{% render 'section-ground', as: 'value' %}"
 >
 <script type="application/json" data-size-price-config>
-  [
-  {%- assign first_out = true -%}
-  {%- assign any_for_market = true -%}
-  {%- if mattress != blank -%}
-    {%- for v in mattress.variants -%}
-      {%- if v.metafields.custom.enabled == false -%}
-        {%- continue -%}
-      {%- endif -%}
-      {%- capture v_mkt -%}{%- render 'size-variant-market', v: v -%}{%- endcapture -%}
-      {%- assign v_mkt = v_mkt | strip -%}
-      {%- if v_mkt != market -%}
-        {%- continue -%}
-      {%- endif -%}
-      {%- unless first_out -%},{%- endunless -%}
-      {%- render 'size-variant-json', v: v -%}
-      {%- assign first_out = false -%}
-      {%- if first_price == blank and v.price > 0 -%}
-        {%- assign first_price = v.price | money -%}
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
-  ]
+  {%- render 'size-catalog-json', mattress: mattress -%}
 </script>
+{%- liquid
+  assign first_out = true
+  if mattress != blank
+    for v in mattress.variants
+      if v.metafields.custom.enabled == false
+        continue
+      endif
+      assign first_out = false
+      if first_price == blank and v.price > 0
+        assign first_price = v.price | money
+      endif
+    endfor
+  endif
+-%}
 
   <div
     class="page-width size-reserve__layout{% if first_out %} size-reserve__layout--empty{% endif %}"
@@ -194,7 +187,7 @@
         </p>
       {%- elsif first_out -%}
         <p class="reserve-panel__note" style="color:var(--brand-accent);">
-          No sizes for this market yet. Variants render when custom.market matches this market (gb / ae / us / eu / au).
+          No sizes for this country yet. Variants render from the mattress product using Market Shown (custom.market_shown). Countries with no market fall back to the United Kingdom list.
         </p>
       {%- endif -%}
     </div>
@@ -449,13 +442,13 @@
     },
     {
       "type": "paragraph",
-      "content": "Prices, size names, availability and sort order come from this Shopify product. Each variant needs custom.market (ae or gb) and custom.dims. custom.enabled = false withdraws the size from the list. Leave it blank or true to show it. Temporarily unavailable (notify) uses Shopify inventory: track quantity, 0, do not continue selling. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
+      "content": "Prices, size names, availability and sort order come from this Shopify product. Each variant uses Market Shown (custom.market_shown) for the visitor country, with the United Kingdom list as the default when that country has no market. custom.dims / width_cm / length_cm are centimetres. custom.enabled = false withdraws the size. Leave it blank or true to show it. Temporarily unavailable (notify) uses Shopify inventory: track quantity, 0, do not continue selling. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
     },
     {
       "type": "product",
       "id": "mattress_product",
       "label": "Mattress product",
-      "info": "Variants are filtered by custom.market for the current market. If blank, the theme looks up handle the-mattress, then mattress, then the page product."
+      "info": "Variants follow Market Shown for the browser country. If blank, the theme looks up handle the-mattress, then mattress, then the page product."
     },
     {
       "type": "text",
