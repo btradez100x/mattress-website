@@ -1,0 +1,264 @@
+{
+  "sections": {
+    "hero": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "hero",
+        "lp_variant": "H-support",
+        "mattress_product": "the-mattress",
+        "kicker": "Support",
+        "heading": "Support is the core.\nComfort is the layer.",
+        "lede": "A back that hurts in the morning is usually a core that has stopped holding. Ours is twenty centimetres of individually pocketed springs, guaranteed for twenty five years, with the comfort settled separately.",
+        "cta_label": "Reserve yours",
+        "cta_link": "#configure",
+        "secondary_cta_label": "See the specification",
+        "secondary_cta_link": "#spec",
+        "show_price": false
+      }
+    },
+    "problem": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "prose",
+        "kicker": "The construction",
+        "heading": "Two problems, two parts",
+        "body": "<p>Most mattresses solve support and comfort with the same five centimetres, which is why one gets worse as the other is fixed. Softer for the shoulder means less under the hip. Firmer for the back means pressure at the shoulder.</p><p><strong>Ours separates them. The core holds. The layer adapts.</strong></p>"
+      }
+    },
+    "parts": {
+      "type": "landing-funnel",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "The core does the support",
+            "text": "Twenty centimetres of individually pocketed springs, edge to edge. Each moves alone, so weight is carried where it lands rather than spread across a shared coil."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "The layer does the comfort",
+            "text": "Ten centimetres, built separately and zipped in. Changed without touching the support underneath."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "The support does not fade",
+            "text": "Pocket springs do not soften the way foam does. The guarantee is on the part that holds you."
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "layout": "cards",
+        "heading": "The core holds. The layer adapts."
+      }
+    },
+    "desire": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "prose",
+        "kicker": "Adjust to Desire",
+        "heading": "You do not have to get it right",
+        "lede": "Which is fortunate, because nobody can.",
+        "body": "<p>Firm or soft. Medium or medium firm. An impossible question to answer in a showroom and a costly one to answer wrong.</p><p>So you do not answer it. Every mattress arrives the same. Sleep on it, tell us where it is wrong - too much under the hip, not enough at the shoulder, whatever words you have - and we make a new comfort layer to that. With our compliments. You have a year with us.</p>"
+      }
+    },
+    "spec": {
+      "type": "landing-funnel",
+      "blocks": {
+        "s1": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Core",
+            "text": "20cm individually pocketed springs. Twenty five year guarantee."
+          }
+        },
+        "s2": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Comfort layer",
+            "text": "10cm, removable, zipped. Changed once with our compliments."
+          }
+        },
+        "s3": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Depth",
+            "text": "35cm finished."
+          }
+        },
+        "s4": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Sizes",
+            "text": "Single through Emperor, including European King 160 × 200cm."
+          }
+        },
+        "s5": {
+          "type": "spec_item",
+          "settings": {
+            "label": "Trial",
+            "text": "Adjust to Desire first. You have a year with us."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "spec",
+        "anchor_id": "spec",
+        "mattress_product": "the-mattress",
+        "heading": "Specification",
+        "promise_title": "Adjust to Desire.",
+        "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. Worth [layer]. If that still does not settle it, we collect the mattress and refund you in full."
+      }
+    },
+    "outcome": {
+      "type": "landing-funnel",
+      "blocks": {
+        "o1": {
+          "type": "card",
+          "settings": {
+            "kicker": "The feel",
+            "heading": "You do not choose the feel. You discover it.",
+            "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
+          }
+        },
+        "o2": {
+          "type": "card",
+          "settings": {
+            "kicker": "Arrival",
+            "heading": "It arrives finished.",
+            "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
+          }
+        },
+        "o3": {
+          "type": "card",
+          "settings": {
+            "kicker": "Twenty five years",
+            "heading": "It stays right for twenty five years.",
+            "text": "The part that softens renews. The part that lasts, lasts."
+          }
+        }
+      },
+      "block_order": [
+        "o1",
+        "o2",
+        "o3"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "layout": "outcome",
+        "anchor_id": "outcome",
+        "kicker": "The outcome",
+        "heading": "A bed that becomes yours,\nand stays that way."
+      }
+    },
+    "delivery": {
+      "type": "landing-funnel",
+      "blocks": {
+        "t1": {
+          "type": "tier",
+          "settings": {
+            "tag": "Included with every mattress",
+            "heading": "Concierge unpacking",
+            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
+            "price": "Complimentary",
+            "featured": true
+          }
+        },
+        "t2": {
+          "type": "tier",
+          "settings": {
+            "tag": "",
+            "heading": "Old mattress removal and recycling",
+            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
+            "price": "Complimentary",
+            "featured": false
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "heading": "Unrolled on the bed",
+            "text": "It settles evenly."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "heading": "Nothing left behind",
+            "text": "Carton, plastic, wrap. All of it leaves with it."
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "heading": "A window agreed in advance",
+            "text": "Notification on the day."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "layout": "delivery",
+        "anchor_id": "delivery",
+        "heading": "It arrives compressed.\nWe do not leave it that way.",
+        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
+      }
+    },
+    "configure": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "configure",
+        "anchor_id": "configure",
+        "mattress_product": "the-mattress",
+        "heading": "Choose your size",
+        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "problem",
+    "parts",
+    "desire",
+    "spec",
+    "outcome",
+    "delivery",
+    "configure"
+  ]
+}
