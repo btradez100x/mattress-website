@@ -184,7 +184,7 @@
         </p>
       {%- elsif first_out -%}
         <p class="reserve-panel__note" style="color:var(--brand-accent);">
-          No sizes for this country yet. Variants render from the mattress product using Market Shown (custom.market_shown). Countries with no market fall back to the United Kingdom list.
+          No sizes for this country yet. Variants render from the mattress product. Every published variant is listed; Market Shown is not required. If a size is missing, publish it to this market in Shopify Admin.
         </p>
       {%- endif -%}
     </div>
@@ -439,13 +439,13 @@
     },
     {
       "type": "paragraph",
-      "content": "Prices, size names and sort order come from this Shopify product. Every variant is emitted, including inventory 0 and international titles. Market Shown (custom.market_shown) is the only live filter: if it lists GB/UK the size shows in Britain; if it is blank the size is treated as published and shown. SIZE_MAPS.gb is not a live ceiling. Made-to-order sizes with 0 inventory still sell. custom.dims / width_cm / length_cm are centimetres. custom.enabled is not used to hide sizes. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
+      "content": "Prices, size names and sort order come from this Shopify product. Every published variant is listed, including inventory 0 and international titles. Market Shown is not required and is not used to hide sizes. SIZE_MAPS is not a live ceiling. If a size is missing on the storefront, publish that variant to this market in Shopify Admin. Made-to-order sizes with 0 inventory still sell. custom.dims / width_cm / length_cm are centimetres. custom.enabled is not used to hide sizes. Optional custom.popular highlights a size. Adding a size is a Shopify action, not a theme edit."
     },
     {
       "type": "product",
       "id": "mattress_product",
       "label": "Mattress product",
-      "info": "Variants follow Market Shown for the browser country. If blank, the theme looks up handle the-mattress, then mattress, then the page product."
+      "info": "Every published variant is listed. If blank, the theme looks up handle the-mattress, then mattress, then the page product."
     },
     {
       "type": "text",

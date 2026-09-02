@@ -1,42 +1,7 @@
 {%- comment -%}
-  Outputs 1 when the variant belongs in country_iso via Market Shown.
-  Blank Market Shown = published / show (do not infer US/AE/AU from the title).
-  Expects: v, country_iso
+  Always shown. Live Liquid was dropping US/AU/UAE sizes when Market Shown
+  was blank or unreadable, so the picker no longer filters by country here.
+  Every product.variant that Shopify publishes to the storefront is included.
+  Expects: v, country_iso (unused; kept so existing renders stay valid)
 {%- endcomment -%}
-{%- liquid
-  assign iso = country_iso | upcase | strip
-  if iso == 'UK'
-    assign iso = 'GB'
-  endif
-  capture shown_csv
-    render 'size-variant-shown', v: v
-  endcapture
-  assign shown_up = shown_csv | strip | upcase | replace: ', ', ',' | replace: 'UK', 'GB' | replace: 'UAE', 'AE' | replace: 'USA', 'US'
-  assign wrapped = ',' | append: shown_up | append: ','
-  assign iso_token = ',' | append: iso | append: ','
-  assign hit = false
-  if shown_up == blank
-    assign hit = true
-  else
-    if wrapped contains iso_token
-      assign hit = true
-    endif
-    if iso == 'GB' and wrapped contains ',GB,'
-      assign hit = true
-    endif
-    if iso == 'AE' and wrapped contains ',AE,'
-      assign hit = true
-    endif
-    if iso == 'US' and wrapped contains ',US,'
-      assign hit = true
-    endif
-    assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|'
-    assign iso_bar = '|' | append: iso | append: '|'
-    if europe_isos contains iso_bar
-      if wrapped contains ',EU,' or wrapped contains ',EUROPE,' or wrapped contains iso_token
-        assign hit = true
-      endif
-    endif
-  endif
--%}
-{%- if hit -%}1{%- endif -%}
+1

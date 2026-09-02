@@ -3,11 +3,17 @@
    Display 38px / body large 17px / caption 14px / page margin 20px.
    Cream (Snow) on Carbon. Ember is never body text. */
 
-/* Page scroll: clip X on every breakpoint. Never lock Y except an open modal. */
-html,
-body {
+/* Page scroll: clip X on html only. Body overflow:visible so YOUR ORDER can
+   position:sticky. Never lock Y except an open modal. */
+html {
   overflow-x: clip;
   overflow-y: auto !important;
+  height: auto;
+}
+
+body {
+  overflow-x: visible;
+  overflow-y: visible;
   height: auto;
 }
 
@@ -20,10 +26,13 @@ body.nav-open {
 .main-content,
 #reserve,
 [data-size-reserve],
-.reserve-panel {
+[data-reserve-section],
+.size-reserve__layout,
+.reserve-panel,
+.order-panel {
   height: auto;
   max-height: none;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 @media (max-width: 899px) {
@@ -36,8 +45,8 @@ body.nav-open {
   }
 
   body {
-    overflow-x: clip;
-    overflow-y: auto !important;
+    overflow-x: visible;
+    overflow-y: visible;
     height: auto;
     max-width: 100%;
   }

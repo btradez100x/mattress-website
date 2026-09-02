@@ -1,6 +1,7 @@
 {%- comment -%}
-  Every mattress variant as JSON. No market or size allowlist.
+  Every mattress variant as JSON. No market, SIZE_MAPS, or title allowlist.
   Includes price 0, inventory 0, and US/AU/UAE titles.
+  available_for_sale is not required — made-to-order sizes with 0 inventory still emit.
   Expects: mattress (product)
 {%- endcomment -%}
 [

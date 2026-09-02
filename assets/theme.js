@@ -555,21 +555,31 @@
 
   function catalogRowsFrom(rows, iso) {
     rows = rows || [];
-    var country = normalizeShownToken(iso || detectCountryIso()) || 'GB';
-    var matched = rows.filter(function (row) {
-      return rowMatchesCountry(row, country);
-    });
-    if (!matched.length) {
+    var preview = false;
+    try {
+      preview =
+        document.documentElement.getAttribute('data-preview') === 'true' ||
+        document.documentElement.getAttribute('data-preview-host') === '1';
+    } catch (e) {}
+    var matched = rows;
+    if (preview) {
+      var country = normalizeShownToken(iso || detectCountryIso()) || 'GB';
       matched = rows.filter(function (row) {
-        return rowMatchesCountry(row, 'GB');
+        return rowMatchesCountry(row, country);
       });
+      if (!matched.length) {
+        matched = rows.filter(function (row) {
+          return rowMatchesCountry(row, 'GB');
+        });
+      }
     }
     var seen = {};
     return matched.filter(function (row) {
-      var vid = row && (row.variant_id || row.variantId);
+      if (!row) return false;
+      var vid = row.variant_id || row.variantId;
       var key = vid
         ? 'v:' + String(vid)
-        : 'i:' + String((row && (row.id || row.label)) || '').toLowerCase();
+        : 'i:' + String(row.id || row.label || '').toLowerCase();
       if (!key || key === 'v:' || key === 'i:' || seen[key]) return false;
       seen[key] = true;
       return true;
@@ -692,14 +702,8 @@
   }
 
   function rowsForMarket(market) {
-    var iso = detectCountryIso();
-    if (market && isSizeMarket(market)) {
-      if (market === 'ae') iso = 'AE';
-      else if (market === 'us') iso = 'US';
-      else if (market === 'eu') iso = iso && EUROPE_ISOS[iso] ? iso : 'EU';
-      else if (market === 'gb') iso = 'GB';
-    }
-    return catalogRowsForCountry(iso);
+    void market;
+    return catalogRowsFrom(readSizePriceRows());
   }
 
   function buildSizeTileMarkup(s, market, addLabel) {
@@ -755,9 +759,9 @@
       escapeHtml(price) +
       '</span>' +
       (available
-        ? '<span class="size-option__add">' +
+        ? '<button type="button" class="size-option__add" data-size-pick>' +
           escapeHtml(addLabel || 'Add') +
-          '</span>' +
+          '</button>' +
           '<span class="size-option__qty" data-size-qty data-qty-stepper data-lp-qty>' +
           '<button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease quantity">&minus;</button>' +
           '<span class="size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>' +
@@ -988,12 +992,10 @@
     }
 
     function rowsForTab(tabKey) {
-      var mkt = tabKeyToMarket(tabKey) || detectMarket();
-      var rows = catalogRowsForCountry(
-        mkt === 'ae' ? 'AE' : mkt === 'us' ? 'US' : mkt === 'eu' ? 'EU' : 'GB'
-      );
+      var rows = catalogRowsFrom(allRows());
       if (rows.length) return rows;
       if (document.documentElement.getAttribute('data-preview') === 'true' && !allRows().length) {
+        var mkt = tabKeyToMarket(tabKey) || detectMarket();
         return (SIZE_MAPS[mkt] || SIZE_MAPS.gb || []).slice();
       }
       return [];
@@ -1195,8 +1197,15 @@
           return;
         }
         if (row.getAttribute('data-available') === 'false') return;
-        if (qtyForRow(row) > 0 && !pick) return;
-        addOrUpdate(root, row, pick ? Math.max(1, qtyForRow(row) || 1) : 1, {});
+        var addHit =
+          pick ||
+          e.target.closest('.size-option__add, .size-row__add');
+        var qNow = qtyForRow(row);
+        if (qNow > 0 && !addHit) return;
+        e.preventDefault();
+        addOrUpdate(root, row, addHit ? qNow + 1 : Math.max(1, qNow || 1), {
+          qtyChanged: addHit && qNow > 0,
+        });
         paintSticky();
       });
       root.addEventListener('pointerup', function (e) {
@@ -3241,14 +3250,8 @@
       } catch (e) {}
     }
     function filterSizesForMarket(mkt) {
-      var resolved = isSizeMarket(mkt) ? mkt : 'gb';
-      var iso = detectCountryIso();
-      if (resolved === 'ae') iso = 'AE';
-      else if (resolved === 'us') iso = 'US';
-      else if (resolved === 'eu') iso = iso && EUROPE_ISOS[iso] ? iso : 'EU';
-      else iso = iso || 'GB';
-      if (resolved === 'gb') iso = iso && countryToSizeMarket(iso) === 'gb' ? iso : 'GB';
-      return catalogRowsFrom(allRows, iso);
+      void mkt;
+      return catalogRowsFrom(allRows);
     }
     var selectorTab = marketToTabKey(market);
     sizes = filterSizesForMarket(market);
@@ -3613,13 +3616,18 @@
           row.getAttribute('data-size-id'),
           row.getAttribute('data-size-variant')
         );
-        if (!pick) {
+        var addHit =
+          pick ||
+          e.target.closest('.size-option__add, .size-row__add');
+        if (!addHit && existingQty > 0 && !sizeRowTapAddsToBasket()) {
           applySelection(row);
           return;
         }
-        if (existingQty > 0) return;
+        e.preventDefault();
+        e.stopPropagation();
         collapseStageB(true);
-        upsertActiveMattress(1, { size: sizeFromRow(row) });
+        applySelection(row, { silent: true });
+        upsertActiveMattress(existingQty + 1, { size: sizeFromRow(row) });
         updateContinueState();
         paintSticky();
       });
@@ -6282,14 +6290,7 @@
   }
 
   function rowsForSizeGuide(market) {
-    var iso = detectCountryIso();
-    if (market && isSizeMarket(market) && market !== detectMarket()) {
-      if (market === 'ae') iso = 'AE';
-      else if (market === 'us') iso = 'US';
-      else if (market === 'eu') iso = 'EU';
-      else iso = 'GB';
-    }
-    var primary = catalogRowsForCountry(iso);
+    var primary = catalogRowsFrom(readSizePriceRows());
     if (!primary.length && document.documentElement.getAttribute('data-preview') === 'true' && !readSizePriceRows().length) {
       var resolved = isSizeMarket(market) ? market : 'gb';
       primary = (SIZE_MAPS[resolved] || SIZE_MAPS.gb || []).map(function (s) {
