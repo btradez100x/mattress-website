@@ -1,171 +1,10 @@
 {
   "sections": {
-    "hero": {
-      "type": "landing-funnel",
+    "main": {
+      "type": "redesign",
       "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "hero",
-        "lp_variant": "I-cooling",
-        "mattress_product": "the-mattress",
-        "kicker": "Temperature",
-        "heading": "Heat sits in the\ntop ten centimetres.",
-        "lede": "A pocket spring core is mostly air. What holds warmth is the layer directly under you, and on ours that layer comes out.",
-        "cta_label": "Reserve yours",
-        "cta_link": "#configure",
-        "show_price": false
-      }
-    },
-    "warmth": {
-      "type": "landing-funnel",
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "prose",
-        "kicker": "Air",
-        "heading": "Where the warmth comes from",
-        "body": "<p>Foam holds heat because it is solid and it wraps. A pocket spring core is largely open, so air moves through it and warmth leaves rather than gathering.</p><p>What can still sleep warm is the comfort layer, because it is the part in contact with you. Which is the part that unzips.</p><p><strong>If it sleeps warm, you change ten centimetres. Not the bed.</strong></p>"
-      }
-    },
-    "made": {
-      "type": "landing-funnel",
-      "blocks": {
-        "s1": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Knitted cover",
-            "text": "Woven rather than laminated, so it moves air rather than trapping it against the surface."
-          }
-        },
-        "s2": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Open core",
-            "text": "Twenty centimetres of pocketed springs with air between every coil."
-          }
-        },
-        "s3": {
-          "type": "spec_item",
-          "settings": {
-            "label": "A layer that changes",
-            "text": "If it still sleeps warm after you have slept on it, tell us. We make you another, with our compliments."
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "steps",
-        "kicker": "Construction",
-        "heading": "What it is made of"
-      }
-    },
-    "outcome": {
-      "type": "landing-funnel",
-      "blocks": {
-        "o1": {
-          "type": "card",
-          "settings": {
-            "kicker": "The feel",
-            "heading": "You do not choose the feel. You discover it.",
-            "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
-          }
-        },
-        "o2": {
-          "type": "card",
-          "settings": {
-            "kicker": "Arrival",
-            "heading": "It arrives finished.",
-            "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
-          }
-        },
-        "o3": {
-          "type": "card",
-          "settings": {
-            "kicker": "Twenty five years",
-            "heading": "It stays right for twenty five years.",
-            "text": "The part that softens renews. The part that lasts, lasts."
-          }
-        }
-      },
-      "block_order": [
-        "o1",
-        "o2",
-        "o3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "outcome",
-        "anchor_id": "outcome",
-        "kicker": "The outcome",
-        "heading": "A bed that becomes yours,\nand stays that way."
-      }
-    },
-    "delivery": {
-      "type": "landing-funnel",
-      "blocks": {
-        "t1": {
-          "type": "tier",
-          "settings": {
-            "tag": "Included with every mattress",
-            "heading": "Concierge unpacking",
-            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
-            "price": "Complimentary",
-            "featured": true
-          }
-        },
-        "t2": {
-          "type": "tier",
-          "settings": {
-            "tag": "",
-            "heading": "Old mattress removal and recycling",
-            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
-            "price": "Complimentary",
-            "featured": false
-          }
-        },
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "Unrolled on the bed",
-            "text": "It settles evenly."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "Nothing left behind",
-            "text": "Carton, plastic, wrap. All of it leaves with it."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "A window agreed in advance",
-            "text": "Notification on the day."
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "c1",
-        "c2",
-        "c3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "dark",
-        "layout": "delivery",
-        "anchor_id": "delivery",
-        "heading": "It arrives compressed.\nWe do not leave it that way.",
-        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
+        "page_key": "cooling",
+        "lp_variant": "I-cooling"
       }
     },
     "configure": {
@@ -183,11 +22,7 @@
     }
   },
   "order": [
-    "hero",
-    "warmth",
-    "made",
-    "outcome",
-    "delivery",
+    "main",
     "configure"
   ]
 }

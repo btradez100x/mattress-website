@@ -1,182 +1,10 @@
 {
   "sections": {
-    "hero": {
-      "type": "landing-funnel",
+    "main": {
+      "type": "redesign",
       "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "hero",
-        "lp_variant": "J-splitKing",
-        "mattress_product": "the-mattress",
-        "featured_size": "split-king",
-        "kicker": "Split King · 2 × 106 × 213cm",
-        "heading": "One bed.\nTwo answers.",
-        "lede": "Two mattresses, linked. Each side supported on its own, each comfort layer tailored separately. What suits one of you does not have to be what suits the other.",
-        "cta_label": "Reserve yours",
-        "cta_size": "split-king",
-        "cta_link": "#configure",
-        "show_price": true,
-        "price_mode": "featured"
-      }
-    },
-    "why": {
-      "type": "landing-funnel",
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "prose",
-        "kicker": "Zip and link",
-        "heading": "Why two",
-        "body": "<p>Two people rarely want the same bed. One sleeps hot, one is cold. One has a bad back, one has a bad shoulder. A single mattress makes that a negotiation, and somebody loses it every night for a decade.</p><p><strong>Two halves. Two comfort layers. Neither of you compromises.</strong></p><p>Each side is a complete mattress with its own pocket spring core and its own removable layer. After you have slept on it, you each tell us how your side should feel. We make two layers, to two descriptions.</p>"
-      }
-    },
-    "together": {
-      "type": "landing-funnel",
-      "blocks": {
-        "s1": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Two units, linked",
-            "text": "Joined along the inner edge so they behave as one bed and do not drift apart."
-          }
-        },
-        "s2": {
-          "type": "spec_item",
-          "settings": {
-            "label": "One surface",
-            "text": "Dressed with a single fitted sheet. The join sits between you, not under either of you."
-          }
-        },
-        "s3": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Two answers",
-            "text": "Each layer is changed on its own. One of you can go softer without the other going with them."
-          }
-        },
-        "s4": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Up any staircase",
-            "text": "Each half rolls and boxes separately, so it reaches rooms a single large mattress cannot."
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "steps",
-        "kicker": "The join",
-        "heading": "How it goes together"
-      }
-    },
-    "outcome": {
-      "type": "landing-funnel",
-      "blocks": {
-        "o1": {
-          "type": "card",
-          "settings": {
-            "kicker": "The feel",
-            "heading": "You do not choose the feel. You discover it.",
-            "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
-          }
-        },
-        "o2": {
-          "type": "card",
-          "settings": {
-            "kicker": "Arrival",
-            "heading": "It arrives finished.",
-            "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
-          }
-        },
-        "o3": {
-          "type": "card",
-          "settings": {
-            "kicker": "Twenty five years",
-            "heading": "It stays right for twenty five years.",
-            "text": "The part that softens renews. The part that lasts, lasts."
-          }
-        }
-      },
-      "block_order": [
-        "o1",
-        "o2",
-        "o3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "outcome",
-        "anchor_id": "outcome",
-        "kicker": "The outcome",
-        "heading": "A bed that becomes yours,\nand stays that way."
-      }
-    },
-    "delivery": {
-      "type": "landing-funnel",
-      "blocks": {
-        "t1": {
-          "type": "tier",
-          "settings": {
-            "tag": "Included with every mattress",
-            "heading": "Concierge unpacking",
-            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
-            "price": "Complimentary",
-            "featured": true
-          }
-        },
-        "t2": {
-          "type": "tier",
-          "settings": {
-            "tag": "",
-            "heading": "Old mattress removal and recycling",
-            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
-            "price": "Complimentary",
-            "featured": false
-          }
-        },
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "Unrolled on the bed",
-            "text": "It settles evenly."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "Nothing left behind",
-            "text": "Carton, plastic, wrap. All of it leaves with it."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "A window agreed in advance",
-            "text": "Notification on the day."
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "c1",
-        "c2",
-        "c3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "dark",
-        "layout": "delivery",
-        "anchor_id": "delivery",
-        "heading": "It arrives compressed.\nWe do not leave it that way.",
-        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
+        "page_key": "split-king",
+        "lp_variant": "J-splitKing"
       }
     },
     "configure": {
@@ -187,19 +15,15 @@
         "layout": "configure",
         "anchor_id": "configure",
         "mattress_product": "the-mattress",
-        "featured_size": "split-king",
         "kicker": "Reserve yours",
         "heading": "Choose your size",
-        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer. Split King is two linked halves, 2 × 106 × 213cm."
+        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer. Split King is two linked halves, 2 \u00d7 106 \u00d7 213cm.",
+        "featured_size": "split-king"
       }
     }
   },
   "order": [
-    "hero",
-    "why",
-    "together",
-    "outcome",
-    "delivery",
+    "main",
     "configure"
   ]
 }

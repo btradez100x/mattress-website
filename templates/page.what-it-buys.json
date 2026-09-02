@@ -1,235 +1,10 @@
 {
   "sections": {
-    "hero": {
-      "type": "landing-funnel",
+    "main": {
+      "type": "redesign",
       "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "hero",
-        "lp_variant": "D-value",
-        "mattress_product": "the-mattress",
-        "featured_size": "super-king",
-        "kicker": "Super King · 180 x 200cm",
-        "heading": "What [price] buys.",
-        "lede": "A pocket sprung core built to last twenty five years, a comfort layer tailored to you after you have slept on it, and concierge unpacking. Unrolled onto the bed. The old one leaves with it.",
-        "cta_label": "Reserve yours",
-        "cta_size": "super-king",
-        "cta_link": "#configure",
-        "secondary_cta_label": "See the breakdown",
-        "secondary_cta_link": "#breakdown",
-        "show_price": false
-      }
-    },
-    "breakdown": {
-      "type": "landing-funnel",
-      "blocks": {
-        "s1": {
-          "type": "spec_item",
-          "settings": {
-            "label": "The core",
-            "text": "Pocket springs, individually pocketed. Assembly is done by hand because a machine cannot pull tension through the fillings."
-          }
-        },
-        "s2": {
-          "type": "spec_item",
-          "settings": {
-            "label": "The comfort layer",
-            "text": "10cm, separately constructed, zipped in. Two feels. Built as its own product because it has to be renewable."
-          }
-        },
-        "s3": {
-          "type": "spec_item",
-          "settings": {
-            "label": "The cover",
-            "text": "Finished by hand at the tape edge."
-          }
-        },
-        "s4": {
-          "type": "spec_item",
-          "settings": {
-            "label": "Made to order",
-            "text": "Nothing is built before you buy it."
-          }
-        },
-        "s5": {
-          "type": "spec_item",
-          "settings": {
-            "label": "It arrives finished",
-            "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it."
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4",
-        "s5"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "spec",
-        "anchor_id": "breakdown",
-        "mattress_product": "the-mattress",
-        "featured_size": "super-king",
-        "heading": "What is in it",
-        "lede": "Thirty five centimetres, built in two parts, closed with a zip.",
-        "kicker": "Specification"
-      }
-    },
-    "kept": {
-      "type": "landing-funnel",
-      "settings": {
-        "enable_section": true,
-        "ground": "dark",
-        "layout": "prose",
-        "heading": "Built to be kept",
-        "body": "<p>A pocket sprung core lasts toward twenty five years. The top ten centimetres last seven or eight.</p><p>Ours comes apart. When the comfort layer softens it unzips, a new one goes on, and the core stays exactly where it is.</p>"
-      }
-    },
-    "not": {
-      "type": "landing-funnel",
-      "blocks": {
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "A showroom",
-            "text": "You cannot lie on it before buying. You cannot know how a mattress feels in four minutes. Live with it over months. You have a year with us. Worth [layer]."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "It is made after you order",
-            "text": "Which takes weeks rather than days."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "It arrives finished",
-            "text": "Concierged. Room of your choice. Unrolled onto the bed. The old one leaves with it."
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "bg",
-        "layout": "cards",
-        "heading": "Worth knowing",
-        "lede": "Three things people ask before they order.",
-        "kicker": "Before you order",
-        "promise_title": "Adjust to Desire.",
-        "promise_body": " If the feel is not right, we send the layer that takes you there, and you keep it, with our compliments. If that still does not settle it, we collect the mattress and refund you in full."
-      }
-    },
-    "outcome": {
-      "type": "landing-funnel",
-      "blocks": {
-        "o1": {
-          "type": "card",
-          "settings": {
-            "kicker": "The feel",
-            "heading": "You do not choose the feel. You discover it.",
-            "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is."
-          }
-        },
-        "o2": {
-          "type": "card",
-          "settings": {
-            "kicker": "Arrival",
-            "heading": "It arrives finished.",
-            "text": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it."
-          }
-        },
-        "o3": {
-          "type": "card",
-          "settings": {
-            "kicker": "Twenty five years",
-            "heading": "It stays right for twenty five years.",
-            "text": "The part that softens renews. The part that lasts, lasts."
-          }
-        }
-      },
-      "block_order": [
-        "o1",
-        "o2",
-        "o3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "surface",
-        "layout": "outcome",
-        "anchor_id": "outcome",
-        "kicker": "The outcome",
-        "heading": "A bed that becomes yours,\nand stays that way."
-      }
-    },
-    "delivery": {
-      "type": "landing-funnel",
-      "blocks": {
-        "t1": {
-          "type": "tier",
-          "settings": {
-            "tag": "Included with every mattress",
-            "heading": "Concierge unpacking",
-            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
-            "price": "Complimentary",
-            "featured": true
-          }
-        },
-        "t2": {
-          "type": "tier",
-          "settings": {
-            "tag": "",
-            "heading": "Old mattress removal and recycling",
-            "text": "Taken away on the same visit. Nothing in the hall, nothing to arrange.",
-            "price": "Complimentary",
-            "featured": false
-          }
-        },
-        "c1": {
-          "type": "card",
-          "settings": {
-            "heading": "Unrolled on the bed",
-            "text": "It settles evenly."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "heading": "Nothing left behind",
-            "text": "Carton, plastic, wrap. All of it leaves with it."
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "heading": "A window agreed in advance",
-            "text": "Notification on the day."
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "c1",
-        "c2",
-        "c3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "ground": "dark",
-        "layout": "delivery",
-        "anchor_id": "delivery",
-        "heading": "It arrives compressed.\nWe do not leave it that way.",
-        "lede": "Roll packing gets it up the stairs. It is not how it should be left."
+        "page_key": "what-it-buys",
+        "lp_variant": "D-value"
       }
     },
     "configure": {
@@ -240,20 +15,15 @@
         "layout": "configure",
         "anchor_id": "configure",
         "mattress_product": "the-mattress",
-        "featured_size": "super-king",
         "kicker": "Reserve yours",
         "heading": "Choose your size",
-        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer."
+        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Same 35cm construction, same removable comfort layer.",
+        "featured_size": "super-king"
       }
     }
   },
   "order": [
-    "hero",
-    "breakdown",
-    "kept",
-    "not",
-    "outcome",
-    "delivery",
+    "main",
     "configure"
   ]
 }
