@@ -1,4 +1,14 @@
-# Regression results — 15 Aug 2026 (visual CSS restore, features kept)
+# Regression results — 3 Sep 2026 (size picker and basket redesign)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 574 passed, 0 failed
+- Scope note: Size picker is a four-column row list with footprints drawn to scale. Category tabs are a count check (`>5` sizes and more than one `custom.sizetype`, never a market if). Basket is a sticky panel at 980px+ and an inline panel plus View/Checkout bar below that. Returns days come from `return_window_days`. Preview theme.js matches the theme. No version bump.
+
+---
+
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`

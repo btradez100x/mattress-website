@@ -726,6 +726,58 @@ else
   fail "market-tagline helper missing, unwired, or missing AL/GB/US"
 fi
 
+JS="$THEME/assets/theme.js"
+CSS="$THEME/assets/base.css"
+if grep -q "function sizeFootprintMarkup" "$JS" \
+  && grep -q "size-plan" "$JS" \
+  && grep -q "SIZE_QTY_CAP = 20" "$JS" \
+  && grep -q "SIZE_TAB_THRESHOLD = 5" "$JS" \
+  && grep -q "function showSizeTabs" "$JS" \
+  && ! grep -q "market == 'UAE'" "$JS" \
+  && grep -q "role=\"img\"" "$JS"; then
+  pass "size rows draw footprints to scale; qty cap 20; tabs are a count check"
+else
+  fail "size row footprints, qty cap, or count-based tabs missing"
+fi
+
+if grep -q "min-width: 980px" "$CSS" \
+  && grep -q "max-width: 979px" "$CSS" \
+  && grep -q "data-float-view" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && grep -q "function openBasketSheet" "$JS" \
+  && grep -q "function paintBasketSheet" "$JS"; then
+  pass "980px panel vs bar split; View opens a shared-order sheet"
+else
+  fail "980px basket surfaces or sheet missing"
+fi
+
+if grep -q "data-order-returns" "$THEME/sections/size-reserve.liquid" \
+  && grep -q "return_window_days" "$THEME/config/settings_schema.json" \
+  && grep -q "window.NUMA.returnsDays" "$THEME/layout/theme.liquid" \
+  && grep -q "function returnsPolicyCopy" "$JS" \
+  && grep -q "Old mattress removal" "$JS"; then
+  pass "returns window from settings; old mattress removal multiplies with units"
+else
+  fail "returns setting or removal × units missing"
+fi
+
+if grep -q "trackAddToBasket" "$JS" \
+  && grep -q "configure_complete" "$JS" \
+  && grep -q "quantity_increase" "$JS" \
+  && grep -q "market_switch" "$JS" \
+  && grep -q "basket_sheet_open" "$JS"; then
+  pass "size-selector tracking events present"
+else
+  fail "size-selector tracking events missing"
+fi
+
+if grep -q "data-size-tabs" "$ROOT/preview/index.html" \
+  && grep -q "size-plan" "$ROOT/preview/theme.js" \
+  && cmp -s "$JS" "$ROOT/preview/theme.js"; then
+  pass "preview picker + theme.js stay in sync"
+else
+  fail "preview picker markup or theme.js drift"
+fi
+
 info "----------------------------------------"
 if [[ "$FAIL" -gt 0 ]]; then
   red "SMOKE FAILED — $FAIL check(s)"
