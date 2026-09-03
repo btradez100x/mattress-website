@@ -58,8 +58,14 @@
                 {%- if block.settings.image != blank -%}
                   {{
                     block.settings.image
-                    | image_url: width: 320
-                    | image_tag: loading: 'lazy', widths: '160,240,320', alt: block.settings.name, class: 'press__logo-img'
+                    | image_url: width: 240
+                    | image_tag:
+                      loading: 'lazy',
+                      fetchpriority: 'low',
+                      widths: '120,160,240',
+                      sizes: '(min-width: 900px) 140px, 28vw',
+                      alt: block.settings.name,
+                      class: 'press__logo-img'
                   }}
                 {%- elsif block.settings.fallback_asset != blank -%}
                   <img
@@ -67,6 +73,8 @@
                     src="{{ block.settings.fallback_asset | asset_url }}"
                     alt="{{ block.settings.name | escape }}"
                     loading="lazy"
+                    fetchpriority="low"
+                    decoding="async"
                     width="200"
                     height="48"
                   >

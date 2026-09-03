@@ -307,18 +307,45 @@ html .btn-line:hover {
   border-color: #2E2E30;
 }
 
-.float-basket .btn,
-.float-basket__btn,
-.sticky-reserve__btn {
-  background: #F5F4F1;
-  color: #1A1A1A;
+/* Float basket sits on navy. Inverse CTA must beat html .btn Carbon fill
+   and clear -webkit-text-fill-color from base, or Checkout reads as dark-on-dark. */
+html .float-basket .btn,
+html .float-basket .btn.float-basket__btn,
+html .float-basket__btn,
+html .float-basket.has-items .float-basket__btn,
+html .float-basket.is-active .float-basket__btn,
+html .sticky-reserve__btn,
+html[data-brand-guidelines="v1"] .float-basket .btn,
+html[data-brand-guidelines="v1"] .float-basket__btn,
+html[data-brand-guidelines="v1"] .float-basket.has-items .float-basket__btn,
+html[data-brand-guidelines="v1"] .float-basket.is-active .float-basket__btn,
+html[data-brand-guidelines="v2"] .float-basket .btn,
+html[data-brand-guidelines="v2"] .float-basket__btn,
+html[data-brand-guidelines="v2"] .float-basket.has-items .float-basket__btn,
+html[data-brand-guidelines="v2"] .float-basket.is-active .float-basket__btn {
+  background: var(--brand-on-dark, #F7F5F1) !important;
+  background-color: var(--brand-on-dark, #F7F5F1) !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+  -webkit-text-fill-color: var(--brand-primary, #1F3A5F) !important;
+  border: 1px solid transparent !important;
   border-radius: var(--cta-radius, 0);
+  box-shadow: none !important;
+  font-weight: 600;
 }
-.float-basket .btn:hover,
-.float-basket__btn:hover,
-.sticky-reserve__btn:hover {
-  background: #E4E1DA;
-  color: #1A1A1A;
+html .float-basket .btn:hover,
+html .float-basket .btn.float-basket__btn:hover,
+html .float-basket__btn:hover,
+html .float-basket.has-items .float-basket__btn:hover,
+html .float-basket.is-active .float-basket__btn:hover,
+html .sticky-reserve__btn:hover,
+html[data-brand-guidelines="v1"] .float-basket .btn:hover,
+html[data-brand-guidelines="v1"] .float-basket__btn:hover,
+html[data-brand-guidelines="v2"] .float-basket .btn:hover,
+html[data-brand-guidelines="v2"] .float-basket__btn:hover {
+  background: var(--brand-surface, #EAE6DF) !important;
+  background-color: var(--brand-surface, #EAE6DF) !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+  -webkit-text-fill-color: var(--brand-primary, #1F3A5F) !important;
 }
 .size-option,
 .size-row,
@@ -527,3 +554,5 @@ html[data-cta-shape] .size-option__add,
 html[data-cta-shape] .size-row__add {
   border-radius: var(--cta-radius, 0);
 }
+
+/* checkout-pop + lifestyle webp 20260903T201536Z */
