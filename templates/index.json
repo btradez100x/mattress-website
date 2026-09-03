@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -8,10 +17,10 @@
         "subheading": "A core made to outlast the frame it sits on. You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before.",
         "cta_label": "See sizes and prices",
         "cta_link": "#reserve",
-        "tone": "light",
         "secondary_cta_label": "How it arrives",
         "secondary_cta_link": "#delivery",
-        "assurance": "Concierge unpacking included · The old one leaves with it"
+        "assurance": "Concierge unpacking included · The old one leaves with it",
+        "tone": "light"
       }
     },
     "pair-cards": {
@@ -52,10 +61,10 @@
       "type": "big-idea",
       "settings": {
         "enable_section": false,
+        "ground": "surface",
         "eyebrow": "The Swap System",
         "heading": "A better bed, for life.",
-        "body": "The part that softens is the fifteen centimetres of comfort. Ours separates, so you renew that layer instead of the bed.",
-        "ground": "surface"
+        "body": "The part that softens is the fifteen centimetres of comfort. Ours separates, so you renew that layer instead of the bed."
       }
     },
     "benefits": {
@@ -120,8 +129,8 @@
       ],
       "settings": {
         "enable_section": true,
-        "heading": "Five feels. One bed.",
-        "ground": "bg"
+        "ground": "bg",
+        "heading": "Five feels. One bed."
       }
     },
     "product-specs": {
@@ -222,50 +231,33 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "bg",
         "label": "Full specification",
         "hint": "Every layer, stated",
         "note": "You are spending real money on something you cannot open. Here is what is inside it.",
         "spec_id": "mattress",
         "anchor_id": "specs",
-        "dark": false,
-        "ground": "bg"
+        "dark": false
       }
     },
     "swap-explainer": {
       "type": "swap-explainer",
       "settings": {
         "enable_section": true,
+        "ground": "bg",
         "eyebrow": "How it works",
         "heading": "Unzip. Lift out. Swap in.",
+        "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>",
         "body": "When the layer wears, replace the layer. The bed underneath has years left in it.",
         "flip_line": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes.",
-        "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>",
-        "ownership_cost_gb": "<p>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
-        "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
         "dual_use": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>",
         "top_cta_label": "See the comfort layer",
-        "ground": "bg"
+        "ownership_cost_gb": "<p>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
+        "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
       }
     },
     "social-proof": {
       "type": "social-proof",
-      "settings": {
-        "enable_section": true,
-        "eyebrow": "Customer reviews",
-        "heading": "What owners say.",
-        "subheading": "Verified purchase reviews from the founding allocations.",
-        "empty_text": "Reviews will appear here shortly.",
-        "load_more_label": "Show more reviews",
-        "page_size": 12,
-        "enable_reviews": true,
-        "enable_submissions": true,
-        "require_purchase": true,
-        "write_cta": "Write a review",
-        "form_heading": "Write a review",
-        "form_lede": "Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear.",
-        "submit_label": "Submit review",
-        "ground": "dark"
-      },
       "blocks": {
         "oeko": {
           "type": "proof",
@@ -285,7 +277,24 @@
       "block_order": [
         "oeko",
         "proof_oeko"
-      ]
+      ],
+      "settings": {
+        "enable_section": true,
+        "ground": "dark",
+        "enable_reviews": true,
+        "enable_submissions": true,
+        "require_purchase": true,
+        "eyebrow": "Customer reviews",
+        "heading": "What owners say.",
+        "subheading": "Verified purchase reviews from the founding allocations.",
+        "write_cta": "Write a review",
+        "form_heading": "Write a review",
+        "form_lede": "Share how the mattress sleeps for you. Reviews from buyers are moderated before they appear.",
+        "submit_label": "Submit review",
+        "empty_text": "Reviews will appear here shortly.",
+        "load_more_label": "Show more reviews",
+        "page_size": 12
+      }
     },
     "offer": {
       "type": "offer",
@@ -350,17 +359,17 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "dark",
         "eyebrow": "Buy with confidence",
         "heading": "Order with confidence.",
         "body": "Made to order. Cancel any time before dispatch. Honest lead times.",
-        "cta_label": "See sizes and prices",
-        "cta_link": "#reserve",
         "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
         "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
+        "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
         "replacement_top_price_gb": "A replacement comfort layer is £299. A new mattress is not.",
         "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
-        "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
-        "ground": "dark"
+        "cta_label": "See sizes and prices",
+        "cta_link": "#reserve"
       }
     },
     "delivery": {
@@ -426,24 +435,22 @@
     },
     "size-reserve": {
       "type": "size-reserve",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "enable_section": true,
+        "ground": "surface",
+        "anchor_id": "reserve",
         "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
         "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
-        "request_size_enabled": true,
-        "deposit_terms_link": "/pages/refunds-deposit",
-        "anchor_id": "reserve",
-        "leadtime_placement": "staged",
-        "stage_b_heading": "Before you order",
         "continue_label_full": "Continue",
         "button_label_full": "Buy now",
-        "ground": "surface"
+        "leadtime_placement": "staged",
+        "stage_b_heading": "Before you order",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit"
       }
     },
     "faq": {
@@ -600,9 +607,9 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "surface",
         "eyebrow": "Questions",
-        "heading": "Clear answers.",
-        "ground": "surface"
+        "heading": "Clear answers."
       }
     },
     "trust-bar-top": {
@@ -650,8 +657,8 @@
             "icon": "chemicals",
             "label": "No harmful chemicals",
             "sublabel": "Materials chosen for cleaner sleep",
-            "link": "#specs",
-            "market_visibility": "all"
+            "market_visibility": "all",
+            "link": "#specs"
           }
         },
         "oeko_tex": {
@@ -660,8 +667,8 @@
             "icon": "oeko",
             "label": "OEKO-TEX® STANDARD 100",
             "sublabel": "Textiles independently tested",
-            "link": "#specs",
-            "market_visibility": "all"
+            "market_visibility": "all",
+            "link": "#specs"
           }
         }
       },
@@ -675,13 +682,13 @@
       ],
       "settings": {
         "enable_section": true,
-        "surface": false,
-        "show_lead_line": true,
-        "anchor_id": "trust-top",
+        "ground": "surface",
         "enable_marquee": true,
         "marquee_duration": 40,
         "pause_on_hover": true,
-        "ground": "surface"
+        "surface": false,
+        "show_lead_line": true,
+        "anchor_id": "trust-top"
       }
     },
     "measure-size": {
@@ -724,26 +731,26 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "surface",
         "surface": false,
         "anchor_id": "measure",
         "eyebrow": "Before you reserve",
         "heading": "Measure in centimetres. Order the size that matches.",
         "lede": "Bed sizes vary between manufacturers. Always trust the centimetre dimensions, not the name on the label.",
         "guide_label": "Full size guide",
-        "guide_link": "/pages/size-guide",
-        "ground": "surface"
+        "guide_link": "/pages/size-guide"
       }
     },
     "founder-note": {
       "type": "founder-note",
       "settings": {
         "enable_section": true,
+        "ground": "dark",
         "eyebrow": "A note from Ben",
         "heading": "No two bodies want the same bed.",
         "note": "<p>My family have bad backs. Several of them, across two generations.</p><p>I watched them choose a mattress in four minutes with their shoes off, and then live with it for eight years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in four minutes.</p><p>So yours arrives medium firm. You live with it over months. You have a year with us. You tell us how it should feel. We adjust it until it is right.</p>",
         "name": "Ben Acolatse",
-        "role": "Founder",
-        "ground": "dark"
+        "role": "Founder"
       }
     },
     "press-logos": {
@@ -919,11 +926,11 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "surface",
         "eyebrow": "As seen on",
         "heading": "Press & recognition.",
         "subheading": "Selected coverage, mentions, and distinctions.",
-        "awards_heading": "Awards",
-        "ground": "surface"
+        "awards_heading": "Awards"
       }
     },
     "ugc-social": {
@@ -967,10 +974,10 @@
       ],
       "settings": {
         "enable_section": false,
+        "ground": "bg",
         "eyebrow": "From social",
         "heading": "Seen in real homes.",
-        "subheading": "Short clips from TikTok and Instagram.",
-        "ground": "bg"
+        "subheading": "Short clips from TikTok and Instagram."
       }
     },
     "swap-process": {
@@ -1014,13 +1021,13 @@
       ],
       "settings": {
         "enable_section": false,
+        "ground": "bg",
         "dark": false,
+        "surface": true,
         "anchor_id": "swap-process",
         "eyebrow": "The changeable layer",
         "heading": "Unzip. Lift out. Swap in.",
-        "body": "A visual walkthrough of the replaceable comfort layer - swap it when worn, keep the engineered core.",
-        "surface": true,
-        "ground": "bg"
+        "body": "A visual walkthrough of the replaceable comfort layer - swap it when worn, keep the engineered core."
       }
     },
     "cool-touch": {
@@ -1067,14 +1074,14 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "dark",
         "surface": false,
         "gallery_enabled": true,
         "anchor_id": "cool-touch",
         "eyebrow": "Cool touch",
         "heading": "Engineered to sleep cool.",
         "body": "Heat is why people give up on a mattress they used to love. This one lets it out.",
-        "image_caption": "Cool-knit cover detail",
-        "ground": "dark"
+        "image_caption": "Cool-knit cover detail"
       }
     },
     "lifestyle-collage": {
@@ -1145,33 +1152,31 @@
       ],
       "settings": {
         "enable_section": true,
+        "ground": "bg",
         "surface": true,
         "anchor_id": "lifestyle",
         "heading": "Styled by [Brand]",
-        "body": "Soft light. Quiet rooms. Real homes, not a showroom aisle.",
-        "ground": "bg"
+        "body": "Soft light. Quiet rooms. Real homes, not a showroom aisle."
       }
     },
     "size-reserve-2": {
       "type": "size-reserve",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "enable_section": true,
+        "ground": "bg",
+        "anchor_id": "reserve-late",
         "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
         "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
         "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
-        "request_size_enabled": true,
-        "deposit_terms_link": "/pages/refunds-deposit",
-        "anchor_id": "reserve-late",
-        "leadtime_placement": "staged",
-        "stage_b_heading": "Before you order",
         "continue_label_full": "Continue",
         "button_label_full": "Buy now",
-        "ground": "bg"
+        "leadtime_placement": "staged",
+        "stage_b_heading": "Before you order",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit"
       }
     }
   },
