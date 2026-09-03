@@ -1,4 +1,5 @@
 {
+  "layout": "theme",
   "sections": {
     "hero": {
       "type": "landing-funnel",
