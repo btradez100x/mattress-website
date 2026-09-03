@@ -4,7 +4,7 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 991 passed, 0 failed
-- Scope note: `/cart` is canonical. `/pages/checkout` 301s to cart. Compact Why strip below 720px. Aggregate summary, Pay amount, concierge opt-out, old mattress removal counted by line qty not physical units. `basket_view` on `/cart` only. Size-selector redesign from the zip not implemented. No VERSION bump.
+- Scope note: `/cart` is canonical. `/pages/checkout` 301s to cart. Compact Why strip below 720px. Aggregate summary, Pay amount, concierge opt-out, old mattress removal counted by line qty not physical units. `basket_view` on `/cart` only. Size-selector redesign from the zip not implemented. Checkpoint: `checkpoints/11.1.0-cart-canonical-basket/`. Deploy: `v9` `a74ccce`, `shopify-theme` `062defe`. Store `7dbr1b-1q`. Hard-refresh `/cart`. No VERSION bump.
 
 ---
 
