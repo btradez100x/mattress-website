@@ -55,9 +55,6 @@
   endif
   assign painted = 0
 -%}
-<li class="size-thead" aria-hidden="true">
-  <span>Size</span><span>Footprint</span><span class="size-thead__r">Each</span><span class="size-thead__r">Quantity</span>
-</li>
 {%- if mattress != blank -%}
   {%- for v in mattress.variants -%}
     {%- capture in_country -%}{%- render 'size-variant-in-country', v: v, country_iso: iso -%}{%- endcapture -%}
