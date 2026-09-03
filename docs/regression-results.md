@@ -1,4 +1,34 @@
-# Regression results — Thursday 3 Sep 2026 (cart Pay → Shopify checkout)
+# Regression results — Thursday 3 Sep 2026 (size selector rows)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 992 passed, 0 failed
+- Scope note: New mods v2 size selector renders as four-column rows with dashed to-scale footprint frame and quantity stepper. JS + SSR updated. Request-a-size tile remains. Checkpoint: `checkpoints/11.1.0-size-selector-rows/`. Live depends on Shopify Connect sync (GitHub Action skipped CLI push because secrets are unset). Hard-refresh `/pages/configure` and the homepage `#reserve`.
+
+---
+
+# Regression results — Thursday 3 Sep 2026 (Trade richtext: drop blockquote)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 991 passed, 0 failed
+- Scope note: Shopify `theme push` rejected `templates/page.trade.json` because richtext `body` contained `<blockquote>`. Replaced with a second `<p>`. Preview `pages/trade.html` matched. Live theme `204376113477` still needs a re-push of that file, then an Admin Page handle `trade`. No VERSION bump.
+
+---
+
+# Regression results — Thursday 3 Sep 2026 (header Order count = units)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 991 passed, 0 failed
+- Scope note: Header Order badge now uses mattress quantity (`OrderStore` units / `cart.item_count`), not unique line count. 2× Single + King + Small Double shows **4**. Preview configure verified. Live needs a theme deploy. No VERSION bump.
+
+---
+
+
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
@@ -1262,3 +1292,11 @@
 - Scope note: Packaged **V9.2** (`checkpoints/V9.2/Valtora-Shopify-Theme-V9.2.zip` + `preview-and-theme.tar.gz`; copy in Downloads). V9.1 plus order-status page / App Proxy contract; lookup default off.
 
 
+
+---
+# Regression results — 2026-09-03 16:40 BST
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Scope note: Trade page refresh present in working tree and deployed without a VERSION bump. Checkpoint: `checkpoints/11.1.0-trade-page-connect-deploy/`. Deploy: `v9` `48a088d`, `shopify-theme` `99dc00c`. Admin still needs Page handle `trade` if `/pages/trade` 404s, and Trade mailbox must exist.
