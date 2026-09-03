@@ -832,7 +832,7 @@
         "id": "trade_email",
         "label": "Trade and contract enquiries email",
         "default": "trade@numamattress.com",
-        "info": "Shown on the Trade page mailto links. If empty, those links fall back to the contact page."
+        "info": "Shown on the Trade page and used for all bulk order enquiries. If empty, both mailto links fall back to the contact page."
       },
       {
         "type": "paragraph",
