@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "layout": "theme",
   "sections": {
@@ -29,7 +38,7 @@
         "ground": "bg",
         "layout": "steps",
         "heading": "What a made-to-order supplier changes",
-        "body": "<p>Contract mattresses are bought from stock, which means the size range is whatever the warehouse holds and the specification is whatever was made last quarter. Rooms get fitted around the mattress.</p><blockquote class=\"lp-pull\"><p>Nothing is built before you order it. So the bed fits the room, rather than the other way round.</p></blockquote>",
+        "body": "<p>Contract mattresses are bought from stock, which means the size range is whatever the warehouse holds and the specification is whatever was made last quarter. Rooms get fitted around the mattress.</p><p>Nothing is built before you order it. So the bed fits the room, rather than the other way round.</p>",
         "cta_label": ""
       }
     },
