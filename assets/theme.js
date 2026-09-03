@@ -1622,6 +1622,179 @@
     host.setAttribute('hidden', '');
   }
 
+  var SIZE_TYPE_ORDER = [
+    'UK Sizes',
+    'EU Sizes',
+    'US Sizes',
+    'International Sizes',
+    'Australian Sizes',
+    'UAE Sizes',
+  ];
+  var SIZE_TYPE_THRESHOLD = 5;
+
+  function marketToSizeType(code) {
+    var m = String(code || '').toLowerCase();
+    if (m === 'ae' || m === 'uae') return 'UAE Sizes';
+    if (m === 'us') return 'US Sizes';
+    if (m === 'eu') return 'EU Sizes';
+    return 'UK Sizes';
+  }
+
+  function selectorCatalogRows() {
+    var rows = readSizePriceRows();
+    if (rows && rows.length) return rows;
+    return ukFallbackCatalogRows(rows);
+  }
+
+  function rowSizeTypes(row) {
+    var raw = (row && (row.size_types || row.SizeType || row.sizeTypes)) || [];
+    if (typeof raw === 'string') {
+      raw = raw ? [raw] : [];
+    }
+    var out = [];
+    (raw || []).forEach(function (t) {
+      var s = String(t || '').trim();
+      if (s && out.indexOf(s) === -1) out.push(s);
+    });
+    if (out.length) return out;
+    var markets = rowMarkets(row);
+    var shown = ((row && (row.shown || row.MarketShown)) || []).map(function (x) {
+      return String(x || '').toUpperCase();
+    });
+    var id = String((row && row.id) || '').toLowerCase();
+    function add(label) {
+      if (out.indexOf(label) === -1) out.push(label);
+    }
+    if (markets.indexOf('GB') >= 0) add('UK Sizes');
+    if (markets.indexOf('EU') >= 0) add('EU Sizes');
+    if (markets.indexOf('US') >= 0) add('US Sizes');
+    if (markets.indexOf('UAE') >= 0) add('UAE Sizes');
+    if (shown.indexOf('AU') >= 0 || id.indexOf('au-') === 0 || id.indexOf('australian') >= 0) {
+      add('Australian Sizes');
+    }
+    if (!out.length) add('UK Sizes');
+    return out;
+  }
+
+  function rowBelongsToSizeType(row, type) {
+    if (!type) return true;
+    return rowSizeTypes(row).indexOf(type) >= 0;
+  }
+
+  function sizeTypesPresent(rows) {
+    var seen = {};
+    (rows || []).forEach(function (row) {
+      rowSizeTypes(row).forEach(function (t) {
+        seen[t] = true;
+      });
+    });
+    var home = marketToSizeType(detectMarket());
+    var order = SIZE_TYPE_ORDER.slice();
+    var hi = order.indexOf(home);
+    if (hi > 0) {
+      order = order.slice(hi).concat(order.slice(0, hi));
+    }
+    return order.filter(function (t) {
+      return seen[t];
+    });
+  }
+
+  function showSizeTypeTabs(rows) {
+    rows = rows || selectorCatalogRows();
+    return rows.length > SIZE_TYPE_THRESHOLD && sizeTypesPresent(rows).length > 1;
+  }
+
+  function rowsForSizeType(type) {
+    var rows = selectorCatalogRows();
+    if (!showSizeTypeTabs(rows) || !type) return rows;
+    return rows.filter(function (r) {
+      return rowBelongsToSizeType(r, type);
+    });
+  }
+
+  function paintSizeTypeTabs(host, rows, selected) {
+    if (!host) return selected || '';
+    rows = rows || selectorCatalogRows();
+    var cats = sizeTypesPresent(rows);
+    var show = rows.length > SIZE_TYPE_THRESHOLD && cats.length > 1;
+    var note =
+      (host.parentNode && host.parentNode.querySelector('[data-size-type-note]')) ||
+      (host.closest && host.closest('[data-size-reserve], [data-lp-configure]') &&
+        host.closest('[data-size-reserve], [data-lp-configure]').querySelector('[data-size-type-note]'));
+    if (!show) {
+      host.hidden = true;
+      host.innerHTML = '';
+      host.setAttribute('hidden', '');
+      if (note) {
+        note.hidden = false;
+        note.removeAttribute('hidden');
+        note.textContent = rows.length + ' sizes \u00b7 footprints drawn to scale';
+      }
+      return '';
+    }
+    if (!selected || cats.indexOf(selected) < 0) selected = cats[0];
+    host.hidden = false;
+    host.removeAttribute('hidden');
+    host.innerHTML = cats
+      .map(function (c) {
+        return (
+          '<button type="button" role="tab" aria-selected="' +
+          (c === selected ? 'true' : 'false') +
+          '" data-size-type="' +
+          escapeHtml(c) +
+          '">' +
+          escapeHtml(c) +
+          '</button>'
+        );
+      })
+      .join('');
+    if (note) {
+      var n = rows.filter(function (r) {
+        return rowBelongsToSizeType(r, selected);
+      }).length;
+      note.hidden = false;
+      note.removeAttribute('hidden');
+      note.textContent =
+        n + ' sizes \u00b7 every footprint drawn against the same frame, so they compare directly';
+    }
+    return selected;
+  }
+
+  function bindSizeTypeTabs(root, onPick) {
+    var host = root && root.querySelector('[data-size-types]');
+    if (!host || host.getAttribute('data-size-types-ready') === '1') return;
+    host.setAttribute('data-size-types-ready', '1');
+    host.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-size-type]');
+      if (!btn || !host.contains(btn)) return;
+      var next = btn.getAttribute('data-size-type') || '';
+      var from = root.getAttribute('data-size-type') || '';
+      root.setAttribute('data-size-type', next);
+      vTrack('market_switch', { from: from, to: next });
+      if (typeof onPick === 'function') onPick(next);
+    });
+  }
+
+  function initSizeHelp() {
+    var HELP = {
+      ikea: 'Continental and IKEA frames take 160 \u00d7 200cm. That is European King.',
+      two: 'Super King gives each sleeper 90cm, the width of a single bed. Emperor gives a full metre each. If one of you moves, that ten centimetres is the difference between waking and not.',
+      measure: 'Measure the inside of the frame, not the mattress in it. Width first, then length, in centimetres. If it falls between two of these, take the smaller one.',
+    };
+    document.querySelectorAll('[data-size-help]').forEach(function (btn) {
+      if (btn.getAttribute('data-size-help-ready') === '1') return;
+      btn.setAttribute('data-size-help-ready', '1');
+      btn.addEventListener('click', function () {
+        var host = btn.closest('.size-helper') || btn.parentNode;
+        var out = host && host.querySelector('[data-size-help-out]');
+        if (!out) return;
+        out.hidden = false;
+        out.removeAttribute('hidden');
+        out.textContent = HELP[btn.getAttribute('data-size-help')] || '';
+      });
+    });
+  }
+
   function paintPolicyItems(el, raw) {
     if (!el) return;
     var parts = String(raw || '')
@@ -1805,7 +1978,10 @@
     }
 
     function rowsForTab(tabKey) {
-      return catalogRowsForPaint(allRows(), detectCountryIso());
+      var type =
+        (this && this.getAttribute && this.getAttribute('data-size-type')) ||
+        marketToSizeType(detectMarket());
+      return rowsForSizeType(type);
     }
 
     function setLandingStatus(root, msg) {
@@ -1927,7 +2103,13 @@
         root.setAttribute('data-market', market);
         root.setAttribute('data-selector-tab', tab);
         paintMarketTabs(root.querySelector('[data-size-markets]'));
-        var rows = rowsForTab(tab) || rowsForMarket(market);
+        var type = root.getAttribute('data-size-type') || marketToSizeType(detectMarket());
+        type = paintSizeTypeTabs(root.querySelector('[data-size-types]'), selectorCatalogRows(), type);
+        root.setAttribute('data-size-type', type || '');
+        bindSizeTypeTabs(root, function () {
+          paintSizes(root);
+        });
+        var rows = rowsForSizeType(root.getAttribute('data-size-type'));
         paintSizeGrid(list, rows, tab, 'Add');
         hydratePolicyStrips(root);
         syncLandingRows(root);
@@ -1995,6 +2177,7 @@
           var q = qtyForRow(row);
           if (dec) q -= 1;
           if (inc) q += 1;
+          if (q > 20) q = 20;
           if (q < 1) {
             var zeroLine = lineFromRow(root, row);
             OrderStore.removeMattressSize(row.getAttribute('data-size-id'));
@@ -2018,7 +2201,7 @@
         var qNow = qtyForRow(row);
         if (qNow > 0 && !addHit) return;
         e.preventDefault();
-        addOrUpdate(root, row, addHit ? qNow + 1 : Math.max(1, qNow || 1), {
+        addOrUpdate(root, row, addHit ? Math.min(20, qNow + 1) : Math.max(1, qNow || 1), {
           qtyChanged: addHit && qNow > 0,
         });
         paintSticky();
@@ -4345,7 +4528,8 @@
       }
     }
     function filterSizesForMarket(mkt) {
-      return catalogRowsForPaint(allRows, detectCountryIso());
+      var type = root.getAttribute('data-size-type') || marketToSizeType(mkt || detectMarket());
+      return rowsForSizeType(type);
     }
     var selectorTab = marketToTabKey(market);
     sizes = filterSizesForMarket(market);
@@ -4587,6 +4771,10 @@
       if (!list) return;
       try {
         paintMarketTabs(root.querySelector('[data-size-markets]'));
+        var type = root.getAttribute('data-size-type') || marketToSizeType(market);
+        type = paintSizeTypeTabs(root.querySelector('[data-size-types]'), selectorCatalogRows(), type);
+        root.setAttribute('data-size-type', type || '');
+        sizes = rowsForSizeType(type);
         paintSizeGrid(list, sizes, selectorTab, addLabel);
         hydratePolicyStrips(root);
         syncSizeQtyUi();
@@ -4596,6 +4784,10 @@
     if (list) {
       rebuildSizeButtons();
     }
+    bindSizeTypeTabs(root, function () {
+      rebuildSizeButtons();
+      if (typeof renderOrderPanel === 'function') renderOrderPanel();
+    });
 
     root._valtoraOnMarketChange = function () {
       market = detectMarket();
@@ -4676,6 +4868,7 @@
           var q = lineQtyForSize(sizeId, row.getAttribute('data-size-variant'));
           if (dec) q -= 1;
           if (inc) q += 1;
+          if (q > 20) q = 20;
           if (q < 1) {
             OrderStore.removeMattressSize(sizeId);
             if (qtyInput) qtyInput.value = '1';
@@ -4710,7 +4903,7 @@
         e.stopPropagation();
         collapseStageB(true);
         applySelection(row, { silent: true });
-        upsertActiveMattress(existingQty + 1, { size: sizeFromRow(row) });
+        upsertActiveMattress(Math.min(20, existingQty + 1), { size: sizeFromRow(row) });
         updateContinueState();
         paintSticky();
       });
@@ -7805,6 +7998,7 @@
     initLandingFunnel();
     initTradeEnquiry();
     initLandingConfigure();
+    initSizeHelp();
     initNumaTracking();
     initExitIntent();
     initAnnouncementDismiss();
