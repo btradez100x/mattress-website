@@ -22,6 +22,8 @@ info "----------------------------------------"
 REQUIRED_PATHS=(
   "layout/theme.liquid"
   "layout/password.liquid"
+  "sections/main-password.liquid"
+  "templates/password.json"
   "config/settings_schema.json"
   "config/settings_data.json"
   "assets/base.css"
@@ -717,13 +719,22 @@ fi
 
 if grep -q "render 'market-tagline'" "$THEME/sections/footer.liquid" \
   && grep -q "render 'market-tagline'" "$THEME/snippets/meta-tags.liquid" \
-  && grep -q "render 'market-tagline'" "$THEME/layout/password.liquid" \
+  && grep -q "render 'market-tagline'" "$THEME/sections/main-password.liquid" \
   && grep -q '|AL|' "$THEME/snippets/market-tagline.liquid" \
   && grep -q "iso == 'GB'" "$THEME/snippets/market-tagline.liquid" \
   && grep -q "iso == 'US'" "$THEME/snippets/market-tagline.liquid"; then
   pass "market-tagline helper wired (includes AL; GB is UK)"
 else
   fail "market-tagline helper missing, unwired, or missing AL/GB/US"
+fi
+
+if grep -q '"type": "main-password"' "$THEME/templates/password.json" \
+  && ! grep -q 'main-404' "$THEME/templates/password.json" \
+  && grep -q "content_for_layout" "$THEME/layout/password.liquid" \
+  && grep -q "form 'storefront_password'" "$THEME/sections/main-password.liquid"; then
+  pass "password template is a storefront password gate, not 404"
+else
+  fail "password template missing form, layout output, or still uses 404"
 fi
 
 info "----------------------------------------"
