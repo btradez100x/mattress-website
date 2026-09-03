@@ -17,6 +17,7 @@
     "wordmark_tracking": 18,
     "color_scheme": "signature",
     "brand_guidelines": "v1",
+    "cta_radius": "curved",
     "color_primary": "#1F3A5F",
     "color_accent": "#8A6D3B",
     "color_bg": "#F7F5F1",

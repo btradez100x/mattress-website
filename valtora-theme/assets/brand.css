@@ -225,18 +225,23 @@ html .lp-outcome__kicker {
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--brand-gold, var(--brand-accent, #8A6D3B));
-  outline-offset: 3px;
+  outline-offset: var(--focus-offset, 3px);
 }
 
-/* CTA spec last-wins. Radius 0. Carbon fill on light. Ember is never a fill. */
+/* CTA spec last-wins. Shape from html[data-cta-shape]: Curved 2px / Square 0.
+   Carbon fill on light. Ember is never a fill. Size cards stay on --radius. */
 html .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
 html[data-brand-guidelines="v1"] .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
 html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
+html .btn--quiet,
+html .btn--accent-line,
 .hero__cta .btn,
 .float-basket__btn,
 .sticky-reserve__btn,
-.checkout-stage__pay {
-  border-radius: var(--radius, 0);
+.checkout-stage__pay,
+.size-option__add,
+.size-row__add {
+  border-radius: var(--cta-radius, var(--radius, 0));
 }
 
 html .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--quiet):not(.btn--accent-line):not(.btn--whatsapp),
@@ -307,7 +312,7 @@ html .btn-line:hover {
 .sticky-reserve__btn {
   background: #F5F4F1;
   color: #1A1A1A;
-  border-radius: 0;
+  border-radius: var(--cta-radius, 0);
 }
 .float-basket .btn:hover,
 .float-basket__btn:hover,
@@ -474,4 +479,30 @@ html .btn-line:hover {
 .mfg-band--dark .lp-outcome__kicker,
 .mfg-band--dark .lp-outcome .lp-kicker {
   color: var(--brand-on-dark, #F7F5F1) !important;
+}
+
+/* CTA shape last-wins. Comparison spec: Curved 2px + 4px focus; Square 0 + 3px.
+   Buttons only. Size cards remain on --radius (0). Full-bleed stays 0. */
+html[data-cta-shape="curved"],
+html[data-brand-guidelines][data-cta-shape="curved"],
+html[data-brand-guidelines][data-color-scheme][data-cta-shape="curved"] {
+  --cta-radius: 2px;
+  --focus-offset: 4px;
+}
+
+html[data-cta-shape="square"],
+html[data-brand-guidelines][data-cta-shape="square"],
+html[data-brand-guidelines][data-color-scheme][data-cta-shape="square"] {
+  --cta-radius: 0;
+  --focus-offset: 3px;
+}
+
+html[data-cta-shape] .btn,
+html[data-cta-shape] .float-basket__btn,
+html[data-cta-shape] .sticky-reserve__btn,
+html[data-cta-shape] .checkout-stage__pay,
+html[data-cta-shape] .reserve-stage-b__pay,
+html[data-cta-shape] .size-option__add,
+html[data-cta-shape] .size-row__add {
+  border-radius: var(--cta-radius, 0);
 }

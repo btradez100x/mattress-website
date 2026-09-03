@@ -380,6 +380,36 @@
     ]
   },
   {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "CTA shape"
+      },
+      {
+        "type": "paragraph",
+        "content": "Corner radius for every storefront CTA: header, hero, size-card Add, basket, line/ghost/quiet, and dark-on-navy. Curved is 2px (a milled edge, not a rounded pill). Square is 0. Size cards stay square."
+      },
+      {
+        "type": "select",
+        "id": "cta_radius",
+        "label": "CTA shape",
+        "options": [
+          {
+            "value": "curved",
+            "label": "Curved"
+          },
+          {
+            "value": "square",
+            "label": "Square"
+          }
+        ],
+        "default": "curved",
+        "info": "Curved = 2px radius, 4px focus offset. Square = 0 radius, 3px focus offset. Matches the radius comparison spec."
+      }
+    ]
+  },
+  {
     "name": "Market & sizing",
     "settings": [
       {
