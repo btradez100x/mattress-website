@@ -623,7 +623,7 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
       letter-spacing: -0.03em;
     }
     html[data-brand-guidelines="v2"] .btn {
-      border-radius: var(--radius, 0);
+      border-radius: var(--cta-radius, var(--radius, 0));
     }
 
 /* Wordmark - scheme-driven (--wordmark-color) */
@@ -707,7 +707,8 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   --header-height: 4.35rem;
 }
 
-/* Buttons — CTA specification. Radius 0. Carbon fill. Never Ember as a fill. */
+/* Buttons — CTA specification. Carbon fill. Never Ember as a fill.
+   Shape: html[data-cta-shape] Curved 2px (default) vs Square 0. */
 :root {
   --btn-carbon: #1A1A1A;
   --btn-snow: #F5F4F1;
@@ -726,7 +727,19 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   --btn-font: 15px;
   --btn-weight: 500;
   --btn-track: -0.01em;
-  --btn-transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  --btn-transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, border-radius 0.25s ease;
+  --cta-radius: 2px;
+  --focus-offset: 4px;
+}
+
+html[data-cta-shape="curved"] {
+  --cta-radius: 2px;
+  --focus-offset: 4px;
+}
+
+html[data-cta-shape="square"] {
+  --cta-radius: 0;
+  --focus-offset: 3px;
 }
 
 .btn {
@@ -737,7 +750,7 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   min-height: 48px;
   padding: var(--btn-pad-y) var(--btn-pad-x);
   border: 1px solid transparent;
-  border-radius: var(--radius, 0);
+  border-radius: var(--cta-radius, var(--radius, 0));
   background: var(--btn-carbon, #1A1A1A);
   color: var(--btn-snow, #F5F4F1);
   font-family: var(--font-sans);
@@ -774,7 +787,7 @@ a[data-reserve-continue][aria-disabled="true"] {
 
 .btn:focus-visible {
   outline: 2px solid var(--btn-ember, var(--ember, #8A6D3B));
-  outline-offset: 3px;
+  outline-offset: var(--focus-offset, 3px);
 }
 
 .btn:disabled,
@@ -823,7 +836,7 @@ a[data-reserve-continue][aria-disabled="true"] {
   background: transparent;
   color: var(--btn-carbon, #1A1A1A);
   border-color: transparent;
-  border-radius: var(--radius, 0);
+  border-radius: var(--cta-radius, var(--radius, 0));
   padding-left: 0;
   padding-right: 0;
   min-height: 48px;
@@ -2846,7 +2859,7 @@ video[controls],
   text-transform: uppercase;
   line-height: 1;
   cursor: pointer;
-  border-radius: var(--radius-control, 2px);
+  border-radius: var(--cta-radius, var(--radius-control, 2px));
   pointer-events: auto;
   position: relative;
   z-index: 2;
@@ -5109,7 +5122,7 @@ body:has([data-float-total]:empty) .hero__cta {
 
 .float-basket__btn {
   border: 1px solid transparent;
-  border-radius: var(--radius, 0);
+  border-radius: var(--cta-radius, var(--radius, 0));
   padding: 11px 20px;
   min-height: 40px;
   background: var(--btn-snow, #F5F4F1);
@@ -7293,7 +7306,7 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
   min-height: 3.25rem;
   margin-top: 0.35rem;
   border: 0;
-  border-radius: 2px;
+  border-radius: var(--cta-radius, 2px);
   padding: 0.95rem 1.25rem;
   background: var(--brand-primary);
   color: var(--brand-on-dark, var(--brand-bg));

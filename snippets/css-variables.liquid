@@ -7,6 +7,10 @@
   assign guidelines = settings.brand_guidelines | default: 'v1'
   assign font_set = settings.font_set | default: 'modern'
   assign scheme = settings.color_scheme | default: 'signature'
+  assign cta_shape = settings.cta_radius | default: 'curved'
+  if cta_shape != 'square'
+    assign cta_shape = 'curved'
+  endif
 
   if guidelines == 'v2'
     if scheme != 'v2_carbon' and scheme != 'v2_graphite' and scheme != 'v2_warm' and scheme != 'v2_cool'
@@ -160,6 +164,8 @@
     --max-width-narrow: 40rem;
     --radius: 0;
     --radius-control: 0;
+    --cta-radius: {% if cta_shape == 'square' %}0{% else %}2px{% endif %};
+    --focus-offset: {% if cta_shape == 'square' %}3px{% else %}4px{% endif %};
     --transition: {{ transition_token }};
     --sticky-reserve-offset: 0px;
     --hairline: {% if guidelines == 'v2' %}#D6D2CA{% else %}color-mix(in srgb, {{ color_primary }} 12%, transparent){% endif %};
@@ -240,6 +246,6 @@
   .section--dark .gold-rule.gold-rule--measure {
     border-top-color: var(--brand-accent);
   }
-  .btn { border-radius: var(--radius, 0); }
+  .btn { border-radius: var(--cta-radius, var(--radius, 0)); }
   {% endif %}
 {% endstyle %}

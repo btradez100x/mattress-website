@@ -7,9 +7,13 @@
   if settings.splitit_enabled and settings.splitit_merchant_id != blank and html_market == 'gb'
     assign splitit_live = true
   endif
+  assign cta_shape = settings.cta_radius | default: 'curved'
+  if cta_shape != 'square'
+    assign cta_shape = 'curved'
+  endif
 -%}
 <!doctype html>
-<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}" data-warranty-years="{{ settings.warranty_years | default: '25' | escape }}" data-trial-nights="{{ settings.trial_nights | default: '30' | escape }}" data-return-window-days="{{ settings.return_window_days | default: settings.trial_nights | default: '30' | escape }}" data-adjustment-period-months="{{ settings.adjustment_period_months | default: '12' | escape }}" data-reply-working-days="{{ settings.reply_working_days | default: 5 }}">
+<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}" data-cta-shape="{{ cta_shape }}" data-warranty-years="{{ settings.warranty_years | default: '25' | escape }}" data-trial-nights="{{ settings.trial_nights | default: '30' | escape }}" data-return-window-days="{{ settings.return_window_days | default: settings.trial_nights | default: '30' | escape }}" data-adjustment-period-months="{{ settings.adjustment_period_months | default: '12' | escape }}" data-reply-working-days="{{ settings.reply_working_days | default: 5 }}">
   <head>
     <script>
       (function () {
