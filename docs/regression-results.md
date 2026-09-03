@@ -4,11 +4,11 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Consistency: 991 passed, 0 failed
-- Scope note: Pay no longer clears the Shopify cart before checkout. It updates quantities in place, then posts to hosted `/checkout` (Shopify Payments / Stripe). Native `name=checkout` form as fallback. Preview Pay still goes to order-confirmed. Verified locally on `/pages/cart.html` → order-confirmed. Live Stripe needs this theme on the published theme. No VERSION bump.
+- Scope note: Pay no longer clears the Shopify cart before checkout. It updates quantities in place, then posts to hosted `/checkout` (Shopify Payments / Stripe). Native `name=checkout` form as fallback. Preview Pay still goes to order-confirmed. Verified locally on `/pages/cart.html` → order-confirmed. Checkpoint: `checkpoints/11.1.0-cart-pay-checkout/`. Deploy: `v9` `8513c8a`, `shopify-theme` `a20fd56`. Store `7dbr1b-1q`. Hard-refresh `/cart`. No VERSION bump.
 
 ---
 
-
+# Regression results — Thursday 3 Sep 2026 (deploy 11.1.0-trade-page-redeploy)
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
