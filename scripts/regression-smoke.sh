@@ -27,6 +27,8 @@ REQUIRED_PATHS=(
   "config/settings_schema.json"
   "config/settings_data.json"
   "assets/base.css"
+  "assets/brand.css"
+  "assets/mobile-fit.css"
   "assets/theme.js"
   "assets/utm-persistence.js"
   "snippets/wordmark.liquid"
@@ -34,8 +36,11 @@ REQUIRED_PATHS=(
   "snippets/meta-tags.liquid"
   "snippets/favicon.liquid"
   "snippets/tracking-pixels.liquid"
+  "snippets/consent-defaults.liquid"
+  "snippets/consent-update.liquid"
   "snippets/whatsapp-button.liquid"
   "snippets/payment-marks.liquid"
+  "snippets/size-market.liquid"
   "sections/hero.liquid"
   "sections/trust-bar.liquid"
   "sections/size-reserve.liquid"
@@ -48,6 +53,17 @@ REQUIRED_PATHS=(
   "sections/footer-group.json"
   "templates/index.json"
   "templates/page.landing.json"
+  "templates/page.large-sizes.json"
+  "templates/page.european-king.json"
+  "templates/page.specification.json"
+  "templates/page.what-it-buys.json"
+  "templates/page.support.json"
+  "templates/page.cooling.json"
+  "templates/page.split-king.json"
+  "templates/page.configure.json"
+  "templates/page.trade.json"
+  "sections/landing-funnel.liquid"
+  "snippets/trial-tokens.liquid"
   "templates/page.size-guide.json"
   "templates/page.trial.json"
   "templates/page.warranty.json"
@@ -70,10 +86,20 @@ REQUIRED_PATHS=(
   "sections/order-status.liquid"
   "assets/order-status.js"
   "templates/cart.json"
+  "sections/main-cart.liquid"
   "templates/page.checkout.json"
   "sections/main-checkout.liquid"
   "templates/page.manufacturing.json"
   "sections/manufacturing.liquid"
+  "templates/page.journal.json"
+  "sections/main-journal.liquid"
+  "sections/main-blog.liquid"
+  "snippets/journal-article-body.liquid"
+  "snippets/journal-baked-index.liquid"
+  "snippets/journal-article-layout.liquid"
+  "snippets/journal-index-href.liquid"
+  "snippets/journal-author.liquid"
+  "templates/page.how-to-choose-a-mattress.json"
   "templates/product.json"
   "locales/en.default.json"
 )
@@ -184,7 +210,7 @@ fi
 
 # --- UTM persistence contract ---
 UTM="$THEME/assets/utm-persistence.js"
-for key in utm_source utm_medium utm_campaign utm_content utm_term valtora_utm_first_touch attributes; do
+for key in utm_source utm_medium utm_campaign utm_content utm_term valtora_utm_first_touch attributes applyToHref sessionStorage; do
   if grep -q "$key" "$UTM"; then
     pass "utm script mentions $key"
   else
@@ -192,14 +218,85 @@ for key in utm_source utm_medium utm_campaign utm_content utm_term valtora_utm_f
   fi
 done
 
-# --- Size maps (AE + GB) ---
-JS="$THEME/assets/theme.js"
-if grep -q "ae:" "$JS" && grep -q "gb:" "$JS" \
-  && grep -q "180" "$JS" && grep -q "150" "$JS" \
-  && grep -q "Queen" "$JS" && grep -q "Double" "$JS"; then
-  pass "theme.js contains AE/GB size maps with cm"
+if grep -q "utm-persistence.js" "$THEME/layout/theme.liquid" \
+  && grep -q "utm-persistence.js" "$THEME/layout/password.liquid"; then
+  pass "theme + password layouts load utm-persistence.js"
 else
-  fail "theme.js size maps incomplete (need AE Queen 180 / GB Double 150)"
+  fail "utm-persistence.js missing from theme.liquid or password.liquid"
+fi
+
+# --- GTM: one settings-gated loader, no second ID ---
+for layout in "layout/theme.liquid" "layout/password.liquid" "templates/gift_card.liquid"; do
+  if grep -q "settings.gtm_container_id" "$THEME/$layout" \
+    && grep -q "googletagmanager.com/gtm.js" "$THEME/$layout" \
+    && grep -q "googletagmanager.com/ns.html" "$THEME/$layout"; then
+    pass "$layout has settings-gated GTM head + noscript"
+  else
+    fail "$layout missing settings-gated GTM snippets"
+  fi
+done
+if grep -R --include='*.liquid' -l "GTM-MX9SHNSM" "$THEME" | grep -vq settings; then
+  fail "hardcoded GTM ID outside settings"
+else
+  pass "no hardcoded GTM container ID in Liquid (settings only)"
+fi
+
+# Landing templates use default theme layout (GTM + UTM)
+for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json page.support.json page.cooling.json page.split-king.json page.trade.json; do
+  if python3 - "$THEME/templates/$tpl" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1]))
+sys.exit(0 if data.get("layout") in (None, "theme") else 1)
+PY
+  then
+    pass "$tpl uses default theme layout"
+  else
+    fail "$tpl overrides layout and would skip theme GTM/UTM"
+  fi
+done
+
+if grep -q '"id": "trade_email"' "$THEME/config/settings_schema.json" \
+  && grep -q '"id": "reply_working_days"' "$THEME/config/settings_schema.json" \
+  && grep -q '"layout": "trade_contact"' "$THEME/templates/page.trade.json" \
+  && grep -Fq 'Replies [D-reply]' "$THEME/templates/page.trade.json" \
+  && grep -q "data-trade-enquiry" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "function initTradeEnquiry" "$THEME/assets/theme.js" \
+  && grep -q "within 5 working days, approximately" "$ROOT/preview/pages/trade.html" \
+  && ! grep -q "one working day" "$ROOT/preview/pages/trade.html"; then
+  pass "Trade page: configurable reply days, trade email, 5-day copy"
+else
+  fail "Trade page missing theme setting, mailto, or still says one working day"
+fi
+
+if grep -q '"value": "configure"' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "data-lp-configure" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "size-reserve__layout" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "order-panel" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "Reserve yours" "$THEME/sections/landing-funnel.liquid" \
+  && ! grep -q 'section__eyebrow">Configure<' "$THEME/sections/landing-funnel.liquid"; then
+  pass "landing-funnel has inline size-pick with Reserve yours + YOUR ORDER"
+else
+  fail "landing-funnel missing Reserve yours kicker or sticky YOUR ORDER panel"
+fi
+
+if grep -q "data-lp-qty" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "function shopifyCartAddUrl" "$THEME/assets/theme.js" \
+  && grep -q "function addLandingToShopify" "$THEME/assets/theme.js" \
+  && grep -q "function shopifyCartAddUrl" "$ROOT/preview/theme.js" \
+  && grep -q "data-lp-qty" "$ROOT/preview/pages/large-sizes.html"; then
+  pass "landing configure adds to Shopify cart with quantity"
+else
+  fail "landing configure missing Shopify cart add or quantity stepper"
+fi
+
+# --- Size maps (AE + GB + EU) ---
+JS="$THEME/assets/theme.js"
+if grep -q "ae:" "$JS" && grep -q "gb:" "$JS" && grep -q "eu:" "$JS" \
+  && grep -q "180" "$JS" && grep -q "150" "$JS" && grep -q "160 × 200" "$JS" \
+  && grep -q "Queen" "$JS" && grep -q "Double" "$JS" && grep -q "European King" "$JS"; then
+  pass "theme.js contains AE/GB/EU size maps with cm"
+else
+  fail "theme.js size maps incomplete (need AE Queen 180 / GB Double 150 / EU European King 160)"
 fi
 
 # --- Reserve section (V4.1 staged basket) ---
@@ -220,17 +317,33 @@ else
   fail "Stage A basket incomplete"
 fi
 
-CO="$THEME/sections/main-checkout.liquid"
+CO="$THEME/sections/main-cart.liquid"
 if grep -q "data-checkout-page" "$CO" \
+  && grep -q "data-cart-canonical" "$CO" \
   && grep -q "data-stageb-summary" "$CO" \
   && (grep -q "order-lead" "$CO" || grep -q "checkout-stage__lead" "$CO" || grep -q "data-leadtime-block" "$CO") \
   && grep -q "data-pay-label" "$CO"; then
-  pass "Checkout page has lead time + Pay"
+  pass "Cart page has lead time + Pay"
 else
-  fail "Checkout page incomplete"
+  fail "Cart page incomplete"
 fi
 
-# Lead time must not live in Stage A markup; Stage B is /pages/checkout only (no in-page reveal)
+# Lead time must sit above Pay (the measurement gate).
+if python3 - "$CO" <<'PY'
+from pathlib import Path
+import sys
+text = Path(sys.argv[1]).read_text()
+lead = text.find('data-leadtime-block')
+pay = text.find('data-checkout-pay')
+sys.exit(0 if lead != -1 and pay != -1 and lead < pay else 1)
+PY
+then
+  pass "Checkout lead time sits above Pay"
+else
+  fail "Checkout lead time is not above the pay button"
+fi
+
+# Lead time must not live in Stage A markup; Stage B is /cart only (no in-page reveal)
 set +e
 python3 - "$SR" <<'PY'
 from pathlib import Path
@@ -253,21 +366,21 @@ if not chunk:
 # Allow cancel reassurance; forbid delivery-window / lead-time blocks inside Stage A
 if re.search(r'order-lead|data-leadtime-block|data-lead-window|8 to 10 weeks|Before you order|Delivery:', chunk, re.I):
     sys.exit(1)
-if not re.search(r"data-checkout-href=[\"'][^\"']*checkout", text, re.I) \
-   and not re.search(r"data-reserve-continue[\s\S]{0,160}?pages\['checkout'\]", text):
+if not re.search(r"data-checkout-href=[\"'][^\"']*(checkout|cart|continue_path)", text, re.I) \
+   and not re.search(r"data-reserve-continue[\s\S]{0,400}?(cart_url|continue_path|pages\['checkout'\])", text):
     sys.exit(4)
 sys.exit(0)
 PY
 SA_EC=$?
 set -e
 if [[ $SA_EC -eq 0 ]]; then
-  pass "Stage A has no lead-time copy; Continue links to checkout"
+  pass "Stage A has no lead-time copy; Continue links to cart"
 elif [[ $SA_EC -eq 2 ]]; then
   fail "could not isolate Stage A markup"
 elif [[ $SA_EC -eq 3 ]]; then
-  fail "size-reserve still renders in-page reserve-stage-b (must navigate to /pages/checkout)"
+  fail "size-reserve still renders in-page reserve-stage-b (must navigate to /cart)"
 elif [[ $SA_EC -eq 4 ]]; then
-  fail "Continue does not link to checkout page"
+  fail "Continue does not link to cart"
 else
   fail "Stage A still contains lead-time copy (must be Stage B only)"
 fi
@@ -288,14 +401,42 @@ else
   fail "floating basket snippet missing"
 fi
 
+CSS="$THEME/assets/base.css"
+if grep -q "bottom: 0 !important" "$CSS" \
+  && grep -A2 "body.has-sticky-reserve {" "$CSS" | grep -q "padding-bottom: var(--float-basket-space" \
+  && ! grep -q "body.float-basket-at-footer .float-basket" "$CSS" \
+  && ! grep -q "function copyrightAtPageEnd" "$JS"; then
+  pass "choose-a-size bar pinned to viewport bottom (no footer grey slab)"
+else
+  fail "sticky basket still offsets from viewport bottom or docks into footer padding"
+fi
+
+# Lined basket must reveal immediately (no hero-CTA scroll / IO wait), including mobile.
+if grep -q "function paintSticky" "$JS" \
+  && grep -q "function basketHasItems" "$JS" \
+  && grep -q "classList.toggle('has-items'" "$JS" \
+  && grep -q "hasItems || forceFloatBasket()" "$JS" \
+  && grep -q "paintSticky();" "$JS" \
+  && grep -q "pointerup" "$JS" \
+  && grep -q "data-size-pick" "$JS" \
+  && grep -q ".float-basket.has-items" "$CSS" \
+  && grep -q "data-float-basket" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && grep -q "data-float-count" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && ! grep -A30 "@media (max-width: 899px)" "$CSS" | grep -q "float-basket.*display: *none"; then
+  pass "sticky basket markup exists; JS shows on qty (has-items) without mobile hide"
+else
+  fail "sticky basket does not reveal on add, or is still hidden on mobile"
+fi
+
 if grep -q "upsertMattressLine" "$JS" \
   && grep -q "data-order-remove" "$JS" \
   && grep -q "data-size-qty" "$JS" \
   && grep -q "wrap.hidden = !available" "$JS" \
-  && ! grep -q "upsertActiveMattress(existingQty" "$JS"; then
-  pass "order store supports upsert, remove; size click does not auto-add"
+  && grep -q "upsertActiveMattress(existingQty + 1" "$JS" \
+  && grep -q "data-size-pick" "$JS"; then
+  pass "order store supports upsert, remove; ADD increments qty"
 else
-  fail "theme.js missing basket upsert/remove or size-click still auto-adds"
+  fail "theme.js missing basket upsert/remove or ADD does not increment"
 fi
 
 if command -v node >/dev/null 2>&1; then
@@ -316,18 +457,19 @@ else
   fail "preview missing Stage A / floating basket"
 fi
 
-if grep -q "data-checkout-page" "$ROOT/preview/pages/checkout.html" \
-  && grep -q "data-checkout-pay" "$ROOT/preview/pages/checkout.html" \
+if grep -q "data-checkout-page" "$ROOT/preview/pages/cart.html" \
+  && grep -q "data-cart-canonical" "$ROOT/preview/pages/cart.html" \
+  && grep -q "data-checkout-pay" "$ROOT/preview/pages/cart.html" \
   && grep -q "function reviewOrderUrl" "$JS" \
   && grep -q "function initCheckoutPage" "$JS"; then
-  pass "dedicated checkout page + navigation helpers"
+  pass "dedicated cart page + navigation helpers"
 else
-  fail "checkout page or reviewOrderUrl missing"
+  fail "cart page or reviewOrderUrl missing"
 fi
 
 # --- Landing modular sections referenced by index ---
 INDEX="$THEME/templates/index.json"
-for sec in hero big-idea benefits product-specs size-reserve faq; do
+for sec in hero pair-cards benefits product-specs size-reserve faq; do
   if grep -q "\"type\": \"$sec\"" "$INDEX" || grep -q "\"$sec\"" "$INDEX"; then
     pass "index.json includes $sec"
   else
@@ -335,10 +477,16 @@ for sec in hero big-idea benefits product-specs size-reserve faq; do
   fi
 done
 
-# --- Default palette sanity ---
-if grep -q "#1F3A5F" "$THEME/config/settings_data.json" \
+if grep -q '"type": "journal-home"' "$INDEX" || grep -q 'journal-home' "$INDEX"; then
+  fail "Journal is on the homepage (index.json still references journal-home)"
+else
+  pass "Journal stays off the homepage"
+fi
+
+# --- Default palette sanity (v1 navy or v2 carbon; gold/ember accent) ---
+if (grep -q "#1F3A5F" "$THEME/config/settings_data.json" || grep -q "#1A1A1A" "$THEME/config/settings_data.json") \
   && grep -q "#8A6D3B" "$THEME/config/settings_data.json"; then
-  pass "default navy/gold palette in settings_data"
+  pass "default navy/carbon + gold palette in settings_data"
 else
   fail "default palette values missing from settings_data"
 fi
@@ -346,9 +494,9 @@ fi
 # --- Trust layer (S15) — terms live on the checkout page ---
 if (grep -q "reserve-stage-b__terms" "$CO" || grep -q "checkout-stage__terms" "$CO") \
   && grep -q "Cancel any time before dispatch" "$CO"; then
-  pass "order terms present on checkout page"
+  pass "order terms present on cart page"
 else
-  fail "order terms missing from checkout page"
+  fail "order terms missing from cart page"
 fi
 
 if grep -q "whatsapp_enabled" "$THEME/config/settings_schema.json" \
@@ -357,7 +505,7 @@ if grep -q "whatsapp_enabled" "$THEME/config/settings_schema.json" \
   && grep -q '"id": "company_number"' "$THEME/config/settings_schema.json" \
   && grep -q '"id": "registered_address"' "$THEME/config/settings_schema.json" \
   && grep -q "legal-entity" "$THEME/sections/trust-policy.liquid" \
-  && grep -q "checkout-stage__terms" "$THEME/sections/main-checkout.liquid"; then
+  && grep -q "checkout-stage__terms" "$THEME/sections/main-cart.liquid"; then
   pass "WhatsApp + legal entity settings present"
 else
   fail "WhatsApp / legal entity settings missing"
@@ -513,14 +661,47 @@ else
   fail "lead_time metafields read outside snippets/lead-time.liquid"
 fi
 
-if python3 -c "import json,sys; p='$THEME/assets/reviews.json'; d=json.load(open(p)); assert d.get('reviews')==[], d; p2='$ROOT/preview/assets/reviews.json'; d2=json.load(open(p2)); assert d2.get('reviews')==[], d2"; then
-  pass "reviews.json empty in theme and preview"
+if python3 -c "
+import json, sys
+need = ('id','rating','title','body','author','location','size','date','verified','published','source')
+for p in ('$THEME/assets/reviews.json', '$ROOT/preview/assets/reviews.json'):
+    d = json.load(open(p))
+    reviews = d.get('reviews') or []
+    assert len(reviews) == 500, (p, len(reviews))
+    assert all(r.get('published') is not False and r.get('visible') is not False for r in reviews), p
+    assert all(r.get('source') == 'seed' for r in reviews), (p, 'seed tag')
+    sample = reviews[0]
+    missing = [k for k in need if k not in sample]
+    assert not missing, (p, missing)
+    assert d.get('summary', {}).get('count') == 500, p
+    hidden = [r for r in reviews if str(r.get('source') or '').lower() in ('seed','authored')]
+    shown_off = [r for r in reviews if str(r.get('source') or '').lower() not in ('seed','authored')]
+    assert len(hidden) == 500 and len(shown_off) == 0, (p, 'toggle-off filter')
+sd = json.load(open('$THEME/config/settings_data.json'))
+assert sd.get('current', {}).get('reviews_enabled') is True, 'reviews_enabled'
+idx = json.load(open('$THEME/templates/index.json'))
+sp = idx.get('sections', {}).get('social-proof', {}).get('settings', {})
+assert sp.get('enable_section') is True, 'index enable_section'
+assert sp.get('enable_reviews') is True, 'index enable_reviews'
+"; then
+  pass "reviews.json has 500 seed entries; Social proof section stays on"
 else
-  fail "reviews.json is not an empty reviews array"
+  fail "reviews.json missing seed tags or Social proof still off"
+fi
+
+if grep -q "Show Numa-written review pack" "$THEME/config/settings_schema.json" \
+  && grep -q "Show Numa-written review pack" "$THEME/sections/social-proof.liquid" \
+  && grep -q "reviewSource" "$THEME/assets/theme.js" \
+  && grep -q "src === 'seed'" "$THEME/assets/theme.js" \
+  && grep -q "data-reviews-url=\"{{ reviews_url }}\"" "$THEME/sections/social-proof.liquid" \
+  && ! grep -q "data-reviews-url=\"{% if reviews_on %}" "$THEME/sections/social-proof.liquid"; then
+  pass "reviews toggle filters seed pack only; customer reviews always load"
+else
+  fail "reviews toggle still hides the whole pack or section URL"
 fi
 
 MARKERS="data-checkout-page data-checkout-flow data-reserve-stage-b data-stageb-summary data-checkout-lines data-checkout-item-count data-checkout-subtotal data-bnpl-monthly data-order-large-terms data-order-large-ack data-checkout-pay data-pay-label data-cart-status data-leadtime-block data-lead-window-label data-leadtime-copy data-checkout-empty"
-CO="$THEME/sections/main-checkout.liquid"
+CO="$THEME/sections/main-cart.liquid"
 missing_marker=""
 for m in $MARKERS; do
   if ! grep -q "$m" "$CO"; then
@@ -555,6 +736,49 @@ if [[ -z "$bad_bezier" ]]; then
   pass "cubic-bezier is only 0.22, 1, 0.36, 1 (theme + preview)"
 else
   fail "unexpected cubic-bezier: $bad_bezier"
+fi
+
+if grep -q "brand.css" "$THEME/layout/theme.liquid" \
+  && grep -q '"color_primary": "#1F3A5F"' "$THEME/config/settings_data.json" \
+  && grep -q '"brand_guidelines": "v1"' "$THEME/config/settings_data.json" \
+  && grep -q '"color_scheme": "signature"' "$THEME/config/settings_data.json" \
+  && grep -q -- '--wordmark-color: #8A6D3B' "$THEME/assets/base.css" \
+  && grep -q -- '--brand-gold: #8A6D3B' "$THEME/assets/brand.css" \
+  && grep -q -- 'color: var(--brand-gold, var(--brand-accent, #8A6D3B))' "$THEME/assets/brand.css" \
+  && grep -q -- 'color: var(--brand-on-dark, #F7F5F1)' "$THEME/assets/brand.css" \
+  && grep -q -- 'border-top: 1px solid var(--brand-accent, #8A6D3B)' "$THEME/assets/brand.css" \
+  && ! grep -q -- '--brand-primary: #1A1A1A' "$THEME/assets/brand.css" \
+  && grep -q -- 'cubic-bezier(0.22, 1, 0.36, 1)' "$THEME/assets/brand.css" \
+  && awk '
+    /base\.css/ { base=NR }
+    /brand\.css/ { brand=NR }
+    END { exit !(base && brand && brand>base) }
+  ' "$THEME/layout/theme.liquid"; then
+  pass "brand.css last-wins cream-on-dark; gold paints wordmark and kickers"
+else
+  fail "navy/gold live tokens missing, carbon overlay still last-wins, or brand.css not after base.css"
+fi
+
+if grep -q "policy-cta .gold-rule" "$THEME/assets/brand.css" \
+  && grep -A 8 "policy-cta .gold-rule" "$THEME/assets/brand.css" | grep -q "margin-inline: auto" \
+  && grep -q "policy-cta .gold-rule" "$ROOT/preview/brand.css" \
+  && grep -q "gold-kicker--center" "$THEME/assets/brand.css" \
+  && grep -q "gold-kicker--center" "$THEME/sections/size-guide.liquid"; then
+  pass "size-guide Next gold stub is centred under the kicker (brand.css last-wins)"
+else
+  fail "policy-cta gold-rule still left-aligned after brand.css"
+fi
+
+if grep -q 'HTML .banner lock' "$THEME/assets/brand.css" \
+  && grep -q 'color: #C4A46A' "$THEME/assets/brand.css" \
+  && grep -q 'background: #1A1A1A' "$THEME/assets/base.css" \
+  && grep -q 'letter-spacing: 0.09em' "$THEME/assets/base.css" \
+  && grep -q 'color: #C4A46A' "$THEME/assets/base.css" \
+  && ! grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/base.css" \
+  && ! grep -q 'var(--brand-gold, var(--brand-accent, #8A6D3B)) 38%, #E8D4A2' "$THEME/assets/brand.css"; then
+  pass "announcement bar matches HTML .banner (carbon, snow, mono, gold b)"
+else
+  fail "announcement bar does not match i-cooling.html .banner"
 fi
 
 if grep -q -- '--ease-luxury' "$THEME/assets/base.css" "$ROOT/preview/base.css" \
@@ -635,6 +859,12 @@ else
   fail "bnpl_microcopy default is not empty / figure-free"
 fi
 
+if node "$ROOT/scripts/prove-eighteen-sizes.js"; then
+  pass "picker and size guide share filterCatalogRows; GH maps to GB catalog"
+else
+  fail "Market Shown catalog proof failed"
+fi
+
 if grep -q '"price":"£3,299"' "$ROOT/preview/index.html" \
   && grep -q '"price_raw":329900' "$ROOT/preview/index.html" \
   && ! grep -q '£3,499' "$ROOT/preview/index.html"; then
@@ -643,13 +873,13 @@ else
   fail "preview Super King is not £3,299"
 fi
 
-if grep -q 'custom.market' "$THEME/sections/size-reserve.liquid" \
-  && grep -q 'price_raw' "$THEME/sections/size-reserve.liquid" \
+if grep -q 'price_raw' "$THEME/sections/size-reserve.liquid" \
   && grep -q 'mattress.variants' "$THEME/sections/size-reserve.liquid" \
-  && grep -q 'custom.enabled' "$THEME/sections/size-reserve.liquid"; then
-  pass "size-reserve loops Shopify variants and respects custom.enabled"
+  && grep -q 'custom.MarketShown' "$THEME/sections/size-reserve.liquid" \
+  && grep -q 'size-catalog-json' "$THEME/sections/size-reserve.liquid"; then
+  pass "size-reserve loops Shopify variants; Market Shown is the catalog"
 else
-  fail "size-reserve is not reading product.variants / custom.enabled"
+  fail "size-reserve is not reading product.variants / custom.MarketShown"
 fi
 
 if grep -q 'Not in this allocation' "$THEME/assets/theme.js" \
@@ -665,6 +895,20 @@ if grep -q '"id":"emperor"' "$ROOT/preview/index.html" \
   pass "Emperor 200×200 present in preview GB list and SIZE_MAPS"
 else
   fail "Emperor 200×200 missing"
+fi
+
+if grep -q '"id":"european-king"' "$ROOT/preview/index.html" \
+  && grep -q '"label":"European King"' "$ROOT/preview/index.html" \
+  && grep -q "id: 'european-king'" "$THEME/assets/theme.js" \
+  && grep -q "160 × 200 cm" "$THEME/assets/theme.js" \
+  && grep -q "European King" "$THEME/sections/size-guide.liquid" \
+  && grep -q "European King" "$ROOT/preview/pages/size-guide.html" \
+  && grep -q "size-guide-grid" "$THEME/sections/size-guide.liquid" \
+  && grep -q "size-guide-grid" "$ROOT/preview/pages/size-guide.html" \
+  && grep -q "Small Double" "$ROOT/preview/pages/size-guide.html"; then
+  pass "European King 160×200 present; size guide is a full catalog with Small Double"
+else
+  fail "European King 160×200 missing"
 fi
 
 if python3 -c "
@@ -735,6 +979,701 @@ if grep -q '"type": "main-password"' "$THEME/templates/password.json" \
   pass "password template is a storefront password gate, not 404"
 else
   fail "password template missing form, layout output, or still uses 404"
+fi
+
+if grep -q "Country blank or not set up → United Kingdom" "$THEME/snippets/size-market.liquid" \
+  && grep -q "assign size_market = 'gb'" "$THEME/snippets/size-market.liquid" \
+  && grep -q "iso == 'US'" "$THEME/snippets/size-market.liquid" \
+  && ! grep -q "iso == 'AU'" "$THEME/snippets/size-market.liquid" \
+  && grep -q "render 'size-market'" "$THEME/snippets/market.liquid"; then
+  pass "size-market helper: GB/AE/US/EU, unknown country → UK"
+else
+  fail "size-market helper missing UK default, US, or market alias"
+fi
+
+if grep -q "window.ValtoraTheme.defaultMarket = 'gb'" "$THEME/layout/theme.liquid" \
+  && grep -q "ValtoraTheme.countryIso" "$THEME/layout/theme.liquid" \
+  && grep -q "ValtoraTheme.market" "$THEME/layout/theme.liquid"; then
+  pass "theme.liquid injects country iso and UK defaultMarket"
+else
+  fail "theme.liquid missing country iso / UK defaultMarket"
+fi
+
+if python3 - "$JS" "$ROOT/preview/theme.js" <<'PY'
+from pathlib import Path
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    t = Path(path).read_text()
+    m = re.search(r"function paintMarketTabs\([^)]*\) \{.*?\n  \}", t, re.S)
+    if not m or "hidden = false" in m.group(0) or "innerHTML = tabs" in m.group(0):
+        print("tabs still painted in", path)
+        ok = False
+    if "return 'gb';" not in t or "rowBelongsToMarket" not in t:
+        print("missing UK fallback or rowBelongsToMarket in", path)
+        ok = False
+    if "theme.countryIso" not in t:
+        print("detectMarket missing countryIso in", path)
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "theme.js country layer: UK fallback, no shopper market tabs"
+else
+  fail "theme.js still paints market tabs or defaults away from UK"
+fi
+
+if grep -q "display: none !important" "$THEME/assets/base.css" \
+  && grep -q "display: none !important" "$ROOT/preview/base.css" \
+  && grep -n "size-markets" "$THEME/assets/base.css" | head -1 | grep -q .; then
+  pass "CSS hides shopper market tabs (theme + preview)"
+else
+  fail "size-markets CSS still visible"
+fi
+
+if python3 - "$JS" "$ROOT/preview/theme.js" <<'PY'
+from pathlib import Path
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    t = Path(path).read_text()
+    m = re.search(r"function countryToSizeMarket\([^)]*\) \{.*?\n  \}", t, re.S)
+    if not m or "return 'au'" in m.group(0) or "AU' || c === 'NZ'" in m.group(0):
+        print("countryToSizeMarket still maps AU as a shopper market in", path)
+        ok = False
+    if "if (isSizeMarket(fromCountry)) return fromCountry" not in t:
+        print("detectMarket missing isSizeMarket guard in", path)
+        ok = False
+    if "SIZE_MAPS[market] || SIZE_MAPS.ae" in t:
+        print("unknown-market size fallback still uses UAE in", path)
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "unknown/AU country is not a shopper market (UK fallback)"
+else
+  fail "JS still treats AU or unknown ISO as a live market"
+fi
+
+if grep -q "data-market-only=\"ae\"{% if market != 'ae' %} hidden" "$THEME/sections/faq.liquid" \
+  && grep -q "data-market-only=\"gb\"{% if market == 'ae' %} hidden" "$THEME/sections/faq.liquid" \
+  && grep -q "visibility == 'gb' and market == 'ae'" "$THEME/sections/offer.liquid" \
+  && grep -q "visibility == 'gb' and market == 'ae'" "$THEME/sections/trust-bar.liquid"; then
+  pass "US/EU/unknown copy falls back to UK, not UAE"
+else
+  fail "FAQ/offer/trust-bar still show UAE copy outside AE"
+fi
+
+if grep -q "function buildSizeTileMarkup" "$JS" \
+  && grep -q "function buildSizeTileMarkup" "$ROOT/preview/theme.js" \
+  && ! grep -q 'class="size-row' "$JS" \
+  && ! grep -q 'class="size-row' "$ROOT/preview/theme.js" \
+  && grep -q 'class="size-list lp-sizes"' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q "data-size-pick" "$THEME/sections/landing-funnel.liquid" \
+  && ! grep -q "size-rows" "$THEME/sections/landing-funnel.liquid" \
+  && ! grep -q "iso == 'AU'" "$THEME/snippets/size-market.liquid"; then
+  pass "size picker is a one-market tile grid; unlisted countries use UK"
+else
+  fail "size picker still has row markup, or AU is treated as a shopper market"
+fi
+
+# Choose-your-size chrome lock: one card system, centred ADD, no Emperor hole,
+# no grey dummy squares, note-field contrast (c0b2830) kept, .size-row CSS present.
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" "$JS" "$ROOT/preview/theme.js" "$THEME/sections/landing-funnel.liquid" <<'PY'
+from pathlib import Path
+import re, sys
+
+ok = True
+css_paths = sys.argv[1:3]
+js_paths = sys.argv[3:5]
+funnel = Path(sys.argv[5]).read_text()
+
+def picker_block(text):
+    start = text.find("/* Size picker:")
+    if start < 0:
+        start = text.find(".size-list,")
+    end = text.find(".size-markets")
+    return text[start:end] if start >= 0 and end > start else ""
+
+for path in css_paths:
+    text = Path(path).read_text()
+    block = picker_block(text)
+    if not block:
+        print(path, "missing size picker CSS block")
+        ok = False
+        continue
+    if ".size-row {" not in block and ".size-row {" not in text:
+        # restored alias: .size-option,\n.size-row {
+        if ".size-row" not in block:
+            print(path, "emptied .size-row CSS")
+            ok = False
+    if not re.search(r"\.size-option,\s*\.size-row", block):
+        print(path, "size-option and size-row are not one shared card class")
+        ok = False
+    if re.search(r"\.size-option\.is-in-basket[^{]*\{[^}]*background:\s*var\(--brand-surface\)", block):
+        print(path, "selected size cards still use beige leftover --brand-surface")
+        ok = False
+    if "color-mix(in srgb, var(--brand-primary)" not in block:
+        print(path, "selected state is not a navy-tint variant")
+        ok = False
+    add_rule = re.search(r"\.size-option__add,\s*\.size-row__add\s*\{([^}]+)\}", block, re.S)
+    if not add_rule or "margin-inline: auto" not in add_rule.group(1) or "align-self: center" not in add_rule.group(1):
+        print(path, "ADD is not centred (corner-jammed)")
+        ok = False
+    foot = re.search(r"\.size-option__foot,\s*\.size-row__foot\s*\{([^}]+)\}", block, re.S)
+    if not foot or "justify-content: center" not in foot.group(1) or "margin-left: 0" not in foot.group(1):
+        print(path, "size foot is not centred card chrome")
+        ok = False
+    if "last-child:nth-child(odd)" not in block or "grid-column: 1 / -1" not in block:
+        print(path, "last odd size cell still leaves a grid hole")
+        ok = False
+    # Grey 1:1 dummy squares must stay gone from picker tiles
+    if re.search(r"\.(size-option|size-row)[^{]*\{[^}]*aspect-ratio:\s*1\s*/\s*1", block):
+        print(path, "size cards have 1:1 grey placeholder squares")
+        ok = False
+    if ".size-guide-tile__shape" in text or ".size-guide-tile__plan" in text or ".size-guide-tile__bed" in text:
+        print(path, "size-guide still has dummy bed/plan boxes")
+        ok = False
+    if re.search(r"\.(size-option|size-row)::after[^{]*\{[^}]*content:\s*['\"](?!none)", block):
+        print(path, "size cards generate dummy ::after boxes")
+        ok = False
+    # Note field contrast (c0b2830)
+    if "--field-fill:" not in text or "--field-line:" not in text:
+        print(path, "size-note lost field fill/border contrast")
+        ok = False
+    if not re.search(r"\.size-note textarea[^{]*\{[^}]*background:\s*var\(--field-fill", text, re.S):
+        print(path, "size-note textarea missing distinct --field-fill")
+        ok = False
+    if not re.search(r"\.size-note textarea[^{]*\{[^}]*border:\s*1\.5px solid var\(--field-line", text, re.S):
+        print(path, "size-note textarea missing distinct --field-line")
+        ok = False
+    # Hover must not reintroduce beige selected leftover
+    if re.search(r"\.size-option\.is-in-basket:hover[^{]*\{[^}]*background:\s*var\(--brand-surface\)", text):
+        print(path, "selected hover still paints beige leftover")
+        ok = False
+
+for path in js_paths:
+    t = Path(path).read_text()
+    if 'class="size-option' not in t or "size-option__add" not in t or "size-option__qty" not in t:
+        print(path, "tile markup missing shared size-option ADD/qty")
+        ok = False
+    if "size-option__media" in t or "size-option__bed" in t or "size-guide-tile__shape" in t or "size-guide-tile__plan" in t or "size-guide-tile__bed" in t:
+        print(path, "size tiles grew dummy image boxes")
+        ok = False
+    if re.search(r"\.slice\(\s*0\s*,\s*7\s*\)", t) or "hardcoded seven" in t:
+        print(path, "size list hardcoded to seven")
+        ok = False
+    if "european-king" not in t or "160 × 200 cm" not in t:
+        print(path, "European King 160 × 200 cm missing")
+        ok = False
+    if "filterCatalogRows" not in t or "if (!tokens.length) return true" in t or "var sizes = [];" not in t or "existingQty + 1" not in t:
+        print(path, "picker is not painting Market Shown catalog / ADD does not increment")
+        ok = False
+
+if "data-size-pick" not in funnel or "data-lp-sizes" not in funnel:
+    print("landing-funnel missing data-size-pick / size list")
+    ok = False
+if "size-rows" in funnel:
+    print("landing-funnel reintroduced size-rows markup")
+    ok = False
+
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "size picker chrome: one card system, centred ADD, last-odd centred, no dummy squares, note contrast"
+else
+  fail "size picker chrome regressed (two skins, jammed ADD, Emperor hole, dummy squares, or washed note)"
+fi
+
+if grep -q "how-to-choose-a-mattress" "$THEME/snippets/journal-article-body.liquid" \
+  && grep -q "mattress-firmness-guide" "$THEME/snippets/journal-article-body.liquid" \
+  && grep -q "hybrid-vs-foam-vs-innerspring" "$THEME/snippets/journal-baked-index.liquid" \
+  && grep -q "Ben Acolatse, CEO" "$THEME/snippets/journal-baked-index.liquid" \
+  && grep -q "journal-baked-index" "$THEME/sections/main-journal.liquid" \
+  && grep -q "journal-baked-index" "$THEME/sections/main-blog.liquid" \
+  && grep -q "page.handle == 'journal'" "$THEME/sections/main-page.liquid" \
+  && grep -q "Ben Acolatse" "$THEME/snippets/journal-author.liquid" \
+  && grep -q "CEO" "$THEME/snippets/journal-author.liquid" \
+  && ! grep -q "New notes, in time" "$THEME/sections/main-journal.liquid" \
+  && grep -q "articles_count" "$THEME/snippets/journal-index-href.liquid"; then
+  pass "Journal keeps baked notes, CEO byline, and prefers a populated blog"
+else
+  fail "Journal missing baked notes, CEO byline, or populated-blog-first nav"
+fi
+
+MFG="$THEME/sections/manufacturing.liquid"
+MFG_JSON="$THEME/templates/page.manufacturing.json"
+MFG_PREVIEW="$ROOT/preview/pages/manufacturing.html"
+if grep -q "keep every layer" "$MFG" \
+  && grep -q "1.8 / 2.0mm" "$MFG" \
+  && grep -q "Made by experts who have been making mattresses for 49 years." "$MFG" \
+  && grep -q "Made after you order" "$MFG" \
+  && grep -q "mfg-stack" "$MFG" \
+  && ! grep -q "Handmade" "$MFG" \
+  && ! grep -q "Made by hand" "$MFG" \
+  && ! grep -q "Designed in Dubai" "$MFG" \
+  && ! grep -q "An ethos, not a catalogue find" "$MFG" \
+  && ! grep -q "Small Double" "$MFG" \
+  && ! grep -q "California King" "$MFG" \
+  && ! grep -q "founder-ben" "$MFG"; then
+  pass "manufacturing section matches how-it-is-built brief"
+else
+  fail "manufacturing section missing brief copy or still has the old founder page"
+fi
+
+if python3 - "$MFG_JSON" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1]))
+main = data["sections"]["main"]
+blob = json.dumps(data)
+sys.exit(0 if main.get("type") == "redesign"
+         and "Small Double" not in blob
+         and "California King" not in blob
+         and "landing-funnel" not in blob
+         else 1)
+PY
+then
+  pass "page.manufacturing.json uses redesign factory page"
+else
+  fail "page.manufacturing.json is still stacked landing-funnel or has phantom sizes"
+fi
+
+if grep -q "Wound, pocketed" "$MFG_PREVIEW" \
+  && grep -q "Assembled by hand" "$MFG_PREVIEW" \
+  && grep -q 'data-video-id="spring"' "$MFG_PREVIEW" \
+  && grep -q 'preload="none"' "$MFG_PREVIEW" \
+  && ! grep -q "Small Double" "$MFG_PREVIEW" \
+  && ! grep -q "California King" "$MFG_PREVIEW" \
+  && ! grep -q "An ethos, not a catalogue find" "$MFG_PREVIEW"; then
+  pass "preview manufacturing matches factory redesign"
+else
+  fail "preview manufacturing missing brief copy or still has phantom sizes"
+fi
+
+if python3 - "$THEME/templates/page.specification.json" "$THEME/templates/page.what-it-buys.json" <<'PY'
+import json, sys
+spec = json.load(open(sys.argv[1]))
+buys = json.load(open(sys.argv[2]))
+ok = spec.get("sections", {}).get("main", {}).get("type") == "redesign"
+ok = ok and buys.get("sections", {}).get("main", {}).get("type") == "redesign"
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "specification and what-it-buys use the redesign section"
+else
+  fail "Built to be kept enable flags drifted from the brief"
+fi
+
+# --- Section grounds: Snow / Surface / Dark, neighbours never match ---
+if python3 - "$THEME/templates" <<'PY'
+import json, sys
+from pathlib import Path
+root = Path(sys.argv[1])
+fail = []
+
+def enabled_grounds(data):
+    out = []
+    for sid in data.get("order", []):
+        sec = data["sections"][sid]
+        st = sec.get("settings", {})
+        if st.get("enable_section") is False:
+            continue
+        g = st.get("ground")
+        if g in (None, "") and sec.get("type") in ("redesign",):
+            continue
+        if sec.get("type") == "hero":
+            g = "dark" if st.get("tone") == "dark" else (g or "bg")
+        out.append((sid, g or "missing"))
+    return out
+
+def assert_neighbours(name, data):
+    prev = None
+    for sid, g in enabled_grounds(data):
+        if g not in ("bg", "surface", "dark"):
+            fail.append(f"{name} {sid} ground={g}")
+        if prev and prev == g:
+            fail.append(f"{name} {sid} shares {g} with neighbour")
+        prev = g
+
+for fname in [
+    "index.json",
+    "page.landing.json",
+    "page.about.json",
+    "page.mattress-recycling.json",
+    "page.large-sizes.json",
+    "page.european-king.json",
+    "page.specification.json",
+    "page.what-it-buys.json",
+    "page.support.json",
+    "page.cooling.json",
+    "page.split-king.json",
+]:
+    assert_neighbours(fname, json.loads((root / fname).read_text()))
+
+idx = json.loads((root / "index.json").read_text())
+want = {
+    "pair-cards": "dark",
+    "swap-explainer": "bg",
+    "size-reserve": "surface",
+    "founder-note": "dark",
+    "offer": "dark",
+    "faq": "surface",
+    "lifestyle-collage": "bg",
+}
+for sid, g in want.items():
+    got = idx["sections"][sid]["settings"].get("ground")
+    if got != g:
+        fail.append(f"index {sid} expected {g} got {got}")
+
+about = json.loads((root / "page.about.json").read_text())
+if about["sections"].get("main", {}).get("type") != "redesign":
+    fail.append("about is not the redesign section")
+
+if fail:
+    print("\n".join(fail))
+    sys.exit(1)
+PY
+then
+  pass "section grounds alternate Snow / Surface / Dark on homepage and landings"
+else
+  fail "section grounds still collide or left auto/beige-on-beige"
+fi
+
+if grep -q "Each ground paints its Shopify wrapper" "$THEME/assets/base.css" \
+  && grep -q 'has(> .section--surface)' "$THEME/assets/base.css" \
+  && grep -q 'has(> .section--bg)' "$THEME/assets/base.css" \
+  && grep -q "Each ground paints its Shopify wrapper" "$ROOT/preview/base.css"; then
+  pass "CSS paints Snow / Surface / Dark wrappers"
+else
+  fail "CSS wrappers still only paint dark bands"
+fi
+
+if grep -q "Snow → Surface → Dark" "$JS" \
+  && grep -q "Snow → Surface → Dark" "$ROOT/preview/theme.js" \
+  && grep -q "else if (prev === 'surface') next = 'dark'" "$JS"; then
+  pass "JS auto ground cycles Snow / Surface / Dark"
+else
+  fail "JS auto ground still only flips beige/stone"
+fi
+
+if grep -q "mfg-band--surface" "$THEME/sections/manufacturing.liquid" \
+  && grep -q "mfg-band--dark" "$THEME/sections/manufacturing.liquid" \
+  && grep -q "mfg-band--dark h1" "$THEME/assets/manufacturing.css"; then
+  pass "manufacturing bands use Surface and Dark, not one snow field"
+else
+  fail "manufacturing bands still share one ground"
+fi
+
+# Homepage light hero: controlled-height band (pre-070a1cb). Natural-height
+# contain with max-height:none made the 2000x1116 photo ~60-70vh. Restore the
+# 52vh/42vh/58vh caps from 79db8e6 / 10.1.0-size-picker-and-contrast.
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" <<'PY'
+import re, sys
+
+def light_hero_img_ok(path):
+    text = open(path).read()
+    if re.search(
+        r"\.hero--light \.hero__media img[^{]*\{[^}]*max-height:\s*none",
+        text,
+    ):
+        print(f"{path}: light hero img still has max-height: none")
+        return False
+    base = re.search(
+        r"\.hero--light \.hero__media img[^{]*\{([^}]+)\}",
+        text,
+    )
+    if not base or not re.search(r"max-height:\s*min\(\s*52vh,\s*30rem\s*\)", base.group(1)):
+        print(f"{path}: missing light hero max-height min(52vh, 30rem)")
+        return False
+    if "max-height: min(42vh, 20rem)" not in text:
+        print(f"{path}: missing mobile light hero max-height min(42vh, 20rem)")
+        return False
+    if "max-height: min(58vh, 36rem)" not in text:
+        print(f"{path}: missing desktop light hero max-height min(58vh, 36rem)")
+        return False
+    return True
+
+ok = all(light_hero_img_ok(p) for p in sys.argv[1:])
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "light hero uses the pre-070a1cb max-height band on mobile and desktop"
+else
+  fail "light hero still uses natural-height contain (giant photo)"
+fi
+
+# 390px overflow lock: hero h1 / announcement must wrap or clamp at max-width 899.
+# Brand Display mobile is 38px (TOKENS.md). A 72px nowrap headline cannot ship.
+if python3 - "$THEME/assets/base.css" "$THEME/assets/mobile-fit.css" "$ROOT/preview/base.css" "$ROOT/preview/mobile-fit.css" <<'PY'
+import re, sys
+
+def media_899_blocks(text):
+    blocks = []
+    for m in re.finditer(r"@media\s*\(\s*max-width:\s*899px\s*\)\s*\{", text):
+        start = m.end()
+        depth = 1
+        i = start
+        while i < len(text) and depth:
+            if text[i] == "{":
+                depth += 1
+            elif text[i] == "}":
+                depth -= 1
+            i += 1
+        blocks.append(text[start : i - 1])
+    return blocks
+
+def file_ok(path):
+    text = open(path).read()
+    blocks = media_899_blocks(text)
+    joined = "\n".join(blocks)
+    if not blocks:
+        print(f"{path}: no @media (max-width: 899px) block")
+        return False
+    h1_ok = (
+        re.search(r"\.hero(?:--light)?\s+h1[^{]*\{[^}]*clamp\(", joined)
+        or re.search(r"\.hero(?:--light)?\s+h1[^{]*\{[^}]*max-width:\s*100%", joined)
+        or ("clamp(2rem" in joined and "h1" in joined)
+    )
+    wrap_ok = (
+        "overflow-wrap" in joined
+        or "max-width: 100%" in joined
+        or "white-space: normal" in joined
+    )
+    overflow_ok = "overflow-x: clip" in joined or "overflow-x: hidden" in joined
+    announce_ok = (
+        "overflow-wrap" in text
+        and re.search(r"\.announcement[^{]*\{[^}]*overflow-wrap", text)
+    ) or "overflow-wrap: break-word" in joined
+    if not h1_ok:
+        print(f"{path}: hero h1 in max-width 899 missing clamp or max-width 100%")
+        return False
+    if not wrap_ok:
+        print(f"{path}: max-width 899 missing wrap/max-width 100%")
+        return False
+    if not overflow_ok:
+        print(f"{path}: max-width 899 missing overflow-x clip/hidden")
+        return False
+    if not announce_ok:
+        print(f"{path}: announcement missing overflow-wrap")
+        return False
+    return True
+
+ok = all(file_ok(p) for p in sys.argv[1:])
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "390 overflow lock: hero h1 clamps/wraps and announcement wraps at max-width 899"
+else
+  fail "390 overflow lock missing clamp/wrap on hero h1 or announcement"
+fi
+
+# Dark-ground type: Cool Touch spans/captions/eyebrows are snow, never gold/ink.
+if grep -q '#cool-touch.section--dark .cool-touch__points span' "$THEME/assets/base.css" \
+  && grep -q '#cool-touch.section--dark .cool-touch__thumb-caption' "$THEME/assets/base.css" \
+  && grep -q '#cool-touch.section--dark .section__eyebrow' "$THEME/assets/base.css" \
+  && grep -q 'color: var(--brand-on-dark) !important' "$THEME/assets/base.css" \
+  && grep -q '#cool-touch.section--dark .cool-touch__points span' "$ROOT/preview/base.css"; then
+  pass "Cool Touch dark copy is forced snow with winning specificity"
+else
+  fail "Cool Touch spans/captions/eyebrow still lack a winning on-dark rule"
+fi
+
+if grep -q 'assign eyebrow_on_dark = color_on_dark' "$THEME/snippets/css-variables.liquid" \
+  && ! grep -q 'assign eyebrow_on_dark = color_accent' "$THEME/snippets/css-variables.liquid" \
+  && ! grep -q "assign eyebrow_on_dark = '#C4B49A'" "$THEME/snippets/css-variables.liquid"; then
+  pass "on-dark eyebrow token is snow, never gold"
+else
+  fail "css-variables still paints gold eyebrows on dark"
+fi
+
+# Concierge delivery: spec table panel restored from fbad89c. Not cards.
+if grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$THEME/assets/base.css" \
+  && grep -q 'Concierge delivery — spec table panel (restored fbad89c)' "$ROOT/preview/base.css" \
+  && grep -q 'grid-template-columns: repeat(auto-fit, minmax(210px, 1fr))' "$THEME/assets/base.css" \
+  && grep -q '.lp-section--delivery .lp-tier--pick' "$THEME/assets/base.css" \
+  && grep -q '.lp-svc__item' "$THEME/assets/base.css" \
+  && grep -q 'border-radius: 0 !important' "$THEME/assets/base.css"; then
+  pass "delivery CSS is the original spec table panel (cream fill, navy type)"
+else
+  fail "delivery CSS is not the restored fbad89c table/panel layout"
+fi
+
+if grep -q "layout == 'delivery'" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'section--dark' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'lp-delivery' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'lp-svc__item' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q '"type": "landing-funnel"' "$THEME/templates/index.json" \
+  && grep -q '"anchor_id": "delivery"' "$THEME/templates/index.json" \
+  && grep -q '"delivery"' "$THEME/templates/index.json"; then
+  pass "homepage shares landing-funnel delivery (forced navy)"
+else
+  fail "delivery layout missing from homepage or landing-funnel"
+fi
+
+if grep -q 'lp-section--delivery section--dark' "$ROOT/preview/index.html" \
+  && grep -q 'id="delivery"' "$ROOT/preview/index.html" \
+  && grep -q 'It arrives compressed' "$ROOT/preview/index.html"; then
+  pass "preview homepage uses navy delivery markup"
+else
+  fail "preview homepage still uses old delivery markup"
+fi
+
+# How it is built: cream panel with hairline columns, gold kickers. Not Apple cards.
+if grep -q 'lp-section--built' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'lp-card__kicker' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'How it is built — one cream panel with hairline columns' "$THEME/assets/base.css" \
+  && grep -q 'How it is built — one cream panel with hairline columns' "$ROOT/preview/base.css" \
+  && grep -q 'How it is built last-wins' "$THEME/assets/brand.css" \
+  && grep -q 'data-rd-layer="08"' "$ROOT/preview/pages/specification.html" \
+  && grep -q 'layer-benefit' "$ROOT/preview/pages/specification.html"; then
+  pass "specification is eight layers; how-it-is-built panel CSS remains"
+else
+  fail "How it is built is still cramped lp-cards without panel language"
+fi
+
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" <<'PY'
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    text = open(path).read()
+    start = text.find("How it is built — one cream panel with hairline columns")
+    if start < 0:
+        print(path, "missing how-it-is-built CSS")
+        ok = False
+        continue
+    block = text[start:start + 3500]
+    if "border-radius: 16px" in block or "border-radius: 12px" in block:
+        print(path, "how-it-is-built uses 12/16px radius")
+        ok = False
+    if "box-shadow:" in block and "box-shadow: none" not in block:
+        print(path, "how-it-is-built has a real shadow")
+        ok = False
+    if "padding: 2rem 2rem" not in block and "padding: 2rem" not in block:
+        print(path, "how-it-is-built missing 32px cell padding")
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "How it is built CSS stays 2px panel, no 16px cards"
+else
+  fail "How it is built CSS drifted into card chrome"
+fi
+
+if grep -q '#cool-touch.section--dark .cool-touch__points span' "$THEME/assets/base.css" \
+  && grep -q 'color: var(--brand-on-dark) !important' "$THEME/assets/base.css"; then
+  pass "Cool Touch snow-on-navy lock is still present"
+else
+  fail "Cool Touch cream-on-navy lock was reverted"
+fi
+
+if grep -q 'bottom: 0 !important' "$THEME/assets/base.css" \
+  && grep -q '.float-basket' "$THEME/assets/base.css"; then
+  pass "sticky basket stays pinned to bottom: 0"
+else
+  fail "float-basket is not pinned to bottom: 0"
+fi
+
+# No leftover inspector cyan outlines (* { outline: 1px solid cyan }).
+if python3 - "$THEME/assets/base.css" "$ROOT/preview/base.css" "$THEME/assets/mobile-fit.css" "$ROOT/preview/mobile-fit.css" <<'PY'
+import re, sys
+ok = True
+for path in sys.argv[1:]:
+    raw = open(path).read()
+    stripped = re.sub(r"/\*.*?\*/", "", raw, flags=re.S)
+    if re.search(r"outline:\s*1px solid cyan", stripped, re.I):
+        print(path, "has outline: 1px solid cyan")
+        ok = False
+    if re.search(r"\*\s*\{[^}]*outline:\s*[^}]*cyan", stripped, re.I):
+        print(path, "has * { outline cyan }")
+        ok = False
+sys.exit(0 if ok else 1)
+PY
+then
+  pass "no * outline cyan debug rules"
+else
+  fail "cyan debug outlines still in CSS"
+fi
+
+if grep -q '.section--dark \[class\*="muted"\]' "$THEME/assets/base.css" \
+  && grep -q '.section--dark .kicker' "$THEME/assets/base.css" \
+  && grep -q '.policy-cta .section__eyebrow' "$THEME/assets/base.css"; then
+  pass "dark lock covers muted/kicker/figcaption/Next siblings"
+else
+  fail "dark type lock missing muted/kicker/Next sibling selectors"
+fi
+
+# CTA spec: radius 0 on the token. Size-row chrome stays (do not empty).
+if grep -q -- '--radius: 0' "$THEME/assets/brand.css" \
+  && grep -q -- '--radius-control: 0' "$THEME/assets/brand.css" \
+  && grep -q 'CTA spec last-wins' "$THEME/assets/brand.css" \
+  && grep -q '.size-option,' "$THEME/assets/base.css" \
+  && grep -q '.size-row {' "$THEME/assets/base.css" \
+  && grep -q '.size-option,' "$THEME/assets/base.css" \
+  && ! grep -q -- '--radius-card: 16px' "$THEME/assets/brand.css" \
+  && ! grep -q -- '--radius: 2px' "$THEME/assets/brand.css" \
+  && ! grep -q 'border-radius: 12px' "$THEME/assets/brand.css"; then
+  pass "CTA spec radius 0; size-row chrome remains (not 12px buttons, not emptied)"
+else
+  fail "CTA radius token missing, 12px buttons returned, or size-row emptied"
+fi
+
+
+# Numa paid-test tracking (pixels/GTM/events/consent). Do not ship extra marketing scripts.
+if grep -q "numa_lp_variant" "$JS" \
+  && grep -q "numa_session_id" "$JS" \
+  && grep -q "payload.session_id" "$JS" \
+  && grep -q "transport_type" "$JS" \
+  && grep -q "function captureLpVariantOnce" "$JS" \
+  && grep -q "function initNumaTracking" "$JS" \
+  && grep -q "engaged_session" "$JS" \
+  && grep -q "scroll_past_price" "$JS" \
+  && grep -q "add_service" "$JS" \
+  && grep -q "old_mattress_removal" "$JS" \
+  && grep -q "lead_time_weeks" "$JS" \
+  && grep -q "function fireBasketViewIfLeadTime" "$JS" \
+  && grep -q "initNumaTracking();" "$JS"; then
+  pass "theme.js has Numa event contract (lp_variant, session_id, eight events, engagement)"
+else
+  fail "theme.js missing Numa tracking contract"
+fi
+
+if grep -q "vTrack('lp_view'" "$JS" \
+  && grep -q "page_path" "$JS" \
+  && ! grep -q "vTrackOnce('lp_view'" "$JS"; then
+  pass "lp_view fires per load, not once per session"
+else
+  fail "lp_view is still vTrackOnce or missing page_path"
+fi
+
+if grep -q 'id="price-anchor"' "$THEME/sections/landing-funnel.liquid" \
+  && grep -q 'id="price-anchor"' "$THEME/snippets/order-builder.liquid"; then
+  pass "price-anchor id on landing price and order total"
+else
+  fail "price-anchor id missing"
+fi
+
+if grep -q "consent-defaults" "$THEME/layout/theme.liquid" \
+  && grep -q "consent-update" "$THEME/layout/theme.liquid" \
+  && grep -q "analytics_storage" "$THEME/snippets/consent-defaults.liquid" \
+  && grep -q "ad_storage" "$THEME/snippets/consent-defaults.liquid"; then
+  pass "Consent Mode defaults before GTM and Shopify privacy update after header"
+else
+  fail "consent mode snippets missing from theme.liquid"
+fi
+
+if grep -q "data-recycling-link" "$THEME/sections/main-cart.liquid" \
+  && grep -q "location.replace" "$THEME/sections/main-checkout.liquid" \
+  && grep -q "attrs.lp_variant" "$THEME/assets/utm-persistence.js"; then
+  pass "cart recycling link + checkout redirect to cart + lp_variant order attribute"
+else
+  fail "cart recycling link, checkout redirect, or lp_variant cart attribute missing"
+fi
+
+if grep -q "overflow-y: auto !important" "$THEME/layout/theme.liquid" \
+  && ! grep -q "journal-home" "$THEME/templates/index.json"; then
+  pass "page-scroll stays unlocked and Journal stays off the homepage"
+else
+  fail "page-scroll re-locked or Journal returned to homepage"
 fi
 
 info "----------------------------------------"
