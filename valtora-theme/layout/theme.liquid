@@ -11,7 +11,7 @@
   endif
 -%}
 <!doctype html>
-<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}">
+<html class="no-js{% if request.design_mode %} shopify-design-mode{% endif %}" lang="{{ request.locale.iso_code }}" data-market="{{ html_market }}" data-country="{{ localization.country.iso_code }}"{% if splitit_live %} data-splitit="on"{% endif %} data-brand-guidelines="{{ settings.brand_guidelines | default: 'v1' }}" data-color-scheme="{{ settings.color_scheme | default: 'signature' }}" data-return-window-days="{{ settings.return_window_days | default: 30 | escape }}">
   <head>
     <script>
       (function () {
@@ -114,6 +114,16 @@
       window.ValtoraTheme.legalName = {{ valtora_legal_name | strip | json }};
       window.ValtoraTheme.defaultMarket = {{ settings.default_market | json }};
       window.ValtoraTheme.sizeAddLabel = {{ settings.size_add_label | default: 'Add' | json }};
+      window.ValtoraTheme.sizeTypeLabels = {
+        uk: {{ 'size_types.uk' | t | json }},
+        us: {{ 'size_types.us' | t | json }},
+        international: {{ 'size_types.international' | t | json }},
+        uae: {{ 'size_types.uae' | t | json }},
+        default: {{ 'size_types.default' | t | json }}
+      };
+      window.NUMA = window.NUMA || {};
+      window.NUMA.returnsDays = {{ settings.return_window_days | default: 30 | json }};
+      window.NUMA.layerPrice = {{ settings.comfort_layer_price_gb | default: '£299' | json }};
       window.ValtoraTheme.splititEnabled = {{ splitit_live | json }};
       window.ValtoraTheme.moneyFormat = {{ shop.money_format | json }};
       window.ValtoraTheme.exitIntent = {

@@ -107,12 +107,41 @@
           if size_label == blank
             assign size_label = v.title | replace: ' (UAE)', ''
           endif
+          assign sizetype = v.metafields.custom.sizetype.value | default: v.metafields.custom.sizetype | strip | downcase
+          if sizetype == 'gb'
+            assign sizetype = 'uk'
+          elsif sizetype == 'ae'
+            assign sizetype = 'uae'
+          elsif sizetype == 'eu' or sizetype == 'int'
+            assign sizetype = 'international'
+          endif
+          if sizetype == blank
+            if v_market == 'ae'
+              assign sizetype = 'uae'
+            elsif v_market == 'us'
+              assign sizetype = 'us'
+            elsif v_market == 'eu'
+              assign sizetype = 'international'
+            else
+              assign sizetype = 'uk'
+            endif
+          endif
+          assign width_cm = v.metafields.custom.width_cm.value | default: v.metafields.custom.width_cm
+          assign length_cm = v.metafields.custom.length_cm.value | default: v.metafields.custom.length_cm
+          assign fits = v.metafields.custom.fits_note.value | default: v.metafields.custom.fits_note
+          if fits == blank and size_id == 'european-king'
+            assign fits = 'Fits IKEA and continental frames'
+          endif
         -%}
         {%- unless first_out -%},{%- endunless -%}
         {
           "id": {{ size_id | json }},
           "label": {{ size_label | json }},
           "dims": {{ v.metafields.custom.dims | json }},
+          "width_cm": {% if width_cm != blank %}{{ width_cm }}{% else %}null{% endif %},
+          "length_cm": {% if length_cm != blank %}{{ length_cm }}{% else %}null{% endif %},
+          "sizetype": {{ sizetype | json }},
+          "fits": {{ fits | json }},
           "price": {{ v.price | money | json }},
           "price_raw": {{ v.price | json }},
           "variant_id": {{ v.id | json }},
@@ -166,8 +195,26 @@
       {%- endif -%}
 
       <div class="size-picker">
+      <div class="size-tabs" data-size-tabs role="tablist" hidden></div>
+      <p class="size-tabnote" data-size-tabnote></p>
+      <div class="size-thead">
+        <span>Size</span>
+        <span>Footprint, drawn to scale</span>
+        <span class="size-thead__r">Each</span>
+        <span class="size-thead__r">Quantity</span>
+      </div>
       <div class="size-list" data-size-list role="listbox" aria-multiselectable="true" aria-label="Mattress size"></div>
       </div>
+      <details class="size-help">
+        <summary>Not sure which size you need?</summary>
+        <p>Most people are constrained by the frame they already own rather than by preference. Two questions usually settle it.</p>
+        <div class="size-help__qs">
+          <button type="button" data-size-help="ikea">I have an IKEA or continental frame</button>
+          <button type="button" data-size-help="two">Two of us, and one moves a lot</button>
+          <button type="button" data-size-help="measure">I need to measure</button>
+        </div>
+        <p data-size-help-out hidden></p>
+      </details>
       {%- if section.settings.request_size_enabled -%}
         <div class="size-request-entry">
         <button
@@ -254,7 +301,7 @@
             {%- endif -%}
           </p>
 
-          <div data-order-retail hidden>
+          <div data-order-retail>
             <a
               class="btn"
               style="width:100%;text-align:center;"
@@ -262,10 +309,18 @@
               data-checkout-href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
               href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
             >
-              Checkout
+              Add to basket
             </a>
 
             <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
+          </div>
+          <div class="order-basket__incl">
+            <ul>
+              <li>Comfort layer included with every mattress</li>
+              <li>Concierge unpacking included</li>
+              <li data-order-removal>Old mattress removal, complimentary</li>
+              <li data-order-returns>{{ settings.return_window_days | default: 30 }} day returns policy</li>
+            </ul>
           </div>
         </div>
       </div>

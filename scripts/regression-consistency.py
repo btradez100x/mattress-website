@@ -565,6 +565,34 @@ def check_json_templates_uploadable() -> None:
                 )
 
 
+def check_size_selector() -> None:
+    js = (ROOT / "valtora-theme" / "assets" / "theme.js").read_text(encoding="utf-8")
+    preview_js = (ROOT / "preview" / "theme.js").read_text(encoding="utf-8")
+    css = (ROOT / "preview" / "base.css").read_text(encoding="utf-8")
+    liquid = (ROOT / "valtora-theme" / "sections" / "size-reserve.liquid").read_text(encoding="utf-8")
+    home = (ROOT / "preview" / "index.html").read_text(encoding="utf-8")
+    if js != preview_js:
+        bad("preview/theme.js drifted from valtora-theme/assets/theme.js")
+    else:
+        ok("preview/theme.js matches theme.js")
+    if "function sizeFootprintMarkup" in js and "size-plan" in js and "SIZE_TAB_THRESHOLD" in js:
+        ok("size rows include footprint drawings and count-based tabs")
+    else:
+        bad("size footprint / tab helpers missing from theme.js")
+    if "min-width: 980px" in css and ".order-sheet" in css and ".size-plan" in css:
+        ok("CSS has 980px split, footprints, and order sheet")
+    else:
+        bad("CSS missing 980px basket split, footprints, or sheet")
+    if 'data-size-tabs' in liquid and "sizetype" in liquid and "return_window_days" in liquid:
+        ok("size-reserve emits tabs host, sizetype, and returns setting")
+    else:
+        bad("size-reserve.liquid missing tabs, sizetype, or returns setting")
+    if "data-size-tabs" in home and "size-thead" in home and "data-float-view" in home:
+        ok("preview homepage has row picker chrome and View bar")
+    else:
+        bad("preview homepage missing row picker or View bar")
+
+
 def main() -> int:
     print("Valtora consistency gate (preview + chrome)")
     print("----------------------------------------")
@@ -576,6 +604,7 @@ def main() -> int:
     check_no_leaked_liquid()
     check_no_filters_in_render_args()
     check_json_templates_uploadable()
+    check_size_selector()
 
     roots = [
         ROOT / "preview" / "pages",

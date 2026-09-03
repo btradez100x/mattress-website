@@ -6,19 +6,176 @@
 
   var SIZE_MAPS = {
     ae: [
-      { id: 'single', label: 'Single', dims: '90-100 × 200 cm', firmness: 'Medium' },
-      { id: 'queen', label: 'Queen', dims: '160 × 200 cm', firmness: 'Medium' },
-      { id: 'king', label: 'King', dims: '180 × 200 cm', firmness: 'Medium' },
-      { id: 'super-king', label: 'Super King', dims: '200 × 200 cm', firmness: 'Medium' },
+      { id: 'single', label: 'Single', dims: '90-100 × 200 cm', width_cm: 90, length_cm: 200, firmness: 'Medium', sizetype: 'uae' },
+      { id: 'queen', label: 'Queen', dims: '160 × 200 cm', width_cm: 160, length_cm: 200, firmness: 'Medium', sizetype: 'uae' },
+      { id: 'king', label: 'King', dims: '180 × 200 cm', width_cm: 180, length_cm: 200, firmness: 'Medium', sizetype: 'uae' },
+      { id: 'super-king', label: 'Super King', dims: '200 × 200 cm', width_cm: 200, length_cm: 200, firmness: 'Medium', sizetype: 'uae' },
     ],
     gb: [
-      { id: 'single', label: 'Single', dims: '90 × 190 cm', firmness: 'Medium' },
-      { id: 'double', label: 'Double', dims: '135 × 190 cm', firmness: 'Medium' },
-      { id: 'king', label: 'King', dims: '150 × 200 cm', firmness: 'Medium' },
-      { id: 'super-king', label: 'Super King', dims: '180 × 200 cm', firmness: 'Medium' },
-      { id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', firmness: 'Medium' },
+      { id: 'single', label: 'Single', dims: '90 × 190 cm', width_cm: 90, length_cm: 190, firmness: 'Medium', sizetype: 'uk' },
+      { id: 'small-double', label: 'Small Double', dims: '120 × 190 cm', width_cm: 120, length_cm: 190, firmness: 'Medium', sizetype: 'uk' },
+      { id: 'double', label: 'Double', dims: '135 × 190 cm', width_cm: 135, length_cm: 190, firmness: 'Medium', sizetype: 'uk' },
+      { id: 'king', label: 'King', dims: '150 × 200 cm', width_cm: 150, length_cm: 200, firmness: 'Medium', sizetype: 'uk' },
+      { id: 'european-king', label: 'European King', dims: '160 × 200 cm', width_cm: 160, length_cm: 200, firmness: 'Medium', sizetype: 'uk', fits: 'Fits IKEA and continental frames' },
+      { id: 'super-king', label: 'Super King', dims: '180 × 200 cm', width_cm: 180, length_cm: 200, firmness: 'Medium', sizetype: 'uk' },
+      { id: 'emperor', label: 'Emperor', dims: '200 × 200 cm', width_cm: 200, length_cm: 200, firmness: 'Medium', sizetype: 'uk', notrial: true },
     ],
   };
+
+  var SIZE_QTY_CAP = 20;
+  var SIZE_TAB_THRESHOLD = 5;
+  var SIZE_TYPE_ORDER = ['uk', 'us', 'international', 'uae'];
+  var SIZE_TYPE_LABELS = {
+    uk: 'UK sizes',
+    us: 'US sizes',
+    international: 'International sizes',
+    uae: 'UAE sizes',
+    default: 'Other sizes',
+  };
+  var SIZE_DIM_DEFAULTS = {
+    single: { w: 90, l: 190 },
+    'small-double': { w: 120, l: 190 },
+    double: { w: 135, l: 190 },
+    king: { w: 150, l: 200 },
+    'european-king': { w: 160, l: 200 },
+    'super-king': { w: 180, l: 200 },
+    emperor: { w: 200, l: 200 },
+    queen: { w: 160, l: 200 },
+    twin: { w: 99, l: 191 },
+    'twin-xl': { w: 91, l: 213 },
+    'us-twin': { w: 99, l: 191 },
+    'us-twin-xl': { w: 91, l: 213 },
+    full: { w: 137, l: 191 },
+    'us-full': { w: 137, l: 191 },
+    'us-queen': { w: 152, l: 203 },
+    'us-king': { w: 193, l: 203 },
+    'california-king': { w: 183, l: 213 },
+    'split-king': { w: 213, l: 213 },
+    'au-super-king': { w: 203, l: 203 },
+  };
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function numaReturnsDays() {
+    var n = window.NUMA && window.NUMA.returnsDays;
+    if (n == null) n = document.documentElement.getAttribute('data-return-window-days');
+    n = parseInt(n, 10);
+    return isFinite(n) && n > 0 ? n : 30;
+  }
+
+  function returnsPolicyCopy(excluded) {
+    var days = numaReturnsDays();
+    if (excluded) {
+      return 'Emperor is made to order and not covered by the ' + days + ' day returns policy';
+    }
+    return days + ' day returns policy';
+  }
+
+  function marketToSizeType(market) {
+    var m = String(market || '').toLowerCase();
+    if (m === 'ae' || m === 'uae') return 'uae';
+    if (m === 'us') return 'us';
+    if (m === 'eu' || m === 'int' || m === 'international') return 'international';
+    if (m === 'gb' || m === 'uk') return 'uk';
+    return '';
+  }
+
+  function resolveSizeType(row) {
+    var raw = row && (row.sizetype || row.size_type || row.sizeType);
+    if (raw) {
+      raw = String(raw).toLowerCase().trim();
+      if (raw === 'gb') raw = 'uk';
+      if (raw === 'ae') raw = 'uae';
+      if (raw === 'eu' || raw === 'int') raw = 'international';
+      if (raw) return raw;
+    }
+    var fromMarket = marketToSizeType(row && row.market);
+    return fromMarket || 'default';
+  }
+
+  function sizeTypeLabel(key) {
+    var dict = (window.ValtoraTheme && window.ValtoraTheme.sizeTypeLabels) || {};
+    if (dict[key]) return dict[key];
+    return SIZE_TYPE_LABELS[key] || SIZE_TYPE_LABELS.default;
+  }
+
+  function homeSizeType(market) {
+    return marketToSizeType(market) || 'uk';
+  }
+
+  function parseSizeDims(row) {
+    var w = parseFloat(row && (row.width_cm != null ? row.width_cm : row.w));
+    var l = parseFloat(row && (row.length_cm != null ? row.length_cm : row.l));
+    if (isFinite(w) && isFinite(l) && w > 0 && l > 0) return { w: w, l: l };
+    var text = String((row && (row.dims || row.label)) || '').replace(/(\d+)\s*-\s*\d+/g, '$1');
+    var m = text.replace(/×/g, 'x').match(/(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)/i);
+    if (m) return { w: parseFloat(m[1]), l: parseFloat(m[2]) };
+    var def = SIZE_DIM_DEFAULTS[row && row.id] || SIZE_DIM_DEFAULTS[String((row && row.id) || '').replace(/^us-/, '')];
+    return def ? { w: def.w, l: def.l } : { w: 150, l: 200 };
+  }
+
+  function catalogMaxDim(rows) {
+    var max = 0;
+    (rows || []).forEach(function (row) {
+      var d = parseSizeDims(row);
+      if (d.w > max) max = d.w;
+      if (d.l > max) max = d.l;
+    });
+    return max || 213;
+  }
+
+  function sizeFootprintMarkup(row, maxDim) {
+    var d = parseSizeDims(row);
+    var scale = 60 / (maxDim || 213);
+    var w = Math.max(8, Math.round(d.w * scale));
+    var h = Math.max(8, Math.round(d.l * scale));
+    var name = (row && (row.label || row.id)) || 'Size';
+    var label = name + ', ' + d.w + ' by ' + d.l + ' centimetres, drawn to scale';
+    return (
+      '<span class="size-plan" role="img" aria-label="' +
+      escapeHtml(label) +
+      '"><span class="size-plan__ref"></span><span class="size-plan__bed" style="width:' +
+      w +
+      'px;height:' +
+      h +
+      'px"></span></span>'
+    );
+  }
+
+  function detectCurrencyCode(market) {
+    return (market || detectMarket()) === 'gb' ? 'GBP' : 'AED';
+  }
+
+  function basketCheckoutItems(lines) {
+    return (lines || []).map(function (line) {
+      var qty = parseInt(line.quantity, 10) || 0;
+      return {
+        size: line.sizeId || line.label || '',
+        quantity: qty,
+        value: Math.round((linePriceCents(line) * qty) / 100),
+      };
+    });
+  }
+
+  function trackAddToBasket(lines, market) {
+    var items = basketCheckoutItems(lines);
+    if (!items.length) return;
+    var total = 0;
+    items.forEach(function (item) {
+      total += item.value || 0;
+    });
+    vTrack('add_to_basket', {
+      items: items,
+      value: total,
+      currency: detectCurrencyCode(market),
+    });
+  }
 
   var DEFAULT_TAGLINE = 'Premium Sleep, Engineered for the Gulf';
   var TAGLINE_MARKETS = { ae: 1, gb: 1, us: 1, eu: 1, gh: 1, ng: 1 };
@@ -386,6 +543,12 @@
       return 'Pillows · ' + (line.label || '');
     }
     return (line.label || '') + ' · ' + qty;
+  }
+
+  function orderPanelItemName(line) {
+    if (!line) return '';
+    if (isAccessoryType(line.itemType)) return orderLineTitle(line);
+    return line.label || '';
   }
 
   function parseAccessoryPrices(root) {
@@ -1990,43 +2153,50 @@
     return fallback;
   }
 
+  function basketCtaLabel(hasLines, units) {
+    var n = units != null ? units : mattressUnitsFromLines(OrderStore.lines());
+    if (!hasLines || n < 1) return 'Add to basket';
+    if (n > 1) return 'Add ' + n + ' mattresses to basket';
+    return 'Add to basket';
+  }
+
   function applyOrderCtaLabels(hasLines) {
-    // Side basket on #reserve: hide CTA when empty (already on sizes). With lines → Checkout.
-    // Floating bar: empty → See sizes and prices; lined → Checkout.
-    var sizesHref = sizesAndPricesHref();
+    var units = mattressUnitsFromLines(OrderStore.lines());
+    var checkoutHref;
     document.querySelectorAll('[data-reserve-continue]').forEach(function (el) {
       if (el.hasAttribute('data-float-continue')) return;
       var wrap = el.closest('[data-order-retail]');
       if (wrap) {
-        wrap.hidden = !hasLines;
-        if (hasLines) wrap.removeAttribute('hidden');
-        else wrap.setAttribute('hidden', '');
+        wrap.hidden = false;
+        wrap.removeAttribute('hidden');
       }
-      el.textContent = 'Checkout';
+      if (!el.hasAttribute('data-sheet-checkout')) {
+        el.textContent = basketCtaLabel(hasLines, units);
+      }
       if (!hasLines) {
         el.setAttribute('aria-disabled', 'true');
+        if (el.tagName !== 'A' && el.tagName !== 'a') el.disabled = true;
         return;
       }
-      var checkoutHref = resolveCheckoutHref(el);
+      checkoutHref = resolveCheckoutHref(el);
+      el.removeAttribute('aria-disabled');
       if (el.tagName === 'A' || el.tagName === 'a') {
         el.setAttribute('href', checkoutHref);
-        el.setAttribute('aria-disabled', 'false');
         el.removeAttribute('disabled');
       } else {
         el.disabled = false;
-        el.setAttribute('aria-disabled', 'false');
       }
     });
     document.querySelectorAll('[data-float-continue]').forEach(function (el) {
-      var checkoutHref = resolveCheckoutHref(el);
-      el.textContent = hasLines ? 'Checkout' : 'See sizes and prices';
+      checkoutHref = resolveCheckoutHref(el);
+      el.textContent = 'Checkout';
       if (el.tagName === 'A' || el.tagName === 'a') {
-        el.setAttribute('href', hasLines ? checkoutHref : sizesHref);
-        el.setAttribute('aria-disabled', 'false');
-        el.removeAttribute('disabled');
+        el.setAttribute('href', hasLines ? checkoutHref : checkoutHref);
+        el.setAttribute('aria-disabled', hasLines ? 'false' : 'true');
+        if (hasLines) el.removeAttribute('disabled');
       } else {
-        el.disabled = false;
-        el.setAttribute('aria-disabled', 'false');
+        el.disabled = !hasLines;
+        el.setAttribute('aria-disabled', hasLines ? 'false' : 'true');
       }
     });
   }
@@ -2039,17 +2209,184 @@
   }
 
   function paintFloatBasketFromStore() {
+    var bar = document.querySelector('[data-float-basket], [data-sticky-reserve]');
     var countEl = document.querySelector('[data-float-count]');
     var totalEl = document.querySelector('[data-float-total]');
     var continueEls = document.querySelectorAll('[data-float-continue]');
-    if (!countEl && !totalEl && !continueEls.length) return;
+    if (!bar && !countEl && !totalEl && !continueEls.length) return;
     var lines = OrderStore.lines();
     var n = mattressUnitsFromLines(lines);
     var hasLines = lines.length > 0 || n > 0;
     var totalText = hasLines ? formatOrderTotal(lines) : '';
-    if (countEl) countEl.textContent = hasLines ? (n === 1 ? '1 MATTRESS' : n + ' MATTRESSES') : 'Choose a size';
+    if (countEl) countEl.textContent = n === 1 ? '1 mattress' : n + ' mattresses';
     if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
     applyOrderCtaLabels(hasLines);
+    if (bar) {
+      bar.classList.toggle('is-active', hasLines);
+      bar.classList.toggle('has-items', hasLines);
+      if (hasLines) {
+        bar.hidden = false;
+        bar.removeAttribute('hidden');
+      }
+    }
+    paintBasketSheet(lines);
+    try {
+      document.dispatchEvent(new CustomEvent('valtora:float-basket-mode', { detail: { hasItems: hasLines } }));
+    } catch (e) {}
+  }
+
+  function orderPanelLinesHtml(lines) {
+    if (!lines || !lines.length) {
+      return '<p class="order-basket__empty">Add a size to start your order. You can add more than one.</p>';
+    }
+    return lines
+      .map(function (line) {
+        var qty = parseInt(line.quantity, 10) || 0;
+        var total = formatLineTotal(line);
+        var title = orderPanelItemName(line);
+        var meta = line.dims || '';
+        var remove = line.key
+          ? '<button type="button" class="order-basket__remove" data-order-remove="' +
+            escapeHtml(line.key) +
+            '" aria-label="Remove ' +
+            escapeHtml(title) +
+            '">\u00d7</button>'
+          : '';
+        return (
+          '<div class="order-basket__line" data-order-line-key="' +
+          escapeHtml(line.key || '') +
+          '">' +
+          '<span class="order-basket__line-l">' +
+          escapeHtml(title) +
+          (meta ? '<small>' + escapeHtml(meta) + '</small>' : '') +
+          '</span>' +
+          '<span class="order-basket__line-q">\u00d7' +
+          qty +
+          '</span>' +
+          '<span class="order-basket__line-v">' +
+          escapeHtml(total) +
+          '</span>' +
+          remove +
+          '</div>'
+        );
+      })
+      .join('');
+  }
+
+  function orderPanelExtrasHtml(lines) {
+    var units = mattressUnitsFromLines(lines);
+    var emperor = (lines || []).some(function (l) {
+      return String(l.sizeId || '').toLowerCase() === 'emperor';
+    });
+    var removal =
+      units > 0
+        ? 'Old mattress removal \u00d7' + units
+        : 'Old mattress removal';
+    return (
+      '<div class="order-basket__sub"><span>Concierge unpacking</span><span>Included</span></div>' +
+      '<div class="order-basket__sub"><span>' +
+      escapeHtml(removal) +
+      '</span><span>Complimentary</span></div>'
+    );
+  }
+
+  function paintOrderIncl(root, lines) {
+    var scope = root || document;
+    var units = mattressUnitsFromLines(lines);
+    var emperor = (lines || []).some(function (l) {
+      return String(l.sizeId || '').toLowerCase() === 'emperor';
+    });
+    scope.querySelectorAll('[data-order-removal]').forEach(function (el) {
+      el.textContent =
+        units > 0 ? 'Old mattress removal \u00d7' + units + ', Complimentary' : 'Old mattress removal, complimentary';
+    });
+    scope.querySelectorAll('[data-order-returns]').forEach(function (el) {
+      el.textContent = returnsPolicyCopy(emperor);
+    });
+  }
+
+  function ensureBasketSheet() {
+    var sheet = document.getElementById('order-sheet');
+    if (sheet) return sheet;
+    sheet = document.createElement('div');
+    sheet.className = 'order-sheet';
+    sheet.id = 'order-sheet';
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-label', 'Your order');
+    sheet.innerHTML =
+      '<div class="order-sheet__scrim" data-sheet-close></div>' +
+      '<div class="order-sheet__body">' +
+      '<button type="button" class="order-sheet__close" data-sheet-close aria-label="Close">\u00d7</button>' +
+      '<h3>Your order</h3>' +
+      '<div class="order-sheet__order" data-sheet-order></div>' +
+      '<a class="btn" data-sheet-checkout data-reserve-continue href="#">Checkout</a>' +
+      '</div>';
+    document.body.appendChild(sheet);
+    sheet.addEventListener('click', function (e) {
+      if (e.target.closest('[data-sheet-close]')) closeBasketSheet();
+      var rm = e.target.closest('[data-order-remove]');
+      if (!rm) return;
+      e.preventDefault();
+      var key = rm.getAttribute('data-order-remove');
+      var removed = OrderStore.lines().find(function (l) {
+        return l.key === key;
+      });
+      if (removed && removed.sizeId) {
+        OrderStore.removeMattressSize(removed.sizeId);
+        vTrack('size_remove', { size: removed.sizeId });
+      } else {
+        OrderStore.removeLine(key);
+      }
+      document.dispatchEvent(new CustomEvent('valtora:order-changed'));
+    });
+    var go = sheet.querySelector('[data-sheet-checkout]');
+    if (go) {
+      go.addEventListener('click', function (e) {
+        e.preventDefault();
+        var lines = OrderStore.lines();
+        if (!lines.length) return;
+        trackAddToBasket(lines);
+        window.location.href = reviewOrderUrl();
+      });
+    }
+    return sheet;
+  }
+
+  function paintBasketSheet(lines) {
+    var sheet = document.getElementById('order-sheet');
+    if (!sheet) return;
+    var host = sheet.querySelector('[data-sheet-order]');
+    if (!host) return;
+    if (!lines || !lines.length) {
+      host.innerHTML = orderPanelLinesHtml([]);
+      return;
+    }
+    var total = formatOrderTotal(lines);
+    host.innerHTML =
+      orderPanelLinesHtml(lines) +
+      orderPanelExtrasHtml(lines) +
+      '<div class="order-basket__tot"><span>Total</span><strong>' +
+      escapeHtml(total) +
+      '</strong></div>';
+  }
+
+  function openBasketSheet() {
+    var lines = OrderStore.lines();
+    var sheet = ensureBasketSheet();
+    paintBasketSheet(lines);
+    sheet.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    vTrack('basket_sheet_open', {
+      units: mattressUnitsFromLines(lines),
+      value: OrderStore.orderValue(lines),
+    });
+  }
+
+  function closeBasketSheet() {
+    var sheet = document.getElementById('order-sheet');
+    if (sheet) sheet.classList.remove('is-open');
+    document.body.style.overflow = '';
   }
 
   function syncOrderChrome() {
@@ -2154,7 +2491,7 @@
     function getQty() {
       var n = qtyInput ? parseInt(qtyInput.value, 10) : 1;
       if (!isFinite(n) || n < 1) n = 1;
-      if (n > 999) n = 999;
+      if (n > SIZE_QTY_CAP) n = SIZE_QTY_CAP;
       return n;
     }
 
@@ -2198,6 +2535,7 @@
         price_raw: parseInt(row.getAttribute('data-size-price-raw'), 10) || 0,
         firmness: defaultFirmness,
         variantId: row.getAttribute('data-size-variant') || '',
+        fits: row.getAttribute('data-size-fits') || '',
         available: row.getAttribute('data-available') !== 'false' &&
           row.getAttribute('data-request-size') !== 'true',
       };
@@ -2215,9 +2553,10 @@
         var q = lineQtyForSize(sizeId, btn.getAttribute('data-size-variant'));
         var inBasket = q > 0 && btn.getAttribute('data-request-size') !== 'true';
         btn.classList.toggle('is-in-basket', inBasket);
+        btn.setAttribute('data-qty', String(q));
         btn.setAttribute('aria-selected', inBasket ? 'true' : 'false');
         if (!wrap) return;
-        if (valEl) valEl.textContent = String(Math.max(q, 1));
+        if (valEl) valEl.textContent = String(q);
         wrap.hidden = !available;
         wrap.setAttribute('data-qty-mode', inBasket ? 'stepper' : 'add');
         if (addBtn) {
@@ -2230,6 +2569,8 @@
         if (stepper) stepper.hidden = !inBasket;
         var dec = btn.querySelector('[data-qty-dec]');
         if (dec) dec.disabled = q < 1;
+        var incBtn = btn.querySelector('[data-qty-inc]');
+        if (incBtn) incBtn.disabled = q >= SIZE_QTY_CAP;
       });
     }
 
@@ -2247,6 +2588,8 @@
       var before = OrderStore.lines().filter(function (l) {
         return l.itemType === 'mattress' || !l.itemType;
       }).length;
+      var prevQty = lineQtyForSize(size.id, size.variantId || size.variant_id);
+      if (qty > SIZE_QTY_CAP) qty = SIZE_QTY_CAP;
       OrderStore.upsertMattressLine({
         itemType: 'mattress',
         sizeId: size.id,
@@ -2262,6 +2605,27 @@
         leadMin: leadMin,
         leadMax: leadMax,
       });
+      if (!opts.silent) {
+        var addValue = sizePriceRaw(size) / 100 || undefined;
+        if (prevQty === 0 && qty > 0) {
+          vTrack('configure_complete', eventParams({
+            size: size.id,
+            value: addValue,
+            quantity: qty,
+            market: market,
+          }));
+        } else if (qty > prevQty) {
+          vTrack('quantity_increase', eventParams({
+            size: size.id,
+            quantity: qty,
+          }));
+        } else if (qty < prevQty) {
+          vTrack('quantity_decrease', eventParams({
+            size: size.id,
+            quantity: qty,
+          }));
+        }
+      }
       var after = OrderStore.lines().filter(function (l) {
         return l.itemType === 'mattress' || !l.itemType;
       }).length;
@@ -2312,17 +2676,8 @@
       }, 0);
     }
 
-    function updateFloatBasket(lines, totalText, units) {
-      var countEl = document.querySelector('[data-float-count]');
-      var totalEl = document.querySelector('[data-float-total]');
-      var continueEls = document.querySelectorAll('[data-float-continue]');
-      if (!countEl && !totalEl && !continueEls.length) return;
-      var n = units != null ? units : mattressUnits(lines || []);
-      var label = n === 1 ? '1 MATTRESS' : n + ' MATTRESSES';
-      var hasLines = (lines || []).length > 0 || n > 0;
-      if (countEl) countEl.textContent = hasLines ? label : 'Choose a size';
-      if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
-      applyOrderCtaLabels(hasLines);
+    function updateFloatBasket() {
+      paintFloatBasketFromStore();
     }
 
     function renderOrderPanel() {
@@ -2343,33 +2698,36 @@
       if (linesList) {
         if (!lines.length) {
           linesList.innerHTML =
-            '<li class="order-basket__empty">Select a size to add it to your order.</li>';
+            '<li class="order-basket__empty">Add a size to start your order. You can add more than one.</li>';
         } else {
           linesList.innerHTML = lines
             .map(function (line) {
               var qty = parseInt(line.quantity, 10) || 0;
               var total = formatLineTotal(line);
-              var title =
-                orderLineTitle(line);
+              var title = orderPanelItemName(line);
               var meta = line.dims || '';
-              var remove =
-                line.key
-                  ? '<button type="button" class="order-basket__remove" data-order-remove="' +
-                    line.key +
-                    '">Remove</button>'
-                  : '';
+              var remove = line.key
+                ? '<button type="button" class="order-basket__remove" data-order-remove="' +
+                  escapeHtml(line.key) +
+                  '" aria-label="Remove ' +
+                  escapeHtml(title) +
+                  '">\u00d7</button>'
+                : '';
               return (
                 '<li class="order-basket__line" data-order-line-key="' +
-                (line.key || '') +
+                escapeHtml(line.key || '') +
                 '">' +
                 '<span class="order-basket__line-l">' +
-                title +
-                (meta ? '<small>' + meta + '</small>' : '') +
+                escapeHtml(title) +
+                (meta ? '<small>' + escapeHtml(meta) + '</small>' : '') +
                 '</span>' +
-                '<span class="order-basket__line-r">' +
-                total +
+                '<span class="order-basket__line-q">\u00d7' +
+                qty +
+                '</span>' +
+                '<span class="order-basket__line-v">' +
+                escapeHtml(total) +
+                '</span>' +
                 remove +
-                '</span>' +
                 '</li>'
               );
             })
@@ -2377,15 +2735,17 @@
         }
       }
 
-      if (orderTotalEl) orderTotalEl.textContent = totalText;
+      paintOrderIncl(root, lines);
+      paintBasketSheet(lines);
+
+      if (orderTotalEl) orderTotalEl.textContent = lines.length ? totalText : '';
       if (orderTotalLabel) {
-        orderTotalLabel.textContent = units > 1 ? 'Total · ' + units + ' mattresses' : 'Total';
+        orderTotalLabel.textContent = units > 1 ? 'Total' : 'Total';
       }
 
       if (retailWrap) {
-        retailWrap.hidden = !lines.length;
-        if (lines.length) retailWrap.removeAttribute('hidden');
-        else retailWrap.setAttribute('hidden', '');
+        retailWrap.hidden = false;
+        retailWrap.removeAttribute('hidden');
       }
       paintBnplMonthly(bnplEl, {
         lines: lines,
@@ -2404,7 +2764,7 @@
           .join(', ');
       }
 
-      if (payLabel && (sample || totalVal)) {
+      if (payLabel && (unitPriceText || totalVal)) {
         payLabel.textContent = 'Pay ' + totalText;
       }
 
@@ -2475,6 +2835,77 @@
     sizes = filterSizesForMarket(market);
     if (!sizes.length && root.getAttribute('data-preview') === 'true') {
       sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+    }
+
+    var tabsHost = root.querySelector('[data-size-tabs]');
+    var tabNote = root.querySelector('[data-size-tabnote]');
+    var sizeTypeFilter = '';
+
+    function presentSizeTypes() {
+      var present = {};
+      sizes.forEach(function (row) {
+        present[resolveSizeType(row)] = true;
+      });
+      return present;
+    }
+
+    function activeSizeTypes() {
+      var present = presentSizeTypes();
+      var home = homeSizeType(market);
+      var order = [home].concat(SIZE_TYPE_ORDER.filter(function (k) { return k !== home; }));
+      var listed = order.filter(function (k) { return present[k]; });
+      Object.keys(present).forEach(function (k) {
+        if (listed.indexOf(k) < 0) listed.push(k);
+      });
+      return listed;
+    }
+
+    function showSizeTabs() {
+      return sizes.length > SIZE_TAB_THRESHOLD && activeSizeTypes().length > 1;
+    }
+
+    function visibleSizes() {
+      if (!showSizeTabs() || !sizeTypeFilter) return sizes;
+      return sizes.filter(function (row) {
+        return resolveSizeType(row) === sizeTypeFilter;
+      });
+    }
+
+    function paintSizeTypeTabs() {
+      if (!tabsHost) return;
+      var cats = activeSizeTypes();
+      if (!showSizeTabs()) {
+        tabsHost.hidden = true;
+        tabsHost.innerHTML = '';
+        tabsHost.setAttribute('hidden', '');
+        sizeTypeFilter = '';
+        if (tabNote) {
+          tabNote.textContent = sizes.length + ' sizes · footprints drawn to scale';
+        }
+        return;
+      }
+      if (!sizeTypeFilter || cats.indexOf(sizeTypeFilter) < 0) sizeTypeFilter = cats[0];
+      tabsHost.hidden = false;
+      tabsHost.removeAttribute('hidden');
+      tabsHost.innerHTML = cats
+        .map(function (key) {
+          return (
+            '<button type="button" role="tab" data-size-type="' +
+            escapeHtml(key) +
+            '" aria-selected="' +
+            (key === sizeTypeFilter ? 'true' : 'false') +
+            '">' +
+            escapeHtml(sizeTypeLabel(key)) +
+            '</button>'
+          );
+        })
+        .join('');
+      if (tabNote) {
+        var n = visibleSizes().length;
+        tabNote.textContent =
+          n +
+          ' sizes · every footprint drawn against the same frame, so they compare directly';
+      }
     }
 
     function eventParams(extra) {
@@ -2668,20 +3099,21 @@
       }
     }
 
-    function preferredIndex() {
+    function preferredIndex(listRows) {
+      var pool = listRows || sizes;
       var preferredIds = market === 'gb' ? ['king', 'double', 'queen'] : ['queen', 'king'];
       var i;
-      for (i = 0; i < sizes.length; i++) {
-        if (sizes[i].popular && sizes[i].available !== false) return i;
+      for (i = 0; i < pool.length; i++) {
+        if (pool[i].popular && pool[i].available !== false) return i;
       }
       for (i = 0; i < preferredIds.length; i++) {
         var id = preferredIds[i];
-        var idx = sizes.findIndex(function (s) {
+        var idx = pool.findIndex(function (s) {
           return s.id === id && s.available !== false;
         });
         if (idx >= 0) return idx;
       }
-      var firstAvail = sizes.findIndex(function (s) {
+      var firstAvail = pool.findIndex(function (s) {
         return s.available !== false;
       });
       return firstAvail >= 0 ? firstAvail : 0;
@@ -2689,20 +3121,24 @@
 
     function rebuildSizeButtons() {
       if (!list) return;
+      paintSizeTypeTabs();
       list.innerHTML = '';
-      var defaultIdx = preferredIndex();
-      sizes.forEach(function (s, i) {
+      var rows = visibleSizes();
+      var maxDim = catalogMaxDim(rows.length ? rows : sizes);
+      var defaultIdx = preferredIndex(rows);
+      rows.forEach(function (s, i) {
         var available = s.available !== false;
         var popular = !!s.popular;
+        var d = parseSizeDims(s);
         var dims = s.dims;
         if (!dims) {
           var mapped = (SIZE_MAPS[market] || []).filter(function (row) {
             return row.id === s.id;
           })[0];
-          dims = mapped && mapped.dims ? mapped.dims : '';
+          dims = mapped && mapped.dims ? mapped.dims : d.w + ' \u00d7 ' + d.l + ' cm';
         }
-        var btn = document.createElement('button');
-        btn.type = 'button';
+        var fits = s.fits || s.fit || '';
+        var btn = document.createElement('div');
         btn.className =
           'size-option' +
           (available ? '' : ' size-option--oos') +
@@ -2712,44 +3148,53 @@
         btn.setAttribute('data-size-id', s.id);
         btn.setAttribute('data-size-label', s.label);
         btn.setAttribute('data-size-dims', dims);
+        btn.setAttribute('data-size-fits', fits);
         btn.setAttribute('data-size-price', s.price || '');
         btn.setAttribute('data-size-price-raw', String(sizePriceRaw(s)));
         btn.setAttribute('data-size-firmness', s.firmness || 'Medium');
+        btn.setAttribute('data-size-type', resolveSizeType(s));
+        btn.setAttribute('data-qty', '0');
         if (s.variant_id || s.variantId) {
           btn.setAttribute('data-size-variant', String(s.variant_id || s.variantId));
         }
         btn.setAttribute('data-available', available ? 'true' : 'false');
+        var safeAdd = escapeHtml(addLabel || 'Add');
+        var qtyHtml = available
+          ? '<span class="size-option__qty" data-size-qty data-qty-mode="add">' +
+            '<button type="button" class="size-option__add" data-qty-add data-size-pick>' +
+            safeAdd +
+            '</button>' +
+            '<span class="size-option__stepper" data-qty-stepper hidden>' +
+            '<button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease ' +
+            escapeHtml(s.label) +
+            '">\u2212</button>' +
+            '<span class="size-option__qty-val" data-qty-val aria-live="polite">0</span>' +
+            '<button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase ' +
+            escapeHtml(s.label) +
+            '">+</button>' +
+            '</span>' +
+            '</span>'
+          : '<span class="size-option__qty size-option__qty--spacer" aria-hidden="true"></span>';
         btn.innerHTML =
-          '<span class="size-option__marker" aria-hidden="true"></span>' +
-          '<span class="size-option__main">' +
+          '<span class="size-option__name">' +
           '<span class="size-option__label">' +
-          s.label +
-          (popular
-            ? ' <span class="size-option__popular">Most popular</span>'
+          escapeHtml(s.label) +
+          '</span>' +
+          (fits
+            ? '<span class="size-option__fit">' + escapeHtml(fits) + '</span>'
             : '') +
           '</span>' +
+          '<span class="size-option__footprint">' +
+          sizeFootprintMarkup(s, maxDim) +
           '<span class="size-option__dims">' +
-          dims +
-          (available ? '' : ' · Not in this allocation') +
+          escapeHtml(dims) +
+          (available ? '' : ' \u00b7 Not in this allocation') +
           '</span>' +
           '</span>' +
-          (available
-            ? '<span class="size-option__qty" data-size-qty data-qty-mode="add">' +
-              '<button type="button" class="size-option__add" data-qty-add>' +
-              addLabel.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') +
-              '</button>' +
-              '<span class="size-option__stepper" data-qty-stepper hidden>' +
-              '<button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease quantity">−</button>' +
-              '<span class="size-option__qty-val" data-qty-val>1</span>' +
-              '<button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase quantity">+</button>' +
-              '</span>' +
-              '</span>'
-            : '<span class="size-option__qty size-option__qty--spacer" aria-hidden="true"></span>') +
-          (available && s.price
-            ? '<span class="size-option__price">' + s.price + '</span>'
-            : available
-              ? '<span class="size-option__price" aria-hidden="true"></span>'
-              : '<span class="size-option__price" aria-hidden="true"></span>');
+          '<span class="size-option__price">' +
+          (available && s.price ? escapeHtml(s.price) : '') +
+          '</span>' +
+          qtyHtml;
         list.appendChild(btn);
         if (i === defaultIdx) applySelection(btn, { silent: true });
       });
@@ -2773,6 +3218,7 @@
       if (!sizes.length && root.getAttribute('data-preview') === 'true') {
         sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
       }
+      sizeTypeFilter = '';
       rebuildSizeButtons();
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
       if (typeof refreshTotals === 'function') refreshTotals();
@@ -2810,7 +3256,20 @@
     }
 
     function sizeRowTapAddsToBasket() {
-      return window.matchMedia && window.matchMedia('(max-width: 899px)').matches;
+      return false;
+    }
+
+    if (tabsHost) {
+      tabsHost.addEventListener('click', function (e) {
+        var tab = e.target.closest('[data-size-type]');
+        if (!tab) return;
+        var from = sizeTypeFilter;
+        var next = tab.getAttribute('data-size-type');
+        if (!next || next === from) return;
+        sizeTypeFilter = next;
+        rebuildSizeButtons();
+        vTrack('market_switch', { from: from, to: next });
+      });
     }
 
     if (list) {
@@ -2827,11 +3286,13 @@
           collapseStageB(true);
           var sizeId = row.getAttribute('data-size-id');
           var q = lineQtyForSize(sizeId, row.getAttribute('data-size-variant'));
-          if (add) q = 1;
+          if (add) q = Math.max(q, 0) + 1;
           if (dec) q -= 1;
           if (inc) q = q + 1;
+          if (q > SIZE_QTY_CAP) q = SIZE_QTY_CAP;
           if (q < 1) {
             OrderStore.removeMattressSize(sizeId);
+            vTrack('size_remove', { size: sizeId });
             if (qtyInput) qtyInput.value = '1';
             if (!row.classList.contains('is-active')) {
               list.querySelectorAll('.size-option').forEach(function (b) {
@@ -2850,26 +3311,6 @@
         }
         var btn = e.target.closest('.size-option');
         if (!btn) return;
-        // Mobile: tap the row / radio to add. Desktop still uses Add.
-        if (
-          sizeRowTapAddsToBasket() &&
-          btn.getAttribute('data-request-size') !== 'true' &&
-          btn.getAttribute('data-available') !== 'false'
-        ) {
-          var existingQty = lineQtyForSize(
-            btn.getAttribute('data-size-id'),
-            btn.getAttribute('data-size-variant')
-          );
-          if (existingQty > 0) {
-            applySelection(btn);
-            return;
-          }
-          collapseStageB(true);
-          applySelection(btn, { silent: true });
-          upsertActiveMattress(1, { size: sizeFromRow(btn) });
-          updateContinueState();
-          return;
-        }
         applySelection(btn);
       });
     }
@@ -2918,6 +3359,7 @@
           if (reserve) reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
+        trackAddToBasket(OrderStore.lines(), market);
         // V8: fire intent, then navigate to /pages/checkout (payment page).
         vTrackOnce('reserve_intent', eventParams({
           value: OrderStore.orderValue(),
@@ -3045,6 +3487,7 @@
         collapseStageB(true);
         if (removed && removed.sizeId) {
           OrderStore.removeMattressSize(removed.sizeId);
+          vTrack('size_remove', { size: removed.sizeId });
         } else {
           OrderStore.removeLine(key);
         }
@@ -3063,6 +3506,23 @@
       renderOrderPanel();
       updateContinueState();
     });
+
+    var SIZE_HELP = {
+      ikea: 'Continental and IKEA frames take 160 \u00d7 200cm. That is European King.',
+      two: 'Super King gives each sleeper 90cm, the width of a single bed. Emperor gives a full metre each. If one of you moves, that ten centimetres is the difference between waking and not.',
+      measure: 'Measure the inside of the frame, not the mattress in it. Width first, then length, in centimetres. If it falls between two of these, take the smaller one.',
+    };
+    root.querySelectorAll('[data-size-help]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var out = root.querySelector('[data-size-help-out]');
+        if (!out) return;
+        out.textContent = SIZE_HELP[btn.getAttribute('data-size-help')] || '';
+        out.hidden = !out.textContent;
+      });
+    });
+
+    ensureBasketSheet();
+    paintOrderIncl(root, OrderStore.lines());
 
     function buildCartPayload(line, variantId, large) {
       var payload = {
@@ -4476,38 +4936,32 @@
       return atScrollEnd || rect.bottom <= vh + 1;
     }
 
+    function narrowBasket() {
+      return !(window.matchMedia && window.matchMedia('(min-width: 980px)').matches);
+    }
+
+    function basketHasItems() {
+      var lines = OrderStore.lines();
+      return lines.length > 0 || mattressUnitsFromLines(lines) > 0;
+    }
+
     function update() {
-      if (suppressPage) {
-        bar.hidden = true;
-        document.body.classList.remove('has-sticky-reserve', 'float-basket-at-footer');
-        return;
-      }
-      // Unavailable size / request-a-size: keep the basket at the bottom even
-      // while #reserve is on screen (sidebar shows notify / request UI).
-      if (forceFloatBasket()) {
+      var show = !suppressPage && narrowBasket() && (basketHasItems() || forceFloatBasket());
+      if (show) {
         bar.hidden = false;
         bar.removeAttribute('hidden');
+        bar.classList.add('is-active', 'has-items');
         document.body.classList.add('has-sticky-reserve');
         document.body.classList.toggle('float-basket-at-footer', copyrightAtPageEnd());
         setFloatBasketSpace();
-        return;
-      }
-      // Homepage / pages with #reserve: hide while reserve panel is in view,
-      // and suppress until the in-hero primary CTA has left the viewport.
-      if (reserve && sectionOn(reserve)) {
-        var show = heroCtaPassed && !reserveVisible;
-        bar.hidden = !show;
+      } else {
+        bar.classList.remove('is-active', 'has-items');
+        if (!forceFloatBasket()) {
+          bar.hidden = true;
+        }
         document.body.classList.toggle('has-sticky-reserve', show);
-        document.body.classList.toggle('float-basket-at-footer', show && copyrightAtPageEnd());
-        if (show) setFloatBasketSpace();
-        return;
+        document.body.classList.remove('float-basket-at-footer');
       }
-      // All other pages: always show the floating basket.
-      bar.hidden = false;
-      bar.removeAttribute('hidden');
-      document.body.classList.add('has-sticky-reserve');
-      document.body.classList.toggle('float-basket-at-footer', copyrightAtPageEnd());
-      setFloatBasketSpace();
     }
 
     function checkVisibility() {
@@ -4552,6 +5006,13 @@
     checkVisibility();
 
     bar.addEventListener('click', function (e) {
+      var view = e.target.closest('[data-float-view]');
+      if (view) {
+        e.preventDefault();
+        if (!OrderStore.lines().length) return;
+        openBasketSheet();
+        return;
+      }
       var cont = e.target.closest('[data-float-continue]');
       if (cont) {
         if (!OrderStore.lines().length) {
@@ -4563,6 +5024,7 @@
           }
           return;
         }
+        trackAddToBasket(OrderStore.lines());
         vTrackOnce('reserve_intent', {
           value: OrderStore.orderValue(),
           line_count: OrderStore.lines().length,
@@ -4588,6 +5050,15 @@
         }
       }
     });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeBasketSheet();
+    });
+    document.addEventListener('valtora:order-changed', function () {
+      paintFloatBasketFromStore();
+      update();
+    });
+    ensureBasketSheet();
   }
 
   function initFunnelTracking() {

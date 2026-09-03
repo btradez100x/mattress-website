@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true">
+<html class="js-ready" lang="en" data-market="ae" data-return-window-days="30" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=wo-v9-review1" data-valtora-brand-boot></script>
@@ -636,15 +636,24 @@
 
 <script type="application/json" data-size-price-config>
 [
-  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true},
-  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true},
-  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
-  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
-  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
-  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
-  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false}
+  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","width_cm":90,"length_cm":200,"price":"AED 8,999","price_raw":899900,"available":true,"sizetype":"uae"},
+  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","width_cm":160,"length_cm":200,"price":"AED 11,999","price_raw":1199900,"available":true,"popular":true,"sizetype":"uae"},
+  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","width_cm":180,"length_cm":200,"price":"AED 14,999","price_raw":1499900,"available":true,"sizetype":"uae"},
+  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","width_cm":200,"length_cm":200,"price":"AED 16,999","price_raw":1699900,"available":false,"sizetype":"uae"},
+  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","width_cm":90,"length_cm":190,"price":"£1,999","price_raw":199900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","width_cm":120,"length_cm":190,"price":"£2,249","price_raw":224900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","width_cm":135,"length_cm":190,"price":"£2,499","price_raw":249900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","width_cm":150,"length_cm":200,"price":"£2,999","price_raw":299900,"available":true,"popular":true,"sizetype":"uk"},
+  {"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","width_cm":160,"length_cm":200,"price":"£3,199","price_raw":319900,"available":true,"sizetype":"uk","fits":"Fits IKEA and continental frames"},
+  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","width_cm":180,"length_cm":200,"price":"£3,299","price_raw":329900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","width_cm":200,"length_cm":200,"price":"£3,699","price_raw":369900,"available":true,"sizetype":"uk","notrial":true},
+  {"market":"gb","id":"twin","label":"Twin","dims":"99 × 191 cm","width_cm":99,"length_cm":191,"price":"£1,999","price_raw":199900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","width_cm":91,"length_cm":213,"price":"£2,049","price_raw":204900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"full","label":"Full","dims":"137 × 191 cm","width_cm":137,"length_cm":191,"price":"£2,499","price_raw":249900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"us-queen","label":"Queen","dims":"152 × 203 cm","width_cm":152,"length_cm":203,"price":"£2,999","price_raw":299900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"us-king","label":"King","dims":"193 × 203 cm","width_cm":193,"length_cm":203,"price":"£3,399","price_raw":339900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"california-king","label":"California King","dims":"183 × 213 cm","width_cm":183,"length_cm":213,"price":"£3,399","price_raw":339900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"split-king","label":"Split King","dims":"213 × 213 cm","width_cm":213,"length_cm":213,"price":"£4,499","price_raw":449900,"available":true,"sizetype":"us","fits":"Two units, 106 × 213cm each"}
 ]
 </script>
 <div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Soft / firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
@@ -655,8 +664,26 @@
             <p class="section__lede">Select your size - price updates for your market. Dimensions always shown in centimetres.</p>
           <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
             <div class="size-picker">
+            <div class="size-tabs" data-size-tabs role="tablist" hidden></div>
+            <p class="size-tabnote" data-size-tabnote></p>
+            <div class="size-thead">
+              <span>Size</span>
+              <span>Footprint, drawn to scale</span>
+              <span class="size-thead__r">Each</span>
+              <span class="size-thead__r">Quantity</span>
+            </div>
             <div class="size-list" data-size-list role="listbox" aria-multiselectable="true" aria-label="Mattress size"></div>
             </div>
+            <details class="size-help">
+              <summary>Not sure which size you need?</summary>
+              <p>Most people are constrained by the frame they already own rather than by preference. Two questions usually settle it.</p>
+              <div class="size-help__qs">
+                <button type="button" data-size-help="ikea">I have an IKEA or continental frame</button>
+                <button type="button" data-size-help="two">Two of us, and one moves a lot</button>
+                <button type="button" data-size-help="measure">I need to measure</button>
+              </div>
+              <p data-size-help-out hidden></p>
+            </details>
             <div class="size-request-entry">
             <button
               type="button"
@@ -698,9 +725,17 @@
                 <a href="./pages/contact.html">Talk to us</a>
               </p>
               <p class="order-basket__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
-              <div data-order-retail hidden>
-                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./pages/checkout.html" href="./pages/checkout.html">Checkout</a>
+              <div data-order-retail>
+                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./pages/checkout.html" href="./pages/checkout.html">Add to basket</a>
                 <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
+              </div>
+              <div class="order-basket__incl">
+                <ul>
+                  <li>Comfort layer included with every mattress</li>
+                  <li>Concierge unpacking included</li>
+                  <li data-order-removal>Old mattress removal, complimentary</li>
+                  <li data-order-returns>30 day returns policy</li>
+                </ul>
               </div>
             </div>
 
@@ -1235,15 +1270,24 @@
 
 <script type="application/json" data-size-price-config>
 [
-  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true},
-  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true},
-  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
-  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
-  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
-  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
-  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":false},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,599","price_raw":359900,"available":false}
+  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","width_cm":90,"length_cm":200,"price":"AED 8,999","price_raw":899900,"available":true,"sizetype":"uae"},
+  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","width_cm":160,"length_cm":200,"price":"AED 11,999","price_raw":1199900,"available":true,"popular":true,"sizetype":"uae"},
+  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","width_cm":180,"length_cm":200,"price":"AED 14,999","price_raw":1499900,"available":true,"sizetype":"uae"},
+  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","width_cm":200,"length_cm":200,"price":"AED 16,999","price_raw":1699900,"available":false,"sizetype":"uae"},
+  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","width_cm":90,"length_cm":190,"price":"£1,999","price_raw":199900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","width_cm":120,"length_cm":190,"price":"£2,249","price_raw":224900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","width_cm":135,"length_cm":190,"price":"£2,499","price_raw":249900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","width_cm":150,"length_cm":200,"price":"£2,999","price_raw":299900,"available":true,"popular":true,"sizetype":"uk"},
+  {"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","width_cm":160,"length_cm":200,"price":"£3,199","price_raw":319900,"available":true,"sizetype":"uk","fits":"Fits IKEA and continental frames"},
+  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","width_cm":180,"length_cm":200,"price":"£3,299","price_raw":329900,"available":true,"sizetype":"uk"},
+  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","width_cm":200,"length_cm":200,"price":"£3,699","price_raw":369900,"available":true,"sizetype":"uk","notrial":true},
+  {"market":"gb","id":"twin","label":"Twin","dims":"99 × 191 cm","width_cm":99,"length_cm":191,"price":"£1,999","price_raw":199900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","width_cm":91,"length_cm":213,"price":"£2,049","price_raw":204900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"full","label":"Full","dims":"137 × 191 cm","width_cm":137,"length_cm":191,"price":"£2,499","price_raw":249900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"us-queen","label":"Queen","dims":"152 × 203 cm","width_cm":152,"length_cm":203,"price":"£2,999","price_raw":299900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"us-king","label":"King","dims":"193 × 203 cm","width_cm":193,"length_cm":203,"price":"£3,399","price_raw":339900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"california-king","label":"California King","dims":"183 × 213 cm","width_cm":183,"length_cm":213,"price":"£3,399","price_raw":339900,"available":true,"sizetype":"us"},
+  {"market":"gb","id":"split-king","label":"Split King","dims":"213 × 213 cm","width_cm":213,"length_cm":213,"price":"£4,499","price_raw":449900,"available":true,"sizetype":"us","fits":"Two units, 106 × 213cm each"}
 ]
 </script>
 <div class="page-width size-reserve__layout" data-size-reserve data-preview="true" data-confirmed-path="./pages/order-confirmed.html" data-market="ae" data-payment-mode="full" data-leadtime-placement="staged" data-finance-name="Tabby or Tamara" data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10" data-comfort-tops-enabled="false" data-comfort-top-price="AED 1,200" data-default-firmness="Soft / firm" data-add-label="Add" data-large-order-threshold-gb="10000" data-large-order-threshold-ae="47000" data-contact-path="./pages/contact.html" data-checkout-path="./pages/checkout.html">
@@ -1254,8 +1298,26 @@
             <p class="section__lede">Select your size - price updates for your market. Dimensions always shown in centimetres.</p>
           <p class="size-reserve__feel">Soft one side, firm the other. Unzip and flip whenever you want a different feel.</p>
             <div class="size-picker">
+            <div class="size-tabs" data-size-tabs role="tablist" hidden></div>
+            <p class="size-tabnote" data-size-tabnote></p>
+            <div class="size-thead">
+              <span>Size</span>
+              <span>Footprint, drawn to scale</span>
+              <span class="size-thead__r">Each</span>
+              <span class="size-thead__r">Quantity</span>
+            </div>
             <div class="size-list" data-size-list role="listbox" aria-multiselectable="true" aria-label="Mattress size"></div>
             </div>
+            <details class="size-help">
+              <summary>Not sure which size you need?</summary>
+              <p>Most people are constrained by the frame they already own rather than by preference. Two questions usually settle it.</p>
+              <div class="size-help__qs">
+                <button type="button" data-size-help="ikea">I have an IKEA or continental frame</button>
+                <button type="button" data-size-help="two">Two of us, and one moves a lot</button>
+                <button type="button" data-size-help="measure">I need to measure</button>
+              </div>
+              <p data-size-help-out hidden></p>
+            </details>
             <div class="size-request-entry">
             <button
               type="button"
@@ -1297,9 +1359,17 @@
                 <a href="./pages/contact.html">Talk to us</a>
               </p>
               <p class="order-basket__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
-              <div data-order-retail hidden>
-                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./pages/checkout.html" href="./pages/checkout.html">Checkout</a>
+              <div data-order-retail>
+                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./pages/checkout.html" href="./pages/checkout.html">Add to basket</a>
                 <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
+              </div>
+              <div class="order-basket__incl">
+                <ul>
+                  <li>Comfort layer included with every mattress</li>
+                  <li>Concierge unpacking included</li>
+                  <li data-order-removal>Old mattress removal, complimentary</li>
+                  <li data-order-returns>30 day returns policy</li>
+                </ul>
               </div>
             </div>
 
@@ -1601,13 +1671,19 @@
     </div>
 
         <div class="float-basket" data-float-basket data-sticky-reserve hidden>
-      <span class="float-basket__count" data-float-count>1 mattress</span>
-      <strong class="float-basket__total" data-float-total data-sticky-price>-</strong>
-      <a class="float-basket__btn" data-float-continue data-checkout-href="./pages/checkout.html" href="#reserve">See sizes and prices</a>
+      <div class="float-basket__sum">
+        <span class="float-basket__count" data-float-count>0 mattresses</span>
+        <strong class="float-basket__total" data-float-total data-sticky-price></strong>
+      </div>
+      <div class="float-basket__acts">
+        <button type="button" class="float-basket__view" data-float-view>View</button>
+        <a class="float-basket__btn" data-float-continue data-checkout-href="./pages/checkout.html" href="./pages/checkout.html">Checkout</a>
+      </div>
     </div>
 
     <script>
-      window.ValtoraTheme = { brandName: 'Aligna', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '#' }, debugTrack: true };
+      window.ValtoraTheme = { brandName: 'Aligna', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '#' }, debugTrack: true, sizeTypeLabels: { uk: 'UK sizes', us: 'US sizes', international: 'International sizes', uae: 'UAE sizes', default: 'Other sizes' } };
+      window.NUMA = { returnsDays: 30, layerPrice: '£299' };
     </script>
     <script>
       window.ValtoraTheme = window.ValtoraTheme || {};

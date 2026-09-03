@@ -552,6 +552,26 @@
         "default": "15"
       },
       {
+        "type": "number",
+        "id": "return_window_days",
+        "label": "Returns window, in days",
+        "info": "Used wherever the returns policy is stated. Changing it here updates every page.",
+        "default": 30
+      },
+      {
+        "type": "text",
+        "id": "comfort_layer_price_gb",
+        "label": "Comfort layer value (UK)",
+        "default": "£299",
+        "info": "Shown on the size selector and product pages. Changing it here changes it everywhere."
+      },
+      {
+        "type": "text",
+        "id": "comfort_layer_price_ae",
+        "label": "Comfort layer value (UAE)",
+        "default": "AED 1,200"
+      },
+      {
         "type": "text",
         "id": "firmness_label",
         "label": "Firmness label",
