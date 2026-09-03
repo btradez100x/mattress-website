@@ -30,6 +30,21 @@
       })();
     </script>
     {% render 'meta-tags' %}
+    {%- if template.name == 'page' and page.handle == 'checkout' -%}
+    <link rel="canonical" href="{{ shop.url }}{{ routes.cart_url }}">
+    <script>
+      (function () {
+        var dest = {{ routes.cart_url | json }};
+        try {
+          if (location.search) {
+            dest += (dest.indexOf('?') >= 0 ? '&' : '?') + location.search.replace(/^\?/, '');
+          }
+        } catch (e) {}
+        window.location.replace(dest);
+      })();
+    </script>
+    <meta http-equiv="refresh" content="0;url={{ routes.cart_url }}">
+    {%- endif -%}
     {% render 'consent-defaults' %}
     {%- if settings.gtm_container_id != blank -%}
     <!-- Google Tag Manager -->
@@ -140,9 +155,11 @@
         cartChange: {{ routes.cart_change_url | json }},
         cart: {{ routes.cart_url | json }},
         checkout: {{ routes.root_url | append: 'checkout' | json }},
-        review: {{ pages['checkout'].url | default: '/pages/checkout' | json }},
+        review: {{ routes.cart_url | json }},
         root: {{ routes.root_url | json }}
       };
+      window.NUMA = window.NUMA || {};
+      window.NUMA.returnsDays = {{ settings.return_window_days | default: settings.trial_nights | default: 30 | json }};
     </script>
   </head>
 

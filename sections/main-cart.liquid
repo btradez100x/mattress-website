@@ -1,88 +1,207 @@
-<section class="cart-page order-page" data-cart-page data-order-page>
-  <div class="page-width cart-page__wrap">
-    <div class="cart-panel" data-reveal>
-      <p class="section__eyebrow cart-panel__eyebrow">Order</p>
-      <hr class="gold-rule">
-      <h1 class="cart-page__title">Your order</h1>
-      <p class="cart-page__lede">Review your size, then continue to checkout.</p>
-      {%- capture cart_lead -%}{%- render 'lead-time', product_type: 'mattress' -%}{%- endcapture -%}
-      {%- assign cart_lead = cart_lead | strip -%}
-      {%- assign trial = settings.trial_nights | default: '30' | strip -%}
-      {%- if trial == blank -%}{%- assign trial = '30' -%}{%- endif -%}
-      <p class="cart-leadtime" data-cart-leadtime>
-        Made to order. Delivery in {{ cart_lead }}.
-      </p>
-      <p class="cart-trial-line">
-        Adjust to Desire. Concierge unpacking included.
-      </p>
+{%- liquid
+  assign return_days = settings.return_window_days | default: settings.trial_nights | default: 30
+  assign warranty = settings.warranty_years | default: '25'
+  assign payment_mode = settings.payment_mode | default: 'full'
+  assign split_percent = settings.split_percent | default: 50
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+    assign finance_name = 'Klarna'
+    assign layer_price = settings.comfort_layer_price_gb | default: '£299'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+    assign finance_name = 'Tabby or Tamara'
+    assign layer_price = settings.comfort_layer_price_ae | default: 'AED 1,200'
+  else
+    assign market = settings.default_market | default: 'ae'
+    if market == 'gb'
+      assign finance_name = 'Klarna'
+      assign layer_price = settings.comfort_layer_price_gb | default: '£299'
+    else
+      assign finance_name = 'Tabby or Tamara'
+      assign layer_price = settings.comfort_layer_price_ae | default: 'AED 1,200'
+    endif
+  endif
+-%}
+{%- capture lead_window -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
+{%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'min' -%}{%- endcapture -%}
+{%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'max' -%}{%- endcapture -%}
+{%- capture warranty_words -%}{%- render 'policy-words', n: warranty -%}{%- endcapture -%}
+{%- assign lead_window = lead_window | strip -%}
+{%- assign recycling_url = pages['mattress-recycling'].url | default: '/pages/mattress-recycling' -%}
+{%- assign delivery_url = pages['delivery'].url | default: '/pages/delivery' -%}
+{%- assign sizes_href = routes.root_url | append: '#reserve' -%}
+<section
+  class="checkout-page"
+  data-checkout-page
+  data-cart-canonical
+  data-market="{{ market }}"
+  data-payment-mode="{{ payment_mode }}"
+  data-lead-window="{{ lead_window | escape }}"
+  data-lead-min="{{ lt_min | strip }}"
+  data-lead-max="{{ lt_max | strip }}"
+  data-large-order-threshold-gb="10000"
+  data-large-order-threshold-ae="47000"
+  data-finance-name="{{ finance_name | escape }}"
+  data-warranty-years="{{ warranty | escape }}"
+  data-returns-days="{{ return_days | escape }}"
+  data-layer-price="{{ layer_price | escape }}"
+  data-recycling-href="{{ recycling_url | escape }}"
+  data-delivery-href="{{ delivery_url | escape }}"
+>
+  <div class="page-width cart-empty" data-checkout-empty hidden>
+    <p>Your order is empty.</p>
+    <a class="btn" href="{{ sizes_href }}">See sizes and prices</a>
+  </div>
 
-      {%- if cart.item_count == 0 -%}
-        <div class="cart-empty">
-          <p>Your order is empty.</p>
-          <a class="btn" href="{{ routes.root_url }}#reserve">See sizes and prices</a>
+  <div class="checkout-flow" data-checkout-flow data-reserve-stage-b>
+    <header class="checkout-head">
+      <div class="page-width checkout-head__row">
+        <div>
+          <p class="checkout-head__kicker">Your order</p>
+          <h1 class="checkout-head__title" data-stageb-summary>Made to order.</h1>
         </div>
-      {%- else -%}
-        <form action="{{ routes.cart_url }}" method="post" class="cart-form" data-cart-form>
-          <ul class="cart-lines order-lines__list" role="list">
-            {%- for item in cart.items -%}
-              <li class="cart-line" data-cart-line data-key="{{ item.key | escape }}">
-                <div class="cart-line__copy">
-                  <p class="cart-line__title">
-                    {%- if item.properties.Size != blank -%}
-                      {{ item.properties.Size }}
-                    {%- else -%}
-                      {{ item.product.title }}
-                    {%- endif -%}
-                    <span class="cart-line__qty-inline"> · {{ item.quantity }}</span>
-                  </p>
-                  {%- if item.properties.Firmness != blank -%}
-                    <p class="cart-line__meta">Feel: {{ item.properties.Firmness }}</p>
-                  {%- endif -%}
-                  {%- if item.properties['Item type'] != blank -%}
-                    <p class="cart-line__meta">{{ item.properties['Item type'] }}</p>
-                  {%- endif -%}
-                  <p class="cart-line__meta cart-line__unit">{{ item.final_price | money }} each</p>
-                </div>
-                <div class="cart-line__aside">
-                  <p class="cart-line__total" data-line-total>{{ item.final_line_price | money }}</p>
-                  <a class="cart-line__remove" href="{{ item.url_to_remove }}">Remove</a>
-                </div>
-              </li>
-            {%- endfor -%}
-          </ul>
+        <a class="checkout-head__back" href="{{ sizes_href }}">← Add another size</a>
+      </div>
+    </header>
 
-          <div class="cart-summary order-summary is-visible">
-            <div class="cart-summary__row">
-              <span>{{ cart.item_count }} {{ cart.item_count | pluralize: 'unit', 'units' }}</span>
-              <strong data-cart-subtotal>{{ cart.total_price | money }}</strong>
+    {%- comment -%} Lead time band sits above the items. Stated once. Do not move during the test. {%- endcomment -%}
+    <section class="checkout-leadband" data-leadtime-block id="lead">
+      <div class="page-width">
+        <div class="checkout-leadband__grid">
+          <div>
+            <p class="checkout-leadband__k">Delivery</p>
+            <p class="checkout-leadband__big" data-lead-window-label>{{ lead_window }}</p>
+            <p class="checkout-leadband__sub">From today</p>
+            <div class="checkout-leadband__more">
+              <details data-lead-why>
+                <summary>Why</summary>
+                <p data-lead-why-body>Your mattresses go into production once this order is placed. We call to agree a delivery window before we come, and your old mattresses leave at the same time. <a href="{{ delivery_url }}">More on delivery</a></p>
+              </details>
             </div>
-            <p class="cart-summary__note">
-              Made to order. A window agreed in advance.
-            </p>
-            <div class="cart-service-lines" data-cart-services>
-              <div class="cart-service-line">
-                <div class="cart-service-line__label">
-                  <label class="cart-service-line__check">
-                    <input type="checkbox" data-old-mattress-removal checked>
-                    Old mattress removal and recycling
-                  </label>
-                  <a href="{{ pages['mattress-recycling'].url | default: '/pages/mattress-recycling' }}">We carry the cost. Read what happens to it</a>
-                </div>
-                <span class="cart-service-line__value">Complimentary</span>
-              </div>
-              <div class="cart-service-line">
-                <div class="cart-service-line__label">Concierge unpacking</div>
-                <span class="cart-service-line__value">Complimentary</span>
-              </div>
-            </div>
-            <div class="cart-summary__actions">
-              <button class="btn btn--lg" type="submit" name="checkout" data-cart-checkout>Checkout</button>
-              <a class="btn btn--ghost btn--line" href="{{ routes.root_url }}#reserve">Add another size</a>
-            </div>
-            <p class="cart-status" data-cart-status hidden role="status"></p>
           </div>
-        </form>
-      {%- endif -%}
+          <div class="checkout-leadband__cols" data-leadtime-copy data-leadtime-copy-mattress>
+            <p data-lead-body-1>Your mattress goes into production once this order is placed. Nothing sits in a warehouse waiting, which is why the wait exists and why there is never a clearance sale.</p>
+            <p data-lead-body-miss>If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p>
+          </div>
+          <div class="checkout-leadband__cols" data-leadtime-copy-mattress>
+            <p data-lead-body-2>We call to agree a delivery window before we come. Concierged to the room of your choice, unrolled onto your bed, packaging gone.</p>
+            <p data-lead-body-old>Your old mattress leaves at the same time. <a href="{{ delivery_url }}">More on delivery</a></p>
+          </div>
+        </div>
+        <p class="checkout-leadband__explain" data-leadtime-explain hidden></p>
+        <p data-leadtime-copy-top hidden>
+          Your comfort layer is made to order and sent by courier in {% render 'lead-time', product_type: 'top' %}. Unroll it and give it a few hours to recover its full height.
+        </p>
+        <p data-leadtime-copy-parcel hidden>
+          Sent by courier in {% render 'lead-time', product_type: 'sheets' %}.
+        </p>
+        <p data-leadtime-copy-mixed hidden>
+          Your order includes items with different lead times. We use the longer window so everything can arrive together.
+        </p>
+      </div>
+    </section>
+
+    <div class="page-width checkout-layout">
+      <div>
+        <ul class="checkout-items" role="list" data-checkout-lines></ul>
+        <a class="checkout-addmore" href="{{ sizes_href }}">Add another size</a>
+      </div>
+
+      <aside class="checkout-summary checkout-stage">
+        <h2>Order summary</h2>
+        <div data-checkout-summary-lines></div>
+        <div data-checkout-services hidden>
+          <div class="checkout-s-line checkout-s-line--svc" data-svc-concierge>
+            <span class="checkout-s-line__l">
+              Concierge unpacking
+              <small data-svc-concierge-note hidden>Your mattresses will be left boxed in the room of your choice</small>
+              <button type="button" class="checkout-s-line__act" data-svc-concierge-toggle>Remove</button>
+            </span>
+            <span class="checkout-s-line__v checkout-s-line__v--incl" data-svc-concierge-value>Included</span>
+          </div>
+          <div class="checkout-s-line checkout-s-line--svc" data-svc-removal>
+            <span class="checkout-s-line__l">
+              Old mattress removal
+              <small data-removal-label>Not included</small>
+              <span class="checkout-svc-qty">
+                <button type="button" data-rem="dec" aria-label="Fewer removals">−</button>
+                <span class="checkout-svc-qty__n" data-removal-count aria-live="polite">0</span>
+                <button type="button" data-rem="inc" aria-label="More removals">+</button>
+              </span>
+              <a href="{{ recycling_url }}" data-recycling-link>What happens to it →</a>
+            </span>
+            <span class="checkout-s-line__v checkout-s-line__v--incl" data-removal-value>Complimentary</span>
+          </div>
+          <div class="checkout-s-line">
+            <span class="checkout-s-line__l">Delivery</span>
+            <span class="checkout-s-line__v checkout-s-line__v--incl">Included</span>
+          </div>
+        </div>
+        <div class="checkout-s-total">
+          <span class="checkout-s-total__l">
+            Total
+            <span data-checkout-item-count hidden>0 units</span>
+          </span>
+          <strong data-checkout-subtotal>-</strong>
+        </div>
+
+        <div class="order-large-terms" data-order-large-terms hidden>
+          <p class="deposit-terms__title">Terms for larger orders</p>
+          <p class="reserve-panel__meta" data-order-large-copy></p>
+          <label class="order-large-terms__ack">
+            <input type="checkbox" data-order-large-ack>
+            <span>I understand these terms for this order</span>
+          </label>
+        </div>
+
+        <button class="checkout-stage__pay" type="button" data-checkout-pay data-pay-source="summary">
+          <span data-pay-label>Pay</span>
+        </button>
+        <p class="checkout-stage__finance" data-bnpl-monthly hidden>
+          <span data-bnpl-copy></span>
+          {%- if finance_name == 'Klarna' -%}
+            <klarna-placement
+              data-bnpl-klarna
+              data-key="credit-promotion-auto-size"
+              data-locale="en-GB"
+              hidden
+            ></klarna-placement>
+            {%- if settings.splitit_enabled and settings.splitit_merchant_id != blank -%}
+              <spt-strip
+                data-splitit-slot
+                is_solid="true"
+                relative_to_parent="true"
+                text_size="small"
+                text_alignment="center"
+                hidden
+              ></spt-strip>
+            {%- endif -%}
+          {%- endif -%}
+        </p>
+        <p class="checkout-stage__status" data-cart-status hidden role="status"></p>
+
+        <ul class="checkout-stage__terms">
+          {%- if payment_mode == 'full' -%}
+            <li>Cancel any time before dispatch for a full refund</li>
+            <li data-returns-term>{{ return_days }} day returns policy from delivery.</li>
+            <li data-layer-term>Adjust to Desire - one comfort layer remade to your preference, with our compliments</li>
+            <li>{{ warranty_words | strip }} year guarantee on the pocket spring core</li>
+          {%- else -%}
+            <li>Pay {{ split_percent }}% today. Balance due before dispatch.</li>
+            <li>Cancel any time before dispatch for a full refund of amounts paid</li>
+            <li data-returns-term>{{ return_days }} day returns policy from delivery.</li>
+            <li>{{ warranty_words | strip }} year guarantee on the pocket spring core</li>
+          {%- endif -%}
+        </ul>
+      </aside>
+    </div>
+
+    <div class="checkout-bar" data-checkout-bar hidden>
+      <div>
+        <span class="checkout-bar__count" data-checkout-bar-count>Your order</span>
+        <span class="checkout-bar__total" data-checkout-bar-total>-</span>
+      </div>
+      <button class="checkout-bar__go" type="button" data-checkout-pay data-pay-source="sticky_bar"><span data-pay-label>Pay</span></button>
     </div>
   </div>
 </section>
@@ -90,6 +209,13 @@
 {% schema %}
 {
   "name": "Cart",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Stage B heading",
+      "default": "Your order"
+    }
+  ]
 }
 {% endschema %}

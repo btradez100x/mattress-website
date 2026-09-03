@@ -52,7 +52,7 @@
   endif
   assign continue_path = section.settings.continue_path | strip
   if continue_path == blank
-    assign continue_path = pages['checkout'].url | default: '/pages/checkout'
+    assign continue_path = routes.cart_url
   endif
   assign configure_funnel = false
   if section.settings.configure_funnel
@@ -245,8 +245,8 @@
               class="btn btn--lg btn--block"
               style="text-align:center;"
               data-reserve-continue
-              data-checkout-href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
-              href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
+              data-checkout-href="{{ continue_path }}"
+              href="{{ continue_path }}"
             >
               Checkout
             </a>
@@ -655,8 +655,8 @@
       "type": "richtext",
       "id": "order_terms_full",
       "label": "Terms body (full payment)",
-      "info": "Use [X] for warranty years from Theme settings → Warranty years.",
-      "default": "<ul><li>Cancel any time before dispatch for a full refund, no questions asked.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
+      "info": "Use [X]-year warranty for Theme settings → Warranty years. Storefront wording is guarantee.",
+      "default": "<ul><li>Cancel any time before dispatch for a full refund.</li><li>Spread the cost with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within five to ten business days.</li><li>[N] day returns policy from delivery.</li><li>[X]-year guarantee on the pocket spring core.</li></ul>"
     },
     {
       "type": "text",
@@ -668,8 +668,8 @@
       "type": "richtext",
       "id": "order_terms_split",
       "label": "Terms body (split payment)",
-      "info": "Use [X] for warranty years from Theme settings → Warranty years.",
-      "default": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid, no questions asked.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within 5-10 business days.</li><li>[N] nights to change your mind once it arrives.</li><li>[X]-year warranty on the spring core.</li></ul>"
+      "info": "Use [X]-year warranty for Theme settings → Warranty years. Storefront wording is guarantee.",
+      "default": "<ul><li>Pay the stated percentage today. The balance is due before dispatch.</li><li>Cancel any time before dispatch for a full refund of amounts paid.</li><li>Spread either payment with Klarna / Tabby at no extra charge.</li><li>Refunds returned to the original payment method within five to ten business days.</li><li>[N] day returns policy from delivery.</li><li>[X]-year guarantee on the pocket spring core.</li></ul>"
     },
     {
       "type": "text",

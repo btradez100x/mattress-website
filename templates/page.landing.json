@@ -354,7 +354,7 @@
           "type": "item",
           "settings": {
             "question": "Why does it take 8 to 10 weeks?",
-            "answer": "Because nothing is made until you order it. Your mattress is built to your chosen size, flown to the UK, and cleared through customs. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.",
+            "answer": "Because nothing is made until you order it. Your mattress is built to your chosen size. This is how made-to-order furniture works - the same wait you would expect from a bespoke sofa. Many orders arrive sooner.",
             "payment_mode_visibility": "all"
           }
         },
@@ -362,7 +362,7 @@
           "type": "item",
           "settings": {
             "question": "Can I change my mind after ordering?",
-            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full, no questions asked. Once it arrives you still have [N] nights.",
+            "answer": "Yes. Cancel any time before your mattress is dispatched and we refund you in full. Once it arrives you still have [N] nights.",
             "payment_mode_visibility": "all"
           }
         },

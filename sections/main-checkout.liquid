@@ -1,146 +1,28 @@
-{%- liquid
-  assign trial = settings.trial_nights | default: '100' | strip
-  if trial == blank
-    assign trial = '100'
-  endif
-  assign warranty = settings.warranty_years | default: '25'
-  assign payment_mode = settings.payment_mode | default: 'full'
-  assign split_percent = settings.split_percent | default: 50
-  if localization.country.iso_code == 'GB'
-    assign market = 'gb'
-    assign finance_name = 'Klarna'
-  elsif localization.country.iso_code == 'AE'
-    assign market = 'ae'
-    assign finance_name = 'Tabby or Tamara'
-  else
-    assign market = settings.default_market | default: 'ae'
-    if market == 'gb'
-      assign finance_name = 'Klarna'
-    else
-      assign finance_name = 'Tabby or Tamara'
-    endif
-  endif
--%}
-{%- capture lead_window -%}{%- render 'lead-time', product: product, product_type: 'mattress' -%}{%- endcapture -%}
-{%- capture lt_min -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'min' -%}{%- endcapture -%}
-{%- capture lt_max -%}{%- render 'lead-time', product: product, product_type: 'mattress', format: 'max' -%}{%- endcapture -%}
-{%- assign lead_window = lead_window | strip -%}
-<section
-  class="checkout-page"
-  data-checkout-page
-  data-market="{{ market }}"
-  data-payment-mode="{{ payment_mode }}"
-  data-lead-window="{{ lead_window | escape }}"
-  data-lead-min="{{ lt_min | strip }}"
-  data-lead-max="{{ lt_max | strip }}"
-  data-large-order-threshold-gb="10000"
-  data-large-order-threshold-ae="47000"
-  data-finance-name="{{ finance_name | escape }}"
-  data-warranty-years="{{ warranty | escape }}"
->
-  <div class="page-width checkout-page__wrap">
-    <div class="cart-empty" data-checkout-empty hidden>
-      <p>Your order is empty.</p>
-      <a class="btn" href="{{ routes.root_url }}#reserve">See sizes and prices</a>
-    </div>
-
-    <div class="checkout-stage" data-checkout-flow data-reserve-stage-b>
-      <p class="checkout-stage__eyebrow">{{ section.settings.heading | default: 'Before you order' }}</p>
-      <h1 class="checkout-stage__summary" data-stageb-summary></h1>
-
-      <ul class="checkout-stage__lines" role="list" data-checkout-lines></ul>
-
-      <div class="checkout-stage__total">
-        <span>
-          <span data-checkout-item-count>0 units</span>
-          <span class="checkout-stage__finance" data-bnpl-monthly hidden>
-            <span data-bnpl-copy></span>
-            {%- if finance_name == 'Klarna' -%}
-              <klarna-placement
-                data-bnpl-klarna
-                data-key="credit-promotion-auto-size"
-                data-locale="en-GB"
-                hidden
-              ></klarna-placement>
-              {%- if settings.splitit_enabled and settings.splitit_merchant_id != blank -%}
-                <spt-strip
-                  data-splitit-slot
-                  is_solid="true"
-                  relative_to_parent="true"
-                  text_size="small"
-                  text_alignment="left"
-                  hidden
-                ></spt-strip>
-              {%- endif -%}
-            {%- endif -%}
-          </span>
-        </span>
-        <strong data-checkout-subtotal>-</strong>
-      </div>
-
-      <div class="order-large-terms" data-order-large-terms hidden>
-        <p class="deposit-terms__title">Terms for larger orders</p>
-        <p class="reserve-panel__meta" data-order-large-copy></p>
-        <label class="order-large-terms__ack">
-          <input type="checkbox" data-order-large-ack>
-          <span>I understand these terms for this order</span>
-        </label>
-      </div>
-
-      <button class="checkout-stage__pay" type="button" data-checkout-pay>
-        <span data-pay-label>Pay</span>
-      </button>
-      <p class="checkout-stage__status" data-cart-status hidden role="status"></p>
-
-      <div class="checkout-stage__lead" data-leadtime-block>
-        <p class="checkout-stage__lead-k">Delivery</p>
-        <p class="checkout-stage__lead-v" data-lead-window-label>{% render 'lead-time', product: product, product_type: 'mattress' %}</p>
-        <p class="checkout-stage__lead-s" data-leadtime-explain>
-          Most orders arrive sooner. Built after you order and flown to your market.
-        </p>
-      </div>
-
-      <p class="checkout-stage__copy" data-leadtime-copy data-leadtime-copy-mattress>
-        Made to order and delivered in {% render 'lead-time', product: product, product_type: 'mattress' %}. Most orders arrive sooner. Your mattress is built after you order it and flown to
-        {%- if market == 'gb' %} the UK
-        {%- elsif market == 'ae' %} the UAE
-        {%- else %} your market
-        {%- endif -%}.
-        If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
-      </p>
-      <p class="checkout-stage__copy" data-leadtime-copy-top hidden>
-        Your comfort layer is made to order and sent by courier in {% render 'lead-time', product_type: 'top' %}. Unroll it and give it a few hours to recover its full height.
-      </p>
-      <p class="checkout-stage__copy" data-leadtime-copy-parcel hidden>
-        Sent by courier in {% render 'lead-time', product_type: 'sheets' %}.
-      </p>
-      <p class="checkout-stage__copy" data-leadtime-copy-mixed hidden>
-        Your order includes items with different lead times. We use the longer window so everything can arrive together.
-      </p>
-
-      {%- assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.' -%}
-      <ul class="checkout-stage__terms">
-        {%- if payment_mode == 'full' -%}
-          <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
-          <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
-          <li>Refunds returned to the original payment method within 5-10 business days.</li>
-          <li>{{ trial }} nights to change your mind once it arrives.</li>
-          <li>{{ warranty }}-year warranty on the spring core.</li>
-          <li>{{ variation_notice }}</li>
-        {%- else -%}
-          <li>Pay {{ split_percent }}% today. Balance due before dispatch.</li>
-          <li>Cancel any time before dispatch for a full refund of amounts paid.</li>
-          <li>Spread either payment with {{ finance_name }} at no extra charge.</li>
-          <li>{{ trial }} nights to change your mind once it arrives.</li>
-          <li>{{ warranty }}-year warranty on the spring core.</li>
-          <li>{{ variation_notice }}</li>
-        {%- endif -%}
-      </ul>
-
-      <a class="checkout-stage__back" href="{{ routes.root_url }}#reserve">Back to sizes</a>
+{%- comment -%}
+  /pages/checkout is deleted as an order surface. Native /cart is canonical.
+  Keep this template so bookmarks still resolve, then 301 to /cart.
+  Do not fire basket_view here.
+{%- endcomment -%}
+<section class="cart-page order-page" data-cart-redirect="{{ routes.cart_url }}">
+  <div class="page-width cart-page__wrap">
+    <div class="cart-panel">
+      <p class="section__eyebrow">Your order</p>
+      <h1 class="cart-page__title">Taking you to your order.</h1>
+      <p><a class="btn" href="{{ routes.cart_url }}">Continue to your order</a></p>
     </div>
   </div>
 </section>
+<script>
+  (function () {
+    var dest = {{ routes.cart_url | json }};
+    try {
+      if (location.search) {
+        dest += (dest.indexOf('?') >= 0 ? '&' : '?') + location.search.replace(/^\?/, '');
+      }
+    } catch (e) {}
+    window.location.replace(dest);
+  })();
+</script>
 
 {% schema %}
 {
@@ -150,7 +32,7 @@
       "type": "text",
       "id": "heading",
       "label": "Stage B heading",
-      "default": "Before you order"
+      "default": "Your order"
     }
   ]
 }
