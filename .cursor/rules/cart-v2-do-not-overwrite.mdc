@@ -1,0 +1,21 @@
+---
+description: New mods v2 basket is canonical. Do not overwrite /cart.
+alwaysApply: true
+---
+
+# Stop superseded basket work
+
+`Basket redesign.zip` is **superseded**. Stop immediately if that is the task you were given. Do not write files for it.
+
+Canonical order page is **New mods v2** on **`/cart`**. `/pages/checkout` is a redirect to `/cart`. Shopify hosted `/checkout` is payment only.
+
+## Do not touch (except to keep this contract)
+
+- `valtora-theme/sections/main-cart.liquid` — the order surface
+- `preview/pages/cart.html` — preview of the same
+- Cart/checkout CSS in `preview/base.css` and `valtora-theme/assets/base.css` (`checkout-leadband` / `checkout-layout` / `checkout-bar`)
+- Cart helpers in `preview/theme.js` and `valtora-theme/assets/theme.js`: `pieceCountOf`, `checkoutFootprint*`, `initCheckoutPage`, qty/remove, concierge and removal steppers
+
+Do not move the lead-time band. Do not send `/cart` to `/pages/checkout`. Keep `/pages/checkout` as a redirect.
+
+Size-selector redesign from the zip is out of scope until the user asks for it.

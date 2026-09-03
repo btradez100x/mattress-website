@@ -1,199 +1,32 @@
 <!doctype html>
-<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-warranty-years="25">
+<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-warranty-years="25" data-trial-nights="30" data-return-window-days="30">
   <head>
     <meta charset="utf-8">
     <script src="../brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+    <script>
+      (function () {
+        var dest = './cart.html';
+        try {
+          if (location.search) dest += location.search;
+        } catch (e) {}
+        location.replace(dest);
+      })();
+    </script>
+    <meta http-equiv="refresh" content="0;url=./cart.html">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#1F3A5F">
-    <title>Checkout · Numa</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Your order · Numa</title>
     <link rel="stylesheet" href="../base.css?v=wo-v9-basketux2">
-    <style>
-      :root {
-
-        --space-section: clamp(5.5rem, 12vw, 9rem);
-        --space-gutter: clamp(1.35rem, 4vw, 2.75rem);
-        --max-width: 72rem;
-        --max-width-narrow: 40rem;
-        --radius: 0;
-        --radius-control: 0.35rem;
-        --transition: var(--dur-base) var(--ease);
-      
-      }
-      .preview-banner {
-        background: var(--brand-primary);
-        color: var(--brand-on-dark);
-        text-align: center;
-        font-size: 0.8125rem;
-        letter-spacing: 0.04em;
-        padding: 0.55rem 1rem;
-      }
-      html[data-brand-guidelines="v2"] .preview-banner {
-        background: var(--brand-primary);
-        color: var(--brand-on-dark);
-      }
-      .site-header--solid {
-        position: sticky; top: 0; z-index: 40;
-        background: color-mix(in srgb, var(--brand-bg) 92%, transparent);
-        border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 10%, transparent);
-        backdrop-filter: blur(8px);
-      }
-      .site-header--solid .site-header__inner {
-        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-        padding: 0.85rem 0;
-      }
-    </style>
   </head>
   <body data-page="checkout" data-payment-mode="full">
     <div class="preview-banner" data-preview-chrome><strong>Local theme preview</strong></div>
-            <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
-      <p style="margin:0">Concierge unpacking <b>included with every mattress</b> · To the room of your choice, packaging taken away</p>
-      <button type="button" class="announcement__dismiss" data-announcement-dismiss aria-label="Dismiss">×</button>
-    </div>
-<header class="site-header site-header--solid">
-      <div class="page-width site-header__inner">
-        <a class="wordmark" href="../index.html" aria-label="Numa Mattresses">
-          <span class="wordmark__lockup">
-            <span class="wordmark__text" data-brand-text>Numa</span>
-            <span class="wordmark__product" data-brand-product-line data-brand-product-line>Mattresses</span>
-          </span>
-        </a>
-        <a class="checkout-header__back" href="../index.html#reserve">Back to sizes</a>
-      </div>
-    </header>
-
-    <main>
-      <section
-        class="checkout-page"
-        data-checkout-page
-        data-checkout-preview="true"
-        data-confirmed-path="./order-confirmed.html"
-        data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10"
-        data-large-order-threshold-gb="10000"
-        data-large-order-threshold-ae="47000"
-      >
-        <div class="page-width checkout-page__wrap">
-          <div class="cart-empty" data-checkout-empty hidden>
-            <p>Your order is empty.</p>
-            <a class="btn" href="../index.html#reserve">See sizes and prices</a>
-          </div>
-
-          <div class="checkout-stage" data-checkout-flow data-reserve-stage-b>
-            <p class="checkout-stage__eyebrow">Before you order</p>
-            <h1 class="checkout-stage__summary" data-stageb-summary></h1>
-
-            <ul class="checkout-stage__lines" role="list" data-checkout-lines></ul>
-
-            <div class="checkout-stage__total">
-              <span>
-                <span data-checkout-item-count>0 units</span>
-                <span class="checkout-stage__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></span>
-              </span>
-              <strong data-checkout-subtotal>-</strong>
-            </div>
-
-            <div class="order-large-terms" data-order-large-terms hidden>
-              <p class="deposit-terms__title">Terms for larger orders</p>
-              <p class="reserve-panel__meta" data-order-large-copy></p>
-              <label class="order-large-terms__ack">
-                <input type="checkbox" data-order-large-ack>
-                <span>I understand these terms for this order</span>
-              </label>
-            </div>
-
-            <button class="checkout-stage__pay" type="button" data-checkout-pay>
-              <span data-pay-label>Pay</span>
-            </button>
-            <p class="checkout-stage__status" data-cart-status hidden role="status"></p>
-
-            <div class="checkout-stage__lead" data-leadtime-block>
-              <p class="checkout-stage__lead-k">Delivery</p>
-              <p class="checkout-stage__lead-v" data-lead-window-label>8 to 10 weeks</p>
-              <p class="checkout-stage__lead-s" data-leadtime-explain>
-                Most orders arrive sooner. Built after you order and flown to your market.
-              </p>
-            </div>
-
-            <p class="checkout-stage__copy" data-leadtime-copy data-leadtime-copy-mattress>
-              <span data-market-only="ae">Made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. Your mattress is built after you order it and flown to the UAE. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</span>
-              <span data-market-only="gb" hidden>Made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. Your mattress is built after you order it and flown to the UK. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</span>
-            </p>
-            <p class="checkout-stage__copy" data-leadtime-copy-top hidden>
-              Your comfort layer is made to order and sent by courier in 2 to 3 weeks. Unroll it and give it a few hours to recover its full height.
-            </p>
-            <p class="checkout-stage__copy" data-leadtime-copy-parcel hidden>
-              Sent by courier in 3 to 5 days.
-            </p>
-            <p class="checkout-stage__copy" data-leadtime-copy-mixed hidden>
-              Your order includes items with different lead times. We use the longer window so everything can arrive together.
-            </p>
-
-            <ul class="checkout-stage__terms">
-              <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
-              <li>Spread the cost with <span data-market-only="ae">Tabby or Tamara</span><span data-market-only="gb" hidden>Klarna</span> at no extra charge.</li>
-              <li>Refunds returned to the original payment method within 5-10 business days.</li>
-              <li>100 nights to change your mind once it arrives.</li>
-              <li><span data-warranty-years-text>25</span>-year warranty on the spring core.</li>
-              <li>Handmade, so natural variation in fabric shade is possible. The construction is identical every time.</li>
-            </ul>
-
-            <a class="checkout-stage__back" href="../index.html#reserve">Back to sizes</a>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="page-width site-footer__grid">
-        <div class="site-footer__brand">
-          <a class="wordmark wordmark--dark" href="../index.html" aria-label="Numa Mattresses">
-            <span class="wordmark__lockup">
-              <span class="wordmark__text" data-brand-text>Numa</span>
-              <span class="wordmark__product" data-brand-product-line>Mattresses</span>
-            </span>
-          </a>
-          <div class="site-footer__contact">
-            <p class="site-footer__company"><strong data-business-name>Valtora FZE</strong></p>
-            <p data-business-hours>9:00-17:00 <span data-hours-tz>GST</span></p>
-            <p class="site-footer__response">We reply within one working day.</p>
-            <p data-business-email-wrap><a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a></p>
-          </div>
-        </div>
-        <div>
-          <h3>Policies</h3>
-          <ul>
-            <li><a href="./trial.html">30-day sleep trial</a></li>
-            <li><a href="./warranty.html">Warranty</a></li>
-            <li><a href="./refunds.html">Refunds &amp; cancellations</a></li>
-            <li><a href="./delivery.html">Delivery &amp; lead time</a></li>
-            <li><a href="./size-guide.html">Size guide</a></li>
-            <li><a href="./contact.html">Contact</a></li>
-              <li><a href="./trade.html">Trade and contract</a></li>
-            <li><a href="./order-status.html">Order status</a></li>
-            <li><a href="./privacy.html">Privacy</a></li>
-            <li><a href="./terms.html">Terms</a></li>
-            <li><a href="./cookies.html">Cookies</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="page-width site-footer__bottom">
-        <span>&copy; 2026 <span data-business-name>Valtora FZE</span>.</span>
-        <span><a href="../index.html">Back to home</a></span>
-      </div>
-    </footer>
-
-
+    <p>Taking you to your order.</p>
+    <p><a href="./cart.html">Continue to your order</a></p>
+    <p hidden><span data-warranty-years-text>25</span> year guarantee on the pocket spring core</p>
     <script>
-      window.ValtoraTheme = { brandName: 'Numa', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '../index.html' }, debugTrack: true };
+      window.ValtoraTheme = { brandName: 'Numa', defaultMarket: 'ae', routes: { cart: './cart.html', cartAdd: '#', root: '../index.html', review: './cart.html' }, debugTrack: true };
+      window.NUMA = { returnsDays: 30 };
     </script>
-    <div class="float-basket" data-float-basket data-sticky-reserve hidden>
-      <span class="float-basket__count" data-float-count>Choose a size</span>
-      <strong class="float-basket__total" data-float-total data-sticky-price></strong>
-      <a class="float-basket__btn" data-float-continue data-checkout-href="./checkout.html" href="../index.html#reserve">See sizes and prices</a>
-    </div>
-
     <script src="../utm-persistence.js?v=wo-v9-utm1"></script>
     <script src="../theme.js?v=wo-v9-favicon1"></script>
   </body>

@@ -16,6 +16,7 @@ var utm = fs.readFileSync(path.join(theme, 'assets/utm-persistence.js'), 'utf8')
 var layout = fs.readFileSync(path.join(theme, 'layout/theme.liquid'), 'utf8');
 var funnel = fs.readFileSync(path.join(theme, 'sections/landing-funnel.liquid'), 'utf8');
 var cart = fs.readFileSync(path.join(theme, 'sections/main-cart.liquid'), 'utf8');
+var checkout = fs.readFileSync(path.join(theme, 'sections/main-checkout.liquid'), 'utf8');
 var orderBuilder = fs.readFileSync(path.join(theme, 'snippets/order-builder.liquid'), 'utf8');
 var consentDef = fs.readFileSync(path.join(theme, 'snippets/consent-defaults.liquid'), 'utf8');
 var indexJson = fs.readFileSync(path.join(theme, 'templates/index.json'), 'utf8');
@@ -50,7 +51,8 @@ must(/delete payload\.email/.test(js), 'events strip personal data');
 must(/id="price-anchor"/.test(funnel) && /id="price-anchor"/.test(orderBuilder), 'price-anchor in liquid');
 must(/consent-defaults/.test(layout) && /consent-update/.test(layout), 'consent in theme.liquid');
 must(/analytics_storage/.test(consentDef) && /ad_storage/.test(consentDef), 'consent mode defaults');
-must(/data-old-mattress-removal/.test(cart), 'removal toggle on cart');
+must(/data-recycling-link/.test(cart), 'recycling link on cart');
+must(/location\.replace/.test(checkout), 'pages/checkout redirects to cart');
 must(/attrs\.lp_variant/.test(utm), 'utm-persistence writes lp_variant cart attr');
 must(/overflow-y:\s*auto !important/.test(layout), 'page scroll stays unlocked');
 must(!/journal-home/.test(indexJson), 'Journal not on homepage');

@@ -1,3 +1,13 @@
+# Regression results — Thursday 3 Sep 2026 (New mods v2 basket)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 991 passed, 0 failed
+- Scope note: `/cart` is canonical. `/pages/checkout` 301s to cart. Compact Why strip below 720px. Aggregate summary, Pay amount, concierge opt-out, old mattress removal counted by line qty not physical units. `basket_view` on `/cart` only. Size-selector redesign from the zip not implemented. No VERSION bump.
+
+---
+
 # Regression results — Thursday 3 Sep 2026 (deploy 11.1.0-published-reviews)
 
 ## Smoke

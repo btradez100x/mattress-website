@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-warranty-years="25" data-trial-nights="30">
+<html lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-warranty-years="25" data-trial-nights="30" data-return-window-days="30">
   <head>
     <meta charset="utf-8">
     <script src="../brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#1F3A5F">
-    <title>Order · Numa</title>
+    <title>Your order · Numa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,12 +44,11 @@
         display: flex; align-items: center; justify-content: space-between; gap: 1rem;
         padding: 0.85rem 0;
       }
-      .site-header__actions { display: flex; align-items: center; gap: 0.75rem; }
     </style>
   </head>
   <body data-page="cart" data-payment-mode="full">
     <div class="preview-banner" data-preview-chrome><strong>Local theme preview</strong></div>
-        <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
+            <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
       <p style="margin:0">Concierge unpacking <b>included with every mattress</b> · To the room of your choice, packaging taken away</p>
       <button type="button" class="announcement__dismiss" data-announcement-dismiss aria-label="Dismiss">×</button>
     </div>
@@ -61,55 +60,153 @@
             <span class="wordmark__product" data-brand-product-line data-brand-product-line>Mattresses</span>
           </span>
         </a>
-        <div class="site-header__actions">
-          <a class="site-header__order" href="./cart.html" data-order-link hidden aria-label="Order">
-            <span class="site-header__order-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" focusable="false">
-                <path d="M5 8h14l-1.1 10.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
-                <path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
-              </svg>
-            </span>
-            <span class="site-header__order-label">Order</span>
-            <span class="site-header__order-count" data-order-count hidden>0</span>
-          </a>
-          <a class="checkout-header__back" href="../index.html#reserve">Back to sizes</a>
-        </div>
       </div>
     </header>
 
     <main>
-      <section class="cart-page order-page" data-cart-page data-order-page>
-        <div class="page-width cart-page__wrap">
-          <div class="cart-panel" data-reveal>
-            <p class="section__eyebrow cart-panel__eyebrow">Order</p>
-            <hr class="gold-rule">
-            <h1 class="cart-page__title">Your order</h1>
-            <p class="cart-page__lede">Review sizes, then continue to checkout. Cancel any time before dispatch.</p>
-            <p class="cart-leadtime" data-cart-leadtime>Made to order. Delivery in 8 to 10 weeks.</p>
-            <p class="cart-trial-line">Adjust to Desire. Concierge unpacking included.</p>
+      <section
+        class="checkout-page"
+        data-checkout-page
+        data-cart-canonical
+        data-checkout-preview="true"
+        data-confirmed-path="./order-confirmed.html"
+        data-lead-window="8 to 10 weeks" data-lead-min="8" data-lead-max="10"
+        data-large-order-threshold-gb="10000"
+        data-large-order-threshold-ae="47000"
+        data-returns-days="30"
+        data-layer-price="AED 1,200"
+        data-recycling-href="./mattress-recycling.html"
+        data-delivery-href="./delivery.html"
+        data-finance-name="Tabby or Tamara"
+        data-warranty-years="25"
+      >
+        <div class="page-width cart-empty" data-checkout-empty hidden>
+          <p>Your order is empty.</p>
+          <a class="btn" href="../index.html#reserve">See sizes and prices</a>
+        </div>
 
-            <div class="cart-empty" data-cart-empty>
-              <p>Your order is empty.</p>
-              <a class="btn" href="../index.html#reserve">See sizes and prices</a>
-            </div>
-
-            <ul class="cart-lines" role="list" data-cart-lines></ul>
-
-            <div class="cart-summary" data-cart-summary hidden>
-              <div class="cart-summary__row">
-                <span data-cart-item-count>0 units</span>
-                <strong data-cart-subtotal>-</strong>
+        <div class="checkout-flow" data-checkout-flow data-reserve-stage-b>
+          <header class="checkout-head">
+            <div class="page-width checkout-head__row">
+              <div>
+                <p class="checkout-head__kicker">Your order</p>
+                <h1 class="checkout-head__title" data-stageb-summary>Made to order.</h1>
               </div>
-              <p class="cart-summary__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
-              <p class="cart-summary__note">
-                Delivery is charged once per order. Cancel any time before dispatch for a full refund.
+              <a class="checkout-head__back" href="../index.html#reserve">← Add another size</a>
+            </div>
+          </header>
+
+          <section class="checkout-leadband" data-leadtime-block id="lead">
+            <div class="page-width">
+              <div class="checkout-leadband__grid">
+                <div>
+                  <p class="checkout-leadband__k">Delivery</p>
+                  <!-- Liquid: {{ settings.lead_time_weeks }} -->
+                  <p class="checkout-leadband__big" data-lead-window-label>8 to 10 weeks</p>
+                  <p class="checkout-leadband__sub">From today</p>
+                  <div class="checkout-leadband__more">
+                    <details data-lead-why>
+                      <summary>Why</summary>
+                      <p data-lead-why-body>Your mattresses go into production once this order is placed. We call to agree a delivery window before we come, and your old mattresses leave at the same time. <a href="./delivery.html">More on delivery</a></p>
+                    </details>
+                  </div>
+                </div>
+                <div class="checkout-leadband__cols" data-leadtime-copy data-leadtime-copy-mattress>
+                  <p data-lead-body-1>Your mattress goes into production once this order is placed. Nothing sits in a warehouse waiting, which is why the wait exists and why there is never a clearance sale.</p>
+                  <p data-lead-body-miss>If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p>
+                </div>
+                <div class="checkout-leadband__cols" data-leadtime-copy-mattress>
+                  <p data-lead-body-2>We call to agree a delivery window before we come. Concierged to the room of your choice, unrolled onto your bed, packaging gone.</p>
+                  <p data-lead-body-old>Your old mattress leaves at the same time. <a href="./delivery.html">More on delivery</a></p>
+                </div>
+              </div>
+              <p class="checkout-leadband__explain" data-leadtime-explain hidden></p>
+              <p data-leadtime-copy-top hidden>
+                Your comfort layer is made to order and sent by courier in 2 to 3 weeks. Unroll it and give it a few hours to recover its full height.
               </p>
-              <div class="cart-summary__actions">
-                <button class="btn" type="button" data-cart-checkout>Checkout</button>
-                <a class="btn btn--ghost" href="../index.html#reserve">Add another size</a>
-              </div>
-              <p class="cart-status" data-cart-status hidden role="status"></p>
+              <p data-leadtime-copy-parcel hidden>
+                Sent by courier in 3 to 5 days.
+              </p>
+              <p data-leadtime-copy-mixed hidden>
+                Your order includes items with different lead times. We use the longer window so everything can arrive together.
+              </p>
             </div>
+          </section>
+
+          <div class="page-width checkout-layout">
+            <div>
+              <ul class="checkout-items" role="list" data-checkout-lines></ul>
+              <a class="checkout-addmore" href="../index.html#reserve">Add another size</a>
+            </div>
+
+            <aside class="checkout-summary checkout-stage">
+              <h2>Order summary</h2>
+              <div data-checkout-summary-lines></div>
+              <div data-checkout-services hidden>
+                <div class="checkout-s-line checkout-s-line--svc" data-svc-concierge>
+                  <span class="checkout-s-line__l">
+                    Concierge unpacking
+                    <small data-svc-concierge-note hidden>Your mattresses will be left boxed in the room of your choice</small>
+                    <button type="button" class="checkout-s-line__act" data-svc-concierge-toggle>Remove</button>
+                  </span>
+                  <span class="checkout-s-line__v checkout-s-line__v--incl" data-svc-concierge-value>Included</span>
+                </div>
+                <div class="checkout-s-line checkout-s-line--svc" data-svc-removal>
+                  <span class="checkout-s-line__l">
+                    Old mattress removal
+                    <small data-removal-label>Not included</small>
+                    <span class="checkout-svc-qty">
+                      <button type="button" data-rem="dec" aria-label="Fewer removals">−</button>
+                      <span class="checkout-svc-qty__n" data-removal-count aria-live="polite">0</span>
+                      <button type="button" data-rem="inc" aria-label="More removals">+</button>
+                    </span>
+                    <a href="./mattress-recycling.html" data-recycling-link>What happens to it →</a>
+                  </span>
+                  <span class="checkout-s-line__v checkout-s-line__v--incl" data-removal-value>Complimentary</span>
+                </div>
+                <div class="checkout-s-line">
+                  <span class="checkout-s-line__l">Delivery</span>
+                  <span class="checkout-s-line__v checkout-s-line__v--incl">Included</span>
+                </div>
+              </div>
+              <div class="checkout-s-total">
+                <span class="checkout-s-total__l">
+                  Total
+                  <span data-checkout-item-count hidden>0 units</span>
+                </span>
+                <strong data-checkout-subtotal>-</strong>
+              </div>
+
+              <div class="order-large-terms" data-order-large-terms hidden>
+                <p class="deposit-terms__title">Terms for larger orders</p>
+                <p class="reserve-panel__meta" data-order-large-copy></p>
+                <label class="order-large-terms__ack">
+                  <input type="checkbox" data-order-large-ack>
+                  <span>I understand these terms for this order</span>
+                </label>
+              </div>
+
+              <button class="checkout-stage__pay" type="button" data-checkout-pay data-pay-source="summary">
+                <span data-pay-label>Pay</span>
+              </button>
+              <p class="checkout-stage__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
+              <p class="checkout-stage__status" data-cart-status hidden role="status"></p>
+
+              <ul class="checkout-stage__terms">
+                <li>Cancel any time before dispatch for a full refund</li>
+                <li data-returns-term>30 day returns policy from delivery.</li>
+                <li data-layer-term>Adjust to Desire - one comfort layer remade to your preference, with our compliments</li>
+                <li><span data-warranty-years-text>25</span> year guarantee on the pocket spring core</li>
+              </ul>
+            </aside>
+          </div>
+
+          <div class="checkout-bar" data-checkout-bar hidden>
+            <div>
+              <span class="checkout-bar__count" data-checkout-bar-count>Your order</span>
+              <span class="checkout-bar__total" data-checkout-bar-total>-</span>
+            </div>
+            <button class="checkout-bar__go" type="button" data-checkout-pay data-pay-source="sticky_bar"><span data-pay-label>Pay</span></button>
           </div>
         </div>
       </section>
@@ -125,7 +222,7 @@
             </span>
           </a>
           <div class="site-footer__contact">
-            <p class="site-footer__company"><strong>Valtora FZE</strong></p>
+            <p class="site-footer__company"><strong data-business-name>Valtora FZE</strong></p>
             <p data-business-hours>9:00-17:00 <span data-hours-tz>GST</span></p>
             <p class="site-footer__response">We reply within one working day.</p>
             <p data-business-email-wrap><a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a></p>
@@ -134,7 +231,7 @@
         <div>
           <h3>Policies</h3>
           <ul>
-            <li><a href="./trial.html">Adjust to Desire</a></li>
+            <li><a href="./trial.html">30-day sleep trial</a></li>
             <li><a href="./warranty.html">Warranty</a></li>
             <li><a href="./refunds.html">Refunds &amp; cancellations</a></li>
             <li><a href="./delivery.html">Delivery &amp; lead time</a></li>
@@ -149,19 +246,20 @@
         </div>
       </div>
       <div class="page-width site-footer__bottom">
-        <span>&copy; 2026 <span data-brand-text>Numa</span>.</span>
+        <span>&copy; 2026 <span data-business-name>Valtora FZE</span>.</span>
         <span><a href="../index.html">Back to home</a></span>
       </div>
     </footer>
 
 
     <script>
-      window.ValtoraTheme = { brandName: 'Numa', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '../index.html', review: './checkout.html' }, debugTrack: true };
+      window.ValtoraTheme = { brandName: 'Numa', defaultMarket: 'ae', routes: { cart: './cart.html', cartAdd: '#', root: '../index.html', review: './cart.html' }, debugTrack: true };
+      window.NUMA = { returnsDays: 30 };
     </script>
     <div class="float-basket" data-float-basket data-sticky-reserve hidden>
       <span class="float-basket__count" data-float-count>Choose a size</span>
       <strong class="float-basket__total" data-float-total data-sticky-price></strong>
-      <a class="btn btn--sm float-basket__btn" data-float-continue data-checkout-href="./checkout.html" href="../index.html#reserve">See sizes and prices</a>
+      <a class="btn btn--sm float-basket__btn" data-float-continue data-checkout-href="./cart.html" href="../index.html#reserve">See sizes and prices</a>
     </div>
 
     <script src="../utm-persistence.js?v=wo-v9-utm1"></script>

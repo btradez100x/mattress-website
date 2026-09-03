@@ -9,9 +9,9 @@
   assign leadtime_vague = leadtime_vague | default: 'Made to order. We confirm your delivery date before dispatch.'
   assign payment_mode = payment_mode | default: 'full'
   assign finance_name = finance_name | default: 'Klarna'
-  assign trial = settings.trial_nights | default: '100' | strip
+  assign trial = settings.return_window_days | default: settings.trial_nights | default: '30' | strip
   if trial == blank
-    assign trial = '100'
+    assign trial = '30'
   endif
   assign warranty = settings.warranty_years | default: '25' | strip
   if warranty == blank
@@ -65,7 +65,7 @@
       {%- endif -%}
     </div>
     <p class="reserve-stage-b__copy" data-leadtime-copy>
-      Made to order and delivered in {{ lead_window }}. Most orders arrive sooner. Your mattress is built after you order it and flown to {{ fly_to }}. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
+      Made to order and delivered in {{ lead_window }}. Most orders arrive sooner. Your mattress goes into production once this order is placed. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
     </p>
   {%- endunless -%}
 
@@ -90,11 +90,11 @@
         {{ terms_body | strip }}
       {%- else -%}
         <ul class="reserve-stage-b__terms">
-          <li>Cancel any time before dispatch for a full refund, no questions asked.</li>
+          <li>Cancel any time before dispatch for a full refund.</li>
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
-          <li>Refunds returned to the original payment method within 5-10 business days.</li>
-          <li>{{ trial }} nights to change your mind once it arrives.</li>
-          <li>{{ warranty }}-year warranty on the spring core.</li>
+          <li>Refunds returned to the original payment method within five to ten business days.</li>
+          <li>{{ trial }} day returns policy from delivery.</li>
+          <li>{{ warranty }} year guarantee on the pocket spring core.</li>
           <li>{{ variation_notice }}</li>
         </ul>
       {%- endif -%}

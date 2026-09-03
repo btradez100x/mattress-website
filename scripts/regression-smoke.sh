@@ -84,6 +84,7 @@ REQUIRED_PATHS=(
   "sections/order-status.liquid"
   "assets/order-status.js"
   "templates/cart.json"
+  "sections/main-cart.liquid"
   "templates/page.checkout.json"
   "sections/main-checkout.liquid"
   "templates/page.manufacturing.json"
@@ -314,17 +315,33 @@ else
   fail "Stage A basket incomplete"
 fi
 
-CO="$THEME/sections/main-checkout.liquid"
+CO="$THEME/sections/main-cart.liquid"
 if grep -q "data-checkout-page" "$CO" \
+  && grep -q "data-cart-canonical" "$CO" \
   && grep -q "data-stageb-summary" "$CO" \
   && (grep -q "order-lead" "$CO" || grep -q "checkout-stage__lead" "$CO" || grep -q "data-leadtime-block" "$CO") \
   && grep -q "data-pay-label" "$CO"; then
-  pass "Checkout page has lead time + Pay"
+  pass "Cart page has lead time + Pay"
 else
-  fail "Checkout page incomplete"
+  fail "Cart page incomplete"
 fi
 
-# Lead time must not live in Stage A markup; Stage B is /pages/checkout only (no in-page reveal)
+# Lead time must sit above Pay (the measurement gate).
+if python3 - "$CO" <<'PY'
+from pathlib import Path
+import sys
+text = Path(sys.argv[1]).read_text()
+lead = text.find('data-leadtime-block')
+pay = text.find('data-checkout-pay')
+sys.exit(0 if lead != -1 and pay != -1 and lead < pay else 1)
+PY
+then
+  pass "Checkout lead time sits above Pay"
+else
+  fail "Checkout lead time is not above the pay button"
+fi
+
+# Lead time must not live in Stage A markup; Stage B is /cart only (no in-page reveal)
 set +e
 python3 - "$SR" <<'PY'
 from pathlib import Path
@@ -347,21 +364,21 @@ if not chunk:
 # Allow cancel reassurance; forbid delivery-window / lead-time blocks inside Stage A
 if re.search(r'order-lead|data-leadtime-block|data-lead-window|8 to 10 weeks|Before you order|Delivery:', chunk, re.I):
     sys.exit(1)
-if not re.search(r"data-checkout-href=[\"'][^\"']*checkout", text, re.I) \
-   and not re.search(r"data-reserve-continue[\s\S]{0,160}?pages\['checkout'\]", text):
+if not re.search(r"data-checkout-href=[\"'][^\"']*(checkout|cart|continue_path)", text, re.I) \
+   and not re.search(r"data-reserve-continue[\s\S]{0,400}?(cart_url|continue_path|pages\['checkout'\])", text):
     sys.exit(4)
 sys.exit(0)
 PY
 SA_EC=$?
 set -e
 if [[ $SA_EC -eq 0 ]]; then
-  pass "Stage A has no lead-time copy; Continue links to checkout"
+  pass "Stage A has no lead-time copy; Continue links to cart"
 elif [[ $SA_EC -eq 2 ]]; then
   fail "could not isolate Stage A markup"
 elif [[ $SA_EC -eq 3 ]]; then
-  fail "size-reserve still renders in-page reserve-stage-b (must navigate to /pages/checkout)"
+  fail "size-reserve still renders in-page reserve-stage-b (must navigate to /cart)"
 elif [[ $SA_EC -eq 4 ]]; then
-  fail "Continue does not link to checkout page"
+  fail "Continue does not link to cart"
 else
   fail "Stage A still contains lead-time copy (must be Stage B only)"
 fi
@@ -438,13 +455,14 @@ else
   fail "preview missing Stage A / floating basket"
 fi
 
-if grep -q "data-checkout-page" "$ROOT/preview/pages/checkout.html" \
-  && grep -q "data-checkout-pay" "$ROOT/preview/pages/checkout.html" \
+if grep -q "data-checkout-page" "$ROOT/preview/pages/cart.html" \
+  && grep -q "data-cart-canonical" "$ROOT/preview/pages/cart.html" \
+  && grep -q "data-checkout-pay" "$ROOT/preview/pages/cart.html" \
   && grep -q "function reviewOrderUrl" "$JS" \
   && grep -q "function initCheckoutPage" "$JS"; then
-  pass "dedicated checkout page + navigation helpers"
+  pass "dedicated cart page + navigation helpers"
 else
-  fail "checkout page or reviewOrderUrl missing"
+  fail "cart page or reviewOrderUrl missing"
 fi
 
 # --- Landing modular sections referenced by index ---
@@ -474,9 +492,9 @@ fi
 # --- Trust layer (S15) — terms live on the checkout page ---
 if (grep -q "reserve-stage-b__terms" "$CO" || grep -q "checkout-stage__terms" "$CO") \
   && grep -q "Cancel any time before dispatch" "$CO"; then
-  pass "order terms present on checkout page"
+  pass "order terms present on cart page"
 else
-  fail "order terms missing from checkout page"
+  fail "order terms missing from cart page"
 fi
 
 if grep -q "whatsapp_enabled" "$THEME/config/settings_schema.json" \
@@ -485,7 +503,7 @@ if grep -q "whatsapp_enabled" "$THEME/config/settings_schema.json" \
   && grep -q '"id": "company_number"' "$THEME/config/settings_schema.json" \
   && grep -q '"id": "registered_address"' "$THEME/config/settings_schema.json" \
   && grep -q "legal-entity" "$THEME/sections/trust-policy.liquid" \
-  && grep -q "checkout-stage__terms" "$THEME/sections/main-checkout.liquid"; then
+  && grep -q "checkout-stage__terms" "$THEME/sections/main-cart.liquid"; then
   pass "WhatsApp + legal entity settings present"
 else
   fail "WhatsApp / legal entity settings missing"
@@ -681,7 +699,7 @@ else
 fi
 
 MARKERS="data-checkout-page data-checkout-flow data-reserve-stage-b data-stageb-summary data-checkout-lines data-checkout-item-count data-checkout-subtotal data-bnpl-monthly data-order-large-terms data-order-large-ack data-checkout-pay data-pay-label data-cart-status data-leadtime-block data-lead-window-label data-leadtime-copy data-checkout-empty"
-CO="$THEME/sections/main-checkout.liquid"
+CO="$THEME/sections/main-cart.liquid"
 missing_marker=""
 for m in $MARKERS; do
   if ! grep -q "$m" "$CO"; then
@@ -1632,11 +1650,12 @@ else
   fail "consent mode snippets missing from theme.liquid"
 fi
 
-if grep -q "data-old-mattress-removal" "$THEME/sections/main-cart.liquid" \
+if grep -q "data-recycling-link" "$THEME/sections/main-cart.liquid" \
+  && grep -q "location.replace" "$THEME/sections/main-checkout.liquid" \
   && grep -q "attrs.lp_variant" "$THEME/assets/utm-persistence.js"; then
-  pass "cart removal toggle + lp_variant order attribute"
+  pass "cart recycling link + checkout redirect to cart + lp_variant order attribute"
 else
-  fail "cart add_service toggle or lp_variant cart attribute missing"
+  fail "cart recycling link, checkout redirect, or lp_variant cart attribute missing"
 fi
 
 if grep -q "overflow-y: auto !important" "$THEME/layout/theme.liquid" \

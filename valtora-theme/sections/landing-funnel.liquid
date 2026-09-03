@@ -171,7 +171,7 @@
     render 'lead-time', product_type: 'mattress', format: 'max'
   endcapture
   assign lead_window = lead_window | strip
-  assign cart_url = routes.cart_url | default: '/cart'
+  assign cart_url = routes.cart_url
 -%}
 {%- if section.settings.enable_section -%}
 <section

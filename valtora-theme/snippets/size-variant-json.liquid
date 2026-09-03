@@ -47,10 +47,15 @@
   if length_cm == blank
     assign length_cm = v.metafields.custom.dimension_length.value | default: v.metafields.custom.dimension_length
   endif
-  assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces
+  assign pieces = v.metafields.custom.units.value | default: v.metafields.custom.units
+  if pieces == blank
+    assign pieces = v.metafields.custom.pieces.value | default: v.metafields.custom.pieces
+  endif
   if pieces == blank
     assign pieces = 1
   endif
+  assign availability_state = v.metafields.custom.availability_state.value | default: v.metafields.custom.availability_state
+  assign availability_note = v.metafields.custom.availability_note.value | default: v.metafields.custom.availability_note
   assign fits = v.metafields.custom.fits_note.value | default: v.metafields.custom.fits_note
   if fits == blank and size_id == 'european-king'
     assign fits = 'Fits IKEA frames'
@@ -322,6 +327,9 @@
   "width_cm": {% if width_cm != blank %}{{ width_cm | plus: 0 | json }}{% else %}null{% endif %},
   "length_cm": {% if length_cm != blank %}{{ length_cm | plus: 0 | json }}{% else %}null{% endif %},
   "pieces": {{ pieces | json }},
+  "units": {{ pieces | json }},
+  "availability_state": {{ availability_state | json }},
+  "availability_note": {{ availability_note | json }},
   "fits": {{ fits | json }},
   "price": {% if v.price > 0 %}{{ v.price | money | json }}{% else %}""{% endif %},
   "price_raw": {{ v.price | json }},

@@ -101,7 +101,9 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
 
     # Announcement bar consistency on multi-page surfaces
     if path.name != "index.html" or "pages/" in str(rel) or "blog/" in str(rel):
-        if path.parent.name in ("pages", "blog") or "pages/" in str(rel) or "blog/" in str(rel):
+        if path.name != "checkout.html" and (
+            path.parent.name in ("pages", "blog") or "pages/" in str(rel) or "blog/" in str(rel)
+        ):
             if "data-announcement-bar" not in text and 'class="announcement"' not in text:
                 bad(f"{rel}: missing site announcement bar")
             else:
@@ -578,7 +580,6 @@ def check_funnel_chrome():
     """Thank-you / checkout / cart must carry brand chrome + footer."""
     for rel in (
         "preview/pages/order-confirmed.html",
-        "preview/pages/checkout.html",
         "preview/pages/cart.html",
         "share/v4/pages/order-confirmed.html",
     ):
@@ -786,7 +787,7 @@ def check_warranty_years_setting() -> None:
         "sections/trust-bar.liquid": ("warranty-tokens",),
         "sections/faq.liquid": ("warranty-tokens",),
         "sections/trust-policy.liquid": ("warranty-tokens",),
-        "sections/main-checkout.liquid": ("settings.warranty_years",),
+        "sections/main-cart.liquid": ("settings.warranty_years",),
         "snippets/reserve-stage-b.liquid": ("warranty-tokens", "settings.warranty_years"),
         "sections/size-reserve.liquid": ("[X]-year warranty",),
     }
@@ -813,6 +814,7 @@ def check_warranty_years_setting() -> None:
 
     for rel in (
         "preview/index.html",
+        "preview/pages/cart.html",
         "preview/pages/checkout.html",
         "preview/pages/warranty.html",
     ):
@@ -957,6 +959,7 @@ def check_reserve_cta_copy() -> None:
     """Shopper CTAs say Reserve yours, not Configure yours. Routes/titles stay /pages/configure."""
     skip_names = {
         "main-checkout.liquid",
+        "main-cart.liquid",
         "page.checkout.json",
         "checkout.html",
     }

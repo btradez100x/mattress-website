@@ -113,9 +113,10 @@
 
     <div class="site-header__actions">
       {%- assign order_line_count = cart.items.size -%}
+      {%- assign order_href = routes.cart_url -%}
       <a
         class="site-header__order"
-        href="{{ routes.cart_url }}"
+        href="{{ order_href }}"
         data-order-link
         aria-label="Order"
         {% unless order_line_count > 0 %}hidden{% endunless %}
@@ -158,7 +159,7 @@
         {{ reserve_label }}
       </a>
     {%- endif -%}
-    <a href="{{ routes.cart_url }}" data-order-link {% unless order_line_count > 0 %}hidden{% endunless %}>
+    <a href="{{ order_href }}" data-order-link {% unless order_line_count > 0 %}hidden{% endunless %}>
       Order{% if order_line_count > 0 %} ({{ order_line_count }}){% endif %}
     </a>
   </div>
