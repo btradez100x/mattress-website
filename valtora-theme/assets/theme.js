@@ -545,6 +545,12 @@
     return (line.label || '') + ' · ' + qty;
   }
 
+  function orderPanelItemName(line) {
+    if (!line) return '';
+    if (isAccessoryType(line.itemType)) return orderLineTitle(line);
+    return line.label || '';
+  }
+
   function parseAccessoryPrices(root) {
     var el = root && root.querySelector('[data-accessory-prices]');
     if (!el) return {};
@@ -2164,7 +2170,9 @@
         wrap.hidden = false;
         wrap.removeAttribute('hidden');
       }
-      el.textContent = basketCtaLabel(hasLines, units);
+      if (!el.hasAttribute('data-sheet-checkout')) {
+        el.textContent = basketCtaLabel(hasLines, units);
+      }
       if (!hasLines) {
         el.setAttribute('aria-disabled', 'true');
         if (el.tagName !== 'A' && el.tagName !== 'a') el.disabled = true;
@@ -2235,7 +2243,7 @@
       .map(function (line) {
         var qty = parseInt(line.quantity, 10) || 0;
         var total = formatLineTotal(line);
-        var title = orderLineTitle(line);
+        var title = orderPanelItemName(line);
         var meta = line.dims || '';
         var remove = line.key
           ? '<button type="button" class="order-basket__remove" data-order-remove="' +
@@ -2668,17 +2676,8 @@
       }, 0);
     }
 
-    function updateFloatBasket(lines, totalText, units) {
-      var countEl = document.querySelector('[data-float-count]');
-      var totalEl = document.querySelector('[data-float-total]');
-      var continueEls = document.querySelectorAll('[data-float-continue]');
-      if (!countEl && !totalEl && !continueEls.length) return;
-      var n = units != null ? units : mattressUnits(lines || []);
-      var label = n === 1 ? '1 MATTRESS' : n + ' MATTRESSES';
-      var hasLines = (lines || []).length > 0 || n > 0;
-      if (countEl) countEl.textContent = hasLines ? label : 'Choose a size';
-      if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
-      applyOrderCtaLabels(hasLines);
+    function updateFloatBasket() {
+      paintFloatBasketFromStore();
     }
 
     function renderOrderPanel() {
@@ -2705,7 +2704,7 @@
             .map(function (line) {
               var qty = parseInt(line.quantity, 10) || 0;
               var total = formatLineTotal(line);
-              var title = orderLineTitle(line);
+              var title = orderPanelItemName(line);
               var meta = line.dims || '';
               var remove = line.key
                 ? '<button type="button" class="order-basket__remove" data-order-remove="' +

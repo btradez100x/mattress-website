@@ -6,7 +6,17 @@
 - Consistency: 574 passed, 0 failed
 - Scope note: Size picker is a four-column row list with footprints drawn to scale. Category tabs are a count check (`>5` sizes and more than one `custom.sizetype`, never a market if). Basket is a sticky panel at 980px+ and an inline panel plus View/Checkout bar below that. Returns days come from `return_window_days`. Preview theme.js matches the theme. No version bump.
 
+## Browser
+- Homepage picker at 1280px: UAE shows 4 rows, no tabs, Super King OOS, sticky panel, no bottom bar. UK shows UK/US tabs (home market first), 7 UK rows with footprints, European King IKEA fit note.
+- Add King + two Singles: Bone/in-basket rows, panel lines are name + dims + ×qty, removal ×3, CTA “Add 3 mattresses to basket”.
+- Emperor swaps the returns line to the exclusion sentence; helper IKEA copy names European King.
+- 390px: inline panel, bar with count + total + View + Checkout, 78px body padding. View opens a sheet from the same order markup; Escape closes and unlocks scroll. Qty caps at 20.
+- Primary CTA fires `add_to_basket` and still reaches `/pages/checkout.html`.
+- Headless Chrome hangs on homepage autoplay MP4s in this VM; verification used the same homepage with `<video>` stripped. Dedicated cart page unchanged. This repo snapshot has no landing-funnel configure pages.
+
 ---
+
+
 
 
 
