@@ -11,7 +11,7 @@
         "tone": "light",
         "secondary_cta_label": "How it arrives",
         "secondary_cta_link": "#delivery",
-        "assurance": "Concierge unpacking included · The old one leaves with it"
+        "assurance": "Concierge unpacking included \u00b7 The old one leaves with it"
       }
     },
     "pair-cards": {
@@ -147,7 +147,7 @@
           "type": "spec",
           "settings": {
             "name": "Cover",
-            "meta": "400 G COOL-KNIT · ZIP ACCESS",
+            "meta": "400 G COOL-KNIT \u00b7 ZIP ACCESS",
             "does": "Opens all the way round to reach the comfort layer"
           }
         },
@@ -155,7 +155,7 @@
           "type": "spec",
           "settings": {
             "name": "Gel memory foam",
-            "meta": "1 CM · 28 DENSITY",
+            "meta": "1 CM \u00b7 28 DENSITY",
             "does": "Contours without trapping heat"
           }
         },
@@ -163,7 +163,7 @@
           "type": "spec",
           "settings": {
             "name": "Comfort foam",
-            "meta": "1.5 CM · 20 DENSITY",
+            "meta": "1.5 CM \u00b7 20 DENSITY",
             "does": "The give you feel first"
           }
         },
@@ -171,7 +171,7 @@
           "type": "spec",
           "settings": {
             "name": "Wave-profile foam",
-            "meta": "2.5 CM · 20 DENSITY",
+            "meta": "2.5 CM \u00b7 20 DENSITY",
             "does": "Moves air through the comfort layers"
           }
         },
@@ -179,7 +179,7 @@
           "type": "spec",
           "settings": {
             "name": "Flippable comfort layer",
-            "meta": "10 CM · 2 CM 2540 OVER 8 CM 2580",
+            "meta": "10 CM \u00b7 2 CM 2540 OVER 8 CM 2580",
             "does": "Medium one side, medium firm the other"
           }
         },
@@ -187,7 +187,7 @@
           "type": "spec",
           "settings": {
             "name": "Pocket spring core",
-            "meta": "20 CM · 7 ZONES · 1.8 / 2.0 MM WIRE",
+            "meta": "20 CM \u00b7 7 ZONES \u00b7 1.8 / 2.0 MM WIRE",
             "does": "Individually pocketed, so movement does not travel"
           }
         },
@@ -195,7 +195,7 @@
           "type": "spec",
           "settings": {
             "name": "Encased perimeter",
-            "meta": "7 CM · 35 DENSITY",
+            "meta": "7 CM \u00b7 35 DENSITY",
             "does": "Holds the edge. Sit on it without sliding"
           }
         },
@@ -240,7 +240,7 @@
         "body": "When the layer wears, replace the layer. The bed underneath has years left in it.",
         "flip_line": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes.",
         "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>",
-        "ownership_cost_gb": "<p>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
+        "ownership_cost_gb": "<p>A comfort layer costs around \u00a3299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
         "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
         "dual_use": "<p>The same layer works on any bed. Inside our mattress it is the part you replace. On a different mattress it is a 10cm topper, in the same foams we build our own with.</p>",
         "top_cta_label": "See the comfort layer",
@@ -277,7 +277,7 @@
         "proof_oeko": {
           "type": "proof",
           "settings": {
-            "caption": "OEKO-TEX® STANDARD 100",
+            "caption": "OEKO-TEX\u00ae STANDARD 100",
             "link": ""
           }
         }
@@ -333,7 +333,7 @@
         "offer_oeko": {
           "type": "offer_item",
           "settings": {
-            "title": "OEKO-TEX® STANDARD 100",
+            "title": "OEKO-TEX\u00ae STANDARD 100",
             "text": "Textiles independently tested for harmful substances.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -357,7 +357,7 @@
         "cta_link": "#reserve",
         "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
         "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
-        "replacement_top_price_gb": "A replacement comfort layer is £299. A new mattress is not.",
+        "replacement_top_price_gb": "A replacement comfort layer is \u00a3299. A new mattress is not.",
         "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
         "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
         "ground": "dark"
@@ -658,7 +658,7 @@
           "type": "item",
           "settings": {
             "icon": "oeko",
-            "label": "OEKO-TEX® STANDARD 100",
+            "label": "OEKO-TEX\u00ae STANDARD 100",
             "sublabel": "Textiles independently tested",
             "link": "#specs",
             "market_visibility": "all"
@@ -691,7 +691,7 @@
           "type": "step",
           "settings": {
             "title": "Measure the sleeping surface",
-            "body": "<p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+            "body": "<p>Strip the sheets. Measure the mattress itself - width \u00d7 length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
           }
         },
         "m2": {
@@ -704,7 +704,7 @@
         "m3": {
           "type": "step",
           "settings": {
-            "title": "Match width × length",
+            "title": "Match width \u00d7 length",
             "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>"
           }
         },
@@ -1084,7 +1084,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-airy.jpg",
+            "fallback_asset": "lifestyle-airy.webp",
             "span": "wide",
             "caption": "Soft morning light"
           }
@@ -1093,7 +1093,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-luxury.jpg",
+            "fallback_asset": "lifestyle-luxury.webp",
             "span": "tall",
             "caption": "Navy suite calm"
           }
@@ -1102,7 +1102,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-city.jpg",
+            "fallback_asset": "lifestyle-city.webp",
             "span": "mid",
             "caption": "City apartment rest"
           }
@@ -1111,7 +1111,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-suite.jpg",
+            "fallback_asset": "lifestyle-suite.webp",
             "span": "tall",
             "caption": "Depth in place"
           }
@@ -1120,7 +1120,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-warm.jpg",
+            "fallback_asset": "lifestyle-warm.webp",
             "span": "mid",
             "caption": "Warm evening light"
           }
@@ -1129,7 +1129,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-edge.jpg",
+            "fallback_asset": "lifestyle-edge.webp",
             "span": "square",
             "caption": "Edge support"
           }

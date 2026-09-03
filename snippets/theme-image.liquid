@@ -3,6 +3,8 @@
   Upload via theme editor to override. Integrity: real product cutouts only.
   LCP/hero callers must pass loading: 'eager' and fetchpriority: 'high'.
   Never lazy-load the homepage hero.
+  Below-fold callers should keep loading: 'lazy' (default) so collage/press
+  do not compete with LCP. Prefer compressed .webp theme fallbacks.
 {%- endcomment -%}
 {%- liquid
   assign fallback = fallback | default: 'hero-mattress.jpg'
@@ -11,21 +13,24 @@
   assign sizes_attr = sizes | default: '100vw'
   assign alt_text = alt | default: settings.brand_name
   assign fetchpriority = fetchpriority | default: ''
+  assign decode = decoding | default: 'async'
   if fetchpriority == blank
     if loading == 'lazy'
       assign fetchpriority = 'low'
     endif
   endif
+  assign img_w = width | default: 1200
+  assign img_h = height | default: 670
 -%}
 {%- if image != blank -%}
   {%- if fetchpriority != blank -%}
     {{
       image
-      | image_url: width: 2400
+      | image_url: width: 1600
       | image_tag:
         loading: loading,
         fetchpriority: fetchpriority,
-        widths: '600,900,1200,1600,2000,2400',
+        widths: '400,600,800,1200,1600',
         sizes: sizes_attr,
         class: class_name,
         alt: image.alt | default: alt_text
@@ -33,10 +38,10 @@
   {%- else -%}
     {{
       image
-      | image_url: width: 2400
+      | image_url: width: 1600
       | image_tag:
         loading: loading,
-        widths: '600,900,1200,1600,2000,2400',
+        widths: '400,600,800,1200,1600',
         sizes: sizes_attr,
         class: class_name,
         alt: image.alt | default: alt_text
@@ -46,11 +51,12 @@
   <img
     src="{{ fallback | asset_url }}"
     alt="{{ alt_text | escape }}"
-    width="2000"
-    height="1500"
+    width="{{ img_w }}"
+    height="{{ img_h }}"
     loading="{{ loading }}"
     {% if fetchpriority != blank %}fetchpriority="{{ fetchpriority }}"{% endif %}
-    decoding="async"
+    decoding="{{ decode }}"
+    sizes="{{ sizes_attr }}"
     class="{{ class_name }}"
     style="width:100%;height:100%;object-fit:cover;"
   >

@@ -24,7 +24,7 @@
         {%- if block.type == 'image' and block.settings.enabled -%}
           {%- liquid
             assign span = block.settings.span | default: 'mid'
-            assign fallback = block.settings.fallback_asset | default: 'lifestyle-airy.jpg'
+            assign fallback = block.settings.fallback_asset | default: 'lifestyle-airy.webp'
             assign img_alt = block.settings.caption
             if img_alt == blank
               assign img_alt = heading
@@ -145,8 +145,8 @@
           "type": "text",
           "id": "fallback_asset",
           "label": "Theme fallback asset",
-          "default": "lifestyle-airy.jpg",
-          "info": "Used when no image is uploaded (local/theme asset filename)."
+          "default": "lifestyle-airy.webp",
+          "info": "Used when no image is uploaded. Prefer compressed .webp theme assets."
         },
         {
           "type": "select",
@@ -177,7 +177,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-airy.jpg",
+            "fallback_asset": "lifestyle-airy.webp",
             "span": "wide",
             "caption": "Soft morning light"
           }
@@ -186,7 +186,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-luxury.jpg",
+            "fallback_asset": "lifestyle-luxury.webp",
             "span": "tall",
             "caption": "Navy suite calm"
           }
@@ -195,7 +195,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-city.jpg",
+            "fallback_asset": "lifestyle-city.webp",
             "span": "mid",
             "caption": "City apartment rest"
           }
@@ -204,7 +204,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-suite.jpg",
+            "fallback_asset": "lifestyle-suite.webp",
             "span": "tall",
             "caption": "Depth in place"
           }
@@ -213,7 +213,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-warm.jpg",
+            "fallback_asset": "lifestyle-warm.webp",
             "span": "mid",
             "caption": "Warm evening light"
           }
@@ -222,7 +222,7 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-edge.jpg",
+            "fallback_asset": "lifestyle-edge.webp",
             "span": "square",
             "caption": "Edge support"
           }
