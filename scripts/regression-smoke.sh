@@ -1676,6 +1676,22 @@ else
   fail "page-scroll re-locked or Journal returned to homepage"
 fi
 
+if grep -q 'Float basket sits on navy' "$THEME/assets/brand.css" \
+  && grep -q -- '-webkit-text-fill-color: var(--brand-primary' "$THEME/assets/brand.css" \
+  && grep -q 'background: var(--brand-on-dark' "$THEME/assets/brand.css"; then
+  pass "float Checkout CTA is cream-on-navy (pops on panel)"
+else
+  fail "float Checkout CTA missing cream-on-navy lock"
+fi
+
+if grep -q 'lifestyle-airy.webp' "$THEME/templates/index.json" \
+  && test -f "$THEME/assets/lifestyle-airy.webp" \
+  && grep -q "fetchpriority: 'low'" "$THEME/sections/press-logos.liquid"; then
+  pass "lifestyle webp + press lazy/low priority wired"
+else
+  fail "lifestyle webp or press image priority missing"
+fi
+
 info "----------------------------------------"
 if [[ "$FAIL" -gt 0 ]]; then
   red "SMOKE FAILED — $FAIL check(s)"
