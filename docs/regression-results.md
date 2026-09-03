@@ -1,3 +1,13 @@
+# Regression results — Thursday 3 Sep 2026 (deploy 11.1.0-published-reviews)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 997 passed, 0 failed
+- Scope note: 500 Numa-written reviews now live in `assets/reviews.json` (tagged `source: seed`, published). Social proof on, `reviews_enabled` true, load-more page size 12. Empty JSON was why the toggle showed “Reviews will appear here shortly”. Checkpoint: `checkpoints/11.1.0-published-reviews/`. Deploy: `v9` `5883978`, `shopify-theme` `1454160`. Store `7dbr1b-1q`. Hard-refresh homepage `#reviews`. No VERSION bump. Checkout, CTA 11.1.0, MarketShown, Journal-off-home untouched.
+
+---
+
 # Regression results — Wednesday 2 Sep 2026 (save 11.1.0-cta-spec)
 
 ## Smoke
