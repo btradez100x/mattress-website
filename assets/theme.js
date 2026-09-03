@@ -1475,24 +1475,20 @@
       return list.querySelectorAll('.size-option, .size-row').length;
     }
     var maxDim = sizePickerMaxDim(painted);
-    list.innerHTML =
-      '<li class="size-thead" aria-hidden="true">' +
-      '<span>Size</span><span>Footprint</span><span class="size-thead__r">Each</span><span class="size-thead__r">Quantity</span>' +
-      '</li>' +
-      painted
-        .map(function (s) {
-          var mapped = s;
-          if (!s.dims && !s.width_cm) {
-            var fromMap = (SIZE_MAPS.gb || []).filter(function (row) {
-              return row.id === s.id;
-            })[0];
-            if (fromMap) {
-              mapped = Object.assign({}, s, { dims: fromMap.dims, label: s.label || fromMap.label });
-            }
+    list.innerHTML = painted
+      .map(function (s) {
+        var mapped = s;
+        if (!s.dims && !s.width_cm) {
+          var fromMap = (SIZE_MAPS.gb || []).filter(function (row) {
+            return row.id === s.id;
+          })[0];
+          if (fromMap) {
+            mapped = Object.assign({}, s, { dims: fromMap.dims, label: s.label || fromMap.label });
           }
-          return buildSizeTileMarkup(mapped, tab, addLabel, maxDim);
-        })
-        .join('');
+        }
+        return buildSizeTileMarkup(mapped, tab, addLabel, maxDim);
+      })
+      .join('');
     return painted.length;
   }
 
