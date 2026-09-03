@@ -139,7 +139,9 @@
       {%- endif -%}
 
       <div class="size-picker">
+      {% render 'size-picker-chrome' %}
       <ul class="size-list" data-size-list aria-label="Mattress size">{%- render 'size-picker-tiles', mattress: mattress, catalog_iso: catalog_iso, add_label: settings.size_add_label -%}</ul>
+      {% render 'size-picker-help' %}
       </div>
       {%- if section.settings.request_size_enabled -%}
         <div class="size-request-entry">

@@ -1,0 +1,13 @@
+{%- comment -%}
+  SizeType tabs, scale note, and column header for the row selector.
+  JS paints the tabs when the catalog has more than five sizes and more than
+  one SizeType. Thead is a sibling of the list, never an li inside it.
+{%- endcomment -%}
+<div class="size-type-tabs" data-size-types role="tablist" hidden></div>
+<p class="size-type-note" data-size-type-note hidden></p>
+<div class="size-thead" aria-hidden="true">
+  <span>Size</span>
+  <span>Footprint, drawn to scale</span>
+  <span class="size-thead__r">Each</span>
+  <span class="size-thead__r">Quantity</span>
+</div>
