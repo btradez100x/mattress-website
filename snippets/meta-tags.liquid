@@ -46,6 +46,9 @@
     elsif seo_handle == 'manufacturing' or seo_suffix == 'manufacturing'
       assign seo_title = 'How it is made'
       assign seo_description = 'Thirty five centimetres, built in two parts, closed with a zip. Made after you order it.'
+    elsif seo_handle == 'trade' or seo_suffix == 'trade'
+      assign seo_title = 'Contract mattresses for hotels and serviced apartments | Numa'
+      assign seo_description = 'Made-to-order mattresses for hotels, serviced apartments and short lets. Sizes most contract suppliers do not carry, including European King and Split King.'
     endif
     assign seo_title = seo_title | replace: '[Brand]', brand
     assign seo_description = seo_description | replace: '[Brand]', brand

@@ -1,0 +1,354 @@
+{{ 'trade.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Count UNIQUE SIZES across every product whose native Type is exactly
+  "mattress". Comfort layers, toppers, pillows and sheets all carry sizes
+  of their own and must each have a distinct Type so they cannot be counted
+  here. Deduplicating on variant title means two mattress products sharing
+  a size are still one size.
+  The admin value is lowercase. Comparisons are case sensitive.
+  SizeType is a List. Use contains, never ==.
+{%- endcomment -%}
+{%- liquid
+  assign seen = ''
+  assign size_count = 0
+  for p in collections.all.products
+    unless p.type == 'mattress'
+      continue
+    endunless
+    for v in p.variants
+      assign is_gone = v.metafields.custom.gone.value | default: v.metafields.custom.gone
+      if is_gone == true or is_gone == 'true' or is_gone == 'gone'
+        continue
+      endif
+      unless seen contains v.title
+        assign seen = seen | append: v.title | append: '|'
+        assign size_count = size_count | plus: 1
+      endunless
+    endfor
+  endfor
+
+  assign product = collections.mattresses.products.first
+  if product == blank
+    assign product = collections.all.products | where: 'type', 'mattress' | first
+  endif
+  if size_count == 0 and product != blank
+    assign seen = ''
+    for v in product.variants
+      assign is_gone = v.metafields.custom.gone.value | default: v.metafields.custom.gone
+      if is_gone == true or is_gone == 'true' or is_gone == 'gone'
+        continue
+      endif
+      unless seen contains v.title
+        assign seen = seen | append: v.title | append: '|'
+        assign size_count = size_count | plus: 1
+      endunless
+    endfor
+  endif
+
+  assign order = 'UK Sizes,US Sizes,EU Sizes,International Sizes,Australian Sizes,UAE Sizes' | split: ','
+  assign cols = ''
+  if product != blank
+    for group in order
+      assign hit = false
+      for v in product.variants
+        assign is_gone = v.metafields.custom.gone.value | default: v.metafields.custom.gone
+        if is_gone == true or is_gone == 'true' or is_gone == 'gone'
+          continue
+        endif
+        if v.metafields.custom.SizeType.value contains group
+          assign hit = true
+        endif
+      endfor
+      if hit
+        assign cols = cols | append: group | append: '|'
+      endif
+    endfor
+  endif
+  assign has_size_groups = false
+  if cols != blank
+    assign cols = cols | split: '|'
+    assign has_size_groups = true
+  endif
+
+  assign trade_email = settings.trade_email | strip
+  assign trade_contact_url = pages['contact'].url | default: '/pages/contact'
+-%}
+<div class="trade" data-lp-page data-lp-variant="trade">
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">Trade and contract</p>
+        <h1>Every bed in the building,<br>made to order.</h1>
+        <p class="lede">Hotels, serviced apartments, short lets and developments. Built to your specification in any quantity, in sizes most contract suppliers do not carry, and delivered room by room.</p>
+        <p class="mono hero-meta">{{ size_count }} sizes &middot; One specification &middot; Phased delivery</p>
+      </div>
+      {% render 'rd-img', file: 'trade-suite.webp', alt: 'Numa mattress in a hotel suite', width: 1400, height: 787, loading: 'eager', fetchpriority: 'high' %}
+    </div>
+    <div class="line"></div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="narrow">
+      <div class="sec-head">
+        <p class="kicker">Why made to order</p>
+        <h2>The bed fits the room,<br>not the other way round.</h2>
+      </div>
+      <p>Contract mattresses are bought from stock, which means the size range is whatever the warehouse holds and the specification is whatever was made last quarter. Rooms get fitted around the mattress.</p>
+      <p>Nothing of ours is built before you order it, so a room that takes 160 by 200 gets 160 by 200.</p>
+    </div>
+  </div>
+</section>
+
+<section class="flush">
+  <div class="duo">
+    {% render 'rd-img', file: 'trade-penthouse.webp', alt: 'Serviced apartment bedroom', width: 1400, height: 787, loading: 'lazy' %}
+    {% render 'rd-img', file: 'trade-view.webp', alt: 'Suite with a lake view', width: 1400, height: 787, loading: 'lazy' %}
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="narrow">
+      <div class="sec-head">
+        <p class="kicker">What changes</p>
+        <h2>Four things a stock supplier cannot do</h2>
+      </div>
+      <div class="build">
+        <div class="row"><span class="n">01</span>
+          <div>
+            <h3>Any size we can make</h3>
+            <p>Every size we make, British through Australian. If a room takes 183 by 213, that is what goes in it.</p>
+          </div>
+        </div>
+        <div class="row"><span class="n">02</span>
+          <div>
+            <h3>One specification across the estate</h3>
+            <p>Every room the same build, the same depth, the same feel. A guest moving between properties finds the same bed.</p>
+          </div>
+        </div>
+        <div class="row"><span class="n">03</span>
+          <div>
+            <h3>A comfort layer you replace, not a mattress</h3>
+            <p>The top five centimetres are what wear. Renew the layer and the core stays. Across a hundred rooms that is the difference between a refurbishment and a delivery.</p>
+          </div>
+        </div>
+        <div class="row"><span class="n">04</span>
+          <div>
+            <h3>Delivered room by room</h3>
+            <p>Concierged to each room, unrolled, positioned, packaging taken away. Old mattresses removed and recycled on the same visit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bone">
+  <div class="wrap">
+    <div class="sec-head narrow">
+      <p class="kicker">Who we work with</p>
+      <h2>Six kinds of building</h2>
+    </div>
+    <div class="sectors">
+      <article>
+        {% render 'rd-img', file: 'trade-room-hotel.webp', alt: 'Hotel bedroom', width: 1400, height: 787, loading: 'lazy' %}
+        <h3>Hotels</h3>
+        <p>From a single floor to a full estate. One specification, phased delivery, and a comfort layer that renews between refurbishment cycles.</p>
+      </article>
+      <article>
+        {% render 'rd-img', file: 'trade-apartment.webp', alt: 'Serviced apartment', width: 1400, height: 787, loading: 'lazy' %}
+        <h3>Serviced apartments</h3>
+        <p>Mixed room sizes and high turnover. European King and Split King for continental frames and twin configurations.</p>
+      </article>
+      <article>
+        {% render 'rd-img', file: 'trade-twin.webp', alt: 'Twin room', width: 1400, height: 787, loading: 'lazy' %}
+        <h3>Short lets</h3>
+        <p>Small quantities, high scrutiny. The mattress is the most reviewed object in the property.</p>
+      </article>
+      <article>
+        {% render 'rd-img', file: 'trade-large.webp', alt: 'Developer show bedroom', width: 1400, height: 787, loading: 'lazy' %}
+        <h3>Property developers</h3>
+        <p>Furnished handover at scale. Specification agreed once, delivered against a completion schedule.</p>
+      </article>
+      <article>
+        {% render 'rd-img', file: 'trade-room-hotel-2.webp', alt: 'Designed bedroom', width: 1400, height: 787, loading: 'lazy' %}
+        <h3>Interior designers</h3>
+        <p>Sizes to suit the room rather than the catalogue, and a build specification you can put in a schedule.</p>
+      </article>
+      <article>
+        {% render 'rd-img', file: 'trade-room-warm.webp', alt: 'Residential bedroom', width: 1400, height: 787, loading: 'lazy' %}
+        <h3>Care and residential</h3>
+        <p>Durability and a renewable surface, with a core guaranteed for twenty five years.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="split">
+      {% render 'rd-img', file: 'trade-coolknit-side.webp', alt: 'Side panel and spring core', width: 1400, height: 787, loading: 'lazy' %}
+      <div>
+        <p class="kicker">The specification</p>
+        <h2>One build, every room.</h2>
+        <p class="spec-lead">Thirty five centimetres. A twenty centimetre seven-zone pocket spring core with 1.8 and 2.0mm wire, 2.0mm under the hips and shoulders, a fifteen centimetre comfort section above it, and a 400 gram cool-knit cover zipped the whole way round.</p>
+        <p>The comfort layer lifts out, which is why the core carries a twenty five year guarantee and why an estate is renewed rather than replaced.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bone">
+  <div class="wrap">
+    <div class="sec-head narrow">
+      <p class="kicker">Sizes</p>
+      <h2>{{ size_count }} sizes as standard</h2>
+      <p class="lede">Anything with both dimensions at or under 213 centimetres can be quoted.</p>
+    </div>
+    {%- if has_size_groups and product != blank -%}
+    <table class="tbl">
+      <thead>
+        <tr>
+          {%- for group in cols -%}
+            {%- if group != blank -%}<th>{{ group | remove: ' Sizes' }}</th>{%- endif -%}
+          {%- endfor -%}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {%- for group in cols -%}
+            {%- if group == blank -%}{%- continue -%}{%- endif -%}
+            <td>
+              {%- for v in product.variants -%}
+                {%- assign is_gone = v.metafields.custom.gone.value | default: v.metafields.custom.gone -%}
+                {%- if is_gone == true or is_gone == 'true' or is_gone == 'gone' -%}{%- continue -%}{%- endif -%}
+                {%- if v.metafields.custom.SizeType.value contains group -%}
+                  {%- assign u = v.metafields.custom.units.value | default: 1 -%}
+                  {{ v.title }}
+                  {%- if u > 1 %} {{ u }} &times; {% endif -%}
+                  {{ v.metafields.custom.width_cm.value }} &times; {{ v.metafields.custom.length_cm.value }}<br>
+                {%- endif -%}
+              {%- endfor -%}
+            </td>
+          {%- endfor -%}
+        </tr>
+      </tbody>
+    </table>
+    {%- else -%}
+    <table class="tbl">
+      <thead>
+        <tr><th>British</th><th>American</th><th>European</th><th>Other</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Single 90 &times; 190<br>Small Double 120 &times; 190<br>Double 135 &times; 190<br>King 150 &times; 200<br>Super King 180 &times; 200<br>Emperor 200 &times; 200</td>
+          <td>Twin 99 &times; 191<br>Twin XL 91 &times; 213<br>Full 137 &times; 191<br>Queen 152 &times; 203<br>King 193 &times; 203<br>California King 183 &times; 213<br>Split King 2 &times; 106 &times; 213</td>
+          <td>European King 160 &times; 200</td>
+          <td>Australian Super King 203 &times; 203</td>
+        </tr>
+      </tbody>
+    </table>
+    {%- endif -%}
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="narrow">
+      <div class="sec-head">
+        <p class="kicker">How an order works</p>
+        <h2>Five stages</h2>
+      </div>
+      <div class="build">
+        <div class="row"><span class="n">01</span>
+          <div>
+            <h3>Specification</h3>
+            <p>Sizes, quantities, and any variation on the standard build. We will send a sample to the property if it helps the decision.</p>
+          </div>
+        </div>
+        <div class="row"><span class="n">02</span>
+          <div>
+            <h3>Quotation</h3>
+            <p>Priced against quantity, with delivery scheduled to your dates rather than ours.</p>
+          </div>
+        </div>
+        <div class="row"><span class="n">03</span>
+          <div>
+            <h3>Production</h3>
+            <p>Built to the order. Lead times are confirmed at quotation and held.</p>
+          </div>
+        </div>
+        <div class="row"><span class="n">04</span>
+          <div>
+            <h3>Delivery and installation</h3>
+            <p>Room by room, unrolled and positioned. Old mattresses removed and recycled on the same visit.</p>
+          </div>
+        </div>
+        <div class="row"><span class="n">05</span>
+          <div>
+            <h3>Renewal</h3>
+            <p>Comfort layers reordered as the estate needs them, without replacing a single core.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="flush">
+  <div class="full">
+    {% render 'rd-img', file: 'trade-large.webp', alt: 'A large bedroom', width: 1400, height: 787, loading: 'lazy' %}
+  </div>
+</section>
+
+<section id="enquire">
+  <div class="wrap">
+    <div class="contact">
+      <h2>Talk to us about a project</h2>
+      <p>Tell us the property, the number of rooms and the sizes you need. If you do not know the sizes yet, tell us the rooms and we will work them out.</p>
+      {%- if trade_email != blank -%}
+        <a class="mail" href="mailto:{{ trade_email }}?subject=Trade%20enquiry" data-trade-enquiry="contact">{{ trade_email }}</a>
+      {%- else -%}
+        <a class="mail" href="{{ trade_contact_url }}" data-trade-enquiry="contact">Contact us</a>
+      {%- endif -%}
+      <span class="mono">Replies within one working day &middot; Samples available to properties</span>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <div class="narrow">
+      <div class="sec-head">
+        <p class="kicker">The outcome</p>
+        <h2>One specification, every room</h2>
+        <p class="lede">Built to order, so the bed fits the room rather than the room fitting the bed.</p>
+      </div>
+      <p><strong>It arrives finished.</strong> Concierged. Room by room. Unrolled and positioned. The old ones leave with it.</p>
+      <p><strong>It stays right for twenty five years.</strong> The part that softens renews. The part that lasts, lasts.</p>
+      {%- if trade_email != blank -%}
+        <a class="mail outcome-mail" href="mailto:{{ trade_email }}?subject=Trade%20enquiry" data-trade-enquiry="footer">{{ trade_email }}</a>
+      {%- else -%}
+        <a class="mail outcome-mail" href="{{ trade_contact_url }}" data-trade-enquiry="footer">Contact us</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Trade",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Trade"
+    }
+  ]
+}
+{% endschema %}
