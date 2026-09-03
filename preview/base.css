@@ -2916,7 +2916,7 @@ video[controls],
   display: none !important;
 }
 
-/* Size selector rows (New mods v2). Replaces the two-column card grid. */
+/* Size selector rows (New mods v2) — v2. Replaces the two-column card grid. */
 .size-picker .size-list,
 .size-list.lp-sizes {
   display: flex;
