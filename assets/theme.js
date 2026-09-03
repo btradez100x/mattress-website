@@ -1474,24 +1474,79 @@
     if (!painted.length) {
       return list.querySelectorAll('.size-option, .size-row').length;
     }
-    list.innerHTML = painted
-      .map(function (s) {
-        var mapped = s;
-        if (!s.dims && !s.width_cm) {
-          var fromMap = (SIZE_MAPS.gb || []).filter(function (row) {
-            return row.id === s.id;
-          })[0];
-          if (fromMap) {
-            mapped = Object.assign({}, s, { dims: fromMap.dims, label: s.label || fromMap.label });
+    var maxDim = sizePickerMaxDim(painted);
+    list.innerHTML =
+      '<li class="size-thead" aria-hidden="true">' +
+      '<span>Size</span><span>Footprint</span><span class="size-thead__r">Each</span><span class="size-thead__r">Quantity</span>' +
+      '</li>' +
+      painted
+        .map(function (s) {
+          var mapped = s;
+          if (!s.dims && !s.width_cm) {
+            var fromMap = (SIZE_MAPS.gb || []).filter(function (row) {
+              return row.id === s.id;
+            })[0];
+            if (fromMap) {
+              mapped = Object.assign({}, s, { dims: fromMap.dims, label: s.label || fromMap.label });
+            }
           }
-        }
-        return buildSizeTileMarkup(mapped, tab, addLabel);
-      })
-      .join('');
+          return buildSizeTileMarkup(mapped, tab, addLabel, maxDim);
+        })
+        .join('');
     return painted.length;
   }
 
-  function buildSizeTileMarkup(s, market, addLabel) {
+  function sizePickerMaxDim(rows) {
+    var max = 213;
+    (rows || []).forEach(function (s) {
+      var w = parseInt(s && s.width_cm, 10) || 0;
+      var l = parseInt(s && s.length_cm, 10) || 0;
+      if (w > max) max = w;
+      if (l > max) max = l;
+    });
+    return max;
+  }
+
+  function sizePickerFootprintMarkup(s, maxDim) {
+    var pieces = parseInt(s.units, 10) || parseInt(s.pieces, 10) || 1;
+    var w = parseInt(s.width_cm, 10) || 0;
+    var l = parseInt(s.length_cm, 10) || 0;
+    if (!w || !l) {
+      var d = checkoutFootprintDims({
+        dims: s.dims || rowDimsText(s),
+        pieces: pieces,
+        units: pieces,
+      });
+      w = d.w;
+      l = d.l;
+      pieces = d.pieces || pieces;
+    }
+    maxDim = maxDim || 213;
+    var scale = 60 / maxDim;
+    var bw = Math.max(8, Math.round(w * scale));
+    var bh = Math.max(8, Math.round(l * scale));
+    var beds = '';
+    var i;
+    for (i = 0; i < pieces; i++) {
+      beds +=
+        '<span class="size-plan__bed" style="width:' + bw + 'px;height:' + bh + 'px"></span>';
+    }
+    var label =
+      (s.label || 'Mattress') +
+      (s.dims || rowDimsText(s) ? ', ' + (s.dims || rowDimsText(s)) + ', drawn to scale' : ', drawn to scale');
+    return (
+      '<span class="size-plan" role="img" aria-label="' +
+      escapeHtml(label) +
+      '">' +
+      '<span class="size-plan__ref"></span>' +
+      '<span class="size-plan__beds">' +
+      beds +
+      '</span>' +
+      '</span>'
+    );
+  }
+
+  function buildSizeTileMarkup(s, market, addLabel, maxDim) {
     var label = rowDisplayName(s, market) || s.label || '';
     var dims = rowDimsText(s);
     var fits = s.fits || '';
@@ -1502,7 +1557,7 @@
     var pieces = parseInt(s.units, 10) || parseInt(s.pieces, 10) || 1;
     return (
       '<li>' +
-      '<div class="size-option' +
+      '<div class="size-option size-option--row' +
       (available ? '' : ' size-option--oos') +
       (popular ? ' size-option--popular' : '') +
       '" data-size-id="' +
@@ -1526,35 +1581,37 @@
       '" data-available="' +
       (available ? 'true' : 'false') +
       '" data-qty="0">' +
-      '<button type="button" class="size-option__pick" data-size-pick aria-label="Add ' +
-      escapeHtml(label) +
-      (dims ? ', ' + escapeHtml(dims) : '') +
-      (price ? ', ' + escapeHtml(price) : '') +
-      '">' +
-      '<span class="size-option__main">' +
+      '<div class="size-option__main">' +
       '<span class="size-option__label">' +
       escapeHtml(label) +
-      (popular ? ' <span class="size-option__popular">Most popular</span>' : '') +
       '</span>' +
+      (fits
+        ? '<span class="size-option__note">' + escapeHtml(fits) + '</span>'
+        : '') +
+      '</div>' +
+      '<div class="size-option__footprint">' +
+      sizePickerFootprintMarkup(Object.assign({}, s, { label: label, dims: dims }), maxDim) +
       '<span class="size-option__dims">' +
       escapeHtml(dims) +
       (available ? '' : ' \u00b7 Not in this allocation') +
       '</span>' +
-      (fits ? '<span class="size-option__note">' + escapeHtml(fits) + '</span>' : '') +
-      '</span>' +
-      '</button>' +
-      '<div class="size-option__foot">' +
+      '</div>' +
       '<span class="size-option__price">' +
       escapeHtml(price) +
       '</span>' +
+      '<div class="size-option__foot">' +
       (available
         ? '<button type="button" class="size-option__add" data-size-pick>' +
           escapeHtml(addLabel || 'Add') +
           '</button>' +
           '<span class="size-option__qty" data-size-qty data-qty-stepper data-lp-qty>' +
-          '<button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease quantity">&minus;</button>' +
+          '<button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease ' +
+          escapeHtml(label) +
+          '">&minus;</button>' +
           '<span class="size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>' +
-          '<button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase quantity">+</button>' +
+          '<button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase ' +
+          escapeHtml(label) +
+          '">+</button>' +
           '</span>'
         : '') +
       '</div>' +
@@ -1934,6 +1991,7 @@
       root.addEventListener('click', function (e) {
         var row = e.target.closest('.size-row, .size-option');
         if (!row || !root.contains(row)) return;
+        if (row.classList.contains('size-option--request')) return;
         var dec = e.target.closest('[data-qty-dec]');
         var inc = e.target.closest('[data-qty-inc]');
         var pick = e.target.closest('[data-size-pick]');
@@ -3842,16 +3900,20 @@
 
   function syncOrderChrome() {
     var lines = OrderStore.lines();
-    var lineCount = lines.length;
-    var show = lineCount > 0;
+    var unitCount = mattressUnitsFromLines(lines);
+    if (unitCount < 1) unitCount = OrderStore.units(lines);
+    var show = unitCount > 0 || lines.length > 0;
     document.querySelectorAll('[data-order-link]').forEach(function (el) {
       el.hidden = !show;
       if ((el.tagName === 'A' || el.tagName === 'a') && show) {
         el.setAttribute('href', reviewOrderUrl());
+        el.setAttribute('aria-label', 'Order, ' + unitCount);
+      } else if (el.tagName === 'A' || el.tagName === 'a') {
+        el.setAttribute('aria-label', 'Order');
       }
     });
     document.querySelectorAll('[data-order-count]').forEach(function (el) {
-      el.textContent = String(lineCount);
+      el.textContent = String(unitCount);
       el.hidden = !show;
     });
     paintFloatBasketFromStore();
@@ -4608,6 +4670,7 @@
         var pick = e.target.closest('[data-size-pick]');
         var row = e.target.closest('.size-row, .size-option');
         if (!row) return;
+        if (row.classList.contains('size-option--request')) return;
         if ((dec || inc) && row) {
           e.preventDefault();
           e.stopPropagation();

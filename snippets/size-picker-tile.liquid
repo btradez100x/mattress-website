@@ -1,5 +1,5 @@
 {%- comment -%}
-  One Choose-your-size tile. Matches theme.js buildSizeTileMarkup.
+  One Choose-your-size row. Matches theme.js buildSizeTileMarkup.
   Expects: size_id, label, dims, price, price_raw, variant_id, pieces, popular, fits, add_label
 {%- endcomment -%}
 {%- liquid
@@ -12,7 +12,7 @@
 -%}
 <li>
   <div
-    class="size-option{% if popular == true or popular == 'true' %} size-option--popular{% endif %}"
+    class="size-option size-option--row{% if popular == true or popular == 'true' %} size-option--popular{% endif %}"
     data-size-id="{{ size_id | escape }}"
     data-size-label="{{ label | escape }}"
     data-size-dims="{{ dims | escape }}"
@@ -23,32 +23,26 @@
     data-available="true"
     data-qty="0"
   >
-    <button
-      type="button"
-      class="size-option__pick"
-      data-size-pick
-      aria-label="Add {{ label | escape }}{% if dims != blank %}, {{ dims | escape }}{% endif %}{% if price != blank %}, {{ price | escape }}{% endif %}"
-    >
-      <span class="size-option__main">
-        <span class="size-option__label">
-          {{ label }}
-          {%- if popular == true or popular == 'true' -%}
-            <span class="size-option__popular">Most popular</span>
-          {%- endif -%}
-        </span>
-        <span class="size-option__dims">{{ dims }}</span>
-        {%- if fits != blank -%}
-          <span class="size-option__note">{{ fits }}</span>
-        {%- endif -%}
+    <div class="size-option__main">
+      <span class="size-option__label">{{ label }}</span>
+      {%- if fits != blank -%}
+        <span class="size-option__note">{{ fits }}</span>
+      {%- endif -%}
+    </div>
+    <div class="size-option__footprint">
+      <span class="size-plan" role="img" aria-label="{{ label | escape }}{% if dims != blank %}, {{ dims | escape }}, drawn to scale{% endif %}">
+        <span class="size-plan__ref"></span>
+        <span class="size-plan__beds"><span class="size-plan__bed" style="width:28px;height:36px"></span></span>
       </span>
-    </button>
+      <span class="size-option__dims">{{ dims }}</span>
+    </div>
+    <span class="size-option__price">{{ price }}</span>
     <div class="size-option__foot">
-      <span class="size-option__price">{{ price }}</span>
       <button type="button" class="size-option__add" data-size-pick>{{ add_label }}</button>
       <span class="size-option__qty" data-size-qty data-qty-stepper data-lp-qty>
-        <button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease quantity">&minus;</button>
+        <button type="button" class="size-option__qty-btn" data-qty-dec aria-label="Decrease {{ label | escape }}">&minus;</button>
         <span class="size-option__qty-val" data-qty-val role="status" aria-live="polite">0</span>
-        <button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase quantity">+</button>
+        <button type="button" class="size-option__qty-btn" data-qty-inc aria-label="Increase {{ label | escape }}">+</button>
       </span>
     </div>
   </div>
