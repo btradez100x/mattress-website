@@ -332,6 +332,27 @@ html .btn-line:hover {
   box-shadow: 0 8px 24px rgba(31, 58, 95, 0.08) !important;
 }
 
+.size-option.size-option--row,
+.size-row.size-option--row {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hairline, #d6d2ca) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-height: 0 !important;
+}
+.size-option.size-option--row:hover,
+.size-option.size-option--row.is-in-basket,
+.size-option.size-option--row.is-active,
+.size-row.size-option--row:hover,
+.size-row.size-option--row.is-in-basket,
+.size-row.size-option--row.is-active {
+  background: var(--brand-surface, #e4e1da) !important;
+  background-color: var(--brand-surface, #e4e1da) !important;
+  box-shadow: none !important;
+}
+
 /* Delivery spec table last-wins. Not cards. Cream panel, navy type, 2px outer radius. */
 .lp-section--delivery .lp-delivery-panel,
 #delivery .lp-delivery-panel {

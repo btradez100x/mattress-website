@@ -2916,6 +2916,194 @@ video[controls],
   display: none !important;
 }
 
+/* Size selector rows (New mods v2). Replaces the two-column card grid. */
+.size-picker .size-list,
+.size-list.lp-sizes {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.size-picker .size-list > li,
+.size-list.lp-sizes > li {
+  display: block;
+  width: 100%;
+}
+@media (min-width: 560px) {
+  .size-picker .size-list,
+  .size-list.lp-sizes {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+  }
+  .size-picker .size-list > li:last-child:nth-child(odd),
+  .size-list.lp-sizes > li:last-child:nth-child(odd) {
+    grid-column: auto;
+    max-width: none;
+    justify-self: stretch;
+    width: 100%;
+  }
+}
+.size-thead {
+  display: none;
+}
+@media (min-width: 761px) {
+  .size-thead {
+    display: grid;
+    grid-template-columns: minmax(140px, 1.1fr) minmax(170px, 1.3fr) 104px 132px;
+    gap: 22px;
+    padding: 20px 4px 10px;
+    border-bottom: 1px solid var(--hairline, #d6d2ca);
+  }
+  .size-thead span {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--brand-ink, #1a1a1a) 55%, transparent);
+  }
+  .size-thead__r {
+    text-align: right;
+  }
+}
+.size-option--row {
+  display: grid;
+  grid-template-columns: minmax(140px, 1.1fr) minmax(170px, 1.3fr) 104px 132px;
+  gap: 22px;
+  align-items: center;
+  min-height: 0;
+  padding: 16px 4px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--hairline, #d6d2ca);
+  border-radius: 0;
+  box-shadow: none;
+  cursor: default;
+}
+.size-option--row .size-option__label {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.size-option--row:hover,
+.size-option--row.is-in-basket,
+.size-option--row.is-active {
+  background: var(--brand-surface, #e4e1da);
+  filter: none;
+}
+.size-option--row::before,
+.size-option--row::after,
+.size-option--row.is-in-basket::before,
+.size-option--row.is-active::before {
+  display: none;
+}
+.size-option--row .size-option__note {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--brand-accent, #8a6d3b);
+  font-weight: 400;
+}
+.size-option--row .size-option__footprint {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.size-option--row .size-option__dims {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.size-option--row .size-option__price {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 14px;
+  font-weight: 400;
+  text-align: right;
+  width: auto;
+}
+.size-option--row .size-option__foot {
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0;
+  width: auto;
+  gap: 0;
+}
+.size-plan {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex: none;
+}
+.size-plan__ref {
+  position: absolute;
+  inset: 0;
+  border: 1px dashed var(--hairline, #d6d2ca);
+}
+.size-plan__beds {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.size-plan__bed {
+  display: block;
+  border: 1px solid #3a3a3c;
+  background: rgba(58, 58, 60, 0.1);
+  position: relative;
+}
+.size-option--row.is-in-basket .size-plan__bed {
+  border-color: #1a1a1a;
+  background: rgba(26, 26, 26, 0.22);
+}
+.size-plan__bed::after {
+  content: '';
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: 16%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+}
+.size-plan__bed::before {
+  content: '';
+  position: absolute;
+  left: 26%;
+  right: 26%;
+  top: 8%;
+  height: 9%;
+  border: 1px solid currentColor;
+  opacity: 0.3;
+}
+@media (max-width: 760px) {
+  .size-option--row {
+    grid-template-columns: 1fr auto;
+    gap: 4px 16px;
+    padding: 18px 4px;
+  }
+  .size-option--row .size-option__footprint {
+    grid-column: 1 / -1;
+    order: 3;
+    margin-top: 10px;
+  }
+  .size-option--row .size-option__price {
+    order: 2;
+    text-align: right;
+    font-size: 15px;
+  }
+  .size-option--row .size-option__foot {
+    grid-column: 1 / -1;
+    order: 4;
+    justify-content: flex-start;
+    margin-top: 12px;
+  }
+}
+
+
+
 
 .size-note {
   margin-top: 3rem;
