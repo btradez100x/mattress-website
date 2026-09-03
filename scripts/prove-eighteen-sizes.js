@@ -72,17 +72,18 @@ assert(/SIZE_MAPS\.gb/.test(themeJs) && /ukFallbackCatalogRows/.test(themeJs), '
 assert(/function filterCatalogRows/.test(themeJs), 'shared filterCatalogRows must exist');
 assert(/function catalogRowsForPaint/.test(themeJs), 'catalogRowsForPaint must wrap the shared filter with a UK fallback');
 assert(/function paintSizeGrid/.test(themeJs), 'paintSizeGrid must exist so an empty filter cannot wipe the picker');
+assert(/function rowsForSizeType/.test(themeJs), 'picker must group sizes by SizeType');
 assert(
-  /function filterSizesForMarket\(mkt\) \{\s*return catalogRowsForPaint\(allRows, detectCountryIso\(\)\);/.test(
+  /function filterSizesForMarket\(mkt\) \{\s*var type = root.getAttribute\('data-size-type'\)/.test(
     themeJs
   ),
-  'configure picker must paint catalogRowsForPaint (filter + UK fallback)'
+  'configure picker must paint SizeType groups from the full mattress catalog'
 );
 assert(
   /function rowsForSizeGuide\(market\) \{\s*return catalogRowsForPaint\(readSizePriceRows\(\), detectCountryIso\(\)\);/.test(
     themeJs
   ),
-  'size guide JS must use the same catalogRowsForPaint as configure'
+  'size guide JS must keep catalogRowsForPaint (Market Shown), independent of SizeType tabs'
 );
 assert(
   /function catalogRowsFrom\(rows, iso\) \{\s*return filterCatalogRows\(rows, iso\);/.test(themeJs),

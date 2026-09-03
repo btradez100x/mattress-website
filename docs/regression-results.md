@@ -1,3 +1,13 @@
+# Regression results — Thursday 3 Sep 2026 (size selector SizeType tabs)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 992 passed, 0 failed
+- Scope note: Size selector now matches the zip spec sections that were missing: SizeType category tabs (count rule, not market), column header as a sibling of the list, “Not sure which size” helper, full mattress catalog grouped by SizeType. Rows and footprints kept. Size guide still uses Market Shown. Checkpoint: `checkpoints/11.1.0-size-selector-rows/`. Hard-refresh `/pages/configure` and homepage `#reserve`.
+
+---
+
 # Regression results — Thursday 3 Sep 2026 (size selector rows)
 
 ## Smoke

@@ -289,6 +289,11 @@
   assign shown_parts = shown_s | split: ','
   assign europe_isos = '|AT|BE|BG|HR|CY|CZ|DK|EE|FI|FR|DE|GR|HU|IE|IT|LV|LT|LU|MT|NL|PL|PT|RO|SK|SI|ES|SE|AL|IS|LI|NO|CH|MK|ME|RS|BA|XK|MD|UA|BY|EU|EUROPE|'
 
+  assign size_types = v.metafields.custom.SizeType.value
+  if size_types == blank
+    assign size_types = v.metafields.custom.SizeType
+  endif
+
   assign tab_gb = false
   assign tab_uae = false
   assign tab_us = false
@@ -331,6 +336,7 @@
   "availability_state": {{ availability_state | json }},
   "availability_note": {{ availability_note | json }},
   "fits": {{ fits | json }},
+  "size_types": [{% if size_types != blank %}{% assign st_first = true %}{% for t in size_types %}{% assign t_s = t | strip %}{% if t_s == blank %}{% continue %}{% endif %}{% unless st_first %},{% endunless %}{{ t_s | json }}{% assign st_first = false %}{% endfor %}{% endif %}],
   "price": {% if v.price > 0 %}{{ v.price | money | json }}{% else %}""{% endif %},
   "price_raw": {{ v.price | json }},
   "variant_id": {{ v.id | json }},

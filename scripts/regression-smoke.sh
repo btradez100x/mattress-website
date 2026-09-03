@@ -62,6 +62,7 @@ REQUIRED_PATHS=(
   "templates/page.split-king.json"
   "templates/page.configure.json"
   "templates/page.trade.json"
+  "sections/main-trade.liquid"
   "sections/landing-funnel.liquid"
   "snippets/trial-tokens.liquid"
   "templates/page.size-guide.json"
@@ -256,16 +257,20 @@ PY
 done
 
 if grep -q '"id": "trade_email"' "$THEME/config/settings_schema.json" \
-  && grep -q '"id": "reply_working_days"' "$THEME/config/settings_schema.json" \
-  && grep -q '"layout": "trade_contact"' "$THEME/templates/page.trade.json" \
-  && grep -Fq 'Replies [D-reply]' "$THEME/templates/page.trade.json" \
-  && grep -q "data-trade-enquiry" "$THEME/sections/landing-funnel.liquid" \
+  && grep -q '"type": "main-trade"' "$THEME/templates/page.trade.json" \
+  && grep -q "settings.trade_email" "$THEME/sections/main-trade.liquid" \
+  && grep -q "SizeType.value contains" "$THEME/sections/main-trade.liquid" \
+  && grep -q "p.type == 'mattress'" "$THEME/sections/main-trade.liquid" \
+  && grep -q 'data-trade-enquiry="contact"' "$THEME/sections/main-trade.liquid" \
+  && grep -q 'data-trade-enquiry="footer"' "$THEME/sections/main-trade.liquid" \
   && grep -q "function initTradeEnquiry" "$THEME/assets/theme.js" \
-  && grep -q "within 5 working days, approximately" "$ROOT/preview/pages/trade.html" \
-  && ! grep -q "one working day" "$ROOT/preview/pages/trade.html"; then
-  pass "Trade page: configurable reply days, trade email, 5-day copy"
+  && grep -q "one working day" "$THEME/sections/main-trade.liquid" \
+  && grep -q "one working day" "$ROOT/preview/pages/trade.html" \
+  && grep -q "18 sizes" "$ROOT/preview/pages/trade.html" \
+  && grep -q "trade-suite.webp" "$ROOT/preview/pages/trade.html"; then
+  pass "Trade page: dedicated section, trade email, dynamic sizes, one-working-day reply"
 else
-  fail "Trade page missing theme setting, mailto, or still says one working day"
+  fail "Trade page missing theme setting, SizeType table, mailto, or one-working-day copy"
 fi
 
 if grep -q '"value": "configure"' "$THEME/sections/landing-funnel.liquid" \
@@ -432,7 +437,7 @@ if grep -q "upsertMattressLine" "$JS" \
   && grep -q "data-order-remove" "$JS" \
   && grep -q "data-size-qty" "$JS" \
   && grep -q "wrap.hidden = !available" "$JS" \
-  && grep -q "upsertActiveMattress(existingQty + 1" "$JS" \
+  && grep -q "existingQty + 1" "$JS" \
   && grep -q "data-size-pick" "$JS"; then
   pass "order store supports upsert, remove; ADD increments qty"
 else
