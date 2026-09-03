@@ -810,12 +810,167 @@
   function shopifyPostJson(url, payload) {
     return fetch(url, {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
     }).then(function (res) {
       if (!res.ok) throw new Error('add-failed');
       return res.json();
     });
+  }
+
+  function shopifyCartUpdateUrl() {
+    if (/\.html($|\?)/.test(location.pathname || '')) return '';
+    var url =
+      (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.cartUpdate) || '';
+    if (url && url !== '#') {
+      if (/\.js($|\?)/.test(url)) return url;
+      return String(url).replace(/\/?$/, '') + '.js';
+    }
+    var addUrl = shopifyCartAddUrl();
+    if (addUrl && /add\.js/.test(addUrl)) return addUrl.replace(/add\.js/, 'update.js');
+    if (addUrl && /\/add\/?$/.test(addUrl)) return addUrl.replace(/\/add\/?$/, '/update.js');
+    return '/cart/update.js';
+  }
+
+  function shopifyCheckoutUrl() {
+    var url =
+      (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.checkout) || '';
+    if (url && url !== '#' && !/\/pages\/checkout\/?$/.test(url)) return url;
+    var root =
+      (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.root) || '/';
+    root = String(root || '/');
+    if (root.charAt(root.length - 1) !== '/') root += '/';
+    return root + 'checkout';
+  }
+
+  function variantIdNumber(id) {
+    if (id == null || id === '') return 0;
+    var s = String(id).trim();
+    if (!s) return 0;
+    var gid = s.match(/ProductVariant\/(\d+)/i);
+    if (gid) return Number(gid[1]);
+    if (/^\d+$/.test(s)) return Number(s);
+    var n = Number(s);
+    return isFinite(n) && n > 0 ? n : 0;
+  }
+
+  function shopifyCartJson(url, payload) {
+    return fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(function (res) {
+      return res
+        .json()
+        .catch(function () {
+          return {};
+        })
+        .then(function (body) {
+          if (!res.ok) {
+            var msg = (body && (body.description || body.message)) || 'Cart update failed';
+            throw new Error(typeof msg === 'string' ? msg : 'Cart update failed');
+          }
+          return body;
+        });
+    });
+  }
+
+  function defaultCartAddPayload(line, qty, opts) {
+    opts = opts || {};
+    var payload = {
+      id: variantIdNumber(line.variantId),
+      quantity: qty,
+      properties: Object.assign(
+        {
+          Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
+          Market: String(line.market || opts.market || detectMarket()).toUpperCase(),
+          'Item type':
+            line.itemType === 'top'
+              ? 'Comfort layer'
+              : line.itemType === 'sheets'
+                ? 'Bed sheets'
+                : line.itemType === 'pillows'
+                  ? 'Pillows'
+                  : 'Mattress',
+          _lead_min: String(line.leadMin != null ? line.leadMin : opts.leadMinDefault),
+          _lead_max: String(line.leadMax != null ? line.leadMax : opts.leadMaxDefault),
+        },
+        typeof attributionProperties === 'function' ? attributionProperties() : {}
+      ),
+    };
+    if (window.ValtoraUTM && typeof window.ValtoraUTM.applyToCartPayload === 'function') {
+      payload = window.ValtoraUTM.applyToCartPayload(payload);
+    }
+    return payload;
+  }
+
+  function syncShopifyCartFromLines(lines, orderAttrs, opts) {
+    opts = opts || {};
+    var cartUrl = shopifyCartJsUrl();
+    var addUrl = shopifyCartAddUrl();
+    var updateUrl = shopifyCartUpdateUrl();
+    if (!cartUrl || !addUrl) return Promise.reject(new Error('no-cart-api'));
+
+    function idOf(line) {
+      if (typeof opts.variantIdOf === 'function') return variantIdNumber(opts.variantIdOf(line));
+      return variantIdNumber(line.variantId);
+    }
+
+    var wanted = {};
+    var firstLine = {};
+    lines.forEach(function (line) {
+      var vid = idOf(line);
+      if (!vid) throw new Error('missing-variant');
+      var qty = parseInt(line.quantity, 10) || 1;
+      wanted[vid] = (wanted[vid] || 0) + qty;
+      if (!firstLine[vid]) firstLine[vid] = line;
+    });
+
+    return fetch(cartUrl, {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Could not read the cart');
+        return res.json();
+      })
+      .then(function (cart) {
+        var updates = {};
+        var present = {};
+        (cart.items || []).forEach(function (item) {
+          var vid = Number(item.variant_id);
+          if (!vid) return;
+          present[vid] = true;
+          var next = wanted[vid];
+          if (next == null) updates[String(vid)] = 0;
+          else if (next !== Number(item.quantity)) updates[String(vid)] = next;
+        });
+        var toAdd = [];
+        Object.keys(wanted).forEach(function (vid) {
+          if (present[vid]) return;
+          toAdd.push({ line: firstLine[vid], quantity: wanted[vid] });
+        });
+        var body = {};
+        if (Object.keys(updates).length) body.updates = updates;
+        if (orderAttrs && Object.keys(orderAttrs).length) body.attributes = orderAttrs;
+        var chain =
+          Object.keys(body).length && updateUrl ? shopifyCartJson(updateUrl, body) : Promise.resolve(cart);
+        toAdd.forEach(function (item) {
+          chain = chain.then(function () {
+            var payload;
+            if (typeof opts.payloadOf === 'function') {
+              payload = opts.payloadOf(item.line, item.quantity);
+              if (payload) payload.quantity = item.quantity;
+            } else {
+              payload = defaultCartAddPayload(item.line, item.quantity, opts);
+            }
+            return shopifyCartJson(addUrl, payload);
+          });
+        });
+        return chain;
+      });
   }
 
   function sizeRowForId(id, market) {
@@ -4812,47 +4967,32 @@
       }
 
       var sync = window.ValtoraUTM ? window.ValtoraUTM.syncCartAttributes() : Promise.resolve();
+      var attrs = Object.assign({}, orderAttrs);
+      if (large) {
+        attrs.large_order = 'true';
+        attrs.large_order_terms_acknowledged = 'true';
+        attrs.large_order_value = String(Math.round(orderValue));
+        attrs.production_commit_window = 'Within 5 working days of order';
+        attrs.admin_flag = 'Review before factory order';
+        attrs.large_order_review = 'true';
+      }
       return sync
         .then(function () {
-          return fetch('/cart/clear.js', { method: 'POST', headers: { Accept: 'application/json' } });
-        })
-        .then(function () {
-          var attrs = Object.assign({}, orderAttrs);
-          if (large) {
-            attrs.large_order = 'true';
-            attrs.large_order_terms_acknowledged = 'true';
-            attrs.large_order_value = String(Math.round(orderValue));
-            attrs.production_commit_window = 'Within 5 working days of order';
-            attrs.admin_flag = 'Review before factory order';
-            attrs.large_order_review = 'true';
-          }
-          return fetch('/cart/update.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ attributes: attrs }),
+          return syncShopifyCartFromLines(lines, attrs, {
+            variantIdOf: function (line) {
+              return line.variantId || defaultVariant;
+            },
+            payloadOf: function (line, qty) {
+              var payload = buildCartPayload(line, line.variantId || defaultVariant, large);
+              payload.quantity = qty;
+              return payload;
+            },
           });
-        })
-        .then(function () {
-          var chain = Promise.resolve();
-          lines.forEach(function (line) {
-            chain = chain.then(function () {
-              var vid = line.variantId || defaultVariant;
-              return fetch('/cart/add.js', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify(buildCartPayload(line, vid, large)),
-              }).then(function (res) {
-                if (!res.ok) throw new Error('Add failed');
-                return res.json();
-              });
-            });
-          });
-          return chain;
         })
         .then(function () {
           // Keep OrderStore through Shopify /checkout so Back still has the basket.
           // Clear only after a successful order (thank_you / order-confirmed).
-          window.location.href = (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.checkout) || '/checkout';
+          window.location.href = shopifyCheckoutUrl();
         });
     }
 
@@ -5530,169 +5670,161 @@
       order_value: OrderStore.orderValue(),
     });
 
-    payBtns.forEach(function (payBtn) {
-      payBtn.addEventListener('click', function () {
-        var lines = OrderStore.lines();
-        if (!lines.length) {
-          if (statusEl) {
-            statusEl.hidden = false;
-            statusEl.textContent = 'Your order is empty.';
-          }
-          return;
-        }
-        var sample = (lines[0] && lines[0].unitPrice) || '';
-        var totalVal = OrderStore.orderValue(lines);
-        if (totalVal >= thresholdFor(sample) && largeAck && !largeAck.checked) {
-          if (statusEl) {
-            statusEl.hidden = false;
-            statusEl.textContent = 'Please confirm the larger-order terms before checkout.';
-          }
-          if (largeTerms) largeTerms.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          return;
-        }
-        vTrack('begin_checkout', {
-          value: totalVal,
-          order_value: totalVal,
-          items: checkoutItemsPayload(lines),
-          line_count: lines.length,
+    var payBusy = false;
+
+    function setPayStatus(msg) {
+      if (!statusEl) return;
+      statusEl.hidden = !msg;
+      statusEl.textContent = msg || '';
+    }
+
+    function goToHostedCheckout(form) {
+      if (form && form.action && typeof HTMLFormElement !== 'undefined') {
+        HTMLFormElement.prototype.submit.call(form);
+        return;
+      }
+      window.location.href = shopifyCheckoutUrl();
+    }
+
+    function startPay(payBtn, form) {
+      if (payBusy) return;
+      var lines = OrderStore.lines();
+      if (!lines.length) {
+        setPayStatus('Your order is empty.');
+        return;
+      }
+      var sample = (lines[0] && lines[0].unitPrice) || '';
+      var totalVal = OrderStore.orderValue(lines);
+      if (totalVal >= thresholdFor(sample) && largeAck && !largeAck.checked) {
+        setPayStatus('Please confirm the larger-order terms before checkout.');
+        if (largeTerms) largeTerms.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+      vTrack('begin_checkout', {
+        value: totalVal,
+        order_value: totalVal,
+        items: checkoutItemsPayload(lines),
+        line_count: lines.length,
+        units: OrderStore.units(lines),
+        size: checkoutSizeParam(lines),
+        source: (payBtn && payBtn.getAttribute('data-pay-source')) || 'summary'
+      });
+      if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
+      if (typeof ttq !== 'undefined' && ttq.track) ttq.track('InitiateCheckout');
+      setPayStatus('Taking you to payment…');
+      if (previewMode) {
+        var snapshot = {
+          lines: lines.map(function (line) {
+            return {
+              key: line.key,
+              itemType: line.itemType,
+              sizeId: line.sizeId,
+              label: line.label,
+              dims: line.dims,
+              quantity: parseInt(line.quantity, 10) || 0,
+              unitPrice: line.unitPrice,
+              priceRaw: line.priceRaw,
+              market: line.market,
+              leadWindow: line.leadWindow,
+              leadMin: line.leadMin,
+              leadMax: line.leadMax,
+              pieces: pieceCountOf(line),
+              units: pieceCountOf(line),
+            };
+          }),
+          total: formatOrderTotal(lines, market),
           units: OrderStore.units(lines),
-          size: checkoutSizeParam(lines),
-          source: payBtn.getAttribute('data-pay-source') || 'summary'
+          line_count: lines.length,
+          order_id: 'PREVIEW-' + Date.now(),
+          currency: market === 'gb' ? 'GBP' : market === 'eu' ? 'EUR' : 'AED',
+          value: totalVal,
+        };
+        OrderStore.saveLastOrder(snapshot);
+        OrderStore.clear();
+        window.location.href = confirmedPath;
+        return;
+      }
+      var missing = lines.some(function (line) {
+        return !variantIdNumber(line.variantId);
+      });
+      if (missing) {
+        setPayStatus('Assign the mattress product in the theme so each size has a Shopify variant.');
+        return;
+      }
+      payBusy = true;
+      payBtns.forEach(function (b) {
+        b.disabled = true;
+      });
+      var sync = window.ValtoraUTM ? window.ValtoraUTM.syncCartAttributes() : Promise.resolve();
+      var mattressLines = lines.filter(isMattressLine);
+      var primary = mattressLines[0] || lines[0] || {};
+      var cartLead = resolveCartLeadTime(lines);
+      var orderAttrs = Object.assign(
+        {
+          order_stage: '1',
+          stage_updated_at: new Date().toISOString(),
+          delivery_window: cartLead.display || primary.leadWindow || leadWindow || '8 to 10 weeks',
+          size_label: mattressLines
+            .map(function (l) { return l.label; })
+            .filter(Boolean)
+            .join(', ') || primary.label || '',
+          size_dims: mattressLines
+            .map(function (l) { return l.dims; })
+            .filter(Boolean)
+            .join(', ') || primary.dims || '',
+        },
+        serviceAttributePayload()
+      );
+      if (totalVal >= thresholdFor(sample)) {
+        orderAttrs.large_order = 'true';
+        orderAttrs.large_order_review = 'true';
+        orderAttrs.admin_flag = 'Review before factory order';
+        orderAttrs.large_order_value = String(Math.round(totalVal));
+      }
+      if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
+        Object.keys(orderAttrs).forEach(function (k) {
+          window.ValtoraUTM.setAttribute(k, orderAttrs[k]);
         });
-        if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
-        if (typeof ttq !== 'undefined' && ttq.track) ttq.track('InitiateCheckout');
-        if (statusEl) {
-          statusEl.hidden = false;
-          statusEl.textContent = 'Taking you to payment…';
-        }
-        if (previewMode) {
-          var snapshot = {
-            lines: lines.map(function (line) {
-              return {
-                key: line.key,
-                itemType: line.itemType,
-                sizeId: line.sizeId,
-                label: line.label,
-                dims: line.dims,
-                quantity: parseInt(line.quantity, 10) || 0,
-                unitPrice: line.unitPrice,
-                priceRaw: line.priceRaw,
-                market: line.market,
-                leadWindow: line.leadWindow,
-                leadMin: line.leadMin,
-                leadMax: line.leadMax,
-                pieces: pieceCountOf(line),
-                units: pieceCountOf(line),
-              };
-            }),
-            total: formatOrderTotal(lines, market),
-            units: OrderStore.units(lines),
-            line_count: lines.length,
-            order_id: 'PREVIEW-' + Date.now(),
-            currency: market === 'gb' ? 'GBP' : market === 'eu' ? 'EUR' : 'AED',
-            value: totalVal,
-          };
-          OrderStore.saveLastOrder(snapshot);
-          OrderStore.clear();
-          window.location.href = confirmedPath;
-          return;
-        }
-        var shopifyCheckout =
-          (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.checkout) ||
-          '/checkout';
-        var missing = lines.some(function (line) {
-          return !line.variantId;
-        });
-        if (missing) {
-          if (statusEl) {
-            statusEl.textContent = 'Assign the mattress product in the theme so each size has a Shopify variant.';
+      }
+      sync
+        .then(function () {
+          return syncShopifyCartFromLines(lines, orderAttrs, {
+            market: market,
+            leadMinDefault: leadMinDefault,
+            leadMaxDefault: leadMaxDefault,
+          });
+        })
+        .then(function () {
+          // Do not wipe the theme basket when opening hosted checkout.
+          goToHostedCheckout(form);
+        })
+        .catch(function (err) {
+          payBusy = false;
+          payBtns.forEach(function (b) {
+            b.disabled = false;
+          });
+          var msg = (err && err.message) || '';
+          if (msg === 'missing-variant' || msg === 'no-variant') {
+            setPayStatus('Assign the mattress product in the theme so each size has a Shopify variant.');
+          } else {
+            setPayStatus('Something went wrong. Please try again.');
           }
-          return;
-        }
-        var sync = window.ValtoraUTM ? window.ValtoraUTM.syncCartAttributes() : Promise.resolve();
-        var mattressLines = lines.filter(isMattressLine);
-        var primary = mattressLines[0] || lines[0] || {};
-        var cartLead = resolveCartLeadTime(lines);
-        var orderAttrs = Object.assign(
-          {
-            order_stage: '1',
-            stage_updated_at: new Date().toISOString(),
-            delivery_window: cartLead.display || primary.leadWindow || leadWindow || '8 to 10 weeks',
-            size_label: mattressLines
-              .map(function (l) { return l.label; })
-              .filter(Boolean)
-              .join(', ') || primary.label || '',
-            size_dims: mattressLines
-              .map(function (l) { return l.dims; })
-              .filter(Boolean)
-              .join(', ') || primary.dims || '',
-          },
-          serviceAttributePayload()
-        );
-        if (totalVal >= thresholdFor(sample)) {
-          orderAttrs.large_order = 'true';
-          orderAttrs.large_order_review = 'true';
-          orderAttrs.admin_flag = 'Review before factory order';
-          orderAttrs.large_order_value = String(Math.round(totalVal));
-        }
-        if (window.ValtoraUTM && typeof window.ValtoraUTM.setAttribute === 'function') {
-          Object.keys(orderAttrs).forEach(function (k) {
-            window.ValtoraUTM.setAttribute(k, orderAttrs[k]);
-          });
-        }
-        sync
-          .then(function () {
-            return fetch('/cart/clear.js', { method: 'POST', headers: { Accept: 'application/json' } });
-          })
-          .then(function () {
-            return fetch('/cart/update.js', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-              body: JSON.stringify({ attributes: orderAttrs }),
-            });
-          })
-          .then(function () {
-            var chain = Promise.resolve();
-            lines.forEach(function (line) {
-              chain = chain.then(function () {
-                return fetch('/cart/add.js', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                  body: JSON.stringify({
-                    id: Number(line.variantId),
-                    quantity: parseInt(line.quantity, 10) || 1,
-                    properties: Object.assign(
-                      {
-                      Size: (line.label || '') + (line.dims ? ' - ' + line.dims : ''),
-                      Market: String(line.market || market).toUpperCase(),
-                      'Item type':
-            line.itemType === 'top'
-              ? 'Comfort layer'
-              : line.itemType === 'sheets'
-                ? 'Bed sheets'
-                : line.itemType === 'pillows'
-                  ? 'Pillows'
-                  : 'Mattress',
-                      _lead_min: String(line.leadMin != null ? line.leadMin : leadMinDefault),
-                      _lead_max: String(line.leadMax != null ? line.leadMax : leadMaxDefault),
-                    },
-                      attributionProperties()
-                    ),
-                  }),
-                }).then(function (res) {
-                  if (!res.ok) throw new Error('Add failed');
-                });
-              });
-            });
-            return chain;
-          })
-          .then(function () {
-            // Do not wipe the theme basket when opening hosted checkout.
-            window.location.href = shopifyCheckout;
-          })
-          .catch(function () {
-            if (statusEl) statusEl.textContent = 'Something went wrong. Please try again.';
-          });
+        });
+    }
+
+    page.querySelectorAll('[data-checkout-native-form]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = e.submitter || form.querySelector('[data-checkout-pay]');
+        startPay(btn, form);
+      });
+    });
+    payBtns.forEach(function (payBtn) {
+      payBtn.addEventListener('click', function (e) {
+        var form = payBtn.closest && payBtn.closest('[data-checkout-native-form]');
+        if (form) return;
+        e.preventDefault();
+        startPay(payBtn, null);
       });
     });
   }

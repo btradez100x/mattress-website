@@ -1,3 +1,23 @@
+# Regression results — Thursday 3 Sep 2026 (cart Pay → Shopify checkout)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 991 passed, 0 failed
+- Scope note: Pay no longer clears the Shopify cart before checkout. It updates quantities in place, then posts to hosted `/checkout` (Shopify Payments / Stripe). Native `name=checkout` form as fallback. Preview Pay still goes to order-confirmed. Verified locally on `/pages/cart.html` → order-confirmed. Live Stripe needs this theme on the published theme. No VERSION bump.
+
+---
+
+
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **PASSED** (exit 0)
+- Consistency: 991 passed, 0 failed
+- Scope note: Redeployed Trade page template `page.trade.json` plus a Trade section preset. Checkpoint: `checkpoints/11.1.0-trade-page-redeploy/`. Deploy: `v9` `35c6fb2`, `shopify-theme` `b1525c2`. Live still needs an Admin Page handle `trade` assigned to template **trade**. No VERSION bump.
+
+---
+
 # Regression results — Thursday 3 Sep 2026 (New mods v2 basket)
 
 ## Smoke

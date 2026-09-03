@@ -186,9 +186,12 @@
                 </label>
               </div>
 
-              <button class="checkout-stage__pay" type="button" data-checkout-pay data-pay-source="summary">
-                <span data-pay-label>Pay</span>
-              </button>
+              <form action="#" method="post" data-checkout-native-form>
+                <input type="hidden" name="checkout" value="">
+                <button class="checkout-stage__pay" type="submit" name="checkout" data-checkout-pay data-pay-source="summary">
+                  <span data-pay-label>Pay</span>
+                </button>
+              </form>
               <p class="checkout-stage__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
               <p class="checkout-stage__status" data-cart-status hidden role="status"></p>
 
@@ -206,7 +209,10 @@
               <span class="checkout-bar__count" data-checkout-bar-count>Your order</span>
               <span class="checkout-bar__total" data-checkout-bar-total>-</span>
             </div>
-            <button class="checkout-bar__go" type="button" data-checkout-pay data-pay-source="sticky_bar"><span data-pay-label>Pay</span></button>
+            <form action="#" method="post" data-checkout-native-form>
+              <input type="hidden" name="checkout" value="">
+              <button class="checkout-bar__go" type="submit" name="checkout" data-checkout-pay data-pay-source="sticky_bar"><span data-pay-label>Pay</span></button>
+            </form>
           </div>
         </div>
       </section>
