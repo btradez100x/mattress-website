@@ -3,7 +3,7 @@
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
 - Result: size-selector + Add-to-basket `/cart` checks **PASSED**. Consistency/WIP failures from uncommitted Trade/password/collage work are not in this change.
-- Scope note: Add to basket goes straight to `/cart`. `/pages/checkout` is only a bookmark redirect. `canonicalBasketUrl` rewrites leftover checkout hrefs. Checkpoint: `checkpoints/12.0.0-add-to-basket-cart/`. Hard-refresh `/pages/configure` and homepage `#reserve`.
+- Scope note: Add to basket goes straight to `/cart`. `/pages/checkout` is only a bookmark redirect. `canonicalBasketUrl` rewrites leftover checkout hrefs. Deploy: `v9` `815dd8d`, `shopify-theme` `9315e8a`. Checkpoint: `checkpoints/12.0.0-add-to-basket-cart/`. Hard-refresh `/pages/configure` and homepage `#reserve`.
 
 ---
 
