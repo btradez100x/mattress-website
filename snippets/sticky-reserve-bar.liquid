@@ -1,14 +1,19 @@
 {%- comment -%}
-  Floating basket - replaces the old sticky "See prices" bar (V4.1 / Phase 1.2).
-  Empty: "See sizes and prices" → #reserve. With items: Pay → /cart.
+  Floating basket. Marketing pages: See sizes and prices → #reserve.
+  Size selector (≤980px): count + total + View + Checkout. Desktop uses the sticky panel.
 {%- endcomment -%}
 <div class="float-basket" data-float-basket data-sticky-reserve hidden>
-  <span class="float-basket__count" data-float-count>Choose a size</span>
-  <strong class="float-basket__total" data-float-total data-sticky-price></strong>
-  <a
-    class="btn btn--sm float-basket__btn"
-    data-float-continue
-    data-checkout-href="{{ routes.cart_url }}"
-    href="{% if template.name == 'index' %}#reserve{% else %}{{ routes.root_url }}#reserve{% endif %}"
-  >See sizes and prices</a>
+  <div class="float-basket__sum">
+    <span class="float-basket__count" data-float-count>Choose a size</span>
+    <strong class="float-basket__total" data-float-total data-sticky-price></strong>
+  </div>
+  <div class="float-basket__acts">
+    <button type="button" class="float-basket__view" data-order-sheet-open hidden>View</button>
+    <a
+      class="btn btn--sm float-basket__btn"
+      data-float-continue
+      data-checkout-href="{{ routes.cart_url }}"
+      href="{% if template.name == 'index' %}#reserve{% else %}{{ routes.root_url }}#reserve{% endif %}"
+    >See sizes and prices</a>
+  </div>
 </div>

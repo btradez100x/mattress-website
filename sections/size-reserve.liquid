@@ -242,15 +242,16 @@
           {%- if leadtime_placement == 'inline' -%}
             <p class="order-basket__lead" data-lead-line>{% render 'lead-time-line', product: product, product_type: 'mattress' %}</p>
           {%- endif -%}
-          <div data-order-retail hidden>
+          <div data-order-retail>
             <a
               class="btn btn--lg btn--block"
               style="text-align:center;"
               data-reserve-continue
               data-checkout-href="{{ continue_path }}"
               href="{{ continue_path }}"
+              aria-disabled="true"
             >
-              Checkout
+              Add to basket
             </a>
 
             <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>

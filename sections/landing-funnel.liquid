@@ -803,15 +803,16 @@
           <p class="order-basket__eyebrow">Your order</p>
           {% render 'order-builder', section: section, market: market, first_price: first_price %}
           <p class="order-basket__lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
-          <div data-order-retail hidden>
+          <div data-order-retail>
             <a
               class="btn"
               style="width:100%;text-align:center;"
               data-reserve-continue
               data-checkout-href="{{ cart_url }}"
               href="{{ cart_url }}"
+              aria-disabled="true"
             >
-              Continue
+              Add to basket
             </a>
             <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
           </div>
