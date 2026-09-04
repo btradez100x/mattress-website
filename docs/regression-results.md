@@ -3,7 +3,7 @@
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
 - Result: size-selector checks **PASSED**. Consistency gate still fails 2 pre-existing Trade-page copy checks from uncommitted Trade WIP (not in this version).
-- Scope note: Kept milestone **12.0.0-size-selector-prototype**. Size selector matches the working HTML: home-market-first SizeType tabs, sticky Your order on desktop, carbon bar + View sheet below 980px, Add N mattresses to basket. Rollback to before this freeze: `shopify-theme` `c29e527` / `v9` `e1bdf81` / `checkpoints/11.1.0-size-selector-rows/`. Checkpoint: `checkpoints/12.0.0-size-selector-prototype/`.
+- Scope note: Kept milestone **12.0.0-size-selector-prototype**. Size selector matches the working HTML: home-market-first SizeType tabs, sticky Your order on desktop, carbon bar + View sheet below 980px, Add N mattresses to basket. Deploy: `v9` `05a32d7`, `shopify-theme` `368cc5f`. Rollback to before this freeze: `shopify-theme` `c29e527` / `v9` `e1bdf81` / `checkpoints/11.1.0-size-selector-rows/`. Checkpoint: `checkpoints/12.0.0-size-selector-prototype/`. Hard-refresh `/pages/configure` and homepage `#reserve`.
 
 ---
 
