@@ -2535,7 +2535,7 @@ video[controls],
   margin-inline: auto;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 981px) {
   .size-reserve__layout {
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 20.5rem);
     align-items: start;
@@ -3115,6 +3115,52 @@ video[controls],
   margin: 0;
   width: auto;
   gap: 0;
+}
+.size-option--row .size-option__qty,
+.size-option--row .size-row__qty {
+  border: 0;
+  background: none;
+  border-radius: 0;
+  min-height: 38px;
+  margin-inline: 0;
+}
+.size-option--row .size-option__qty-btn,
+.size-option--row .size-row__qty-btn,
+.size-option--row .size-row__step {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  border: 1px solid var(--hairline, #d6d2ca);
+  border-radius: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 15px;
+}
+.size-option--row .size-option__qty-val,
+.size-option--row .size-row__qty-n,
+.size-option--row .size-row__qty-val {
+  width: 44px;
+  min-width: 44px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-top: 1px solid var(--hairline, #d6d2ca);
+  border-bottom: 1px solid var(--hairline, #d6d2ca);
+  font-size: 14px;
+}
+.size-option--row .size-option__add,
+.size-option--row .size-row__add {
+  width: auto;
+  min-width: 0;
+  min-height: 38px;
+  height: 38px;
+  margin-inline: 0;
+  padding: 0 18px;
+  border-radius: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
 }
 .size-plan {
   position: relative;
@@ -5309,7 +5355,7 @@ body:has([data-float-total]:empty) .hero__cta {
   box-shadow: inset 0 0 0 1px var(--brand-primary);
 }
 
-@media (min-width: 900px) {
+@media (min-width: 981px) {
   .size-reserve__layout > .reserve-panel,
   .size-reserve__layout > .order-panel,
   .size-reserve__layout > aside,
@@ -5325,6 +5371,22 @@ body:has([data-float-total]:empty) .hero__cta {
     z-index: 6;
     max-height: none;
     overflow: visible;
+  }
+}
+
+/* Size selector basket: desktop sticky panel. Below 980px the same panel
+   sits inline under the list and a carbon bar appears once the basket has
+   lines. The panel is never display:none. */
+@media (max-width: 980px) {
+  .size-reserve__layout > .reserve-panel,
+  .size-reserve__layout > .order-panel,
+  [data-lp-configure] > .reserve-panel,
+  [data-lp-configure] > .order-panel {
+    position: static;
+    margin-top: 8px;
+  }
+  body:has([data-size-reserve], [data-lp-configure]).has-sticky-reserve {
+    padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -5408,6 +5470,110 @@ body:has([data-float-total]:empty) .hero__cta {
 .float-basket__btn:hover {
   background: var(--btn-bone, #E4E1DA);
   filter: none;
+}
+
+.float-basket__sum {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.float-basket__sum .float-basket__total {
+  margin-left: 0;
+}
+.float-basket__acts {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex: none;
+  margin-left: auto;
+}
+.float-basket__view {
+  display: none;
+  background: none;
+  border: 1px solid var(--hair-dk, #2e2e30);
+  color: var(--brand-bg, #f5f4f1);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+body:has([data-size-reserve], [data-lp-configure]) .float-basket__view:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 981px) {
+  body:has([data-size-reserve], [data-lp-configure]) .float-basket,
+  body:has([data-size-reserve], [data-lp-configure]) .float-basket.has-items,
+  body:has([data-size-reserve], [data-lp-configure]) .float-basket.is-active,
+  body:has([data-size-reserve], [data-lp-configure]) .float-basket.has-items[hidden],
+  body:has([data-size-reserve], [data-lp-configure]) .float-basket.is-active[hidden] {
+    display: none !important;
+    transform: translateY(110%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  body:has([data-size-reserve], [data-lp-configure]).has-sticky-reserve {
+    padding-bottom: 0;
+  }
+}
+
+.order-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: none;
+}
+.order-sheet.is-open,
+.order-sheet.on {
+  display: block;
+}
+.order-sheet[hidden] {
+  display: none !important;
+}
+.order-sheet.is-open[hidden],
+.order-sheet.on[hidden] {
+  display: block !important;
+}
+.order-sheet__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.55);
+}
+.order-sheet__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 82vh;
+  overflow: auto;
+  background: var(--brand-bg, #f5f4f1);
+  padding: 26px 24px 30px;
+}
+.order-sheet__body .order-basket__eyebrow {
+  margin-bottom: 18px;
+}
+.order-sheet__close {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  background: none;
+  border: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 16px;
+  cursor: pointer;
+  color: color-mix(in srgb, var(--brand-ink) 62%, transparent);
+}
+.order-sheet__go {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 22px;
 }
 
 /* Lined basket: show immediately at the viewport bottom (mobile + desktop).
@@ -6815,12 +6981,48 @@ body.has-sticky-reserve .whatsapp-float {
 }
 
 .order-basket__line {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 13px 0;
+  border-top: 1px solid var(--hairline, #d6d2ca);
+  border-bottom: 0;
+  font-size: 14.5px;
+}
+.order-basket__line:first-of-type {
+  border-top: 0;
+}
+.order-basket__line-q,
+.order-basket__line-v {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: color-mix(in srgb, var(--brand-ink) 72%, transparent);
+  white-space: nowrap;
+}
+.order-basket__line-v {
+  font-size: 13px;
+}
+.order-basket__sub {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 0.7rem 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--hairline, #d6d2ca);
+  font-size: 13px;
+  color: color-mix(in srgb, var(--brand-ink) 68%, transparent);
+  list-style: none;
+}
+.order-basket__incl {
+  margin: 20px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--hairline, #d6d2ca);
+  list-style: none;
+}
+.order-basket__incl li {
+  font-size: 12.5px;
+  color: color-mix(in srgb, var(--brand-ink) 68%, transparent);
+  padding: 5px 0;
 }
 
 .order-basket__line-l {
@@ -6851,16 +7053,16 @@ body.has-sticky-reserve .whatsapp-float {
 .order-basket__remove {
   display: inline-block;
   margin-top: 0;
-  padding: 0;
+  padding: 0 0 0 4px;
   border: 0;
   background: none;
-  font-family: var(--font-sans, inherit);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-  color: color-mix(in srgb, var(--brand-ink) 58%, transparent);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-underline-offset: 0;
+  color: color-mix(in srgb, var(--brand-ink) 62%, transparent);
   cursor: pointer;
 }
 
@@ -6884,6 +7086,9 @@ body.has-sticky-reserve .whatsapp-float {
   padding: 1.1rem 0 0.25rem;
   font-size: 0.875rem;
   color: color-mix(in srgb, var(--brand-ink) 68%, transparent);
+}
+.order-basket__tot[hidden] {
+  display: none !important;
 }
 
 .order-basket__tot strong {

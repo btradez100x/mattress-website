@@ -74,6 +74,10 @@ assert(/function catalogRowsForPaint/.test(themeJs), 'catalogRowsForPaint must w
 assert(/function paintSizeGrid/.test(themeJs), 'paintSizeGrid must exist so an empty filter cannot wipe the picker');
 assert(/function rowsForSizeType/.test(themeJs), 'picker must group sizes by SizeType');
 assert(
+  /\[home\]\s*\.concat\(rest\)/.test(themeJs),
+  'SizeType tabs must list the shopper market first'
+);
+assert(
   /function filterSizesForMarket\(mkt\) \{\s*var type = root.getAttribute\('data-size-type'\)/.test(
     themeJs
   ),

@@ -1697,6 +1697,17 @@ else
   fail "lifestyle webp or press image priority missing"
 fi
 
+if grep -q "mattresses to basket" "$JS" \
+  && grep -q "function initOrderSheet" "$JS" \
+  && grep -q "data-order-sheet-open" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && grep -q "max-width: 980px" "$CSS" \
+  && grep -q "isSizeSelectorPage" "$JS" \
+  && grep -q "Add a size to start your order" "$JS"; then
+  pass "size selector: 980px bar swap, Add N mattresses, View sheet"
+else
+  fail "size selector 980px swap / Add N mattresses / View sheet missing"
+fi
+
 info "----------------------------------------"
 if [[ "$FAIL" -gt 0 ]]; then
   red "SMOKE FAILED — $FAIL check(s)"

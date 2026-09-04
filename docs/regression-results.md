@@ -1,10 +1,18 @@
-# Regression results — Thursday 3 Sep 2026 (size selector SizeType tabs)
+# Regression results — Friday 4 Sep 2026 (12.0.0 size-selector-prototype)
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
-- Result: **PASSED** (exit 0)
-- Consistency: 992 passed, 0 failed
-- Scope note: Size selector now matches the zip spec sections that were missing: SizeType category tabs (count rule, not market), column header as a sibling of the list, “Not sure which size” helper, full mattress catalog grouped by SizeType. Rows and footprints kept. Size guide still uses Market Shown. Checkpoint: `checkpoints/11.1.0-size-selector-rows/`. Hard-refresh `/pages/configure` and homepage `#reserve`.
+- Result: size-selector checks **PASSED**. Consistency gate still fails 2 pre-existing Trade-page copy checks from uncommitted Trade WIP (not in this version).
+- Scope note: Kept milestone **12.0.0-size-selector-prototype**. Size selector matches the working HTML: home-market-first SizeType tabs, sticky Your order on desktop, carbon bar + View sheet below 980px, Add N mattresses to basket. Rollback to before this freeze: `shopify-theme` `c29e527` / `v9` `e1bdf81` / `checkpoints/11.1.0-size-selector-rows/`. Checkpoint: `checkpoints/12.0.0-size-selector-prototype/`.
+
+---
+
+# Regression results — Thursday 3 Sep 2026 (size selector 980px basket)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: size-selector checks **PASSED**. Consistency gate still fails 2 pre-existing Trade-page copy checks (`[D-reply]` / 5 working days) from uncommitted Trade WIP. Not part of this change.
+- Scope note: Size selector now follows the working HTML prototype: sibling column headers and SizeType tabs kept; sticky Your order panel on desktop; below 980px the same panel sits under the list and a carbon bar (count + total + View + Checkout) appears once there are lines; View opens a sheet with the same order markup; panel CTA is Add to basket / Add N mattresses to basket. Cart `/cart` unchanged.
 
 ---
 

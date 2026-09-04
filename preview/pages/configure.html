@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../base.css?v=wo-v9-sizerows2">
+    <link rel="stylesheet" href="../base.css?v=wo-v9-sizebar1">
     <style>
       :root {
         --brand-primary: #1F3A5F;
@@ -134,19 +134,19 @@
           <aside class="reserve-panel order-panel" data-reserve-panel>
 <div data-reserve-available>
             <div data-reserve-stage-a>
-              <p class="order-basket__eyebrow">Summary</p>
+              <p class="order-basket__eyebrow">Your order</p>
               <input type="hidden" name="quantity" value="1" data-qty-input>
               <ul class="order-basket__list" data-order-lines-list role="list"></ul>
               <span class="visually-hidden" data-selected-size>-</span>
               <span class="visually-hidden" data-selected-dims></span>
-              <div class="order-basket__tot">
+              <div class="order-basket__tot" hidden>
                 <span data-order-total-label>Total</span>
                 <strong data-order-total data-display-price></strong>
               </div>
               <p class="order-basket__finance" data-bnpl-monthly hidden><span data-bnpl-copy></span></p>
               <p class="order-basket__lead" data-lead-line>Made to order. Current window: 8 to 10 weeks. Cancel any time before dispatch for a full refund.</p>
-              <div data-order-retail hidden>
-                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./cart.html" href="./cart.html">Add to basket</a>
+              <div data-order-retail>
+                <a class="btn" style="width:100%;text-align:center;" data-reserve-continue data-checkout-href="./cart.html" href="./cart.html" aria-disabled="true">Add to basket</a>
                 <p class="order-basket__reassure" data-reserve-guarantees>Cancel any time before dispatch</p>
               </div>
             </div>
@@ -218,6 +218,6 @@
     </div>
 
     <script src="../utm-persistence.js?v=wo-v9-utm1"></script>
-    <script src="../theme.js?v=wo-v9-favicon1"></script>
+    <script src="../theme.js?v=wo-v9-sizetabs1"></script>
   </body>
 </html>
