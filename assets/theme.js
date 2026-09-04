@@ -3895,12 +3895,36 @@
     }
   }
 
+  function canonicalBasketUrl(href) {
+    var raw = String(href == null ? '' : href).trim();
+    if (!raw || raw.charAt(0) === '#') return raw;
+    try {
+      var path = raw.split('?')[0].split('#')[0];
+      var tail = raw.slice(path.length);
+      if (/\/pages\/checkout\/?$/.test(path)) {
+        return path.replace(/\/pages\/checkout\/?$/, '/cart') + tail;
+      }
+      if (/(^|\/)checkout\/?$/.test(path)) {
+        return path.replace(/\/checkout\/?$/, '/cart').replace(/^checkout\/?$/, '/cart') + tail;
+      }
+      if (/checkout\.html$/.test(path)) {
+        return path.replace(/checkout\.html$/, 'cart.html') + tail;
+      }
+    } catch (e) {}
+    return raw;
+  }
+
   function resolveCheckoutHref(el) {
     if (!el) return reviewOrderUrl();
     var stored = el.getAttribute('data-checkout-href');
-    if (stored) return stored;
+    if (stored) {
+      stored = canonicalBasketUrl(stored) || stored;
+      el.setAttribute('data-checkout-href', stored);
+      return stored;
+    }
     var href = el.getAttribute('href') || '';
-    if (href && href.charAt(0) !== '#' && /checkout/i.test(href)) {
+    if (href && href.charAt(0) !== '#' && /checkout|\/cart|cart\.html/i.test(href)) {
+      href = canonicalBasketUrl(href);
       el.setAttribute('data-checkout-href', href);
       return href;
     }
@@ -4032,6 +4056,7 @@
       })
       .join('');
     html +=
+      '<li class="order-basket__sub"><span>Complimentary comfort guarantee for 365 nights</span><span>Included</span></li>' +
       '<li class="order-basket__sub"><span>Concierge unpacking</span><span>Included</span></li>' +
       '<li class="order-basket__sub"><span>Old mattress removal \u00d7' +
       units +
@@ -4056,6 +4081,7 @@
       ul.setAttribute('data-order-incl', '');
       ul.innerHTML =
         '<li>Comfort layer included with every mattress</li>' +
+        '<li>Complimentary comfort guarantee for 365 nights</li>' +
         '<li>Concierge unpacking included</li>' +
         '<li>Old mattress removal, complimentary</li>' +
         '<li data-order-returns></li>';
@@ -4210,14 +4236,7 @@
       href = './pages/cart.html';
     }
     if (!href) href = '/cart';
-    try {
-      var pathOnly = String(href).split('?')[0].split('#')[0];
-      if (/\/pages\/checkout\/?$/.test(pathOnly)) {
-        href = (window.ValtoraTheme && window.ValtoraTheme.routes && window.ValtoraTheme.routes.review) || '/cart';
-      } else if (/checkout\.html$/.test(pathOnly)) {
-        href = String(href).replace(/checkout\.html(?=[?#]|$)/, 'cart.html');
-      }
-    } catch (e) {}
+    href = canonicalBasketUrl(href) || '/cart';
     return withPersistedUtm(href);
   }
 
@@ -5011,7 +5030,7 @@
           if (reserve) reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
-        // V8: fire intent, then navigate to /pages/checkout (payment page).
+        // Fire intent, then go straight to /cart. Do not bounce via /pages/checkout.
         vTrackOnce('reserve_intent', eventParams({
           value: OrderStore.orderValue(),
           line_count: OrderStore.lines().length,
@@ -5681,7 +5700,7 @@
     function serviceAttributePayload() {
       return {
         'Old mattress removal': removalCount === 0 ? 'None' : removalCount + ' of ' + mattressMax,
-        'Concierge unpacking': conciergeOn ? 'Yes' : 'No - leave boxed in room of choice'
+        'Concierge unpacking': conciergeOn ? 'Yes' : 'No'
       };
     }
 
@@ -5708,7 +5727,7 @@
       if (lineCon) lineCon.classList.toggle('is-off', !conciergeOn);
       if (conVal) conVal.textContent = conciergeOn ? 'Included' : 'Not included';
       if (conBtn) conBtn.textContent = conciergeOn ? 'Remove' : 'Add back';
-      if (conNote) conNote.hidden = conciergeOn;
+      if (conNote) conNote.hidden = !conciergeOn;
       if (lineRem) lineRem.classList.toggle('is-off', removalCount === 0);
       if (remN) remN.textContent = String(removalCount);
       if (remLabel) {
