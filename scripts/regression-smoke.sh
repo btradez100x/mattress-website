@@ -371,8 +371,10 @@ if not chunk:
 # Allow cancel reassurance; forbid delivery-window / lead-time blocks inside Stage A
 if re.search(r'order-lead|data-leadtime-block|data-lead-window|8 to 10 weeks|Before you order|Delivery:', chunk, re.I):
     sys.exit(1)
-if not re.search(r"data-checkout-href=[\"'][^\"']*(checkout|cart|continue_path)", text, re.I) \
-   and not re.search(r"data-reserve-continue[\s\S]{0,400}?(cart_url|continue_path|pages\['checkout'\])", text):
+if not re.search(r"data-checkout-href=[\"'][^\"']*(cart|continue_path)", text, re.I) \
+   and not re.search(r"data-reserve-continue[\s\S]{0,400}?(cart_url|continue_path)", text):
+    sys.exit(4)
+if re.search(r"data-checkout-href=[\"'][^\"']*pages/checkout", text):
     sys.exit(4)
 sys.exit(0)
 PY
@@ -1706,6 +1708,16 @@ if grep -q "mattresses to basket" "$JS" \
   pass "size selector: 980px bar swap, Add N mattresses, View sheet"
 else
   fail "size selector 980px swap / Add N mattresses / View sheet missing"
+fi
+
+if grep -q "function canonicalBasketUrl" "$JS" \
+  && grep -q "Do not bounce via /pages/checkout" "$JS" \
+  && grep -q "continue_path == '/pages/checkout'" "$THEME/sections/size-reserve.liquid" \
+  && grep -q '"continue_path": "/cart"' "$THEME/templates/index.json" \
+  && grep -q '"continue_path": "/cart"' "$THEME/templates/page.configure.json"; then
+  pass "Add to basket goes to /cart, not /pages/checkout"
+else
+  fail "Add to basket still able to land on /pages/checkout"
 fi
 
 info "----------------------------------------"

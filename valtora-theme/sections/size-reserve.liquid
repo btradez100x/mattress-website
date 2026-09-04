@@ -51,7 +51,7 @@
     assign checkout_label = checkout_label | append: ' ' | append: split_percent | append: '% today'
   endif
   assign continue_path = section.settings.continue_path | strip
-  if continue_path == blank
+  if continue_path == blank or continue_path == '/pages/checkout' or continue_path == '/pages/checkout/' or continue_path == '/checkout' or continue_path == '/checkout/'
     assign continue_path = routes.cart_url
   endif
   assign configure_funnel = false
@@ -565,8 +565,9 @@
     {
       "type": "text",
       "id": "continue_path",
-      "label": "Continue destination",
-      "info": "Blank uses the checkout page. Set /cart for the ad landing funnel so Add to basket goes to the basket first."
+      "label": "Add to basket destination",
+      "default": "/cart",
+      "info": "Add to basket goes here. Use /cart. /pages/checkout is only a bookmark redirect."
     },
     {
       "type": "checkbox",
