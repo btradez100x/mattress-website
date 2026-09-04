@@ -1,9 +1,18 @@
+# Regression results — Friday 4 Sep 2026 (Guarantee page from zip)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: Guarantee-page check **PASSED** (`preview/pages/guarantee.html` + `page.guarantee.json` + `initGuaranteePage`). Overall smoke **FAILED** (6 checks), all pre-existing uncommitted WIP: missing `main-password.liquid` / password form; Trade `[D-reply]` / 5 working days; market-tagline helper; float Checkout cream-on-navy; lifestyle webp / press priority. Consistency: 1015 passed, 2 failed (Trade).
+- Scope note: Conversion page at `/pages/guarantee` (alias `/pages/adjust-to-desire`) mapped from `numa-guarantee.html`. Legal Adjust to Desire stays on `/pages/trial`. Basket include already said Complimentary comfort guarantee for 365 nights; left that wiring. Not a deploy; no VERSION bump.
+
+---
+
 # Regression results — Friday 4 Sep 2026 (13.0.0 guarantee-page-and-basket)
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
 - Result: size-selector, Add-to-basket `/cart`, 365-night guarantee, unpacking copy, and guarantee-page checks **PASSED**. Smoke overall **FAILED** (6 checks), all pre-existing uncommitted WIP: missing `main-password.liquid` / password form; Trade `[D-reply]` / 5 working days; market-tagline helper; float Checkout cream-on-navy; lifestyle webp / press priority. Not committed.
-- Scope note: Kept milestone **13.0.0-guarantee-page-and-basket**. Guarantee landing at `/pages/guarantee`. Basket include + policy strip + cart terms use Complimentary comfort guarantee for 365 nights. Concierge note says unpacked. Checkpoint: `checkpoints/13.0.0-guarantee-page-and-basket/`. Hard-refresh `/pages/guarantee`, `/cart`, `/pages/configure`.
+- Scope note: Kept milestone **13.0.0-guarantee-page-and-basket**. Guarantee landing at `/pages/guarantee`. Basket include + policy strip + cart terms use Complimentary comfort guarantee for 365 nights. Concierge note says unpacked. Deploy: `v9` `2f20907`, `shopify-theme` `c74771f`. Checkpoint: `checkpoints/13.0.0-guarantee-page-and-basket/` (tar on disk, not in git). Hard-refresh `/pages/guarantee`, `/cart`, `/pages/configure`.
 
 ---
 

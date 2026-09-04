@@ -7,8 +7,8 @@ Kept milestone. MAJOR bump from **12.0.0** (`size-selector-prototype`) → **13.
 
 | Tree | SHA | What it is |
 |---|---|---|
-| Feature / `v9` | *(filled after commit)* | This freeze |
-| Connect / `shopify-theme` | *(filled after deploy)* | Subtree of `valtora-theme/` at this deploy |
+| Feature / `v9` | `2f20907` | This freeze |
+| Connect / `shopify-theme` | `c74771f` | Subtree of `valtora-theme/` at this deploy |
 
 Cart-href already on origin before this freeze: `v9` `815dd8d`, `shopify-theme` `9315e8a`. Folded in; not re-pushed as its own deploy.
 
