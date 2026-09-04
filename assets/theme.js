@@ -741,6 +741,38 @@
     });
   }
 
+  function isGuaranteePage() {
+    if (document.querySelector('[data-guarantee-page]')) return true;
+    var path = location.pathname || '';
+    if (/guarantee|adjust-to-desire/i.test(path)) return true;
+    var body = document.body;
+    if (!body) return false;
+    var cls = ' ' + (body.className || '') + ' ';
+    return /\stemplate-page-guarantee\s/.test(cls) || /\stemplate-page-adjust-to-desire\s/.test(cls);
+  }
+
+  function initGuaranteePage() {
+    if (!isGuaranteePage()) return;
+    vTrackOnce('guarantee_view', { page_path: location.pathname || '' });
+    var numbers = document.querySelector('[data-guarantee-numbers]');
+    if (numbers && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        if (entries.some(function (en) { return en.isIntersecting; })) {
+          vTrackOnce('guarantee_scroll_complete', { page_path: location.pathname || '' });
+          io.disconnect();
+        }
+      }, { threshold: 0.35 });
+      io.observe(numbers);
+    } else if (numbers) {
+      vTrackOnce('guarantee_scroll_complete', { page_path: location.pathname || '' });
+    }
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('[data-guarantee-cta]') : null;
+      if (!a) return;
+      vTrack('guarantee_cta_click', { page_path: location.pathname || '' });
+    });
+  }
+
   function parseLayerPriceCents() {
     var raw = parseInt(document.documentElement.getAttribute('data-layer-price-raw'), 10);
     if (raw > 0) return raw;
@@ -1799,6 +1831,13 @@
     });
   }
 
+  function guaranteePageHref() {
+    var path = location.pathname || '';
+    if (/\.html$/i.test(path) && /\/pages\//.test(path)) return './guarantee.html';
+    if (/\.html$/i.test(path)) return './pages/guarantee.html';
+    return '/pages/guarantee';
+  }
+
   function paintPolicyItems(el, raw) {
     if (!el) return;
     var parts = String(raw || '')
@@ -1809,9 +1848,14 @@
       el.textContent = raw || '';
       return;
     }
+    var guaranteeHref = guaranteePageHref();
     el.innerHTML = parts
       .map(function (p) {
-        return '<span>' + escapeHtml(p) + '</span>';
+        var text = escapeHtml(p);
+        if (/comfort guarantee/i.test(p)) {
+          text = '<a href="' + guaranteeHref + '">' + text + '</a>';
+        }
+        return '<span>' + text + '</span>';
       })
       .join('');
   }
@@ -8189,6 +8233,7 @@
     initLandingConfigure();
     initSizeHelp();
     initNumaTracking();
+    initGuaranteePage();
     initExitIntent();
     initAnnouncementDismiss();
     // Cross-tab / cross-page: when localStorage basket changes, refresh UI from
