@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "redesign",
+      "settings": {
+        "page_key": "guarantee",
+        "lp_variant": "guarantee"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

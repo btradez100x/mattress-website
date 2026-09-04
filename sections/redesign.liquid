@@ -13,7 +13,7 @@
     assign layer_price = settings.comfort_layer_price_gb | strip
   endif
 -%}
-<div class="rd" data-lp-page data-lp-variant="{{ section.settings.lp_variant | escape }}">
+<div class="rd" data-lp-page data-lp-variant="{{ section.settings.lp_variant | escape }}"{% if page_key == 'guarantee' or page_key == 'adjust-to-desire' %} data-guarantee-page{% endif %}>
 {% if page_key == 'specification' %}
 <section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
 <div><p class="kicker">The specification</p>
@@ -460,6 +460,98 @@
 </ul>
 <p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
 </div></div></section>
+{% elsif page_key == 'guarantee' or page_key == 'adjust-to-desire' %}
+{%- liquid
+  assign configure_url = pages['configure'].url | default: '/pages/configure'
+  assign refunds_url = pages['refunds'].url | default: '/pages/refunds'
+-%}
+<section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
+<div>
+<p class="kicker">Adjust to Desire</p>
+<h1>A year to decide<br>how it should feel.</h1>
+<p class="lede">You do not choose a firmness when you order, because nobody can answer that question in a showroom. Your mattress arrives, you sleep on it, and for a year you tell us how it should feel. We make it that way.</p>
+<div class="cta-row"><a class="btn" href="{{ configure_url }}" data-guarantee-cta>Choose your size</a><a class="btn btn--ghost btn-line" href="#how">How it works</a></div>
+</div>
+<figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "Numa mattress in profile", width: 1600, height: 904, loading: 'eager', fetchpriority: 'high' %}</figure>
+</div></div></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="split">
+<div>
+ <p class="figure-big">365</p>
+ <p class="figure-sub">Nights to get the feel right</p>
+</div>
+<div>
+ <p class="lede">A hundred nights tells you how a mattress feels in one season. A year tells you how it feels in a cold January, a hot July, a week when your back is bad and a week when it is not.</p>
+ <p>That is why the number is a year. Not to give you longer to leave, but to give you long enough to know.</p>
+</div>
+</div></div></section>
+
+<section class="rd-sec" id="how"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">How it works</p><h2>Four steps, and nothing<br>leaves your house.</h2></div>
+<div class="step"><span class="n">01</span><div><h3>Tell us how it should feel</h3>
+<p>Write to us in whatever words you have. Softer at the shoulder, firmer under the hip, too much give, not enough. You do not need the terminology and there is no form.</p></div></div>
+<div class="step"><span class="n">02</span><div><h3>We build a comfort layer to it</h3>
+<p>Not a replacement of the same thing. A new layer, made to the description you gave us, in the same factory that built the mattress.</p></div></div>
+<div class="step"><span class="n">03</span><div><h3>It arrives and you swap it</h3>
+<p>Unzip the cover, lift the old layer out, drop the new one in, zip it closed. Two minutes, no tools. The mattress stays on the bed.</p></div></div>
+<div class="step"><span class="n">04</span><div><h3>Sleep on it, and tell us again if you need to</h3>
+<p>Once is usually enough. If it is not, we do it again. For a year, there is no limit. Each layer is with our compliments.</p></div></div>
+<div class="pull"><p>Nothing is sent back. Nothing is collected. The bed you are sleeping on becomes the right one.</p></div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed rd-flush-crop">{% render 'rd-img', file: 'quilt-macro.webp', alt: "Comfort layer surface", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+
+<section class="rd-sec rd-sec--bone"><div class="wrap">
+<div class="sec-head narrow"><p class="kicker">Why a year</p><h2>A bed is not one thing<br>across twelve months.</h2>
+<p class="lede">You will meet your mattress in four different conditions before you really know it.</p></div>
+<div class="year">
+ <article><p class="m">Month one</p><h3>It is new</h3><p>Everything feels different from the bed you had before, whether it is right or not. Two weeks in, your body stops noticing and starts sleeping.</p></article>
+ <article><p class="m">Winter</p><h3>You sleep heavier</h3><p>Colder rooms, more bedding, longer nights. A surface that felt right in August can feel firm in January.</p></article>
+ <article><p class="m">Summer</p><h3>You sleep hotter</h3><p>Less bedding, more movement, shorter nights. The same layer behaves differently at twenty six degrees.</p></article>
+ <article><p class="m">A bad week</p><h3>Your body changes</h3><p>A pulled shoulder, a late pregnancy, a month of long drives. What supported you fine in March can be wrong in October.</p></article>
+</div>
+</div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="split rev">
+<figure class="figure ">{% render 'rd-img', file: 'coolknit-side.webp', alt: "Zip access to the comfort layer", width: 1400, height: 781, loading: 'lazy' %}</figure>
+<div>
+ <p class="kicker">Why we can do this</p>
+ <h2>Because the top<br>comes off.</h2>
+ <p style="margin-top:20px">Ours is built in two parts and closed with a zip that runs the whole way round. The comfort layer is made as its own product because it always had to come out again.</p>
+ <p>That is the reason a year is possible. It is not generosity. It is construction.</p>
+</div>
+</div></div></section>
+
+<section class="rd-sec rd-sec--bone" data-guarantee-numbers><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Stated plainly</p><h2>What this is,<br>and what it is not.</h2></div>
+<div class="facts">
+ <div><p class="k">Adjust to Desire</p><p class="v">365 nights</p>
+  <p>A year to get the feel right. As many comfort layers as it takes, built to your description, with our compliments. Worth {{ layer_price | default: '£299' }} each.</p></div>
+ <div><p class="k">Returns</p><p class="v">30 days</p>
+  <p>If you would rather not have the mattress at all, we collect it and refund you in full within thirty days of delivery. Emperor is made to order and excluded.</p></div>
+</div>
+<p style="margin-top:32px">Two different things, and we would rather say so than blur them into one number. The year is for making the bed right. The thirty days is the ordinary right to change your mind, and it is not the interesting part of this offer.</p>
+</div></div></section>
+
+<section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
+<div class="sec-head"><p class="kicker">Afterwards</p><h2>We keep your specification.</h2></div>
+<p>When the year ends you will have arrived at a comfort layer that is right for you. We record what it was.</p>
+<p>Order a replacement in year eight and it arrives as your bed feels now, not as it left the factory. Buy a second mattress for another room and we already know how you like it.</p>
+<div class="pull"><p>We already know how yours should feel.</p></div>
+<div class="cta-row"><a class="btn" href="{{ configure_url }}" data-guarantee-cta>Choose your size</a></div>
+</div></div></section>
+
+<section class="rd-sec"><div class="wrap"><div class="narrow">
+<div class="sec-head"><h2>The detail</h2></div>
+<div class="terms" style="border-top:0;padding-top:0;margin-top:0"><ul>
+ <li>Adjust to Desire runs for 365 nights from delivery. There is no limit on the number of comfort layers within it. Each is with our compliments.</li>
+ <li>We do not collect the old layer unless you want us to. If you would rather it went for recycling, tell us and it goes on our next visit to your area.</li>
+ <li>The mattress stays with you throughout. Nothing is disassembled and nothing is shipped back.</li>
+ <li>The 30 day returns policy is separate and runs from delivery. Emperor is made to order and excluded. Your statutory cancellation rights are unaffected.</li>
+ <li>The pocket spring core carries a twenty five year guarantee. Adjust to Desire covers the feel, the guarantee covers the structure.</li>
+ <li>Full terms are in our <a href="{{ refunds_url }}">returns and guarantee policy</a>.</li>
+</ul></div>
+</div></div></section>
 {% endif %}
 </div>
 
@@ -476,7 +568,9 @@
       { "value": "european-king", "label": "european-king" },
       { "value": "what-it-buys", "label": "what-it-buys" },
       { "value": "cooling", "label": "cooling" },
-      { "value": "split-king", "label": "split-king" }
+      { "value": "split-king", "label": "split-king" },
+      { "value": "guarantee", "label": "guarantee" },
+      { "value": "adjust-to-desire", "label": "adjust-to-desire" }
     ], "default": "specification" },
     { "type": "text", "id": "lp_variant", "label": "Landing variant" }
   ],

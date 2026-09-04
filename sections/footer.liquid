@@ -33,6 +33,7 @@
   assign refund_url = section.settings.refund_link | default: pages['refunds'].url | default: '/pages/refunds'
   assign delivery_url = section.settings.delivery_link | default: pages['delivery-lead-time'].url | default: '/pages/delivery-lead-time'
   assign size_guide_url = section.settings.size_guide_link | default: pages['size-guide'].url | default: '/pages/size-guide'
+  assign guarantee_url = pages['guarantee'].url | default: pages['adjust-to-desire'].url | default: '/pages/guarantee'
   assign contact_url = section.settings.contact_link | default: pages['contact'].url | default: '/pages/contact'
   assign trade_url = pages['trade'].url | default: '/pages/trade'
   assign privacy_url = section.settings.privacy_link | default: pages['privacy'].url | default: '/pages/privacy'
@@ -121,6 +122,7 @@
       <h3>Help</h3>
       <ul>
         <li><a href="{{ size_guide_url }}">Size guide</a></li>
+        <li><a href="{{ guarantee_url }}">Comfort guarantee</a></li>
         <li><a href="{{ delivery_url }}">Delivery and lead time</a></li>
         <li><a href="{{ pages['mattress-recycling'].url | default: '/pages/mattress-recycling' }}">Old mattress removal and recycling</a></li>
         <li><a href="{{ pages['support'].url | default: '/pages/support' }}">Support</a></li>
