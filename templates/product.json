@@ -17,6 +17,7 @@
         "request_size_enabled": true,
         "anchor_id": "reserve",
         "leadtime_placement": "staged",
+        "continue_path": "/cart",
         "continue_label_full": "Continue",
         "button_label_full": "Buy now",
         "ground": "surface"
