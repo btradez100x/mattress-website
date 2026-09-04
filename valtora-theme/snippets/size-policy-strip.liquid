@@ -1,13 +1,4 @@
 {%- liquid
   assign return_days = settings.return_window_days | default: settings.trial_nights | default: '30' | plus: 0
-  assign adj_months = settings.adjustment_period_months | default: '12' | plus: 0
-  if adj_months == 12
-    assign adj_label = 'a year'
-  else
-    capture adj_words
-      render 'policy-words', n: adj_months
-    endcapture
-    assign adj_label = adj_words | strip | append: ' months'
-  endif
 -%}
-Comfort layer included · Adjusted to Desire for {{ adj_label }} · Concierge unpacking included · {{ return_days }}-day return
+Comfort layer included · Complimentary comfort guarantee for 365 nights · Concierge unpacking included · {{ return_days }}-day return

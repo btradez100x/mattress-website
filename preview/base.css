@@ -3358,6 +3358,12 @@ video[controls],
   border-top-color: var(--brand-accent);
   color: var(--brand-on-dark);
 }
+.size-policy a,
+.lp-policy a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
 
 .pair-cards__grid {
   display: grid;

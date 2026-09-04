@@ -67,6 +67,7 @@ REQUIRED_PATHS=(
   "snippets/trial-tokens.liquid"
   "templates/page.size-guide.json"
   "templates/page.trial.json"
+  "templates/page.guarantee.json"
   "templates/page.warranty.json"
   "templates/page.refunds.json"
   "templates/page.delivery.json"
@@ -243,7 +244,7 @@ else
 fi
 
 # Landing templates use default theme layout (GTM + UTM)
-for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json page.support.json page.cooling.json page.split-king.json page.trade.json; do
+for tpl in page.large-sizes.json page.european-king.json page.specification.json page.what-it-buys.json page.configure.json page.support.json page.cooling.json page.split-king.json page.trade.json page.guarantee.json; do
   if python3 - "$THEME/templates/$tpl" <<'PY'
 import json, sys
 data = json.load(open(sys.argv[1]))
@@ -1718,6 +1719,34 @@ if grep -q "function canonicalBasketUrl" "$JS" \
   pass "Add to basket goes to /cart, not /pages/checkout"
 else
   fail "Add to basket still able to land on /pages/checkout"
+fi
+
+if grep -q "Complimentary comfort guarantee for 365 nights" "$JS" \
+  && grep -q "Complimentary comfort guarantee for 365 nights" "$THEME/snippets/size-policy-strip.liquid" \
+  && grep -q 'data-layer-term>Complimentary comfort guarantee for 365 nights' "$THEME/sections/main-cart.liquid" \
+  && ! grep -q "Adjusted to Desire for a year" "$THEME/snippets/size-policy-strip.liquid"; then
+  pass "365-night comfort guarantee copy on policy strip, basket include, and cart terms"
+else
+  fail "365-night comfort guarantee copy missing or still says Adjusted to Desire for a year"
+fi
+
+if grep -q "Your mattresses will be unpacked in the room of your choice" "$THEME/sections/main-cart.liquid" \
+  && grep -q "Your mattresses will be unpacked in the room of your choice" "$ROOT/preview/pages/cart.html" \
+  && ! grep -q "left boxed in the room of your choice" "$THEME/sections/main-cart.liquid" \
+  && ! grep -q "leave boxed in room of choice" "$JS"; then
+  pass "Concierge unpacking note says unpacked, cart attribute off is No"
+else
+  fail "Concierge unpacking still says left boxed"
+fi
+
+if [[ -f "$THEME/templates/page.guarantee.json" ]] \
+  && grep -q '"page_key": "guarantee"' "$THEME/templates/page.guarantee.json" \
+  && grep -q "A year to decide" "$THEME/sections/redesign.liquid" \
+  && grep -q "function initGuaranteePage" "$JS" \
+  && grep -q "A year to decide" "$ROOT/preview/pages/guarantee.html"; then
+  pass "Guarantee page at /pages/guarantee (preview + theme)"
+else
+  fail "Guarantee page missing from preview or theme"
 fi
 
 info "----------------------------------------"

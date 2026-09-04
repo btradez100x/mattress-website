@@ -1,3 +1,31 @@
+# Regression results — Friday 4 Sep 2026 (13.0.0 guarantee-page-and-basket)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: size-selector, Add-to-basket `/cart`, 365-night guarantee, unpacking copy, and guarantee-page checks **PASSED**. Smoke overall **FAILED** (6 checks), all pre-existing uncommitted WIP: missing `main-password.liquid` / password form; Trade `[D-reply]` / 5 working days; market-tagline helper; float Checkout cream-on-navy; lifestyle webp / press priority. Not committed.
+- Scope note: Kept milestone **13.0.0-guarantee-page-and-basket**. Guarantee landing at `/pages/guarantee`. Basket include + policy strip + cart terms use Complimentary comfort guarantee for 365 nights. Concierge note says unpacked. Checkpoint: `checkpoints/13.0.0-guarantee-page-and-basket/`. Hard-refresh `/pages/guarantee`, `/cart`, `/pages/configure`.
+
+---
+
+# Regression results — Friday 4 Sep 2026 (concierge unpacking copy)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: **FAILED** (exit 1) — 6 checks, all uncommitted WIP unrelated to this copy change: missing `sections/main-password.liquid` / password form; Trade `[D-reply]` and preview 5 working days; market-tagline helper (password file missing); float Checkout CTA cream-on-navy; lifestyle webp / press image priority.
+- Consistency: 989 passed, 2 failed (Trade WIP).
+- Scope note: Cart concierge note no longer says mattresses are left boxed. Preview + theme: “Your mattresses will be unpacked in the room of your choice.” Cart attribute off-value is `No` (was `No - leave boxed in room of choice`). Note shows when Concierge unpacking is included. No VERSION bump. No commit.
+
+---
+
+# Regression results — Friday 4 Sep 2026 (complimentary comfort guarantee)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: size-selector + Add-to-basket `/cart` checks **PASSED**. Smoke overall **FAILED** (6 checks), all pre-existing WIP: missing `main-password.liquid` / password template, Trade `[D-reply]` / 5 working days, lifestyle webp priority, float Checkout cream-on-navy lock. None from this copy change.
+- Scope note: Policy strip and Your order include row now read **Complimentary comfort guarantee for 365 nights**. Size selector adds it as an Included sub-row (with Concierge unpacking). Cart terms line renamed from Adjust to Desire. Not a product SKU. No commit / deploy / VERSION bump.
+
+---
+
 # Regression results — Friday 4 Sep 2026 (Add to basket → /cart)
 
 ## Smoke
