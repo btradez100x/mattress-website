@@ -232,7 +232,7 @@
     {% render 'exit-intent' %}
     {% render 'whatsapp-button', variant: 'floating' %}
     {% comment %}
-      13.0.12: tiny unfreeze guard. theme.js CDN often lags; this breaks the
+      13.0.12: tiny unfreeze guard (PR marker). theme.js CDN often lags; this breaks the
       ADD→paint→float-basket-mode→paint loop and clears stuck overflow locks.
     {% endcomment %}
     <script id="add-unfreeze-guard">
