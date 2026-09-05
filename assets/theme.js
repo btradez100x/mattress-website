@@ -3825,6 +3825,93 @@
     return data;
   }
 
+  /**
+   * Rebuild OrderStore from the live Shopify cart when local storage was
+   * wiped (Safari Private / storage quota) but the cart cookie still has lines.
+   * Returns a promise of the hydrated lines array.
+   */
+  function hydrateOrderStoreFromShopifyCart() {
+    var cartUrl = shopifyCartJsUrl();
+    if (!cartUrl) return Promise.resolve(OrderStore.lines());
+    return fetch(cartUrl, {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    })
+      .then(function (res) {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then(function (cart) {
+        if (!cart || !Array.isArray(cart.items) || !cart.items.length) {
+          return OrderStore.lines();
+        }
+        var existing = OrderStore.lines();
+        if (existing && existing.length) return existing;
+        var lines = cart.items
+          .map(function (item) {
+            var props = item.properties || {};
+            var sizeLabel = props.Size || item.variant_title || item.title || '';
+            var dims = '';
+            var label = sizeLabel;
+            var m = String(sizeLabel).match(/^(.*?)\s+[—–-]\s+(\d.+)$/);
+            if (m) {
+              label = m[1].trim();
+              dims = m[2].trim();
+            }
+            return {
+              key: 'shopify-' + (item.key || item.id || item.variant_id),
+              itemType: 'mattress',
+              sizeId: String(props._size_id || label || item.variant_id || '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, ''),
+              label: label || 'Mattress',
+              dims: dims,
+              unitPrice: item.final_line_price
+                ? (item.final_line_price / (item.quantity || 1) / 100).toFixed(2)
+                : '',
+              priceRaw: item.final_line_price
+                ? Math.round(item.final_line_price / (item.quantity || 1))
+                : item.price || 0,
+              variantId: String(item.variant_id || ''),
+              quantity: parseInt(item.quantity, 10) || 1,
+              market: String(props.Market || detectMarket() || '').toLowerCase(),
+            };
+          })
+          .filter(function (l) {
+            return l.variantId;
+          });
+        if (!lines.length) return OrderStore.lines();
+        OrderStore.write({ lines: lines, updatedAt: Date.now() });
+        restoreBasketUi();
+        return lines;
+      })
+      .catch(function () {
+        return OrderStore.lines();
+      });
+  }
+
+  function goToBasketPage(href) {
+    var target = href || reviewOrderUrl();
+    var lines = OrderStore.lines();
+    // Persist first so a flaky Private-mode storage write still races ahead of navigation.
+    try {
+      OrderStore.write({ lines: lines, updatedAt: Date.now() });
+    } catch (e) {}
+    var finish = function () {
+      window.location.href = target;
+    };
+    if (!lines.length) {
+      finish();
+      return;
+    }
+    syncShopifyCartFromLines(lines, {}, {})
+      .catch(function () {
+        /* Still navigate — OrderStore remains the source of truth for /cart UI. */
+      })
+      .then(finish);
+  }
+
   function comfortTopsEnabled() {
     var el =
       document.body ||
@@ -4137,6 +4224,7 @@
   }
 
   var paintingSticky = false;
+  var paintStickyQueued = false;
 
   function basketHasItems() {
     var lines = OrderStore.lines();
@@ -4156,7 +4244,12 @@
 
   function paintFloatBasketFromStore() {
     if (document.querySelector('[data-checkout-page]')) return;
-    if (paintingSticky) return;
+    // Never drop a paint while another is in flight — mobile tap + order-changed
+    // used to race and leave the navy bar visible with empty labels.
+    if (paintingSticky) {
+      paintStickyQueued = true;
+      return;
+    }
     paintingSticky = true;
     try {
       var bar = document.querySelector('[data-float-basket], [data-sticky-reserve]');
@@ -4168,11 +4261,27 @@
       var n = mattressUnitsFromLines(lines);
       var hasLines = lines.length > 0 || n > 0;
       var totalText = hasLines ? formatOrderTotal(lines) : '';
-      if (countEl) countEl.textContent = hasLines ? (n === 1 ? '1 mattress' : n + ' mattresses') : 'Choose a size';
-      if (totalEl) totalEl.textContent = hasLines ? totalText || '-' : '';
+      if (countEl) {
+        countEl.textContent = hasLines ? (n === 1 ? '1 mattress' : n + ' mattresses') : 'Choose a size';
+        countEl.removeAttribute('hidden');
+      }
+      if (totalEl) {
+        totalEl.textContent = hasLines ? totalText || '-' : '';
+        if (hasLines) totalEl.removeAttribute('hidden');
+        else totalEl.setAttribute('hidden', '');
+      }
       applyOrderCtaLabels(hasLines);
       if (bar) {
         enhanceFloatBasket(bar);
+        // Re-query after enhance moves nodes into sum/acts.
+        countEl = bar.querySelector('[data-float-count]') || countEl;
+        totalEl = bar.querySelector('[data-float-total]') || totalEl;
+        if (countEl) {
+          countEl.textContent = hasLines ? (n === 1 ? '1 mattress' : n + ' mattresses') : 'Choose a size';
+        }
+        if (totalEl) {
+          totalEl.textContent = hasLines ? totalText || '-' : '';
+        }
         bar.classList.toggle('has-items', hasLines);
         bar.classList.toggle('is-active', hasLines);
         var viewBtn = bar.querySelector('[data-order-sheet-open]');
@@ -4189,6 +4298,14 @@
             bar.removeAttribute('hidden');
             document.body.classList.add('has-sticky-reserve');
           }
+        } else {
+          // Empty basket: hide the bar on size pages so a hollow navy strip
+          // cannot linger after lines are removed during mobile navigation.
+          if (isSizeSelectorPage()) {
+            bar.hidden = true;
+            bar.classList.remove('has-items', 'is-active');
+            document.body.classList.remove('has-sticky-reserve');
+          }
         }
       }
       try {
@@ -4198,6 +4315,10 @@
       } catch (e) {}
     } finally {
       paintingSticky = false;
+      if (paintStickyQueued) {
+        paintStickyQueued = false;
+        paintFloatBasketFromStore();
+      }
     }
   }
 
@@ -5074,7 +5195,8 @@
           if (reserve) reserve.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
-        // Fire intent, then go straight to /cart. Do not bounce via /pages/checkout.
+        // Fire intent, sync Shopify cart, then go to /cart.
+        // Syncing first stops the basket going blank when storage is flaky on mobile.
         vTrackOnce('reserve_intent', eventParams({
           value: OrderStore.orderValue(),
           line_count: OrderStore.lines().length,
@@ -5083,14 +5205,8 @@
         }));
         var href = resolveCheckoutHref(continueBtn) || reviewOrderUrl();
         continueBtn.setAttribute('href', href);
-        if (continueBtn.tagName !== 'A') {
-          e.preventDefault();
-          window.location.href = href;
-          return;
-        }
-        // Force navigation even if the anchor still pointed at #reserve.
         e.preventDefault();
-        window.location.href = href;
+        goToBasketPage(href);
       });
     }
 
@@ -7197,6 +7313,9 @@
     function hideBar() {
       bar.hidden = true;
       bar.classList.remove('is-active');
+      // Drop has-items when empty so .has-items[hidden] cannot force a hollow
+      // navy strip visible on mobile (opacity:1 !important in base.css).
+      if (!basketHasItems()) bar.classList.remove('has-items');
       document.body.classList.remove('has-sticky-reserve');
       document.documentElement.style.setProperty('--float-basket-space', '0px');
     }
@@ -7216,7 +7335,8 @@
           bar.classList.add('is-active');
           showBar();
         } else {
-          bar.classList.remove('is-active');
+          bar.classList.remove('is-active', 'has-items');
+          if (hasItems) bar.classList.add('has-items');
           hideBar();
         }
         return;
@@ -7298,7 +7418,7 @@
         var href = resolveCheckoutHref(cont) || reviewOrderUrl();
         cont.setAttribute('href', href);
         e.preventDefault();
-        window.location.href = href;
+        goToBasketPage(href);
         return;
       }
       var link = e.target.closest('a[href^="#"]');
@@ -8243,6 +8363,15 @@
       restoreBasketUi();
     });
     restoreBasketUi();
+    // If storage was empty (common in mobile Private), rebuild from Shopify cart.
+    hydrateOrderStoreFromShopifyCart().then(function () {
+      paintSticky();
+      document.querySelectorAll('[data-size-reserve], [data-lp-configure]').forEach(function (root) {
+        try {
+          paintOrderBasketFromStore(root);
+        } catch (err) {}
+      });
+    });
     window.addEventListener('pageshow', function () {
       unlockMobileNav();
       if (isSuccessfulOrderSurface(location.pathname + location.search)) {
@@ -8261,6 +8390,16 @@
         } catch (err) {}
       }
       restoreBasketUi();
+      hydrateOrderStoreFromShopifyCart().then(function () {
+        paintSticky();
+      });
+    });
+    // Returning to a backgrounded iOS tab often drops in-memory UI while
+    // storage still has lines — force a re-paint when the page is visible again.
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState !== 'visible') return;
+      restoreBasketUi();
+      paintSticky();
     });
   }
 

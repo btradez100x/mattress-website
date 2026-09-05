@@ -9,6 +9,22 @@
     assign pieces_n = 1
   endif
   assign price_raw_n = price_raw | plus: 0
+  assign bed_w = 28
+  assign bed_h = 36
+  if width_cm != blank and length_cm != blank
+    assign w_n = width_cm | plus: 0
+    assign l_n = length_cm | plus: 0
+    if w_n > 0 and l_n > 0
+      assign bed_w = w_n | times: 60 | divided_by: 213
+      assign bed_h = l_n | times: 60 | divided_by: 213
+      if bed_w < 10
+        assign bed_w = 10
+      endif
+      if bed_h < 14
+        assign bed_h = 14
+      endif
+    endif
+  endif
 -%}
 <li>
   <div
@@ -32,7 +48,11 @@
     <div class="size-option__footprint">
       <span class="size-plan" role="img" aria-label="{{ label | escape }}{% if dims != blank %}, {{ dims | escape }}, drawn to scale{% endif %}">
         <span class="size-plan__ref"></span>
-        <span class="size-plan__beds"><span class="size-plan__bed" style="width:28px;height:36px"></span></span>
+        <span class="size-plan__beds">
+          {%- for i in (1..pieces_n) -%}
+            <span class="size-plan__bed" style="width:{{ bed_w }}px;height:{{ bed_h }}px"></span>
+          {%- endfor -%}
+        </span>
       </span>
       <span class="size-option__dims">{{ dims }}</span>
     </div>
