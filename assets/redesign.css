@@ -111,8 +111,10 @@
   margin-bottom: 16px;
 }
 
+/* Keep under the sticky header tight — stacked .rd-hero + .hero-split
+   padding used to leave a huge empty band above “The specification”. */
 .rd-hero {
-  padding: 96px 0 0;
+  padding: 40px 0 0;
 }
 
 .rd-hero h1 {
@@ -128,14 +130,22 @@
   grid-template-columns: 1fr 1.05fr;
   gap: 64px;
   align-items: center;
-  padding: 80px 0 88px;
+  padding: 36px 0 72px;
 }
 
 @media (max-width: 900px) {
+  .rd-hero {
+    padding: 20px 0 0;
+  }
+
   .rd .hero-split {
     grid-template-columns: 1fr;
-    gap: 36px;
-    padding: 64px 0 72px;
+    gap: 28px;
+    padding: 12px 0 48px;
+  }
+
+  .rd-hero .kicker {
+    margin-bottom: 12px;
   }
 }
 
