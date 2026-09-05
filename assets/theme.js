@@ -4065,6 +4065,12 @@
   }
 
   function isSizeSelectorPage() {
+    // Homepage embeds a size-reserve block mid-page. Treat only dedicated size /
+    // configure surfaces as size-selector pages so the marketing float CTA is
+    // not force-hidden while scrolling the index.
+    if (document.body && document.body.classList.contains('template-index')) {
+      return false;
+    }
     return !!(document.querySelector('[data-size-reserve], [data-lp-configure]'));
   }
 
