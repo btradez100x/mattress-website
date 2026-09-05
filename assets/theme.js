@@ -7335,8 +7335,7 @@
           bar.classList.add('is-active');
           showBar();
         } else {
-          bar.classList.remove('is-active', 'has-items');
-          if (hasItems) bar.classList.add('has-items');
+          bar.classList.remove('is-active');
           hideBar();
         }
         return;
