@@ -1,7 +1,8 @@
 /**
- * Float basket recovery (13.0.7).
- * Shopify was serving a stale theme.js from GitHub sync; this small file loads
- * after it and stops the mobile basket bar going blank / white.
+ * Float basket recovery 13.0.9
+ * - Empty navy bar was covering ADD and stealing taps
+ * - Keep empty bars fully out of the hit-testing path
+ * - Re-paint labels only after a real basket line exists
  */
 (function () {
   'use strict';
@@ -38,7 +39,7 @@
 
   function formatTotal(list) {
     var pence = (list || []).reduce(function (sum, line) {
-      var unit = parseInt(line.priceRaw, 10);
+      var unit = parseInt(line.priceRaw != null ? line.priceRaw : line.price_raw, 10);
       if (!isFinite(unit)) unit = 0;
       return sum + unit * (parseInt(line.quantity, 10) || 0);
     }, 0);
@@ -55,6 +56,19 @@
     }
   }
 
+  function hideEmptyBar(bar) {
+    bar.hidden = true;
+    bar.setAttribute('hidden', '');
+    bar.classList.remove('has-items', 'is-active');
+    bar.style.pointerEvents = 'none';
+    document.body.classList.remove('has-sticky-reserve');
+    document.documentElement.style.setProperty('--float-basket-space', '0px');
+    // Clear any stuck sheet lock that would block taps.
+    if (!document.querySelector('.order-sheet.is-open, .order-sheet.on')) {
+      document.body.style.overflow = '';
+    }
+  }
+
   function paint() {
     var bar = document.querySelector('[data-float-basket], [data-sticky-reserve]');
     if (!bar || document.querySelector('[data-checkout-page]')) return;
@@ -62,6 +76,14 @@
     var list = readBasket().lines || [];
     var n = units(list);
     var has = list.length > 0 || n > 0;
+    var sizePage = isSizePage();
+
+    // Size page + empty basket: hard-hide so ADD is never covered.
+    if (!has && sizePage) {
+      hideEmptyBar(bar);
+      return;
+    }
+
     var countEl = bar.querySelector('[data-float-count]');
     var totalEl = bar.querySelector('[data-float-total]');
     var btn = bar.querySelector('[data-float-continue]');
@@ -85,31 +107,28 @@
     bar.classList.toggle('is-active', has);
 
     if (viewBtn) {
-      if (isSizePage() && has) viewBtn.removeAttribute('hidden');
+      if (sizePage && has) viewBtn.removeAttribute('hidden');
       else viewBtn.setAttribute('hidden', '');
     }
 
     if (has) {
-      if (isSizePage() && !window.matchMedia('(max-width: 980px)').matches) {
-        bar.hidden = true;
-        document.body.classList.remove('has-sticky-reserve');
-        document.documentElement.style.setProperty('--float-basket-space', '0px');
-      } else {
-        bar.hidden = false;
-        bar.removeAttribute('hidden');
-        document.body.classList.add('has-sticky-reserve');
-        var h = Math.ceil(bar.getBoundingClientRect().height || 72);
-        if (h < 48) h = 72;
-        if (h > 140) h = 140;
-        document.documentElement.style.setProperty('--float-basket-space', h + 'px');
+      if (sizePage && !window.matchMedia('(max-width: 980px)').matches) {
+        hideEmptyBar(bar);
+        bar.classList.add('has-items', 'is-active');
+        return;
       }
-    } else if (isSizePage()) {
-      // Size page with an empty basket: hide completely — do not leave a
-      // navy hairline over a white void.
-      bar.hidden = true;
-      bar.classList.remove('has-items', 'is-active');
-      document.body.classList.remove('has-sticky-reserve');
-      document.documentElement.style.setProperty('--float-basket-space', '0px');
+      bar.hidden = false;
+      bar.removeAttribute('hidden');
+      bar.style.pointerEvents = '';
+      document.body.classList.add('has-sticky-reserve');
+      var h = Math.ceil(bar.getBoundingClientRect().height || 72);
+      if (h < 48) h = 72;
+      if (h > 140) h = 140;
+      document.documentElement.style.setProperty('--float-basket-space', h + 'px');
+    } else {
+      // Marketing pages may still show the empty CTA; never block clicks.
+      bar.style.pointerEvents = 'none';
+      if (btn) btn.style.pointerEvents = 'auto';
     }
 
     var sheetBody = document.querySelector('[data-order-sheet-body]');
@@ -129,23 +148,20 @@
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'visible') paint();
     });
-    document.addEventListener(
-      'click',
-      function (e) {
-        if (!e.target || !e.target.closest) return;
-        if (
-          !e.target.closest(
-            '[data-size-pick], [data-qty-inc], [data-qty-dec], [data-order-sheet-open], .size-row, .size-option'
-          )
-        ) {
-          return;
-        }
-        setTimeout(paint, 0);
-        setTimeout(paint, 150);
-        setTimeout(paint, 400);
-      },
-      true
-    );
+    // Bubble phase only — never capture, never preventDefault (must not block ADD).
+    document.addEventListener('click', function (e) {
+      if (!e.target || !e.target.closest) return;
+      if (
+        !e.target.closest(
+          '[data-size-pick], [data-qty-inc], [data-qty-dec], .size-option__add, .size-row__add, .size-row, .size-option'
+        )
+      ) {
+        return;
+      }
+      setTimeout(paint, 0);
+      setTimeout(paint, 200);
+      setTimeout(paint, 500);
+    });
   }
 
   if (document.readyState === 'loading') {

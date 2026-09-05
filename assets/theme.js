@@ -4307,10 +4307,12 @@
           }
         } else {
           // Empty basket: hide the bar on size pages so a hollow navy strip
-          // cannot linger after lines are removed during mobile navigation.
+          // cannot linger over ADD and steal taps during mobile navigation.
           if (isSizeSelectorPage()) {
             bar.hidden = true;
+            bar.setAttribute('hidden', '');
             bar.classList.remove('has-items', 'is-active');
+            bar.style.pointerEvents = 'none';
             document.body.classList.remove('has-sticky-reserve');
             document.documentElement.style.setProperty('--float-basket-space', '0px');
           }
@@ -7327,6 +7329,7 @@
     function showBar() {
       bar.hidden = false;
       bar.removeAttribute('hidden');
+      bar.style.pointerEvents = basketHasItems() ? '' : 'none';
       document.body.classList.add('has-sticky-reserve');
       setFloatBasketSpace();
       // Labels can be wiped by a paint race — refresh once when we pin the bar.
@@ -7347,8 +7350,12 @@
       document.body.classList.remove('has-sticky-reserve');
       document.documentElement.style.setProperty('--float-basket-space', '0px');
       bar.hidden = true;
+      bar.setAttribute('hidden', '');
       bar.classList.remove('is-active');
       if (!basketHasItems()) bar.classList.remove('has-items');
+      // Empty / hidden bars must not sit in the tap path over ADD.
+      if (!basketHasItems()) bar.style.pointerEvents = 'none';
+      else bar.style.pointerEvents = '';
     }
 
     function update() {

@@ -5443,9 +5443,10 @@ body:has([data-float-total]:empty) .hero__cta {
   transition: transform var(--dur-panel) var(--ease), opacity var(--dur-panel) var(--ease);
 }
 
-/* When the body has reserved float space, the bar must actually paint.
-   Never leave opacity:0 / translated-off chrome over a cream gap. */
-body.has-sticky-reserve .float-basket {
+/* Only lined bars get forced chrome + pointer events under has-sticky-reserve.
+   Applying this to every .float-basket left an empty navy slab over ADD buttons. */
+body.has-sticky-reserve .float-basket.has-items,
+body.has-sticky-reserve .float-basket.is-active {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -5714,21 +5715,15 @@ body:has([data-size-reserve], [data-lp-configure]) .float-basket__view:not([hidd
 }
 
 @media (max-width: 899px) {
-  /* Only force display for active / lined bars — never every .float-basket,
-     which overrode [hidden] empty hides and left blank chrome on mobile. */
+  /* Only force display for lined bars — never every .float-basket under
+     has-sticky-reserve (that left an empty navy slab over ADD on mobile). */
   .float-basket.has-items,
   .float-basket.is-active,
   .float-basket.has-items[hidden],
   .float-basket.is-active[hidden],
-  body.has-sticky-reserve .float-basket {
+  body.has-sticky-reserve .float-basket.has-items,
+  body.has-sticky-reserve .float-basket.is-active {
     display: flex !important;
-  }
-
-  .float-basket.has-items,
-  .float-basket.is-active,
-  .float-basket.has-items[hidden],
-  .float-basket.is-active[hidden],
-  body.has-sticky-reserve .float-basket {
     visibility: visible !important;
     transform: translateY(0) !important;
     opacity: 1 !important;
@@ -5738,6 +5733,13 @@ body:has([data-size-reserve], [data-lp-configure]) .float-basket__view:not([hidd
     right: 0 !important;
     background: var(--brand-primary, #1f3a5f) !important;
     background-color: var(--brand-primary, #1f3a5f) !important;
+  }
+
+  body.has-sticky-reserve .float-basket:not(.has-items):not(.is-active) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 }
 
