@@ -7222,6 +7222,17 @@
       document.body.appendChild(sheet);
     }
     function openSheet() {
+      // Always refresh lines before showing — an empty body paints as a white slab.
+      document.querySelectorAll('[data-size-reserve], [data-lp-configure]').forEach(function (root) {
+        try {
+          paintOrderBasketFromStore(root);
+        } catch (err) {}
+      });
+      var sheetBody = sheet.querySelector('[data-order-sheet-body]');
+      var panel = document.querySelector(
+        '[data-size-reserve] [data-order-lines-list], [data-lp-configure] [data-order-lines-list]'
+      );
+      if (sheetBody && panel) sheetBody.innerHTML = panel.innerHTML;
       sheet.classList.add('is-open');
       sheet.removeAttribute('hidden');
       document.body.style.overflow = 'hidden';

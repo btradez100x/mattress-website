@@ -1,0 +1,97 @@
+/* Float basket recovery (13.0.7). Loaded after base.css so it wins.
+   Live Shopify sync was serving a stale theme.js; these rules stop the
+   blank white slab under a thin navy line on mobile size pages. */
+
+.float-basket {
+  background: var(--brand-primary, #1f3a5f) !important;
+  background-color: var(--brand-primary, #1f3a5f) !important;
+  color: var(--brand-on-dark, #f7f5f1) !important;
+  min-height: calc(3.25rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Never leave cream body padding under the navy footer / bar. */
+body.has-sticky-reserve {
+  padding-bottom: 0 !important;
+}
+
+body.has-sticky-reserve .site-footer {
+  padding-bottom: calc(2.25rem + var(--float-basket-space, 5.5rem)) !important;
+  background: var(--brand-primary, #1f3a5f) !important;
+}
+
+/* Empty + hidden bars must stay gone. Earlier rules forced them visible and
+   left a hollow strip (navy hairline + white void) on size pages. */
+.float-basket[hidden]:not(.has-items):not(.is-active),
+body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
+
+/* Lined / active bar: always navy chrome with readable cream type. */
+.float-basket.has-items,
+.float-basket.is-active,
+body.has-sticky-reserve .float-basket.has-items,
+body.has-sticky-reserve .float-basket.is-active {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  background: var(--brand-primary, #1f3a5f) !important;
+  background-color: var(--brand-primary, #1f3a5f) !important;
+}
+
+.float-basket.has-items .float-basket__count,
+.float-basket.has-items .float-basket__total,
+.float-basket.is-active .float-basket__count,
+.float-basket.is-active .float-basket__total,
+.float-basket.has-items .float-basket__sum,
+.float-basket.is-active .float-basket__sum {
+  color: var(--brand-on-dark, #f7f5f1) !important;
+  -webkit-text-fill-color: var(--brand-on-dark, #f7f5f1) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.float-basket.has-items .float-basket__btn,
+.float-basket.is-active .float-basket__btn,
+.float-basket.has-items a.float-basket__btn,
+.float-basket.is-active a.float-basket__btn {
+  background: var(--brand-on-dark, #f7f5f1) !important;
+  background-color: var(--brand-on-dark, #f7f5f1) !important;
+  color: var(--brand-primary, #1f3a5f) !important;
+  -webkit-text-fill-color: var(--brand-primary, #1f3a5f) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Marketing (empty) float CTA on non-size pages. */
+.float-basket:not([hidden]):not(.has-items):not(.is-active) {
+  display: flex !important;
+  background: var(--brand-primary, #1f3a5f) !important;
+}
+
+.float-basket:not([hidden]):not(.has-items) .float-basket__count {
+  color: var(--brand-on-dark, #f7f5f1) !important;
+  -webkit-text-fill-color: var(--brand-on-dark, #f7f5f1) !important;
+}
+
+.float-basket:not([hidden]):not(.has-items) .float-basket__btn,
+.float-basket:not([hidden]):not(.has-items) a.float-basket__btn {
+  background: var(--brand-on-dark, #f7f5f1) !important;
+  color: var(--brand-primary, #1f3a5f) !important;
+  -webkit-text-fill-color: var(--brand-primary, #1f3a5f) !important;
+}
+
+/* Order sheet must never open as an empty white slab. */
+.order-sheet.is-open .order-sheet__body,
+.order-sheet.on .order-sheet__body {
+  background: var(--brand-bg, #f5f4f1);
+  min-height: 12rem;
+}
+
+.order-sheet[hidden]:not(.is-open):not(.on) {
+  display: none !important;
+}

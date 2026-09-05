@@ -74,9 +74,11 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'brand.css' | asset_url | stylesheet_tag }}
     {{ 'redesign.css' | asset_url | stylesheet_tag }}
+    {{ 'float-basket-fix.css' | asset_url | stylesheet_tag }}
 
     <script src="{{ 'utm-persistence.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'float-basket-fix.js' | asset_url }}" defer></script>
 
     {% render 'tracking-pixels' %}
 
