@@ -1,4 +1,4 @@
-/* Float basket recovery (13.0.7). Loaded after base.css so it wins.
+/* Float basket recovery (13.0.8). Loaded after base.css so it wins.
    Live Shopify sync was serving a stale theme.js; these rules stop the
    blank white slab under a thin navy line on mobile size pages. */
 
@@ -19,15 +19,21 @@ body.has-sticky-reserve .site-footer {
   background: var(--brand-primary, #1f3a5f) !important;
 }
 
-/* Empty + hidden bars must stay gone. Earlier rules forced them visible and
-   left a hollow strip (navy hairline + white void) on size pages. */
-.float-basket[hidden]:not(.has-items):not(.is-active),
-body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active) {
+/* Empty + hidden bars must stay gone. Earlier base.css forced them visible and
+   left a hollow strip (navy hairline + white void) on size pages.
+   Extra html/body specificity beats the stale CDN base.css rule. */
+html body .float-basket[hidden]:not(.has-items):not(.is-active),
+html body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active),
+html body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active)[hidden] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
   transform: none !important;
+  max-height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 
 /* Lined / active bar: always navy chrome with readable cream type. */

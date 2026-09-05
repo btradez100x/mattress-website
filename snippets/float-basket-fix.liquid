@@ -15,14 +15,20 @@ body.has-sticky-reserve .site-footer{
   padding-bottom:calc(2.25rem + var(--float-basket-space,5.5rem))!important;
   background:var(--brand-primary,#1f3a5f)!important;
 }
-/* Kill the hollow navy hairline + white void */
-.float-basket[hidden]:not(.has-items):not(.is-active),
-body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active){
+/* Kill the hollow navy hairline + white void.
+   html body … beats stale CDN base.css that still forces display:flex. */
+html body .float-basket[hidden]:not(.has-items):not(.is-active),
+html body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active),
+html body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active)[hidden]{
   display:none!important;
   visibility:hidden!important;
   opacity:0!important;
   pointer-events:none!important;
   transform:none!important;
+  max-height:0!important;
+  min-height:0!important;
+  padding:0!important;
+  overflow:hidden!important;
 }
 .float-basket.has-items,
 .float-basket.is-active,
