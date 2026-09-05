@@ -5456,8 +5456,9 @@ body.has-sticky-reserve .float-basket {
   color: var(--brand-on-dark, #f7f5f1) !important;
 }
 
-body.has-sticky-reserve .float-basket[hidden] {
-  /* JS may briefly set hidden before clearing has-sticky-reserve — keep navy. */
+body.has-sticky-reserve .float-basket[hidden].has-items,
+body.has-sticky-reserve .float-basket[hidden].is-active {
+  /* Lined bar only — never revive an empty hidden bar. */
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -5471,24 +5472,15 @@ body.has-sticky-reserve .float-basket[hidden] {
   pointer-events: none;
 }
 
-/* Empty bar: fully remove from layout. Avoid a hollow navy strip when
-   [hidden] transform/opacity fails to composite on mobile Safari. */
-.float-basket[hidden]:not(.has-items):not(.is-active) {
+/* Empty + hidden: stay gone. Do not force-show under has-sticky-reserve —
+   that left a navy hairline over a white void on size pages. */
+.float-basket[hidden]:not(.has-items):not(.is-active),
+body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active) {
   display: none !important;
   transform: none;
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-}
-
-/* has-sticky-reserve beats the empty-[hidden] hide above so space and chrome
-   cannot diverge (white band under footer). */
-body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active) {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  pointer-events: auto !important;
 }
 
 .float-basket__count {
