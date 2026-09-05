@@ -74,8 +74,45 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'brand.css' | asset_url | stylesheet_tag }}
     {{ 'redesign.css' | asset_url | stylesheet_tag }}
-    {% comment %} float-basket-fix ships fully inlined — CDN asset sync was stale and harmful {% endcomment %}
-    {% render 'float-basket-fix' %}
+    {% comment %}
+      13.0.11: CSS-only float-basket guard inlined here (no snippet render).
+      A missing/unsynced snippet render can blank the whole storefront after
+      the password gate; keep this self-contained and free of JS.
+    {% endcomment %}
+    <style id="float-basket-fix">
+      html body .float-basket:not(.has-items):not(.is-active) {
+        pointer-events: none !important;
+      }
+      html body .float-basket:not(.has-items):not(.is-active) .float-basket__btn,
+      html body .float-basket:not(.has-items):not(.is-active) a.float-basket__btn {
+        pointer-events: auto !important;
+      }
+      html body .float-basket[hidden]:not(.has-items):not(.is-active),
+      html body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active),
+      html body:has([data-size-reserve]) .float-basket:not(.has-items):not(.is-active),
+      html body:has([data-lp-configure]) .float-basket:not(.has-items):not(.is-active) {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0 !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+      html body .float-basket.has-items,
+      html body .float-basket.is-active,
+      html body.has-sticky-reserve .float-basket.has-items,
+      html body.has-sticky-reserve .float-basket.is-active {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        background: var(--brand-primary, #1f3a5f) !important;
+        background-color: var(--brand-primary, #1f3a5f) !important;
+        color: var(--brand-on-dark, #f7f5f1) !important;
+      }
+    </style>
 
     <script src="{{ 'utm-persistence.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
