@@ -160,8 +160,10 @@
   margin-bottom: 0;
 }
 
+/* Match specification / redesign pages: keep the sticky-header → kicker
+   gap tight so mobile does not open with a large empty band. */
 .trade .hero {
-  padding: var(--s6) 0 0;
+  padding: var(--s4) 0 0;
 }
 
 .trade .hero-grid {
@@ -344,9 +346,17 @@
 }
 
 @media (max-width: 960px) {
+  .trade .hero {
+    padding-top: var(--s3);
+  }
+
   .trade .hero-grid {
     grid-template-columns: 1fr;
     gap: var(--s4);
+  }
+
+  .trade .hero .kicker {
+    margin-bottom: 12px;
   }
 }
 
