@@ -1,6 +1,6 @@
 /**
  * Valtora theme behaviours - size reserve, FAQ, motion, market sizing.
- * cache-bust: 13.0.12-add-unfreeze
+ * cache-bust: 13.0.13-basket-empty-persist
  */
 (function () {
   'use strict';
@@ -3585,6 +3585,7 @@
   var OrderStore = {
     KEY: 'valtora_order_lines',
     LAST_KEY: 'valtora_last_order',
+    EMPTY_FLAG: 'valtora_basket_empty',
     parseBasket: function (raw) {
       if (!raw) return null;
       try {
@@ -3600,6 +3601,35 @@
       var n = Number(data.updatedAt);
       return isFinite(n) && n > 0 ? n : 0;
     },
+    markEmptyFlag: function (isEmpty) {
+      try {
+        if (isEmpty) {
+          sessionStorage.setItem(this.EMPTY_FLAG, '1');
+          localStorage.setItem(this.EMPTY_FLAG, '1');
+        } else {
+          sessionStorage.removeItem(this.EMPTY_FLAG);
+          localStorage.removeItem(this.EMPTY_FLAG);
+        }
+      } catch (e) {}
+    },
+    isMarkedEmpty: function () {
+      try {
+        if (sessionStorage.getItem(this.EMPTY_FLAG) === '1') return true;
+      } catch (e) {}
+      try {
+        if (localStorage.getItem(this.EMPTY_FLAG) === '1') return true;
+      } catch (e2) {}
+      return false;
+    },
+    hasStoredPayload: function () {
+      try {
+        if (sessionStorage.getItem(this.KEY) != null) return true;
+      } catch (e) {}
+      try {
+        if (localStorage.getItem(this.KEY) != null) return true;
+      } catch (e2) {}
+      return false;
+    },
     persistBoth: function (data) {
       var payload = JSON.stringify(data);
       try {
@@ -3608,6 +3638,7 @@
       try {
         localStorage.setItem(this.KEY, payload);
       } catch (e2) {}
+      this.markEmptyFlag(!(data && data.lines && data.lines.length));
       return data;
     },
     /**
@@ -3667,6 +3698,13 @@
       this.persistBoth(data);
       syncOrderChrome();
       document.dispatchEvent(new CustomEvent('valtora:order-changed', { detail: data }));
+      // When the basket is emptied, clear Shopify cart too — otherwise refresh
+      // hydrate rebuilt mattresses from cart.js leftovers.
+      if (!data.lines.length) {
+        try {
+          syncShopifyCartFromLines([], {}, {}).catch(function () {});
+        } catch (err) {}
+      }
       return data;
     },
     saveLastOrder: function (snapshot) {
@@ -3791,7 +3829,11 @@
           return l.sizeId !== key;
         });
       }
-      return this.write(data);
+      var result = this.write(data);
+      try {
+        syncCartAfterOrderChange();
+      } catch (err) {}
+      return result;
     },
     removeMattressSize: function (sizeId) {
       var data = this.read();
@@ -3799,7 +3841,11 @@
         if (isAccessoryType(l.itemType)) return true;
         return l.sizeId !== sizeId;
       });
-      return this.write(data);
+      var result = this.write(data);
+      try {
+        syncCartAfterOrderChange();
+      } catch (err) {}
+      return result;
     },
     clear: function () {
       return this.write({ lines: [] });
@@ -3829,11 +3875,22 @@
   /**
    * Rebuild OrderStore from the live Shopify cart when local storage was
    * wiped (Safari Private / storage quota) but the cart cookie still has lines.
-   * Returns a promise of the hydrated lines array.
+   * Never resurrect lines the shopper already removed — an intentional empty
+   * stamped basket (or EMPTY_FLAG) must win over cart.js leftovers.
    */
   function hydrateOrderStoreFromShopifyCart() {
     var cartUrl = shopifyCartJsUrl();
     if (!cartUrl) return Promise.resolve(OrderStore.lines());
+    // Intentional empty basket: keep it empty and clear leftover cart lines.
+    if (OrderStore.isMarkedEmpty() || OrderStore.hasStoredPayload()) {
+      var existing = OrderStore.lines();
+      if (!existing.length) {
+        try {
+          syncShopifyCartFromLines([], {}, {}).catch(function () {});
+        } catch (err) {}
+      }
+      return Promise.resolve(existing);
+    }
     return fetch(cartUrl, {
       credentials: 'same-origin',
       headers: { Accept: 'application/json' },
@@ -3846,8 +3903,10 @@
         if (!cart || !Array.isArray(cart.items) || !cart.items.length) {
           return OrderStore.lines();
         }
-        var existing = OrderStore.lines();
-        if (existing && existing.length) return existing;
+        // Storage was wiped — recover from cart cookie only in that case.
+        if (OrderStore.hasStoredPayload() || OrderStore.isMarkedEmpty()) {
+          return OrderStore.lines();
+        }
         var lines = cart.items
           .map(function (item) {
             var props = item.properties || {};
@@ -3890,6 +3949,14 @@
       .catch(function () {
         return OrderStore.lines();
       });
+  }
+
+  function syncCartAfterOrderChange() {
+    try {
+      return syncShopifyCartFromLines(OrderStore.lines(), {}, {}).catch(function () {});
+    } catch (err) {
+      return Promise.resolve();
+    }
   }
 
   function goToBasketPage(href) {
