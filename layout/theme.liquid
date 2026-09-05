@@ -231,5 +231,78 @@
     {% render 'sticky-reserve-bar' %}
     {% render 'exit-intent' %}
     {% render 'whatsapp-button', variant: 'floating' %}
+    {% comment %}
+      13.0.12: tiny unfreeze guard. theme.js CDN often lags; this breaks the
+      ADD→paint→float-basket-mode→paint loop and clears stuck overflow locks.
+    {% endcomment %}
+    <script id="add-unfreeze-guard">
+      (function () {
+        if (window.__valtoraAddUnfreeze1212) return;
+        window.__valtoraAddUnfreeze1212 = true;
+        var modeDepth = 0;
+        // Capture: stop nested float-basket-mode events that freeze after ADD.
+        document.addEventListener(
+          'valtora:float-basket-mode',
+          function (e) {
+            if (modeDepth > 0) {
+              e.stopImmediatePropagation();
+              return;
+            }
+            modeDepth = 1;
+            setTimeout(function () {
+              modeDepth = 0;
+            }, 0);
+          },
+          true
+        );
+        function unfreeze() {
+          try {
+            var sheet = document.querySelector('[data-order-sheet]');
+            var sheetOpen =
+              sheet &&
+              (sheet.classList.contains('is-open') || sheet.classList.contains('on')) &&
+              !sheet.hasAttribute('hidden');
+            if (!sheetOpen) {
+              if (document.body && document.body.style.overflow === 'hidden') {
+                document.body.style.overflow = '';
+              }
+              if (sheet) {
+                sheet.classList.remove('is-open', 'on');
+                sheet.setAttribute('hidden', '');
+              }
+            }
+            document.querySelectorAll('.float-basket:not(.has-items):not(.is-active)').forEach(function (bar) {
+              bar.style.pointerEvents = 'none';
+              if (bar.hasAttribute('hidden') || (document.querySelector('[data-size-reserve], [data-lp-configure]') && !bar.classList.contains('has-items'))) {
+                bar.hidden = true;
+                bar.setAttribute('hidden', '');
+              }
+            });
+          } catch (err) {}
+        }
+        document.addEventListener(
+          'click',
+          function (e) {
+            if (!e.target || !e.target.closest) return;
+            if (
+              !e.target.closest(
+                '[data-size-pick], [data-qty-inc], [data-qty-dec], .size-option__add, .size-row__add, .size-row, .size-option'
+              )
+            ) {
+              return;
+            }
+            setTimeout(unfreeze, 0);
+            setTimeout(unfreeze, 120);
+            setTimeout(unfreeze, 400);
+          },
+          true
+        );
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', unfreeze);
+        } else {
+          unfreeze();
+        }
+      })();
+    </script>
   </body>
 </html>

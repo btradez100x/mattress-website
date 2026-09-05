@@ -1,5 +1,6 @@
 /**
  * Valtora theme behaviours - size reserve, FAQ, motion, market sizing.
+ * cache-bust: 13.0.12-add-unfreeze
  */
 (function () {
   'use strict';
@@ -4231,6 +4232,7 @@
 
   var paintingSticky = false;
   var paintStickyQueued = false;
+  var lastFloatHasItems = null;
 
   function basketHasItems() {
     var lines = OrderStore.lines();
@@ -4318,16 +4320,22 @@
           }
         }
       }
-      try {
-        document.dispatchEvent(
-          new CustomEvent('valtora:float-basket-mode', { detail: { hasItems: hasLines } })
-        );
-      } catch (e) {}
+      // Only notify when the lined state flips. Re-dispatching on every paint
+      // re-entered initStickyReserve → showBar → paint and froze the size page
+      // after ADD (infinite sync loop on mobile).
+      if (lastFloatHasItems !== hasLines) {
+        lastFloatHasItems = hasLines;
+        try {
+          document.dispatchEvent(
+            new CustomEvent('valtora:float-basket-mode', { detail: { hasItems: hasLines } })
+          );
+        } catch (e) {}
+      }
     } finally {
       paintingSticky = false;
       if (paintStickyQueued) {
         paintStickyQueued = false;
-        paintFloatBasketFromStore();
+        setTimeout(paintFloatBasketFromStore, 0);
       }
     }
   }
@@ -7332,16 +7340,9 @@
       bar.style.pointerEvents = basketHasItems() ? '' : 'none';
       document.body.classList.add('has-sticky-reserve');
       setFloatBasketSpace();
-      // Labels can be wiped by a paint race — refresh once when we pin the bar.
-      if (!syncingBar) {
-        syncingBar = true;
-        try {
-          paintFloatBasketFromStore();
-        } catch (err) {
-        } finally {
-          syncingBar = false;
-        }
-      }
+      // Do not call paintFloatBasketFromStore() here. It dispatches
+      // valtora:float-basket-mode → checkVisibility → showBar, which froze
+      // the size page after ADD. Callers already paint before showing.
     }
 
     function hideBar() {
