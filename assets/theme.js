@@ -4299,6 +4299,7 @@
           if (isSizeSelectorPage() && !window.matchMedia('(max-width: 980px)').matches) {
             bar.hidden = true;
             document.body.classList.remove('has-sticky-reserve');
+            document.documentElement.style.setProperty('--float-basket-space', '0px');
           } else {
             bar.hidden = false;
             bar.removeAttribute('hidden');
@@ -4311,6 +4312,7 @@
             bar.hidden = true;
             bar.classList.remove('has-items', 'is-active');
             document.body.classList.remove('has-sticky-reserve');
+            document.documentElement.style.setProperty('--float-basket-space', '0px');
           }
         }
       }
@@ -7309,21 +7311,33 @@
       document.documentElement.style.setProperty('--float-basket-space', h + 'px');
     }
 
+    var syncingBar = false;
+
     function showBar() {
       bar.hidden = false;
       bar.removeAttribute('hidden');
       document.body.classList.add('has-sticky-reserve');
       setFloatBasketSpace();
+      // Labels can be wiped by a paint race — refresh once when we pin the bar.
+      if (!syncingBar) {
+        syncingBar = true;
+        try {
+          paintFloatBasketFromStore();
+        } catch (err) {
+        } finally {
+          syncingBar = false;
+        }
+      }
     }
 
     function hideBar() {
-      bar.hidden = true;
-      bar.classList.remove('is-active');
-      // Drop has-items when empty so .has-items[hidden] cannot force a hollow
-      // navy strip visible on mobile (opacity:1 !important in base.css).
-      if (!basketHasItems()) bar.classList.remove('has-items');
+      // Clear reserved space first so body.has-sticky-reserve chrome rules
+      // cannot keep a hollow / white band painted after we hide the bar.
       document.body.classList.remove('has-sticky-reserve');
       document.documentElement.style.setProperty('--float-basket-space', '0px');
+      bar.hidden = true;
+      bar.classList.remove('is-active');
+      if (!basketHasItems()) bar.classList.remove('has-items');
     }
 
     function update() {
