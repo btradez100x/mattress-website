@@ -5461,9 +5461,31 @@ body:has([data-float-total]:empty) .hero__cta {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--brand-bg, #f5f4f1) 55%, transparent);
+  color: color-mix(in srgb, var(--brand-on-dark, #f7f5f1) 78%, transparent);
+  -webkit-text-fill-color: color-mix(in srgb, var(--brand-on-dark, #f7f5f1) 78%, transparent);
   flex: 0 1 auto;
   min-width: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Empty marketing float CTA: keep cream chrome readable so the bar never
+   looks like a blank navy strip while scrolling the homepage. */
+.float-basket:not(.has-items) .float-basket__sum,
+.float-basket:not(.has-items) .float-basket__acts {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+
+.float-basket:not(.has-items) .float-basket__btn,
+.float-basket:not(.has-items) a.float-basket__btn {
+  background: var(--brand-on-dark, #f7f5f1) !important;
+  background-color: var(--brand-on-dark, #f7f5f1) !important;
+  color: var(--brand-primary, #1f3a5f) !important;
+  -webkit-text-fill-color: var(--brand-primary, #1f3a5f) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .float-basket__total {

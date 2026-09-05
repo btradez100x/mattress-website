@@ -7348,11 +7348,12 @@
         return;
       }
       bar.classList.remove('is-active');
-      // Empty cart: keep today's CHOOSE A SIZE / See sizes and prices rules.
-      if (reserve && sectionOn(reserve)) {
-        var show = heroCtaPassed && !reserveVisible;
-        if (show) showBar();
-        else hideBar();
+      // Empty cart on marketing pages: once the hero CTA has scrolled away,
+      // keep the float CTA visible for the rest of the page. Hiding it whenever
+      // #reserve intersected the viewport made the navy bar vanish mid-scroll
+      // (looked like a blank basket) — password gate is unrelated.
+      if (!heroCtaPassed) {
+        hideBar();
         return;
       }
       showBar();
@@ -7365,7 +7366,8 @@
         var ctaRect = heroCta.getBoundingClientRect();
         heroCtaPassed = ctaRect.bottom < 0;
       }
-
+      // reserveVisible kept for diagnostics / future tightening; no longer
+      // drives hide/show (mid-page scroll was blanking the float bar).
       if (reserve && sectionOn(reserve)) {
         var rect = reserve.getBoundingClientRect();
         var vh = window.innerHeight || document.documentElement.clientHeight;
