@@ -1,0 +1,73 @@
+{% comment %}
+  Inline float-basket recovery. Shopify GitHub sync was leaving base.css /
+  theme.js stale on the CDN; shipping this in Liquid guarantees the fix
+  lands with the layout publish.
+{% endcomment %}
+<style id="float-basket-fix">
+.float-basket{
+  background:var(--brand-primary,#1f3a5f)!important;
+  background-color:var(--brand-primary,#1f3a5f)!important;
+  color:var(--brand-on-dark,#f7f5f1)!important;
+  min-height:calc(3.25rem + env(safe-area-inset-bottom,0px));
+}
+body.has-sticky-reserve{padding-bottom:0!important}
+body.has-sticky-reserve .site-footer{
+  padding-bottom:calc(2.25rem + var(--float-basket-space,5.5rem))!important;
+  background:var(--brand-primary,#1f3a5f)!important;
+}
+/* Kill the hollow navy hairline + white void */
+.float-basket[hidden]:not(.has-items):not(.is-active),
+body.has-sticky-reserve .float-basket[hidden]:not(.has-items):not(.is-active){
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:none!important;
+}
+.float-basket.has-items,
+.float-basket.is-active,
+body.has-sticky-reserve .float-basket.has-items,
+body.has-sticky-reserve .float-basket.is-active{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  transform:translateY(0)!important;
+  background:var(--brand-primary,#1f3a5f)!important;
+  background-color:var(--brand-primary,#1f3a5f)!important;
+}
+.float-basket.has-items .float-basket__count,
+.float-basket.has-items .float-basket__total,
+.float-basket.is-active .float-basket__count,
+.float-basket.is-active .float-basket__total{
+  color:var(--brand-on-dark,#f7f5f1)!important;
+  -webkit-text-fill-color:var(--brand-on-dark,#f7f5f1)!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+.float-basket.has-items .float-basket__btn,
+.float-basket.is-active .float-basket__btn,
+.float-basket.has-items a.float-basket__btn,
+.float-basket.is-active a.float-basket__btn{
+  background:var(--brand-on-dark,#f7f5f1)!important;
+  color:var(--brand-primary,#1f3a5f)!important;
+  -webkit-text-fill-color:var(--brand-primary,#1f3a5f)!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+.float-basket:not([hidden]):not(.has-items):not(.is-active){
+  display:flex!important;
+  background:var(--brand-primary,#1f3a5f)!important;
+}
+.float-basket:not([hidden]):not(.has-items) .float-basket__count{
+  color:var(--brand-on-dark,#f7f5f1)!important;
+  -webkit-text-fill-color:var(--brand-on-dark,#f7f5f1)!important;
+}
+.float-basket:not([hidden]):not(.has-items) .float-basket__btn,
+.float-basket:not([hidden]):not(.has-items) a.float-basket__btn{
+  background:var(--brand-on-dark,#f7f5f1)!important;
+  color:var(--brand-primary,#1f3a5f)!important;
+  -webkit-text-fill-color:var(--brand-primary,#1f3a5f)!important;
+}
+.order-sheet[hidden]:not(.is-open):not(.on){display:none!important}
+</style>
+<script src="{{ 'float-basket-fix.js' | asset_url }}" defer></script>
