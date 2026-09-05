@@ -1,5 +1,6 @@
 /**
- * Float basket recovery 13.0.9
+ * Float basket recovery 13.0.10
+ * Prefer the inlined Liquid snippet; this file is a fallback when CDN syncs.
  * - Empty navy bar was covering ADD and stealing taps
  * - Keep empty bars fully out of the hit-testing path
  * - Re-paint labels only after a real basket line exists

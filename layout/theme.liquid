@@ -74,7 +74,7 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'brand.css' | asset_url | stylesheet_tag }}
     {{ 'redesign.css' | asset_url | stylesheet_tag }}
-    {{ 'float-basket-fix.css' | asset_url | stylesheet_tag }}
+    {% comment %} float-basket-fix ships fully inlined — CDN asset sync was stale and harmful {% endcomment %}
     {% render 'float-basket-fix' %}
 
     <script src="{{ 'utm-persistence.js' | asset_url }}" defer></script>

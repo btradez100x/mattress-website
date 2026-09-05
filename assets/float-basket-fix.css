@@ -1,5 +1,6 @@
-/* Float basket recovery 13.0.9 — must load after base.css.
-   Empty navy bars were covering ADD and eating taps on size pages. */
+/* Float basket recovery 13.0.10 — must load after base.css.
+   Prefer the inlined Liquid snippet; this file is a fallback when CDN syncs. */
+
 
 /* Never let an empty bar steal taps (marketing CTA button stays clickable). */
 .float-basket:not(.has-items):not(.is-active) {
