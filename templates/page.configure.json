@@ -18,8 +18,8 @@
         "configure_funnel": true,
         "stage_b_heading": "Summary",
         "eyebrow": "Reserve yours",
-        "continue_label_full": "Add to basket",
-        "button_label_full": "Add to basket"
+        "continue_label_full": "Checkout",
+        "button_label_full": "Checkout"
       }
     }
   },

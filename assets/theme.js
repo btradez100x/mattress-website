@@ -4142,26 +4142,17 @@
     return !!(document.querySelector('[data-size-reserve], [data-lp-configure]'));
   }
 
-  function addToBasketLabel(units) {
-    return units > 1 ? 'Add ' + units + ' mattresses to basket' : 'Add to basket';
-  }
-
   function orderEmptyCopy() {
     return 'Add a size to start your order. You can add more than one.';
   }
 
   function applyOrderCtaLabels(hasLines) {
-    // Panel: Add to basket / Add N mattresses to basket. Always visible; disabled when empty.
+    // Panel + order sheet: Checkout (ADD already put the mattress in YOUR ORDER).
     // Floating bar: empty → See sizes and prices; lined → Checkout.
     var sizesHref = sizesAndPricesHref();
-    var units = mattressUnitsFromLines(OrderStore.lines());
     document.querySelectorAll('[data-reserve-continue]').forEach(function (el) {
       if (el.hasAttribute('data-float-continue')) return;
-      if (el.hasAttribute('data-order-sheet-go')) {
-        el.textContent = 'Checkout';
-      } else {
-        el.textContent = addToBasketLabel(units);
-      }
+      el.textContent = 'Checkout';
       var wrap = el.closest('[data-order-retail]');
       if (wrap) {
         wrap.hidden = false;
