@@ -658,24 +658,29 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
 }
 
 .wordmark__lockup {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: flex-start;
-  gap: 0.28em;
+  gap: 0.22em;
   line-height: 1;
   overflow: visible;
-  white-space: normal;
+  white-space: nowrap;
+  width: max-content;
 }
 
 .wordmark__text {
+  display: block;
   font-family: var(--font-wordmark, var(--font-sans));
   font-weight: 600;
   font-size: clamp(1.05rem, 2vw, 1.2rem);
   letter-spacing: var(--wordmark-tracking);
+  /* Cancel trailing tracking so the right edge of the last letter is flush */
+  margin-right: calc(var(--wordmark-tracking) * -1);
   text-transform: uppercase;
   line-height: 1;
   overflow: visible;
+  text-align: left;
 }
 
 .wordmark__product {
@@ -684,13 +689,16 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   font-size: 0.5625rem;
   font-weight: 500;
   letter-spacing: 0.22em;
+  margin-right: -0.22em;
   text-transform: uppercase;
   /* Line 2 uses the complementary scheme colour, not the name ink */
   color: var(--wordmark-line-2, var(--brand-accent));
   opacity: 1;
   line-height: 1;
-  padding-left: 0.02em;
+  padding-left: 0;
+  margin-left: 0;
   overflow: visible;
+  text-align: left;
 }
 
 .wordmark--dark .wordmark__product {
@@ -698,9 +706,16 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   opacity: 1;
 }
 
+/* Header uses the same stacked lockup as the footer — no divergent metrics. */
+.site-header .wordmark__lockup {
+  align-items: flex-start;
+}
+
 .site-header .wordmark__product {
-  font-size: 0.625rem;
-  letter-spacing: 0.2em;
+  font-size: 0.5625rem;
+  letter-spacing: 0.22em;
+  margin-right: -0.22em;
+  padding-left: 0;
 }
 
 .site-header:has(.wordmark__product:not([hidden])) {

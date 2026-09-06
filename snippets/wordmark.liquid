@@ -2,6 +2,7 @@
   Rendered wordmark from Theme settings → Brand only (brand_name + brand_product_line).
   Never an uploaded logo image - name stays testable.
   Two-line lockup: line 1 = brand name, line 2 = product line.
+  Header and footer share the same stacked, left-aligned lockup.
 {% endcomment %}
 {%- liquid
   assign name = settings.brand_name | default: 'Numa' | strip
@@ -17,6 +18,7 @@
   class="wordmark{% if dark %} wordmark--dark{% endif %}{% if show_line %} wordmark--with-line{% endif %}{% if class != blank %} {{ class }}{% endif %}"
   href="{{ link_url }}"
   aria-label="{{ name }}{% if show_line %} {{ product_line }}{% endif %}"
+  {% if show_line %}data-wordmark-fit{% endif %}
 >
   {%- if settings.brand_mark != blank -%}
     <img
@@ -35,3 +37,59 @@
     {%- endif -%}
   </span>
 </a>
+{%- if show_line -%}
+<script>
+  (function () {
+    if (window.__valtoraFitWordmark) {
+      window.__valtoraFitWordmark();
+      return;
+    }
+    function fitWordmarks() {
+      document.querySelectorAll('[data-wordmark-fit] .wordmark__lockup').forEach(function (lockup) {
+        var nameEl = lockup.querySelector('.wordmark__text');
+        var lineEl = lockup.querySelector('.wordmark__product');
+        if (!nameEl || !lineEl || lineEl.hidden) return;
+        lineEl.style.letterSpacing = '';
+        lineEl.style.marginRight = '';
+        var target = nameEl.getBoundingClientRect().width;
+        if (!(target > 4)) return;
+        var lo = 0;
+        var hi = 0.9;
+        var best = 0.22;
+        for (var i = 0; i < 14; i++) {
+          var mid = (lo + hi) / 2;
+          lineEl.style.letterSpacing = mid + 'em';
+          lineEl.style.marginRight = -mid + 'em';
+          var w = lineEl.getBoundingClientRect().width;
+          if (Math.abs(w - target) < 0.4) {
+            best = mid;
+            break;
+          }
+          if (w < target) {
+            lo = mid;
+            best = mid;
+          } else {
+            hi = mid;
+            best = mid;
+          }
+        }
+        lineEl.style.letterSpacing = best + 'em';
+        lineEl.style.marginRight = -best + 'em';
+      });
+    }
+    window.__valtoraFitWordmark = fitWordmarks;
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fitWordmarks);
+    } else {
+      fitWordmarks();
+    }
+    window.addEventListener('resize', function () {
+      clearTimeout(window.__valtoraFitWordmarkT);
+      window.__valtoraFitWordmarkT = setTimeout(fitWordmarks, 120);
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitWordmarks).catch(function () {});
+    }
+  })();
+</script>
+{%- endif -%}
