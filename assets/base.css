@@ -706,15 +706,19 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
   opacity: 1;
 }
 
-/* Header uses the same stacked lockup as the footer — no divergent metrics. */
+/* Header keeps its original larger product-line size; only alignment matches footer. */
 .site-header .wordmark__lockup {
   align-items: flex-start;
 }
 
+.site-header .wordmark__text {
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+}
+
 .site-header .wordmark__product {
-  font-size: 0.5625rem;
-  letter-spacing: 0.22em;
-  margin-right: -0.22em;
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  margin-right: -0.2em;
   padding-left: 0;
 }
 
