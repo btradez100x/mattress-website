@@ -27,8 +27,13 @@
     <div class="media-feature__split-copy">
       {%- liquid
         assign brand = settings.brand_name | default: 'Numa'
-        assign cool_heading = section.settings.heading | replace: '[Brand]', brand
-        assign cool_body = section.settings.body | replace: '[Brand]', brand
+        assign yarn_name = section.settings.yarn_name
+        if yarn_name == blank
+          assign yarn_name = brand
+        endif
+        assign cool_heading = section.settings.heading | replace: '[Brand]', brand | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
+        assign cool_body = section.settings.body | replace: '[Brand]', brand | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
+        assign hand_line = section.settings.hand_line | replace: '[Brand]', brand | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
       -%}
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
       <hr class="gold-rule">
@@ -47,15 +52,24 @@
         <ul class="cool-touch__points" role="list">
           {%- for block in section.blocks -%}
             {%- if block.type == 'point' and block.settings.enabled -%}
+              {%- liquid
+                assign point_title = block.settings.title | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
+                assign point_text = block.settings.text | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
+              -%}
               <li {{ block.shopify_attributes }}>
-                <strong>{{ block.settings.title }}</strong>
-                {%- if block.settings.text != blank -%}
-                  <span>{{ block.settings.text }}</span>
+                {%- if point_title != blank -%}
+                  <strong>{{ point_title }}</strong>
+                {%- endif -%}
+                {%- if point_text != blank -%}
+                  <span>{{ point_text }}</span>
                 {%- endif -%}
               </li>
             {%- endif -%}
           {%- endfor -%}
         </ul>
+      {%- endif -%}
+      {%- if hand_line != blank -%}
+        <p class="cool-touch__hand">{{ hand_line }}</p>
       {%- endif -%}
 
       {%- if section.settings.gallery_enabled -%}
@@ -158,13 +172,25 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Sleep hot?"
+      "default": "Cold before you are in it."
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "Body",
-      "default": "Your body has to shed heat to fall asleep. If the bed keeps giving it back, you lie there awake.\n\nThe cover is knitted from [Brand] yarn. It pulls heat off your skin faster than cotton can return it, and there is 400gsm of it, right where you lie.\n\nPut your hand on the bed. You will feel it before you are in it."
+      "default": "Sleep hot? Your body has to shed heat to fall asleep. If the bed keeps giving it back, you lie there awake."
+    },
+    {
+      "type": "text",
+      "id": "yarn_name",
+      "label": "Yarn name",
+      "info": "Replaces [yarn_name] in this section. Falls back to the brand name if blank."
+    },
+    {
+      "type": "textarea",
+      "id": "hand_line",
+      "label": "Closing line",
+      "default": "Put your hand on the bed. You will feel it before you are in it."
     },
     {
       "type": "image_picker",
@@ -252,15 +278,15 @@
           "settings": {
             "enabled": true,
             "title": "Cool to the touch",
-            "text": "It does not feel warm when you get in"
+            "text": "The cover is knitted from [yarn_name]. It pulls heat off your skin faster than cotton can return it."
           }
         },
         {
           "type": "point",
           "settings": {
             "enabled": true,
-            "title": "Contours without trapping",
-            "text": "It shapes to you. It does not hold the heat"
+            "title": "400gsm of it",
+            "text": "More of the yarn against you, right where you lie."
           }
         },
         {

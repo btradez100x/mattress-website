@@ -6390,7 +6390,15 @@ body.has-sticky-reserve .whatsapp-float {
   opacity: 0.85;
 }
 
-.section--dark .cool-touch__points span {
+.cool-touch__hand {
+  margin: 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  font-size: 0.9rem;
+}
+
+.section--dark .cool-touch__points span,
+.section--dark .cool-touch__hand {
   color: var(--brand-on-dark);
   opacity: 1;
 }
@@ -10689,6 +10697,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 #cool-touch.section--dark .cool-touch__points strong,
 #cool-touch.section--dark .cool-touch__points span,
 #cool-touch.section--dark .cool-touch__points li:hover strong,
+#cool-touch.section--dark .cool-touch__hand,
 #cool-touch.section--dark .cool-touch__thumb-caption,
 #cool-touch.section--dark .cool-touch__caption,
 #cool-touch.section--dark figcaption,
@@ -10708,6 +10717,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .section--dark .cool-touch__points strong,
 .section--dark .cool-touch__points span,
 .section--dark .cool-touch__points li:hover strong,
+.section--dark .cool-touch__hand,
 .section--dark .cool-touch__thumb-caption,
 .section--dark .cool-touch__caption,
 .section--dark figcaption,
