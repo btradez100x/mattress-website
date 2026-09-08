@@ -57,10 +57,10 @@ and stays that way.'
 <section class="mfg-page" data-lp-page data-lp-variant="G-manufacturing">
   <div class="mfg-intro">
     <div class="page-width">
-      <p class="section__eyebrow lp-kicker">{{ eyebrow | replace: '[Brand]', brand | escape }}</p>
+      <p class="section__eyebrow lp-kicker">{{ eyebrow | replace: '[Brand]', brand | replace: 'Numa', brand | escape }}</p>
       <hr class="gold-rule">
-      <h1>{{ heading | replace: '[Brand]', brand | newline_to_br }}</h1>
-      <p class="section__lede lp-lede">{{ lede | replace: '[Brand]', brand | escape }}</p>
+      <h1>{{ heading | replace: '[Brand]', brand | replace: 'Numa', brand | newline_to_br }}</h1>
+      <p class="section__lede lp-lede">{{ lede | replace: '[Brand]', brand | replace: 'Numa', brand | escape }}</p>
     </div>
   </div>
   <div class="page-width"><div class="mfg-line" aria-hidden="true"></div></div>

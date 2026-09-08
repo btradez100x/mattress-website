@@ -1,6 +1,6 @@
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa'
-  assign body = section.settings.body | replace: '[Brand]', brand | replace: 'Aligna', brand
+  assign body = section.settings.body | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: 'Numa', brand
 -%}
 {%- if section.settings.enable_section -%}
 <section class="section{% render 'section-ground' %}" id="swap" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">

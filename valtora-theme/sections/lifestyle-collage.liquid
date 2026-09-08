@@ -1,6 +1,11 @@
 {%- liquid
-  assign brand = settings.brand_name | default: 'Numa'
-  assign heading = section.settings.heading | replace: '[Brand]', brand | replace: 'Aligna', brand
+  assign brand = settings.brand_name | default: 'Numa' | strip
+  assign heading = section.settings.heading | strip
+  if heading == blank or heading == 'Styled by [Brand]' or heading == 'Styled by Numa' or heading == 'Styled by Aligna'
+    assign heading = 'Styled by ' | append: brand
+  else
+    assign heading = heading | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: 'Numa', brand
+  endif
 -%}
 {%- if section.settings.enable_section -%}
 <section
@@ -14,7 +19,7 @@
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
     <hr class="gold-rule">
-    <h2>{{ heading }}</h2>
+    <h2>Styled by <span data-brand-text>{{ brand | escape }}</span></h2>
     {%- if section.settings.body != blank -%}
       <p class="section__lede">{{ section.settings.body }}</p>
     {%- endif -%}
@@ -27,7 +32,7 @@
             assign fallback = block.settings.fallback_asset | default: 'lifestyle-airy.webp'
             assign img_alt = block.settings.caption
             if img_alt == blank
-              assign img_alt = heading
+              assign img_alt = 'Styled by ' | append: brand
             endif
             assign item_caption = block.settings.caption
             if item_caption == blank
@@ -116,7 +121,7 @@
       "id": "heading",
       "label": "Heading",
       "default": "Styled by [Brand]",
-      "info": "Use [Brand] - replaced by the global brand name setting."
+      "info": "The live heading is always Styled by the Brand name setting. This field is unused for that line."
     },
     {
       "type": "textarea",

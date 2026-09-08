@@ -46,7 +46,7 @@
         {%- if brand != blank and brand != legal_name -%}
           <li>
             <strong>Trading as</strong>
-            <span>{{ trading_as }}</span>
+            <span data-trading-as><span data-brand-text>{{ brand }}</span>{%- if product_line != blank %} <span data-brand-product-line>{{ product_line }}</span>{%- endif -%}</span>
           </li>
         {%- endif -%}
         {%- if settings.trade_licence_no != blank -%}

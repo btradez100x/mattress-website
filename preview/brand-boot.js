@@ -415,12 +415,70 @@
     });
   }
 
+  function wrapOoLogoSymbols(text) {
+    var escaped = String(text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    escaped = escaped.replace(/ x /g, ' × ');
+    var symbols = ['&amp;', '+', '/', '×', '·', '•', '|', '~', '*', '–', '—', '=', '°', '@', '^'];
+    var i;
+    for (i = 0; i < symbols.length; i++) {
+      var sym = symbols[i];
+      if (escaped.indexOf(sym) === -1) continue;
+      escaped = escaped.split(sym).join('<span class="oo-logo__sym">' + sym + '</span>');
+    }
+    return escaped;
+  }
+
+  function splitOoLogoThree(name) {
+    var n = String(name || '').trim();
+    var amp = n.indexOf('&');
+    if (amp !== -1) {
+      return [n.slice(0, amp).trim() + ' &', n.slice(amp + 1).trim()];
+    }
+    var sp = n.indexOf(' ');
+    if (sp !== -1) return [n.slice(0, sp), n.slice(sp + 1).trim()];
+    return [n, ''];
+  }
+
+  function applyOoLogo(name, line) {
+    document.querySelectorAll('[data-oo-logo], .oo-logo').forEach(function (el) {
+      var three = el.classList.contains('oo-logo--three');
+      var wordmarkOnly = el.classList.contains('oo-logo--wordmark');
+      var parts = three ? splitOoLogoThree(name) : [name, ''];
+      var wordmarks = el.querySelectorAll('.oo-logo__wordmark');
+      if (wordmarks[0]) wordmarks[0].innerHTML = wrapOoLogoSymbols(parts[0]);
+      if (parts[1]) {
+        if (wordmarks[1]) {
+          wordmarks[1].innerHTML = wrapOoLogoSymbols(parts[1]);
+          wordmarks[1].hidden = false;
+        } else if (wordmarks[0] && wordmarks[0].parentNode) {
+          var extra = document.createElement('span');
+          extra.className = 'oo-logo__wordmark';
+          extra.setAttribute('aria-hidden', 'true');
+          extra.innerHTML = wrapOoLogoSymbols(parts[1]);
+          wordmarks[0].parentNode.insertBefore(extra, wordmarks[0].nextSibling);
+        }
+      } else if (wordmarks[1] && wordmarks[1].parentNode) {
+        wordmarks[1].parentNode.removeChild(wordmarks[1]);
+      }
+      var desc = el.querySelector('.oo-logo__descriptor');
+      if (desc) {
+        desc.textContent = line || '';
+        desc.hidden = wordmarkOnly || !line;
+      }
+      el.setAttribute('aria-label', line && !wordmarkOnly ? name + ', ' + line : name);
+    });
+  }
+
   function applyBrandText() {
     var boot = window.__valtoraPreviewBoot;
     applyWarrantyYears();
     if (!boot) return;
     var nodes = document.querySelectorAll('[data-brand-text]');
-    if (!nodes.length) return false;
+    var logos = document.querySelectorAll('[data-oo-logo], .oo-logo');
+    if (!nodes.length && !logos.length) return false;
     nodes.forEach(function (el) {
       el.textContent = boot.name;
     });
@@ -428,6 +486,7 @@
       el.textContent = boot.line;
       el.hidden = !boot.line;
     });
+    applyOoLogo(boot.name, boot.line);
     var taglineText = 'A better bed, for life.';
     try {
       var taglineKey =

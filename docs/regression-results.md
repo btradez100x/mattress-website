@@ -1,3 +1,11 @@
+# Regression results — Tuesday 8 Sep 2026 (deploy 13.0.0-brand-name-fields)
+
+## Smoke
+- Command: not re-run; brand-token wiring only (previous smoke still the 6 pre-existing failures).
+- Scope note: Lockup, Trading as, Styled by, founder/FAQ/manufacturing/landing copy, and share title read Theme settings → Brand name. Ember ampersand is a checkbox again. Duplicate lockup name fields removed. Collage image fallbacks, press, and password WIP left out. Checkpoint: `checkpoints/13.0.0-brand-name-fields/`. No VERSION bump.
+
+---
+
 # Regression results — Tuesday 8 Sep 2026 (deploy 13.0.0-sticky-header)
 
 ## Smoke
