@@ -5,8 +5,8 @@ Named deploy checkpoint. `VERSION` was not bumped.
 
 | Tree | SHA |
 |---|---|
-| `v9` | `b716794` |
-| `shopify-theme` | `db7fd8c` |
+| `v9` | `69afce5` |
+| `shopify-theme` | `3e52349` |
 
 ## What shipped
 
@@ -17,7 +17,7 @@ FAQ group headings from the Clear answers design. Questions stay in the agreed o
 - Ordering and delivery
 - After it arrives
 
-Wired as a Group heading block in the FAQ section, so the theme editor can move a heading with its questions.
+The labels render from the first question in each group, so the homepage JSON stays at 16 blocks. Shopify drops that template above 16.
 
 ## What was left out
 

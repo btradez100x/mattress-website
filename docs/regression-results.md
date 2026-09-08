@@ -1,7 +1,7 @@
 # Regression results — Tuesday 8 Sep 2026 (FAQ headings)
 
 - FAQ groups use The feel, Choosing and paying, Ordering and delivery, and After it arrives. Question order unchanged. Smoke not re-run in this note; prior smoke exit 1 on the same pre-existing checks.
-- Checkpoint: `checkpoints/13.0.0-faq-headings/`. Deploy: `v9` `b716794`, `shopify-theme` `db7fd8c`. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-faq-headings/`. Deploy: `v9` `69afce5`, `shopify-theme` `3e52349`. No VERSION bump. FAQ JSON stays at 16 blocks. Smoke exit 1 on pre-existing checks plus the earlier 20-block fail, which this deploy removes.
 
 # Regression results — Tuesday 8 Sep 2026 (FAQ order)
 
