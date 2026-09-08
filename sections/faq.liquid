@@ -28,7 +28,14 @@
     <h2>{{ section.settings.heading }}</h2>
 
     <div class="faq__list" data-faq>
+      {%- assign faq_group_open = false -%}
       {%- for block in section.blocks -%}
+        {%- if block.type == 'heading' -%}
+          {%- if faq_group_open -%}</div>{%- endif -%}
+          <div class="faq__group" {{ block.shopify_attributes }}>
+            <h3 class="faq__heading">{{ block.settings.heading }}</h3>
+          {%- assign faq_group_open = true -%}
+        {%- else -%}
         {%- liquid
           assign show_item = true
           assign mode_vis = block.settings.payment_mode_visibility | default: 'all'
@@ -59,6 +66,10 @@
           endif
         -%}
         {%- if show_item -%}
+          {%- unless faq_group_open -%}
+          <div class="faq__group">
+          {%- assign faq_group_open = true -%}
+          {%- endunless -%}
           <div class="faq__item" id="faq-{{ block.id }}" data-faq-item aria-expanded="false" {{ block.shopify_attributes }}>
             <button class="faq__trigger" type="button" data-faq-trigger>
               <span>{{ block.settings.question }}</span>
@@ -79,7 +90,9 @@
             </div>
           </div>
         {%- endif -%}
+        {%- endif -%}
       {%- endfor -%}
+      {%- if faq_group_open -%}</div>{%- endif -%}
     </div>
   </div>
 </section>
@@ -136,6 +149,18 @@
   ],
   "blocks": [
     {
+      "type": "heading",
+      "name": "Group heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "The feel"
+        }
+      ]
+    },
+    {
       "type": "item",
       "name": "FAQ item",
       "settings": [
@@ -184,6 +209,10 @@
       "name": "FAQ",
       "blocks": [
         {
+          "type": "heading",
+          "settings": { "heading": "The feel" }
+        },
+        {
           "type": "item",
           "settings": {
             "question": "What does it feel like?",
@@ -219,6 +248,10 @@
           }
         },
         {
+          "type": "heading",
+          "settings": { "heading": "Choosing and paying" }
+        },
+        {
           "type": "item",
           "settings": {
             "question": "Which size should I choose?",
@@ -250,6 +283,10 @@
           }
         },
         {
+          "type": "heading",
+          "settings": { "heading": "Ordering and delivery" }
+        },
+        {
           "type": "item",
           "settings": {
             "question": "Why does it take 8 to 10 weeks?",
@@ -276,6 +313,10 @@
             "question": "Will my mattress look exactly like the photographs?",
             "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have [N] nights to tell us and we will collect it and refund you in full."
           }
+        },
+        {
+          "type": "heading",
+          "settings": { "heading": "After it arrives" }
         },
         {
           "type": "item",
