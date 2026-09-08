@@ -128,7 +128,7 @@
       "type": "feel-ladder",
       "settings": {
         "enable_section": true,
-        "ground": "surface",
+        "ground": "auto",
         "anchor_id": "five-feels",
         "eyebrow": "The feel",
         "heading": "Five feels. One bed.",

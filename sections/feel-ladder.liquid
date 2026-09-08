@@ -1,14 +1,19 @@
 {%- if section.settings.enable_section -%}
 <section class="section{% render 'section-ground' %}" id="{{ section.settings.anchor_id | default: 'five-feels' }}" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
-  <div class="page-width">
-    {%- liquid
-      assign name_soft = settings.feel_name_soft | default: 'Soft'
-      assign name_medium = settings.feel_name_medium | default: 'Medium'
-      assign name_medium_firm = settings.feel_name_medium_firm | default: 'Medium firm'
-      assign name_firm = settings.feel_name_firm | default: 'Firm'
-      assign name_extra = settings.feel_name_extra_firm | default: 'Extra firm'
-      assign arrives = section.settings.arrives | replace: '[medium firm]', name_medium_firm | replace: '[medium]', name_medium
-    -%}
+  {%- liquid
+    assign name_soft = settings.feel_name_soft | default: 'Soft'
+    assign name_medium = settings.feel_name_medium | default: 'Medium'
+    assign name_medium_firm = settings.feel_name_medium_firm | default: 'Medium firm'
+    assign name_firm = settings.feel_name_firm | default: 'Firm'
+    assign name_extra = settings.feel_name_extra_firm | default: 'Extra firm'
+    assign arrives = section.settings.arrives | replace: '[medium firm]', name_medium_firm | replace: '[medium]', name_medium
+    assign has_media = false
+    if section.settings.video != blank or section.settings.image != blank
+      assign has_media = true
+    endif
+  -%}
+  <div class="page-width feel-ladder__layout{% if has_media %} feel-ladder__layout--split{% else %} feel-ladder__layout--solo{% endif %}">
+    <div class="feel-ladder__copy">
     {%- if section.settings.eyebrow != blank -%}
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
@@ -44,6 +49,29 @@
         <p class="feel-ladder__layer">{{ section.settings.layer_extra }}</p>
       </li>
     </ol>
+    </div>
+    {%- if has_media -%}
+      <figure class="feel-ladder__media">
+        <div class="feel-ladder__frame">
+          {%- if section.settings.video != blank -%}
+            {{ section.settings.video | video_tag: image_size: '1400x', controls: true, playsinline: true }}
+          {%- else -%}
+            {{
+              section.settings.image
+              | image_url: width: 1600
+              | image_tag:
+                loading: 'lazy',
+                widths: '600,900,1200,1600',
+                sizes: '(min-width: 900px) 42vw, 100vw',
+                alt: section.settings.image_caption | default: section.settings.heading
+            }}
+          {%- endif -%}
+        </div>
+        {%- if section.settings.image_caption != blank -%}
+          <figcaption class="feel-ladder__caption">{{ section.settings.image_caption }}</figcaption>
+        {%- endif -%}
+      </figure>
+    {%- endif -%}
   </div>
 </section>
 {%- endif -%}
@@ -68,7 +96,8 @@
         { "value": "surface", "label": "Stone" },
         { "value": "dark", "label": "Dark" }
       ],
-      "default": "auto"
+      "default": "auto",
+      "info": "Auto follows the sections above and below, so neighbours do not share a colour."
     },
     {
       "type": "text",
@@ -130,6 +159,26 @@
       "id": "layer_extra",
       "label": "Extra firm layer",
       "default": "Second layer, reverse"
+    },
+    {
+      "type": "header",
+      "content": "Media, right"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Shown on the right of the feels. If both are set, the video is used and the image is its poster. With neither, the copy stays centred."
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Media caption"
     }
   ],
   "presets": [

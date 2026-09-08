@@ -3067,12 +3067,35 @@
     }
   }
 
+  function nextFixedGround(nodes, from) {
+    for (var i = from + 1; i < nodes.length; i++) {
+      if (!sectionGroundVisible(nodes[i])) continue;
+      var mode = nodes[i].getAttribute('data-section-ground') || 'auto';
+      if (mode === 'bg' || mode === 'surface' || mode === 'dark') return mode;
+      return null;
+    }
+    return null;
+  }
+
+  function groundBeside(prev, below) {
+    var order = ['bg', 'surface', 'dark'];
+    var pick = 'bg';
+    if (prev === 'bg') pick = 'surface';
+    else if (prev === 'surface') pick = 'dark';
+    if (pick === below || pick === prev) {
+      for (var i = 0; i < order.length; i++) {
+        if (order[i] !== prev && order[i] !== below) return order[i];
+      }
+    }
+    return pick;
+  }
+
   function applySectionGrounds() {
     var root = document.getElementById('MainContent') || document.querySelector('main') || document.body;
     if (!root) return;
     var nodes = root.querySelectorAll('[data-section-ground]');
     var prev = null;
-    nodes.forEach(function (el) {
+    nodes.forEach(function (el, index) {
       if (!sectionGroundVisible(el)) return;
       var mode = el.getAttribute('data-section-ground') || 'auto';
       if (el.classList.contains('hero')) {
@@ -3080,11 +3103,9 @@
         return;
       }
       if (mode === 'auto') {
-        /* Brand: Snow → Surface → Dark, roughly every third section.
-           Neighbours never share a ground. Ember is never a fill. */
-        var next = 'bg';
-        if (prev === 'bg') next = 'surface';
-        else if (prev === 'surface') next = 'dark';
+        /* Brand: Snow → Surface → Dark. Differs from the section above and,
+           when the one below is fixed, from that too. Ember is never a fill. */
+        var next = groundBeside(prev, nextFixedGround(nodes, index));
         applySectionGroundClass(el, next);
         prev = next;
         return;
