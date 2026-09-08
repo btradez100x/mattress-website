@@ -9,6 +9,7 @@
 <section class="section{% render 'section-ground', fallback: 'dark' %} swap-explainer" id="swap-video" data-reveal data-section-ground="{% render 'section-ground', as: 'value', fallback: 'dark' %}">
   <div class="page-width swap-explainer__column">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+    <hr class="gold-rule">
     <h2>{{ section.settings.heading }}</h2>
     {%- if section.settings.handmade_link != blank -%}
       <div class="section__lede rte">{{ section.settings.handmade_link }}</div>

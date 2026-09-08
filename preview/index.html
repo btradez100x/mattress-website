@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="100">
+<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-section-lines="on" data-eyebrow-weight="regular" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="100">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="./assets/hero-mattress.jpg" fetchpriority="high">
-    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link id="PreviewFontLink" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./base.css?v=cta-111">
     <link rel="stylesheet" href="./brand.css?v=cta-111">
     <link rel="stylesheet" href="./mobile-fit.css?v=390">
@@ -399,6 +399,18 @@
             <option value="classic">Light — previous page (500)</option>
           </select>
         </label>
+        <label>Gold lines
+          <select id="PreviewSectionLines" aria-label="Gold lines under section titles">
+            <option value="on" selected>On</option>
+            <option value="off">Off</option>
+          </select>
+        </label>
+        <label>Section titles
+          <select id="PreviewEyebrowWeight" aria-label="Section title weight">
+            <option value="regular" selected>Regular (500)</option>
+            <option value="bold">Bold (600)</option>
+          </select>
+        </label>
         <label>Colour
           <select id="PreviewColorScheme" aria-label="Colour scheme">
             <option value="signature" selected>Signature (gold wordmark)</option>
@@ -608,6 +620,7 @@
       <section class="section section--dark swap-explainer" id="swap-video" data-reveal data-admin-section="swap-video" data-section-tone="dark" data-section-ground="dark">
         <div class="page-width swap-explainer__column">
           <p class="section__eyebrow">How it works</p>
+          <hr class="gold-rule">
           <h2>Unzip. Lift out. Swap in.</h2>
           <p class="section__lede">A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>
           <p class="section__lede">When the layer wears, replace the layer. The bed underneath has years left in it.</p>
@@ -888,6 +901,7 @@
         <div class="page-width feel-ladder__layout feel-ladder__layout--solo">
           <div class="feel-ladder__copy">
           <p class="section__eyebrow">The feel</p>
+          <hr class="gold-rule">
           <h2>Five feels. One bed.</h2>
           <p class="section__lede feel-ladder__lede">Three layers. Two of them turn over.</p>
           <p class="section__lede feel-ladder__lede">Yours arrives medium firm. Turn it over for medium.</p>
@@ -1046,6 +1060,7 @@
           <div class="reviews__header">
             <div>
               <p class="section__eyebrow">Customer reviews</p>
+              <hr class="gold-rule">
               <h2>What owners say.</h2>
               <p class="section__lede">Verified purchase reviews from the founding allocations.</p>
             </div>
@@ -1108,6 +1123,7 @@
       <section class="section" id="press" data-preview-press data-reveal data-admin-section="press" data-section-ground="auto">
         <div class="page-width">
           <p class="section__eyebrow">As seen on</p>
+          <hr class="gold-rule">
           <h2 class="press__heading">Press &amp; recognition.</h2>
           <p class="section__lede press__lede">Selected coverage, mentions, and distinctions.</p>
           <ul class="press__logos" role="list">
@@ -1194,6 +1210,7 @@
           <div class="ugc__header">
             <div>
               <p class="section__eyebrow">From social</p>
+              <hr class="gold-rule">
               <h2>Seen in real homes.</h2>
               <p class="section__lede">Short clips from TikTok and Instagram.</p>
             </div>
@@ -1240,6 +1257,7 @@
       <section class="section section--dark" id="offer" data-reveal data-admin-section="offer" data-section-tone="dark" data-section-ground="dark">
         <div class="page-width">
           <p class="section__eyebrow">Buy with confidence</p>
+          <hr class="gold-rule">
           <h2>Order with confidence.</h2>
           <p class="section__lede offer__frame">
             The part that softens is replaceable. The part that lasts, lasts.
@@ -1409,6 +1427,7 @@
       <section class="section" id="faq" data-reveal data-admin-section="faq" data-section-ground="auto">
         <div class="page-width" style="max-width:48rem; width:min(100% - (var(--space-gutter) * 2), 48rem); margin-inline:auto;">
           <p class="section__eyebrow">Questions</p>
+          <hr class="gold-rule">
           <h2>Clear answers.</h2>
           <div class="faq__list" data-faq>
             <div class="faq__item" id="faq-1" data-faq-item aria-expanded="false">
@@ -1908,14 +1927,16 @@
       (function () {
         var fontSelect = document.getElementById('PreviewFontSet');
         var fontWrap = document.getElementById('PreviewFontSetWrap');
+        var sectionLinesSelect = document.getElementById('PreviewSectionLines');
+        var eyebrowWeightSelect = document.getElementById('PreviewEyebrowWeight');
         var marketSelect = document.getElementById('PreviewMarket');
         var schemeSelect = document.getElementById('PreviewColorScheme');
         var guidelinesSelect = document.getElementById('PreviewBrandGuidelines');
         var fontLink = document.getElementById('PreviewFontLink');
         var fonts = {
-          modern: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
-          classic: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
-          v2: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap'
+          modern: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap',
+          classic: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap',
+          v2: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap'
         };
         var schemeOptions = {
           v1: [
@@ -2023,6 +2044,20 @@
           }
         }
 
+        function applySectionLines() {
+          var lines = (sectionLinesSelect && sectionLinesSelect.value) || 'on';
+          if (lines !== 'off') lines = 'on';
+          document.documentElement.setAttribute('data-section-lines', lines);
+          try { localStorage.setItem('valtoraPreviewSectionLines', lines); } catch (e) {}
+        }
+
+        function applyEyebrowWeight() {
+          var weight = (eyebrowWeightSelect && eyebrowWeightSelect.value) || 'regular';
+          if (weight !== 'bold') weight = 'regular';
+          document.documentElement.setAttribute('data-eyebrow-weight', weight);
+          try { localStorage.setItem('valtoraPreviewEyebrowWeight', weight); } catch (e) {}
+        }
+
         function applyScheme() {
           var scheme = (schemeSelect && schemeSelect.value) || 'signature';
           document.documentElement.setAttribute('data-color-scheme', scheme);
@@ -2074,6 +2109,14 @@
           }
           var saved = localStorage.getItem('valtoraPreviewFontSet');
           if (fontSelect && (saved === 'modern' || saved === 'classic')) fontSelect.value = saved;
+          var savedLines = localStorage.getItem('valtoraPreviewSectionLines');
+          if (sectionLinesSelect && (savedLines === 'on' || savedLines === 'off')) {
+            sectionLinesSelect.value = savedLines;
+          }
+          var savedEyebrow = localStorage.getItem('valtoraPreviewEyebrowWeight');
+          if (eyebrowWeightSelect && (savedEyebrow === 'regular' || savedEyebrow === 'bold')) {
+            eyebrowWeightSelect.value = savedEyebrow;
+          }
           var savedTaglineMarket =
             localStorage.getItem('valtoraPreviewTaglineMarket') ||
             localStorage.getItem('valtoraPreviewMarket');
@@ -2092,10 +2135,14 @@
 
         if (guidelinesSelect) guidelinesSelect.addEventListener('change', applyGuidelines);
         if (fontSelect) fontSelect.addEventListener('change', applyFont);
+        if (sectionLinesSelect) sectionLinesSelect.addEventListener('change', applySectionLines);
+        if (eyebrowWeightSelect) eyebrowWeightSelect.addEventListener('change', applyEyebrowWeight);
         if (marketSelect) marketSelect.addEventListener('change', applyMarket);
         if (schemeSelect) schemeSelect.addEventListener('change', applyScheme);
         applyGuidelines();
         applyMarket();
+        applySectionLines();
+        applyEyebrowWeight();
 
         (function syncStickyOffset() {
           var banner = document.querySelector('.preview-banner');

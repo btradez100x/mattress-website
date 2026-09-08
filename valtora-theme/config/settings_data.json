@@ -25,6 +25,8 @@
     "color_ink": "#222222",
     "color_on_dark": "#F7F5F1",
     "font_set": "modern",
+    "section_gold_lines": true,
+    "section_title_weight": "regular",
     "font_serif": "fraunces",
     "font_sans": "outfit",
     "wordmark_font": "sans",

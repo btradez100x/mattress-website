@@ -23,6 +23,7 @@
 <section class="section{% render 'section-ground', fallback: 'dark' %}" id="offer" data-reveal data-section-ground="{% render 'section-ground', as: 'value', fallback: 'dark' %}">
   <div class="page-width">
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+    <hr class="gold-rule">
     <h2>{{ section.settings.heading }}</h2>
     {%- if market == 'ae' and section.settings.body_ae != blank -%}
       <p class="section__lede">{{ section.settings.body_ae }}</p>
