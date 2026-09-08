@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (refresh price by size)
+
+- Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
+- Checkpoint: `checkpoints/13.0.0-refresh-price-by-size/`. Deploy: `v9` `be59241`, `shopify-theme` `b7b6eeb`. FAQ refresh price now qualifies GBP 299 by size. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (overview card copy)
 
 - Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
