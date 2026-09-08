@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (decide later)
+
+- Checkpoint: `checkpoints/13.0.0-decide-later/`. Deploy: `v9` `04688b3`, `shopify-theme` `b5eaf85`. Decide later card replaced. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (hero core)
 
 - Checkpoint: `checkpoints/13.0.0-hero-core/`. Deploy: `v9` `ebc50ec`, `shopify-theme` `635a06b`. Hero subheading replaced. No VERSION bump.
