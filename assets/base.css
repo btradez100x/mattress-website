@@ -354,6 +354,8 @@ html:not([data-section-lines="off"]) .section__eyebrow:has(+ .gold-rule) {
 
 .swap-explainer .section__eyebrow,
 .swap-explainer h2,
+.swap-explainer h3,
+.swap-explainer .swap-explainer__subhead,
 .swap-explainer .section__lede,
 .swap-explainer .rte,
 .swap-explainer .rte p,
@@ -369,6 +371,19 @@ html:not([data-section-lines="off"]) .section__eyebrow:has(+ .gold-rule) {
 .swap-explainer .section__lede + .swap-explainer__cta,
 .swap-explainer__cta + .section__lede {
   margin-top: 1.15rem;
+}
+
+.swap-explainer__subhead {
+  font-family: var(--font-display, 'Instrument Sans', system-ui, sans-serif);
+  font-weight: var(--heading-weight, 700);
+  font-size: clamp(1.25rem, 2.4vw, 1.625rem);
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  margin: 1.75rem 0 0.55rem;
+}
+
+.swap-explainer__subhead + .section__lede {
+  margin-top: 0;
 }
 
 .swap-explainer__cta {
@@ -2348,6 +2363,12 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 
 .feel-ladder__layout--solo {
   text-align: center;
+}
+
+/* Short gold stub is a block; text-align does not centre it. Split copy stays left. */
+.feel-ladder__layout--solo .gold-rule {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .feel-ladder__layout--solo .feel-ladder,

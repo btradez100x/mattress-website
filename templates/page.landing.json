@@ -218,12 +218,14 @@
       "type": "swap-explainer",
       "settings": {
         "enable_section": true,
-        "body": "When the layer wears, replace the layer. The bed underneath has years left in it.",
-        "flip_line": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes.",
-        "handmade_link": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>",
-        "ownership_cost_gb": "<p>A comfort layer costs around \u00a3299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
-        "ownership_cost_ae": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>",
-        "dual_use": "<p>Inside our mattress it is the part you replace.</p>",
+        "eyebrow": "How it works",
+        "heading": "One layer. Two jobs.",
+        "intro": "Inside every [Brand] mattress is a comfort layer you can reach. Unzip the cover and lift it out. That is possible because the mattress is hand-assembled rather than pressed and sealed, and it is what keeps the bed feeling new for years.",
+        "arrival_heading": "On arrival: turn it for the feel you want.",
+        "arrival_body": "The layer has two sides, Medium and Medium firm, and ships Medium firm side up. If you would like it softer, unzip the cover, turn the layer over and zip it up. Two minutes, no tools, and you can change your mind at any point during the year.",
+        "years_heading": "Years on: replace it and the bed is new again.",
+        "years_body_gb": "The comfort layer is the part of any mattress that wears. Ours is designed to be replaced. Around year 5, and again around year 10, swap in a new layer for about £299 and the mattress underneath, which has years left in it, feels as it did on day 1. Two layers over 10 years costs less than one cheaper bed replaced twice, and sends far less to landfill.",
+        "years_body_ae": "The comfort layer is the part of any mattress that wears. Ours is designed to be replaced. Around year 5, and again around year 10, swap in a new layer for about AED 1,200 and the mattress underneath, which has years left in it, feels as it did on day 1. Two layers over 10 years costs less than one cheaper bed replaced twice, and sends far less to landfill.",
         "top_cta_label": "See the comfort layer",
         "ground": "bg"
       }

@@ -3,7 +3,14 @@
     render 'size-market'
   endcapture
   assign market = market | strip
+  assign brand = settings.brand_name | default: 'Numa' | strip
   assign video_fallback = section.settings.fallback_video | default: 'swap-explainer.mp4'
+  assign intro = section.settings.intro | replace: '[Brand]', brand
+  assign arrival_heading = section.settings.arrival_heading | replace: '[Brand]', brand
+  assign arrival_body = section.settings.arrival_body | replace: '[Brand]', brand
+  assign years_heading = section.settings.years_heading | replace: '[Brand]', brand
+  assign years_body_gb = section.settings.years_body_gb | replace: '[Brand]', brand
+  assign years_body_ae = section.settings.years_body_ae | replace: '[Brand]', brand
 -%}
 {%- if section.settings.enable_section -%}
 <section class="section{% render 'section-ground', fallback: 'dark' %} swap-explainer" id="swap-video" data-reveal data-section-ground="{% render 'section-ground', as: 'value', fallback: 'dark' %}">
@@ -11,27 +18,27 @@
     <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
     <hr class="gold-rule">
     <h2>{{ section.settings.heading }}</h2>
-    {%- if section.settings.handmade_link != blank -%}
-      <div class="section__lede rte">{{ section.settings.handmade_link }}</div>
+    {%- if intro != blank -%}
+      <p class="section__lede">{{ intro | escape }}</p>
     {%- endif -%}
-    {%- if section.settings.body != blank -%}
-      <p class="section__lede">{{ section.settings.body }}</p>
+    {%- if arrival_heading != blank -%}
+      <h3 class="swap-explainer__subhead">{{ arrival_heading | escape }}</h3>
     {%- endif -%}
-    {%- if section.settings.flip_line != blank -%}
-      <p class="section__lede">{{ section.settings.flip_line }}</p>
+    {%- if arrival_body != blank -%}
+      <p class="section__lede">{{ arrival_body | escape }}</p>
     {%- endif -%}
-    {%- if section.settings.dual_use != blank -%}
-      <div class="section__lede rte">{{ section.settings.dual_use }}</div>
+    {%- if years_heading != blank -%}
+      <h3 class="swap-explainer__subhead">{{ years_heading | escape }}</h3>
+    {%- endif -%}
+    {%- if market == 'ae' and years_body_ae != blank -%}
+      <p class="section__lede">{{ years_body_ae | escape }}</p>
+    {%- elsif years_body_gb != blank -%}
+      <p class="section__lede">{{ years_body_gb | escape }}</p>
     {%- endif -%}
     {%- if settings.comfort_tops_enabled and section.settings.top_cta_label != blank -%}
       <p class="swap-explainer__cta">
         <a class="btn" href="{{ section.settings.top_cta_url | default: '/products/comfort-layer' }}">{{ section.settings.top_cta_label }}</a>
       </p>
-    {%- endif -%}
-    {%- if market == 'ae' and section.settings.ownership_cost_ae != blank -%}
-      <div class="section__lede rte">{{ section.settings.ownership_cost_ae }}</div>
-    {%- elsif section.settings.ownership_cost_gb != blank -%}
-      <div class="section__lede rte">{{ section.settings.ownership_cost_gb }}</div>
     {%- endif -%}
     <div class="big-idea__media big-idea__media--wide big-idea__media--player swap-explainer__media">
       {% render 'theme-video',
@@ -95,31 +102,44 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Unzip. Lift out. Swap in."
-    },
-    {
-      "type": "richtext",
-      "id": "handmade_link",
-      "label": "Handmade link (before body)",
-      "default": "<p>A machine-pressed mattress is sealed for life. Ours is hand-assembled, which is why the comfort layer can be unzipped, lifted out and replaced.</p>"
+      "default": "One layer. Two jobs."
     },
     {
       "type": "textarea",
-      "id": "body",
-      "label": "Body",
-      "default": "When the layer wears, replace the layer. The bed underneath has years left in it."
+      "id": "intro",
+      "label": "Intro",
+      "info": "Use [Brand] — it is replaced by the global brand name setting.",
+      "default": "Inside every [Brand] mattress is a comfort layer you can reach. Unzip the cover and lift it out. That is possible because the mattress is hand-assembled rather than pressed and sealed, and it is what keeps the bed feeling new for years."
+    },
+    {
+      "type": "text",
+      "id": "arrival_heading",
+      "label": "On arrival heading",
+      "default": "On arrival: turn it for the feel you want."
     },
     {
       "type": "textarea",
-      "id": "flip_line",
-      "label": "Flip line (after body)",
-      "default": "To change the firmness instead, unzip the cover, turn the layer over and zip it up. Two minutes."
+      "id": "arrival_body",
+      "label": "On arrival body",
+      "default": "The layer has two sides, Medium and Medium firm, and ships Medium firm side up. If you would like it softer, unzip the cover, turn the layer over and zip it up. Two minutes, no tools, and you can change your mind at any point during the year."
     },
     {
-      "type": "richtext",
-      "id": "dual_use",
-      "label": "Dual use",
-      "default": "<p>Inside our mattress it is the part you replace.</p>"
+      "type": "text",
+      "id": "years_heading",
+      "label": "Years on heading",
+      "default": "Years on: replace it and the bed is new again."
+    },
+    {
+      "type": "textarea",
+      "id": "years_body_gb",
+      "label": "Years on body (UK)",
+      "default": "The comfort layer is the part of any mattress that wears. Ours is designed to be replaced. Around year 5, and again around year 10, swap in a new layer for about £299 and the mattress underneath, which has years left in it, feels as it did on day 1. Two layers over 10 years costs less than one cheaper bed replaced twice, and sends far less to landfill."
+    },
+    {
+      "type": "textarea",
+      "id": "years_body_ae",
+      "label": "Years on body (UAE)",
+      "default": "The comfort layer is the part of any mattress that wears. Ours is designed to be replaced. Around year 5, and again around year 10, swap in a new layer for about AED 1,200 and the mattress underneath, which has years left in it, feels as it did on day 1. Two layers over 10 years costs less than one cheaper bed replaced twice, and sends far less to landfill."
     },
     {
       "type": "text",
@@ -132,18 +152,6 @@
       "id": "top_cta_url",
       "label": "Comfort layer CTA link",
       "info": "Path such as /products/comfort-layer. Leave blank to hide until the comfort layer is on."
-    },
-    {
-      "type": "richtext",
-      "id": "ownership_cost_gb",
-      "label": "Ownership cost (UK)",
-      "default": "<p>A comfort layer costs around £299. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
-    },
-    {
-      "type": "richtext",
-      "id": "ownership_cost_ae",
-      "label": "Ownership cost (UAE)",
-      "default": "<p>A comfort layer costs around AED 1,200. A new mattress does not. Refresh the layer at year five and year ten and you have spent less than replacing a cheaper bed twice - and thrown away far less.</p>"
     },
     {
       "type": "image_picker",
