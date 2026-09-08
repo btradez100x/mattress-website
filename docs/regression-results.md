@@ -5,6 +5,7 @@
 - Result: exit 1. Copy check passed (`Adjust to Desire year copy on policy strip, basket include, and cart terms`).
 - Failures are the pre-existing set, not this copy pass: footer Trading as lockup; trade `[D-reply]` / 5 working days; password template; float Checkout cream-on-navy lock; lifestyle webp / press priority.
 - What changed: trust bar stays three always-on lines, rewritten to Delivery included, Complimentary Concierge unpacking, Adjust to Desire. A year to get the feel right. Theme settings `delivery_mode`, `delivery_charge`, `trial_nights` 100, `return_fee` £119. Five-feel ladder. Founder photo removed. Reviews summary links to the full set.
+- Checkpoint: `checkpoints/13.0.0-site-copy-voice/`. Deploy: `v9` `2f1e9e1`, `shopify-theme` `7accbbb`. No VERSION bump.
 
 ---
 
