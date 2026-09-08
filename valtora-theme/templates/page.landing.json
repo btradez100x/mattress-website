@@ -44,7 +44,7 @@
         "b3": {
           "type": "benefit",
           "settings": {
-            "icon": "support",
+            "icon": "zones",
             "heading": "Wake without the ache.",
             "text": "7 zones of carefully engineered springs. Firm under your hips. Soft at your shoulders. Not the same everywhere. Neither are you."
           }
@@ -60,7 +60,7 @@
         "b5": {
           "type": "benefit",
           "settings": {
-            "icon": "stability",
+            "icon": "edge",
             "heading": "Sit on the edge",
             "text": "It holds. No slide, no dip, and you can sleep right to the edge."
           }
@@ -68,9 +68,25 @@
         "b6": {
           "type": "benefit",
           "settings": {
-            "icon": "stability",
+            "icon": "split",
             "heading": "They turn over. You sleep on.",
             "text": "Movement stays on their side of the bed."
+          }
+        },
+        "b7": {
+          "type": "benefit",
+          "settings": {
+            "icon": "pockets",
+            "heading": "Motion stays with you.",
+            "text": "Each spring is housed alone. You turn. The other side stays quieter."
+          }
+        },
+        "b8": {
+          "type": "benefit",
+          "settings": {
+            "icon": "grip",
+            "heading": "It stays where you put it.",
+            "text": "An anti-slip underside. The mattress holds its place on the frame."
           }
         }
       },
@@ -80,11 +96,13 @@
         "b3",
         "b4",
         "b5",
-        "b6"
+        "b6",
+        "b7",
+        "b8"
       ],
       "settings": {
         "enable_section": true,
-        "heading": "Why it matters",
+        "heading": "8 things that hold up.",
         "ground": "surface"
       }
     },
@@ -1103,8 +1121,8 @@
     "swap-explainer",
     "size-reserve",
     "swap-process",
-    "cool-touch",
     "benefits",
+    "cool-touch",
     "feel-ladder",
     "measure-size",
     "founder-note",
