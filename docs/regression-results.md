@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (overview card copy)
+
+- Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
+- Checkpoint: `checkpoints/13.0.0-overview-card-copy/`. Deploy: `v9` `08dcf9e`, `shopify-theme` `79e102e`. Edge, Sleep cool, and Keep it for decades bodies replaced. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (overview grid)
 
 - Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press. Ground checks still flag feel-ladder auto. Overview grid itself passed JSON and theme.js syntax.
