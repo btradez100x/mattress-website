@@ -23,6 +23,7 @@
         <div class="trust-bar__track">
           {%- for pass in (1..2) -%}
             <ul class="trust-bar__list" role="list"{% if pass == 2 %} aria-hidden="true"{% endif %}>
+              {%- render 'trust-bar-fixed', pass: pass -%}
               {%- for block in section.blocks -%}
                 {%- capture label -%}{% render 'warranty-tokens', text: block.settings.label %}{%- endcapture -%}
                 {%- capture label -%}{% render 'trial-tokens', text: label %}{%- endcapture -%}
@@ -72,6 +73,9 @@
                     if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
                       assign show_item = false
                     endif
+                  endif
+                  if label_down == 'delivery included' or label_down == 'complimentary concierge delivery' or label_down == '365 night comfort programme'
+                    assign show_item = false
                   endif
                 -%}
                 {%- if show_item -%}
@@ -130,6 +134,7 @@
     {%- else -%}
       <div class="page-width">
         <ul class="trust-bar__list" role="list">
+          {%- render 'trust-bar-fixed', pass: 1 -%}
           {%- for block in section.blocks -%}
             {%- capture label -%}{% render 'warranty-tokens', text: block.settings.label %}{%- endcapture -%}
             {%- capture label -%}{% render 'trial-tokens', text: label %}{%- endcapture -%}
@@ -179,6 +184,9 @@
                 if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
                   assign show_item = false
                 endif
+              endif
+              if label_down == 'delivery included' or label_down == 'complimentary concierge delivery' or label_down == '365 night comfort programme'
+                assign show_item = false
               endif
             -%}
             {%- if show_item -%}
