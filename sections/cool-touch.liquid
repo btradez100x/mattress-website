@@ -28,12 +28,14 @@
       {%- liquid
         assign brand = settings.brand_name | default: 'Numa'
         assign yarn_name = section.settings.yarn_name
-        if yarn_name == blank
-          assign yarn_name = brand
+        assign cool_heading = section.settings.heading | replace: '[Brand]', brand
+        assign cool_body = section.settings.body | replace: '[Brand]', brand
+        assign hand_line = section.settings.hand_line | replace: '[Brand]', brand
+        if yarn_name != blank
+          assign cool_heading = cool_heading | replace: '[yarn_name]', yarn_name
+          assign cool_body = cool_body | replace: '[yarn_name]', yarn_name
+          assign hand_line = hand_line | replace: '[yarn_name]', yarn_name
         endif
-        assign cool_heading = section.settings.heading | replace: '[Brand]', brand | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
-        assign cool_body = section.settings.body | replace: '[Brand]', brand | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
-        assign hand_line = section.settings.hand_line | replace: '[Brand]', brand | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
       -%}
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
       <hr class="gold-rule">
@@ -53,8 +55,12 @@
           {%- for block in section.blocks -%}
             {%- if block.type == 'point' and block.settings.enabled -%}
               {%- liquid
-                assign point_title = block.settings.title | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
-                assign point_text = block.settings.text | replace: '{{ yarn_name }}', yarn_name | replace: '[yarn_name]', yarn_name
+                assign point_title = block.settings.title | replace: '[Brand]', brand
+                assign point_text = block.settings.text | replace: '[Brand]', brand
+                if yarn_name != blank
+                  assign point_title = point_title | replace: '[yarn_name]', yarn_name
+                  assign point_text = point_text | replace: '[yarn_name]', yarn_name
+                endif
               -%}
               <li {{ block.shopify_attributes }}>
                 {%- if point_title != blank -%}
@@ -184,7 +190,7 @@
       "type": "text",
       "id": "yarn_name",
       "label": "Yarn name",
-      "info": "Replaces [yarn_name] in this section. Falls back to the brand name if blank."
+      "info": "Optional. Replaces [yarn_name] only if you type a yarn name here. Leave blank until then. [Brand] is the store name."
     },
     {
       "type": "textarea",
@@ -278,7 +284,7 @@
           "settings": {
             "enabled": true,
             "title": "Cool to the touch",
-            "text": "The cover is knitted from [yarn_name]. It pulls heat off your skin faster than cotton can return it."
+            "text": "The cover is knitted from [Brand]'s yarn. It pulls heat off your skin faster than cotton can return it."
           }
         },
         {
