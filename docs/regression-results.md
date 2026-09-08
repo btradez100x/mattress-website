@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (sleep hot)
+
+- Checkpoint: `checkpoints/13.0.0-sleep-hot/`. Deploy: `v9` `be90cd8`, `shopify-theme` `aefe020`. Cool-touch heading and body replaced. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (lite sleepers)
 
 - Checkpoint: `checkpoints/13.0.0-lite-sleepers/`. Deploy: `v9` `5854139`, `shopify-theme` `935d7de`. Build line: Maximum stability for lite sleepers. No VERSION bump.
