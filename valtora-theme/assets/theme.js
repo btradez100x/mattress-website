@@ -1688,6 +1688,8 @@
       if (s && out.indexOf(s) === -1) out.push(s);
     });
     if (out.length) return out;
+    var fromId = identitySizeType(row);
+    if (fromId) return [fromId];
     var markets = rowMarkets(row);
     var shown = ((row && (row.shown || row.MarketShown)) || []).map(function (x) {
       return String(x || '').toUpperCase();
@@ -1705,6 +1707,27 @@
     }
     if (!out.length) add('UK Sizes');
     return out;
+  }
+
+  function identitySizeType(row) {
+    var id = handleizeSize((row && row.id) || '');
+    var label = String((row && row.label) || '');
+    var usIds = {
+      twin: 1,
+      'us-twin': 1,
+      'twin-xl': 1,
+      full: 1,
+      'california-king': 1,
+      'cal-king': 1,
+      'cali-king': 1,
+      'split-king': 1,
+      'us-king': 1,
+      'us-queen': 1,
+      'us-full': 1
+    };
+    if (usIds[id] || /^us[\s-]/i.test(label)) return 'US Sizes';
+    if (/australian|^au-/.test(id)) return 'Australian Sizes';
+    return '';
   }
 
   function rowBelongsToSizeType(row, type) {
@@ -4181,7 +4204,7 @@
           else viewBtn.setAttribute('hidden', '');
         }
         if (hasLines) {
-          if (isSizeSelectorPage() && !window.matchMedia('(max-width: 980px)').matches) {
+          if (isSizeSelectorPage() && !window.matchMedia('(max-width: 1179px)').matches) {
             bar.hidden = true;
             document.body.classList.remove('has-sticky-reserve');
           } else {
@@ -7212,7 +7235,7 @@
       }
       if (isSizeSelectorPage()) {
         bar.classList.toggle('has-items', hasItems);
-        if (hasItems && window.matchMedia('(max-width: 980px)').matches) {
+        if (hasItems && window.matchMedia('(max-width: 1179px)').matches) {
           bar.classList.add('is-active');
           showBar();
         } else {

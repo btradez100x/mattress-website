@@ -1703,12 +1703,12 @@ fi
 if grep -q "mattresses to basket" "$JS" \
   && grep -q "function initOrderSheet" "$JS" \
   && grep -q "data-order-sheet-open" "$THEME/snippets/sticky-reserve-bar.liquid" \
-  && grep -q "max-width: 980px" "$CSS" \
+  && grep -q "max-width: 1179px" "$CSS" \
   && grep -q "isSizeSelectorPage" "$JS" \
   && grep -q "Add a size to start your order" "$JS"; then
-  pass "size selector: 980px bar swap, Add N mattresses, View sheet"
+  pass "size selector: stack until both columns fit, Add N mattresses, View sheet"
 else
-  fail "size selector 980px swap / Add N mattresses / View sheet missing"
+  fail "size selector bar swap / Add N mattresses / View sheet missing"
 fi
 
 if grep -q "function canonicalBasketUrl" "$JS" \

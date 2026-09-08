@@ -1,3 +1,11 @@
+# Regression results — Tuesday 8 Sep 2026 (size basket overlap)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Scope note: Your order no longer covers the size rows. It sits beside the list only from 1180px, otherwise under it. Size sections (UK / US) now follow the size name when SizeType is empty. Pre-existing failures remain (footer Trading as, trade reply copy, password template, float Checkout lock, lifestyle webp).
+
+---
+
 # Regression results — Tuesday 8 Sep 2026 (deploy 13.0.0-brand-name-fields)
 
 ## Smoke

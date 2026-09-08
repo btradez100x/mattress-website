@@ -2563,7 +2563,14 @@ video[controls],
   margin-inline: auto;
 }
 
-@media (min-width: 981px) {
+/* The size column must be allowed to shrink. Otherwise the row's minimum
+   width spills under the sticky basket and the panel paints on top of Add. */
+.size-reserve__layout > * ,
+[data-lp-configure] > * {
+  min-width: 0;
+}
+
+@media (min-width: 1180px) {
   .size-reserve__layout {
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 20.5rem);
     align-items: start;
@@ -3064,7 +3071,7 @@ video[controls],
 @media (min-width: 761px) {
   .size-thead {
     display: grid;
-    grid-template-columns: minmax(140px, 1.1fr) minmax(170px, 1.3fr) 104px 132px;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(5.5rem, 6.5rem) minmax(6.5rem, 8.25rem);
     gap: 22px;
     padding: 20px 4px 10px;
     border-bottom: 1px solid var(--hairline, #d6d2ca);
@@ -3082,7 +3089,9 @@ video[controls],
 }
 .size-option--row {
   display: grid;
-  grid-template-columns: minmax(140px, 1.1fr) minmax(170px, 1.3fr) 104px 132px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(5.5rem, 6.5rem) minmax(6.5rem, 8.25rem);
+  min-width: 0;
+  width: 100%;
   gap: 22px;
   align-items: center;
   min-height: 0;
@@ -5389,7 +5398,7 @@ body:has([data-float-total]:empty) .hero__cta {
   box-shadow: inset 0 0 0 1px var(--brand-primary);
 }
 
-@media (min-width: 981px) {
+@media (min-width: 1180px) {
   .size-reserve__layout > .reserve-panel,
   .size-reserve__layout > .order-panel,
   .size-reserve__layout > aside,
@@ -5408,10 +5417,10 @@ body:has([data-float-total]:empty) .hero__cta {
   }
 }
 
-/* Size selector basket: desktop sticky panel. Below 980px the same panel
-   sits inline under the list and a carbon bar appears once the basket has
-   lines. The panel is never display:none. */
-@media (max-width: 980px) {
+/* Size selector basket: beside the list only when both fit. Below 1180px
+   the same panel sits under the list and a carbon bar appears once the
+   basket has lines. The panel is never display:none, and never covers Add. */
+@media (max-width: 1179px) {
   .size-reserve__layout > .reserve-panel,
   .size-reserve__layout > .order-panel,
   [data-lp-configure] > .reserve-panel,
@@ -5540,7 +5549,7 @@ body:has([data-size-reserve], [data-lp-configure]) .float-basket__view:not([hidd
   justify-content: center;
 }
 
-@media (min-width: 981px) {
+@media (min-width: 1180px) {
   body:has([data-size-reserve], [data-lp-configure]) .float-basket,
   body:has([data-size-reserve], [data-lp-configure]) .float-basket.has-items,
   body:has([data-size-reserve], [data-lp-configure]) .float-basket.is-active,
