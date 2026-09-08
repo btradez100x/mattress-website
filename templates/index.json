@@ -591,30 +591,6 @@
             "payment_mode_visibility": "all"
           }
         },
-        "faq_h_feel": {
-          "type": "heading",
-          "settings": {
-            "heading": "The feel"
-          }
-        },
-        "faq_h_pay": {
-          "type": "heading",
-          "settings": {
-            "heading": "Choosing and paying"
-          }
-        },
-        "faq_h_order": {
-          "type": "heading",
-          "settings": {
-            "heading": "Ordering and delivery"
-          }
-        },
-        "faq_h_after": {
-          "type": "heading",
-          "settings": {
-            "heading": "After it arrives"
-          }
-        },
         "faq_look": {
           "type": "item",
           "settings": {
@@ -625,24 +601,20 @@
         }
       },
       "block_order": [
-        "faq_h_feel",
         "faq_feel",
         "faq_flip",
         "faq_further",
         "faq_partner",
         "faq_motion",
-        "faq_h_pay",
         "faq_9",
         "faq_6",
         "faq_7",
         "faq_8",
         "faq_5",
-        "faq_h_order",
         "faq_1",
         "faq_2",
         "faq_3",
         "faq_look",
-        "faq_h_after",
         "faq_4",
         "faq_11"
       ],
