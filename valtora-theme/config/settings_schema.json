@@ -12,7 +12,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Show/hide: open each homepage section and use \u201cShow this section\u201d. Reorder: Customize \u2192 Home page \u2192 drag sections in the left sidebar. Header and footer stay in their groups."
+        "content": "Show/hide: open each homepage section and use “Show this section”. Reorder: Customize → Home page → drag sections in the left sidebar. Header and footer stay in their groups."
       },
       {
         "type": "paragraph",
@@ -29,7 +29,7 @@
       },
       {
         "type": "paragraph",
-        "content": "These two fields are the only place to set the store name. Header wordmark, footer wordmark, Trading as, contact, and share meta all read from here. Change the name without uploading a logo."
+        "content": "These two fields set the store name for [Brand] copy, Trading as, contact, and share meta. The header and footer mark is the Logo lockup panel (Theme settings → Logo lockup)."
       },
       {
         "type": "text",
@@ -56,7 +56,7 @@
         "type": "text",
         "id": "company_number",
         "label": "Company number",
-        "info": "Shown on Privacy, Terms, Cookies, contact, and the footer when filled. Leave blank to hide the row. UK can override under Business details \u2192 Company number (UK)."
+        "info": "Shown on Privacy, Terms, Cookies, contact, and the footer when filled. Leave blank to hide the row. UK can override under Business details → Company number (UK)."
       },
       {
         "type": "textarea",
@@ -71,14 +71,14 @@
       },
       {
         "type": "paragraph",
-        "content": "Each country uses one of these taglines (footer, password page, and the [Tagline] share-card token). Shopify Markets must include the country so the storefront knows which one to show. Type the real slogan for each market \u2014 the defaults are placeholders."
+        "content": "Each country uses one of these taglines (footer, password page, and the [Tagline] share-card token). Shopify Markets must include the country so the storefront knows which one to show. Type the real slogan for each market — the defaults are placeholders."
       },
       {
         "type": "text",
         "id": "brand_tagline",
         "label": "Default tagline",
         "default": "A better bed, for life.",
-        "info": "Used when the visitor\u2019s country is not UK, UAE, USA, Europe, Ghana, or Nigeria. Also used if a market tagline below is left blank."
+        "info": "Used when the visitor’s country is not UK, UAE, USA, Europe, Ghana, or Nigeria. Also used if a market tagline below is left blank."
       },
       {
         "type": "text",
@@ -139,7 +139,7 @@
         "type": "textarea",
         "id": "share_description_ae",
         "label": "Share / link-preview copy (UAE)",
-        "default": "Engineered for the Gulf \u00b7 [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress."
+        "default": "Engineered for the Gulf · [Brand]. A better bed, for life. Refresh the comfort layer - do not replace the whole mattress."
       },
       {
         "type": "image_picker",
@@ -154,9 +154,316 @@
         "max": 22,
         "step": 1,
         "unit": "em",
-        "label": "Wordmark letter-spacing (\u00f7100)",
+        "label": "Wordmark letter-spacing (÷100)",
         "default": 18,
         "info": "Value is hundredths of an em (18 = 0.18em). Higher tracking reads more Nike / premium lockup."
+      }
+    ]
+  },
+  {
+    "name": "Logo lockup",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Lockup"
+      },
+      {
+        "type": "select",
+        "id": "oo_logo_lockup",
+        "label": "Default lockup",
+        "info": "Which arrangement the header uses. The footer and other placements can override this when the snippet is rendered.",
+        "default": "two",
+        "options": [
+          {
+            "value": "two",
+            "label": "Two line (Onni & Osher / A sleep company.)"
+          },
+          {
+            "value": "three",
+            "label": "Three line (Onni & / Osher / A sleep company.)"
+          },
+          {
+            "value": "wordmark",
+            "label": "Wordmark only (no descriptor)"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "oo_logo_align",
+        "label": "Alignment",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Centre"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Two line text"
+      },
+      {
+        "type": "text",
+        "id": "oo_logo_two_line_1",
+        "label": "Line 1",
+        "default": "Onni & Osher"
+      },
+      {
+        "type": "text",
+        "id": "oo_logo_two_line_2",
+        "label": "Line 2 (descriptor)",
+        "default": "A sleep company."
+      },
+      {
+        "type": "header",
+        "content": "Three line text"
+      },
+      {
+        "type": "text",
+        "id": "oo_logo_three_line_1",
+        "label": "Line 1",
+        "default": "Onni &"
+      },
+      {
+        "type": "text",
+        "id": "oo_logo_three_line_2",
+        "label": "Line 2",
+        "default": "Osher"
+      },
+      {
+        "type": "text",
+        "id": "oo_logo_three_line_3",
+        "label": "Line 3 (descriptor)",
+        "default": "A sleep company."
+      },
+      {
+        "type": "header",
+        "content": "Type"
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_size",
+        "label": "Wordmark size (desktop)",
+        "min": 16,
+        "max": 96,
+        "step": 2,
+        "unit": "px",
+        "default": 28
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_size_mobile",
+        "label": "Wordmark size (mobile)",
+        "min": 14,
+        "max": 64,
+        "step": 2,
+        "unit": "px",
+        "default": 22
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_weight",
+        "label": "Wordmark weight",
+        "info": "Brand standard is 600 (SemiBold).",
+        "min": 400,
+        "max": 700,
+        "step": 100,
+        "default": 600
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_tracking",
+        "label": "Wordmark letter spacing",
+        "info": "Brand standard is -2 (-0.02em).",
+        "min": -6,
+        "max": 4,
+        "step": 1,
+        "unit": "‰",
+        "default": -2
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_amp_weight",
+        "label": "Symbol weight",
+        "info": "Applies to any symbol in the wordmark (&, +, /, × ...). Brand standard is 400 (Regular), lighter than the words.",
+        "min": 300,
+        "max": 700,
+        "step": 100,
+        "default": 400
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_line_height",
+        "label": "Three line stacking (line height)",
+        "info": "Percentage of the wordmark size between the two wordmark lines. Brand standard is 94.",
+        "min": 84,
+        "max": 110,
+        "step": 2,
+        "unit": "%",
+        "default": 94
+      },
+      {
+        "type": "header",
+        "content": "Descriptor"
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_descriptor_scale",
+        "label": "Descriptor size (% of wordmark)",
+        "info": "Brand standard is 36 for two line and 30 for three line (gap 42 for both). The three line lockup uses this value minus 6.",
+        "min": 24,
+        "max": 50,
+        "step": 2,
+        "unit": "%",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_descriptor_gap",
+        "label": "Gap above descriptor (% of wordmark)",
+        "min": 20,
+        "max": 70,
+        "step": 2,
+        "unit": "%",
+        "default": 42
+      },
+      {
+        "type": "range",
+        "id": "oo_logo_descriptor_min",
+        "label": "Hide descriptor below this wordmark size",
+        "info": "Keeps the descriptor legible. At smaller sizes only the wordmark is shown.",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 18
+      },
+      {
+        "type": "header",
+        "content": "Colour"
+      },
+      {
+        "type": "select",
+        "id": "oo_logo_palette",
+        "label": "Palette",
+        "info": "Which colour set the lockup uses. Each set is editable below.",
+        "default": "basket",
+        "options": [
+          {
+            "value": "basket",
+            "label": "Site palette (Snow / Carbon)"
+          },
+          {
+            "value": "v3",
+            "label": "V3 guidelines (Warm White / Matte Black)"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Site palette"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_colour",
+        "label": "Wordmark colour",
+        "default": "#1A1A1A"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_descriptor_colour",
+        "label": "Descriptor colour",
+        "default": "#3A3A3C"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_colour_reverse",
+        "label": "Wordmark colour (on dark)",
+        "default": "#F5F4F1"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_descriptor_colour_reverse",
+        "label": "Descriptor colour (on dark)",
+        "default": "#E4E1DA"
+      },
+      {
+        "type": "header",
+        "content": "V3 guidelines palette"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_v3_colour",
+        "label": "Wordmark colour",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_v3_descriptor_colour",
+        "label": "Descriptor colour",
+        "default": "#3B3B3B"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_v3_colour_reverse",
+        "label": "Wordmark colour (on dark)",
+        "default": "#F3F1EC"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_v3_descriptor_colour_reverse",
+        "label": "Descriptor colour (on dark)",
+        "default": "#B9B5AE"
+      },
+      {
+        "type": "header",
+        "content": "Symbol"
+      },
+      {
+        "type": "select",
+        "id": "oo_logo_amp_accent",
+        "label": "Symbol colour",
+        "info": "Default keeps symbols in the wordmark colour. Stone is the tonal alternative in line with V3; Ember is the gold alternative (V3 advises against metallic branding).",
+        "default": "none",
+        "options": [
+          {
+            "value": "none",
+            "label": "Wordmark colour (default)"
+          },
+          {
+            "value": "stone",
+            "label": "Stone"
+          },
+          {
+            "value": "ember",
+            "label": "Ember"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_stone_colour",
+        "label": "Stone",
+        "default": "#B9B5AE"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_accent_colour",
+        "label": "Ember (on light)",
+        "default": "#8A6D3B"
+      },
+      {
+        "type": "color",
+        "id": "oo_logo_accent_colour_reverse",
+        "label": "Ember (on dark)",
+        "info": "Ember light, used for the ampersand on Carbon.",
+        "default": "#C4A46A"
       }
     ]
   },
@@ -202,35 +509,35 @@
         "options": [
           {
             "value": "signature",
-            "label": "V1 \u00b7 Signature - gold wordmark, ink headlines"
+            "label": "V1 · Signature - gold wordmark, ink headlines"
           },
           {
             "value": "classic_navy",
-            "label": "V1 \u00b7 Classic navy - navy wordmark & headlines"
+            "label": "V1 · Classic navy - navy wordmark & headlines"
           },
           {
             "value": "warm_charcoal",
-            "label": "V1 \u00b7 Warm charcoal - charcoal + bronze"
+            "label": "V1 · Warm charcoal - charcoal + bronze"
           },
           {
             "value": "cool_graphite",
-            "label": "V1 \u00b7 Cool graphite - steel accent"
+            "label": "V1 · Cool graphite - steel accent"
           },
           {
             "value": "v2_carbon",
-            "label": "V2 \u00b7 Carbon + Ember (canonical)"
+            "label": "V2 · Carbon + Ember (canonical)"
           },
           {
             "value": "v2_graphite",
-            "label": "V2 \u00b7 Graphite + Ember"
+            "label": "V2 · Graphite + Ember"
           },
           {
             "value": "v2_warm",
-            "label": "V2 \u00b7 Warm bone + bronze"
+            "label": "V2 · Warm bone + bronze"
           },
           {
             "value": "v2_cool",
-            "label": "V2 \u00b7 Cool steel accent"
+            "label": "V2 · Cool steel accent"
           }
         ],
         "default": "signature"
@@ -283,15 +590,15 @@
       {
         "type": "select",
         "id": "font_set",
-        "label": "Font set (unused \u2014 locked to guidelines)",
+        "label": "Font set (unused — locked to guidelines)",
         "options": [
           {
             "value": "modern",
-            "label": "Brand \u2014 Instrument Sans / Inter / Geist Mono"
+            "label": "Brand — Instrument Sans / Inter / Geist Mono"
           },
           {
             "value": "classic",
-            "label": "Brand \u2014 Instrument Sans / Inter / Geist Mono"
+            "label": "Brand — Instrument Sans / Inter / Geist Mono"
           }
         ],
         "default": "modern",
@@ -328,7 +635,7 @@
       {
         "type": "select",
         "id": "font_serif",
-        "label": "Accent serif (unused \u2014 no serif)",
+        "label": "Accent serif (unused — no serif)",
         "options": [
           {
             "value": "fraunces",
@@ -414,7 +721,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "The storefront follows the visitor\u2019s Shopify / browser country (UK, UAE, US, Europe). Unlisted countries use the UK. Prefer Shopify Markets for currency. Shoppers do not switch country tabs."
+        "content": "The storefront follows the visitor’s Shopify / browser country (UK, UAE, US, Europe). Unlisted countries use the UK. Prefer Shopify Markets for currency. Shoppers do not switch country tabs."
       },
       {
         "type": "select",
@@ -473,7 +780,7 @@
         "id": "deposit_amount_label",
         "label": "Split first-payment label",
         "default": "AED 200",
-        "info": "Only used in Split mode (amount due today). Use \u00a350 for UK if that is your first payment."
+        "info": "Only used in Split mode (amount due today). Use £50 for UK if that is your first payment."
       },
       {
         "type": "text",
@@ -492,7 +799,7 @@
         "type": "text",
         "id": "splitit_merchant_id",
         "label": "Splitit merchant ID",
-        "info": "Terminal Id from Splitit Hub (Merchants Management \u2192 Terminals). Leave blank to disable regardless of the checkbox."
+        "info": "Terminal Id from Splitit Hub (Merchants Management → Terminals). Leave blank to disable regardless of the checkbox."
       },
       {
         "type": "text",
@@ -572,7 +879,7 @@
         "id": "lead_time_line",
         "label": "Made-to-order lead line",
         "default": "Made to order. Current window: [lead]. Cancel any time before dispatch for a full refund.",
-        "info": "Trust bar and order-status copy. Use [lead] for the window above. If lead time is blank, Current window: \u2026 is removed automatically."
+        "info": "Trust bar and order-status copy. Use [lead] for the window above. If lead time is blank, Current window: … is removed automatically."
       },
       {
         "type": "header",
@@ -625,7 +932,7 @@
         "type": "text",
         "id": "comfort_layer_price_gb",
         "label": "Comfort layer price (GB)",
-        "default": "\u00a3299",
+        "default": "£299",
         "info": "Named replacement-layer value on landing pages ([layer]). Matches the live store figure. Leave blank to use the comfort layer product price when that product exists."
       },
       {
@@ -686,14 +993,14 @@
       {
         "type": "checkbox",
         "id": "show_chemicals_claim",
-        "label": "Show \u201cNo harmful chemicals\u201d claim",
+        "label": "Show “No harmful chemicals” claim",
         "default": false,
         "info": "Off until verified. Gates trust bar, specs strip, offer, and FAQ items for this claim."
       },
       {
         "type": "checkbox",
         "id": "show_oeko_tex_claim",
-        "label": "Show OEKO-TEX\u00ae STANDARD 100 claim",
+        "label": "Show OEKO-TEX® STANDARD 100 claim",
         "default": false,
         "info": "Off until a certificate number is verified. The claim still will not render unless the certificate number below is filled."
       },
@@ -836,7 +1143,7 @@
       },
       {
         "type": "paragraph",
-        "content": "Phone and WhatsApp are set per country under UAE / UK below. The storefront uses the visitor\u2019s market (or Default market)."
+        "content": "Phone and WhatsApp are set per country under UAE / UK below. The storefront uses the visitor’s market (or Default market)."
       },
       {
         "type": "header",
@@ -993,13 +1300,13 @@
         "id": "legal_entity_name_ae",
         "label": "Legal name (UAE)",
         "default": "Valtora FZE",
-        "info": "Fallback if Brand \u2192 Legal name is blank. Trading as still uses Brand name + Product line."
+        "info": "Fallback if Brand → Legal name is blank. Trading as still uses Brand name + Product line."
       },
       {
         "type": "text",
         "id": "trade_licence_no",
         "label": "Trade licence number",
-        "info": "Appears in the footer legal line as \u201cTrade licence \u2026\u201d. Leave blank to hide."
+        "info": "Appears in the footer legal line as “Trade licence …”. Leave blank to hide."
       },
       {
         "type": "textarea",
@@ -1037,7 +1344,7 @@
         "type": "text",
         "id": "legal_entity_name_gb",
         "label": "Legal name (UK)",
-        "info": "Overrides Brand \u2192 Legal name for UK visitors. Leave blank to use Legal name. Trading as still uses Brand name + Product line."
+        "info": "Overrides Brand → Legal name for UK visitors. Leave blank to use Legal name. Trading as still uses Brand name + Product line."
       },
       {
         "type": "text",

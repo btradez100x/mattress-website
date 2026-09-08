@@ -1,0 +1,166 @@
+{% comment %}
+  Onni & Osher logo lockup
+  ------------------------------------------------------------------
+  Renders the two line or three line wordmark as live text, driven by
+  Theme settings > Logo lockup. Every value below can be overridden
+  per placement so the header, footer, emails and checkout can differ.
+
+  Usage:
+    {% render 'oo-logo' %}
+    {% render 'oo-logo', lockup: 'three', reverse: true %}
+    {% render 'oo-logo', size: 40, size_mobile: 28, align: 'center', accent: 'ember' %}
+    {% render 'oo-logo', tag: 'div', link: false %}
+
+  Parameters (all optional):
+    lockup       'two' | 'three' | 'wordmark'   default: settings.oo_logo_lockup
+    size         wordmark size in px (desktop)  default: settings.oo_logo_size
+    size_mobile  wordmark size in px (mobile)   default: settings.oo_logo_size_mobile
+    reverse      true to use the on-dark colours
+    palette      'basket' | 'v3' to override the colour set
+    accent       'none' | 'stone' | 'ember' to override the symbol colour (&, +, /, x ...)
+    align        'left' | 'center'              default: settings.oo_logo_align
+    link         false to render without a link (default links to the home page)
+    class        extra class names
+    id           unique id when rendering more than once on a page (default 'header')
+{% endcomment %}
+
+{%- liquid
+  assign lockup = lockup | default: settings.oo_logo_lockup
+  assign size = size | default: settings.oo_logo_size
+  assign size_mobile = size_mobile | default: settings.oo_logo_size_mobile
+  assign align = align | default: settings.oo_logo_align
+  assign uid = id | default: 'header'
+  if accent == nil or accent == blank
+    assign accent = settings.oo_logo_amp_accent
+  endif
+  if link == nil
+    assign link = true
+  endif
+
+  assign palette = palette | default: settings.oo_logo_palette
+  if palette == 'v3'
+    if reverse
+      assign colour = settings.oo_logo_v3_colour_reverse
+      assign descriptor_colour = settings.oo_logo_v3_descriptor_colour_reverse
+    else
+      assign colour = settings.oo_logo_v3_colour
+      assign descriptor_colour = settings.oo_logo_v3_descriptor_colour
+    endif
+  elsif reverse
+    assign colour = settings.oo_logo_colour_reverse
+    assign descriptor_colour = settings.oo_logo_descriptor_colour_reverse
+  else
+    assign colour = settings.oo_logo_colour
+    assign descriptor_colour = settings.oo_logo_descriptor_colour
+  endif
+
+  if accent == 'stone'
+    assign amp_colour = settings.oo_logo_stone_colour
+  elsif accent == 'ember' or accent == true
+    if reverse
+      assign amp_colour = settings.oo_logo_accent_colour_reverse
+    else
+      assign amp_colour = settings.oo_logo_accent_colour
+    endif
+  else
+    assign amp_colour = colour
+  endif
+
+  comment
+    Any symbol in a wordmark line (&, +, /, ×, ·, |, ~, *, -, =) is wrapped so it
+    takes the symbol weight and optional Ember colour. "x" between two words is
+    treated as a multiplication sign. Letters and digits are left alone.
+  endcomment
+  assign symbols = '&amp;,+,/,×,·,•,|,~,*,–,-,—,=,°,@,^' | split: ','
+
+  if lockup == 'three'
+    assign raw_1 = settings.oo_logo_three_line_1
+    assign raw_2 = settings.oo_logo_three_line_2
+    assign descriptor = settings.oo_logo_three_line_3 | escape
+    assign descriptor_scale = settings.oo_logo_descriptor_scale | minus: 6
+  else
+    assign raw_1 = settings.oo_logo_two_line_1
+    assign raw_2 = ''
+    assign descriptor = settings.oo_logo_two_line_2 | escape
+    assign descriptor_scale = settings.oo_logo_descriptor_scale
+  endif
+
+  assign line_1 = raw_1 | append: ' ' | escape | replace: ' x ', ' × ' | strip
+  assign line_2 = raw_2 | append: ' ' | escape | replace: ' x ', ' × ' | strip
+  comment
+    Two passes: symbols become numbered markers first, so the markup
+    inserted in the second pass is never re-scanned.
+  endcomment
+  for sym in symbols
+    assign marker = '[[' | append: forloop.index0 | append: ']]'
+    assign line_1 = line_1 | replace: sym, marker
+    assign line_2 = line_2 | replace: sym, marker
+  endfor
+  for sym in symbols
+    assign marker = '[[' | append: forloop.index0 | append: ']]'
+    assign wrapped = '<span class="oo-logo__sym">' | append: sym | append: '</span>'
+    assign line_1 = line_1 | replace: marker, wrapped
+    assign line_2 = line_2 | replace: marker, wrapped
+  endfor
+
+  if lockup == 'wordmark'
+    assign descriptor = ''
+  endif
+
+  assign tracking = settings.oo_logo_tracking | times: 0.01
+  assign line_height = settings.oo_logo_line_height | times: 0.01
+  assign descriptor_ratio = descriptor_scale | times: 0.01
+  assign descriptor_gap = settings.oo_logo_descriptor_gap | times: 0.01
+  assign show_descriptor = true
+  if descriptor == blank or size_mobile < settings.oo_logo_descriptor_min
+    assign show_descriptor = false
+  endif
+
+  assign label = settings.oo_logo_two_line_1
+  if lockup == 'three'
+    assign label = settings.oo_logo_three_line_1 | append: ' ' | append: settings.oo_logo_three_line_2
+  endif
+  if show_descriptor and lockup == 'three'
+    assign label = label | append: ', ' | append: settings.oo_logo_three_line_3
+  elsif show_descriptor
+    assign label = label | append: ', ' | append: settings.oo_logo_two_line_2
+  endif
+
+  if link
+    assign tag = 'a'
+  else
+    assign tag = tag | default: 'div'
+  endif
+-%}
+
+{%- style -%}
+  .oo-logo-{{ uid }}{
+    --oo-size:{{ size }}px;
+    --oo-weight:{{ settings.oo_logo_weight }};
+    --oo-amp-weight:{{ settings.oo_logo_amp_weight }};
+    --oo-tracking:{{ tracking }}em;
+    --oo-line-height:{{ line_height }};
+    --oo-descriptor-ratio:{{ descriptor_ratio }};
+    --oo-descriptor-gap:{{ descriptor_gap }};
+    --oo-colour:{{ colour }};
+    --oo-descriptor-colour:{{ descriptor_colour }};
+    --oo-amp-colour:{{ amp_colour }};
+  }
+  @media screen and (max-width: 749px){
+    .oo-logo-{{ uid }}{ --oo-size:{{ size_mobile }}px; }
+  }
+{%- endstyle -%}
+
+<{{ tag }}
+  class="oo-logo oo-logo--{{ lockup }} oo-logo--{{ align }} oo-logo-{{ uid }} {{ class }}"
+  {% if link %}href="{{ routes.root_url }}"{% endif %}
+  aria-label="{{ label | strip | escape }}"
+>
+  <span class="oo-logo__wordmark" aria-hidden="true">{{ line_1 }}</span>
+  {%- if line_2 != blank -%}
+    <span class="oo-logo__wordmark" aria-hidden="true">{{ line_2 }}</span>
+  {%- endif -%}
+  {%- if show_descriptor -%}
+    <span class="oo-logo__descriptor" aria-hidden="true">{{ descriptor }}</span>
+  {%- endif -%}
+</{{ tag }}>

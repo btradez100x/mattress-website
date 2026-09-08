@@ -118,10 +118,11 @@ def check_html(path: Path, *, is_home: bool = False) -> None:
     # Manufacturing is how the mattress is built. Not the founder story.
     if path.name == "manufacturing.html":
         brand_spans = len(re.findall(r"data-brand-text", text))
-        if brand_spans < 2:
-            bad(f"{rel}: manufacturing wordmarks under-tokenised (found {brand_spans} data-brand-text)")
+        oo_logos = len(re.findall(r"class=\"[^\"]*oo-logo", text))
+        if brand_spans < 2 and oo_logos < 2:
+            bad(f"{rel}: manufacturing wordmarks under-tokenised (found {brand_spans} data-brand-text, {oo_logos} oo-logo)")
         else:
-            ok(f"{rel}: manufacturing brand tokens present ({brand_spans})")
+            ok(f"{rel}: manufacturing brand tokens present ({brand_spans} data-brand-text, {oo_logos} oo-logo)")
         if "theme.js" not in text:
             bad(f"{rel}: manufacturing missing theme.js (theme settings will not apply)")
         if "preview/pages" in str(rel).replace("\\", "/"):

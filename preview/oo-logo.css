@@ -1,0 +1,89 @@
+/* Onni & Osher logo lockup - shared rules. Instance values (size, colours) are set
+   as custom properties by snippets/oo-logo.liquid. Load once from theme.liquid. */
+.oo-logo{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:flex-start;
+  text-decoration:none;
+  color:inherit;
+  font-family:var(--font-heading-family, var(--font-wordmark, "Instrument Sans", "Inter", system-ui, sans-serif));
+  line-height:1;
+  -webkit-font-smoothing:antialiased;
+  flex-shrink:0;
+  --oo-size:28px;
+  --oo-weight:600;
+  --oo-amp-weight:400;
+  --oo-tracking:-0.02em;
+  --oo-line-height:0.94;
+  --oo-descriptor-ratio:0.36;
+  --oo-descriptor-gap:0.42;
+  --oo-colour:#1A1A1A;
+  --oo-descriptor-colour:#3A3A3C;
+  --oo-amp-colour:#1A1A1A;
+  /* Clear space: the wordmark cap height (0.72 x size) on every side.
+     Set --oo-clear-space:0 on the instance if the placement manages its own spacing. */
+  --oo-clear-space:calc(var(--oo-size) * 0.72);
+  padding:var(--oo-clear-space);
+  box-sizing:content-box;
+}
+@media screen and (max-width: 749px){
+  .oo-logo{ --oo-size:22px; }
+}
+.oo-logo--center{ align-items:center; text-align:center; }
+.oo-logo--three{ --oo-descriptor-ratio:0.30; }
+.oo-logo__wordmark{
+  display:block;
+  font-size:var(--oo-size);
+  font-weight:var(--oo-weight, 600);
+  letter-spacing:var(--oo-tracking, -0.02em);
+  line-height:var(--oo-line-height, 0.94);
+  white-space:nowrap;
+  color:var(--oo-colour, #1A1A1A);
+}
+.oo-logo__sym,
+.oo-logo__amp{
+  font-weight:var(--oo-amp-weight, 400);
+  letter-spacing:0;
+  color:var(--oo-amp-colour, var(--oo-colour, #1A1A1A));
+}
+.oo-logo__descriptor{
+  display:block;
+  font-size:calc(var(--oo-size) * var(--oo-descriptor-ratio, 0.36));
+  font-weight:400;
+  letter-spacing:0.01em;
+  line-height:1;
+  white-space:nowrap;
+  color:var(--oo-descriptor-colour, #3A3A3C);
+  /* Gap is measured from the wordmark baseline to the descriptor cap-top.
+     The subtraction removes the wordmark's own half-leading below the baseline. */
+  margin-top:calc(var(--oo-size) * var(--oo-descriptor-gap, 0.42) - var(--oo-size) * (var(--oo-line-height, 0.94) / 2 - 0.36) - var(--oo-size) * var(--oo-descriptor-ratio, 0.3) * 0.14);
+}
+/* Two line lockup: single wordmark line, so tighten to the cap height only */
+.oo-logo--two .oo-logo__wordmark,
+.oo-logo--wordmark .oo-logo__wordmark{ line-height:1; }
+.oo-logo--two .oo-logo__descriptor,
+.oo-logo--wordmark .oo-logo__descriptor{
+  margin-top:calc(var(--oo-size) * var(--oo-descriptor-gap, 0.42) - var(--oo-size) * 0.14 - var(--oo-size) * var(--oo-descriptor-ratio, 0.36) * 0.14);
+}
+@media (prefers-reduced-motion: no-preference){
+  .oo-logo{ transition:opacity .2s ease; }
+}
+.oo-logo:hover{ opacity:.85; }
+
+/* Header and footer already pad the chrome. Do not add brand clear-space there. */
+.site-header .oo-logo,
+.site-footer .oo-logo,
+.oo-logo-header,
+.oo-logo-footer{
+  --oo-clear-space:0;
+}
+.site-header:has(.oo-logo){
+  --header-height:4.5rem;
+}
+.oo-logo--reverse,
+.site-footer .oo-logo,
+.oo-logo-footer{
+  --oo-colour:#F5F4F1;
+  --oo-descriptor-colour:#E4E1DA;
+  --oo-amp-colour:#F5F4F1;
+}

@@ -1,3 +1,12 @@
+# Regression results — Monday 7 Sep 2026 (Onni & Osher logo lockup v3)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: Logo lockup checks **PASSED** (snippet, schema palette/symbol settings, header/footer render). Overall smoke **FAILED** (6 checks), all pre-existing uncommitted WIP: missing `main-password.liquid` / password form; Trade `[D-reply]` / 5 working days; market-tagline helper; float Checkout cream-on-navy; lifestyle webp / press priority. Consistency: 941 passed, 2 failed (Trade).
+- Scope note: Installed newer Onni & Osher lockup from `onni-osher-logo 3/theme`. Header two-line live text, footer three-line reverse, password centred. Theme settings → Logo lockup now has site vs V3 palettes and symbol colour none/stone/ember. Preview chrome matches. Not a deploy; no VERSION bump.
+
+---
+
 # Regression results — Friday 4 Sep 2026 (Guarantee page from zip)
 
 ## Smoke
