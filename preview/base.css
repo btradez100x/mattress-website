@@ -1031,6 +1031,20 @@ a[data-reserve-continue][aria-disabled="true"] {
   border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 6%, transparent);
 }
 
+/* Shopify wraps the header in a section group that is only as tall as the
+   chrome. Sticky on .site-header then has no room to stick. Preview has no
+   wrapper, so it sticks. Flatten the group so the header section is a page
+   child, then stick that section. */
+html:not(.shopify-design-mode) .shopify-section-group-header-group,
+html:not(.shopify-design-mode) #shopify-section-group-header-group {
+  display: contents;
+}
+html:not(.shopify-design-mode) .shopify-section:has(.site-header) {
+  position: sticky;
+  top: var(--sticky-offset, 0px);
+  z-index: 40;
+}
+
 .site-header__inner {
   display: flex;
   align-items: center;
