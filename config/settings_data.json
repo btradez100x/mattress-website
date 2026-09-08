@@ -57,6 +57,7 @@
     "delivery_charge": "",
     "trial_nights": 100,
     "return_fee": "£119",
+    "show_cart_collection_fee": false,
     "return_window_days": 14,
     "feel_name_soft": "Soft",
     "feel_name_medium": "Medium",

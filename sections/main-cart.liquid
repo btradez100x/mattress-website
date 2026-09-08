@@ -188,13 +188,13 @@
         <ul class="checkout-stage__terms">
           {%- if payment_mode == 'full' -%}
             <li>Cancel any time before dispatch for a full refund</li>
-            <li><a href="{{ refunds_url }}">{{ trial_nights }} nights to return it.</a> Collection and recycling, {{ return_fee }}. No charge in the first 14 days.</li>
+            <li><a href="{{ refunds_url }}">{{ trial_nights }} nights to return it.</a>{% if settings.show_cart_collection_fee %} Collection and recycling, {{ return_fee }}. No charge in the first 14 days.{% endif %}</li>
             <li data-layer-term>Adjust to Desire. A year to get the feel right.</li>
             <li>{{ warranty_words | strip }} year guarantee on the pocket spring core</li>
           {%- else -%}
             <li>Pay {{ split_percent }}% today. Balance due before dispatch.</li>
             <li>Cancel any time before dispatch for a full refund of amounts paid</li>
-            <li><a href="{{ refunds_url }}">{{ trial_nights }} nights to return it.</a> Collection and recycling, {{ return_fee }}. No charge in the first 14 days.</li>
+            <li><a href="{{ refunds_url }}">{{ trial_nights }} nights to return it.</a>{% if settings.show_cart_collection_fee %} Collection and recycling, {{ return_fee }}. No charge in the first 14 days.{% endif %}</li>
             <li>{{ warranty_words | strip }} year guarantee on the pocket spring core</li>
           {%- endif -%}
         </ul>
