@@ -504,22 +504,22 @@
         }
       },
       "block_order": [
-        "faq_1",
         "faq_feel",
         "faq_flip",
         "faq_further",
         "faq_partner",
-        "faq_2",
-        "faq_3",
-        "faq_4",
-        "faq_5",
+        "faq_motion",
+        "faq_9",
         "faq_6",
         "faq_7",
-        "faq_8",
-        "faq_9",
+        "faq_5",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_look",
+        "faq_4",
         "faq_11",
-        "faq_motion",
-        "faq_look"
+        "faq_8"
       ],
       "settings": {
         "enable_section": true,
