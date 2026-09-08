@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (five feels media)
+
+- Checkpoint: `checkpoints/13.0.0-five-feels-media/`. Deploy: `v9` `24498b5`, `shopify-theme` `293297b`. Five feels centres until media is added on the right. Ground follows neighbours. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (brand yarn)
 
 - Checkpoint: `checkpoints/13.0.0-brand-yarn/`. Deploy: `v9` `f06f355`, `shopify-theme` `b8c212c`. Cool-touch cover line uses [Brand]'s yarn. Yarn name stays blank until set. No VERSION bump.
