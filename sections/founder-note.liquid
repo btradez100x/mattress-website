@@ -11,10 +11,32 @@
       assign founder_caption = role_label
     endif
   endif
+  assign has_media = false
+  if section.settings.portrait != blank
+    assign has_media = true
+  endif
 -%}
 {%- if section.settings.enable_section -%}
-<section class="section founder-note founder-note--copy{% render 'section-ground' %}" id="founder" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
+<section class="section founder-note{% unless has_media %} founder-note--copy founder-note--solo{% endunless %}{% render 'section-ground' %}" id="founder" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width founder-note__grid">
+    {%- if has_media -%}
+      <figure class="founder-note__media">
+        <div class="founder-note__portrait">
+          {{
+            section.settings.portrait
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'lazy',
+              widths: '600,900,1200,1400',
+              sizes: '(min-width: 900px) 40vw, 100vw',
+              alt: portrait_alt
+          }}
+          {%- if founder_caption != blank -%}
+            <figcaption class="founder-note__caption">{{ founder_caption }}</figcaption>
+          {%- endif -%}
+        </div>
+      </figure>
+    {%- endif -%}
     <div class="founder-note__copy">
       <p class="section__eyebrow" data-reveal-child style="--reveal-delay: 50ms">{{ section.settings.eyebrow }}</p>
       <hr class="gold-rule" data-reveal-child style="--reveal-delay: 100ms">
@@ -104,7 +126,7 @@
       "type": "image_picker",
       "id": "portrait",
       "label": "Portrait",
-      "info": "Optional. Falls back to the theme founder photo if empty."
+      "info": "Optional. Leave empty and the note stays centred. Upload a portrait and it sits beside the note."
     },
     {
       "type": "text",
