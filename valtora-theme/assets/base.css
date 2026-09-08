@@ -1725,7 +1725,6 @@ html.shopify-design-mode [data-reveal-first] {
   }
 
   .press__logo-link,
-  .benefit,
   .award,
   .offer__item,
   .media-feature__card,
@@ -1758,7 +1757,6 @@ html.shopify-design-mode [data-reveal-first] {
    * Whole-tile expand. Higher specificity than [data-reveal].is-visible [data-reveal-child]
    * so reveal's transform:none does not kill hover. Delay cleared so hover feels instant.
    */
-  [data-reveal].is-visible .benefit:hover,
   [data-reveal].is-visible .award:hover,
   [data-reveal].is-visible .offer__item:hover,
   [data-reveal].is-visible .media-feature__card:hover,
@@ -1768,7 +1766,6 @@ html.shopify-design-mode [data-reveal-first] {
   [data-reveal].is-visible .faq__item:hover,
   [data-reveal].is-visible .policy-article:hover,
   [data-reveal].is-visible .contact-details--cards li:hover,
-  .benefit:hover,
   .award:hover,
   .offer__item:hover,
   .media-feature__card:hover,
@@ -2090,7 +2087,6 @@ html.shopify-design-mode [data-reveal-first] {
   html:not([data-force-motion="true"]) .btn:hover,
   html:not([data-force-motion="true"]) .press__logo-link:hover,
   html:not([data-force-motion="true"]) .size-option:hover,
-  html:not([data-force-motion="true"]) .benefit:hover,
   html:not([data-force-motion="true"]) .award:hover,
   html:not([data-force-motion="true"]) .offer__item:hover,
   html:not([data-force-motion="true"]) .media-feature__card:hover,
@@ -2199,11 +2195,133 @@ video[controls],
   color: color-mix(in srgb, var(--brand-on-dark) 55%, transparent);
 }
 
-/* Benefits */
-.benefits__grid {
+/* Overview grid — lead plus five. Six cards fit exactly. */
+.oo-notice__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin: 0 0 clamp(2.5rem, 6vw, 5rem);
+}
+
+.oo-notice__grid {
   display: grid;
-  gap: clamp(2.5rem, 5vw, 3.5rem) clamp(2rem, 4vw, 3rem);
-  margin-top: 3rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(1.5rem, 3.5vw, 3.5rem);
+}
+
+.oo-card {
+  border-top: 1px solid color-mix(in srgb, var(--brand-ink) 16%, transparent);
+  padding-block: 1.5rem 3rem;
+}
+
+.oo-card__icon {
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--brand-slate, color-mix(in srgb, var(--brand-ink) 55%, transparent));
+}
+
+.oo-card__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.oo-card__title {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  margin: 1.5rem 0 0.625rem;
+}
+
+.oo-card__body {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--brand-slate, color-mix(in srgb, var(--brand-ink) 55%, transparent));
+  max-width: 32ch;
+  margin: 0;
+}
+
+.oo-card--lead {
+  grid-column: span 2;
+  grid-row: span 2;
+  border-top: 2px solid var(--brand-ink);
+  padding-right: clamp(1.5rem, 5vw, 5rem);
+}
+
+.oo-card--lead .oo-card__icon {
+  width: 1.625rem;
+  height: 1.625rem;
+  color: var(--brand-accent);
+}
+
+.oo-card--lead .oo-card__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.875rem, 3.2vw, 2.75rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  margin: 2rem 0 1.125rem;
+}
+
+.oo-card--lead .oo-card__body {
+  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--brand-ink);
+  max-width: 42ch;
+}
+
+.oo-card__close {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--brand-slate, color-mix(in srgb, var(--brand-ink) 55%, transparent));
+  max-width: 42ch;
+  margin: 1.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--brand-ink) 16%, transparent);
+}
+
+@media (max-width: 1000px) {
+  .oo-notice__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .oo-card--lead {
+    grid-column: span 2;
+    grid-row: auto;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .oo-notice__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .oo-card--lead {
+    grid-column: auto;
+  }
+
+  .oo-card {
+    padding-block: 1.25rem 2.25rem;
+  }
+}
+
+html[data-brand-guidelines="v2"] .oo-notice__heading,
+html[data-brand-guidelines="v2"] .oo-card--lead .oo-card__title {
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+html[data-brand-guidelines="v2"] .oo-card--lead .oo-card__title {
+  line-height: 1.08;
 }
 
 .feel-ladder__layout--solo {
@@ -2300,44 +2418,6 @@ video[controls],
   margin: 0;
 }
 
-@media (min-width: 720px) {
-  .benefits__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .benefits__grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.benefit {
-  border-top: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
-  padding-top: 1.35rem;
-}
-
-.benefit__icon {
-  width: 1.35rem;
-  height: 1.35rem;
-  margin-bottom: 1.1rem;
-  color: var(--brand-primary);
-  opacity: 0.7;
-}
-
-.benefit h3 {
-  margin-bottom: 0.55rem;
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.benefit p {
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--brand-ink);
-}
 
 /* Specs panel - full-width rules on the cream band, expands in place */
 .section--vspec {

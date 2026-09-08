@@ -2830,7 +2830,7 @@
       ['.specs__list', 'li'],
       ['.cert-strip', '.cert-strip__item'],
       ['.cool-touch__points', 'li'],
-      ['.benefits__grid', '.benefit'],
+      ['.oo-notice__grid', '.oo-card'],
       ['.awards__grid', '.award'],
       ['.offer__items', '.offer__item'],
       ['.ugc__grid', '.ugc__card'],
@@ -2930,7 +2930,7 @@
       tagChild(el, Math.min(i * 50, 250));
     });
     document.querySelectorAll('main .section__eyebrow, main .section__lede, main .gold-rule').forEach(function (el, i) {
-      if (el.closest('.benefit, .award, .offer__item, .ugc__card, .media-feature__card, .faq__item, .press__logo, .mfg-split__card, .blog-card, .mfg-gallery__item, .policy-article, .policy-hero')) return;
+      if (el.closest('.oo-card, .award, .offer__item, .ugc__card, .media-feature__card, .faq__item, .press__logo, .mfg-split__card, .blog-card, .mfg-gallery__item, .policy-article, .policy-hero')) return;
       tagChild(el, Math.min(i * 40, 200));
     });
 

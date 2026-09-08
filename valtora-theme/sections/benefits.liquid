@@ -1,45 +1,52 @@
 {%- if section.settings.enable_section -%}
-<section class="section{% render 'section-ground' %}" id="benefits" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
+<section class="section oo-notice{% render 'section-ground' %}" id="benefits" aria-labelledby="oo-notice-heading" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
-      <h2>{{ section.settings.heading }}</h2>
+      <h2 class="oo-notice__heading" id="oo-notice-heading">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="benefits__grid">
+    <div class="oo-notice__grid">
       {%- for block in section.blocks -%}
-        <article class="benefit" {{ block.shopify_attributes }}>
-          <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            {%- case block.settings.icon -%}
-              {%- when 'cool' -%}
-                <path d="M12 3v18M5 7l14 10M5 17L19 7" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'zones' -%}
-                <path d="M4 18V13M7 18V10M10 18V7M13 18V5M16 18V8M19 18V12M22 18V15" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'edge' -%}
-                <path d="M4 16h16M5 16V8h14v8" stroke="currentColor" stroke-width="1.25"/>
-                <path d="M16 8v8" stroke="currentColor" stroke-width="2"/>
-              {%- when 'enduring' -%}
-                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/>
-                <path d="M12 8v4l2.5 2.5" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'split' -%}
-                <path d="M3 16h7M4 16v-4a3 3 0 0 1 6 0v4M14 16h7M15 16v-4a3 3 0 0 1 6 0v5" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'pockets' -%}
-                <circle cx="7" cy="8" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="12" cy="8" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="17" cy="8" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="7" cy="13" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="12" cy="13" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="17" cy="13" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="7" cy="18" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="12" cy="18" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-                <circle cx="17" cy="18" r="1.6" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'grip' -%}
-                <path d="M4 6h16M7 11l2 2 2-2M13 11l2 2 2-2M7 16l2 2 2-2M13 16l2 2 2-2" stroke="currentColor" stroke-width="1.25"/>
-              {%- else -%}
-                <path d="M4 9h8M6 9V6l3-2 3 2v3M8 16h12M10 16v3l3 2 3-2v-3" stroke="currentColor" stroke-width="1.25"/>
-            {%- endcase -%}
-          </svg>
-          <h3>{{ block.settings.heading }}</h3>
-          <p>{{ block.settings.text | newline_to_br }}</p>
+        <article class="oo-card{% if block.settings.lead %} oo-card--lead{% endif %}" {{ block.shopify_attributes }}>
+          <span class="oo-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              {%- case block.settings.icon -%}
+                {%- when 'cool' -%}
+                  <path d="M12 3v18M5 7l14 10M5 17L19 7" stroke="currentColor" stroke-width="1.25"/>
+                {%- when 'zones' -%}
+                  <path d="M4 18V13M7 18V10M10 18V7M13 18V5M16 18V8M19 18V12M22 18V15" stroke="currentColor" stroke-width="1.25"/>
+                {%- when 'edge' -%}
+                  <path d="M4 16h16M5 16V8h14v8" stroke="currentColor" stroke-width="1.25"/>
+                  <path d="M16 8v8" stroke="currentColor" stroke-width="2"/>
+                {%- when 'enduring' -%}
+                  <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/>
+                  <path d="M12 8v4l2.5 2.5" stroke="currentColor" stroke-width="1.25"/>
+                {%- when 'split' -%}
+                  <path d="M3 16h7M4 16v-4a3 3 0 0 1 6 0v4M14 16h7M15 16v-4a3 3 0 0 1 6 0v5" stroke="currentColor" stroke-width="1.25"/>
+                {%- when 'pockets' -%}
+                  <circle cx="7" cy="8" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="12" cy="8" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="17" cy="8" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="7" cy="13" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="12" cy="13" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="17" cy="13" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="7" cy="18" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="12" cy="18" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                  <circle cx="17" cy="18" r="1.6" stroke="currentColor" stroke-width="1.25"/>
+                {%- when 'grip' -%}
+                  <path d="M4 6h16M7 11l2 2 2-2M13 11l2 2 2-2M7 16l2 2 2-2M13 16l2 2 2-2" stroke="currentColor" stroke-width="1.25"/>
+                {%- else -%}
+                  <path d="M4 9h8M6 9V6l3-2 3 2v3M8 16h12M10 16v3l3 2 3-2v-3" stroke="currentColor" stroke-width="1.25"/>
+              {%- endcase -%}
+            </svg>
+          </span>
+          <h3 class="oo-card__title">{{ block.settings.heading }}</h3>
+          {%- if block.settings.text != blank -%}
+            <p class="oo-card__body">{{ block.settings.text | newline_to_br }}</p>
+          {%- endif -%}
+          {%- if block.settings.close != blank -%}
+            <p class="oo-card__close">{{ block.settings.close | newline_to_br }}</p>
+          {%- endif -%}
         </article>
       {%- endfor -%}
     </div>
@@ -87,9 +94,10 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "8 things that hold up."
+      "default": "What you will notice"
     }
   ],
+  "max_blocks": 6,
   "blocks": [
     {
       "type": "benefit",
@@ -118,10 +126,23 @@
           "default": "Decide later."
         },
         {
+          "type": "checkbox",
+          "id": "lead",
+          "label": "Lead card",
+          "default": false,
+          "info": "One lead. It takes two columns and two rows. A seventh card breaks the grid."
+        },
+        {
           "type": "textarea",
           "id": "text",
           "label": "Text",
-          "default": "Nobody knows how firm they want a mattress until they have slept on one.\nUnzip the cover, turn the layer over, zip it up. Medium on one side, medium firm on the other.\nIf neither is it, you have a year and we adjust it with you."
+          "default": "Nobody knows how firm they want a mattress until they have slept on one. Unzip the cover, turn the layer over, zip it up. Medium on one side, medium firm on the other."
+        },
+        {
+          "type": "textarea",
+          "id": "close",
+          "label": "Closing line",
+          "info": "Optional. Sits under a rule on the lead card."
         }
       ]
     }
@@ -134,8 +155,34 @@
           "type": "benefit",
           "settings": {
             "icon": "adapt",
+            "lead": true,
             "heading": "Decide later.",
-            "text": "Nobody knows how firm they want a mattress until they have slept on one.\nUnzip the cover, turn the layer over, zip it up. Medium on one side, medium firm on the other.\nIf neither is it, you have a year and we adjust it with you."
+            "text": "Nobody knows how firm they want a mattress until they have slept on one. Unzip the cover, turn the layer over, zip it up. Medium on one side, medium firm on the other.",
+            "close": "If neither is it, you have a year and we adjust it with you."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "zones",
+            "heading": "Wake without the ache.",
+            "text": "7 zones of springs. Firm under your hips. Soft at your shoulders. Not the same everywhere. Neither are you."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "split",
+            "heading": "They turn over. You sleep on.",
+            "text": "Each spring is housed alone, so movement stays on their side of the bed."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "edge",
+            "heading": "Sit on the edge.",
+            "text": "It holds. No slide, no dip, and you can sleep right to the edge."
           }
         },
         {
@@ -149,49 +196,9 @@
         {
           "type": "benefit",
           "settings": {
-            "icon": "zones",
-            "heading": "Wake without the ache.",
-            "text": "7 zones of carefully engineered springs. Firm under your hips. Soft at your shoulders. Not the same everywhere. Neither are you."
-          }
-        },
-        {
-          "type": "benefit",
-          "settings": {
             "icon": "enduring",
             "heading": "Keep it for decades.",
             "text": "Replace the layer that wears. Keep the bed that does not."
-          }
-        },
-        {
-          "type": "benefit",
-          "settings": {
-            "icon": "edge",
-            "heading": "Sit on the edge",
-            "text": "It holds. No slide, no dip, and you can sleep right to the edge."
-          }
-        },
-        {
-          "type": "benefit",
-          "settings": {
-            "icon": "split",
-            "heading": "They turn over. You sleep on.",
-            "text": "Movement stays on their side of the bed."
-          }
-        },
-        {
-          "type": "benefit",
-          "settings": {
-            "icon": "pockets",
-            "heading": "Motion stays with you.",
-            "text": "Each spring is housed alone. You turn. The other side stays quieter."
-          }
-        },
-        {
-          "type": "benefit",
-          "settings": {
-            "icon": "grip",
-            "heading": "It stays where you put it.",
-            "text": "An anti-slip underside. The mattress holds its place on the frame."
           }
         }
       ]
