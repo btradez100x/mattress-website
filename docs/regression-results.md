@@ -1,3 +1,8 @@
+# Regression results — Wednesday 9 Sep 2026 (cart collection fee)
+
+- Cart hides Collection and recycling until Theme settings → Market & sizing → Show collection fee on cart is on. Nights-to-return line stays.
+- Checkpoint: `checkpoints/13.0.0-cart-collection-fee/`. Deploy: `v9` `8c6e095`, `shopify-theme` `ca0ce3d`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (FAQ headings)
 
 - FAQ groups use The feel, Choosing and paying, Ordering and delivery, and After it arrives. Question order unchanged. Smoke not re-run in this note; prior smoke exit 1 on the same pre-existing checks.
