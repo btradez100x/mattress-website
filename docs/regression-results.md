@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (seven zones)
+
+- Checkpoint: `checkpoints/13.0.0-seven-zones/`. Deploy: `v9` `6ef05da`, `shopify-theme` `40ebed5`. Wake without the ache body replaced. Seven rendered as 7. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (engineered cool)
 
 - Checkpoint: `checkpoints/13.0.0-engineered-cool/`. Deploy: `v9` `c3767ec`, `shopify-theme` `ccf02c9`. Cool-touch heading is Engineered to sleep cool. No VERSION bump.
