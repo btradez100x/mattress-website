@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (cold before)
+
+- Checkpoint: `checkpoints/13.0.0-cold-before/`. Deploy: `v9` `f916af3`, `shopify-theme` `1c19516`. Cool-touch copy split into heading, lede, two points, and closing line. No VERSION bump.
+- Smoke still fails the five pre-existing checks (footer lockup, trade [D-reply], password, Checkout cream, lifestyle/press). Cool-touch Liquid/JSON checks passed.
+
 # Regression results — Tuesday 8 Sep 2026 (why it matters restored)
 
 - Checkpoint: `checkpoints/13.0.0-why-it-matters/`. Deploy: `v9` `d88bf75`, `shopify-theme` `6024f39`. Benefits grid restored. Unpacking lines recased. No VERSION bump.
