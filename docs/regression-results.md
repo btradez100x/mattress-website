@@ -2,7 +2,7 @@
 
 ## Smoke
 - Command: not re-run; CSS-only sticky header (previous smoke still the 6 pre-existing failures).
-- Scope note: Live header now sticks like the preview. Shopify’s header group was only as tall as the bar, so `position: sticky` on `.site-header` had no room. The group is flattened outside the theme editor and the header section sticks. Announcement still scrolls away. Checkpoint: `checkpoints/13.0.0-sticky-header/`. No VERSION bump.
+- Scope note: Live header now sticks like the preview. Shopify’s header group was only as tall as the bar, so `position: sticky` on `.site-header` had no room. The group is flattened outside the theme editor and the header section sticks. Announcement still scrolls away. Checkpoint: `checkpoints/13.0.0-sticky-header/`. Deploy: `v9` `5bb7b9d`, `shopify-theme` `cb5970c`. Hard-refresh and scroll. No VERSION bump.
 
 ---
 
