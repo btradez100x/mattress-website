@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (eight things)
+
+- Checkpoint: `checkpoints/13.0.0-eight-things/`. Deploy: `v9` `d6f65e8`, `shopify-theme` `c7098e6`. Benefits heading is 8 things that hold up. Two points added. Section moved above cooling. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (decide later)
 
 - Checkpoint: `checkpoints/13.0.0-decide-later/`. Deploy: `v9` `04688b3`, `shopify-theme` `b5eaf85`. Decide later card replaced. No VERSION bump.
