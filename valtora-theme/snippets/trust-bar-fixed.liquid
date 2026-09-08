@@ -1,5 +1,6 @@
 {%- comment -%}
   Always on the trust bar. Not a theme-editor block, so these three cannot be removed.
+  Delivery is included. Concierge unpacking is complimentary. The year is not counted in nights.
   pass: 2 marks the marquee duplicate (no tab stop).
   prefix: preview uses ./pages/ ; theme uses /pages/
 {%- endcomment -%}
@@ -16,15 +17,15 @@
 </li>
 <li class="trust-bar__item">
   <a class="trust-bar__link" href="{{ page_prefix }}delivery"{% if fixed_pass == 2 %} tabindex="-1"{% endif %}>
-    <span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3V7zm11 3h4l3 3v4h-7V10z" stroke="currentColor" stroke-width="1.25"/></svg></span>
-    <span class="trust-bar__copy"><strong class="trust-bar__label">Complimentary Concierge delivery</strong></span>
+    <span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h10v8H4V8zm10 2h3l3 3v3h-6v-6z" stroke="currentColor" stroke-width="1.25"/></svg></span>
+    <span class="trust-bar__copy"><strong class="trust-bar__label">Complimentary Concierge unpacking</strong></span>
   </a>
   <span class="trust-bar__sep" aria-hidden="true"></span>
 </li>
 <li class="trust-bar__item">
   <a class="trust-bar__link" href="{{ page_prefix }}guarantee"{% if fixed_pass == 2 %} tabindex="-1"{% endif %}>
     <span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span>
-    <span class="trust-bar__copy"><strong class="trust-bar__label">365 night comfort programme</strong></span>
+    <span class="trust-bar__copy"><strong class="trust-bar__label">Adjust to Desire. A year to get the feel right.</strong></span>
   </a>
   <span class="trust-bar__sep" aria-hidden="true"></span>
 </li>

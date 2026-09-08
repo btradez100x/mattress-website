@@ -1,4 +1,8 @@
+{%- comment -%}
+  Selector strip. Night count is the return window. The year is not a night count.
+  The return fee stays off the product page.
+{%- endcomment -%}
 {%- liquid
-  assign return_days = settings.return_window_days | default: settings.trial_nights | default: '30' | plus: 0
+  assign trial_nights = settings.trial_nights | default: 100 | plus: 0
 -%}
-Comfort layer included · Complimentary comfort guarantee for 365 nights · Concierge unpacking included · {{ return_days }}-day return
+Comfort layer included · Adjust to Desire. A year to get the feel right. · Complimentary Concierge unpacking · {{ trial_nights }} nights to return it

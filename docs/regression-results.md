@@ -1,3 +1,13 @@
+# Regression results — Tuesday 8 Sep 2026 (site copy + trust bar wording)
+
+## Smoke
+- Command: `./scripts/regression-smoke.sh`
+- Result: exit 1. Copy check passed (`Adjust to Desire year copy on policy strip, basket include, and cart terms`).
+- Failures are the pre-existing set, not this copy pass: footer Trading as lockup; trade `[D-reply]` / 5 working days; password template; float Checkout cream-on-navy lock; lifestyle webp / press priority.
+- What changed: trust bar stays three always-on lines, rewritten to Delivery included, Complimentary Concierge unpacking, Adjust to Desire. A year to get the feel right. Theme settings `delivery_mode`, `delivery_charge`, `trial_nights` 100, `return_fee` £119. Five-feel ladder. Founder photo removed. Reviews summary links to the full set.
+
+---
+
 # Regression results — Tuesday 8 Sep 2026 (trust bar offer)
 
 ## Smoke

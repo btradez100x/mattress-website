@@ -1721,13 +1721,14 @@ else
   fail "Add to basket still able to land on /pages/checkout"
 fi
 
-if grep -q "Complimentary comfort guarantee for 365 nights" "$JS" \
-  && grep -q "Complimentary comfort guarantee for 365 nights" "$THEME/snippets/size-policy-strip.liquid" \
-  && grep -q 'data-layer-term>Complimentary comfort guarantee for 365 nights' "$THEME/sections/main-cart.liquid" \
-  && ! grep -q "Adjusted to Desire for a year" "$THEME/snippets/size-policy-strip.liquid"; then
-  pass "365-night comfort guarantee copy on policy strip, basket include, and cart terms"
+if grep -q "Adjust to Desire. A year to get the feel right." "$JS" \
+  && grep -q "Adjust to Desire. A year to get the feel right." "$THEME/snippets/size-policy-strip.liquid" \
+  && grep -q 'data-layer-term>Adjust to Desire. A year to get the feel right.' "$THEME/sections/main-cart.liquid" \
+  && ! grep -q "365 night comfort programme" "$THEME/snippets/trust-bar-fixed.liquid" \
+  && ! grep -q "Complimentary comfort guarantee for 365 nights" "$JS"; then
+  pass "Adjust to Desire year copy on policy strip, basket include, and cart terms"
 else
-  fail "365-night comfort guarantee copy missing or still says Adjusted to Desire for a year"
+  fail "Adjust to Desire year copy missing or still counted in nights"
 fi
 
 if grep -q "Your mattresses will be unpacked in the room of your choice" "$THEME/sections/main-cart.liquid" \

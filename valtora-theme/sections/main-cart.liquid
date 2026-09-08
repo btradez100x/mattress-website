@@ -1,5 +1,6 @@
 {%- liquid
-  assign return_days = settings.return_window_days | default: settings.trial_nights | default: 30
+  assign trial_nights = settings.trial_nights | default: 100
+  assign return_fee = settings.return_fee | default: '£119'
   assign warranty = settings.warranty_years | default: '25'
   assign payment_mode = settings.payment_mode | default: 'full'
   assign split_percent = settings.split_percent | default: 50
@@ -29,6 +30,7 @@
 {%- assign lead_window = lead_window | strip -%}
 {%- assign recycling_url = pages['mattress-recycling'].url | default: '/pages/mattress-recycling' -%}
 {%- assign delivery_url = pages['delivery'].url | default: '/pages/delivery' -%}
+{%- assign refunds_url = pages['refunds'].url | default: '/pages/refunds' -%}
 {%- assign sizes_href = routes.root_url | append: '#reserve' -%}
 <section
   class="checkout-page"
@@ -43,7 +45,7 @@
   data-large-order-threshold-ae="47000"
   data-finance-name="{{ finance_name | escape }}"
   data-warranty-years="{{ warranty | escape }}"
-  data-returns-days="{{ return_days | escape }}"
+  data-returns-days="{{ trial_nights | escape }}"
   data-layer-price="{{ layer_price | escape }}"
   data-recycling-href="{{ recycling_url | escape }}"
   data-delivery-href="{{ delivery_url | escape }}"
@@ -84,7 +86,7 @@
             <p data-lead-body-miss>If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p>
           </div>
           <div class="checkout-leadband__cols" data-leadtime-copy-mattress>
-            <p data-lead-body-2>We call to agree a delivery window before we come. Concierged to the room of your choice, unrolled onto your bed, packaging gone.</p>
+            <p data-lead-body-2>We call to agree a delivery window before we come. Concierge unpacking. Room of your choice. Unrolled onto your bed. Packaging gone.{% if settings.delivery_mode == 'chargeable' and settings.delivery_charge != blank %} Delivery is {{ settings.delivery_charge }}.{% endif %}</p>
             <p data-lead-body-old>Your old mattress leaves at the same time. <a href="{{ delivery_url }}">More on delivery</a></p>
           </div>
         </div>
@@ -186,13 +188,13 @@
         <ul class="checkout-stage__terms">
           {%- if payment_mode == 'full' -%}
             <li>Cancel any time before dispatch for a full refund</li>
-            <li data-returns-term>{{ return_days }} day returns policy from delivery.</li>
-            <li data-layer-term>Complimentary comfort guarantee for 365 nights</li>
+            <li><a href="{{ refunds_url }}">{{ trial_nights }} nights to return it.</a> Collection and recycling, {{ return_fee }}. No charge in the first 14 days.</li>
+            <li data-layer-term>Adjust to Desire. A year to get the feel right.</li>
             <li>{{ warranty_words | strip }} year guarantee on the pocket spring core</li>
           {%- else -%}
             <li>Pay {{ split_percent }}% today. Balance due before dispatch.</li>
             <li>Cancel any time before dispatch for a full refund of amounts paid</li>
-            <li data-returns-term>{{ return_days }} day returns policy from delivery.</li>
+            <li><a href="{{ refunds_url }}">{{ trial_nights }} nights to return it.</a> Collection and recycling, {{ return_fee }}. No charge in the first 14 days.</li>
             <li>{{ warranty_words | strip }} year guarantee on the pocket spring core</li>
           {%- endif -%}
         </ul>

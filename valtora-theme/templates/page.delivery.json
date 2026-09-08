@@ -5,8 +5,8 @@
       "settings": {
         "eyebrow": "Delivery",
         "heading": "It arrives finished.",
-        "intro": "Concierged. Room of your choice. Unrolled onto your bed. The old one leaves with it.",
-        "fallback_content": "<p>Delivery is arranged by [Legal].</p><h2>Lead time</h2><p>Each mattress is made to order. A window agreed in advance. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p><h2>Concierge unpacking</h2><p>Included with every mattress. Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it.</p><h2>Old mattress removal and recycling</h2><p>Collected on the same visit. Complimentary. <a href=\"/pages/mattress-recycling\">Read what happens to it</a>.</p><h2>How dispatch is confirmed</h2><p>You receive written confirmation with a delivery window. Cancel any time before dispatch for a full refund.</p>",
+        "intro": "Concierge unpacking. Room of your choice. Unrolled onto your bed. Your old mattress leaves with the packaging.",
+        "fallback_content": "<p>Delivery is arranged by [Legal].</p><p>[delivery_policy]</p><h2>Lead time</h2><p>Each mattress is made to order. A window agreed in advance. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.</p><h2>Concierge unpacking</h2><p>Complimentary. Concierge unpacking. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it.</p><h2>Old mattress removal and recycling</h2><p>Collected on the same visit. Complimentary. <a href=\"/pages/mattress-recycling\">Read what happens to it</a>.</p><h2>How dispatch is confirmed</h2><p>You receive written confirmation with a delivery window. Cancel any time before dispatch for a full refund.</p>",
         "cta_label": "Choose your size",
         "cta_link": "/pages/configure"
       }

@@ -4083,8 +4083,8 @@
       })
       .join('');
     html +=
-      '<li class="order-basket__sub"><span>Complimentary comfort guarantee for 365 nights</span><span>Included</span></li>' +
-      '<li class="order-basket__sub"><span>Concierge unpacking</span><span>Included</span></li>' +
+      '<li class="order-basket__sub"><span>Adjust to Desire. A year to get the feel right.</span><span>Complimentary</span></li>' +
+      '<li class="order-basket__sub"><span>Concierge unpacking</span><span>Complimentary</span></li>' +
       '<li class="order-basket__sub"><span>Old mattress removal \u00d7' +
       units +
       '</span><span>Complimentary</span></li>';
@@ -4108,15 +4108,15 @@
       ul.setAttribute('data-order-incl', '');
       ul.innerHTML =
         '<li>Comfort layer included with every mattress</li>' +
-        '<li>Complimentary comfort guarantee for 365 nights</li>' +
-        '<li>Concierge unpacking included</li>' +
+        '<li>Adjust to Desire. A year to get the feel right.</li>' +
+        '<li>Complimentary Concierge unpacking</li>' +
         '<li>Old mattress removal, complimentary</li>' +
         '<li data-order-returns></li>';
       var stage = panel.querySelector('[data-reserve-stage-a]') || panel;
       stage.appendChild(ul);
     }
     var ret = ul.querySelector('[data-order-returns]');
-    if (ret) ret.textContent = numaReturnsDays() + ' day returns policy';
+    if (ret) ret.textContent = numaReturnsDays() + ' nights to return it';
   }
 
   var paintingSticky = false;
@@ -5663,7 +5663,7 @@
       }
       if (body2 && resolved.mix === 'mattress') {
         body2.textContent =
-          'We call to agree a delivery window before we come. Concierged to the room of your choice, unrolled onto your bed, packaging gone.';
+          'We call to agree a delivery window before we come. Concierge unpacking. Room of your choice. Unrolled onto your bed. Packaging gone.';
       }
       if (bodyOld && resolved.mix === 'mattress') {
         var deliveryHref = page.getAttribute('data-delivery-href') || './delivery.html';
@@ -8035,7 +8035,7 @@
     if (!isPreviewHost()) return;
 
     var BANNER =
-      'Concierge unpacking included with every mattress · To the room of your choice, packaging taken away';
+      'Complimentary Concierge unpacking. Room of your choice. Packaging taken away';
     var DEFAULT_AE = BANNER;
     var DEFAULT_GB = BANNER;
     var textAe = DEFAULT_AE;
