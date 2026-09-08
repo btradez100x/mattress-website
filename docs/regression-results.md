@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (FAQ headings)
+
+- FAQ groups use The feel, Choosing and paying, Ordering and delivery, and After it arrives. Question order unchanged. Smoke not re-run in this note; prior smoke exit 1 on the same pre-existing checks.
+- Checkpoint: `checkpoints/13.0.0-faq-headings/`. Deploy: `v9` `b716794`, `shopify-theme` `db7fd8c`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (FAQ order)
 
 - FAQ list follows the screenshot sequence. Photograph question is 13th. Warranty is last of the 15. No category headings. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
