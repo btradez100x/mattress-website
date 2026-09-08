@@ -65,11 +65,37 @@
           "type": "benefit",
           "settings": {
             "icon": "adapt",
+            "lead": true,
             "heading": "Decide later.",
-            "text": "Nobody knows how firm they want a mattress until they have slept on one.\nUnzip the cover, turn the layer over, zip it up. Medium on one side, medium firm on the other.\nIf neither is it, you have a year and we adjust it with you."
+            "text": "Nobody knows how firm they want a mattress until they have slept on one. Unzip the cover, turn the layer over, zip it up. Medium on one side, medium firm on the other.",
+            "close": "If neither is it, you have a year and we adjust it with you."
           }
         },
         "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "zones",
+            "heading": "Wake without the ache.",
+            "text": "7 zones of springs. Firm under your hips. Soft at your shoulders. Not the same everywhere. Neither are you."
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "split",
+            "heading": "They turn over. You sleep on.",
+            "text": "Each spring is housed alone, so movement stays on their side of the bed."
+          }
+        },
+        "b4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "edge",
+            "heading": "Sit on the edge.",
+            "text": "It holds. No slide, no dip, and you can sleep right to the edge."
+          }
+        },
+        "b5": {
           "type": "benefit",
           "settings": {
             "icon": "cool",
@@ -77,52 +103,12 @@
             "text": "The cover pulls heat off your skin faster than cotton gives it back."
           }
         },
-        "b3": {
-          "type": "benefit",
-          "settings": {
-            "icon": "zones",
-            "heading": "Wake without the ache.",
-            "text": "7 zones of carefully engineered springs. Firm under your hips. Soft at your shoulders. Not the same everywhere. Neither are you."
-          }
-        },
-        "b4": {
+        "b6": {
           "type": "benefit",
           "settings": {
             "icon": "enduring",
             "heading": "Keep it for decades.",
             "text": "Replace the layer that wears. Keep the bed that does not."
-          }
-        },
-        "b5": {
-          "type": "benefit",
-          "settings": {
-            "icon": "edge",
-            "heading": "Sit on the edge",
-            "text": "It holds. No slide, no dip, and you can sleep right to the edge."
-          }
-        },
-        "b6": {
-          "type": "benefit",
-          "settings": {
-            "icon": "split",
-            "heading": "They turn over. You sleep on.",
-            "text": "Movement stays on their side of the bed."
-          }
-        },
-        "b7": {
-          "type": "benefit",
-          "settings": {
-            "icon": "pockets",
-            "heading": "Motion stays with you.",
-            "text": "Each spring is housed alone. You turn. The other side stays quieter."
-          }
-        },
-        "b8": {
-          "type": "benefit",
-          "settings": {
-            "icon": "grip",
-            "heading": "It stays where you put it.",
-            "text": "An anti-slip underside. The mattress holds its place on the frame."
           }
         }
       },
@@ -132,13 +118,11 @@
         "b3",
         "b4",
         "b5",
-        "b6",
-        "b7",
-        "b8"
+        "b6"
       ],
       "settings": {
         "enable_section": true,
-        "heading": "8 things that hold up.",
+        "heading": "What you will notice",
         "ground": "bg"
       }
     },
