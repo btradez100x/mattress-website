@@ -24,14 +24,6 @@
     "name": "Brand",
     "settings": [
       {
-        "type": "header",
-        "content": "Brand name (only place to edit)"
-      },
-      {
-        "type": "paragraph",
-        "content": "Brand name and Product line are the only place to set the store name. Heading weight is the dropdown directly under Brand name: Guidelines (700), Wordmark (600), or Light (500)."
-      },
-      {
         "type": "text",
         "id": "brand_name",
         "label": "Brand name (line 1)",
@@ -57,7 +49,15 @@
           }
         ],
         "default": "700",
-        "info": "Guidelines (700), Wordmark (600), or Light (500). Faces stay locked. The wordmark stays 600."
+        "info": "Instrument Sans headings. 700 follows the brand guidelines. 600 matches the wordmark. 500 is the lighter page."
+      },
+      {
+        "type": "header",
+        "content": "Brand name (only place to edit)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Brand name and Product line are the only place to set the store name. Heading weight is the dropdown above this heading, on this Brand screen."
       },
       {
         "type": "text",
