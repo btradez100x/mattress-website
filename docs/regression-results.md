@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (why it matters restored)
+
+- Checkpoint: `checkpoints/13.0.0-why-it-matters/`. Deploy: `v9` `d88bf75`, `shopify-theme` `6024f39`. Benefits grid restored. Unpacking lines recased. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (sleep hot)
 
 - Checkpoint: `checkpoints/13.0.0-sleep-hot/`. Deploy: `v9` `be90cd8`, `shopify-theme` `aefe020`. Cool-touch heading and body replaced. No VERSION bump.
