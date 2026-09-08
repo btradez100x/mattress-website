@@ -1,8 +1,16 @@
+# Regression results — Tuesday 8 Sep 2026 (SizeType grouping)
+
+## Smoke
+- Command: not re-run; grouping source only.
+- Scope note: Size groups read `custom.SizeType` only. Market shown still filters which sizes appear. Checkpoint: `checkpoints/13.0.0-sizetype-grouping/`. Deploy: `v9` `03ff08a`, `shopify-theme` `b75a69b`.
+
+---
+
 # Regression results — Tuesday 8 Sep 2026 (size basket overlap)
 
 ## Smoke
 - Command: `./scripts/regression-smoke.sh`
-- Scope note: Your order no longer covers the size rows. It sits beside the list only from 1180px, otherwise under it. Size sections (UK / US) now follow the size name when SizeType is empty. Pre-existing failures remain (footer Trading as, trade reply copy, password template, float Checkout lock, lifestyle webp).
+- Scope note: Your order no longer covers the size rows. It sits beside the list only from 1180px, otherwise under it. Size sections (UK / US) now follow the size name when SizeType is empty. Outlined lockup SVGs copied into the theme for email, checkout, and social. Pre-existing failures remain (footer Trading as, trade reply copy, password template, float Checkout lock, lifestyle webp). Password template left as the password section, not the 404 swap sitting in the working tree.
 
 ---
 
