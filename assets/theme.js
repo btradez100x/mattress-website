@@ -6894,6 +6894,7 @@
     var pageSize = parseInt(root.getAttribute('data-reviews-page-size'), 10) || 6;
     var grid = root.querySelector('[data-reviews-grid]');
     var moreBtn = root.querySelector('[data-reviews-more]');
+    var lessBtn = root.querySelector('[data-reviews-less]');
     var emptyEl = root.querySelector('[data-reviews-empty]');
     var avgEl = root.querySelector('[data-reviews-average]');
     var countEl = root.querySelector('[data-reviews-count]');
@@ -6918,6 +6919,7 @@
       if (grid) grid.innerHTML = '';
       if (emptyEl) emptyEl.hidden = false;
       if (moreBtn) moreBtn.hidden = true;
+      if (lessBtn) lessBtn.hidden = true;
       if (summaryEl) summaryEl.hidden = true;
     }
 
@@ -6973,6 +6975,11 @@
       return el;
     }
 
+    function syncListControls() {
+      if (moreBtn) moreBtn.hidden = !reviews.length || shown >= reviews.length;
+      if (lessBtn) lessBtn.hidden = shown <= pageSize;
+    }
+
     function paint() {
       if (!grid) return;
       var next = reviews.slice(shown, shown + pageSize);
@@ -6980,10 +6987,22 @@
         grid.appendChild(renderCard(r));
       });
       shown += next.length;
-      if (moreBtn) {
-        moreBtn.hidden = shown >= reviews.length;
-      }
+      syncListControls();
       if (emptyEl) emptyEl.hidden = reviews.length > 0;
+    }
+
+    function collapseReviews() {
+      if (!grid) return;
+      var cards = grid.querySelectorAll('.review');
+      var i;
+      for (i = cards.length - 1; i >= pageSize; i--) {
+        cards[i].remove();
+      }
+      shown = Math.min(shown, pageSize);
+      syncListControls();
+      if (root.getBoundingClientRect().top < 0) {
+        root.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
     }
 
     function applySummary(summary) {
@@ -7002,6 +7021,7 @@
       reviews = [];
       if (grid) grid.innerHTML = '';
       if (moreBtn) moreBtn.hidden = true;
+      if (lessBtn) lessBtn.hidden = true;
 
       if (!url) {
         showEmpty();
@@ -7043,6 +7063,11 @@
       if (moreBtn) {
         moreBtn.addEventListener('click', function () {
           paint();
+        });
+      }
+      if (lessBtn) {
+        lessBtn.addEventListener('click', function () {
+          collapseReviews();
         });
       }
       document.addEventListener('preview:reviews-reload', loadReviews);

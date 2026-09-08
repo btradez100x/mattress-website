@@ -81,6 +81,9 @@
       <button class="btn btn--ghost" type="button" data-reviews-more hidden>
         {{ section.settings.load_more_label | default: 'Show more reviews' }}
       </button>
+      <button class="btn btn--ghost" type="button" data-reviews-less hidden>
+        {{ section.settings.show_less_label | default: 'Show less' }}
+      </button>
     </div>
 
     {%- if allow_submit -%}
@@ -391,6 +394,12 @@
       "id": "load_more_label",
       "label": "Load more label",
       "default": "Show more reviews"
+    },
+    {
+      "type": "text",
+      "id": "show_less_label",
+      "label": "Show less label",
+      "default": "Show less"
     },
     {
       "type": "range",
