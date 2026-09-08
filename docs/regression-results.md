@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (dynamic brand text)
+
+- Storefront brand names that were hardcoded as Numa or Aligna now read Theme settings `brand_name`. Emails left alone. Smoke still fails only on known pre-existing checks (footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press).
+- Checkpoint: `checkpoints/13.0.0-dynamic-brand-text/`. Deploy: `v9` `f802b9e`, `shopify-theme` `0b1e5f3`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (font weight switch)
 
 - Font set now switches heading weight only. Bold stays the guidelines default. Classic is Instrument Sans 500. Same pre-existing smoke fails not re-checked.
