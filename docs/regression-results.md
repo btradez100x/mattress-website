@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (sleep cool)
+
+- Checkpoint: `checkpoints/13.0.0-sleep-cool/`. Deploy: `v9` `2a026d1`, `shopify-theme` `893e5b3`. Sleep cool body replaced. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (five feels)
 
 - Checkpoint: `checkpoints/13.0.0-five-feels/`. Deploy: `v9` `2b17e33`, `shopify-theme` `8f5a64a`. Five-feel ladder is its own section. Why it matters stays the six cards. No VERSION bump.
