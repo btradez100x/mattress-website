@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (font weight switch)
+
+- Font set now switches heading weight only. Bold stays the guidelines default. Classic is Instrument Sans 500. Same pre-existing smoke fails not re-checked.
+- Checkpoint: `checkpoints/13.0.0-font-weight-switch/`. Deploy: `v9` `300def6`, `shopify-theme` `b75c744`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (page type scale)
 
 - Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
