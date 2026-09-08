@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (brand yarn)
+
+- Checkpoint: `checkpoints/13.0.0-brand-yarn/`. Deploy: `v9` `f06f355`, `shopify-theme` `b8c212c`. Cool-touch cover line uses [Brand]'s yarn. Yarn name stays blank until set. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (swap sentences)
 
 - Checkpoint: `checkpoints/13.0.0-swap-sentences/`. Deploy: `v9` `227a160`, `shopify-theme` `4af8274`. Removed the any-bed and topper sentences. No VERSION bump.
