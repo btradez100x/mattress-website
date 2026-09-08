@@ -2,7 +2,9 @@
 <section class="section{% render 'section-ground' %}" id="benefits" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
-      <p class="section__eyebrow">Why it matters</p>
+      {%- unless section.settings.heading == 'Why it matters' -%}
+        <p class="section__eyebrow">Why it matters</p>
+      {%- endunless -%}
       <h2>{{ section.settings.heading }}</h2>
     {%- endif -%}
 

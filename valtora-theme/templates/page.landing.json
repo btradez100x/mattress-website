@@ -84,8 +84,25 @@
       ],
       "settings": {
         "enable_section": true,
-        "heading": "Five feels. One bed.",
+        "heading": "Why it matters",
         "ground": "surface"
+      }
+    },
+    "feel-ladder": {
+      "type": "feel-ladder",
+      "settings": {
+        "enable_section": true,
+        "ground": "bg",
+        "anchor_id": "five-feels",
+        "eyebrow": "The feel",
+        "heading": "Five feels. One bed.",
+        "lede": "Three layers. Two of them turn over.",
+        "arrives": "Yours arrives medium firm. Turn it over for medium.",
+        "layer_soft": "Third layer, single sided",
+        "layer_medium": "Included layer, reverse",
+        "layer_medium_firm": "Included layer, as delivered",
+        "layer_firm": "Second layer",
+        "layer_extra": "Second layer, reverse"
       }
     },
     "product-specs": {
@@ -1087,6 +1104,7 @@
     "swap-process",
     "cool-touch",
     "benefits",
+    "feel-ladder",
     "measure-size",
     "founder-note",
     "product-specs",

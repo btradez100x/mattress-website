@@ -2213,6 +2213,10 @@ video[controls],
   border-top: 1px solid color-mix(in srgb, var(--brand-primary) 14%, transparent);
 }
 
+.feel-ladder__row:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-primary) 14%, transparent);
+}
+
 .feel-ladder__row--delivered .feel-ladder__name {
   font-weight: 600;
 }
