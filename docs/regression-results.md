@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (founder centre)
+
+- Checkpoint: `checkpoints/13.0.0-founder-centre/`. Deploy: `v9` `4df5061`, `shopify-theme` `fe118ad`. Founder note centres when no portrait is set. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (five feels media)
 
 - Checkpoint: `checkpoints/13.0.0-five-feels-media/`. Deploy: `v9` `24498b5`, `shopify-theme` `293297b`. Five feels centres until media is added on the right. Ground follows neighbours. No VERSION bump.
