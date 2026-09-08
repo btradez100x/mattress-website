@@ -510,10 +510,14 @@ html body {
   font-variant-numeric: tabular-nums;
 }
 
+html[data-heading-weight="700"] { --heading-weight: 700; }
+html[data-heading-weight="600"] { --heading-weight: 600; }
+html[data-heading-weight="500"] { --heading-weight: 500; }
+
 html h1,
 html .hero h1 {
   font-family: var(--font-display, 'Instrument Sans', system-ui, sans-serif);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.045em;
   line-height: 1.02;
   font-size: clamp(2.375rem, 7vw, 4rem);
@@ -521,7 +525,7 @@ html .hero h1 {
 
 html h2 {
   font-family: var(--font-display, 'Instrument Sans', system-ui, sans-serif);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.035em;
   line-height: 1.1;
 }
@@ -532,7 +536,7 @@ html .feel-ladder__copy h2,
 html .founder-note h2,
 html .media-feature__split-copy h2 {
   font-family: var(--font-display, 'Instrument Sans', system-ui, sans-serif);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.035em;
   line-height: 1.1;
   font-size: clamp(1.875rem, 4.6vw, 2.75rem);
@@ -548,7 +552,7 @@ html .oo-card__title {
 
 html .oo-card--lead .oo-card__title {
   font-family: var(--font-display, 'Instrument Sans', system-ui, sans-serif);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.035em;
   line-height: 1.1;
 }

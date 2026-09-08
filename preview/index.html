@@ -373,6 +373,13 @@
       <strong>Local theme preview</strong>
       <span style="display:inline-flex;flex-wrap:wrap;gap:0.65rem 1rem;align-items:center;margin-left:0.75rem;justify-content:center;">
         <label>Brand <input id="PreviewBrandName" type="text" value="Numa" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
+        <label id="PreviewFontSetWrap" title="Theme settings → Brand → Heading weight. Guidelines (700), Wordmark (600), or Light (500). The wordmark stays 600.">Heading weight
+          <select id="PreviewFontSet" aria-label="Heading weight">
+            <option value="700" selected>Guidelines (700)</option>
+            <option value="600">Wordmark (600)</option>
+            <option value="500">Light (500)</option>
+          </select>
+        </label>
         <label>Line <input id="PreviewBrandLine" type="text" value="Mattresses" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:7rem;color:#000;background:#F7F5F1;"></label>
         <label title="On-site tagline for the selected market (footer and share [Tagline] token). Type a different slogan per market to preview.">Tagline <input id="PreviewTagline" type="text" value="A better bed, for life." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:18rem;color:#000;background:#F7F5F1;"></label>
         <label title="Link preview / Open Graph description. Tokens: [Brand] [Line] [Tagline]">Share copy <input id="PreviewShareCopy" type="text" value="A better bed, for life. Change the firmness yourself. Replace the layer that wears, not the whole mattress. Made to order." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:22rem;color:#000;background:#F7F5F1;"></label>
@@ -391,13 +398,6 @@
           <select id="PreviewBrandGuidelines" aria-label="Brand guidelines">
             <option value="v1" selected>V1 (current)</option>
             <option value="v2">V2 (optional)</option>
-          </select>
-        </label>
-        <label id="PreviewFontSetWrap">Heading weight
-          <select id="PreviewFontSet" aria-label="Heading weight">
-            <option value="700" selected>Guidelines (700)</option>
-            <option value="600">Wordmark (600)</option>
-            <option value="500">Light (500)</option>
           </select>
         </label>
         <label>Gold lines

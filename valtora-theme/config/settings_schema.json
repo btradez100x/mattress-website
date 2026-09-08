@@ -29,7 +29,7 @@
       },
       {
         "type": "paragraph",
-        "content": "These two fields are the only place to set the store name. Header, footer, password lockup, [Brand] copy, Trading as, contact, share meta, and emails all read from here."
+        "content": "Brand name and Product line are the only place to set the store name. Heading weight is the dropdown directly under Brand name: Guidelines (700), Wordmark (600), or Light (500)."
       },
       {
         "type": "text",
@@ -37,21 +37,6 @@
         "label": "Brand name (line 1)",
         "default": "Numa",
         "info": "The lockup wordmark, [Brand] copy tokens, email masthead, and Trading as. Change this to change the name everywhere."
-      },
-      {
-        "type": "text",
-        "id": "brand_product_line",
-        "label": "Product line (line 2)",
-        "default": "Mattresses",
-        "info": "Lockup descriptor under the name, plus Trading as and [Line] tokens. Leave blank to hide the descriptor."
-      },
-      {
-        "type": "header",
-        "content": "Heading weight"
-      },
-      {
-        "type": "paragraph",
-        "content": "Weight only. Faces stay locked: Instrument Sans headings, Inter body, Geist Mono labels. The wordmark stays 600."
       },
       {
         "type": "select",
@@ -72,7 +57,14 @@
           }
         ],
         "default": "700",
-        "info": "700 is the brand guidelines. 600 matches the Onni London wordmark. 500 is the lighter previous page. Does not change the logo."
+        "info": "Guidelines (700), Wordmark (600), or Light (500). Faces stay locked. The wordmark stays 600."
+      },
+      {
+        "type": "text",
+        "id": "brand_product_line",
+        "label": "Product line (line 2)",
+        "default": "Mattresses",
+        "info": "Lockup descriptor under the name, plus Trading as and [Line] tokens. Leave blank to hide the descriptor."
       },
       {
         "type": "text",
@@ -556,7 +548,7 @@
       },
       {
         "type": "paragraph",
-        "content": "Heading weight is under Theme settings → Brand. Faces stay locked: Instrument Sans headings, Inter body, Geist Mono labels."
+        "content": "Heading weight is the dropdown under Theme settings → Brand, directly under Brand name. Faces stay locked: Instrument Sans headings, Inter body, Geist Mono labels."
       },
       {
         "type": "checkbox",
