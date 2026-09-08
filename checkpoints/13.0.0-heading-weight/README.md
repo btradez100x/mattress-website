@@ -5,22 +5,22 @@ Named deploy checkpoint. `VERSION` was not bumped.
 
 | Tree | SHA |
 |---|---|
-| `v9` | `7d65775` |
-| `shopify-theme` | `84e58b1` |
+| `v9` | `4e7a58f` |
+| `shopify-theme` | `9ffb28b` |
 
-Parented on Shopify Connect `9ec4440` (merchant editor save). Only `settings_schema.json` and `assets/brand.css` were replaced. Password, lifestyle images, press, and that editor save were not shipped.
+Parented on Shopify Connect `84e58b1`. Only `config/settings_schema.json` was replaced. Password, lifestyle images, press, and Checkout cream were not shipped.
 
 ## What shipped
 
-Theme settings → Brand → **Heading weight**, the dropdown directly under Brand name (line 1). Not under a second header. Not under Design tokens.
+Theme settings → Brand. Heading weight is the second setting, immediately after Brand name (line 1), and before any header.
 
 - Guidelines (700) — brand guidelines. Live default.
 - Wordmark (600)
 - Light (500)
 
-`data-heading-weight` on `<html>` sets `--heading-weight`. Instrument Sans headings follow 700, 600, or 500. The wordmark stays 600.
+The previous live schema (`84e58b1`) already had the select under Brand name, but that pair sat after the header “Brand name (only place to edit)”. The theme editor treats a header as a collapsed subsection, so the first Brand screen never showed the dropdown.
 
-The previous control sat under a Brand header named Heading weight. The theme editor treats that header as a collapsed group, so the select was not on the first Brand screen.
+`data-heading-weight` on `<html>` sets `--heading-weight`. Instrument Sans headings follow 700, 600, or 500. The wordmark stays 600.
 
 ## What was left out
 
