@@ -3,6 +3,11 @@
 - Comfort foam spec line is The softness you feel first. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
 - Checkpoint: `checkpoints/13.0.0-specification-softness/`. Deploy: `v9` `de0b350`, `shopify-theme` `788be79`. No VERSION bump.
 
+# Regression results — Tuesday 8 Sep 2026 (feel gold line)
+
+- The feel gold line is centred under the solo eyebrow. Other section rules stay left. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
+- Checkpoint: `checkpoints/13.0.0-feel-gold-line/`. Deploy: `v9` `b9379e6`, `shopify-theme` `2167359`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (how it works copy)
 
 - How it works now reads One layer. Two jobs. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, feel-ladder auto grounds, lifestyle/press. Checkout cream passed.
