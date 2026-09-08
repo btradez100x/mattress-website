@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (overview grid)
+
+- Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press. Ground checks still flag feel-ladder auto. Overview grid itself passed JSON and theme.js syntax.
+- Checkpoint: `checkpoints/13.0.0-overview-grid/`. Deploy: `v9` `7a7fe84`, `shopify-theme` `8c07011`. Eight equal cards replaced by a lead plus five. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (founder gold)
 
 - Checkpoint: `checkpoints/13.0.0-founder-gold/`. Deploy: `v9` `a4f82d7`, `shopify-theme` `944017c`. Founder gold line centred with the note. No VERSION bump.
