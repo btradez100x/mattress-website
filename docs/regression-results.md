@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (five feels)
+
+- Checkpoint: `checkpoints/13.0.0-five-feels/`. Deploy: `v9` `2b17e33`, `shopify-theme` `8f5a64a`. Five-feel ladder is its own section. Why it matters stays the six cards. No VERSION bump.
+- Consistency: 941 passed, 2 failed (pre-existing trade [D-reply]).
+
 # Regression results — Tuesday 8 Sep 2026 (cold before)
 
 - Checkpoint: `checkpoints/13.0.0-cold-before/`. Deploy: `v9` `f916af3`, `shopify-theme` `1c19516`. Cool-touch copy split into heading, lede, two points, and closing line. No VERSION bump.
