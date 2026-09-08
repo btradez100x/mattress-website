@@ -5,7 +5,7 @@
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa' | strip
   assign out = text | default: ''
-  assign out = out | replace: '[Brand]', brand
+  assign out = out | replace: '[Brand]', brand | replace: 'Numa', brand
   if featured_price == blank
     assign out = out | replace: 'instead of [price]', 'instead of a new mattress'
     assign out = out | replace: '[price]', ''

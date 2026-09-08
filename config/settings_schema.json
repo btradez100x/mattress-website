@@ -29,21 +29,21 @@
       },
       {
         "type": "paragraph",
-        "content": "These two fields set the store name for [Brand] copy, Trading as, contact, and share meta. The header and footer mark is the Logo lockup panel (Theme settings → Logo lockup)."
+        "content": "These two fields are the only place to set the store name. Header, footer, password lockup, [Brand] copy, Trading as, contact, share meta, and emails all read from here."
       },
       {
         "type": "text",
         "id": "brand_name",
         "label": "Brand name (line 1)",
         "default": "Numa",
-        "info": "Line 1 of the header and footer wordmark, plus [Brand] copy tokens. Trading as uses this plus Product line on one plain line."
+        "info": "The lockup wordmark, [Brand] copy tokens, email masthead, and Trading as. Change this to change the name everywhere."
       },
       {
         "type": "text",
         "id": "brand_product_line",
         "label": "Product line (line 2)",
         "default": "Mattresses",
-        "info": "Line 2 of the header and footer wordmark (e.g. Mattresses or The Mattress). Trading as and contact append this on the same line (e.g. Numa Mattresses). Leave blank to hide line 2."
+        "info": "Lockup descriptor under the name, plus Trading as and [Line] tokens. Leave blank to hide the descriptor."
       },
       {
         "type": "text",
@@ -171,16 +171,16 @@
         "type": "select",
         "id": "oo_logo_lockup",
         "label": "Default lockup",
-        "info": "Which arrangement the header uses. The footer and other placements can override this when the snippet is rendered.",
+        "info": "Which arrangement the header uses. The name comes from Theme settings → Brand. Footer can still override the arrangement.",
         "default": "two",
         "options": [
           {
             "value": "two",
-            "label": "Two line (Onni & Osher / A sleep company.)"
+            "label": "Two line (brand name / product line)"
           },
           {
             "value": "three",
-            "label": "Three line (Onni & / Osher / A sleep company.)"
+            "label": "Three line (brand name split / product line)"
           },
           {
             "value": "wordmark",
@@ -203,44 +203,6 @@
             "label": "Centre"
           }
         ]
-      },
-      {
-        "type": "header",
-        "content": "Two line text"
-      },
-      {
-        "type": "text",
-        "id": "oo_logo_two_line_1",
-        "label": "Line 1",
-        "default": "Onni & Osher"
-      },
-      {
-        "type": "text",
-        "id": "oo_logo_two_line_2",
-        "label": "Line 2 (descriptor)",
-        "default": "A sleep company."
-      },
-      {
-        "type": "header",
-        "content": "Three line text"
-      },
-      {
-        "type": "text",
-        "id": "oo_logo_three_line_1",
-        "label": "Line 1",
-        "default": "Onni &"
-      },
-      {
-        "type": "text",
-        "id": "oo_logo_three_line_2",
-        "label": "Line 2",
-        "default": "Osher"
-      },
-      {
-        "type": "text",
-        "id": "oo_logo_three_line_3",
-        "label": "Line 3 (descriptor)",
-        "default": "A sleep company."
       },
       {
         "type": "header",
@@ -426,31 +388,11 @@
         "content": "Symbol"
       },
       {
-        "type": "select",
+        "type": "checkbox",
         "id": "oo_logo_amp_accent",
-        "label": "Symbol colour",
-        "info": "Default keeps symbols in the wordmark colour. Stone is the tonal alternative in line with V3; Ember is the gold alternative (V3 advises against metallic branding).",
-        "default": "none",
-        "options": [
-          {
-            "value": "none",
-            "label": "Wordmark colour (default)"
-          },
-          {
-            "value": "stone",
-            "label": "Stone"
-          },
-          {
-            "value": "ember",
-            "label": "Ember"
-          }
-        ]
-      },
-      {
-        "type": "color",
-        "id": "oo_logo_stone_colour",
-        "label": "Stone",
-        "default": "#B9B5AE"
+        "label": "Ember ampersand",
+        "info": "Colours the joining symbol (&, +, / …) with Ember. Off for the primary mark; on for campaign and packaging use.",
+        "default": false
       },
       {
         "type": "color",

@@ -1,6 +1,6 @@
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa'
-  assign note = section.settings.note | replace: '[Brand]', brand | replace: 'Aligna', brand
+  assign note = section.settings.note | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: 'Numa', brand
   assign portrait_alt = section.settings.name | append: ', founder of ' | append: brand
   assign founder_caption = section.settings.name
   if section.settings.role != blank
