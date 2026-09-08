@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (reviews show less)
+
+- Expanded reviews can collapse. Show more reviews still opens the next page. Show less returns to the first page. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
+- Checkpoint: `checkpoints/13.0.0-reviews-show-less/`. Deploy: `v9` `e7ab174`, `shopify-theme` `560891c`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (dynamic brand text)
 
 - Storefront brand names that were hardcoded as Numa or Aligna now read Theme settings `brand_name`. Emails left alone. Smoke still fails only on known pre-existing checks (footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press).
