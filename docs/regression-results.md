@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (heading weight)
+
+- Heading weight lives in Theme settings → Brand. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
+- Checkpoint: `checkpoints/13.0.0-heading-weight/`. Deploy: `v9` `1162a1b`, `shopify-theme` `e7592bd`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (section lines)
 
 - Gold hairline sits under section eyebrows. Theme settings toggle lines and section-title weight. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
