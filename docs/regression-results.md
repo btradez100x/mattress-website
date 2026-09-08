@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (engineered cool)
+
+- Checkpoint: `checkpoints/13.0.0-engineered-cool/`. Deploy: `v9` `c3767ec`, `shopify-theme` `ccf02c9`. Cool-touch heading is Engineered to sleep cool. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (sleep cool)
 
 - Checkpoint: `checkpoints/13.0.0-sleep-cool/`. Deploy: `v9` `2a026d1`, `shopify-theme` `893e5b3`. Sleep cool body replaced. No VERSION bump.
