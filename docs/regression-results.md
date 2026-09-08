@@ -6,7 +6,7 @@
 # Regression results — Tuesday 8 Sep 2026 (feel gold line)
 
 - The feel gold line is centred under the solo eyebrow. Other section rules stay left. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
-- Checkpoint: `checkpoints/13.0.0-feel-gold-line/`. Deploy: `v9` `b9379e6`, `shopify-theme` `2167359`. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-feel-gold-line/`. Deploy: `v9` `b9379e6`, `shopify-theme` `e63cfe2`. No VERSION bump.
 
 # Regression results — Tuesday 8 Sep 2026 (how it works copy)
 

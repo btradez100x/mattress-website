@@ -6,7 +6,7 @@ Named deploy checkpoint. `VERSION` was not bumped.
 | Tree | SHA |
 |---|---|
 | `v9` | `b9379e6` |
-| `shopify-theme` | `2167359` |
+| `shopify-theme` | `e63cfe2` |
 
 ## What shipped
 
