@@ -1,5 +1,5 @@
 {%- liquid
-  assign announcement = section.settings.text | default: 'Complimentary Concierge unpacking. Room of your choice. Packaging taken away.'
+  assign announcement = section.settings.text | default: 'Concierge unpacking included with every mattress · To the room of your choice, packaging taken away'
 -%}
 {%- capture announcement -%}{% render 'trial-tokens', text: announcement %}{%- endcapture -%}
 {%- capture announcement -%}{% render 'warranty-tokens', text: announcement %}{%- endcapture -%}
@@ -7,7 +7,9 @@
 {%- if section.settings.enable_section -%}
 {%- if announcement != blank -%}
   <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
-    <p style="margin:0">{{ announcement }}</p>
+    <p style="margin:0">
+      Concierge unpacking <b>included with every mattress</b> · To the room of your choice, packaging taken away
+    </p>
     <button type="button" class="announcement__dismiss" data-announcement-dismiss aria-label="Dismiss">×</button>
   </div>
 {%- endif -%}
@@ -27,20 +29,20 @@
       "type": "text",
       "id": "text",
       "label": "Text (fallback)",
-      "default": "Complimentary Concierge unpacking. Room of your choice. Packaging taken away.",
+      "default": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away",
       "info": "Sitewide HTML .banner. Gold #C4A46A on included with every mattress. Dismissed per session only."
     },
     {
       "type": "text",
       "id": "text_ae",
       "label": "Text (UAE)",
-      "default": "Complimentary Concierge unpacking. Room of your choice. Packaging taken away."
+      "default": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away"
     },
     {
       "type": "text",
       "id": "text_gb",
       "label": "Text (UK)",
-      "default": "Complimentary Concierge unpacking. Room of your choice. Packaging taken away."
+      "default": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away"
     },
     {
       "type": "url",

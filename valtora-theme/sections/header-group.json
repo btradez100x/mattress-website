@@ -5,11 +5,11 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "text": "Complimentary Concierge unpacking. Room of your choice. Packaging taken away.",
+        "text": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away",
         "link": "",
         "enable_section": true,
-        "text_ae": "Complimentary Concierge unpacking. Room of your choice. Packaging taken away.",
-        "text_gb": "Complimentary Concierge unpacking. Room of your choice. Packaging taken away."
+        "text_ae": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away",
+        "text_gb": "Concierge unpacking included with every mattress · To the room of your choice, packaging taken away"
       }
     },
     "header": {

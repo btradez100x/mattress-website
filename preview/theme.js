@@ -8035,7 +8035,7 @@
     if (!isPreviewHost()) return;
 
     var BANNER =
-      'Complimentary Concierge unpacking. Room of your choice. Packaging taken away';
+      'Concierge unpacking included with every mattress · To the room of your choice, packaging taken away';
     var DEFAULT_AE = BANNER;
     var DEFAULT_GB = BANNER;
     var textAe = DEFAULT_AE;
