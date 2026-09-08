@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (hero core)
+
+- Checkpoint: `checkpoints/13.0.0-hero-core/`. Deploy: `v9` `ebc50ec`, `shopify-theme` `635a06b`. Hero subheading replaced. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (founder portrait)
 
 - Checkpoint: `checkpoints/13.0.0-founder-portrait/`. Deploy: `v9` `b59c962`, `shopify-theme` `777e010`. Founder portrait is off until enabled and uploaded. No VERSION bump.
