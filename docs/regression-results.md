@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (FAQ order)
+
+- FAQ list follows the screenshot sequence. Photograph question is 13th. Warranty is last of the 15. No category headings. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
+- Checkpoint: `checkpoints/13.0.0-faq-order/`. Deploy: `v9` `ba4d85a`, `shopify-theme` `d8018e8`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (specification softness)
 
 - Comfort foam spec line is The softness you feel first. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
