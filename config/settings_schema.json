@@ -46,6 +46,35 @@
         "info": "Lockup descriptor under the name, plus Trading as and [Line] tokens. Leave blank to hide the descriptor."
       },
       {
+        "type": "header",
+        "content": "Heading weight"
+      },
+      {
+        "type": "paragraph",
+        "content": "Weight only. Faces stay locked: Instrument Sans headings, Inter body, Geist Mono labels. The wordmark stays 600."
+      },
+      {
+        "type": "select",
+        "id": "heading_weight",
+        "label": "Heading weight",
+        "options": [
+          {
+            "value": "700",
+            "label": "Guidelines (700)"
+          },
+          {
+            "value": "600",
+            "label": "Wordmark (600)"
+          },
+          {
+            "value": "500",
+            "label": "Light (500)"
+          }
+        ],
+        "default": "700",
+        "info": "700 is the brand guidelines. 600 matches the Onni London wordmark. 500 is the lighter previous page. Does not change the logo."
+      },
+      {
         "type": "text",
         "id": "legal_name",
         "label": "Legal name",
@@ -527,24 +556,7 @@
       },
       {
         "type": "paragraph",
-        "content": "Same three faces either way: Instrument Sans, Inter, Geist Mono. Font set only changes heading weight."
-      },
-      {
-        "type": "select",
-        "id": "font_set",
-        "label": "Font set",
-        "options": [
-          {
-            "value": "modern",
-            "label": "Bold — guidelines (Instrument Sans 700)"
-          },
-          {
-            "value": "classic",
-            "label": "Light — previous page (Instrument Sans 500)"
-          }
-        ],
-        "default": "modern",
-        "info": "Faces stay locked. Classic is the lighter heading weight. No serif."
+        "content": "Heading weight is under Theme settings → Brand. Faces stay locked: Instrument Sans headings, Inter body, Geist Mono labels."
       },
       {
         "type": "checkbox",
@@ -568,7 +580,7 @@
           }
         ],
         "default": "regular",
-        "info": "Weight of the small uppercase labels (As seen on, Customer reviews, The feel). Does not change large headings — that is Font set."
+        "info": "Weight of the small uppercase labels (As seen on, Customer reviews, The feel). Does not change large headings — that is Theme settings → Brand → Heading weight."
       },
       {
         "type": "paragraph",
