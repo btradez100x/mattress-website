@@ -7673,8 +7673,14 @@
     if (titleEl) {
       var currentTitle = titleEl.textContent || '';
       // Keep page titles like "Manufacturing · Brand"; only rewrite bare homepage titles.
-      if (/ · /.test(currentTitle)) {
+      if (/ · /.test(currentTitle) || /\|/.test(currentTitle) || /\[Brand\]/.test(currentTitle)) {
         titleEl.textContent = currentTitle.replace(/Aligna|Sattva|Valtora/gi, name);
+        titleEl.textContent = titleEl.textContent.split('[Brand]').join(name);
+        if (name !== 'Numa') {
+          titleEl.textContent = titleEl.textContent
+            .replace(/ · Numa(?=\s*$)/, ' · ' + name)
+            .replace(/ \| Numa(?=\s*$)/, ' | ' + name);
+        }
       } else if (/preview|aligna|mattres|valtora|sattva/i.test(currentTitle)) {
         titleEl.textContent = site;
       }
@@ -7835,6 +7841,21 @@
     document.querySelectorAll('[data-brand-text]').forEach(function (el) {
       el.textContent = name;
     });
+    document.querySelectorAll('[data-brand-alt-prefix], [data-brand-alt-suffix], [data-brand-alt]').forEach(function (el) {
+      var full = el.getAttribute('data-brand-alt');
+      if (full != null) {
+        el.setAttribute('alt', full.split('[Brand]').join(name));
+        return;
+      }
+      var prefix = el.getAttribute('data-brand-alt-prefix') || '';
+      var suffix = el.getAttribute('data-brand-alt-suffix') || '';
+      el.setAttribute('alt', prefix + name + suffix);
+    });
+    document.querySelectorAll('meta[name="description"]').forEach(function (el) {
+      var content = el.getAttribute('content') || '';
+      if (content.indexOf('[Brand]') === -1) return;
+      el.setAttribute('content', content.split('[Brand]').join(name));
+    });
     document.querySelectorAll('[data-brand-product-line], .wordmark__product').forEach(function (el) {
       el.textContent = line;
       el.hidden = !line;
@@ -7939,8 +7960,14 @@
       if (page === 'checkout') title.textContent = 'Checkout · ' + name;
       else if (page === 'order-confirmed') title.textContent = 'Order confirmed · ' + name;
       else if (page === 'cart') title.textContent = 'Order · ' + name;
-      else if (/ · /.test(title.textContent) || /Aligna|Sattva|Valtora/i.test(title.textContent)) {
+      else if (/ · /.test(title.textContent) || /Aligna|Sattva|Valtora/i.test(title.textContent) || /\| Numa/.test(title.textContent) || / · Numa/.test(title.textContent) || /\[Brand\]/.test(title.textContent)) {
         title.textContent = title.textContent.replace(/Aligna|Sattva|Valtora/gi, name);
+        title.textContent = title.textContent.split('[Brand]').join(name);
+        if (name !== 'Numa') {
+          title.textContent = title.textContent
+            .replace(/ · Numa(?=\s*$)/, ' · ' + name)
+            .replace(/ \| Numa(?=\s*$)/, ' | ' + name);
+        }
       }
     }
   }

@@ -72,6 +72,8 @@
 
   assign trade_email = settings.trade_email | strip
   assign trade_contact_url = pages['contact'].url | default: '/pages/contact'
+  assign brand = settings.brand_name | default: 'Numa' | strip
+  assign trade_alt = brand | append: ' mattress in a hotel suite'
 -%}
 <div class="trade" data-lp-page data-lp-variant="trade">
 
@@ -84,7 +86,7 @@
         <p class="lede">Hotels, serviced apartments, short lets and developments. Built to your specification in any quantity, in sizes most contract suppliers do not carry, and delivered room by room.</p>
         <p class="mono hero-meta">{{ size_count }} sizes &middot; One specification &middot; Phased delivery</p>
       </div>
-      {% render 'rd-img', file: 'trade-suite.webp', alt: 'Numa mattress in a hotel suite', width: 1400, height: 787, loading: 'eager', fetchpriority: 'high' %}
+      {% render 'rd-img', file: 'trade-suite.webp', alt: trade_alt, width: 1400, height: 787, loading: 'eager', fetchpriority: 'high' %}
     </div>
     <div class="line"></div>
   </div>
