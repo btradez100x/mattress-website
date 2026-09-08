@@ -917,6 +917,13 @@
         "info": "Collection and recycling after the first 14 days. Returns policy and the trial-ending email. Not the product page."
       },
       {
+        "type": "checkbox",
+        "id": "show_cart_collection_fee",
+        "label": "Show collection fee on cart",
+        "default": false,
+        "info": "Off while you test. On shows Collection and recycling and the 14 day line under the cart terms. Does not change the returns pages."
+      },
+      {
         "type": "header",
         "content": "Five feels"
       },
