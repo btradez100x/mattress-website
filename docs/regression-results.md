@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (agreed copy lines)
+
+- Checkpoint: `checkpoints/13.0.0-agreed-copy-lines/`. Deploy: `v9` `a4fc5f7`, `shopify-theme` `f010605`. Announcement gold line restored. Feel line is during a year. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (site copy + trust bar wording)
 
 ## Smoke
