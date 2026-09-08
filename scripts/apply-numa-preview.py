@@ -26,25 +26,25 @@ NAV_HOME = NAV_DESKTOP.replace("./", "./pages/").replace("../index.html", "#rese
 # homepage uses ./pages/ and #reserve — handled separately
 
 SIZE_CONFIG = """[
-  {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true},
-  {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true},
-  {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
-  {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
-  {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
-  {"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","price":"£2,249","price_raw":224900,"available":true},
-  {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
-  {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
-  {"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
-  {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":true},
-  {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,699","price_raw":369900,"available":true},
-  {"market":"eu","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
-  {"market":"us","id":"twin","label":"Twin","dims":"99 × 191 cm","price":"£1,999","price_raw":199900,"available":true},
-  {"market":"us","id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","price":"£2,049","price_raw":204900,"available":true},
-  {"market":"us","id":"full","label":"Full","dims":"137 × 191 cm","price":"£2,499","price_raw":249900,"available":true},
-  {"market":"us","id":"queen","label":"Queen","dims":"152 × 203 cm","price":"£2,999","price_raw":299900,"available":true},
-  {"market":"us","id":"us-king","label":"King","dims":"193 × 203 cm","price":"£3,399","price_raw":339900,"available":true},
-  {"market":"us","id":"california-king","label":"California King","dims":"183 × 213 cm","price":"£3,399","price_raw":339900,"available":true},
-  {"market":"us","id":"split-king","label":"Split King","dims":"2 × 106 × 213 cm","price":"£3,699","price_raw":369900,"available":true}
+  {"market":"ae","size_types":["UAE Sizes"],"id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true},
+  {"market":"ae","size_types":["UAE Sizes"],"id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true},
+  {"market":"ae","size_types":["UAE Sizes"],"id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
+  {"market":"ae","size_types":["UAE Sizes"],"id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":false},
+  {"market":"gb","size_types":["UK Sizes"],"id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"gb","size_types":["UK Sizes"],"id":"small-double","label":"Small Double","dims":"120 × 190 cm","price":"£2,249","price_raw":224900,"available":true},
+  {"market":"gb","size_types":["UK Sizes"],"id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
+  {"market":"gb","size_types":["UK Sizes"],"id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
+  {"market":"gb","size_types":["UK Sizes"],"id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"gb","size_types":["UK Sizes"],"id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":true},
+  {"market":"gb","size_types":["UK Sizes"],"id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,699","price_raw":369900,"available":true},
+  {"market":"eu","size_types":["EU Sizes"],"id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+  {"market":"us","size_types":["US Sizes"],"id":"twin","label":"Twin","dims":"99 × 191 cm","price":"£1,999","price_raw":199900,"available":true},
+  {"market":"us","size_types":["US Sizes"],"id":"twin-xl","label":"Twin XL","dims":"91 × 213 cm","price":"£2,049","price_raw":204900,"available":true},
+  {"market":"us","size_types":["US Sizes"],"id":"full","label":"Full","dims":"137 × 191 cm","price":"£2,499","price_raw":249900,"available":true},
+  {"market":"us","size_types":["US Sizes"],"id":"queen","label":"Queen","dims":"152 × 203 cm","price":"£2,999","price_raw":299900,"available":true},
+  {"market":"us","size_types":["US Sizes"],"id":"us-king","label":"King","dims":"193 × 203 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","size_types":["US Sizes"],"id":"california-king","label":"California King","dims":"183 × 213 cm","price":"£3,399","price_raw":339900,"available":true},
+  {"market":"us","size_types":["US Sizes"],"id":"split-king","label":"Split King","dims":"2 × 106 × 213 cm","price":"£3,699","price_raw":369900,"available":true}
 ]"""
 
 POLICY = "Comfort layer included · 30-day comfort promise · Concierge unpacking included"
