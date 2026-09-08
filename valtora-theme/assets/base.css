@@ -4921,6 +4921,18 @@ video[controls],
 
 .founder-note--copy .founder-note__grid {
   grid-template-columns: minmax(0, 40rem);
+  justify-content: center;
+}
+
+.founder-note--solo {
+  text-align: center;
+}
+
+.founder-note--solo .gold-rule,
+.founder-note--solo .founder-note__body,
+.founder-note--solo .founder-note__signature {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 900px) {
@@ -4930,6 +4942,7 @@ video[controls],
 
   .founder-note--copy .founder-note__grid {
     grid-template-columns: minmax(0, 40rem);
+    justify-content: center;
   }
 }
 
