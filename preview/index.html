@@ -395,8 +395,8 @@
         </label>
         <label id="PreviewFontSetWrap">Fonts
           <select id="PreviewFontSet" aria-label="Font set">
-            <option value="modern">Brand (Instrument Sans / Inter)</option>
-            <option value="classic">Brand (locked)</option>
+            <option value="modern">Bold — guidelines (700)</option>
+            <option value="classic">Light — previous page (500)</option>
           </select>
         </label>
         <label>Colour
@@ -2010,15 +2010,9 @@
         }
 
         function applyFont() {
-          var guidelines = currentGuidelines();
-          if (guidelines === 'v2') {
-            document.documentElement.setAttribute('data-font-set', 'v2');
-            if (fontLink) fontLink.href = fonts.v2;
-            if (fontWrap) fontWrap.hidden = true;
-            return;
-          }
           if (fontWrap) fontWrap.hidden = false;
           var set = (fontSelect && fontSelect.value) || 'modern';
+          if (set !== 'classic') set = 'modern';
           document.documentElement.setAttribute('data-font-set', set);
           if (fontLink && fonts[set]) fontLink.href = fonts[set];
           try { localStorage.setItem('valtoraPreviewFontSet', set); } catch (e) {}

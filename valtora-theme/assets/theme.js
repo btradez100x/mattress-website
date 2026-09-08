@@ -7882,12 +7882,10 @@
       document.documentElement.setAttribute('data-brand-guidelines', guidelines);
     }
     if (guidelines === 'v2') {
-      document.documentElement.setAttribute('data-font-set', 'v2');
-      fontSet = 'v2';
       if (!scheme || scheme.indexOf('v2_') !== 0) scheme = 'v2_carbon';
-    } else if (fontSet === 'modern' || fontSet === 'classic') {
-      document.documentElement.setAttribute('data-font-set', fontSet);
     }
+    if (fontSet !== 'classic') fontSet = 'modern';
+    document.documentElement.setAttribute('data-font-set', fontSet);
     if (scheme) document.documentElement.setAttribute('data-color-scheme', scheme);
 
     var businessName = (boot && boot.business) || '';

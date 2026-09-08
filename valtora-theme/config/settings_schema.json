@@ -527,28 +527,28 @@
       },
       {
         "type": "paragraph",
-        "content": "Type is locked to the brand guidelines: Instrument Sans (headings / wordmark), Inter (body), Geist Mono (labels). Theme font-set controls below are unused."
+        "content": "Same three faces either way: Instrument Sans, Inter, Geist Mono. Font set only changes heading weight."
       },
       {
         "type": "select",
         "id": "font_set",
-        "label": "Font set (unused — locked to guidelines)",
+        "label": "Font set",
         "options": [
           {
             "value": "modern",
-            "label": "Brand — Instrument Sans / Inter / Geist Mono"
+            "label": "Bold — guidelines (Instrument Sans 700)"
           },
           {
             "value": "classic",
-            "label": "Brand — Instrument Sans / Inter / Geist Mono"
+            "label": "Light — previous page (Instrument Sans 500)"
           }
         ],
         "default": "modern",
-        "info": "Live storefront always loads Instrument Sans, Inter and Geist Mono. Do not mix serif."
+        "info": "Faces stay locked. Classic is the lighter heading weight. No serif."
       },
       {
         "type": "paragraph",
-        "content": "Advanced overrides below only apply when Font set is Modern."
+        "content": "Face overrides below stay locked. They do not change the weight switch."
       },
       {
         "type": "select",

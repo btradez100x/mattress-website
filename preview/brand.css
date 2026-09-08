@@ -574,3 +574,34 @@ html .btn {
   font-family: var(--font-text, 'Inter', system-ui, sans-serif);
   font-weight: 600;
 }
+
+/* Font set Classic — same faces, lighter heading weight. */
+html[data-font-set="classic"] h1,
+html[data-font-set="classic"] .hero h1 {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-size: clamp(2.15rem, 6.5vw, 3.75rem);
+}
+
+html[data-font-set="classic"] h2,
+html[data-font-set="classic"] .oo-notice__heading,
+html[data-font-set="classic"] main .section > .page-width > h2,
+html[data-font-set="classic"] .feel-ladder__copy h2,
+html[data-font-set="classic"] .founder-note h2,
+html[data-font-set="classic"] .media-feature__split-copy h2 {
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-size: clamp(2rem, 4.5vw, 3.15rem);
+}
+
+html[data-font-set="classic"] .oo-card--lead .oo-card__title {
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+html[data-font-set="classic"] .btn {
+  font-weight: 500;
+}
