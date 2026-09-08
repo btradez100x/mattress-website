@@ -51,7 +51,7 @@
 <footer class="site-footer">
   <div class="page-width site-footer__grid">
     <div class="site-footer__brand">
-      {% render 'wordmark', dark: true %}
+      {% render 'oo-logo', id: 'footer', lockup: 'three', reverse: true, link: false %}
       {%- capture tagline -%}{% render 'market-tagline' %}{%- endcapture -%}
       {%- assign tagline = tagline | strip -%}
       <p>
