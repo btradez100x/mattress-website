@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-font-set="modern" data-section-lines="on" data-eyebrow-weight="regular" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="100">
+<html class="js-ready" lang="en" data-market="ae" data-heading-weight="700" data-font-set="modern" data-section-lines="on" data-eyebrow-weight="regular" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="100">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
@@ -393,10 +393,11 @@
             <option value="v2">V2 (optional)</option>
           </select>
         </label>
-        <label id="PreviewFontSetWrap">Fonts
-          <select id="PreviewFontSet" aria-label="Font set">
-            <option value="modern">Bold — guidelines (700)</option>
-            <option value="classic">Light — previous page (500)</option>
+        <label id="PreviewFontSetWrap">Heading weight
+          <select id="PreviewFontSet" aria-label="Heading weight">
+            <option value="700" selected>Guidelines (700)</option>
+            <option value="600">Wordmark (600)</option>
+            <option value="500">Light (500)</option>
           </select>
         </label>
         <label>Gold lines
@@ -1123,7 +1124,6 @@
       <section class="section" id="press" data-preview-press data-reveal data-admin-section="press" data-section-ground="auto">
         <div class="page-width">
           <p class="section__eyebrow">As seen on</p>
-          <hr class="gold-rule">
           <h2 class="press__heading">Press &amp; recognition.</h2>
           <p class="section__lede press__lede">Selected coverage, mentions, and distinctions.</p>
           <ul class="press__logos" role="list">
@@ -2031,14 +2031,27 @@
           document.dispatchEvent(new CustomEvent('preview:market-changed'));
         }
 
+        function normalizeHeadingWeight(value) {
+          if (value === '700' || value === '600' || value === '500') return value;
+          if (value === 'classic') return '500';
+          return '700';
+        }
+
         function applyFont() {
           if (fontWrap) fontWrap.hidden = false;
-          var set = (fontSelect && fontSelect.value) || 'modern';
-          if (set !== 'classic') set = 'modern';
-          document.documentElement.setAttribute('data-font-set', set);
-          if (fontLink && fonts[set]) fontLink.href = fonts[set];
-          try { localStorage.setItem('valtoraPreviewFontSet', set); } catch (e) {}
-          window.__valtoraPreviewBoot = Object.assign({}, window.__valtoraPreviewBoot || {}, { fontSet: set });
+          var weight = normalizeHeadingWeight((fontSelect && fontSelect.value) || '700');
+          if (fontSelect) fontSelect.value = weight;
+          document.documentElement.setAttribute('data-heading-weight', weight);
+          document.documentElement.setAttribute('data-font-set', weight === '500' ? 'classic' : 'modern');
+          if (fontLink && fonts.modern) fontLink.href = fonts.modern;
+          try {
+            localStorage.setItem('valtoraPreviewHeadingWeight', weight);
+            localStorage.setItem('valtoraPreviewFontSet', weight === '500' ? 'classic' : 'modern');
+          } catch (e) {}
+          window.__valtoraPreviewBoot = Object.assign({}, window.__valtoraPreviewBoot || {}, {
+            headingWeight: weight,
+            fontSet: weight === '500' ? 'classic' : 'modern'
+          });
           if (typeof window.__valtoraApplyBrandFavicon === 'function') {
             window.__valtoraApplyBrandFavicon(window.__valtoraPreviewBoot);
           }
@@ -2076,7 +2089,8 @@
           window.__valtoraPreviewBoot = Object.assign({}, window.__valtoraPreviewBoot || {}, {
             scheme: scheme,
             guidelines: currentGuidelines(),
-            fontSet: (fontSelect && fontSelect.value) || (window.__valtoraPreviewBoot && window.__valtoraPreviewBoot.fontSet) || 'modern'
+            headingWeight: normalizeHeadingWeight((fontSelect && fontSelect.value) || (window.__valtoraPreviewBoot && window.__valtoraPreviewBoot.headingWeight) || '700'),
+            fontSet: normalizeHeadingWeight((fontSelect && fontSelect.value) || '700') === '500' ? 'classic' : 'modern'
           });
           if (typeof window.__valtoraInjectPreviewScheme === 'function') {
             window.__valtoraInjectPreviewScheme(window.__valtoraPreviewBoot);
@@ -2107,8 +2121,14 @@
           if (guidelinesSelect && (savedGuidelines === 'v1' || savedGuidelines === 'v2')) {
             guidelinesSelect.value = savedGuidelines;
           }
-          var saved = localStorage.getItem('valtoraPreviewFontSet');
-          if (fontSelect && (saved === 'modern' || saved === 'classic')) fontSelect.value = saved;
+          var savedWeight = localStorage.getItem('valtoraPreviewHeadingWeight');
+          if (!savedWeight) {
+            var savedFont = localStorage.getItem('valtoraPreviewFontSet');
+            savedWeight = savedFont === 'classic' ? '500' : '700';
+          }
+          if (fontSelect && (savedWeight === '700' || savedWeight === '600' || savedWeight === '500')) {
+            fontSelect.value = savedWeight;
+          }
           var savedLines = localStorage.getItem('valtoraPreviewSectionLines');
           if (sectionLinesSelect && (savedLines === 'on' || savedLines === 'off')) {
             sectionLinesSelect.value = savedLines;

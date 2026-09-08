@@ -6895,6 +6895,7 @@
     var grid = root.querySelector('[data-reviews-grid]');
     var moreBtn = root.querySelector('[data-reviews-more]');
     var lessBtn = root.querySelector('[data-reviews-less]');
+    var lessBtn = root.querySelector('[data-reviews-less]');
     var emptyEl = root.querySelector('[data-reviews-empty]');
     var avgEl = root.querySelector('[data-reviews-average]');
     var countEl = root.querySelector('[data-reviews-count]');
@@ -7845,6 +7846,7 @@
     var line = typeof boot.line === 'string' ? boot.line : 'Mattresses';
     var guidelines = boot.guidelines || 'v1';
     var fontSet = boot.fontSet || 'modern';
+    var headingWeight = boot.headingWeight || '';
     var scheme = boot.scheme || 'signature';
     try {
       name = localStorage.getItem('valtoraPreviewBrand') || name;
@@ -7855,6 +7857,7 @@
       var savedLine = localStorage.getItem('valtoraPreviewBrandLine');
       if (savedLine !== null) line = savedLine;
       guidelines = localStorage.getItem('valtoraPreviewBrandGuidelines') || guidelines;
+      headingWeight = localStorage.getItem('valtoraPreviewHeadingWeight') || headingWeight;
       fontSet = localStorage.getItem('valtoraPreviewFontSet') || fontSet;
       scheme = localStorage.getItem('valtoraPreviewColorScheme') || scheme;
     } catch (e) {}
@@ -7930,7 +7933,11 @@
     if (guidelines === 'v2') {
       if (!scheme || scheme.indexOf('v2_') !== 0) scheme = 'v2_carbon';
     }
-    if (fontSet !== 'classic') fontSet = 'modern';
+    if (headingWeight !== '700' && headingWeight !== '600' && headingWeight !== '500') {
+      headingWeight = fontSet === 'classic' ? '500' : '700';
+    }
+    fontSet = headingWeight === '500' ? 'classic' : 'modern';
+    document.documentElement.setAttribute('data-heading-weight', headingWeight);
     document.documentElement.setAttribute('data-font-set', fontSet);
     if (scheme) document.documentElement.setAttribute('data-color-scheme', scheme);
 

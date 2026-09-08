@@ -177,6 +177,7 @@
   var business = 'Valtora FZE';
   var guidelines = 'v1';
   var fontSet = 'modern';
+  var headingWeight = '700';
   var scheme = 'signature';
   var market = '';
   var taglineMarket = '';
@@ -191,6 +192,7 @@
     if (savedLine !== null) line = savedLine;
     business = localStorage.getItem('valtoraPreviewBusinessName') || business;
     guidelines = localStorage.getItem('valtoraPreviewBrandGuidelines') || guidelines;
+    headingWeight = localStorage.getItem('valtoraPreviewHeadingWeight') || headingWeight;
     fontSet = localStorage.getItem('valtoraPreviewFontSet') || fontSet;
     scheme = localStorage.getItem('valtoraPreviewColorScheme') || scheme;
     market = localStorage.getItem('valtoraPreviewMarket') || '';
@@ -200,26 +202,29 @@
   // a1e2 overlay defaulted preview to Carbon. Live Numa is navy/gold again.
   if (guidelines === 'v2' && (!scheme || scheme === 'v2_carbon')) {
     guidelines = 'v1';
-    fontSet = 'modern';
     scheme = 'signature';
     try {
       localStorage.setItem('valtoraPreviewBrandGuidelines', 'v1');
-      localStorage.setItem('valtoraPreviewFontSet', 'modern');
       localStorage.setItem('valtoraPreviewColorScheme', 'signature');
     } catch (e2) {}
   }
 
   if (guidelines === 'v2') {
-    fontSet = 'v2';
     if (!scheme || String(scheme).indexOf('v2_') !== 0) scheme = 'v2_carbon';
   } else if (scheme && String(scheme).indexOf('v2_') === 0) {
     scheme = 'signature';
   }
 
+  if (headingWeight !== '700' && headingWeight !== '600' && headingWeight !== '500') {
+    headingWeight = fontSet === 'classic' ? '500' : '700';
+  }
+  fontSet = headingWeight === '500' ? 'classic' : 'modern';
+
   if (guidelines === 'v1' || guidelines === 'v2') {
     d.setAttribute('data-brand-guidelines', guidelines);
   }
-  if (fontSet) d.setAttribute('data-font-set', fontSet);
+  d.setAttribute('data-heading-weight', headingWeight);
+  d.setAttribute('data-font-set', fontSet);
   if (scheme) d.setAttribute('data-color-scheme', scheme);
   if (market === 'ae' || market === 'gb') d.setAttribute('data-market', market);
   if (
@@ -251,6 +256,7 @@
     line: line,
     business: business,
     guidelines: guidelines,
+    headingWeight: headingWeight,
     fontSet: fontSet,
     scheme: scheme,
     market: market,

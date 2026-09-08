@@ -583,33 +583,87 @@ html .btn {
   font-weight: 600;
 }
 
-/* Font set Classic — same faces, lighter heading weight. */
-html[data-font-set="classic"] h1,
-html[data-font-set="classic"] .hero h1 {
+/* Heading weight — Theme settings → Brand. Faces stay locked.
+   Wordmark stays 600 in oo-logo.css. Do not retarget .oo-logo or .wordmark__text. */
+html[data-heading-weight="700"] h1,
+html[data-heading-weight="700"] .hero h1 {
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+html[data-heading-weight="700"] h2,
+html[data-heading-weight="700"] .oo-notice__heading,
+html[data-heading-weight="700"] main .section > .page-width > h2,
+html[data-heading-weight="700"] .feel-ladder__copy h2,
+html[data-heading-weight="700"] .founder-note h2,
+html[data-heading-weight="700"] .media-feature__split-copy h2,
+html[data-heading-weight="700"] .oo-card--lead .oo-card__title {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+html[data-heading-weight="700"] .btn {
+  font-weight: 600;
+}
+
+html[data-heading-weight="600"] h1,
+html[data-heading-weight="600"] .hero h1 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+html[data-heading-weight="600"] h2,
+html[data-heading-weight="600"] .oo-notice__heading,
+html[data-heading-weight="600"] main .section > .page-width > h2,
+html[data-heading-weight="600"] .feel-ladder__copy h2,
+html[data-heading-weight="600"] .founder-note h2,
+html[data-heading-weight="600"] .media-feature__split-copy h2,
+html[data-heading-weight="600"] .oo-card--lead .oo-card__title {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+html[data-heading-weight="600"] .btn {
+  font-weight: 600;
+}
+
+/* 500 — lighter previous page. Old Font set Classic is an alias only when heading weight is unset. */
+html[data-heading-weight="500"] h1,
+html[data-heading-weight="500"] .hero h1,
+html[data-font-set="classic"]:not([data-heading-weight]) h1,
+html[data-font-set="classic"]:not([data-heading-weight]) .hero h1 {
   font-weight: 500;
   letter-spacing: -0.03em;
   line-height: 1.05;
   font-size: clamp(2.15rem, 6.5vw, 3.75rem);
 }
 
-html[data-font-set="classic"] h2,
-html[data-font-set="classic"] .oo-notice__heading,
-html[data-font-set="classic"] main .section > .page-width > h2,
-html[data-font-set="classic"] .feel-ladder__copy h2,
-html[data-font-set="classic"] .founder-note h2,
-html[data-font-set="classic"] .media-feature__split-copy h2 {
+html[data-heading-weight="500"] h2,
+html[data-heading-weight="500"] .oo-notice__heading,
+html[data-heading-weight="500"] main .section > .page-width > h2,
+html[data-heading-weight="500"] .feel-ladder__copy h2,
+html[data-heading-weight="500"] .founder-note h2,
+html[data-heading-weight="500"] .media-feature__split-copy h2,
+html[data-font-set="classic"]:not([data-heading-weight]) h2,
+html[data-font-set="classic"]:not([data-heading-weight]) .oo-notice__heading,
+html[data-font-set="classic"]:not([data-heading-weight]) main .section > .page-width > h2,
+html[data-font-set="classic"]:not([data-heading-weight]) .feel-ladder__copy h2,
+html[data-font-set="classic"]:not([data-heading-weight]) .founder-note h2,
+html[data-font-set="classic"]:not([data-heading-weight]) .media-feature__split-copy h2 {
   font-weight: 500;
   letter-spacing: -0.03em;
   line-height: 1.08;
   font-size: clamp(2rem, 4.5vw, 3.15rem);
 }
 
-html[data-font-set="classic"] .oo-card--lead .oo-card__title {
+html[data-heading-weight="500"] .oo-card--lead .oo-card__title,
+html[data-font-set="classic"]:not([data-heading-weight]) .oo-card--lead .oo-card__title {
   font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 1.08;
 }
 
-html[data-font-set="classic"] .btn {
+html[data-heading-weight="500"] .btn,
+html[data-font-set="classic"]:not([data-heading-weight]) .btn {
   font-weight: 500;
 }
