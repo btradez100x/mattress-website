@@ -486,14 +486,6 @@
             "payment_mode_visibility": "all"
           }
         },
-        "faq_look": {
-          "type": "item",
-          "settings": {
-            "question": "Will my mattress look exactly like the photographs?",
-            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have [N] nights to tell us and we will collect it and refund you in full.",
-            "payment_mode_visibility": "all"
-          }
-        },
         "faq_motion": {
           "type": "item",
           "settings": {
@@ -501,11 +493,18 @@
             "answer": "Much less than on a conventional sprung mattress. Every spring is individually wrapped in its own pocket, so it compresses on its own rather than pulling its neighbours with it. Add 10cm of foam above that and most movement is absorbed before it reaches you.\n\nIt is not complete isolation - no sprung mattress is - but if you are currently woken every time your partner turns over, this will be a noticeable change.",
             "payment_mode_visibility": "all"
           }
+        },
+        "faq_look": {
+          "type": "item",
+          "settings": {
+            "question": "Will my mattress look exactly like the photographs?",
+            "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have [N] nights to tell us and we will collect it and refund you in full.",
+            "payment_mode_visibility": "all"
+          }
         }
       },
       "block_order": [
         "faq_1",
-        "faq_look",
         "faq_feel",
         "faq_flip",
         "faq_further",
@@ -519,7 +518,8 @@
         "faq_8",
         "faq_9",
         "faq_11",
-        "faq_motion"
+        "faq_motion",
+        "faq_look"
       ],
       "settings": {
         "enable_section": true,
