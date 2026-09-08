@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (page type scale)
+
+- Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
+- Checkpoint: `checkpoints/13.0.0-page-type-scale/`. Deploy: `v9` `f98b9b5`, `shopify-theme` `b8da602`. Page headings, body, and labels follow the guidelines type scale. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (overview brand type)
 
 - Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
