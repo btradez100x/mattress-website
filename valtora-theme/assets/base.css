@@ -2206,6 +2206,67 @@ video[controls],
   margin-top: 3rem;
 }
 
+.feel-ladder__layout--solo {
+  text-align: center;
+}
+
+.feel-ladder__layout--solo .feel-ladder,
+.feel-ladder__layout--solo .feel-ladder__lede {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feel-ladder__layout--solo .feel-ladder {
+  text-align: left;
+}
+
+.feel-ladder__layout--split {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .feel-ladder__layout--split {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+}
+
+.feel-ladder__media {
+  margin: 0;
+}
+
+.feel-ladder__frame {
+  overflow: hidden;
+  background: var(--brand-surface);
+  aspect-ratio: 4 / 5;
+}
+
+.feel-ladder__frame img,
+.feel-ladder__frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feel-ladder__caption {
+  margin: 0.65rem 0 0;
+  font-size: 0.8rem;
+}
+
+.section--dark .feel-ladder__row,
+.section--dark .feel-ladder__row:last-child {
+  border-color: color-mix(in srgb, var(--brand-on-dark) 22%, transparent);
+}
+
+.section--dark .feel-ladder__name,
+.section--dark .feel-ladder__layer,
+.section--dark .feel-ladder__caption {
+  color: var(--brand-on-dark);
+}
+
 .feel-ladder {
   list-style: none;
   margin: 2.5rem 0 0;
