@@ -12,6 +12,11 @@
   else
     assign layer_price = settings.comfort_layer_price_gb | strip
   endif
+  assign brand = settings.brand_name | default: 'Numa' | strip
+  assign alt_profile = brand | append: ' mattress in profile'
+  assign alt_bedroom = brand | append: ' mattress in a bedroom'
+  assign alt_corner = 'The corner of a ' | append: brand | append: ' mattress, cover and edge'
+  assign alt_plain = brand | append: ' mattress on a plain ground'
 -%}
 <div class="rd" data-lp-page data-lp-variant="{{ section.settings.lp_variant | escape }}"{% if page_key == 'guarantee' or page_key == 'adjust-to-desire' %} data-guarantee-page{% endif %}>
 {% if page_key == 'specification' %}
@@ -20,7 +25,7 @@
 <h1>Eight layers.<br>Each one earning<br>its place.</h1>
 <p class="lede">You are spending real money on something you cannot open. So here is every layer, what it is made of, and what it does for you once you are lying on it.</p>
 <div class="cta-row"><a class="btn" href="#layers">See the build</a><a class="btn btn--ghost btn-line" href="{{ pages['configure'].url | default: '/pages/configure' }}">Reserve yours</a></div></div>
-<figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "Numa mattress in profile", width: 1600, height: 904, loading: 'eager', fetchpriority: 'high' %}</figure>
+<figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: alt_profile, width: 1600, height: 904, loading: 'eager', fetchpriority: 'high' %}</figure>
 </div></div></section>
 
 <section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow" style="text-align:center">
@@ -148,7 +153,7 @@
 <p style="color:#C9C5BD">Every piece of packaging leaves with them. So does your old mattress.</p></div>
 </div></section>
 
-<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="room-suite">{% render 'rd-img', file: 'room-suite.webp', alt: "Numa mattress in a bedroom", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="room-suite">{% render 'rd-img', file: 'room-suite.webp', alt: alt_bedroom, width: 1400, height: 781, loading: 'lazy' %}</figure></section>
 <section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
 <div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
 <ul class="spec">
@@ -162,7 +167,7 @@
 <section class="rd-sec rd-hero"><div class="wrap"><div class="narrow">
 <p class="kicker">About &middot; Est. 2026</p>
 <h1>Nobody has thirty nights<br>to spare. Twice.</h1>
-<p class="lede">Numa was built because the people closest to me kept buying the wrong mattress and then living with it, because getting it right was harder than putting up with it.</p>
+<p class="lede">{{ brand | escape }} was built because the people closest to me kept buying the wrong mattress and then living with it, because getting it right was harder than putting up with it.</p>
 </div></div>
 <div class="wrap" style="margin-top:64px"><figure class="figure full-bleed" data-rd-image="room-calm">{% render 'rd-img', file: 'room-calm.webp', alt: "A quiet bedroom at first light", width: 1400, height: 781, loading: 'eager', fetchpriority: 'high' %}</figure></div>
 </section>
@@ -177,16 +182,16 @@
 <p>So they do what anyone would. They accept the first one, tell themselves it will settle, and quietly stop mentioning their back.</p>
 <p>That is the part I could not leave alone. Not that the mattress was wrong, but that being wrong was treated as the customer&rsquo;s problem to solve, using a method nobody has the time or the will to see through.</p>
 </div></div></section>
-<section class="rd-sec rd-sec--bone rd-sec--flush"><figure class="figure full-bleed" data-rd-image="coolknit-corner">{% render 'rd-img', file: 'coolknit-corner.webp', alt: "The corner of a Numa mattress, cover and edge", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+<section class="rd-sec rd-sec--bone rd-sec--flush"><figure class="figure full-bleed" data-rd-image="coolknit-corner">{% render 'rd-img', file: 'coolknit-corner.webp', alt: alt_corner, width: 1400, height: 781, loading: 'lazy' %}</figure></section>
 <section class="rd-sec"><div class="wrap"><div class="narrow story">
-<p>Numa is built so that burden is ours. You do not choose a feel. You cannot know how a mattress feels in four minutes. You live with the bed, and the feel is discovered over months of use. You have a year with us. Softer, firmer, more give under the hip, whatever it is in whatever words you have. We send the layer that takes you there, and you keep it, with our compliments. No trial-and-error, no sending anything back, no starting again.</p>
+<p>{{ brand | escape }} is built so that burden is ours. You do not choose a feel. You cannot know how a mattress feels in four minutes. You live with the bed, and the feel is discovered over months of use. You have a year with us. Softer, firmer, more give under the hip, whatever it is in whatever words you have. We send the layer that takes you there, and you keep it, with our compliments. No trial-and-error, no sending anything back, no starting again.</p>
 <p>You have a year with us. We do the rest.</p>
 <div class="pull"><p>A bed that becomes yours, and stays that way.</p></div>
 <p>That is why the top comes off. It began as a way to fix a wrong guess and it turned out to solve something larger. The part of a mattress that softens is the fifteen centimetres of comfort, and everything beneath it is usually still sound at year ten. Renewing the layer keeps the bed right for twenty five years instead of watching it drift wrong over eight.</p>
 <p>The rest followed from the same thought. If somebody is spending three thousand pounds on a bed, it should not arrive as a box in their hallway. Concierge unpacking. Unrolled where it belongs. The packaging leaves with it. The old one leaves too.</p>
-<p>We named it Numa after the second king of Rome, remembered for ending a long war and giving the city forty three years of quiet. It is also, almost exactly, the Arabic word for a night&rsquo;s sleep. Two languages, one meaning, and it seemed like the right thing to call a bed.</p>
+<p>We named it {{ brand | escape }} after the second king of Rome, remembered for ending a long war and giving the city forty three years of quiet. It is also, almost exactly, the Arabic word for a night&rsquo;s sleep. Two languages, one meaning, and it seemed like the right thing to call a bed.</p>
 <p>We started in 2026 and we are small. That is deliberate for now, because I want to work with you personally to get your bed right. Write to me and it is me who answers.</p>
-<div class="sig"><p class="n">Ben Acolatse</p><p class="r">Founder · Numa · Est. 2026</p></div>
+<div class="sig"><p class="n">Ben Acolatse</p><p class="r">Founder · {{ brand | escape }} · Est. 2026</p></div>
 </div></div></section>
 <section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
 <div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
@@ -203,7 +208,7 @@
 <h1>Support is the core.<br>Comfort is the layer.</h1>
 <p class="lede">A back that hurts in the morning is usually a core that has stopped holding. Ours is twenty centimetres of seven-zone pocket springs, guaranteed for twenty five years, with the comfort settled separately.</p>
 <div class="cta-row"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a><a class="btn btn--ghost btn-line" href="{{ pages['specification'].url | default: '/pages/specification' }}">See the build</a></div></div>
-<figure class="figure ">{% render 'rd-img', file: 'product-profile.webp', alt: "Numa mattress in profile", width: 1400, height: 622, loading: 'eager', fetchpriority: 'high' %}</figure>
+<figure class="figure ">{% render 'rd-img', file: 'product-profile.webp', alt: alt_profile, width: 1400, height: 622, loading: 'eager', fetchpriority: 'high' %}</figure>
 </div></div></section>
 
 <section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow">
@@ -342,7 +347,7 @@
 <h1>What &pound;3,299<br>actually buys.</h1>
 <p class="lede">A seven-zone pocket spring core built to last twenty five years, a comfort layer tailored to you after you have slept on it, and concierged delivery that leaves with the old one.</p>
 <div class="cta-row"><a class="btn" href="#configure">Choose your size</a><a class="btn btn--ghost btn-line" href="#breakdown">See the breakdown</a></div></div>
-<figure class="figure ">{% render 'rd-img', file: 'product-plain.webp', alt: "Numa mattress on a plain ground", width: 1376, height: 768, loading: 'eager', fetchpriority: 'high' %}</figure>
+<figure class="figure ">{% render 'rd-img', file: 'product-plain.webp', alt: alt_plain, width: 1376, height: 768, loading: 'eager', fetchpriority: 'high' %}</figure>
 </div></div></section>
 
 <section class="rd-sec rd-sec--bone" id="breakdown"><div class="wrap"><div class="narrow">
@@ -472,7 +477,7 @@
 <p class="lede">You do not choose a firmness when you order, because nobody can answer that question in a showroom. Your mattress arrives, you sleep on it, and for a year you tell us how it should feel. We make it that way.</p>
 <div class="cta-row"><a class="btn" href="{{ configure_url }}" data-guarantee-cta>Choose your size</a><a class="btn btn--ghost btn-line" href="#how">How it works</a></div>
 </div>
-<figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "Numa mattress in profile", width: 1600, height: 904, loading: 'eager', fetchpriority: 'high' %}</figure>
+<figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: alt_profile, width: 1600, height: 904, loading: 'eager', fetchpriority: 'high' %}</figure>
 </div></div></section>
 
 <section class="rd-sec rd-sec--dark"><div class="wrap"><div class="split">

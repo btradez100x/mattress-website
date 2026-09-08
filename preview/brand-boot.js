@@ -30,11 +30,11 @@
 
   var FONTS = {
     modern:
-      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
+      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap',
     classic:
-      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
+      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap',
     v2:
-      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap',
+      'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap',
   };
 
   // Full token tables (mirror preview/base.css + css-variables.liquid)
@@ -241,8 +241,8 @@
 
   try {
     var titleEl = document.querySelector('title');
-    if (titleEl && /Aligna|Sattva|Valtora/i.test(titleEl.textContent)) {
-      titleEl.textContent = titleEl.textContent.replace(/Aligna|Sattva|Valtora/gi, name);
+    if (titleEl) {
+      titleEl.textContent = rewriteHardcodedBrandTitle(titleEl.textContent, name);
     }
   } catch (e) {}
 
@@ -472,12 +472,47 @@
     });
   }
 
+  function rewriteHardcodedBrandTitle(text, name) {
+    if (!text) return text;
+    var out = String(text).split('[Brand]').join(name || '');
+    out = out.replace(/Aligna|Sattva|Valtora/gi, name || '');
+    if (name && name !== 'Numa') {
+      out = out.replace(/ · Numa(?=\s*$)/, ' · ' + name).replace(/ \| Numa(?=\s*$)/, ' | ' + name);
+    }
+    return out;
+  }
+
+  function applyBrandAlts(name) {
+    document.querySelectorAll('[data-brand-alt-prefix], [data-brand-alt-suffix], [data-brand-alt]').forEach(function (el) {
+      var full = el.getAttribute('data-brand-alt');
+      if (full != null) {
+        el.setAttribute('alt', full.split('[Brand]').join(name));
+        return;
+      }
+      var prefix = el.getAttribute('data-brand-alt-prefix') || '';
+      var suffix = el.getAttribute('data-brand-alt-suffix') || '';
+      el.setAttribute('alt', prefix + name + suffix);
+    });
+  }
+
+  function applyBrandMeta(name) {
+    document.querySelectorAll('meta[name="description"]').forEach(function (el) {
+      var content = el.getAttribute('content') || '';
+      if (content.indexOf('[Brand]') === -1) return;
+      el.setAttribute('content', content.split('[Brand]').join(name));
+    });
+  }
+
   function applyBrandText() {
     var boot = window.__valtoraPreviewBoot;
     applyWarrantyYears();
     if (!boot) return;
     var nodes = document.querySelectorAll('[data-brand-text]');
     var logos = document.querySelectorAll('[data-oo-logo], .oo-logo');
+    applyBrandAlts(boot.name);
+    applyBrandMeta(boot.name);
+    var titleNow = document.querySelector('title');
+    if (titleNow) titleNow.textContent = rewriteHardcodedBrandTitle(titleNow.textContent, boot.name);
     if (!nodes.length && !logos.length) return false;
     nodes.forEach(function (el) {
       el.textContent = boot.name;
