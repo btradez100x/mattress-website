@@ -214,7 +214,9 @@ html[data-section-lines="off"] .gold-rule {
 .policy-cta .gold-rule,
 .section--dark.policy-cta .gold-rule,
 .policy-cta .gold-kicker .gold-rule,
-.gold-kicker--center .gold-rule {
+.gold-kicker--center .gold-rule,
+.feel-ladder__layout--solo .gold-rule,
+.section--dark .feel-ladder__layout--solo .gold-rule {
   margin-left: auto;
   margin-right: auto;
   margin-inline: auto;
@@ -550,7 +552,8 @@ html .oo-card__title {
   letter-spacing: -0.015em;
 }
 
-html .oo-card--lead .oo-card__title {
+html .oo-card--lead .oo-card__title,
+html .swap-explainer__subhead {
   font-family: var(--font-display, 'Instrument Sans', system-ui, sans-serif);
   font-weight: var(--heading-weight, 700);
   letter-spacing: -0.035em;
@@ -601,7 +604,8 @@ html[data-heading-weight="700"] main .section > .page-width > h2,
 html[data-heading-weight="700"] .feel-ladder__copy h2,
 html[data-heading-weight="700"] .founder-note h2,
 html[data-heading-weight="700"] .media-feature__split-copy h2,
-html[data-heading-weight="700"] .oo-card--lead .oo-card__title {
+html[data-heading-weight="700"] .oo-card--lead .oo-card__title,
+html[data-heading-weight="700"] .swap-explainer__subhead {
   font-weight: 700;
   letter-spacing: -0.035em;
 }
@@ -622,7 +626,8 @@ html[data-heading-weight="600"] main .section > .page-width > h2,
 html[data-heading-weight="600"] .feel-ladder__copy h2,
 html[data-heading-weight="600"] .founder-note h2,
 html[data-heading-weight="600"] .media-feature__split-copy h2,
-html[data-heading-weight="600"] .oo-card--lead .oo-card__title {
+html[data-heading-weight="600"] .oo-card--lead .oo-card__title,
+html[data-heading-weight="600"] .swap-explainer__subhead {
   font-weight: 600;
   letter-spacing: -0.025em;
 }
@@ -661,7 +666,9 @@ html[data-font-set="classic"]:not([data-heading-weight]) .media-feature__split-c
 }
 
 html[data-heading-weight="500"] .oo-card--lead .oo-card__title,
-html[data-font-set="classic"]:not([data-heading-weight]) .oo-card--lead .oo-card__title {
+html[data-font-set="classic"]:not([data-heading-weight]) .oo-card--lead .oo-card__title,
+html[data-heading-weight="500"] .swap-explainer__subhead,
+html[data-font-set="classic"]:not([data-heading-weight]) .swap-explainer__subhead {
   font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 1.08;
