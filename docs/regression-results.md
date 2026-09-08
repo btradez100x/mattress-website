@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (how it works copy)
+
+- How it works now reads One layer. Two jobs. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, feel-ladder auto grounds, lifestyle/press. Checkout cream passed.
+- Checkpoint: `checkpoints/13.0.0-how-it-works-copy/`. Deploy: `v9` `b9379e6`, `shopify-theme` `ea6dc46`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (heading weight first screen)
 
 - Heading weight is the second Brand setting, immediately after Brand name and before any header. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
