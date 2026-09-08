@@ -1,3 +1,11 @@
+# Regression results — Tuesday 8 Sep 2026 (trust bar offer)
+
+## Smoke
+- Command: not re-run; trust-bar markup only.
+- Scope note: Trust bar always includes Delivery included, Complimentary Concierge delivery, and 365 night comfort programme. Checkpoint: `checkpoints/13.0.0-trust-bar-offer/`. Deploy: `v9` `a7fd608`, `shopify-theme` `1450d71`.
+
+---
+
 # Regression results — Tuesday 8 Sep 2026 (SizeType grouping)
 
 ## Smoke
