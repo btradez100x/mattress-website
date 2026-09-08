@@ -12,7 +12,7 @@
     endif
   endif
   assign has_media = false
-  if section.settings.portrait != blank
+  if section.settings.show_portrait and section.settings.portrait != blank
     assign has_media = true
   endif
 -%}
@@ -123,10 +123,20 @@
       "info": "Use [Brand] - it is replaced by the global brand name setting."
     },
     {
+      "type": "header",
+      "content": "Portrait"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_portrait",
+      "label": "Show portrait",
+      "default": false,
+      "info": "Turn this on, then upload the picture. The note stays centred until both are set."
+    },
+    {
       "type": "image_picker",
       "id": "portrait",
-      "label": "Portrait",
-      "info": "Optional. Leave empty and the note stays centred. Upload a portrait and it sits beside the note."
+      "label": "Portrait image"
     },
     {
       "type": "text",
