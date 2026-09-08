@@ -931,15 +931,15 @@
           "settings": {
             "enabled": true,
             "title": "Cool to the touch",
-            "text": "It does not feel warm when you get in"
+            "text": "The cover is knitted from [yarn_name]. It pulls heat off your skin faster than cotton can return it."
           }
         },
         "c2": {
           "type": "point",
           "settings": {
             "enabled": true,
-            "title": "Contours without trapping",
-            "text": "It shapes to you. It does not hold the heat"
+            "title": "400gsm of it",
+            "text": "More of the yarn against you, right where you lie."
           }
         },
         "c3": {
@@ -971,8 +971,10 @@
         "gallery_enabled": true,
         "anchor_id": "cool-touch",
         "eyebrow": "Cool touch",
-        "heading": "Sleep hot?",
-        "body": "Your body has to shed heat to fall asleep. If the bed keeps giving it back, you lie there awake.\n\nThe cover is knitted from [Brand] yarn. It pulls heat off your skin faster than cotton can return it, and there is 400gsm of it, right where you lie.\n\nPut your hand on the bed. You will feel it before you are in it.",
+        "heading": "Cold before you are in it.",
+        "body": "Sleep hot? Your body has to shed heat to fall asleep. If the bed keeps giving it back, you lie there awake.",
+        "yarn_name": "",
+        "hand_line": "Put your hand on the bed. You will feel it before you are in it.",
         "image_caption": "Cool-knit cover detail",
         "ground": "bg"
       }
