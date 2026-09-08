@@ -5,13 +5,13 @@
       "settings": {
         "enable_section": true,
         "heading": "Built to last. Adjusted to suit.",
-        "subheading": "A core made to outlast the frame it sits on. You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before.",
+        "subheading": "The core is the spring unit. It carries the weight and holds the shape. Guaranteed for 25 years. You cannot know how a mattress feels in 4 minutes. So the feel is decided after a year, not before.",
         "cta_label": "See sizes and prices",
         "cta_link": "#reserve",
         "tone": "light",
         "secondary_cta_label": "How it arrives",
         "secondary_cta_link": "#delivery",
-        "assurance": "Concierge unpacking included \u00b7 The old one leaves with it"
+        "assurance": "Complimentary Concierge unpacking. Your old mattress leaves with the packaging."
       }
     },
     "pair-cards": {
@@ -21,8 +21,8 @@
           "type": "card",
           "settings": {
             "label": "The build",
-            "heading": "Thirty five centimetres.",
-            "body": "Twenty of pocket springs, each one housed alone. Guaranteed twenty five years.",
+            "heading": "35cm.",
+            "body": "35cm. 20cm of pocket springs, each one housed alone. Your side moves. Theirs stays still. Guaranteed for 25 years.",
             "link_label": "How it is made",
             "link": "/pages/manufacturing"
           }
@@ -31,8 +31,8 @@
           "type": "card",
           "settings": {
             "label": "The feel",
-            "heading": "You have a year with us.",
-            "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. The part that softens renews for twenty five years.",
+            "heading": "Adjust to Desire.",
+            "body": "A year to get the feel right. The part that softens is replaceable. The part that lasts, lasts.",
             "link_label": "How it works",
             "link": "/pages/guarantee"
           }
@@ -357,9 +357,9 @@
         "cta_link": "#reserve",
         "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
         "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
-        "replacement_top_price_gb": "A replacement comfort layer is \u00a3299. A new mattress is not.",
-        "replacement_top_price_ae": "A replacement comfort layer is AED 1,200. A new mattress is not.",
-        "replacement_frame": "<p>The part that softens renews. The part that lasts, lasts.</p>",
+        "replacement_top_price_gb": "A comfort layer is \u00a3299.",
+        "replacement_top_price_ae": "A comfort layer is AED 1,200.",
+        "replacement_frame": "<p>The part that softens is replaceable. The part that lasts, lasts.</p>",
         "ground": "dark"
       }
     },
@@ -371,7 +371,7 @@
           "settings": {
             "tag": "Included with every mattress",
             "heading": "Concierge unpacking",
-            "text": "Concierged. Room of your choice. Unboxed, unrolled, positioned. The packaging leaves with it. So does the old one.",
+            "text": "Concierge unpacking. Room of your choice. Unboxed, unrolled, positioned. Your old mattress leaves with the packaging.",
             "price": "Complimentary",
             "featured": true
           }
@@ -433,7 +433,7 @@
         "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
-        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
+        "body": "You cannot know how a mattress feels in 4 minutes. Adjust to Desire. A year to get the feel right. Choose your size. Dimensions in centimetres.",
         "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
         "request_size_enabled": true,
@@ -544,7 +544,7 @@
           "type": "item",
           "settings": {
             "question": "How do I change the firmness?",
-            "answer": "Unzip the cover, turn the comfort layer over, zip it up. Two minutes, no tools, and it costs nothing. One side is medium, the other is medium firm.",
+            "answer": "Unzip. Turn over. Zip up. Yours arrives medium firm. Turn it over for medium.",
             "payment_mode_visibility": "all"
           }
         },
@@ -552,7 +552,7 @@
           "type": "item",
           "settings": {
             "question": "What if I want it softer or firmer than that?",
-            "answer": "The mattress covers medium to medium firm because that is what most people want. If you want to go outside that, a comfort layer will take you there - softer or firmer, in the same 10cm that already sits inside the mattress.\n\nYou do not need to decide now. Sleep on it first.",
+            "answer": "Five feels. One bed. Three layers. Two of them turn over. Yours arrives medium firm. Turn it over for medium. Soft and extra firm use the other layers.",
             "payment_mode_visibility": "all"
           }
         },
@@ -741,7 +741,7 @@
         "enable_section": true,
         "eyebrow": "A note from Ben",
         "heading": "No two bodies want the same bed.",
-        "note": "<p>My family have bad backs. Several of them, across two generations.</p><p>I watched them choose a mattress in four minutes with their shoes off, and then live with it for eight years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in four minutes.</p><p>So yours arrives medium firm. You live with it over months. You have a year with us. You tell us how it should feel. We adjust it until it is right.</p>",
+        "note": "<p>My family have bad backs. Several of them, across 2 generations.</p><p>I watched them choose a mattress in 4 minutes with their shoes off, and then live with it for 8 years. Not because they were stubborn. Because the alternative was a job nobody has time for.</p><p>And no two of them wanted the same bed. The one that suited my father was the one my sister could not sleep on.</p><p>A body knows what it needs. It does not know it in 4 minutes.</p><p>Yours arrives medium firm. Adjust to Desire. A year to get the feel right. You tell us how it should feel. We adjust it until it is right.</p>",
         "name": "Ben Acolatse",
         "role": "Founder",
         "ground": "dark"
@@ -1162,7 +1162,7 @@
         "mattress_product": "the-mattress",
         "eyebrow": "Sizes and prices",
         "heading": "Choose your size.",
-        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided after a year, not before. Choose your size. Dimensions in centimetres.",
+        "body": "You cannot know how a mattress feels in 4 minutes. Adjust to Desire. A year to get the feel right. Choose your size. Dimensions in centimetres.",
         "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
         "request_size_enabled": true,

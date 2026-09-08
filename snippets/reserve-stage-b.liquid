@@ -9,9 +9,9 @@
   assign leadtime_vague = leadtime_vague | default: 'Made to order. We confirm your delivery date before dispatch.'
   assign payment_mode = payment_mode | default: 'full'
   assign finance_name = finance_name | default: 'Klarna'
-  assign trial = settings.return_window_days | default: settings.trial_nights | default: '30' | strip
+  assign trial = settings.trial_nights | default: 100 | append: '' | strip
   if trial == blank
-    assign trial = '30'
+    assign trial = '100'
   endif
   assign warranty = settings.warranty_years | default: '25' | strip
   if warranty == blank
@@ -93,7 +93,7 @@
           <li>Cancel any time before dispatch for a full refund.</li>
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
           <li>Refunds returned to the original payment method within five to ten business days.</li>
-          <li>{{ trial }} day returns policy from delivery.</li>
+          <li><a href="{{ pages['refunds'].url | default: '/pages/refunds' }}">{{ trial }} nights to return it.</a> Collection and recycling, {{ settings.return_fee | default: '£119' }}. No charge in the first 14 days.</li>
           <li>{{ warranty }} year guarantee on the pocket spring core.</li>
           <li>{{ variation_notice }}</li>
         </ul>

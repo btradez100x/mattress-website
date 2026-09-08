@@ -854,14 +854,84 @@
       },
       {
         "type": "header",
+        "content": "Delivery and returns"
+      },
+      {
+        "type": "select",
+        "id": "delivery_mode",
+        "label": "Delivery",
+        "options": [
+          { "value": "included", "label": "Included" },
+          { "value": "chargeable", "label": "Chargeable" }
+        ],
+        "default": "included",
+        "info": "Included ships as the offer. Chargeable renders delivery_charge. Never £0.00. Never free."
+      },
+      {
+        "type": "text",
+        "id": "delivery_charge",
+        "label": "Delivery charge",
+        "default": "",
+        "info": "Shown only when Delivery is Chargeable. Example: £119"
+      },
+      {
+        "type": "number",
+        "id": "trial_nights",
+        "label": "Nights to return it",
+        "default": 100,
+        "info": "The return window, counted in nights. Not the adjustment year. Not the 14 day no-charge window."
+      },
+      {
+        "type": "text",
+        "id": "return_fee",
+        "label": "Return collection fee",
+        "default": "£119",
+        "info": "Collection and recycling after the first 14 days. Returns policy and the trial-ending email. Not the product page."
+      },
+      {
+        "type": "header",
+        "content": "Five feels"
+      },
+      {
+        "type": "text",
+        "id": "feel_name_soft",
+        "label": "Feel: soft",
+        "default": "Soft"
+      },
+      {
+        "type": "text",
+        "id": "feel_name_medium",
+        "label": "Feel: medium",
+        "default": "Medium"
+      },
+      {
+        "type": "text",
+        "id": "feel_name_medium_firm",
+        "label": "Feel: medium firm",
+        "default": "Medium firm"
+      },
+      {
+        "type": "text",
+        "id": "feel_name_firm",
+        "label": "Feel: firm",
+        "default": "Firm"
+      },
+      {
+        "type": "text",
+        "id": "feel_name_extra_firm",
+        "label": "Feel: extra firm",
+        "default": "Extra firm"
+      },
+      {
+        "type": "header",
         "content": "Policy"
       },
       {
         "type": "number",
         "id": "return_window_days",
-        "label": "Return window (days)",
-        "default": 30,
-        "info": "The mattress return window if the bed itself is wrong. Used on the selector strip, trial page, and terms. Body copy spells the number out."
+        "label": "Legacy return window (days)",
+        "default": 14,
+        "info": "Unused for storefront copy. The return window is trial_nights. The no-charge window is 14 days, hardcoded."
       },
       {
         "type": "number",

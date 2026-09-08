@@ -6,13 +6,21 @@
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}
 {%- liquid
-  assign return_days = settings.return_window_days | default: settings.trial_nights | default: '30' | plus: 0
+  assign trial_nights = settings.trial_nights | default: 100 | plus: 0
+  assign return_fee = settings.return_fee | default: '£119'
+  assign delivery_mode = settings.delivery_mode | default: 'included'
+  assign delivery_charge = settings.delivery_charge | default: ''
   assign adj_months = settings.adjustment_period_months | default: '12' | plus: 0
   assign warranty_years = settings.warranty_years | default: '25' | plus: 0
+  if delivery_mode == 'chargeable' and delivery_charge != blank
+    assign delivery_policy = 'Delivery is ' | append: delivery_charge | append: '.'
+    assign delivery_refund_clause = 'In the first 14 days that refund includes ' | append: delivery_charge | append: '.'
+  else
+    assign delivery_policy = 'Delivery is included with every mattress.'
+    assign delivery_refund_clause = ''
+  endif
 -%}
-{%- capture return_words -%}{% render 'policy-words', n: return_days %}{%- endcapture -%}
 {%- capture warranty_words -%}{% render 'policy-words', n: warranty_years %}{%- endcapture -%}
-{%- assign return_words = return_words | strip -%}
 {%- assign warranty_words = warranty_words | strip -%}
 {%- if adj_months == 12 -%}
   {%- assign adjust_label = 'a year' -%}
@@ -28,7 +36,7 @@
 {%- if legal_name != blank -%}
   {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
 {%- endif -%}
-{%- assign policy_body = policy_body | replace: '[return_words]', return_words | replace: '[adjust_label]', adjust_label | replace: '[warranty_words]', warranty_words | replace: '[return_days]', return_days -%}
+{%- assign policy_body = policy_body | replace: '[return_words]', trial_nights | replace: '[adjust_label]', adjust_label | replace: '[warranty_words]', warranty_words | replace: '[return_days]', trial_nights | replace: '[trial_nights]', trial_nights | replace: '[return_fee]', return_fee | replace: '[delivery_policy]', delivery_policy | replace: '[delivery_refund_clause]', delivery_refund_clause | replace: '<p></p>', '' -%}
 {%- capture policy_body -%}{% render 'warranty-tokens', text: policy_body %}{%- endcapture -%}
 {%- capture policy_body -%}{% render 'trial-tokens', text: policy_body %}{%- endcapture -%}
 {%- assign policy_body = policy_body | strip -%}

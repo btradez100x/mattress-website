@@ -1,17 +1,14 @@
 {%- comment -%}
-  Resolve trial length in copy. Theme settings → Trial nights.
+  Resolve the return window in copy. Theme settings → Nights to return it.
   Tokens: [N]  [N]-night  {{ settings.trial_nights }}
+  The adjustment year is never a night count.
 {%- endcomment -%}
 {%- liquid
-  assign trial = settings.return_window_days | default: settings.trial_nights | default: '30' | append: '' | strip
-  if trial == blank
-    assign trial = '30'
+  assign trial = settings.trial_nights | default: 100 | append: '' | strip
+  if trial == blank or trial == '0'
+    assign trial = '100'
   endif
-  if trial == '30'
-    assign trial_phrase = '30-day'
-  else
-    assign trial_phrase = trial | append: '-night'
-  endif
+  assign trial_phrase = trial | append: '-night'
   assign out = text | default: ''
   assign out = out | replace: '{{ settings.trial_nights }}', trial
   assign out = out | replace: '[N]-night', trial_phrase

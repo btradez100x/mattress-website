@@ -1,35 +1,41 @@
+{%- liquid
+  assign feel_soft = settings.feel_name_soft | default: 'Soft'
+  assign feel_medium = settings.feel_name_medium | default: 'Medium'
+  assign feel_medium_firm = settings.feel_name_medium_firm | default: 'Medium firm'
+  assign feel_firm = settings.feel_name_firm | default: 'Firm'
+  assign feel_extra = settings.feel_name_extra_firm | default: 'Extra firm'
+-%}
 {%- if section.settings.enable_section -%}
 <section class="section{% render 'section-ground' %}" id="benefits" data-reveal data-section-ground="{% render 'section-ground', as: 'value' %}">
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
-      <p class="section__eyebrow">Why it matters</p>
+      <p class="section__eyebrow">The feel</p>
       <h2>{{ section.settings.heading }}</h2>
     {%- endif -%}
-
-    <div class="benefits__grid">
-      {%- for block in section.blocks -%}
-        <article class="benefit" {{ block.shopify_attributes }}>
-          <svg class="benefit__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            {%- case block.settings.icon -%}
-              {%- when 'cool' -%}
-                <path d="M12 3v18M5 7l14 10M5 17L19 7" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'support' -%}
-                <path d="M4 16h16M6 16V9a6 6 0 0 1 12 0v7" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'stability' -%}
-                <path d="M4 16h16M6 16V9a6 6 0 0 1 12 0v7" stroke="currentColor" stroke-width="1.25"/>
-                <path d="M8 20h8" stroke="currentColor" stroke-width="1.25"/>
-              {%- when 'enduring' -%}
-                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/>
-                <path d="M12 8v4l2.5 2.5" stroke="currentColor" stroke-width="1.25"/>
-              {%- else -%}
-                <path d="M4 14h16M8 14V8l4-3 4 3v6" stroke="currentColor" stroke-width="1.25"/>
-            {%- endcase -%}
-          </svg>
-          <h3>{{ block.settings.heading }}</h3>
-          <p>{{ block.settings.text }}</p>
-        </article>
-      {%- endfor -%}
-    </div>
+    <p class="feel-ladder__lede">Three layers. Two of them turn over.</p>
+    <p class="feel-ladder__lede">Yours arrives {{ feel_medium_firm }}. Turn it over for {{ feel_medium }}.</p>
+    <ol class="feel-ladder">
+      <li class="feel-ladder__row">
+        <p class="feel-ladder__name">{{ feel_soft }}</p>
+        <p class="feel-ladder__layer">Third layer, single sided</p>
+      </li>
+      <li class="feel-ladder__row">
+        <p class="feel-ladder__name">{{ feel_medium }}</p>
+        <p class="feel-ladder__layer">Included layer, reverse</p>
+      </li>
+      <li class="feel-ladder__row feel-ladder__row--delivered">
+        <p class="feel-ladder__name">{{ feel_medium_firm }}</p>
+        <p class="feel-ladder__layer">Included layer, as delivered</p>
+      </li>
+      <li class="feel-ladder__row">
+        <p class="feel-ladder__name">{{ feel_firm }}</p>
+        <p class="feel-ladder__layer">Second layer</p>
+      </li>
+      <li class="feel-ladder__row">
+        <p class="feel-ladder__name">{{ feel_extra }}</p>
+        <p class="feel-ladder__layer">Second layer, reverse</p>
+      </li>
+    </ol>
   </div>
 </section>
 {%- endif -%}
