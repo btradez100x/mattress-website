@@ -547,6 +547,30 @@
         "info": "Faces stay locked. Classic is the lighter heading weight. No serif."
       },
       {
+        "type": "checkbox",
+        "id": "section_gold_lines",
+        "label": "Gold lines under section titles",
+        "default": true,
+        "info": "The short gold hairline under each section eyebrow. Eyebrows stay when this is off."
+      },
+      {
+        "type": "select",
+        "id": "section_title_weight",
+        "label": "Section titles",
+        "options": [
+          {
+            "value": "regular",
+            "label": "Regular — Geist Mono 500"
+          },
+          {
+            "value": "bold",
+            "label": "Bold — Geist Mono 600"
+          }
+        ],
+        "default": "regular",
+        "info": "Weight of the small uppercase labels (As seen on, Customer reviews, The feel). Does not change large headings — that is Font set."
+      },
+      {
         "type": "paragraph",
         "content": "Face overrides below stay locked. They do not change the weight switch."
       },

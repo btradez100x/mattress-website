@@ -330,6 +330,10 @@ p:last-child {
   margin: 0 0 1.1rem;
 }
 
+html:not([data-section-lines="off"]) .section__eyebrow:has(+ .gold-rule) {
+  margin-bottom: 0.45rem;
+}
+
 .section__lede {
   font-size: 1.125rem;
   line-height: 1.55;
@@ -3996,6 +4000,10 @@ html[data-brand-guidelines="v2"] .oo-card__close {
   margin-bottom: 0.5rem;
 }
 
+.reviews__header .gold-rule {
+  margin-inline: 0;
+}
+
 @media (min-width: 800px) {
   .reviews__header {
     grid-template-columns: 1.4fr 0.8fr;
@@ -4520,6 +4528,16 @@ html[data-brand-guidelines="v2"] .oo-card__close {
   background: var(--brand-accent);
   margin: 0 0 1.35rem;
   border: none;
+}
+
+html[data-section-lines="off"] .gold-rule {
+  display: none;
+}
+
+html[data-eyebrow-weight="bold"] .section__eyebrow,
+html[data-eyebrow-weight="bold"] .lp-kicker,
+html[data-eyebrow-weight="bold"] .kicker {
+  font-weight: 600;
 }
 
 .gold-kicker {
