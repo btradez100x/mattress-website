@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (founder portrait)
+
+- Checkpoint: `checkpoints/13.0.0-founder-portrait/`. Deploy: `v9` `b59c962`, `shopify-theme` `777e010`. Founder portrait is off until enabled and uploaded. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (founder centre)
 
 - Checkpoint: `checkpoints/13.0.0-founder-centre/`. Deploy: `v9` `4df5061`, `shopify-theme` `fe118ad`. Founder note centres when no portrait is set. No VERSION bump.
