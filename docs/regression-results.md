@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (founder gold)
+
+- Checkpoint: `checkpoints/13.0.0-founder-gold/`. Deploy: `v9` `a4f82d7`, `shopify-theme` `944017c`. Founder gold line centred with the note. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (eight things)
 
 - Checkpoint: `checkpoints/13.0.0-eight-things/`. Deploy: `v9` `d6f65e8`, `shopify-theme` `c7098e6`. Benefits heading is 8 things that hold up. Two points added. Section moved above cooling. No VERSION bump.
