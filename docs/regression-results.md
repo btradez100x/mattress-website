@@ -1,3 +1,7 @@
+# Regression results — Tuesday 8 Sep 2026 (swap sentences)
+
+- Checkpoint: `checkpoints/13.0.0-swap-sentences/`. Deploy: `v9` `227a160`, `shopify-theme` `4af8274`. Removed the any-bed and topper sentences. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (seven zones)
 
 - Checkpoint: `checkpoints/13.0.0-seven-zones/`. Deploy: `v9` `6ef05da`, `shopify-theme` `40ebed5`. Wake without the ache body replaced. Seven rendered as 7. No VERSION bump.
