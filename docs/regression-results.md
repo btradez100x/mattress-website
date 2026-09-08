@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (overview brand type)
+
+- Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
+- Checkpoint: `checkpoints/13.0.0-overview-brand-type/`. Deploy: `v9` `1be1b61`, `shopify-theme` `aae8414`. What you will notice uses Instrument Sans and Inter. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (refresh price by size)
 
 - Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, Checkout cream, lifestyle/press, feel-ladder auto grounds.
