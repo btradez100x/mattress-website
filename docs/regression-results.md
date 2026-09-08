@@ -1,3 +1,8 @@
+# Regression results — Tuesday 8 Sep 2026 (heading weight visible)
+
+- Heading weight is the dropdown under Theme settings → Brand, directly under Brand name. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
+- Checkpoint: `checkpoints/13.0.0-heading-weight/`. Deploy: `v9` `7d65775`, `shopify-theme` `84e58b1`. No VERSION bump.
+
 # Regression results — Tuesday 8 Sep 2026 (heading weight)
 
 - Heading weight lives in Theme settings → Brand. Smoke exit 1. Same pre-existing fails: footer lockup, trade [D-reply], password 404, section grounds, lifestyle/press. Checkout cream passed.
