@@ -1,0 +1,22 @@
+{%- comment -%}
+  Sizes not covered by the extended returns window in the current market.
+  Statutory 14 days and Adjust to Desire are never excluded.
+{%- endcomment -%}
+{%- liquid
+  assign iso = localization.country.iso_code | default: 'GB' | upcase
+  if iso == 'UK'
+    assign iso = 'GB'
+  endif
+  assign days = settings.trial_nights | default: 100
+-%}
+<p>These sizes are not covered by the {{ days }} day returns policy in this market. Adjust to Desire still applies. Your statutory right to cancel within 14 days is unaffected.</p>
+<ul>
+  <li>Emperor, 200 × 200cm</li>
+  {%- if iso == 'GB' or iso == 'IE' -%}
+    <li>US King, 193 × 203cm</li>
+    <li>California King, 183 × 213cm</li>
+    <li>Split King, 2 × 106 × 213cm</li>
+  {%- elsif iso == 'AE' -%}
+    <li>Split King, 2 × 106 × 213cm</li>
+  {%- endif -%}
+</ul>

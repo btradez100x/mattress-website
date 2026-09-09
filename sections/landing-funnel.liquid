@@ -741,7 +741,7 @@
         render 'size-policy-strip'
       endcapture
       assign trial_nights = settings.trial_nights | default: 100
-      assign policy_emperor = 'Comfort layer included · Made to order · Complimentary Concierge unpacking · Not covered by the ' | append: trial_nights | append: ' night return'
+      assign policy_emperor = 'Comfort layer included · Made to order · Complimentary Concierge unpacking · Not covered by the ' | append: trial_nights | append: ' day returns policy'
       assign policy_default = policy_default | strip
       assign policy_emperor = policy_emperor | strip
       assign size_kicker = section.settings.kicker | strip
