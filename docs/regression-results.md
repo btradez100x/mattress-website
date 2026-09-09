@@ -1,3 +1,8 @@
+# Regression results — Wednesday 9 Sep 2026 (extended returns)
+
+- Extended returns exclusions now cover Emperor everywhere, US King and California King in GB and IE, and Split King in GB, IE, and AE. Cart uses the Emperor note. Policy pages list the sizes.
+- Checkpoint: `checkpoints/13.0.0-extended-returns/`. Deploy: `v9` `26416fe`, `shopify-theme` `66e3df9`. No VERSION bump.
+
 # Regression results — Wednesday 9 Sep 2026 (cart collection fee)
 
 - Cart hides Collection and recycling until Theme settings → Market & sizing → Show collection fee on cart is on. Nights-to-return line stays.
