@@ -1025,6 +1025,69 @@
     return 'GB';
   }
 
+  var EXTENDED_RETURNS_RULES = {
+    emperor: { all: true, label: 'Emperor' },
+    'us-king': { markets: ['GB', 'IE'], label: 'US King' },
+    'california-king': { markets: ['GB', 'IE'], label: 'California King' },
+    'split-king': { markets: ['GB', 'IE', 'AE'], label: 'Split King' }
+  };
+
+  function canonicalSizeId(lineOrId) {
+    var id = '';
+    var label = '';
+    var dims = '';
+    if (lineOrId && typeof lineOrId === 'object') {
+      id = lineOrId.sizeId || lineOrId.id || '';
+      label = lineOrId.label || '';
+      dims = lineOrId.dims || '';
+    } else {
+      id = lineOrId || '';
+    }
+    id = String(id).toLowerCase().replace(/[_\s]+/g, '-');
+    if (id === 'split-king-pair') id = 'split-king';
+    if (id === 'california-king' || id === 'cal-king' || id === 'cali-king') return 'california-king';
+    if (id === 'us-king' || id === 'usking') return 'us-king';
+    if (id === 'emperor') return 'emperor';
+    if (id === 'split-king') return 'split-king';
+    var compact = String(dims).replace(/\s/g, '');
+    if (/emperor/i.test(label) && !/super/i.test(label)) return 'emperor';
+    if (/california/i.test(label)) return 'california-king';
+    if (/split\s*king/i.test(label)) return 'split-king';
+    if (/193/.test(compact) && /203/.test(compact)) return 'us-king';
+    if (/183/.test(compact) && /213/.test(compact)) return 'california-king';
+    if (/200/.test(compact) && /200/.test(compact) && /emperor/i.test(label)) return 'emperor';
+    return id;
+  }
+
+  function extendedReturnsApplies(lineOrId, country) {
+    var iso = String(country || detectCountryIso() || '').toUpperCase();
+    if (iso === 'UK') iso = 'GB';
+    if (lineOrId && typeof lineOrId === 'object') {
+      if (lineOrId.extended_returns_eligible === false || lineOrId.extendedReturnsEligible === false) return false;
+      var blocked = lineOrId.extended_returns_excluded_markets || lineOrId.extendedReturnsExcludedMarkets;
+      if (blocked != null && blocked !== '') {
+        var list = Array.isArray(blocked) ? blocked : String(blocked).split(/[,|]/);
+        var hit = list.some(function (code) {
+          return String(code || '').trim().toUpperCase() === iso;
+        });
+        if (hit) return false;
+        if (lineOrId.extended_returns_eligible === true || lineOrId.extendedReturnsEligible === true) return true;
+      }
+    }
+    var rule = EXTENDED_RETURNS_RULES[canonicalSizeId(lineOrId)];
+    if (!rule) return true;
+    if (rule.all) return false;
+    return rule.markets.indexOf(iso) === -1;
+  }
+
+  function excludedReturnName(lineOrId) {
+    var id = canonicalSizeId(lineOrId);
+    var rule = EXTENDED_RETURNS_RULES[id];
+    if (rule) return rule.label;
+    if (lineOrId && lineOrId.label) return lineOrId.label;
+    return id;
+  }
+
   function normalizeShownToken(token) {
     var s = String(token || '').trim().toUpperCase().replace(/[_-]+/g, ' ');
     if (!s) return '';
@@ -1613,6 +1676,9 @@
       (fits
         ? '<span class="size-option__note">' + escapeHtml(fits) + '</span>'
         : '') +
+      (!extendedReturnsApplies(s)
+        ? '<span class="size-option__note">Not covered by the ' + numaReturnsDays() + ' day returns policy</span>'
+        : '') +
       '</div>' +
       '<div class="size-option__footprint">' +
       sizePickerFootprintMarkup(Object.assign({}, s, { label: label, dims: dims }), maxDim) +
@@ -2116,7 +2182,7 @@
       });
       var policyEl = root.querySelector('[data-lp-policy]');
       if (policyEl) {
-        var inEmp = OrderStore.lines().some(function (l) { return l.sizeId === 'emperor'; });
+        var inEmp = OrderStore.lines().some(function (l) { return !extendedReturnsApplies(l); });
         var def = root.getAttribute('data-lp-policy-default') || '';
         var emp = root.getAttribute('data-lp-policy-emperor') || def;
         paintPolicyItems(policyEl, inEmp ? emp : def);
@@ -2162,7 +2228,7 @@
           size: sizeId,
           value: unitValue,
           currency: detectCurrencyCode(),
-          trial_eligible: sizeId !== 'emperor',
+          trial_eligible: extendedReturnsApplies(sizeId),
         });
       } else if (qty !== prevQty) {
         vTrack('quantity_changed', { size: sizeId, quantity: qty });
@@ -4463,7 +4529,7 @@
             size: size.id,
             value: addValue,
             currency: detectCurrencyCode(),
-            trial_eligible: size.id !== 'emperor',
+            trial_eligible: extendedReturnsApplies(size),
           }));
         } else if (qty !== prevQty) {
           vTrack('quantity_changed', eventParams({
@@ -5836,9 +5902,10 @@
       }
       paintServices();
       var days = numaReturnsDays();
-      var hasEmperor = lines.some(function (l) {
-        return l.sizeId === 'emperor' || /emperor/i.test(l.label || '');
+      var excludedLines = lines.filter(function (l) {
+        return isMattressLine(l) && !extendedReturnsApplies(l);
       });
+      var hasExcluded = excludedLines.length > 0;
       if (linesEl) {
         linesEl.innerHTML = lines
           .map(function (line) {
@@ -5849,8 +5916,7 @@
             );
             var title = line.label || orderLineTitle(line);
             var key = line.key || line.sizeId || '';
-            var emperorNote =
-              line.sizeId === 'emperor' || /emperor/i.test(line.label || '')
+            var emperorNote = !extendedReturnsApplies(line)
                 ? '<p class="checkout-item__note">Not covered by the ' +
                   days +
                   ' day returns policy</p>'
@@ -5911,11 +5977,26 @@
           escapeHtml(totalText) +
           '</span></div>';
       }
-      var returnsTerm = page.querySelector('[data-returns-term]');
-      if (returnsTerm) {
-        returnsTerm.textContent = hasEmperor
-          ? days + ' day returns policy from delivery. Emperor is made to order and excluded'
-          : days + ' day returns policy from delivery.';
+      var returnsExcluded = page.querySelector('[data-returns-excluded]');
+      if (returnsExcluded) {
+        if (hasExcluded) {
+          var names = [];
+          excludedLines.forEach(function (l) {
+            var name = excludedReturnName(l);
+            if (names.indexOf(name) === -1) names.push(name);
+          });
+          var verb = names.length === 1 ? ' is' : ' are';
+          returnsExcluded.hidden = false;
+          returnsExcluded.textContent =
+            names.join(', ') +
+            verb +
+            ' not covered by the ' +
+            days +
+            ' day returns policy. Adjust to Desire still applies. Your statutory right to cancel within 14 days is unaffected.';
+        } else {
+          returnsExcluded.hidden = true;
+          returnsExcluded.textContent = '';
+        }
       }
       if (subtotalEl) subtotalEl.textContent = totalText;
       if (barTotalEl) barTotalEl.textContent = totalText;

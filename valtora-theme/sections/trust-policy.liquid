@@ -36,7 +36,8 @@
 {%- if legal_name != blank -%}
   {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
 {%- endif -%}
-{%- assign policy_body = policy_body | replace: '[return_words]', trial_nights | replace: '[adjust_label]', adjust_label | replace: '[warranty_words]', warranty_words | replace: '[return_days]', trial_nights | replace: '[trial_nights]', trial_nights | replace: '[return_fee]', return_fee | replace: '[delivery_policy]', delivery_policy | replace: '[delivery_refund_clause]', delivery_refund_clause | replace: '<p></p>', '' -%}
+{%- capture extended_returns_list -%}{% render 'extended-returns-list' %}{%- endcapture -%}
+{%- assign policy_body = policy_body | replace: '[return_words]', trial_nights | replace: '[adjust_label]', adjust_label | replace: '[warranty_words]', warranty_words | replace: '[return_days]', trial_nights | replace: '[trial_nights]', trial_nights | replace: '[return_fee]', return_fee | replace: '[delivery_policy]', delivery_policy | replace: '[delivery_refund_clause]', delivery_refund_clause | replace: '[extended_returns_list]', extended_returns_list | replace: '<p></p>', '' -%}
 {%- capture policy_body -%}{% render 'warranty-tokens', text: policy_body %}{%- endcapture -%}
 {%- capture policy_body -%}{% render 'trial-tokens', text: policy_body %}{%- endcapture -%}
 {%- assign policy_body = policy_body | strip -%}
