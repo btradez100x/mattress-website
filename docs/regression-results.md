@@ -1,3 +1,9 @@
+
+# Regression results — Saturday 12 Sep 2026 (nine LP zip handles)
+
+- Nine LPs on zip-derived handles with prototype copy and rearrangeable `lp.liquid` blocks. Inline `#configure`; filters per plan. Cooling redesign restored.
+- Smoke: pre-existing fails only (footer, trade, password, grounds, lifestyle). Configure-kicker check passed after Reserve yours.
+- Checkpoint: `checkpoints/13.0.0-nine-lp-zip-handles/`. Deploy: `v9` `9d69b04`, `shopify-theme` `65e188a`. No VERSION bump.
 # Regression results — Saturday 12 Sep 2026 (landing-pages)
 
 - Nine ad landing pages: rearrangeable `lp` blocks, filtered configure, no lead time on page. Cooling rewritten. Preview mirrors shipped.
