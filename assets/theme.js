@@ -2207,6 +2207,15 @@
           paintSizes(root);
         });
         var rows = rowsForSizeType(root.getAttribute('data-size-type'));
+        var allowed = String(root.getAttribute('data-allowed-sizes') || '')
+          .split(/[,|\s]+/)
+          .map(function (s) { return String(s || '').trim().toLowerCase(); })
+          .filter(Boolean);
+        if (allowed.length) {
+          rows = (rows || []).filter(function (r) {
+            return allowed.indexOf(String((r && r.id) || '').toLowerCase()) !== -1;
+          });
+        }
         paintSizeGrid(list, rows, tab, 'Add');
         hydratePolicyStrips(root);
         syncLandingRows(root);

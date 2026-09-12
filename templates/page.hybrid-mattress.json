@@ -1,0 +1,182 @@
+{
+  "sections": {
+    "main": {
+      "type": "lp",
+      "blocks": {
+        "b1": {
+          "type": "hero",
+          "settings": {
+            "kicker": "The specification",
+            "heading": "Eight layers.\nEach one stated.",
+            "lede": "You have decided what you want. Thirty five centimetres, a seven-zone pocket spring core, a comfort layer that lifts out. Here is exactly what is in it, so you can check it against what you had in mind.",
+            "cta_primary": "Choose your size",
+            "cta_secondary": "See every layer",
+            "cta_secondary_href": "#layers",
+            "show_price": true,
+            "price_first": false,
+            "price_large": false,
+            "price_from": "From \u00a32,499",
+            "price_klarna": "or \u00a3104 a month with Klarna",
+            "image_file": "coolknit-side.webp",
+            "image_alt": "",
+            "show_press": false,
+            "press_label": "As featured in",
+            "trust_1": "20cm seven-zone core",
+            "trust_2": "2.0mm wire at the hips",
+            "trust_3": "Flippable comfort layer",
+            "press_1": "Gulf News",
+            "press_2": "The National",
+            "press_3": "Time Out",
+            "press_4": "Khaleej Times",
+            "press_5": "Wallpaper*"
+          }
+        },
+        "b2": {
+          "type": "layers",
+          "settings": {
+            "anchor_id": "layers",
+            "kicker": "Top to bottom",
+            "heading": "What thirty five centimetres\nis made of",
+            "layer_1_n": "01",
+            "layer_1_name": "Cool-knit cover",
+            "layer_1_desc": "400 gram, zipped the whole way round",
+            "layer_1_meta": "Cover",
+            "layer_1_core": false,
+            "layer_2_n": "02",
+            "layer_2_name": "Gel memory foam",
+            "layer_2_desc": "One centimetre, 28 density",
+            "layer_2_meta": "1cm",
+            "layer_2_core": false,
+            "layer_3_n": "03",
+            "layer_3_name": "Comfort foam",
+            "layer_3_desc": "One and a half centimetres, 20 density",
+            "layer_3_meta": "1.5cm",
+            "layer_3_core": false,
+            "layer_4_n": "04",
+            "layer_4_name": "Wave-profile airflow foam",
+            "layer_4_desc": "Two and a half centimetres, cut to let air move",
+            "layer_4_meta": "2.5cm",
+            "layer_4_core": false,
+            "layer_5_n": "05",
+            "layer_5_name": "Flippable comfort layer",
+            "layer_5_desc": "Ten centimetres. Medium one face, medium firm the other",
+            "layer_5_meta": "10cm",
+            "layer_5_core": false,
+            "layer_6_n": "06",
+            "layer_6_name": "Seven-zone pocket spring core",
+            "layer_6_desc": "Twenty centimetres. 2.0mm wire at hips and shoulders, 1.8mm elsewhere",
+            "layer_6_meta": "20cm",
+            "layer_6_core": true,
+            "layer_7_n": "07",
+            "layer_7_name": "Encased perimeter",
+            "layer_7_desc": "Seven centimetres, 35 density. The edge holds",
+            "layer_7_meta": "Edge",
+            "layer_7_core": false,
+            "layer_8_n": "08",
+            "layer_8_name": "Anti-slip base",
+            "layer_8_desc": "Stays where you put it",
+            "layer_8_meta": "Base",
+            "layer_8_core": false
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2"
+      ],
+      "settings": {
+        "variant": "hybrid-mattress"
+      }
+    },
+    "configure": {
+      "type": "landing-funnel",
+      "settings": {
+        "enable_section": true,
+        "ground": "surface",
+        "layout": "configure",
+        "anchor_id": "configure",
+        "mattress_product": "the-mattress",
+        "kicker": "Configure",
+        "heading": "Choose your size",
+        "lede": "Every size is the same build. Thirty five centimetres, seven-zone core, removable comfort layer. You do not choose a firmness.",
+        "hide_lead_time": true
+      }
+    },
+    "more": {
+      "type": "lp",
+      "blocks": {
+        "b3": {
+          "type": "video",
+          "settings": {
+            "ground": "bone",
+            "reverse": false,
+            "kicker": "The core",
+            "heading": "Seven zones, two wire gauges,\nevery spring in its own pocket",
+            "body_1": "Two millimetre wire under the hips and shoulders, where the weight lands. One point eight everywhere else. Each spring in its own fabric pocket.",
+            "body_2": "Twenty centimetres of it, guaranteed for twenty five years. It is the part that does not come out, because it is the part that does not wear.",
+            "video_file": "spring.mp4",
+            "poster_file": "spring-poster.webp",
+            "caption": "Seven-zone core",
+            "image_file": "",
+            "image_alt": ""
+          }
+        },
+        "b4": {
+          "type": "split",
+          "settings": {
+            "ground": "",
+            "reverse": false,
+            "kicker": "The comfort layer",
+            "heading": "Medium one face.\nMedium firm the other.",
+            "body_1": "Ten centimetres, two densities laminated together. Turn it over and the feel changes. That is the first adjustment.",
+            "body_2": "If neither face is right, tell us how it should feel and we build a new one to that. For a year, with our compliments.",
+            "pull": "",
+            "image_file": "quilt-macro.webp",
+            "image_alt": ""
+          }
+        },
+        "b5": {
+          "type": "video",
+          "settings": {
+            "ground": "dark",
+            "reverse": false,
+            "kicker": "The cover",
+            "heading": "Zipped the whole way round",
+            "body_1": "Four hundred gram cool-knit, breathable, closed with a zip that runs the full perimeter. The zip is why the comfort layer can come out.",
+            "body_2": "Nothing is glued. Nothing is tufted. The build is held together by the cover, which means the build can be opened.",
+            "video_file": "compression.mp4",
+            "poster_file": "compression-poster.webp",
+            "caption": "Cover compression",
+            "image_file": "",
+            "image_alt": ""
+          }
+        },
+        "b6": {
+          "type": "assurance",
+          "settings": {
+            "a1_heading": "You cannot get this wrong",
+            "a1_body": "Adjust to Desire. A year to get the feel right. We remake the comfort layer to that, with our compliments, as often as it takes.",
+            "a2_heading": "100 days to change your mind",
+            "a2_body": "Collected from your home and refunded in full. Some sizes are not covered by the 100 day returns policy.",
+            "a3_heading": "25 years on the core",
+            "a3_body": "The part that carries you is guaranteed for a quarter of a century."
+          }
+        }
+      },
+      "block_order": [
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ],
+      "settings": {
+        "variant": "hybrid-mattress-more"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "configure",
+    "more"
+  ]
+}
