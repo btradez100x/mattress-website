@@ -1,3 +1,9 @@
+# Regression results — Saturday 12 Sep 2026 (landing-pages)
+
+- Nine ad landing pages: rearrangeable `lp` blocks, filtered configure, no lead time on page. Cooling rewritten. Preview mirrors shipped.
+- Smoke: exit 1 on 6 pre-existing checks (footer lockup, password, grounds, JS auto ground, lifestyle/press). No new LP-specific fails fixed in this pass.
+- Checkpoint: `checkpoints/13.0.0-landing-pages/`. Deploy: `v9` `deef30d`, `shopify-theme` `0a72a59`. No VERSION bump.
+
 # Regression results — Wednesday 9 Sep 2026 (extended returns)
 
 - Extended returns exclusions now cover Emperor everywhere, US King and California King in GB and IE, and Split King in GB, IE, and AE. Cart uses the Emperor note. Policy pages list the sizes.
