@@ -765,6 +765,8 @@
     data-lp-policy-default="{{ policy_default | escape }}"
     data-lp-policy-emperor="{{ policy_emperor | escape }}"
     data-add-label="{{ settings.size_add_label | default: 'Add' | escape }}"
+    {% if section.settings.allowed_size_ids != blank %}data-allowed-sizes="{{ section.settings.allowed_size_ids | strip | escape }}"{% endif %}
+    {% if section.settings.hide_lead_time %}data-hide-lead="1"{% endif %}
   >
     <div>
     <div class="lp-sec-head lp-configure-head">
@@ -780,9 +782,11 @@
       {%- endif -%}
     </div>
     {% render 'size-picker-chrome' %}
-    <ul class="size-list lp-sizes" data-lp-sizes data-size-list aria-label="Mattress size">{%- render 'size-picker-tiles', mattress: mattress, catalog_iso: catalog_iso, add_label: settings.size_add_label -%}</ul>
+    <ul class="size-list lp-sizes" data-lp-sizes data-size-list aria-label="Mattress size">{%- render 'size-picker-tiles', mattress: mattress, catalog_iso: catalog_iso, add_label: settings.size_add_label, allowed_size_ids: section.settings.allowed_size_ids -%}</ul>
     {% render 'size-picker-help' %}
+    {%- unless section.settings.hide_lead_time -%}
     <p class="lp-lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
+    {%- endunless -%}
     <span hidden data-size-pick data-lp-qty></span>
     <div class="size-note">
       <label for="LpNote-{{ section.id }}">Anything we should know?</label>
@@ -802,7 +806,9 @@
         <div data-reserve-stage-a>
           <p class="order-basket__eyebrow">Your order</p>
           {% render 'order-builder', section: section, market: market, first_price: first_price %}
+          {%- unless section.settings.hide_lead_time -%}
           <p class="order-basket__lead" data-lead-line>{% render 'lead-time-line', product: mattress, product_type: 'mattress' %}</p>
+          {%- endunless -%}
           <div data-order-retail>
             <a
               class="btn"
@@ -895,6 +901,19 @@
       "id": "featured_size",
       "label": "Featured size id",
       "info": "SKU handle: emperor, european-king, super-king, king. Blank uses the lowest priced size for From."
+    },
+    {
+      "type": "text",
+      "id": "allowed_size_ids",
+      "label": "Allowed size ids",
+      "info": "Comma list of size ids to show. Blank shows every size in market. Example: king,super-king,european-king,double,emperor"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_lead_time",
+      "label": "Hide lead time",
+      "default": false,
+      "info": "On for ad landing pages. Lead time stays on the basket."
     },
     {
       "type": "header",

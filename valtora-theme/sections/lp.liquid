@@ -1,0 +1,466 @@
+{{ 'lp.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign brand = settings.brand_name | default: 'Numa'
+  assign trial = settings.trial_nights | default: 100
+  assign warranty = settings.warranty_years | default: '25'
+  capture market
+    render 'size-market'
+  endcapture
+  assign market = market | strip
+  if market == 'ae'
+    assign layer_price = settings.comfort_layer_price_ae | default: 'AED 1,200'
+  else
+    assign layer_price = settings.comfort_layer_price_gb | default: '£299'
+  endif
+-%}
+<div class="lp" data-lp-page data-lp-variant="{{ section.settings.variant | escape }}">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+
+      {%- when 'hero' -%}
+        <section class="hero" {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="hero-grid">
+              <div>
+                {%- if block.settings.kicker != blank -%}
+                  <p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand }}</p>
+                {%- endif -%}
+                <h1>{{ block.settings.heading | newline_to_br }}</h1>
+                {%- if block.settings.lede != blank -%}
+                  <p class="lede">{{ block.settings.lede | replace: '[Brand]', brand }}</p>
+                {%- endif -%}
+                <div class="cta-row">
+                  <a class="btn" href="#configure">{{ block.settings.cta_primary | default: 'Choose your size' }}</a>
+                  {%- if block.settings.cta_secondary != blank -%}
+                    <a class="btn btn-line" href="{{ block.settings.cta_secondary_href | default: '#configure' }}">{{ block.settings.cta_secondary }}</a>
+                  {%- endif -%}
+                </div>
+                {%- if block.settings.show_price and block.settings.price_first -%}
+                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" style="margin-top:var(--s3)">
+                    <span class="from">{{ block.settings.price_from | default: 'From £2,499' }}</span>
+                    {%- if block.settings.price_klarna != blank -%}
+                      <span class="klarna">{{ block.settings.price_klarna }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.trust_1 != blank -%}
+                  <div class="trust">
+                    <span>{{ block.settings.trust_1 }}</span>
+                    {%- if block.settings.trust_2 != blank -%}<span>{{ block.settings.trust_2 }}</span>{%- endif -%}
+                    {%- if block.settings.trust_3 != blank -%}<span>{{ block.settings.trust_3 }}</span>{%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.show_price and block.settings.price_first == false -%}
+                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" style="margin-top:var(--s3)">
+                    <span class="from">{{ block.settings.price_from | default: 'From £2,499' }}</span>
+                    {%- if block.settings.price_klarna != blank -%}
+                      <span class="klarna">{{ block.settings.price_klarna }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+              {%- if block.settings.image_file != blank -%}
+                {%- assign lp_img_alt = block.settings.image_alt | default: brand -%}
+                {% render 'rd-img', file: block.settings.image_file, alt: lp_img_alt, width: 1600, height: 900, loading: 'eager', fetchpriority: 'high' %}
+              {%- endif -%}
+            </div>
+            <div class="line"></div>
+            {%- if block.settings.show_press -%}
+              <div class="press">
+                <span class="k">{{ block.settings.press_label | default: 'As featured in' }}</span>
+                <div class="logos">
+                  {%- if block.settings.press_1 != blank -%}<span>{{ block.settings.press_1 }}</span>{%- endif -%}
+                  {%- if block.settings.press_2 != blank -%}<span>{{ block.settings.press_2 }}</span>{%- endif -%}
+                  {%- if block.settings.press_3 != blank -%}<span>{{ block.settings.press_3 }}</span>{%- endif -%}
+                  {%- if block.settings.press_4 != blank -%}<span>{{ block.settings.press_4 }}</span>{%- endif -%}
+                  {%- if block.settings.press_5 != blank -%}<span>{{ block.settings.press_5 }}</span>{%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </section>
+
+      {%- when 'prose' -%}
+        <section class="{% if block.settings.ground == 'dark' %}dark{% elsif block.settings.ground == 'bone' %}bone{% elsif block.settings.tight %}tight{% endif %}"{% if block.settings.anchor_id != blank %} id="{{ block.settings.anchor_id | escape }}"{% endif %} {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="narrow">
+              <div class="sec-head">
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+              </div>
+              {%- if block.settings.body_1 != blank -%}<p>{{ block.settings.body_1 | replace: '[Brand]', brand | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+              {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[Brand]', brand | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+              {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull }}</p></div>{%- endif -%}
+            </div>
+          </div>
+        </section>
+
+      {%- when 'split' -%}
+        <section class="{% if block.settings.ground == 'dark' %}dark{% elsif block.settings.ground == 'bone' %}bone{% endif %}" {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="split{% if block.settings.reverse %} rev{% endif %}">
+              {%- if block.settings.image_file != blank and block.settings.reverse == false -%}
+                <div>
+                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                  {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull }}</p></div>{%- endif -%}
+                </div>
+                {%- assign lp_img_alt = block.settings.image_alt | default: brand -%}
+                {% render 'rd-img', file: block.settings.image_file, alt: lp_img_alt, width: 1400, height: 787, loading: 'lazy' %}
+              {%- else -%}
+                {%- if block.settings.image_file != blank -%}
+                  {%- assign lp_img_alt = block.settings.image_alt | default: brand -%}
+                {% render 'rd-img', file: block.settings.image_file, alt: lp_img_alt, width: 1400, height: 787, loading: 'lazy' %}
+                {%- endif -%}
+                <div>
+                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                  {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull }}</p></div>{%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </section>
+
+      {%- when 'cards' -%}
+        <section class="{% if block.settings.ground == 'bone' %}bone{% elsif block.settings.ground == 'dark' %}dark{% endif %}"{% if block.settings.anchor_id != blank %} id="{{ block.settings.anchor_id | escape }}"{% endif %} {{ block.shopify_attributes }}>
+          <div class="wrap">
+            {%- if block.settings.kicker != blank or block.settings.heading != blank -%}
+              <div class="sec-head narrow">
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+              </div>
+            {%- endif -%}
+            <div class="grid3">
+              {%- if block.settings.card_1_heading != blank -%}
+                <div><h3>{{ block.settings.card_1_heading }}</h3><p>{{ block.settings.card_1_body }}</p></div>
+              {%- endif -%}
+              {%- if block.settings.card_2_heading != blank -%}
+                <div><h3>{{ block.settings.card_2_heading }}</h3><p>{{ block.settings.card_2_body }}</p></div>
+              {%- endif -%}
+              {%- if block.settings.card_3_heading != blank -%}
+                <div><h3>{{ block.settings.card_3_heading }}</h3><p>{{ block.settings.card_3_body }}</p></div>
+              {%- endif -%}
+            </div>
+          </div>
+        </section>
+
+      {%- when 'price' -%}
+        <section class="bone" {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="narrow">
+              <div class="sec-head">
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+              </div>
+              {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
+              <div class="price-block" style="margin-top:var(--s3)">
+                <span class="from">{{ block.settings.price_from | default: 'From £1,999' }}</span>
+                {%- if block.settings.price_klarna != blank -%}
+                  <span class="klarna">{{ block.settings.price_klarna }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {%- when 'media' -%}
+        <section class="flush" {{ block.shopify_attributes }}>
+          {%- if block.settings.image_file != blank -%}
+            {%- assign lp_img_alt = block.settings.image_alt | default: brand -%}
+                {% render 'rd-img', file: block.settings.image_file, alt: lp_img_alt, width: 1400, height: 787, loading: 'lazy', class: 'lp-flush-img' %}
+          {%- endif -%}
+        </section>
+
+      {%- when 'layers' -%}
+        <section class="tight" id="{{ block.settings.anchor_id | default: 'layers' | escape }}" {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="narrow">
+              <div class="sec-head">
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+              </div>
+              <div class="layers">
+                {%- for i in (1..8) -%}
+                  {%- capture nkey -%}layer_{{ i }}_n{%- endcapture -%}
+                  {%- capture namekey -%}layer_{{ i }}_name{%- endcapture -%}
+                  {%- capture desckey -%}layer_{{ i }}_desc{%- endcapture -%}
+                  {%- capture metakey -%}layer_{{ i }}_meta{%- endcapture -%}
+                  {%- capture corekey -%}layer_{{ i }}_core{%- endcapture -%}
+                  {%- assign lname = block.settings[namekey] -%}
+                  {%- if lname != blank -%}
+                    <div class="layer{% if block.settings[corekey] %} core{% endif %}">
+                      <span class="n">{{ block.settings[nkey] | default: i }}</span>
+                      <div><b>{{ lname }}</b><span>{{ block.settings[desckey] }}</span></div>
+                      <em>{{ block.settings[metakey] }}</em>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {%- when 'video' -%}
+        <section class="{% if block.settings.ground == 'dark' %}dark{% elsif block.settings.ground == 'bone' %}bone{% endif %}" {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="split{% if block.settings.reverse %} rev{% endif %}">
+              <div>
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 }}</p>{%- endif -%}
+                {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 }}</p>{%- endif -%}
+              </div>
+              <div>
+                {%- if block.settings.video_file != blank -%}
+                  <video controls playsinline preload="none" poster="{% if block.settings.poster_file != blank %}{{ block.settings.poster_file | asset_url }}{% endif %}">
+                    <source src="{{ block.settings.video_file | asset_url }}" type="video/mp4">
+                  </video>
+                  {%- if block.settings.caption != blank -%}
+                    <p class="vid-cap">{{ block.settings.caption }}</p>
+                  {%- endif -%}
+                {%- elsif block.settings.image_file != blank -%}
+                  {%- assign lp_img_alt = block.settings.image_alt | default: brand -%}
+                {% render 'rd-img', file: block.settings.image_file, alt: lp_img_alt, width: 1400, height: 787, loading: 'lazy' %}
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {%- when 'assurance' -%}
+        <section class="bone" {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="narrow">
+              <div class="assure">
+                <div>
+                  <b>{{ block.settings.a1_heading | default: 'You cannot get this wrong' }}</b>
+                  <p>{{ block.settings.a1_body | default: 'Adjust to Desire. A year to get the feel right. We remake the comfort layer to that, with our compliments, as often as it takes.' }}</p>
+                </div>
+                <div>
+                  <b>{{ block.settings.a2_heading | default: '100 days to change your mind' | replace: '100', trial }}</b>
+                  <p>{{ block.settings.a2_body | default: 'Collected from your home and refunded in full. Some sizes are not covered by the 100 day returns policy.' | replace: '100', trial }}</p>
+                </div>
+                <div>
+                  <b>{{ block.settings.a3_heading | default: '25 years on the core' | replace: '25', warranty }}</b>
+                  <p>{{ block.settings.a3_body | default: 'The part that carries you is guaranteed for a quarter of a century.' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Landing page",
+  "tag": "div",
+  "class": "lp-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "variant",
+      "label": "Variant id",
+      "info": "For analytics. Example: king-and-super-king"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "name": "Hero",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker" },
+        { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "lede", "label": "Lede" },
+        { "type": "text", "id": "cta_primary", "label": "Primary CTA", "default": "Choose your size" },
+        { "type": "text", "id": "cta_secondary", "label": "Secondary CTA" },
+        { "type": "text", "id": "cta_secondary_href", "label": "Secondary CTA href", "default": "#configure" },
+        { "type": "checkbox", "id": "show_price", "label": "Show price block", "default": true },
+        { "type": "checkbox", "id": "price_first", "label": "Price above trust strip", "default": false },
+        { "type": "checkbox", "id": "price_large", "label": "Large price", "default": false },
+        { "type": "text", "id": "price_from", "label": "From price", "default": "From £2,499" },
+        { "type": "text", "id": "price_klarna", "label": "Klarna line", "default": "or £104 a month with Klarna" },
+        { "type": "text", "id": "trust_1", "label": "Trust 1" },
+        { "type": "text", "id": "trust_2", "label": "Trust 2" },
+        { "type": "text", "id": "trust_3", "label": "Trust 3" },
+        { "type": "text", "id": "image_file", "label": "Image filename", "default": "product-floating.webp" },
+        { "type": "text", "id": "image_alt", "label": "Image alt" },
+        { "type": "checkbox", "id": "show_press", "label": "Show press strip", "default": true },
+        { "type": "text", "id": "press_label", "label": "Press label", "default": "As featured in" },
+        { "type": "text", "id": "press_1", "label": "Press 1" },
+        { "type": "text", "id": "press_2", "label": "Press 2" },
+        { "type": "text", "id": "press_3", "label": "Press 3" },
+        { "type": "text", "id": "press_4", "label": "Press 4" },
+        { "type": "text", "id": "press_5", "label": "Press 5" }
+      ]
+    },
+    {
+      "type": "prose",
+      "name": "Prose",
+      "settings": [
+        { "type": "select", "id": "ground", "label": "Ground", "options": [
+          { "value": "", "label": "Snow" },
+          { "value": "bone", "label": "Bone" },
+          { "value": "dark", "label": "Dark" }
+        ], "default": "" },
+        { "type": "checkbox", "id": "tight", "label": "Tight top padding", "default": false },
+        { "type": "text", "id": "anchor_id", "label": "Anchor id" },
+        { "type": "text", "id": "kicker", "label": "Kicker" },
+        { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "body_1", "label": "Body 1" },
+        { "type": "textarea", "id": "body_2", "label": "Body 2" },
+        { "type": "textarea", "id": "pull", "label": "Pull quote" }
+      ]
+    },
+    {
+      "type": "split",
+      "name": "Split media",
+      "settings": [
+        { "type": "select", "id": "ground", "label": "Ground", "options": [
+          { "value": "", "label": "Snow" },
+          { "value": "bone", "label": "Bone" },
+          { "value": "dark", "label": "Dark" }
+        ], "default": "" },
+        { "type": "checkbox", "id": "reverse", "label": "Image first", "default": false },
+        { "type": "text", "id": "kicker", "label": "Kicker" },
+        { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "body_1", "label": "Body 1" },
+        { "type": "textarea", "id": "body_2", "label": "Body 2" },
+        { "type": "textarea", "id": "pull", "label": "Pull quote" },
+        { "type": "text", "id": "image_file", "label": "Image filename" },
+        { "type": "text", "id": "image_alt", "label": "Image alt" }
+      ]
+    },
+    {
+      "type": "cards",
+      "name": "Three cards",
+      "settings": [
+        { "type": "select", "id": "ground", "label": "Ground", "options": [
+          { "value": "", "label": "Snow" },
+          { "value": "bone", "label": "Bone" },
+          { "value": "dark", "label": "Dark" }
+        ], "default": "bone" },
+        { "type": "text", "id": "anchor_id", "label": "Anchor id" },
+        { "type": "text", "id": "kicker", "label": "Kicker" },
+        { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "text", "id": "card_1_heading", "label": "Card 1 heading" },
+        { "type": "textarea", "id": "card_1_body", "label": "Card 1 body" },
+        { "type": "text", "id": "card_2_heading", "label": "Card 2 heading" },
+        { "type": "textarea", "id": "card_2_body", "label": "Card 2 body" },
+        { "type": "text", "id": "card_3_heading", "label": "Card 3 heading" },
+        { "type": "textarea", "id": "card_3_body", "label": "Card 3 body" }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price band",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker" },
+        { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "body", "label": "Body" },
+        { "type": "text", "id": "price_from", "label": "From price", "default": "From £1,999" },
+        { "type": "text", "id": "price_klarna", "label": "Klarna line" }
+      ]
+    },
+    {
+      "type": "media",
+      "name": "Full-bleed media",
+      "settings": [
+        { "type": "text", "id": "image_file", "label": "Image filename" },
+        { "type": "text", "id": "image_alt", "label": "Image alt" }
+      ]
+    },
+    {
+      "type": "layers",
+      "name": "Layer table",
+      "settings": [
+        { "type": "text", "id": "anchor_id", "label": "Anchor id", "default": "layers" },
+        { "type": "text", "id": "kicker", "label": "Kicker" },
+        { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "text", "id": "layer_1_n", "label": "1 number", "default": "01" },
+        { "type": "text", "id": "layer_1_name", "label": "1 name" },
+        { "type": "text", "id": "layer_1_desc", "label": "1 description" },
+        { "type": "text", "id": "layer_1_meta", "label": "1 meta" },
+        { "type": "checkbox", "id": "layer_1_core", "label": "1 is core", "default": false },
+        { "type": "text", "id": "layer_2_n", "label": "2 number", "default": "02" },
+        { "type": "text", "id": "layer_2_name", "label": "2 name" },
+        { "type": "text", "id": "layer_2_desc", "label": "2 description" },
+        { "type": "text", "id": "layer_2_meta", "label": "2 meta" },
+        { "type": "checkbox", "id": "layer_2_core", "label": "2 is core", "default": false },
+        { "type": "text", "id": "layer_3_n", "label": "3 number", "default": "03" },
+        { "type": "text", "id": "layer_3_name", "label": "3 name" },
+        { "type": "text", "id": "layer_3_desc", "label": "3 description" },
+        { "type": "text", "id": "layer_3_meta", "label": "3 meta" },
+        { "type": "checkbox", "id": "layer_3_core", "label": "3 is core", "default": false },
+        { "type": "text", "id": "layer_4_n", "label": "4 number", "default": "04" },
+        { "type": "text", "id": "layer_4_name", "label": "4 name" },
+        { "type": "text", "id": "layer_4_desc", "label": "4 description" },
+        { "type": "text", "id": "layer_4_meta", "label": "4 meta" },
+        { "type": "checkbox", "id": "layer_4_core", "label": "4 is core", "default": false },
+        { "type": "text", "id": "layer_5_n", "label": "5 number", "default": "05" },
+        { "type": "text", "id": "layer_5_name", "label": "5 name" },
+        { "type": "text", "id": "layer_5_desc", "label": "5 description" },
+        { "type": "text", "id": "layer_5_meta", "label": "5 meta" },
+        { "type": "checkbox", "id": "layer_5_core", "label": "5 is core", "default": false },
+        { "type": "text", "id": "layer_6_n", "label": "6 number", "default": "06" },
+        { "type": "text", "id": "layer_6_name", "label": "6 name" },
+        { "type": "text", "id": "layer_6_desc", "label": "6 description" },
+        { "type": "text", "id": "layer_6_meta", "label": "6 meta" },
+        { "type": "checkbox", "id": "layer_6_core", "label": "6 is core", "default": true },
+        { "type": "text", "id": "layer_7_n", "label": "7 number", "default": "07" },
+        { "type": "text", "id": "layer_7_name", "label": "7 name" },
+        { "type": "text", "id": "layer_7_desc", "label": "7 description" },
+        { "type": "text", "id": "layer_7_meta", "label": "7 meta" },
+        { "type": "checkbox", "id": "layer_7_core", "label": "7 is core", "default": false },
+        { "type": "text", "id": "layer_8_n", "label": "8 number", "default": "08" },
+        { "type": "text", "id": "layer_8_name", "label": "8 name" },
+        { "type": "text", "id": "layer_8_desc", "label": "8 description" },
+        { "type": "text", "id": "layer_8_meta", "label": "8 meta" },
+        { "type": "checkbox", "id": "layer_8_core", "label": "8 is core", "default": false }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "Video split",
+      "settings": [
+        { "type": "select", "id": "ground", "label": "Ground", "options": [
+          { "value": "", "label": "Snow" },
+          { "value": "bone", "label": "Bone" },
+          { "value": "dark", "label": "Dark" }
+        ], "default": "" },
+        { "type": "checkbox", "id": "reverse", "label": "Media first", "default": false },
+        { "type": "text", "id": "kicker", "label": "Kicker" },
+        { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "body_1", "label": "Body 1" },
+        { "type": "textarea", "id": "body_2", "label": "Body 2" },
+        { "type": "text", "id": "video_file", "label": "Video filename" },
+        { "type": "text", "id": "poster_file", "label": "Poster filename" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "text", "id": "image_file", "label": "Fallback image" },
+        { "type": "text", "id": "image_alt", "label": "Image alt" }
+      ]
+    },
+    {
+      "type": "assurance",
+      "name": "Assurance",
+      "settings": [
+        { "type": "text", "id": "a1_heading", "label": "Panel 1 heading" },
+        { "type": "textarea", "id": "a1_body", "label": "Panel 1 body" },
+        { "type": "text", "id": "a2_heading", "label": "Panel 2 heading" },
+        { "type": "textarea", "id": "a2_body", "label": "Panel 2 body" },
+        { "type": "text", "id": "a3_heading", "label": "Panel 3 heading" },
+        { "type": "textarea", "id": "a3_body", "label": "Panel 3 body" }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [{ "name": "Landing page" }]
+}
+{% endschema %}

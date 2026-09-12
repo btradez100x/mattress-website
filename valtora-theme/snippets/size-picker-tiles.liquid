@@ -6,7 +6,7 @@
   2. SIZE_MAPS.gb is not a ceiling — every Market Shown GB variant paints
   3. If that set is empty (JSON missing), SIZE_MAPS.gb static tiles
 
-  Expects: mattress, catalog_iso, add_label
+  Expects: mattress, catalog_iso, add_label, optional allowed_size_ids (comma list)
 {%- endcomment -%}
 {%- liquid
   assign iso = catalog_iso | upcase | strip
@@ -14,6 +14,12 @@
     assign iso = 'GB'
   endif
   assign add_label = add_label | default: 'Add'
+  assign allowed_raw = allowed_size_ids | default: '' | strip | downcase
+  assign allowed_pipe = ''
+  if allowed_raw != blank
+    assign allowed_norm = allowed_raw | replace: ' ', '' | replace: '|', ','
+    assign allowed_pipe = '|' | append: allowed_norm | replace: ',', '|' | append: '|'
+  endif
   assign classic_gb = '|single|small-double|double|king|european-king|super-king|emperor|'
   assign tile_count = 0
   assign gb_count = 0
@@ -88,6 +94,12 @@
     {%- unless show_tile -%}
       {%- continue -%}
     {%- endunless -%}
+    {%- if allowed_pipe != blank -%}
+      {%- assign allow_token = '|' | append: size_id | append: '|' -%}
+      {%- unless allowed_pipe contains allow_token -%}
+        {%- continue -%}
+      {%- endunless -%}
+    {%- endif -%}
     {%- assign painted = painted | plus: 1 -%}
     {%- assign tile_label = v.option1 | default: v.title -%}
     {%- if v.metafields.custom.name_gb != blank -%}
