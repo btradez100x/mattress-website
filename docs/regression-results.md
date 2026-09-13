@@ -8,7 +8,7 @@
 
 - LP vertical rhythm: `--sec` → brand `--space-section` (72/128); top-only section pad; collapsed same-ground + press/configure stacks; orphaned hero `.line` → 24px hairline.
 - Smoke: exit 1 on pre-existing checks only (footer lockup, LP configure, grounds, consistency/trade). No new spacing-specific fails.
-- Checkpoint: `checkpoints/13.0.0-lp-section-rhythm/`. CSS-only; fold SHA after deploy. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-lp-section-rhythm/`. Deploy: `v9` `51d0487`, `shopify-theme` `449c96d`. No VERSION bump.
 
 # Regression results — Sunday 13 Sep 2026 (lp-cta-tracking follow-up)
 

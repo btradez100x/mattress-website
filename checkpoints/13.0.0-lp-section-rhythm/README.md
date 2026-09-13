@@ -3,9 +3,10 @@
 **Date:** Sunday 13 Sep 2026  
 Named deploy checkpoint. `VERSION` was not bumped.
 
-| Tree | SHA |  |  |---|
+| Tree | SHA |
+|---|---|
 | `v9` | `51d0487` |
-| `shopify-theme` |  |
+| `shopify-theme` | `449c96d` |
 
 ## What shipped
 
