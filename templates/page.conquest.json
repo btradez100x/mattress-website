@@ -19,21 +19,23 @@
             "price_klarna": "or £104 a month with Klarna",
             "image_file": "coolknit-side.webp",
             "image_alt": "",
-            "show_press": false,
+            "show_press": true,
             "press_label": "As featured in",
             "trust_1": "The layer lifts out",
             "trust_2": "Remade for a year",
             "trust_3": "25 years on the core",
-            "press_1": "Gulf News",
-            "press_2": "The National",
-            "press_3": "Time Out",
-            "press_4": "Khaleej Times",
-            "press_5": "Wallpaper*",
+            "press_1": "The Times",
+            "press_2": "Financial Times",
+            "press_3": "Evening Standard",
+            "press_4": "Wallpaper*",
+            "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
             "klarna_amount": "£104 a month",
             "show_sizestrip": false,
-            "sizestrip_rows": ""
+            "sizestrip_rows": "",
+            "show_reviews": true,
+            "reviews_link_label": "Read them"
           }
         }
       },
@@ -66,186 +68,6 @@
         "stage_b_heading": "Summary",
         "continue_label_full": "Add to basket",
         "button_label_full": "Add to basket"
-      }
-    },
-    "press-logos": {
-      "type": "press-logos",
-      "blocks": {
-        "p1": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "The National",
-            "fallback_asset": "press-the-national.svg",
-            "link": "https://www.thenationalnews.com"
-          }
-        },
-        "p2": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Gulf News",
-            "fallback_asset": "press-gulf-news.svg",
-            "link": "https://gulfnews.com"
-          }
-        },
-        "p3": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Arabian Business",
-            "fallback_asset": "press-arabian-business.svg",
-            "link": "https://www.arabianbusiness.com"
-          }
-        },
-        "p4": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Time Out Dubai",
-            "fallback_asset": "press-time-out-dubai.svg",
-            "link": "https://www.timeoutdubai.com"
-          }
-        },
-        "p5": {
-          "type": "logo",
-          "settings": {
-            "enabled": false,
-            "market_visibility": "all",
-            "name": "Wallpaper*",
-            "fallback_asset": "press-wallpaper.png",
-            "link": "https://www.wallpaper.com"
-          }
-        },
-        "p6": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Design Middle East",
-            "fallback_asset": "press-design-middle-east.svg",
-            "link": "https://www.designmiddleeast.com"
-          }
-        },
-        "uk1": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "The Times",
-            "fallback_asset": "press-the-times.svg",
-            "link": "https://www.thetimes.com"
-          }
-        },
-        "uk2": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Financial Times",
-            "fallback_asset": "press-financial-times.svg",
-            "link": "https://www.ft.com"
-          }
-        },
-        "uk3": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Evening Standard",
-            "fallback_asset": "press-evening-standard.svg",
-            "link": "https://www.standard.co.uk"
-          }
-        },
-        "uk4": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Wallpaper*",
-            "fallback_asset": "press-wallpaper-wordmark.svg",
-            "link": "https://www.wallpaper.com"
-          }
-        },
-        "uk5": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Dezeen",
-            "fallback_asset": "press-dezeen.svg",
-            "link": "https://www.dezeen.com"
-          }
-        },
-        "uk6": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Ideal Home",
-            "fallback_asset": "press-ideal-home.svg",
-            "link": "https://www.idealhome.co.uk"
-          }
-        },
-        "award_a1": {
-          "type": "award",
-          "settings": {
-            "enabled": true,
-            "year": "2026",
-            "title": "Innovation in Home",
-            "org": "Design Middle East Awards",
-            "text": ""
-          }
-        },
-        "award_a2": {
-          "type": "award",
-          "settings": {
-            "enabled": true,
-            "year": "2026",
-            "title": "Editors' Choice - Sleep",
-            "org": "Gulf Lifestyle Review",
-            "text": ""
-          }
-        },
-        "award_a3": {
-          "type": "award",
-          "settings": {
-            "enabled": false,
-            "year": "2025",
-            "title": "Sustainable Product Shortlist",
-            "org": "Green Interiors",
-            "text": ""
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4",
-        "p5",
-        "p6",
-        "uk1",
-        "uk2",
-        "uk3",
-        "uk4",
-        "uk5",
-        "uk6",
-        "award_a1",
-        "award_a2",
-        "award_a3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "eyebrow": "As featured in",
-        "heading": "Press & recognition.",
-        "subheading": "Selected coverage, mentions, and distinctions.",
-        "awards_heading": "Awards",
-        "ground": "surface"
       }
     },
     "story": {
@@ -317,7 +139,6 @@
   },
   "order": [
     "main",
-    "press-logos",
     "story",
     "configure"
   ]
