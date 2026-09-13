@@ -1,11 +1,16 @@
-/* Landing pages — scoped from numa-landing-pages-v9 prototypes */
+/* Landing pages — scoped from numa-landing-pages-v9 prototypes.
+   Section rhythm follows brand §12 (--space-section: 72 / 128), not the
+   prototype's off-scale 88px --s7, and not stacked top+bottom empties. */
 .lp{
   --snow:#F5F4F1;--bone:#E4E1DA;--hair:#D6D2CA;--hair-dk:#2E2E30;--graphite:#3A3A3C;
   --carbon:#1A1A1A;--ember:#8A6D3B;--ember-lt:#C4A46A;--radius:0;
   --display:var(--font-display,var(--font-headline,'Instrument Sans'),system-ui,sans-serif);
   --body:var(--font-sans,'Inter',system-ui,sans-serif);
   --mono:var(--font-mono,'Geist Mono',ui-monospace,monospace);
-  --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;--s7:88px;--sec:var(--s7);--stack:var(--s2);
+  /* In-section steps keep prototype 8px multiples; --sec is brand section rhythm */
+  --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;--s7:64px;
+  --sec:72px; /* brand --space-section (mobile) */
+  --stack:var(--s2);
   color:var(--carbon);
   background:var(--snow);
   font-family:var(--body);
@@ -14,6 +19,9 @@
   letter-spacing:-.011em;
   -webkit-font-smoothing:antialiased;
   font-variant-numeric:tabular-nums;
+}
+@media (min-width:860px){
+  .lp{--sec:128px} /* brand --space-section (desktop) */
 }
 .lp,.lp *{box-sizing:border-box}
 .lp .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
@@ -28,8 +36,13 @@
 .lp .kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--graphite);margin:0 0 var(--s2)}
 .lp .lede{font-size:clamp(17px,2vw,20px);line-height:1.5;color:var(--graphite);letter-spacing:-.014em}
 .lp .mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite)}
-.lp section{padding:var(--sec) 0}
+/* One brand gap between sections (top pad only) — avoids 2× --sec empty bands */
+.lp section{padding:var(--sec) 0 0}
+.lp > section:last-child{padding-bottom:var(--sec)}
 .lp section+section.tight{padding-top:0}
+/* Same-ground neighbours: continuity, not a second full section void */
+.lp section.bone+section.bone,
+.lp section.dark+section.dark{padding-top:var(--s5)}
 .lp section.bone{background:var(--bone)}
 .lp section.dark{background:var(--carbon);color:var(--snow)}
 .lp section.dark h2,.lp section.dark h3{color:var(--snow)}
@@ -37,6 +50,9 @@
 .lp section.dark .kicker,.lp section.dark .mono{color:#8E8A82}
 .lp section.dark a{color:var(--ember-lt)}
 .lp section.flush{padding:0}
+/* Flush media needs breathing from neighbours (no section pad of its own) */
+.lp section:has(+ section.flush){padding-bottom:var(--sec)}
+.lp section.flush+section{padding-top:var(--sec)}
 .lp .sec-head{margin-bottom:var(--s4)}
 .lp .sec-head h2{margin-bottom:var(--s2)}
 /* Reset homepage .hero chrome from base.css / mobile-fit.css */
@@ -63,7 +79,9 @@
   max-width:none;
   color:inherit;
 }
-.lp .line{height:0;border-top:1px solid var(--hair);margin:var(--sec) 0 0}
+/* Brand §12.2: ~22px around a hairline. Full --sec only when press follows. */
+.lp .line{height:0;border-top:1px solid var(--hair);margin:24px 0 0}
+.lp .line:has(+ .press){margin-top:var(--sec)}
 .lp .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s6);align-items:center}
 .lp .split.rev>*:first-child{order:2}
 @media(max-width:880px){.lp .split{grid-template-columns:1fr;gap:var(--s4)}
@@ -102,6 +120,9 @@ background:var(--carbon);color:var(--snow);text-decoration:none;transition:backg
 .lp .price-block .klarna{font-size:14px;color:var(--graphite)}
 .lp .price-block .klarna b{font-weight:500;color:var(--carbon)}
 .lp .assure{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);margin-top:var(--s4)}
+/* Assurance-only sections: section pad already provides the gap */
+.lp section > .wrap > .narrow > .assure:first-child,
+.lp section > .wrap > .assure:first-child{margin-top:0}
 .lp .assure div{background:var(--snow);padding:var(--s3)}
 .lp .assure b{display:block;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.02em;margin-bottom:6px}
 .lp .assure p{font-size:13.5px;color:var(--graphite);margin:0}
@@ -164,4 +185,31 @@ background:var(--carbon);color:var(--snow);text-decoration:none;transition:backg
     width: 100%;
     max-width: 100%;
   }
+}
+
+/* Homepage press + configure reused under LPs: brand section rhythm.
+   Overrides preview inline clamp(5.5rem…9rem) and avoids stacking with .lp last pad.
+   Covers preview siblings and Shopify .shopify-section wrappers. */
+body:has(.lp) #press.section,
+body:has(.lp) #configure.section,
+body:has(.lp) [data-reserve-section].section {
+  padding-block: 72px;
+}
+@media (min-width: 860px) {
+  body:has(.lp) #press.section,
+  body:has(.lp) #configure.section,
+  body:has(.lp) [data-reserve-section].section {
+    padding-block: 128px;
+  }
+}
+/* Keep .lp trailing brand pad; collapse following homepage press top instead */
+body:has(.lp) .lp:has(~ #press) ~ #press.section,
+.shopify-section:has(.lp):has(+ .shopify-section #press) + .shopify-section #press.section {
+  padding-top: 0;
+}
+body:has(.lp) #press + #configure.section,
+body:has(.lp) #press + [data-reserve-section],
+.shopify-section:has(.lp) ~ .shopify-section:has(#press) + .shopify-section #configure.section,
+.shopify-section:has(.lp) ~ .shopify-section:has(#press) + .shopify-section [data-reserve-section] {
+  padding-top: 0;
 }
