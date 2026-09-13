@@ -1,3 +1,8 @@
+# Regression results — Sunday 13 Sep 2026 (lp-homepage-components)
+
+- Nine LPs + configure surfaces now reuse homepage `press-logos` and `size-reserve` (not hero text logos / landing-funnel configure).
+- Smoke: same pre-existing fails (section grounds, JS auto ground; prior note set). No LP-specific new fails in this pass.
+- Checkpoint: `checkpoints/13.0.0-lp-homepage-components/`. Deploy: `v9` `7c3479a`, `shopify-theme` `6001b54`. No VERSION bump.
 # Regression results — Sunday 13 Sep 2026 (lp-css-mobile-parity)
 
 - Regenerated scoped `lp.css` from numa-landing-pages-v9 prototypes (broken media-query braces had left most LP styles nested incorrectly). Neutralised base `.hero` bleed; synced theme + preview.
