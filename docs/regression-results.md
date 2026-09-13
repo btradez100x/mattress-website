@@ -1,3 +1,9 @@
+# Regression results — Sunday 13 Sep 2026 (lp-v12-pack)
+
+- v12 pack: compact press (no awards), reviews.json-backed revstrip at 4.96, premium outcome/originality copy. Homepage press-logos removed from nine LPs; size-reserve configure kept.
+- Smoke: exit 1 on pre-existing checks only (footer lockup, landing configure, grounds, Trade).
+- Checkpoint: . Deploy:  ,  . No VERSION bump.
+
 # Regression results — Sunday 13 Sep 2026 (reviews-4-96)
 
 - Retuned seed `reviews.json` (theme + preview) to **480×5 + 20×4 = 4.96** over 500 entries. No LP UI. Smoke: exit 1 on pre-existing checks only; reviews count/toggle checks passed.
