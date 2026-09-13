@@ -1,3 +1,9 @@
+# Regression results — Sunday 13 Sep 2026 (lp-dynamic-from-price)
+
+- Nine LPs: From price = lowest mattress in size-reserve `allowed_size_ids` (or full catalog). Liquid `mattress-min-price` + `theme.js` `fillLandingPrices`. Klarna lines static.
+- size-reserve / press-logos configure reuse preserved. Smoke: exit 1 on pre-existing checks only (prior note set).
+- Checkpoint: `checkpoints/13.0.0-lp-dynamic-from-price/`. Deploy: `v9` `51d0487`, `shopify-theme` `8777ac5`. No VERSION bump.
+
 # Regression results — Sunday 13 Sep 2026 (lp-section-rhythm)
 
 - LP vertical rhythm: `--sec` → brand `--space-section` (72/128); top-only section pad; collapsed same-ground + press/configure stacks; orphaned hero `.line` → 24px hairline.
