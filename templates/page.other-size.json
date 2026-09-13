@@ -6,7 +6,7 @@
         "b1": {
           "type": "hero",
           "settings": {
-            "kicker": "Made to order · United Kingdom",
+            "kicker": "Made to order \u00b7 United Kingdom",
             "heading": "You already know\nthe size.",
             "lede": "What you do not know is which mattress. Ours is thirty five centimetres, built in two parts, and the feel is settled after you have slept on it rather than guessed at in a showroom.",
             "cta_primary": "Choose your size",
@@ -15,8 +15,8 @@
             "show_price": true,
             "price_first": false,
             "price_large": false,
-            "price_from": "From £1,999",
-            "price_klarna": "or £83 a month with Klarna",
+            "price_from": "From \u00a31,999",
+            "price_klarna": "or \u00a383 a month with Klarna",
             "image_file": "product-floating.webp",
             "image_alt": "",
             "show_press": true,
@@ -28,7 +28,7 @@
             "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "£83 a month",
+            "klarna_amount": "\u00a383 a month",
             "show_sizestrip": true,
             "sizestrip_rows": "Single|90 x 190 cm\nSmall Double|120 x 190 cm\nDouble|135 x 190 cm\nKing|150 x 200 cm",
             "show_reviews": true,
@@ -91,13 +91,14 @@
           "settings": {
             "ground": "",
             "reverse": false,
-            "kicker": "The build",
-            "heading": "Thirty five centimetres,\nin two parts.",
-            "body_1": "Twenty centimetres of individually pocketed springs in seven zones, with heavier wire under the hips and shoulders. That is the part that carries a twenty five year guarantee.",
-            "body_2": "Above it, fifteen centimetres of comfort closed under a zip that runs the whole way round. That is the part that comes out and renews.",
+            "kicker": "[Brand] [Core]",
+            "heading": "Thirty five centimetres,\nassembled by hand.",
+            "body_1": "It begins as wire. Drawn, wound into coils, and each one dropped into its own fabric pocket so it can rise and fall without disturbing the one beside it. Two thousand of them in a super king, arranged in seven bands along the length of the bed.",
+            "body_2": "Heavier gauge under the hips and shoulders, where a body presses hardest. Lighter at the waist and the calves, where it does not. Nobody sinks evenly, so nothing is sprung evenly.",
             "pull": "",
             "image_file": "quilt-macro.webp",
-            "image_alt": ""
+            "image_alt": "The quilted comfort surface",
+            "body_3": "Then the comfort is laid over it by hand, layer by layer, and the whole thing is closed under a zip that runs the full perimeter. Not glued. Glue is permanent, and nothing about this bed is meant to be."
           }
         },
         "b4": {

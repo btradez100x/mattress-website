@@ -1,6 +1,9 @@
 {{ 'lp.css' | asset_url | stylesheet_tag }}
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa'
+  assign cover = settings.cover_material | default: 'Coolweave'
+  assign gel = settings.gel_material | default: 'Coolcell'
+  assign core = settings.core_name | default: 'Sevencore'
   assign trial = settings.trial_nights | default: 100
   assign warranty = settings.warranty_years | default: '25'
   capture market
@@ -45,11 +48,11 @@
             <div class="hero-grid">
               <div>
                 {%- if block.settings.kicker != blank -%}
-                  <p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand }}</p>
+                  <p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>
                 {%- endif -%}
-                <h1>{{ block.settings.heading | newline_to_br }}</h1>
+                <h1>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h1>
                 {%- if block.settings.lede != blank -%}
-                  <p class="lede">{{ block.settings.lede | replace: '[Brand]', brand }}</p>
+                  <p class="lede">{{ block.settings.lede | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>
                 {%- endif -%}
                 {% render 'lp-sizestrip', show: block.settings.show_sizestrip, rows: block.settings.sizestrip_rows %}
                 {%- if block.settings.show_price and block.settings.price_first -%}
@@ -74,9 +77,9 @@
                 </div>
                 {%- if block.settings.trust_1 != blank -%}
                   <div class="trust">
-                    <span>{{ block.settings.trust_1 }}</span>
-                    {%- if block.settings.trust_2 != blank -%}<span>{{ block.settings.trust_2 }}</span>{%- endif -%}
-                    {%- if block.settings.trust_3 != blank -%}<span>{{ block.settings.trust_3 }}</span>{%- endif -%}
+                    <span>{{ block.settings.trust_1 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</span>
+                    {%- if block.settings.trust_2 != blank -%}<span>{{ block.settings.trust_2 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</span>{%- endif -%}
+                    {%- if block.settings.trust_3 != blank -%}<span>{{ block.settings.trust_3 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</span>{%- endif -%}
                   </div>
                 {%- endif -%}
                 {%- if block.settings.show_price and block.settings.price_first == false -%}
@@ -129,12 +132,14 @@
           <div class="wrap">
             <div class="narrow">
               <div class="sec-head">
-                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
               </div>
-              {%- if block.settings.body_1 != blank -%}<p>{{ block.settings.body_1 | replace: '[Brand]', brand | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
-              {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[Brand]', brand | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
-              {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull }}</p></div>{%- endif -%}
+              {%- if block.settings.body_1 != blank -%}<p>{{ block.settings.body_1 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+              {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+              {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p></div>{%- endif -%}
+
+              {%- if block.settings.body_3 != blank -%}<p>{{ block.settings.body_3 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
             </div>
           </div>
         </section>
@@ -145,11 +150,12 @@
             <div class="split{% if block.settings.reverse %} rev{% endif %}">
               {%- if block.settings.image_file != blank and block.settings.reverse == false -%}
                 <div>
-                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
-                  {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
-                  {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
-                  {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull }}</p></div>{%- endif -%}
+                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
+                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
+                  {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+              {%- if block.settings.body_3 != blank -%}<p>{{ block.settings.body_3 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p></div>{%- endif -%}
                 </div>
                 {%- assign lp_img_alt = block.settings.image_alt | default: brand -%}
                 {% render 'rd-img', file: block.settings.image_file, alt: lp_img_alt, width: 1400, height: 787, loading: 'lazy' %}
@@ -159,11 +165,12 @@
                 {% render 'rd-img', file: block.settings.image_file, alt: lp_img_alt, width: 1400, height: 787, loading: 'lazy' %}
                 {%- endif -%}
                 <div>
-                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
-                  {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
-                  {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
-                  {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull }}</p></div>{%- endif -%}
+                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
+                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
+                  {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+              {%- if block.settings.body_3 != blank -%}<p>{{ block.settings.body_3 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                  {%- if block.settings.pull != blank -%}<div class="pull"><p>{{ block.settings.pull | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p></div>{%- endif -%}
                 </div>
               {%- endif -%}
             </div>
@@ -175,32 +182,32 @@
           <section class="arrive"{% if block.settings.anchor_id != blank %} id="{{ block.settings.anchor_id | escape }}"{% endif %} {{ block.shopify_attributes }}>
             <div class="wrap">
               <div class="sec-head narrow">
-                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
                 {%- if block.settings.lede != blank -%}
-                  <p class="lede" style="color:#C9C5BD;margin-top:var(--s2)">{{ block.settings.lede }}</p>
+                  <p class="lede" style="color:#C9C5BD;margin-top:var(--s2)">{{ block.settings.lede | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>
                 {%- endif -%}
               </div>
               <div class="steps3">
                 {%- if block.settings.card_1_heading != blank -%}
                   <div>
                     {%- if block.settings.card_1_label != blank -%}<span class="n">{{ block.settings.card_1_label }}</span>{%- endif -%}
-                    <h3>{{ block.settings.card_1_heading }}</h3>
-                    <p>{{ block.settings.card_1_body }}</p>
+                    <h3>{{ block.settings.card_1_heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</h3>
+                    <p>{{ block.settings.card_1_body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>
                   </div>
                 {%- endif -%}
                 {%- if block.settings.card_2_heading != blank -%}
                   <div>
                     {%- if block.settings.card_2_label != blank -%}<span class="n">{{ block.settings.card_2_label }}</span>{%- endif -%}
-                    <h3>{{ block.settings.card_2_heading }}</h3>
-                    <p>{{ block.settings.card_2_body }}</p>
+                    <h3>{{ block.settings.card_2_heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</h3>
+                    <p>{{ block.settings.card_2_body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>
                   </div>
                 {%- endif -%}
                 {%- if block.settings.card_3_heading != blank -%}
                   <div>
                     {%- if block.settings.card_3_label != blank -%}<span class="n">{{ block.settings.card_3_label }}</span>{%- endif -%}
-                    <h3>{{ block.settings.card_3_heading }}</h3>
-                    <p>{{ block.settings.card_3_body }}</p>
+                    <h3>{{ block.settings.card_3_heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</h3>
+                    <p>{{ block.settings.card_3_body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>
                   </div>
                 {%- endif -%}
               </div>
@@ -211,19 +218,19 @@
             <div class="wrap">
               {%- if block.settings.kicker != blank or block.settings.heading != blank -%}
                 <div class="sec-head narrow">
-                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
+                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
                 </div>
               {%- endif -%}
               <div class="grid3">
                 {%- if block.settings.card_1_heading != blank -%}
-                  <div><h3>{{ block.settings.card_1_heading }}</h3><p>{{ block.settings.card_1_body }}</p></div>
+                  <div><h3>{{ block.settings.card_1_heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</h3><p>{{ block.settings.card_1_body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p></div>
                 {%- endif -%}
                 {%- if block.settings.card_2_heading != blank -%}
-                  <div><h3>{{ block.settings.card_2_heading }}</h3><p>{{ block.settings.card_2_body }}</p></div>
+                  <div><h3>{{ block.settings.card_2_heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</h3><p>{{ block.settings.card_2_body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p></div>
                 {%- endif -%}
                 {%- if block.settings.card_3_heading != blank -%}
-                  <div><h3>{{ block.settings.card_3_heading }}</h3><p>{{ block.settings.card_3_body }}</p></div>
+                  <div><h3>{{ block.settings.card_3_heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</h3><p>{{ block.settings.card_3_body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p></div>
                 {%- endif -%}
               </div>
             </div>
@@ -235,16 +242,16 @@
           <div class="wrap">
             <div class="narrow">
               <div class="sec-head">
-                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
                 {%- if block.settings.heading != blank -%}
                   {%- if lp_from_label != blank -%}
                     <h2 data-lp-from-heading>From {{ lp_min_money }}.</h2>
                   {%- else -%}
-                    <h2 data-lp-from-heading>{{ block.settings.heading | newline_to_br }}</h2>
+                    <h2 data-lp-from-heading>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>
                   {%- endif -%}
                 {%- endif -%}
               </div>
-              {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
+              {%- if block.settings.body != blank -%}<p>{{ block.settings.body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
               {% render 'lp-price-block',
                 show: true,
                 large: false,
@@ -275,8 +282,8 @@
           <div class="wrap">
             <div class="narrow">
               <div class="sec-head">
-                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
               </div>
               <div class="layers">
                 {%- for i in (1..8) -%}
@@ -289,7 +296,7 @@
                   {%- if lname != blank -%}
                     <div class="layer{% if block.settings[corekey] %} core{% endif %}">
                       <span class="n">{{ block.settings[nkey] | default: i }}</span>
-                      <div><b>{{ lname }}</b><span>{{ block.settings[desckey] }}</span></div>
+                      <div><b>{{ lname | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</b><span>{{ block.settings[desckey] | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</span></div>
                       <em>{{ block.settings[metakey] }}</em>
                     </div>
                   {%- endif -%}
@@ -304,10 +311,12 @@
           <div class="wrap">
             <div class="split{% if block.settings.reverse %} rev{% endif %}">
               <div>
-                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
-                {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 }}</p>{%- endif -%}
-                {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 }}</p>{%- endif -%}
+                {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
+                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
+                {%- if block.settings.body_1 != blank -%}<p style="margin-top:var(--s3)">{{ block.settings.body_1 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                {%- if block.settings.body_2 != blank -%}<p>{{ block.settings.body_2 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+              {%- if block.settings.body_3 != blank -%}<p>{{ block.settings.body_3 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
+                {%- if block.settings.body_4 != blank -%}<p>{{ block.settings.body_4 | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
               </div>
               <div>
                 {%- if block.settings.video_file != blank -%}
@@ -471,6 +480,7 @@
         { "type": "textarea", "id": "heading", "label": "Heading" },
         { "type": "textarea", "id": "body_1", "label": "Body 1" },
         { "type": "textarea", "id": "body_2", "label": "Body 2" },
+        { "type": "textarea", "id": "body_3", "label": "Body 3" },
         { "type": "textarea", "id": "pull", "label": "Pull quote" }
       ]
     },
@@ -488,6 +498,7 @@
         { "type": "textarea", "id": "heading", "label": "Heading" },
         { "type": "textarea", "id": "body_1", "label": "Body 1" },
         { "type": "textarea", "id": "body_2", "label": "Body 2" },
+        { "type": "textarea", "id": "body_3", "label": "Body 3" },
         { "type": "textarea", "id": "pull", "label": "Pull quote" },
         { "type": "text", "id": "image_file", "label": "Image filename" },
         { "type": "text", "id": "image_alt", "label": "Image alt" }
@@ -608,6 +619,8 @@
         { "type": "textarea", "id": "heading", "label": "Heading" },
         { "type": "textarea", "id": "body_1", "label": "Body 1" },
         { "type": "textarea", "id": "body_2", "label": "Body 2" },
+        { "type": "textarea", "id": "body_3", "label": "Body 3" },
+        { "type": "textarea", "id": "body_4", "label": "Body 4" },
         { "type": "text", "id": "video_file", "label": "Video filename" },
         { "type": "text", "id": "poster_file", "label": "Poster filename" },
         { "type": "text", "id": "caption", "label": "Caption" },

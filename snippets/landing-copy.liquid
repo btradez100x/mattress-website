@@ -1,11 +1,16 @@
 {%- comment -%}
-  Landing-page copy tokens. Brand, warranty, trial nights, reply days, layer price, featured size price.
-  Tokens: [Brand] [X] [X]-year [N] [N]-night [D] [D-days] [D-reply] [layer] [price]
+  Landing-page copy tokens. Brand, named materials, warranty, trial nights, reply days, layer price, featured size price.
+  Tokens: [Brand] [Cover] [Gel] [Core] [X] [X]-year [N] [N]-night [D] [D-days] [D-reply] [layer] [layer_price] [price]
+  Named materials come from Theme settings (cover_material, gel_material, core_name).
 {%- endcomment -%}
 {%- liquid
   assign brand = settings.brand_name | default: 'Numa' | strip
+  assign cover = settings.cover_material | default: 'Coolweave' | strip
+  assign gel = settings.gel_material | default: 'Coolcell' | strip
+  assign core = settings.core_name | default: 'Sevencore' | strip
   assign out = text | default: ''
-  assign out = out | replace: '[Brand]', brand | replace: 'Numa', brand
+  assign out = out | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core
+  assign out = out | replace: 'Numa', brand
   if featured_price == blank
     assign out = out | replace: 'instead of [price]', 'instead of a new mattress'
     assign out = out | replace: '[price]', ''
@@ -16,8 +21,10 @@
     assign out = out | replace: ', worth [layer]', ''
     assign out = out | replace: 'worth [layer]', ''
     assign out = out | replace: '[layer]', ''
+    assign out = out | replace: '[layer_price]', ''
   else
     assign out = out | replace: '[layer]', layer_price
+    assign out = out | replace: '[layer_price]', layer_price
   endif
 -%}
 {%- capture out -%}{% render 'warranty-tokens', text: out %}{%- endcapture -%}

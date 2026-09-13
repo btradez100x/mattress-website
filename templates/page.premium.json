@@ -6,7 +6,7 @@
         "b1": {
           "type": "hero",
           "settings": {
-            "kicker": "Made to order · United Kingdom",
+            "kicker": "Made to order \u00b7 United Kingdom",
             "heading": "A bed that becomes yours,\nand stays that way.",
             "lede": "Nothing is built before you order it. Thirty five centimetres, a seven-zone pocket sprung core guaranteed for twenty five years, and a comfort layer we remake to your preference for a year.",
             "cta_primary": "Choose your size",
@@ -15,8 +15,8 @@
             "show_price": false,
             "price_first": false,
             "price_large": false,
-            "price_from": "From £2,499",
-            "price_klarna": "or £104 a month with Klarna",
+            "price_from": "From \u00a32,499",
+            "price_klarna": "or \u00a3104 a month with Klarna",
             "image_file": "product-plain.webp",
             "image_alt": "",
             "show_press": true,
@@ -28,7 +28,7 @@
             "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "£83 a month",
+            "klarna_amount": "\u00a383 a month",
             "show_sizestrip": false,
             "sizestrip_rows": "",
             "show_reviews": true,
@@ -78,11 +78,11 @@
             "kicker": "Three things that matter",
             "heading": "What makes a mattress\nstill good in twenty years",
             "card_1_heading": "You will not feel them turn over",
-            "card_1_body": "Every spring sits in its own pocket and moves alone. One side of the bed does not travel to the other, so a partner getting up at six does not wake you at six.",
+            "card_1_body": "[Core] is two thousand springs, each sleeved on its own. One side of the bed does not travel to the other, so a partner getting up at six does not wake you at six.",
             "card_2_heading": "Your spine stays straight all night",
-            "card_2_body": "Seven zones along the bed, wound at two wire gauges. Heavier under the hips and shoulders where the weight lands, lighter at the waist and legs. You wake up aligned rather than folded.",
+            "card_2_body": "Seven zones, two wire gauges. Heavier under the hips and shoulders where the weight lands, lighter at the waist and legs. You wake up the shape you should be rather than the shape the bed made you.",
             "card_3_heading": "In year eight it is still your bed",
-            "card_3_body": "The top five centimetres are what soften. Ours lift out and are replaced for £299. The core underneath is guaranteed for twenty five years and never leaves the room.",
+            "card_3_body": "The top five centimetres are what soften. Ours lift out and are replaced for \u00a3299. The core underneath is guaranteed for twenty five years and never leaves the room.",
             "layout": "grid",
             "lede": "",
             "card_1_label": "",
@@ -98,9 +98,10 @@
             "anchor_id": "",
             "kicker": "Ours, and nobody else's",
             "heading": "We did not copy\nthis from anyone.",
-            "body_1": "Every part of this mattress is our own. The seven-zone spring layout, the two wire gauges and where they sit, the flippable comfort layer, the wave-cut airflow profile, the zip that runs the full perimeter. Drawn here, specified here, made to our drawings.",
-            "body_2": "Most mattresses in this country are the same three or four builds with different covers on them. Ours is not one of them, and you can read every layer of it before you buy. You are not buying what was made last quarter and needs shifting. You are buying a bed that does not exist yet, built to a specification we own, in the size you chose.",
-            "pull": "Nothing is built until you order it. Which is why the guarantee is twenty five years, and why you get a year to change how it feels."
+            "body_1": "[Core] is ours. [Gel] is ours. [Cover] is ours. The two wire gauges and exactly where each one starts and stops, the flippable comfort layer, the wave-cut airflow profile, the zip that runs every side. Drawn here, argued over here, specified down to the density of every centimetre, and made to those drawings and no others.",
+            "body_2": "Most mattresses sold in this country are three or four builds wearing different covers. A brand picks one, chooses a fabric, names it something, and sells it to you as theirs. We did not want to sell you somebody else's bed with our name on it.",
+            "pull": "Nothing is built until you order it. Which is why the guarantee is twenty five years, and why you get a year to change how it feels.",
+            "body_3": "So you are not buying what was made last quarter and needs shifting before the next container lands. You are buying a bed that does not exist yet, built to a specification we own, assembled by hand, in the size you chose."
           }
         },
         "b4": {
@@ -127,13 +128,13 @@
           "type": "price",
           "settings": {
             "kicker": "What it costs",
-            "heading": "From £1,999.",
-            "body": "King is £2,999. Super King is £3,299. Every size is the same build, so the price is the size and nothing else.",
-            "price_from": "From £1,999.",
-            "price_klarna": "or £83 a month over 24 months with Klarna",
+            "heading": "From \u00a31,999.",
+            "body": "King is \u00a32,999. Super King is \u00a33,299. Every size is the same build, so the price is the size and nothing else.",
+            "price_from": "From \u00a31,999.",
+            "price_klarna": "or \u00a383 a month over 24 months with Klarna",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "£83 a month",
+            "klarna_amount": "\u00a383 a month",
             "show_sizestrip": true,
             "sizestrip_rows": "Double|135 x 190 cm\nKing|150 x 200 cm\nEuropean King|160 x 200 cm\nSuper King|180 x 200 cm\nEmperor|200 x 200 cm"
           }

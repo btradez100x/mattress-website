@@ -12,7 +12,13 @@
   else
     assign layer_price = settings.comfort_layer_price_gb | strip
   endif
-  assign brand = settings.brand_name | default: 'Numa' | strip
+  assign brand = settings.brand_name | default: 'Numa'
+  assign cover = settings.cover_material | default: 'Coolweave'
+  assign gel = settings.gel_material | default: 'Coolcell'
+  assign core = settings.core_name | default: 'Sevencore' | strip
+  assign cover_alt_400 = brand | append: ' ' | append: cover | append: ', 400 gram'
+  assign cover_alt_detail = cover | append: ' cover detail'
+  assign cover_alt_macro = cover | append: ' cover, macro'
   assign alt_profile = brand | append: ' mattress in profile'
   assign alt_bedroom = brand | append: ' mattress in a bedroom'
   assign alt_corner = 'The corner of a ' | append: brand | append: ' mattress, cover and edge'
@@ -33,7 +39,7 @@
 <h2>Built in two halves,<br>closed with a zip.</h2>
 <p class="lede" style="margin:20px auto 0;max-width:34em">Fifteen centimetres of comfort above, twenty centimetres of support below. The top half comes out. The bottom half carries a twenty five year guarantee.</p></div>
 <div class="stack">
-<div><p class="d">400g</p><p class="l">Cool-knit cover</p></div>
+<div><p class="d">400g</p><p class="l">{{ brand }} {{ cover }}</p></div>
 <div><p class="d">15cm</p><p class="l">Comfort, removable</p></div>
 <div><p class="d">20cm</p><p class="l">Seven-zone core</p></div>
 <div><p class="d">7</p><p class="l">Support zones</p></div>
@@ -43,13 +49,13 @@
 <section class="rd-sec" id="layers"><div class="wrap">
 <div class="sec-head narrow" style="text-align:center"><p class="kicker">Top to bottom</p><h2>Every layer, stated</h2>
 <p class="lede" style="margin:16px auto 0;max-width:34em">In the order you meet them, from the surface down to the frame.</p></div>
-<div class="layer reveal" data-rd-layer="01" data-rd-layer-name="Cool-Knit cover">
+<div class="layer reveal" data-rd-layer="01" data-rd-layer-name="{{ brand }} {{ cover }}">
 <div class="layer-n"><span class="mono">01</span></div>
-<div class="layer-body"><h3>Cool-Knit cover</h3><p class="layer-spec mono">400g &middot; zip access all the way round</p>
+<div class="layer-body"><h3>{{ brand }} {{ cover }}</h3><p class="layer-spec mono">400g &middot; zip access all the way round</p>
 <p>A 400 gram knitted cover, not a laminate. Knit moves air where a bonded surface holds it, so warmth leaves through the top rather than gathering under you.</p><p class="layer-benefit">It unzips the whole way round. That is how the comfort layer comes out, and it is the reason this mattress is renewed rather than replaced.</p></div>
-<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'coolknit-macro.webp', alt: "Cool-Knit cover, 400 gram", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="02" data-rd-layer-name="Gel memory foam">
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'coolknit-macro.webp', alt: cover_alt_400, width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="02" data-rd-layer-name="{{ brand }} {{ gel }}">
 <div class="layer-n"><span class="mono">02</span></div>
-<div class="layer-body"><h3>Gel memory foam</h3><p class="layer-spec mono">1cm &middot; 28 density</p>
+<div class="layer-body"><h3>{{ brand }} {{ gel }}</h3><p class="layer-spec mono">1cm &middot; 28 density</p>
 <p>The highest density we use anywhere in the build, and only one centimetre of it. Gel infusion is what stops memory foam behaving the way memory foam usually does.</p><p class="layer-benefit">It contours to your shoulder and hip without holding the heat that contouring normally creates.</p></div>
 <div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'quilt-macro.webp', alt: "Quilted surface, gel layer beneath", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="03" data-rd-layer-name="Comfort foam">
 <div class="layer-n"><span class="mono">03</span></div>
@@ -63,9 +69,9 @@
 <div class="layer-n"><span class="mono">05</span></div>
 <div class="layer-body"><h3>Flippable comfort layer</h3><p class="layer-spec mono">10cm &middot; 2cm at 2540 over 8cm at 2580</p>
 <p>Two densities bonded into one layer, and the whole thing lifts out. One face is medium. Turn it over and it is medium firm.</p><p class="layer-benefit">You do not choose a firmness when you order. The mattress arrives with both, and if neither is right we build you a third to your description, with our compliments.</p></div>
-<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "The comfort layer sits above the core", width: 1600, height: 904, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="06" data-rd-layer-name="Seven-zone pocket spring core">
+<div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'product-floating.webp', alt: "The comfort layer sits above the core", width: 1600, height: 904, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="06" data-rd-layer-name="{{ brand }} {{ core }}">
 <div class="layer-n"><span class="mono">06</span></div>
-<div class="layer-body"><h3>Seven-zone pocket spring core</h3><p class="layer-spec mono">20cm &middot; 7 zones &middot; 1.8 and 2.0mm wire</p>
+<div class="layer-body"><h3>{{ brand }} {{ core }}</h3><p class="layer-spec mono">20cm &middot; 7 zones &middot; 1.8 and 2.0mm wire</p>
 <p>Twenty centimetres of individually pocketed springs, arranged in seven zones along the length of the bed. Heavier 2.0mm wire under the hips and shoulders where load concentrates, 1.8mm where it does not.</p><p class="layer-benefit">Each spring moves alone, so one person turning over does not move the other side. Seven zones means the bed holds your spine level instead of letting your hips drop.</p></div>
 <div class="layer-media"><figure class="figure ">{% render 'rd-img', file: 'coolknit-side.webp', alt: "Side panel, over the spring core", width: 1400, height: 781, loading: 'lazy' %}</figure></div></div><div class="layer reveal" data-rd-layer="07" data-rd-layer-name="Encased perimeter">
 <div class="layer-n"><span class="mono">07</span></div>
@@ -122,7 +128,7 @@
 <div class="sec-head narrow" style="text-align:center"><p class="kicker">Materials</p><h2>What goes in</h2>
 <p class="lede" style="margin:16px auto 0;max-width:36em">Chosen for what they do over a decade, not for what they cost in a year.</p></div>
 <div class="matgrid">
-<div><p class="k">Cover</p><h3>400 gram cool-knit</h3><p>Knitted rather than laminated, so air moves through the surface instead of being held against it. Zipped the whole way round.</p></div>
+<div><p class="k">Cover</p><h3>400 gram {{ cover }}</h3><p>Knitted rather than laminated, so air moves through the surface instead of being held against it. Zipped the whole way round.</p></div>
 <div><p class="k">Comfort</p><h3>Gel-infused memory foam</h3><p>Twenty eight density, the highest in the build. Gel infusion is what lets it contour without holding heat.</p></div>
 <div><p class="k">Airflow</p><h3>Wave-profile foam</h3><p>Cut into a wave rather than left flat, so channels run through the middle of the comfort stack and warmth has somewhere to go.</p></div>
 <div><p class="k">Support</p><h3>Pocket spring steel</h3><p>Two wire gauges, 1.8 and 2.0 millimetre, wound and pocketed in house. Seven zones along the bed.</p></div>
@@ -141,7 +147,7 @@
 <div class="step"><span class="n">04</span><div><h3>The stack is assembled</h3>
 <p>Gel memory foam, comfort foam and wave-profile foam are laid over the comfort layer, and the whole assembly is placed on the core.</p></div></div>
 <div class="step"><span class="n">05</span><div><h3>The cover is closed</h3>
-<p>Cool-knit cover fitted, tape edge finished, zip run the full way round so the comfort layer can be reached without tools.</p></div></div>
+<p>{{ brand }} {{ cover }} fitted, tape edge finished, zip run the full way round so the comfort layer can be reached without tools.</p></div></div>
 </div></div></section>
 
 <section class="rd-sec rd-sec--dark"><div class="wrap">
@@ -242,7 +248,7 @@
 <li><b>Core</b><span>20cm seven-zone pocket springs, 1.8 and 2.0mm wire. Twenty five year guarantee.</span></li>
 <li><b>Perimeter</b><span>7cm encased foam at 35 density. The edge holds when you sit on it.</span></li>
 <li><b>Comfort layer</b><span>10cm, removable, two densities. Medium one face, medium firm the other.</span></li>
-<li><b>Surface</b><span>Gel memory foam, comfort foam and wave-profile foam over a 400g cool-knit cover.</span></li>
+<li><b>Surface</b><span>Gel memory foam, comfort foam and wave-profile foam over a 400g {{ cover }} cover.</span></li>
 <li><b>Depth</b><span>35cm finished.</span></li>
 <li><b>Trial</b><span>30 nights. Adjust to Desire first, refund second.</span></li>
 </ul>
@@ -285,7 +291,7 @@
 <li><b>Made</b><span>To order, in any of fifteen sizes.</span></li>
 </ul></div></div></section>
 
-<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="coolknit-macro">{% render 'rd-img', file: 'coolknit-macro.webp', alt: "Cool-knit cover detail", width: 1400, height: 781, loading: 'lazy' %}</figure></section>
+<section class="rd-sec rd-sec--flush"><figure class="figure full-bleed" data-rd-image="coolknit-macro">{% render 'rd-img', file: 'coolknit-macro.webp', alt: cover_alt_detail, width: 1400, height: 781, loading: 'lazy' %}</figure></section>
 
 <section class="rd-sec rd-sec--dark"><div class="wrap"><div class="narrow">
 <div class="sec-head" style="text-align:center"><p class="kicker">The outcome</p><h2>A bed that becomes yours,<br>and stays that way.</h2></div>
@@ -357,7 +363,7 @@
 <li><b>The core</b><span>Twenty centimetres of individually pocketed springs in seven zones, with 2.0mm wire under the hips and shoulders and 1.8mm elsewhere. It is the slowest part of the build and the reason it lasts.</span></li>
 <li><b>The perimeter</b><span>Seven centimetres of 35 density foam encasing the whole spring unit, so the edge holds when you sit on it.</span></li>
 <li><b>The comfort layer</b><span>Ten centimetres, two densities, built as its own product because it has to be replaceable. Medium one face, medium firm the other.</span></li>
-<li><b>The surface</b><span>Gel memory foam, comfort foam and wave-profile airflow foam under a 400 gram cool-knit cover.</span></li>
+<li><b>The surface</b><span>Gel memory foam, comfort foam and wave-profile airflow foam under a 400 gram {{ cover }} cover.</span></li>
 <li><b>Made to order</b><span>Nothing is built before you buy it. No warehouse, no stock write-off, no clearance sale of last season&rsquo;s tension.</span></li>
 </ul></div></div></section>
 
@@ -391,7 +397,7 @@
 <h1>Heat sits in the<br>top five centimetres.</h1>
 <p class="lede">A pocket spring core is mostly air. What holds warmth is the layer directly under you, and on ours that layer comes out.</p>
 <div class="cta-row"><a class="btn" href="#configure">Choose your size</a><a class="btn btn--ghost btn-line" href="{{ pages['specification'].url | default: '/pages/specification' }}">See the build</a></div></div>
-<figure class="figure ">{% render 'rd-img', file: 'coolknit-macro.webp', alt: "Cool-knit cover, macro", width: 1400, height: 781, loading: 'eager', fetchpriority: 'high' %}</figure>
+<figure class="figure ">{% render 'rd-img', file: 'coolknit-macro.webp', alt: cover_alt_macro, width: 1400, height: 781, loading: 'eager', fetchpriority: 'high' %}</figure>
 </div></div></section>
 
 <section class="rd-sec rd-sec--bone"><div class="wrap"><div class="narrow">
@@ -403,7 +409,7 @@
 <section class="rd-sec"><div class="wrap">
 <div class="sec-head narrow" style="text-align:center"><p class="kicker">How it stays cool</p><h2>Three layers doing it</h2></div>
 <div class="grid-3" style="margin-bottom:0">
-<div><p class="mono" style="color:var(--ember);margin-bottom:10px">400 gram</p><h3>Cool-knit cover</h3><p>Knitted rather than laminated. Air passes through the surface instead of being held against it by a bonded film.</p></div>
+<div><p class="mono" style="color:var(--ember);margin-bottom:10px">400 gram</p><h3>{{ brand }} {{ cover }}</h3><p>Knitted rather than laminated. Air passes through the surface instead of being held against it by a bonded film.</p></div>
 <div><p class="mono" style="color:var(--ember);margin-bottom:10px">1cm &middot; 28 density</p><h3>Gel-infused memory foam</h3><p>Gel is what lets memory foam contour to a shoulder without holding the warmth that contouring normally creates.</p></div>
 <div><p class="mono" style="color:var(--ember);margin-bottom:10px">2.5cm &middot; wave cut</p><h3>Wave-profile foam</h3><p>Cut into a wave, so channels run through the middle of the comfort stack. Warmth moves sideways and leaves rather than gathering between two solid layers.</p></div>
 </div></div></section>
