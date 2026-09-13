@@ -89,8 +89,13 @@ body.nav-open {
     display: none !important;
   }
 
+  .site-header__actions > a.btn {
+    display: none !important;
+  }
+
   .nav-toggle {
     display: inline-flex !important;
+    flex-shrink: 0;
   }
 
   .hero--light {
