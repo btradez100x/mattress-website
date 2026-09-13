@@ -115,6 +115,15 @@ background:var(--carbon);color:var(--snow);text-decoration:none;transition:backg
 .lp .press .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);flex:none}
 .lp .press .logos{display:flex;gap:var(--s4);flex-wrap:wrap;align-items:center}
 .lp .press .logos span{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:-.02em;color:var(--graphite);opacity:.55}
+/* Review strip — thin, above press; filled from reviews.json */
+.lp .revstrip{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--hair)}
+.lp .revstrip[hidden]{display:none!important}
+.lp .revstrip .stars{display:inline-flex;gap:3px;align-items:center}
+.lp .revstrip .stars i{width:13px;height:13px;background:var(--ember);display:block;
+ clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.lp .revstrip .score{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.02em}
+.lp .revstrip .n{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite)}
+.lp .revstrip a{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite);text-decoration:underline;text-underline-offset:3px}
 .lp .price-block{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-top:var(--s3)}
 .lp .price-block .from{font-family:var(--display);font-weight:600;font-size:clamp(26px,3.4vw,34px);letter-spacing:-.035em}
 .lp .price-block .klarna{font-size:14px;color:var(--graphite)}

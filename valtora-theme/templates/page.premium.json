@@ -10,8 +10,8 @@
             "heading": "A bed that becomes yours,\nand stays that way.",
             "lede": "Nothing is built before you order it. Thirty five centimetres, a seven-zone pocket sprung core guaranteed for twenty five years, and a comfort layer we remake to your preference for a year.",
             "cta_primary": "Choose your size",
-            "cta_secondary": "How it works",
-            "cta_secondary_href": "#configure",
+            "cta_secondary": "A year to settle the feel",
+            "cta_secondary_href": "/pages/adjust-to-desire",
             "show_price": false,
             "price_first": false,
             "price_large": false,
@@ -19,18 +19,20 @@
             "price_klarna": "or £104 a month with Klarna",
             "image_file": "product-plain.webp",
             "image_alt": "",
-            "show_press": false,
+            "show_press": true,
             "press_label": "As featured in",
-            "press_1": "Gulf News",
-            "press_2": "The National",
-            "press_3": "Time Out",
-            "press_4": "Khaleej Times",
-            "press_5": "Wallpaper*",
+            "press_1": "The Times",
+            "press_2": "Financial Times",
+            "press_3": "Evening Standard",
+            "press_4": "Wallpaper*",
+            "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
             "klarna_amount": "£83 a month",
             "show_sizestrip": false,
-            "sizestrip_rows": ""
+            "sizestrip_rows": "",
+            "show_reviews": true,
+            "reviews_link_label": "Read them"
           }
         }
       },
@@ -65,186 +67,6 @@
         "button_label_full": "Add to basket"
       }
     },
-    "press-logos": {
-      "type": "press-logos",
-      "blocks": {
-        "p1": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "The National",
-            "fallback_asset": "press-the-national.svg",
-            "link": "https://www.thenationalnews.com"
-          }
-        },
-        "p2": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Gulf News",
-            "fallback_asset": "press-gulf-news.svg",
-            "link": "https://gulfnews.com"
-          }
-        },
-        "p3": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Arabian Business",
-            "fallback_asset": "press-arabian-business.svg",
-            "link": "https://www.arabianbusiness.com"
-          }
-        },
-        "p4": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Time Out Dubai",
-            "fallback_asset": "press-time-out-dubai.svg",
-            "link": "https://www.timeoutdubai.com"
-          }
-        },
-        "p5": {
-          "type": "logo",
-          "settings": {
-            "enabled": false,
-            "market_visibility": "all",
-            "name": "Wallpaper*",
-            "fallback_asset": "press-wallpaper.png",
-            "link": "https://www.wallpaper.com"
-          }
-        },
-        "p6": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "ae",
-            "name": "Design Middle East",
-            "fallback_asset": "press-design-middle-east.svg",
-            "link": "https://www.designmiddleeast.com"
-          }
-        },
-        "uk1": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "The Times",
-            "fallback_asset": "press-the-times.svg",
-            "link": "https://www.thetimes.com"
-          }
-        },
-        "uk2": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Financial Times",
-            "fallback_asset": "press-financial-times.svg",
-            "link": "https://www.ft.com"
-          }
-        },
-        "uk3": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Evening Standard",
-            "fallback_asset": "press-evening-standard.svg",
-            "link": "https://www.standard.co.uk"
-          }
-        },
-        "uk4": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Wallpaper*",
-            "fallback_asset": "press-wallpaper-wordmark.svg",
-            "link": "https://www.wallpaper.com"
-          }
-        },
-        "uk5": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Dezeen",
-            "fallback_asset": "press-dezeen.svg",
-            "link": "https://www.dezeen.com"
-          }
-        },
-        "uk6": {
-          "type": "logo",
-          "settings": {
-            "enabled": true,
-            "market_visibility": "gb",
-            "name": "Ideal Home",
-            "fallback_asset": "press-ideal-home.svg",
-            "link": "https://www.idealhome.co.uk"
-          }
-        },
-        "award_a1": {
-          "type": "award",
-          "settings": {
-            "enabled": true,
-            "year": "2026",
-            "title": "Innovation in Home",
-            "org": "Design Middle East Awards",
-            "text": ""
-          }
-        },
-        "award_a2": {
-          "type": "award",
-          "settings": {
-            "enabled": true,
-            "year": "2026",
-            "title": "Editors' Choice - Sleep",
-            "org": "Gulf Lifestyle Review",
-            "text": ""
-          }
-        },
-        "award_a3": {
-          "type": "award",
-          "settings": {
-            "enabled": false,
-            "year": "2025",
-            "title": "Sustainable Product Shortlist",
-            "org": "Green Interiors",
-            "text": ""
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4",
-        "p5",
-        "p6",
-        "uk1",
-        "uk2",
-        "uk3",
-        "uk4",
-        "uk5",
-        "uk6",
-        "award_a1",
-        "award_a2",
-        "award_a3"
-      ],
-      "settings": {
-        "enable_section": true,
-        "eyebrow": "As featured in",
-        "heading": "Press & recognition.",
-        "subheading": "Selected coverage, mentions, and distinctions.",
-        "awards_heading": "Awards",
-        "ground": "surface"
-      }
-    },
     "story": {
       "type": "lp",
       "blocks": {
@@ -255,12 +77,12 @@
             "anchor_id": "",
             "kicker": "Three things that matter",
             "heading": "What makes a mattress\nstill good in twenty years",
-            "card_1_heading": "Pocket springs, individually housed",
-            "card_1_body": "Twenty centimetres, seven zones, two wire gauges. Each spring moves alone, so one person turning over does not move the other.",
-            "card_2_heading": "A comfort layer that comes out",
-            "card_2_body": "The top five centimetres are what soften. Ours unzip and lift away, so the bed is renewed rather than replaced.",
-            "card_3_heading": "Made after you order it",
-            "card_3_body": "No warehouse, no stock to clear, no last season's tension to move on. It takes weeks rather than days.",
+            "card_1_heading": "You will not feel them turn over",
+            "card_1_body": "Every spring sits in its own pocket and moves alone. One side of the bed does not travel to the other, so a partner getting up at six does not wake you at six.",
+            "card_2_heading": "Your spine stays straight all night",
+            "card_2_body": "Seven zones along the bed, wound at two wire gauges. Heavier under the hips and shoulders where the weight lands, lighter at the waist and legs. You wake up aligned rather than folded.",
+            "card_3_heading": "In year eight it is still your bed",
+            "card_3_body": "The top five centimetres are what soften. Ours lift out and are replaced for £299. The core underneath is guaranteed for twenty five years and never leaves the room.",
             "layout": "grid",
             "lede": "",
             "card_1_label": "",
@@ -274,11 +96,11 @@
             "ground": "dark",
             "tight": false,
             "anchor_id": "",
-            "kicker": "Why we can promise that",
-            "heading": "Because nothing is\nbuilt until you order.",
-            "body_1": "No warehouse. No stock bought last quarter at last quarter's specification. No clearance sale, ever, because there is nothing to clear. Your mattress is wound, pocketed, layered and closed after you have chosen it, to the size you chose.",
-            "body_2": "That is why the guarantee can be twenty five years, and why the comfort layer can be remade for a year. We are not managing inventory. We are making your bed.",
-            "pull": ""
+            "kicker": "Ours, and nobody else's",
+            "heading": "We did not copy\nthis from anyone.",
+            "body_1": "Every part of this mattress is our own. The seven-zone spring layout, the two wire gauges and where they sit, the flippable comfort layer, the wave-cut airflow profile, the zip that runs the full perimeter. Drawn here, specified here, made to our drawings.",
+            "body_2": "Most mattresses in this country are the same three or four builds with different covers on them. Ours is not one of them, and you can read every layer of it before you buy. You are not buying what was made last quarter and needs shifting. You are buying a bed that does not exist yet, built to a specification we own, in the size you chose.",
+            "pull": "Nothing is built until you order it. Which is why the guarantee is twenty five years, and why you get a year to change how it feels."
           }
         },
         "b4": {
@@ -308,7 +130,7 @@
             "heading": "From £1,999.",
             "body": "King is £2,999. Super King is £3,299. Every size is the same build, so the price is the size and nothing else.",
             "price_from": "From £1,999.",
-            "price_klarna": "or £83 a month with Klarna",
+            "price_klarna": "or £83 a month over 24 months with Klarna",
             "show_pay": true,
             "pay_label": "Pay by",
             "klarna_amount": "£83 a month",
@@ -366,7 +188,6 @@
   },
   "order": [
     "main",
-    "press-logos",
     "story",
     "configure"
   ]

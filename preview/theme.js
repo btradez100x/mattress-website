@@ -616,6 +616,51 @@
     return false;
   }
 
+
+
+  function initLpRevstrip() {
+    var nodes = document.querySelectorAll('[data-lp-revstrip]');
+    if (!nodes.length) return;
+    var host = document.querySelector('[data-lp-page][data-reviews-url]');
+    var url =
+      (host && host.getAttribute('data-reviews-url')) ||
+      (document.querySelector('[data-reviews-url]') &&
+        document.querySelector('[data-reviews-url]').getAttribute('data-reviews-url')) ||
+      '';
+    if (!url) {
+      if (/\/pages\//.test(location.pathname)) url = '../assets/reviews.json';
+      else url = './assets/reviews.json';
+    }
+    fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('lp reviews fetch failed');
+        return res.json();
+      })
+      .then(function (data) {
+        var list = Array.isArray(data.reviews) ? data.reviews : [];
+        list = list.filter(function (r) {
+          return r && r.published !== false && r.visible !== false;
+        });
+        if (!list.length) return;
+        var sum = 0;
+        list.forEach(function (r) {
+          sum += Number(r.rating) || 0;
+        });
+        var avg = sum / list.length;
+        var score = avg.toFixed(2).replace(/\.00$/, '');
+        var countLabel =
+          'out of 5 · ' + list.length.toLocaleString() + ' verified reviews';
+        nodes.forEach(function (el) {
+          var scoreEl = el.querySelector('[data-lp-rev-score]');
+          var countEl = el.querySelector('[data-lp-rev-count]');
+          if (scoreEl) scoreEl.textContent = score;
+          if (countEl) countEl.textContent = countLabel;
+          el.hidden = false;
+        });
+      })
+      .catch(function () {});
+  }
+
   function fireLpView() {
     if (lpViewFiredThisLoad) return;
     if (!isLpViewPage()) return;
@@ -736,6 +781,7 @@
     captureLpVariantOnce();
     persistNumaAttribution();
     fireLpView();
+    initLpRevstrip();
     initScrollDepth();
     initEngagedSession();
     initScrollPastPrice();

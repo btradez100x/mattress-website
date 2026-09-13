@@ -35,7 +35,7 @@
     assign lp_from_label = ''
   endif
 -%}
-<div class="lp" data-lp-page data-lp-variant="{{ section.settings.variant | escape }}"{% if lp_allowed_sizes != blank %} data-allowed-sizes="{{ lp_allowed_sizes | escape }}"{% endif %}>
+<div class="lp" data-lp-page data-lp-variant="{{ section.settings.variant | escape }}"{% if lp_allowed_sizes != blank %} data-allowed-sizes="{{ lp_allowed_sizes | escape }}"{% endif %} data-reviews-url="{{ 'reviews.json' | asset_url }}">
   {%- for block in section.blocks -%}
     {%- case block.type -%}
 
@@ -100,17 +100,26 @@
               {%- endif -%}
             </div>
             <div class="line"></div>
-            {%- if block.settings.show_press -%}
-              <div class="press">
-                <span class="k">{{ block.settings.press_label | default: 'As featured in' }}</span>
-                <div class="logos">
-                  {%- if block.settings.press_1 != blank -%}<span>{{ block.settings.press_1 }}</span>{%- endif -%}
-                  {%- if block.settings.press_2 != blank -%}<span>{{ block.settings.press_2 }}</span>{%- endif -%}
-                  {%- if block.settings.press_3 != blank -%}<span>{{ block.settings.press_3 }}</span>{%- endif -%}
-                  {%- if block.settings.press_4 != blank -%}<span>{{ block.settings.press_4 }}</span>{%- endif -%}
-                  {%- if block.settings.press_5 != blank -%}<span>{{ block.settings.press_5 }}</span>{%- endif -%}
-                </div>
+            {%- if block.settings.show_reviews -%}
+              {%- liquid
+                assign reviews_href = pages['reviews'].url | default: '/#reviews'
+              -%}
+              <div class="revstrip" data-lp-revstrip hidden>
+                <span class="stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                <span class="score" data-lp-rev-score></span>
+                <span class="n" data-lp-rev-count></span>
+                <a href="{{ reviews_href }}">{{ block.settings.reviews_link_label | default: 'Read them' }}</a>
               </div>
+            {%- endif -%}
+            {%- if block.settings.show_press -%}
+              {% render 'lp-press-strip',
+                label: block.settings.press_label,
+                press_1: block.settings.press_1,
+                press_2: block.settings.press_2,
+                press_3: block.settings.press_3,
+                press_4: block.settings.press_4,
+                press_5: block.settings.press_5
+              %}
             {%- endif -%}
           </div>
         </section>
@@ -317,9 +326,39 @@
           </div>
         </section>
 
+      {%- when 'press' -%}
+        <section class="{% if block.settings.ground == 'bone' %}bone{% endif %}" {{ block.shopify_attributes }}>
+          <div class="wrap">
+            <div class="narrow">
+              {% render 'lp-press-strip',
+                label: block.settings.press_label,
+                flush_top: block.settings.flush_top,
+                press_1: block.settings.press_1,
+                press_2: block.settings.press_2,
+                press_3: block.settings.press_3,
+                press_4: block.settings.press_4,
+                press_5: block.settings.press_5
+              %}
+            </div>
+          </div>
+        </section>
+
       {%- when 'assurance' -%}
         <section class="{% if block.settings.ground == 'bone' %}bone{% endif %}" {{ block.shopify_attributes }}>
           <div class="wrap">
+            {%- if block.settings.show_press -%}
+              <div class="narrow">
+                {% render 'lp-press-strip',
+                  label: block.settings.press_label,
+                  flush_top: true,
+                  press_1: block.settings.press_1,
+                  press_2: block.settings.press_2,
+                  press_3: block.settings.press_3,
+                  press_4: block.settings.press_4,
+                  press_5: block.settings.press_5
+                %}
+              </div>
+            {%- endif -%}
             <div class="assure">
               <div>
                 <span class="ic"></span>
@@ -389,13 +428,32 @@
         { "type": "text", "id": "trust_3", "label": "Trust 3" },
         { "type": "text", "id": "image_file", "label": "Image filename", "default": "product-floating.webp" },
         { "type": "text", "id": "image_alt", "label": "Image alt" },
-        { "type": "checkbox", "id": "show_press", "label": "Show hero text press strip (prefer the Press logos section)", "default": false },
+        { "type": "checkbox", "id": "show_reviews", "label": "Show reviews strip (from reviews.json)", "default": true },
+        { "type": "text", "id": "reviews_link_label", "label": "Reviews link label", "default": "Read them" },
+        { "type": "checkbox", "id": "show_press", "label": "Show compact press strip under hero", "default": true },
         { "type": "text", "id": "press_label", "label": "Press label", "default": "As featured in" },
-        { "type": "text", "id": "press_1", "label": "Press 1" },
-        { "type": "text", "id": "press_2", "label": "Press 2" },
-        { "type": "text", "id": "press_3", "label": "Press 3" },
-        { "type": "text", "id": "press_4", "label": "Press 4" },
-        { "type": "text", "id": "press_5", "label": "Press 5" }
+        { "type": "text", "id": "press_1", "label": "Press 1", "default": "The Times" },
+        { "type": "text", "id": "press_2", "label": "Press 2", "default": "Financial Times" },
+        { "type": "text", "id": "press_3", "label": "Press 3", "default": "Evening Standard" },
+        { "type": "text", "id": "press_4", "label": "Press 4", "default": "Wallpaper*" },
+        { "type": "text", "id": "press_5", "label": "Press 5", "default": "Dezeen" }
+      ]
+    },
+    {
+      "type": "press",
+      "name": "Press strip",
+      "settings": [
+        { "type": "select", "id": "ground", "label": "Ground", "options": [
+          { "value": "", "label": "Snow" },
+          { "value": "bone", "label": "Bone" }
+        ], "default": "" },
+        { "type": "checkbox", "id": "flush_top", "label": "No top border", "default": true },
+        { "type": "text", "id": "press_label", "label": "Press label", "default": "As featured in" },
+        { "type": "text", "id": "press_1", "label": "Press 1", "default": "The Times" },
+        { "type": "text", "id": "press_2", "label": "Press 2", "default": "Financial Times" },
+        { "type": "text", "id": "press_3", "label": "Press 3", "default": "Evening Standard" },
+        { "type": "text", "id": "press_4", "label": "Press 4", "default": "Wallpaper*" },
+        { "type": "text", "id": "press_5", "label": "Press 5", "default": "Dezeen" }
       ]
     },
     {
@@ -565,6 +623,13 @@
           { "value": "", "label": "Snow" },
           { "value": "bone", "label": "Bone" }
         ], "default": "" },
+        { "type": "checkbox", "id": "show_press", "label": "Show compact press strip above panels", "default": false },
+        { "type": "text", "id": "press_label", "label": "Press label", "default": "As featured in" },
+        { "type": "text", "id": "press_1", "label": "Press 1", "default": "The Times" },
+        { "type": "text", "id": "press_2", "label": "Press 2", "default": "Financial Times" },
+        { "type": "text", "id": "press_3", "label": "Press 3", "default": "Evening Standard" },
+        { "type": "text", "id": "press_4", "label": "Press 4", "default": "Wallpaper*" },
+        { "type": "text", "id": "press_5", "label": "Press 5", "default": "Dezeen" },
         { "type": "text", "id": "a1_heading", "label": "Panel 1 heading" },
         { "type": "textarea", "id": "a1_body", "label": "Panel 1 body" },
         { "type": "text", "id": "a2_heading", "label": "Panel 2 heading" },
@@ -574,7 +639,7 @@
       ]
     }
   ],
-  "max_blocks": 16,
+  "max_blocks": 18,
   "presets": [{ "name": "Landing page" }]
 }
 {% endschema %}

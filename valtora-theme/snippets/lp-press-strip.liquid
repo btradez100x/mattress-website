@@ -1,0 +1,19 @@
+{%- comment -%} Compact v12 wordmark press strip. No awards. {%- endcomment -%}
+{%- liquid
+  assign has_logo = false
+  if press_1 != blank or press_2 != blank or press_3 != blank or press_4 != blank or press_5 != blank
+    assign has_logo = true
+  endif
+-%}
+{%- if has_logo -%}
+  <div class="press"{% if flush_top %} style="border-top:0"{% endif %}>
+    <span class="k">{{ label | default: 'As featured in' }}</span>
+    <div class="logos">
+      {%- if press_1 != blank -%}<span>{{ press_1 }}</span>{%- endif -%}
+      {%- if press_2 != blank -%}<span>{{ press_2 }}</span>{%- endif -%}
+      {%- if press_3 != blank -%}<span>{{ press_3 }}</span>{%- endif -%}
+      {%- if press_4 != blank -%}<span>{{ press_4 }}</span>{%- endif -%}
+      {%- if press_5 != blank -%}<span>{{ press_5 }}</span>{%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
