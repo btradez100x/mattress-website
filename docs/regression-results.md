@@ -1,3 +1,17 @@
+# Regression results — Sunday 13 Sep 2026 (deploy 13.0.0-trade-developers-image)
+
+- Property developers Trade card image restored by renaming `trade-large.webp` → `trade-developers.webp` (Shopify reserved size token collision). Preview + theme synced. Live CLI push + Connect branch updated.
+- Smoke: exit 1 on pre-existing checks (footer lockup, Trade `[D-reply]` / 5 working days, section grounds, LP configure / editorial size tiles). No new Trade-image fails.
+- Checkpoint: `checkpoints/13.0.0-trade-developers-image/`. Deploy: `v9` `c86f128`, `shopify-theme` `054d4cd`. No VERSION bump.
+
+---
+
+# Regression results — Sunday 13 Sep 2026 (lp-cta-tracking)
+
+- Nine LPs: `cta_click` on hero + header CTAs; `lp_variant` on all vTrack events; GTM/Consent Mode via default theme layout. Microsoft/Meta/GA4 via GTM.
+- Folded press-logos + size-reserve LP configure from parallel agent (`7c3479a7fb649b7c9d4d27cc3b91eaa097919691` / shopify-theme `6001b54a2f1d68d496eb4723ef439ac40d7b065a`).
+- Smoke: exit 1 on pre-existing checks only. `prove-numa-tracking.js` PASS (includes `cta_click`).
+- Checkpoint: `checkpoints/13.0.0-lp-cta-tracking/`. Deploy: `v9` `7c3479a7fb649b7c9d4d27cc3b91eaa097919691`, `shopify-theme` `6001b54a2f1d68d496eb4723ef439ac40d7b065a`. No VERSION bump.
 # Regression results — Sunday 13 Sep 2026 (lp-homepage-components)
 
 - Nine LPs + configure surfaces now reuse homepage `press-logos` and `size-reserve` (not hero text logos / landing-funnel configure).
