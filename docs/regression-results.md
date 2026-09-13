@@ -14,7 +14,7 @@
 
 - Extended `cta_click` to size-reserve tile Add (`size_add`) and Continue (`reserve_continue`) with `lp_variant`; existing `add_to_basket` / `reserve_intent` unchanged. Press-logos + size-reserve wiring kept.
 - `prove-numa-tracking.js` PASS (asserts size-reserve Add/Continue). Preview Continue buttons marked `data-reserve-cta="continue"`; Liquid Continue gets the same attr.
-- Checkpoint: `checkpoints/13.0.0-lp-cta-tracking/`. Deploy SHAs filled after push. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-lp-cta-tracking/`. Deploy: `v9` `67bd05e`, `shopify-theme` `b3aa2a3`. Tip after parallel LP work: `v9` `0b9960e`, `shopify-theme` `449c96d`. No VERSION bump.
 
 # Regression results — Sunday 13 Sep 2026 (homepage-single-init)
 

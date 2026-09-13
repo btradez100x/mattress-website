@@ -5,10 +5,12 @@ Named deploy checkpoint. `VERSION` was not bumped.
 
 | Tree | SHA |
 |---|---|
-| `v9` | *(commit after this deploy)* |
-| `shopify-theme` | *(sync after this deploy)* |
+| `v9` | `67bd05e72fe368870a4f27ba1f2dac1a11b603ca` (`67bd05e`) |
+| `shopify-theme` | `b3aa2a3852a26583514e736807362852b756ddfb` (`b3aa2a3`) |
 
 Base fold already live: `v9` `7c3479a` / `shopify-theme` `6001b54` (press-logos + size-reserve). This checkpoint adds size-reserve Add/Continue `cta_click` on top.
+
+Later tip after parallel LP work (includes this): `v9` `0b9960e` / `shopify-theme` `449c96d`.
 
 ## What shipped
 
@@ -17,6 +19,7 @@ Base fold already live: `v9` `7c3479a` / `shopify-theme` `6001b54` (press-logos 
 - `cta_click` on: LP hero primary/secondary, header Reserve yours, size-reserve **Add** (`size_add`), size-reserve **Continue/Add to basket** (`reserve_continue`).
 - Existing funnel events unchanged: `select_size`, `add_to_basket`, `configure_start`/`configure_complete`, `reserve_intent`, `begin_checkout` — all carry `lp_variant`.
 - Press-logos + size-reserve sections left in place (not reverted to landing-funnel).
+- `initCtaClickTracking` covers `size_add` and `reserve_continue`; Liquid Continue uses `data-reserve-cta="continue"`.
 
 ## CTA → event map
 
