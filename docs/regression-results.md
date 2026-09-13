@@ -1,3 +1,10 @@
+# Regression results — Sunday 13 Sep 2026 (lp-v11-pack)
+
+- v11 pack into nine LPs: size strip, pay row, arrive/assurance CSS, press under hero. Smoke: exit 1 on pre-existing checks only (footer lockup, landing configure, grounds, Trade).
+- Checkpoint: `checkpoints/13.0.0-lp-v11-pack/`. Deploy: `v9` `309237d64598e13b0f246bacc0f23537f9b02668`, `shopify-theme` `d99a695c137bd138a790730a0603d81f3192dfd4`. No VERSION bump.
+
+---
+
 # Regression results — Sunday 13 Sep 2026 (service steppers restore)
 
 - Restored Concierge Remove/Add back and old mattress removal qty steppers on /cart and the size-page Your order panel. Shared storage; cart summary unhides services when mattresses are present.
