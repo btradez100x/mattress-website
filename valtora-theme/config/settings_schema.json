@@ -31,6 +31,35 @@
         "info": "The lockup wordmark, [Brand] copy tokens, email masthead, and Trading as. Change this to change the name everywhere."
       },
       {
+        "type": "header",
+        "content": "Named materials"
+      },
+      {
+        "type": "paragraph",
+        "content": "Sub-brand component names on landing pages and layer tables. Use [Cover], [Gel], and [Core] in copy. First mention is usually [Brand] [Cover] (or [Gel] / [Core]); short form after."
+      },
+      {
+        "type": "text",
+        "id": "cover_material",
+        "label": "Cover material",
+        "default": "Coolweave",
+        "info": "Replaces Cool-Knit. Token [Cover]. Full form: [Brand] [Cover]."
+      },
+      {
+        "type": "text",
+        "id": "gel_material",
+        "label": "Gel material",
+        "default": "Coolcell",
+        "info": "Replaces generic gel memory foam naming. Token [Gel]."
+      },
+      {
+        "type": "text",
+        "id": "core_name",
+        "label": "Core name",
+        "default": "Sevencore",
+        "info": "Replaces seven-zone pocket spring core as the product name. Token [Core]."
+      },
+      {
         "type": "select",
         "id": "heading_weight",
         "label": "Heading weight",

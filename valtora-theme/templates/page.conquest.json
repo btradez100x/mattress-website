@@ -6,7 +6,7 @@
         "b1": {
           "type": "hero",
           "settings": {
-            "kicker": "Made to order · United Kingdom",
+            "kicker": "Made to order \u00b7 United Kingdom",
             "heading": "The top comes off.\nTheirs does not.",
             "lede": "Almost every mattress is sealed. The comfort layer is glued to the core, so when it softens, or was never right, the whole thing goes. Ours is closed with a zip. The top lifts out, and we remake it to you.",
             "cta_primary": "Choose your size",
@@ -15,8 +15,8 @@
             "show_price": true,
             "price_first": false,
             "price_large": false,
-            "price_from": "From £2,499",
-            "price_klarna": "or £104 a month with Klarna",
+            "price_from": "From \u00a32,499",
+            "price_klarna": "or \u00a3104 a month with Klarna",
             "image_file": "coolknit-side.webp",
             "image_alt": "",
             "show_press": true,
@@ -31,7 +31,7 @@
             "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "£104 a month",
+            "klarna_amount": "\u00a3104 a month",
             "show_sizestrip": false,
             "sizestrip_rows": "",
             "show_reviews": true,
@@ -82,7 +82,7 @@
             "kicker": "The difference",
             "heading": "A sealed mattress\ncannot change.",
             "body_1": "If the feel is wrong at week three, a sealed mattress is wrong for ten years. If it softens at year six, the whole thing is replaced, springs and all, because the part that wore is glued to the part that did not.",
-            "body_2": "Ours separates them. Twenty centimetres of springs guaranteed for twenty five years, and fifteen centimetres of comfort above it that comes out. Wrong at week three, we remake it. Soft at year six, you replace a layer for £299 and keep the bed.",
+            "body_2": "Ours separates them. Twenty centimetres of springs guaranteed for twenty five years, and fifteen centimetres of comfort above it that comes out. Wrong at week three, we remake it. Soft at year six, you replace a layer for \u00a3299 and keep the bed.",
             "pull": "The part that wears is the part that comes out."
           }
         },
