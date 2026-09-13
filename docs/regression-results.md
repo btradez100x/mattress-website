@@ -1,3 +1,9 @@
+# Regression results — Sunday 13 Sep 2026 (service steppers restore)
+
+- Restored Concierge Remove/Add back and old mattress removal qty steppers on /cart and the size-page Your order panel. Shared storage; cart summary unhides services when mattresses are present.
+- Smoke: exit 1 on 5 pre-existing checks (footer lockup, landing configure, CX landers/trade, grounds). No new cart-stepper fails.
+- Checkpoint: `checkpoints/13.0.0-service-steppers-restore/`. Deploy: `v9` `3047c1be425c8d6331333766c5138ac22386d58a`, `shopify-theme` `128fb47fae949f7ffb96d0758309366913a7939d`. No VERSION bump.
+
 # Regression results — Sunday 13 Sep 2026 (lp-dynamic-from-price)
 
 - Nine LPs: From price = lowest mattress in size-reserve `allowed_size_ids` (or full catalog). Liquid `mattress-min-price` + `theme.js` `fillLandingPrices`. Klarna lines static.
