@@ -1064,7 +1064,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Prefer Google Tag Manager. Theme code pushes events to dataLayer via vTrack (lp_view, configure_start, configure_complete, add_to_basket, add_service, basket_view, begin_checkout, purchase, plus scroll_depth, scroll_past_price, engaged_session). Every event carries lp_variant and session_id. Meta and GA4 are configured in GTM only — no direct theme scripts. Map add_to_basket as the primary conversion."
+        "content": "Prefer Google Tag Manager. Theme code pushes events to dataLayer via vTrack (lp_view, cta_click, configure_start, configure_complete, add_to_basket, add_service, basket_view, begin_checkout, purchase, plus scroll_depth, scroll_past_price, engaged_session). Every event carries lp_variant and session_id. Meta, GA4, and Microsoft Ads/UET/Clarity are configured in GTM only — no direct theme scripts. Map add_to_basket as the primary conversion."
       },
       {
         "type": "text",

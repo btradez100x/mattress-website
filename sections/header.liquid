@@ -37,7 +37,7 @@
     assign reserve_src = '#reserve'
   endif
   assign reserve_label = section.settings.reserve_label | default: 'See sizes and prices'
-  if template.suffix == 'large-sizes' or template.suffix == 'european-king' or template.suffix == 'what-it-buys' or template.suffix == 'specification' or template.suffix == 'support' or template.suffix == 'cooling' or template.suffix == 'split-king'
+  if template.suffix == 'large-sizes' or template.suffix == 'european-king' or template.suffix == 'what-it-buys' or template.suffix == 'specification' or template.suffix == 'support' or template.suffix == 'cooling' or template.suffix == 'split-king' or template.suffix == 'size' or template.suffix == 'need' or template.suffix == 'premium' or template.suffix == 'other-size' or template.suffix == 'conquest' or template.suffix == 'spec-size' or template.suffix == 'need-only' or template.suffix == 'spec-only' or template.suffix == 'temperature'
     assign reserve_src = '#configure'
     assign reserve_label = 'Reserve yours'
   elsif template.suffix == 'about' or template.suffix == 'mattress-recycling'
@@ -131,7 +131,7 @@
         <span class="site-header__order-count" data-order-count{% unless order_line_count > 0 %} hidden{% endunless %}>{{ order_line_count }}</span>
       </a>
       {%- if section.settings.show_reserve_cta -%}
-        <a class="btn btn--sm" href="{{ reserve_href }}">
+        <a class="btn btn--sm" href="{{ reserve_href }}" data-header-cta="desktop">
           {{ reserve_label }}
         </a>
       {%- endif -%}
@@ -155,7 +155,7 @@
   <div class="nav-panel" id="MobileNav" data-nav-panel aria-hidden="true">
     {{ header_nav_links }}
     {%- if section.settings.show_reserve_cta -%}
-      <a href="{{ reserve_href }}">
+      <a href="{{ reserve_href }}" data-header-cta="mobile">
         {{ reserve_label }}
       </a>
     {%- endif -%}

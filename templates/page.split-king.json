@@ -8,16 +8,27 @@
       }
     },
     "configure": {
-      "type": "landing-funnel",
+      "type": "size-reserve",
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "enable_section": true,
         "ground": "bg",
-        "layout": "configure",
-        "anchor_id": "configure",
         "mattress_product": "the-mattress",
-        "kicker": "Reserve yours",
-        "heading": "Choose your size",
-        "lede": "You cannot know how a mattress feels in four minutes. So the feel is decided during a year, not before. Same 35cm construction, same removable comfort layer. Split King is two linked halves, 2 \u00d7 106 \u00d7 213cm.",
+        "eyebrow": "Reserve yours",
+        "heading": "Choose your size.",
+        "body": "You cannot know how a mattress feels in four minutes. So the feel is decided during a year, not before. Same 35cm construction, same removable comfort layer. Split King is two linked halves, 2 \u00d7 106 \u00d7 213cm.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
+        "market_force": "auto",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "anchor_id": "configure",
+        "leadtime_placement": "staged",
+        "continue_path": "/cart",
+        "configure_funnel": true,
+        "stage_b_heading": "Summary",
+        "continue_label_full": "Add to basket",
+        "button_label_full": "Add to basket",
         "featured_size": "split-king"
       }
     }

@@ -12,8 +12,30 @@
   else
     assign layer_price = settings.comfort_layer_price_gb | default: '£299'
   endif
+
+  assign mattress = all_products['the-mattress']
+  if mattress == blank
+    assign mattress = all_products['mattress']
+  endif
+  capture catalog_iso
+    render 'size-catalog-iso', mattress: mattress
+  endcapture
+  assign catalog_iso = catalog_iso | strip | upcase
+  if catalog_iso == blank
+    assign catalog_iso = 'GB'
+  endif
+  assign lp_allowed_sizes = section.settings.allowed_size_ids | default: '' | strip
+  capture lp_min_money
+    render 'mattress-min-price', mattress: mattress, catalog_iso: catalog_iso, allowed_size_ids: lp_allowed_sizes
+  endcapture
+  assign lp_min_money = lp_min_money | strip
+  if lp_min_money != blank
+    assign lp_from_label = 'From ' | append: lp_min_money
+  else
+    assign lp_from_label = ''
+  endif
 -%}
-<div class="lp" data-lp-page data-lp-variant="{{ section.settings.variant | escape }}">
+<div class="lp" data-lp-page data-lp-variant="{{ section.settings.variant | escape }}"{% if lp_allowed_sizes != blank %} data-allowed-sizes="{{ lp_allowed_sizes | escape }}"{% endif %}>
   {%- for block in section.blocks -%}
     {%- case block.type -%}
 
@@ -30,14 +52,14 @@
                   <p class="lede">{{ block.settings.lede | replace: '[Brand]', brand }}</p>
                 {%- endif -%}
                 <div class="cta-row">
-                  <a class="btn" href="#configure">{{ block.settings.cta_primary | default: 'Choose your size' }}</a>
+                  <a class="btn" href="#configure" data-hero-cta data-lp-cta="primary">{{ block.settings.cta_primary | default: 'Choose your size' }}</a>
                   {%- if block.settings.cta_secondary != blank -%}
-                    <a class="btn btn-line" href="{{ block.settings.cta_secondary_href | default: '#configure' }}">{{ block.settings.cta_secondary }}</a>
+                    <a class="btn btn-line" href="{{ block.settings.cta_secondary_href | default: '#configure' }}" data-lp-cta="secondary">{{ block.settings.cta_secondary }}</a>
                   {%- endif -%}
                 </div>
                 {%- if block.settings.show_price and block.settings.price_first -%}
-                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" style="margin-top:var(--s3)">
-                    <span class="from">{{ block.settings.price_from | default: 'From £2,499' }}</span>
+                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% if lp_from_label == blank %} hidden{% endif %} style="margin-top:var(--s3)">
+                    <span class="from" data-lp-price>{{ lp_from_label | default: block.settings.price_from | default: 'From …' }}</span>
                     {%- if block.settings.price_klarna != blank -%}
                       <span class="klarna">{{ block.settings.price_klarna }}</span>
                     {%- endif -%}
@@ -51,8 +73,8 @@
                   </div>
                 {%- endif -%}
                 {%- if block.settings.show_price and block.settings.price_first == false -%}
-                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" style="margin-top:var(--s3)">
-                    <span class="from">{{ block.settings.price_from | default: 'From £2,499' }}</span>
+                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% if lp_from_label == blank %} hidden{% endif %} style="margin-top:var(--s3)">
+                    <span class="from" data-lp-price>{{ lp_from_label | default: block.settings.price_from | default: 'From …' }}</span>
                     {%- if block.settings.price_klarna != blank -%}
                       <span class="klarna">{{ block.settings.price_klarna }}</span>
                     {%- endif -%}
@@ -155,11 +177,17 @@
             <div class="narrow">
               <div class="sec-head">
                 {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
-                {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                {%- if block.settings.heading != blank -%}
+                  {%- if lp_from_label != blank -%}
+                    <h2 data-lp-from-heading>From {{ lp_min_money }}.</h2>
+                  {%- else -%}
+                    <h2 data-lp-from-heading>{{ block.settings.heading | newline_to_br }}</h2>
+                  {%- endif -%}
+                {%- endif -%}
               </div>
               {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
-              <div class="price-block" style="margin-top:var(--s3)">
-                <span class="from">{{ block.settings.price_from | default: 'From £1,999' }}</span>
+              <div class="price-block" id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% if lp_from_label == blank %} hidden{% endif %} style="margin-top:var(--s3)">
+                <span class="from" data-lp-price>{{ lp_from_label | default: block.settings.price_from | default: 'From …' }}</span>
                 {%- if block.settings.price_klarna != blank -%}
                   <span class="klarna">{{ block.settings.price_klarna }}</span>
                 {%- endif -%}
@@ -269,6 +297,12 @@
       "id": "variant",
       "label": "Variant id",
       "info": "For analytics. Example: king-and-super-king"
+    },
+    {
+      "type": "text",
+      "id": "allowed_size_ids",
+      "label": "Allowed size ids for From price",
+      "info": "Comma list matching the configure size set (e.g. king,super-king,double). Blank = full market catalog. Theme.js also reads data-allowed-sizes from size-reserve."
     }
   ],
   "blocks": [
@@ -292,7 +326,7 @@
         { "type": "text", "id": "trust_3", "label": "Trust 3" },
         { "type": "text", "id": "image_file", "label": "Image filename", "default": "product-floating.webp" },
         { "type": "text", "id": "image_alt", "label": "Image alt" },
-        { "type": "checkbox", "id": "show_press", "label": "Show press strip", "default": true },
+        { "type": "checkbox", "id": "show_press", "label": "Show hero text press strip (prefer the Press logos section)", "default": false },
         { "type": "text", "id": "press_label", "label": "Press label", "default": "As featured in" },
         { "type": "text", "id": "press_1", "label": "Press 1" },
         { "type": "text", "id": "press_2", "label": "Press 2" },

@@ -773,6 +773,43 @@
     });
   }
 
+  function initCtaClickTracking() {
+    if (document.documentElement.getAttribute('data-cta-track-ready') === '1') return;
+    document.documentElement.setAttribute('data-cta-track-ready', '1');
+    document.addEventListener(
+      'click',
+      function (e) {
+        var el =
+          e.target && e.target.closest
+            ? e.target.closest('[data-lp-cta], [data-hero-cta], [data-header-cta]')
+            : null;
+        if (!el) return;
+        var position = '';
+        if (el.hasAttribute('data-lp-cta')) {
+          var lpRole = String(el.getAttribute('data-lp-cta') || '').trim() || 'primary';
+          position = lpRole === 'secondary' ? 'hero_secondary' : 'hero_primary';
+        } else if (el.hasAttribute('data-header-cta')) {
+          var hdr = String(el.getAttribute('data-header-cta') || '').trim();
+          position = hdr === 'mobile' ? 'header_mobile' : 'header';
+        } else if (el.hasAttribute('data-hero-cta')) {
+          position = 'hero_primary';
+        }
+        var label = String(el.getAttribute('aria-label') || el.textContent || '')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 120);
+        var href = String(el.getAttribute('href') || '').trim();
+        vTrack('cta_click', {
+          page_path: location.pathname || '',
+          cta_position: position,
+          cta_label: label,
+          cta_href: href,
+        });
+      },
+      true
+    );
+  }
+
   function parseLayerPriceCents() {
     var raw = parseInt(document.documentElement.getAttribute('data-layer-price-raw'), 10);
     if (raw > 0) return raw;
@@ -1917,9 +1954,42 @@
     });
   }
 
+  function parseAllowedSizeIds(raw) {
+    return String(raw || '')
+      .split(/[,|\s]+/)
+      .map(function (s) {
+        return String(s || '')
+          .trim()
+          .toLowerCase();
+      })
+      .filter(Boolean);
+  }
+
+  function pageAllowedSizeIds() {
+    var el =
+      document.querySelector('[data-lp-page][data-allowed-sizes]') ||
+      document.querySelector('[data-size-reserve][data-allowed-sizes]') ||
+      document.querySelector('[data-allowed-sizes]');
+    return parseAllowedSizeIds(el && el.getAttribute('data-allowed-sizes'));
+  }
+
+  function lowestCatalogPriceRow(rows, allowedIds) {
+    var allowed = allowedIds && allowedIds.length ? allowedIds : null;
+    var list = (rows || []).filter(function (r) {
+      if (!r || !(r.price_raw > 0) || !r.price) return false;
+      if (!allowed) return true;
+      return allowed.indexOf(String(r.id || '').toLowerCase()) !== -1;
+    });
+    list.sort(function (a, b) {
+      return (a.price_raw || 0) - (b.price_raw || 0);
+    });
+    return list[0] || null;
+  }
+
   function fillLandingPrices() {
     var market = detectMarket();
     var rows = catalogRowsForPaint(readSizePriceRows(), detectCountryIso());
+    var pageAllowed = pageAllowedSizeIds();
     document.querySelectorAll('[data-lp-size-table]').forEach(function (tbody) {
       if (!rows.length) return;
       tbody.innerHTML = rows
@@ -1944,29 +2014,31 @@
     document.querySelectorAll('[data-lp-hero-price]').forEach(function (wrap) {
       var mode = wrap.getAttribute('data-lp-price-mode') || 'featured';
       var sizeId = wrap.getAttribute('data-lp-size') || '';
-      var valueEl = wrap.querySelector('[data-lp-price]');
+      var valueEl = wrap.querySelector('[data-lp-price]') || wrap.querySelector('.from');
+      var allowed = parseAllowedSizeIds(wrap.getAttribute('data-allowed-sizes'));
+      if (!allowed.length) allowed = pageAllowed;
       var row =
-        mode === 'from'
-          ? rows
-              .filter(function (r) {
-                return (r.price_raw || 0) > 0;
-              })
-              .sort(function (a, b) {
-                return (a.price_raw || 0) - (b.price_raw || 0);
-              })[0]
-          : sizeRowForId(sizeId, market);
+        mode === 'from' ? lowestCatalogPriceRow(rows, allowed) : sizeRowForId(sizeId, market);
       if (!row || !row.price) {
         wrap.hidden = true;
         return;
       }
       wrap.hidden = false;
+      wrap.removeAttribute('hidden');
       if (valueEl) {
         valueEl.textContent = mode === 'from' ? 'From ' + row.price : row.price;
       }
-      document.querySelectorAll('.lp-section').forEach(function (sec) {
+      document.querySelectorAll('.lp-section, [data-lp-page]').forEach(function (sec) {
         sec.setAttribute('data-lp-resolved-price', row.price);
       });
     });
+    var fromRow = lowestCatalogPriceRow(rows, pageAllowed);
+    if (fromRow && fromRow.price) {
+      document.querySelectorAll('[data-lp-from-heading]').forEach(function (el) {
+        var trail = /\.\s*$/.test(String(el.textContent || '')) ? '.' : '';
+        el.textContent = 'From ' + fromRow.price + trail;
+      });
+    }
     var layerLabelBoot =
       document.documentElement.getAttribute('data-layer-price') || '';
     document.querySelectorAll('[data-layer-price-text]').forEach(function (el) {
@@ -4925,6 +4997,7 @@
       try {
         pre = new URLSearchParams(location.search).get('size') || '';
       } catch (e) {}
+      if (!pre) pre = root.getAttribute('data-preselect-size') || '';
       pre = String(pre)
         .toLowerCase()
         .replace(/_/g, '-');
@@ -4966,6 +5039,15 @@
         type = paintSizeTypeTabs(root.querySelector('[data-size-types]'), selectorCatalogRows(), type, shopper);
         root.setAttribute('data-size-type', type || '');
         sizes = rowsForSizeType(type);
+        var allowed = String(root.getAttribute('data-allowed-sizes') || '')
+          .split(/[,|\s]+/)
+          .map(function (s) { return String(s || '').trim().toLowerCase(); })
+          .filter(Boolean);
+        if (allowed.length) {
+          sizes = (sizes || []).filter(function (r) {
+            return allowed.indexOf(String((r && r.id) || '').toLowerCase()) !== -1;
+          });
+        }
         paintSizeGrid(list, sizes, selectorTab, addLabel);
         hydratePolicyStrips(root);
         syncSizeQtyUi();
@@ -8439,6 +8521,7 @@
     initLandingConfigure();
     initSizeHelp();
     initNumaTracking();
+    initCtaClickTracking();
     initGuaranteePage();
     initExitIntent();
     initAnnouncementDismiss();

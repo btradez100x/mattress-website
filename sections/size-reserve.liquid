@@ -124,6 +124,8 @@
     data-contact-path="/pages/contact"
     data-checkout-path="{{ continue_path }}"
     {% if configure_funnel %}data-configure-funnel="true"{% endif %}
+    {% if section.settings.allowed_size_ids != blank %}data-allowed-sizes="{{ section.settings.allowed_size_ids | strip | escape }}"{% endif %}
+    {% if section.settings.featured_size != blank %}data-preselect-size="{{ section.settings.featured_size | strip | escape }}"{% endif %}
   >
     <div>
       <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -140,7 +142,7 @@
 
       <div class="size-picker">
       {% render 'size-picker-chrome' %}
-      <ul class="size-list" data-size-list aria-label="Mattress size">{%- render 'size-picker-tiles', mattress: mattress, catalog_iso: catalog_iso, add_label: settings.size_add_label -%}</ul>
+      <ul class="size-list" data-size-list aria-label="Mattress size">{%- render 'size-picker-tiles', mattress: mattress, catalog_iso: catalog_iso, add_label: settings.size_add_label, allowed_size_ids: section.settings.allowed_size_ids -%}</ul>
       {% render 'size-picker-help' %}
       </div>
       {%- if section.settings.request_size_enabled -%}
@@ -575,6 +577,18 @@
       "label": "Configurator for ad landings",
       "default": false,
       "info": "Fires configure_start / configure_complete. Size from ?size= is preselected, not locked. No firmness step."
+    },
+    {
+      "type": "text",
+      "id": "allowed_size_ids",
+      "label": "Allowed size IDs",
+      "info": "Optional comma list (e.g. king,super-king). Leave blank for the full market catalog."
+    },
+    {
+      "type": "text",
+      "id": "featured_size",
+      "label": "Preselect size ID",
+      "info": "Optional. Overridden by ?size= in the URL."
     },
     {
       "type": "text",

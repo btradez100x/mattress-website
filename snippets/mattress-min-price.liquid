@@ -1,0 +1,55 @@
+{%- comment -%}
+  Lowest mattress variant price for the active catalog country.
+  Optional allowed_size_ids: comma/space list of size handles (e.g. king,double).
+  Blank allowed list = full market catalog.
+
+  Outputs: money string only (e.g. £2,499 or AED 8,999). Empty if none found.
+
+  Expects: mattress (product), catalog_iso (GB|AE|…), optional allowed_size_ids
+{%- endcomment -%}
+{%- liquid
+  assign min_price_out = ''
+  assign min_raw = 0
+  assign allowed_raw = allowed_size_ids | default: '' | strip | downcase
+  assign has_allowed = false
+  if allowed_raw != blank
+    assign has_allowed = true
+    assign allowed_csv = ',' | append: allowed_raw | replace: ' ', ',' | replace: '|', ',' | replace: ',,', ',' | append: ','
+  endif
+  assign iso = catalog_iso | default: 'GB' | strip | upcase
+  if iso == 'UK'
+    assign iso = 'GB'
+  endif
+
+  if mattress != blank
+    for v in mattress.variants
+      if v.price <= 0
+        continue
+      endif
+      capture in_country
+        render 'size-variant-in-country', v: v, country_iso: iso
+      endcapture
+      assign in_country = in_country | strip
+      if in_country != '1'
+        continue
+      endif
+      assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', '' | replace: 'matt-eu-', ''
+      if size_id == blank
+        assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
+      endif
+      if size_id == blank
+        assign size_id = v.title | handle | replace: '-uae', '' | replace: '-eu', ''
+      endif
+      if has_allowed
+        assign needle = ',' | append: size_id | append: ','
+        unless allowed_csv contains needle
+          continue
+        endunless
+      endif
+      if min_price_out == blank or v.price < min_raw
+        assign min_price_out = v.price | money
+        assign min_raw = v.price
+      endif
+    endfor
+  endif
+-%}{{- min_price_out -}}
