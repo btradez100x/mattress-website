@@ -2,7 +2,7 @@
 
 - v12 pack: compact press (no awards), reviews.json-backed revstrip at 4.96, premium outcome/originality copy. Homepage press-logos removed from nine LPs; size-reserve configure kept.
 - Smoke: exit 1 on pre-existing checks only (footer lockup, landing configure, grounds, Trade).
-- Checkpoint: . Deploy:  ,  . No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-lp-v12-pack/`. Deploy: `v9` `c4d9b58c833fb89997352c672ef6d0ddcc3a7061`, `shopify-theme` `b23fec92b3af9f94d96c5fce529af063778d7596`. No VERSION bump.
 
 # Regression results — Sunday 13 Sep 2026 (reviews-4-96)
 
