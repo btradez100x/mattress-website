@@ -6,7 +6,7 @@
         "b1": {
           "type": "hero",
           "settings": {
-            "kicker": "Made to order \u00b7 United Kingdom",
+            "kicker": "Made to order · United Kingdom",
             "heading": "You already know\nthe size.",
             "lede": "What you do not know is which mattress. Ours is thirty five centimetres, built in two parts, and the feel is settled after you have slept on it rather than guessed at in a showroom.",
             "cta_primary": "Choose your size",
@@ -15,8 +15,8 @@
             "show_price": true,
             "price_first": false,
             "price_large": false,
-            "price_from": "From \u00a32,499",
-            "price_klarna": "or \u00a3104 a month with Klarna",
+            "price_from": "From £2,499",
+            "price_klarna": "or £104 a month with Klarna",
             "image_file": "product-floating.webp",
             "image_alt": "",
             "show_press": false,
@@ -25,69 +25,17 @@
             "press_2": "The National",
             "press_3": "Time Out",
             "press_4": "Khaleej Times",
-            "press_5": "Wallpaper*"
-          }
-        },
-        "b2": {
-          "type": "prose",
-          "settings": {
-            "ground": "",
-            "tight": true,
-            "anchor_id": "",
-            "kicker": "Why you cannot choose in a showroom",
-            "heading": "Four minutes lying down\ntells you nothing.",
-            "body_1": "You cannot know how a mattress feels until you have slept on it for weeks. By then the decision is behind you and the money is spent, which is why most people keep a mattress they never liked.",
-            "body_2": "So you do not choose a firmness when you order. Your mattress arrives, you sleep on it, and for a year you tell us how it should feel. We build a new comfort layer to that description and send it, with our compliments.",
-            "pull": "You do not choose the feel. You discover it."
-          }
-        },
-        "b3": {
-          "type": "split",
-          "settings": {
-            "ground": "",
-            "reverse": false,
-            "kicker": "The build",
-            "heading": "Thirty five centimetres,\nin two parts.",
-            "body_1": "Twenty centimetres of individually pocketed springs in seven zones, with heavier wire under the hips and shoulders. That is the part that carries a twenty five year guarantee.",
-            "body_2": "Above it, fifteen centimetres of comfort closed under a zip that runs the whole way round. That is the part that comes out and renews.",
-            "pull": "",
-            "image_file": "quilt-macro.webp",
-            "image_alt": ""
-          }
-        },
-        "b4": {
-          "type": "cards",
-          "settings": {
-            "ground": "bone",
-            "anchor_id": "",
-            "kicker": "What arriving looks like",
-            "heading": "It arrives finished",
-            "card_1_heading": "Concierged in",
-            "card_1_body": "To the room you choose, unboxed, unrolled onto your bed and positioned. The packaging leaves with it.",
-            "card_2_heading": "The old one leaves",
-            "card_2_body": "Taken away on the same visit and sent for recycling. We carry the cost.",
-            "card_3_heading": "A window you agree",
-            "card_3_body": "We call before we come, and arrange a time that suits you. Nothing arrives unannounced."
-          }
-        },
-        "b5": {
-          "type": "assurance",
-          "settings": {
-            "a1_heading": "You cannot get this wrong",
-            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
-            "a2_heading": "100 days to change your mind",
-            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
-            "a3_heading": "25 years on the core",
-            "a3_body": "The part that carries you is guaranteed for a quarter of a century."
+            "press_5": "Wallpaper*",
+            "show_pay": true,
+            "pay_label": "Pay by",
+            "klarna_amount": "£104 a month",
+            "show_sizestrip": true,
+            "sizestrip_rows": "Double|135 x 190 cm\nKing|150 x 200 cm\nEuropean King|160 x 200 cm\nSuper King|180 x 200 cm\nEmperor|200 x 200 cm"
           }
         }
       },
       "block_order": [
-        "b1",
-        "b2",
-        "b3",
-        "b4",
-        "b5"
+        "b1"
       ],
       "settings": {
         "variant": "size",
@@ -293,17 +241,92 @@
       ],
       "settings": {
         "enable_section": true,
-        "eyebrow": "As seen on",
+        "eyebrow": "As featured in",
         "heading": "Press & recognition.",
         "subheading": "Selected coverage, mentions, and distinctions.",
         "awards_heading": "Awards",
         "ground": "surface"
+      }
+    },
+    "story": {
+      "type": "lp",
+      "blocks": {
+        "b2": {
+          "type": "prose",
+          "settings": {
+            "ground": "",
+            "tight": true,
+            "anchor_id": "",
+            "kicker": "Why you cannot choose in a showroom",
+            "heading": "Four minutes lying down\ntells you nothing.",
+            "body_1": "You cannot know how a mattress feels until you have slept on it for weeks. By then the decision is behind you and the money is spent, which is why most people keep a mattress they never liked.",
+            "body_2": "So you do not choose a firmness when you order. Your mattress arrives, you sleep on it, and for a year you tell us how it should feel. We build a new comfort layer to that description and send it, with our compliments.",
+            "pull": "You do not choose the feel. You discover it."
+          }
+        },
+        "b3": {
+          "type": "split",
+          "settings": {
+            "ground": "",
+            "reverse": false,
+            "kicker": "The build",
+            "heading": "Thirty five centimetres,\nin two parts.",
+            "body_1": "Twenty centimetres of individually pocketed springs in seven zones, with heavier wire under the hips and shoulders. That is the part that carries a twenty five year guarantee.",
+            "body_2": "Above it, fifteen centimetres of comfort closed under a zip that runs the whole way round. That is the part that comes out and renews.",
+            "pull": "",
+            "image_file": "quilt-macro.webp",
+            "image_alt": ""
+          }
+        },
+        "b4": {
+          "type": "cards",
+          "settings": {
+            "ground": "",
+            "anchor_id": "",
+            "kicker": "What arriving looks like",
+            "heading": "It arrives finished.",
+            "card_1_heading": "Concierged in",
+            "card_1_body": "To the room you choose, unboxed, unrolled onto your bed and positioned. The packaging leaves with it.",
+            "card_2_heading": "The old one leaves",
+            "card_2_body": "Taken away and sent for recycling. We carry the cost.",
+            "card_3_heading": "A window you agree",
+            "card_3_body": "We call before we come, and arrange a time that suits you. Nothing arrives unannounced.",
+            "layout": "arrive",
+            "lede": "Not left in a hallway in a box for you to wrestle upstairs.",
+            "card_1_label": "On the day",
+            "card_2_label": "Same visit",
+            "card_3_label": "Beforehand"
+          }
+        },
+        "b5": {
+          "type": "assurance",
+          "settings": {
+            "a1_heading": "You cannot get this wrong",
+            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
+            "a2_heading": "100 days to change your mind",
+            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
+            "a3_heading": "25 years on the core",
+            "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
+            "ground": ""
+          }
+        }
+      },
+      "block_order": [
+        "b2",
+        "b3",
+        "b4",
+        "b5"
+      ],
+      "settings": {
+        "variant": "size-story",
+        "allowed_size_ids": "king,super-king,european-king,double,emperor"
       }
     }
   },
   "order": [
     "main",
     "press-logos",
+    "story",
     "configure"
   ]
 }

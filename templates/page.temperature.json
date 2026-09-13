@@ -15,8 +15,8 @@
             "show_price": true,
             "price_first": false,
             "price_large": false,
-            "price_from": "From \u00a32,499",
-            "price_klarna": "or \u00a3104 a month with Klarna",
+            "price_from": "From £2,499",
+            "price_klarna": "or £104 a month with Klarna",
             "image_file": "coolknit-macro.webp",
             "image_alt": "",
             "show_press": false,
@@ -28,77 +28,17 @@
             "press_2": "The National",
             "press_3": "Time Out",
             "press_4": "Khaleej Times",
-            "press_5": "Wallpaper*"
-          }
-        },
-        "b2": {
-          "type": "cards",
-          "settings": {
-            "ground": "",
-            "anchor_id": "how",
-            "kicker": "Three things, in order",
-            "heading": "Where the heat goes",
-            "card_1_heading": "The cover breathes",
-            "card_1_body": "Four hundred gram cool-knit. Open-structured, so it does not trap what the layers beneath give off.",
-            "card_2_heading": "The airflow layer moves it",
-            "card_2_body": "Two and a half centimetres of foam cut in a wave profile. The channels are where the air goes when you move.",
-            "card_3_heading": "The core lets it out",
-            "card_3_body": "Twenty centimetres of pocket springs is mostly air. Foam blocks hold heat because there is nowhere for it to go. This has somewhere."
-          }
-        },
-        "b3": {
-          "type": "media",
-          "settings": {
-            "image_file": "coolknit-handle.webp",
-            "image_alt": ""
-          }
-        },
-        "b4": {
-          "type": "split",
-          "settings": {
-            "ground": "",
-            "reverse": false,
-            "kicker": "What we do not claim",
-            "heading": "It will not make you cold.",
-            "body_1": "No mattress does. Cooling gel in a solid block warms up within an hour and stays warm. What a mattress can do is not add to the problem, and let the heat you make leave.",
-            "body_2": "The gel layer here is one centimetre, on top, where it can dissipate. It is not the mechanism. The springs are.",
-            "pull": "",
-            "image_file": "coolknit-corner.webp",
-            "image_alt": ""
-          }
-        },
-        "b5": {
-          "type": "prose",
-          "settings": {
-            "ground": "bone",
-            "tight": false,
-            "anchor_id": "",
-            "kicker": "If it is still too warm",
-            "heading": "Tell us.",
-            "body_1": "Heat is usually a comfort layer question. A firmer face keeps you higher on the surface, which is cooler. Turn it over first. If that is not enough, tell us, and we build a new layer to what you describe. For a year, with our compliments.",
-            "body_2": "",
-            "pull": "You do not choose the feel. You discover it. Temperature is part of feel."
-          }
-        },
-        "b6": {
-          "type": "assurance",
-          "settings": {
-            "a1_heading": "You cannot get this wrong",
-            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
-            "a2_heading": "100 days to change your mind",
-            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
-            "a3_heading": "25 years on the core",
-            "a3_body": "The part that carries you is guaranteed for a quarter of a century."
+            "press_5": "Wallpaper*",
+            "show_pay": true,
+            "pay_label": "Pay by",
+            "klarna_amount": "£104 a month",
+            "show_sizestrip": false,
+            "sizestrip_rows": ""
           }
         }
       },
       "block_order": [
-        "b1",
-        "b2",
-        "b3",
-        "b4",
-        "b5",
-        "b6"
+        "b1"
       ],
       "settings": {
         "variant": "temperature"
@@ -301,17 +241,100 @@
       ],
       "settings": {
         "enable_section": true,
-        "eyebrow": "As seen on",
+        "eyebrow": "As featured in",
         "heading": "Press & recognition.",
         "subheading": "Selected coverage, mentions, and distinctions.",
         "awards_heading": "Awards",
         "ground": "surface"
+      }
+    },
+    "story": {
+      "type": "lp",
+      "blocks": {
+        "b2": {
+          "type": "cards",
+          "settings": {
+            "ground": "",
+            "anchor_id": "how",
+            "kicker": "Three things, in order",
+            "heading": "Where the heat goes",
+            "card_1_heading": "The cover breathes",
+            "card_1_body": "Four hundred gram cool-knit. Open-structured, so it does not trap what the layers beneath give off.",
+            "card_2_heading": "The airflow layer moves it",
+            "card_2_body": "Two and a half centimetres of foam cut in a wave profile. The channels are where the air goes when you move.",
+            "card_3_heading": "The core lets it out",
+            "card_3_body": "Twenty centimetres of pocket springs is mostly air. Foam blocks hold heat because there is nowhere for it to go. This has somewhere.",
+            "layout": "grid",
+            "lede": "",
+            "card_1_label": "",
+            "card_2_label": "",
+            "card_3_label": ""
+          }
+        },
+        "b3": {
+          "type": "media",
+          "settings": {
+            "image_file": "coolknit-handle.webp",
+            "image_alt": ""
+          }
+        },
+        "b4": {
+          "type": "split",
+          "settings": {
+            "ground": "",
+            "reverse": false,
+            "kicker": "What we do not claim",
+            "heading": "It will not make you cold.",
+            "body_1": "No mattress does. Cooling gel in a solid block warms up within an hour and stays warm. What a mattress can do is not add to the problem, and let the heat you make leave.",
+            "body_2": "The gel layer here is one centimetre, on top, where it can dissipate. It is not the mechanism. The springs are.",
+            "pull": "",
+            "image_file": "coolknit-corner.webp",
+            "image_alt": ""
+          }
+        },
+        "b5": {
+          "type": "prose",
+          "settings": {
+            "ground": "bone",
+            "tight": false,
+            "anchor_id": "",
+            "kicker": "If it is still too warm",
+            "heading": "Tell us.",
+            "body_1": "Heat is usually a comfort layer question. A firmer face keeps you higher on the surface, which is cooler. Turn it over first. If that is not enough, tell us, and we build a new layer to what you describe. For a year, with our compliments.",
+            "body_2": "",
+            "pull": "You do not choose the feel. You discover it. Temperature is part of feel."
+          }
+        },
+        "b6": {
+          "type": "assurance",
+          "settings": {
+            "a1_heading": "You cannot get this wrong",
+            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
+            "a2_heading": "100 days to change your mind",
+            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
+            "a3_heading": "25 years on the core",
+            "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
+            "ground": ""
+          }
+        }
+      },
+      "block_order": [
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ],
+      "settings": {
+        "variant": "temperature-story",
+        "allowed_size_ids": ""
       }
     }
   },
   "order": [
     "main",
     "press-logos",
+    "story",
     "configure"
   ]
 }
