@@ -740,8 +740,7 @@
       capture policy_default
         render 'size-policy-strip'
       endcapture
-      assign trial_nights = settings.trial_nights | default: 100
-      assign policy_emperor = 'Comfort layer included · Made to order · Complimentary Concierge unpacking · Not covered by the ' | append: trial_nights | append: ' day returns policy'
+      assign policy_emperor = 'Comfort layer included · Made to order · Complimentary Concierge unpacking'
       assign policy_default = policy_default | strip
       assign policy_emperor = policy_emperor | strip
       assign size_kicker = section.settings.kicker | strip
@@ -772,7 +771,6 @@
     <div class="lp-sec-head lp-configure-head">
       {%- if section.settings.heading != blank or size_kicker != blank -%}
         {% render 'lp-kicker', text: size_kicker, featured_price: featured_price, layer_price: layer_price %}
-        <hr class="gold-rule">
         {%- if section.settings.heading != blank -%}
           <h2>{% render 'landing-copy', text: section.settings.heading, featured_price: featured_price, layer_price: layer_price %}</h2>
         {%- endif -%}

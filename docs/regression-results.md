@@ -1,3 +1,11 @@
+# Regression results — Sunday 13 Sep 2026 (lp-css-mobile-parity)
+
+- Regenerated scoped `lp.css` from numa-landing-pages-v9 prototypes (broken media-query braces had left most LP styles nested incorrectly). Neutralised base `.hero` bleed; synced theme + preview.
+- Mobile nav: header CTA hidden below 900px so the hamburger stays on-screen; panel open verified at 390px. `mobile-fit.css` matched.
+- Kept emperor returns strip off size-picker tiles and LP/configure policy strips; cart item notes unchanged.
+- Smoke: exit 1 on pre-existing checks (footer lockup, trade 5-working-days CX, section grounds, JS auto ground). No new LP-specific fails.
+- Checkpoint: `checkpoints/13.0.0-lp-css-mobile-parity/`. No VERSION bump.
+
 
 # Regression results — Saturday 12 Sep 2026 (nine LP zip handles)
 
@@ -1619,3 +1627,4 @@
 - Command: `./scripts/regression-smoke.sh`
 - Result: **PASSED** (exit 0)
 - Scope note: Trade page refresh present in working tree and deployed without a VERSION bump. Checkpoint: `checkpoints/11.1.0-trade-page-connect-deploy/`. Deploy: `v9` `48a088d`, `shopify-theme` `99dc00c`. Admin still needs Page handle `trade` if `/pages/trade` 404s, and Trade mailbox must exist.
+

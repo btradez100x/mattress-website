@@ -1676,9 +1676,6 @@
       (fits
         ? '<span class="size-option__note">' + escapeHtml(fits) + '</span>'
         : '') +
-      (!extendedReturnsApplies(s)
-        ? '<span class="size-option__note">Not covered by the ' + numaReturnsDays() + ' day returns policy</span>'
-        : '') +
       '</div>' +
       '<div class="size-option__footprint">' +
       sizePickerFootprintMarkup(Object.assign({}, s, { label: label, dims: dims }), maxDim) +

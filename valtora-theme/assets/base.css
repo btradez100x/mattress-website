@@ -1244,6 +1244,28 @@ html:not(.shopify-design-mode) .shopify-section:has(.site-header) {
   font-size: 0.95rem;
 }
 
+@media (max-width: 899px) {
+  .site-header__inner {
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+
+  .site-header__actions {
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  /* Header CTA also lives in the nav panel; hide it so the hamburger stays on-screen. */
+  .site-header__actions > a.btn {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+}
+
 @media (min-width: 900px) {
   .site-header__inner {
     align-items: flex-end;
