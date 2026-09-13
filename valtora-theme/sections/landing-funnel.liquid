@@ -46,6 +46,13 @@
   assign featured_price = ''
   assign from_price = ''
   assign from_raw = 0
+  assign allowed_raw = section.settings.allowed_size_ids | default: '' | strip | downcase
+  assign has_allowed = false
+  assign allowed_csv = ''
+  if allowed_raw != blank
+    assign has_allowed = true
+    assign allowed_csv = ',' | append: allowed_raw | replace: ' ', ',' | replace: '|', ',' | replace: ',,', ',' | append: ','
+  endif
 
   if mattress != blank
     for v in mattress.variants
@@ -67,8 +74,15 @@
       if size_label == blank
         assign size_label = v.title | replace: ' (UAE)', '' | replace: ' (EU)', ''
       endif
-      if from_price == blank or v.price < from_raw
-        if v.price > 0
+      assign size_allowed = true
+      if has_allowed
+        assign needle = ',' | append: size_id | append: ','
+        unless allowed_csv contains needle
+          assign size_allowed = false
+        endunless
+      endif
+      if size_allowed and v.price > 0
+        if from_price == blank or v.price < from_raw
           assign from_price = v.price | money
           assign from_raw = v.price
         endif
@@ -94,8 +108,15 @@
         if size_id == blank
           assign size_id = v.option1 | handle | replace: '-uae', '' | replace: '-eu', ''
         endif
-        if from_price == blank or v.price < from_raw
-          if v.price > 0
+        assign size_allowed = true
+        if has_allowed
+          assign needle = ',' | append: size_id | append: ','
+          unless allowed_csv contains needle
+            assign size_allowed = false
+          endunless
+        endif
+        if size_allowed and v.price > 0
+          if from_price == blank or v.price < from_raw
             assign from_price = v.price | money
             assign from_raw = v.price
           endif
