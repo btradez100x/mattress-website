@@ -44,6 +44,8 @@ must(/vTrack\('purchase'/.test(js) && /transaction_id/.test(js), 'purchase + tra
 must(/scroll_depth/.test(js) && /percent: p/.test(js), 'scroll_depth percent');
 must(/vTrackOnce\('scroll_past_price'/.test(js), 'scroll_past_price');
 must(/vTrackOnce\('engaged_session'/.test(js), 'engaged_session');
+must(/function initCtaClickTracking/.test(js) && /vTrack\('cta_click'/.test(js), 'cta_click on LP/header CTAs');
+must(/data-lp-cta|data-header-cta|data-hero-cta/.test(js), 'cta click selectors');
 must(/fromUrl \|\| fromUtm \|\| fromAdGroup \|\| fromDom \|\| 'direct'/.test(js), 'lp_variant fallback chain');
 must(/orderAttrs[\s\S]*lp_variant: readLpVariant/.test(js), 'checkout writes lp_variant order attribute');
 must(/function attributionProperties/.test(js) && /_lp_variant/.test(js), 'line-item _lp_variant');
