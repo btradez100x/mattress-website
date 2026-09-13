@@ -1,3 +1,11 @@
+# Regression results — Sunday 13 Sep 2026 (lp-v18-pack)
+
+- v18 pack: Coolweave/Coolcell/Sevencore theme settings + `[Cover]`/`[Gel]`/`[Core]` tokens; Sevencore build, spec layers, temperature gel attack, premium originality from zip. Reviews stay **4.96** from reviews.json. Handles unchanged.
+- Smoke: exit 1 on pre-existing checks only (footer lockup, landing configure, grounds, Trade).
+- Checkpoint: `checkpoints/13.0.0-lp-v18-pack/`. Deploy: `v9` `a8f86ca885188c1be3873f64eeb911a90445b31a`, `shopify-theme` `1c35531c02b57ff52a9599f6a7804185224213ff`. No VERSION bump.
+
+---
+
 # Regression results — Sunday 13 Sep 2026 (lp-v12-pack)
 
 - v12 pack: compact press (no awards), reviews.json-backed revstrip at 4.96, premium outcome/originality copy. Homepage press-logos removed from nine LPs; size-reserve configure kept.
