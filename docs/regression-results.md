@@ -1,3 +1,10 @@
+# Regression results — Sunday 13 Sep 2026 (reviews-4-96)
+
+- Retuned seed `reviews.json` (theme + preview) to **480×5 + 20×4 = 4.96** over 500 entries. No LP UI. Smoke: exit 1 on pre-existing checks only; reviews count/toggle checks passed.
+- Checkpoint: `checkpoints/13.0.0-reviews-4-96/`. Deploy: `v9` `4f984d7437f1609e60bcd12a679a4d1439d82ef3`, `shopify-theme` `c78df1fb82aab74c1833e326f514567fd682328c`. No VERSION bump.
+
+---
+
 # Regression results — Sunday 13 Sep 2026 (lp-v11-pack)
 
 - v11 pack into nine LPs: size strip, pay row, arrive/assurance CSS, press under hero. Smoke: exit 1 on pre-existing checks only (footer lockup, landing configure, grounds, Trade).
