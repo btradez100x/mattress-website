@@ -7372,8 +7372,56 @@ body.has-sticky-reserve .whatsapp-float {
   padding: 12px 0;
   border-top: 1px solid var(--hairline, #d6d2ca);
   font-size: 13px;
-  color: color-mix(in srgb, var(--brand-ink) 68%, transparent);
-  list-style: none;
+  color: color-mix(in srgb, var(--brand-ink) 72%, transparent);
+}
+.order-basket__sub--svc {
+  align-items: flex-start;
+}
+.order-basket__svc-l {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  color: color-mix(in srgb, var(--brand-ink) 72%, transparent);
+}
+.order-basket__svc-l small {
+  display: block;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.order-basket__svc-act {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--brand-ink) 62%, transparent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.order-basket__svc-act:hover {
+  color: var(--brand-ink);
+}
+.order-basket__svc-v {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--brand-accent, #8a6d3b);
+  white-space: nowrap;
+}
+.order-basket__sub--svc.is-off .order-basket__svc-l {
+  color: color-mix(in srgb, var(--brand-ink) 45%, transparent);
+}
+.order-basket__sub--svc.is-off .order-basket__svc-v {
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.order-basket__sub--svc .checkout-svc-qty {
+  margin-top: 2px;
 }
 .order-basket__incl {
   margin: 20px 0 0;
@@ -8422,10 +8470,15 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
   color: var(--brand-ink);
 }
 .checkout-s-line.is-off .checkout-s-line__l {
-  color: var(--hairline, #d6d2ca);
+  color: color-mix(in srgb, var(--brand-ink) 45%, transparent);
 }
 .checkout-s-line.is-off .checkout-s-line__v {
-  color: color-mix(in srgb, var(--brand-ink) 62%, transparent);
+  color: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+}
+.checkout-s-line.is-off .checkout-s-line__act,
+.checkout-s-line.is-off .checkout-svc-qty button {
+  color: var(--brand-ink, #1a1a1a);
+  opacity: 1;
 }
 .checkout-svc-qty {
   display: inline-flex;

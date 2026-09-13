@@ -4246,6 +4246,141 @@
     }, 0);
   }
 
+  var SVC_REMOVAL_KEY = 'numa_service_removal';
+  var SVC_CONCIERGE_KEY = 'numa_service_concierge';
+
+  function readStoredConciergeGlobal() {
+    var v = '';
+    try {
+      v = sessionStorage.getItem(SVC_CONCIERGE_KEY) || localStorage.getItem(SVC_CONCIERGE_KEY) || '';
+    } catch (e) {}
+    if (v === '0' || v === 'no') return false;
+    return true;
+  }
+
+  function readStoredRemovalGlobal(max) {
+    var v = '';
+    try {
+      v = sessionStorage.getItem(SVC_REMOVAL_KEY) || localStorage.getItem(SVC_REMOVAL_KEY) || '';
+    } catch (e) {}
+    var n = parseInt(v, 10);
+    if (!isFinite(n)) n = max;
+    if (n < 0) n = 0;
+    if (n > max) n = max;
+    return n;
+  }
+
+  function persistServiceStateGlobal(removalCount, conciergeOn) {
+    try {
+      sessionStorage.setItem(SVC_REMOVAL_KEY, String(removalCount));
+      sessionStorage.setItem(SVC_CONCIERGE_KEY, conciergeOn ? '1' : '0');
+      localStorage.setItem(SVC_REMOVAL_KEY, String(removalCount));
+      localStorage.setItem(SVC_CONCIERGE_KEY, conciergeOn ? '1' : '0');
+    } catch (e) {}
+  }
+
+  function serviceStateFromLines(lines) {
+    var max = mattressUnitsFromLines(lines);
+    return {
+      mattressMax: max,
+      removalCount: readStoredRemovalGlobal(max),
+      conciergeOn: readStoredConciergeGlobal()
+    };
+  }
+
+  function paintServiceControlsIn(scope, state) {
+    if (!scope || !state) return;
+    var lineCon = scope.querySelector('[data-svc-concierge]');
+    var lineRem = scope.querySelector('[data-svc-removal]');
+    var remLabel = scope.querySelector('[data-removal-label]');
+    var remVal = scope.querySelector('[data-removal-value]');
+    var remN = scope.querySelector('[data-removal-count]');
+    var remDec = scope.querySelector('[data-rem="dec"]');
+    var remInc = scope.querySelector('[data-rem="inc"]');
+    var conVal = scope.querySelector('[data-svc-concierge-value]');
+    var conBtn = scope.querySelector('[data-svc-concierge-toggle]');
+    var conNote = scope.querySelector('[data-svc-concierge-note]');
+    if (lineCon) lineCon.classList.toggle('is-off', !state.conciergeOn);
+    if (conVal) conVal.textContent = state.conciergeOn ? 'Included' : 'Not included';
+    if (conBtn) conBtn.textContent = state.conciergeOn ? 'Remove' : 'Add back';
+    if (conNote) conNote.hidden = !state.conciergeOn;
+    if (lineRem) lineRem.classList.toggle('is-off', state.removalCount === 0);
+    if (remN) remN.textContent = String(state.removalCount);
+    if (remLabel) {
+      remLabel.textContent =
+        state.removalCount === 0
+          ? 'Not included'
+          : '×' +
+            state.removalCount +
+            ' of ' +
+            state.mattressMax +
+            (state.mattressMax === 1 ? ' mattress' : ' mattresses');
+    }
+    if (remVal) remVal.textContent = state.removalCount === 0 ? 'Not included' : 'Complimentary';
+    if (remDec) remDec.disabled = state.removalCount === 0;
+    if (remInc) remInc.disabled = state.removalCount === state.mattressMax;
+  }
+
+  function paintAllServiceControls() {
+    var state = serviceStateFromLines(OrderStore.lines());
+    document.querySelectorAll('[data-checkout-services], [data-order-lines-list], [data-order-sheet-body]').forEach(function (scope) {
+      paintServiceControlsIn(scope, state);
+    });
+    return state;
+  }
+
+  function orderServiceLinesMarkup(units) {
+    var state = serviceStateFromLines(OrderStore.lines());
+    var max = typeof units === 'number' ? units : state.mattressMax;
+    var removal = Math.min(state.removalCount, max);
+    var conciergeOn = state.conciergeOn;
+    return (
+      '<li class="order-basket__sub"><span>Adjust to Desire. A year to get the feel right.</span><span>Complimentary</span></li>' +
+      '<li class="order-basket__sub order-basket__sub--svc' +
+      (conciergeOn ? '' : ' is-off') +
+      '" data-svc-concierge>' +
+      '<span class="order-basket__svc-l">' +
+      'Concierge unpacking' +
+      '<small data-svc-concierge-note' +
+      (conciergeOn ? '' : ' hidden') +
+      '>Your mattresses will be unpacked in the room of your choice</small>' +
+      '<button type="button" class="order-basket__svc-act" data-svc-concierge-toggle>' +
+      (conciergeOn ? 'Remove' : 'Add back') +
+      '</button>' +
+      '</span>' +
+      '<span class="order-basket__svc-v" data-svc-concierge-value>' +
+      (conciergeOn ? 'Included' : 'Not included') +
+      '</span>' +
+      '</li>' +
+      '<li class="order-basket__sub order-basket__sub--svc' +
+      (removal === 0 ? ' is-off' : '') +
+      '" data-svc-removal>' +
+      '<span class="order-basket__svc-l">' +
+      'Old mattress removal' +
+      '<small data-removal-label>' +
+      (removal === 0
+        ? 'Not included'
+        : '×' + removal + ' of ' + max + (max === 1 ? ' mattress' : ' mattresses')) +
+      '</small>' +
+      '<span class="checkout-svc-qty">' +
+      '<button type="button" data-rem="dec" aria-label="Fewer removals"' +
+      (removal === 0 ? ' disabled' : '') +
+      '>\u2212</button>' +
+      '<span class="checkout-svc-qty__n" data-removal-count aria-live="polite">' +
+      removal +
+      '</span>' +
+      '<button type="button" data-rem="inc" aria-label="More removals"' +
+      (removal === max ? ' disabled' : '') +
+      '>+</button>' +
+      '</span>' +
+      '</span>' +
+      '<span class="order-basket__svc-v" data-removal-value>' +
+      (removal === 0 ? 'Not included' : 'Complimentary') +
+      '</span>' +
+      '</li>'
+    );
+  }
+
   function orderLinesMarkup(lines) {
     if (!lines || !lines.length) {
       return '<li class="order-basket__empty">' + orderEmptyCopy() + '</li>';
@@ -4284,13 +4419,44 @@
         );
       })
       .join('');
-    html +=
-      '<li class="order-basket__sub"><span>Adjust to Desire. A year to get the feel right.</span><span>Complimentary</span></li>' +
-      '<li class="order-basket__sub"><span>Concierge unpacking</span><span>Complimentary</span></li>' +
-      '<li class="order-basket__sub"><span>Old mattress removal \u00d7' +
-      units +
-      '</span><span>Complimentary</span></li>';
+    if (units > 0) html += orderServiceLinesMarkup(units);
     return html;
+  }
+
+  function initServiceSteppers() {
+    if (document.documentElement.getAttribute('data-svc-steppers-ready') === '1') return;
+    document.documentElement.setAttribute('data-svc-steppers-ready', '1');
+    document.addEventListener('click', function (e) {
+      var t =
+        e.target &&
+        e.target.closest &&
+        e.target.closest('[data-svc-concierge-toggle], [data-rem]');
+      if (!t) return;
+      /* Cart page owns its own handler with Shopify attribute sync. */
+      if (t.closest('[data-checkout-page]')) return;
+      var lines = OrderStore.lines();
+      var state = serviceStateFromLines(lines);
+      if (!state.mattressMax) return;
+      e.preventDefault();
+      if (t.hasAttribute('data-svc-concierge-toggle')) {
+        state.conciergeOn = !state.conciergeOn;
+        persistServiceStateGlobal(state.removalCount, state.conciergeOn);
+        paintAllServiceControls();
+        vTrack('service_change', { service: 'concierge_unpacking', included: state.conciergeOn });
+        return;
+      }
+      if (t.getAttribute('data-rem')) {
+        if (t.disabled) return;
+        if (t.getAttribute('data-rem') === 'inc') {
+          state.removalCount = Math.min(state.mattressMax, state.removalCount + 1);
+        } else {
+          state.removalCount = Math.max(0, state.removalCount - 1);
+        }
+        persistServiceStateGlobal(state.removalCount, state.conciergeOn);
+        paintAllServiceControls();
+        vTrack('service_change', { service: 'old_mattress_removal', quantity: state.removalCount });
+      }
+    });
   }
 
   function syncOrderSheetBody(html) {
@@ -4311,8 +4477,6 @@
       ul.innerHTML =
         '<li>Comfort layer included with every mattress</li>' +
         '<li>Adjust to Desire. A year to get the feel right.</li>' +
-        '<li>Complimentary Concierge unpacking</li>' +
-        '<li>Old mattress removal, complimentary</li>' +
         '<li data-order-returns></li>';
       var stage = panel.querySelector('[data-reserve-stage-a]') || panel;
       stage.appendChild(ul);
@@ -4398,6 +4562,7 @@
     if (linesList) {
       linesList.innerHTML = orderLinesMarkup(lines);
       syncOrderSheetBody(linesList.innerHTML);
+      paintServiceControlsIn(linesList, serviceStateFromLines(lines));
     }
     ensureOrderIncludes(root);
     if (orderTotalEl) orderTotalEl.textContent = totalText;
@@ -5818,8 +5983,6 @@
     var barTotalEl = page.querySelector('[data-checkout-bar-total]');
     var summaryLinesEl = page.querySelector('[data-checkout-summary-lines]');
     var CHECKOUT_QTY_CAP = 20;
-    var SVC_REMOVAL_KEY = 'numa_service_removal';
-    var SVC_CONCIERGE_KEY = 'numa_service_concierge';
     var mattressMax = 0;
     var removalCount = 0;
     var conciergeOn = true;
@@ -5912,34 +6075,8 @@
       }
     }
 
-    function readStoredConcierge() {
-      var v = '';
-      try {
-        v = sessionStorage.getItem(SVC_CONCIERGE_KEY) || localStorage.getItem(SVC_CONCIERGE_KEY) || '';
-      } catch (e) {}
-      if (v === '0' || v === 'no') return false;
-      return true;
-    }
-
-    function readStoredRemoval(max) {
-      var v = '';
-      try {
-        v = sessionStorage.getItem(SVC_REMOVAL_KEY) || localStorage.getItem(SVC_REMOVAL_KEY) || '';
-      } catch (e) {}
-      var n = parseInt(v, 10);
-      if (!isFinite(n)) n = max;
-      if (n < 0) n = 0;
-      if (n > max) n = max;
-      return n;
-    }
-
     function persistServices() {
-      try {
-        sessionStorage.setItem(SVC_REMOVAL_KEY, String(removalCount));
-        sessionStorage.setItem(SVC_CONCIERGE_KEY, conciergeOn ? '1' : '0');
-        localStorage.setItem(SVC_REMOVAL_KEY, String(removalCount));
-        localStorage.setItem(SVC_CONCIERGE_KEY, conciergeOn ? '1' : '0');
-      } catch (e) {}
+      persistServiceStateGlobal(removalCount, conciergeOn);
     }
 
     function serviceAttributePayload() {
@@ -5959,31 +6096,11 @@
     }
 
     function paintServices() {
-      var lineCon = page.querySelector('[data-svc-concierge]');
-      var lineRem = page.querySelector('[data-svc-removal]');
-      var remLabel = page.querySelector('[data-removal-label]');
-      var remVal = page.querySelector('[data-removal-value]');
-      var remN = page.querySelector('[data-removal-count]');
-      var remDec = page.querySelector('[data-rem="dec"]');
-      var remInc = page.querySelector('[data-rem="inc"]');
-      var conVal = page.querySelector('[data-svc-concierge-value]');
-      var conBtn = page.querySelector('[data-svc-concierge-toggle]');
-      var conNote = page.querySelector('[data-svc-concierge-note]');
-      if (lineCon) lineCon.classList.toggle('is-off', !conciergeOn);
-      if (conVal) conVal.textContent = conciergeOn ? 'Included' : 'Not included';
-      if (conBtn) conBtn.textContent = conciergeOn ? 'Remove' : 'Add back';
-      if (conNote) conNote.hidden = !conciergeOn;
-      if (lineRem) lineRem.classList.toggle('is-off', removalCount === 0);
-      if (remN) remN.textContent = String(removalCount);
-      if (remLabel) {
-        remLabel.textContent =
-          removalCount === 0
-            ? 'Not included'
-            : '×' + removalCount + ' of ' + mattressMax + (mattressMax === 1 ? ' mattress' : ' mattresses');
-      }
-      if (remVal) remVal.textContent = removalCount === 0 ? 'Not included' : 'Complimentary';
-      if (remDec) remDec.disabled = removalCount === 0;
-      if (remInc) remInc.disabled = removalCount === mattressMax;
+      paintServiceControlsIn(page, {
+        mattressMax: mattressMax,
+        removalCount: removalCount,
+        conciergeOn: conciergeOn
+      });
     }
 
     function thresholdFor() {
@@ -5994,14 +6111,23 @@
       var lines = OrderStore.lines();
       var has = lines.length > 0;
       var servicesEl = page.querySelector('[data-checkout-services]');
-      if (emptyEl) emptyEl.hidden = has;
-      if (flowEl) flowEl.hidden = !has;
-      if (servicesEl) servicesEl.hidden = !has;
+      if (emptyEl) {
+        emptyEl.hidden = has;
+        if (!has) emptyEl.removeAttribute('hidden');
+      }
+      if (flowEl) {
+        flowEl.hidden = !has;
+        if (has) flowEl.removeAttribute('hidden');
+      }
       if (barEl) {
         barEl.hidden = !has;
         if (has) barEl.removeAttribute('hidden');
       }
       if (!has) {
+        if (servicesEl) {
+          servicesEl.hidden = true;
+          servicesEl.setAttribute('hidden', '');
+        }
         if (linesEl) linesEl.innerHTML = '';
         if (summaryLinesEl) summaryLinesEl.innerHTML = '';
         if (bnplEl) {
@@ -6023,12 +6149,22 @@
         if (!isMattressLine(line)) return sum;
         return sum + (parseInt(line.quantity, 10) || 0);
       }, 0);
+      if (servicesEl) {
+        /* Concierge / removal steppers only when the order has mattresses. */
+        if (units > 0) {
+          servicesEl.hidden = false;
+          servicesEl.removeAttribute('hidden');
+        } else {
+          servicesEl.hidden = true;
+          servicesEl.setAttribute('hidden', '');
+        }
+      }
       if (units !== mattressMax) {
         var prevMax = mattressMax;
         mattressMax = units;
-        if (prevMax === 0) removalCount = readStoredRemoval(units);
+        if (prevMax === 0) removalCount = readStoredRemovalGlobal(units);
         else if (removalCount > units) removalCount = units;
-        conciergeOn = readStoredConcierge();
+        conciergeOn = readStoredConciergeGlobal();
         persistServices();
       }
       paintServices();
@@ -8565,6 +8701,7 @@
     initOrderSheet();
     initCartPage();
     initCheckoutPage();
+    initServiceSteppers();
     initOrderConfirmed();
     initComfortTop();
     initBedSheets();
