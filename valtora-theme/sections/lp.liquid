@@ -51,20 +51,27 @@
                 {%- if block.settings.lede != blank -%}
                   <p class="lede">{{ block.settings.lede | replace: '[Brand]', brand }}</p>
                 {%- endif -%}
+                {% render 'lp-sizestrip', show: block.settings.show_sizestrip, rows: block.settings.sizestrip_rows %}
+                {%- if block.settings.show_price and block.settings.price_first -%}
+                  {% render 'lp-price-block',
+                    show: true,
+                    large: block.settings.price_large,
+                    anchor: true,
+                    from_label: lp_from_label,
+                    from_fallback: block.settings.price_from,
+                    hide_when_empty: true,
+                    klarna: block.settings.price_klarna,
+                    klarna_amount: block.settings.klarna_amount,
+                    show_pay: block.settings.show_pay,
+                    pay_label: block.settings.pay_label
+                  %}
+                {%- endif -%}
                 <div class="cta-row">
                   <a class="btn" href="#configure" data-hero-cta data-lp-cta="primary">{{ block.settings.cta_primary | default: 'Choose your size' }}</a>
                   {%- if block.settings.cta_secondary != blank -%}
                     <a class="btn btn-line" href="{{ block.settings.cta_secondary_href | default: '#configure' }}" data-lp-cta="secondary">{{ block.settings.cta_secondary }}</a>
                   {%- endif -%}
                 </div>
-                {%- if block.settings.show_price and block.settings.price_first -%}
-                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% if lp_from_label == blank %} hidden{% endif %} style="margin-top:var(--s3)">
-                    <span class="from" data-lp-price>{{ lp_from_label | default: block.settings.price_from | default: 'From …' }}</span>
-                    {%- if block.settings.price_klarna != blank -%}
-                      <span class="klarna">{{ block.settings.price_klarna }}</span>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
                 {%- if block.settings.trust_1 != blank -%}
                   <div class="trust">
                     <span>{{ block.settings.trust_1 }}</span>
@@ -73,12 +80,18 @@
                   </div>
                 {%- endif -%}
                 {%- if block.settings.show_price and block.settings.price_first == false -%}
-                  <div class="price-block{% if block.settings.price_large %} price-block--large{% endif %}" id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% if lp_from_label == blank %} hidden{% endif %} style="margin-top:var(--s3)">
-                    <span class="from" data-lp-price>{{ lp_from_label | default: block.settings.price_from | default: 'From …' }}</span>
-                    {%- if block.settings.price_klarna != blank -%}
-                      <span class="klarna">{{ block.settings.price_klarna }}</span>
-                    {%- endif -%}
-                  </div>
+                  {% render 'lp-price-block',
+                    show: true,
+                    large: block.settings.price_large,
+                    anchor: true,
+                    from_label: lp_from_label,
+                    from_fallback: block.settings.price_from,
+                    hide_when_empty: true,
+                    klarna: block.settings.price_klarna,
+                    klarna_amount: block.settings.klarna_amount,
+                    show_pay: block.settings.show_pay,
+                    pay_label: block.settings.pay_label
+                  %}
                 {%- endif -%}
               </div>
               {%- if block.settings.image_file != blank -%}
@@ -149,27 +162,64 @@
         </section>
 
       {%- when 'cards' -%}
-        <section class="{% if block.settings.ground == 'bone' %}bone{% elsif block.settings.ground == 'dark' %}dark{% endif %}"{% if block.settings.anchor_id != blank %} id="{{ block.settings.anchor_id | escape }}"{% endif %} {{ block.shopify_attributes }}>
-          <div class="wrap">
-            {%- if block.settings.kicker != blank or block.settings.heading != blank -%}
+        {%- if block.settings.layout == 'arrive' -%}
+          <section class="arrive"{% if block.settings.anchor_id != blank %} id="{{ block.settings.anchor_id | escape }}"{% endif %} {{ block.shopify_attributes }}>
+            <div class="wrap">
               <div class="sec-head narrow">
                 {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
                 {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                {%- if block.settings.lede != blank -%}
+                  <p class="lede" style="color:#C9C5BD;margin-top:var(--s2)">{{ block.settings.lede }}</p>
+                {%- endif -%}
               </div>
-            {%- endif -%}
-            <div class="grid3">
-              {%- if block.settings.card_1_heading != blank -%}
-                <div><h3>{{ block.settings.card_1_heading }}</h3><p>{{ block.settings.card_1_body }}</p></div>
-              {%- endif -%}
-              {%- if block.settings.card_2_heading != blank -%}
-                <div><h3>{{ block.settings.card_2_heading }}</h3><p>{{ block.settings.card_2_body }}</p></div>
-              {%- endif -%}
-              {%- if block.settings.card_3_heading != blank -%}
-                <div><h3>{{ block.settings.card_3_heading }}</h3><p>{{ block.settings.card_3_body }}</p></div>
-              {%- endif -%}
+              <div class="steps3">
+                {%- if block.settings.card_1_heading != blank -%}
+                  <div>
+                    {%- if block.settings.card_1_label != blank -%}<span class="n">{{ block.settings.card_1_label }}</span>{%- endif -%}
+                    <h3>{{ block.settings.card_1_heading }}</h3>
+                    <p>{{ block.settings.card_1_body }}</p>
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.card_2_heading != blank -%}
+                  <div>
+                    {%- if block.settings.card_2_label != blank -%}<span class="n">{{ block.settings.card_2_label }}</span>{%- endif -%}
+                    <h3>{{ block.settings.card_2_heading }}</h3>
+                    <p>{{ block.settings.card_2_body }}</p>
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.card_3_heading != blank -%}
+                  <div>
+                    {%- if block.settings.card_3_label != blank -%}<span class="n">{{ block.settings.card_3_label }}</span>{%- endif -%}
+                    <h3>{{ block.settings.card_3_heading }}</h3>
+                    <p>{{ block.settings.card_3_body }}</p>
+                  </div>
+                {%- endif -%}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        {%- else -%}
+          <section class="{% if block.settings.ground == 'bone' %}bone{% elsif block.settings.ground == 'dark' %}dark{% endif %}"{% if block.settings.anchor_id != blank %} id="{{ block.settings.anchor_id | escape }}"{% endif %} {{ block.shopify_attributes }}>
+            <div class="wrap">
+              {%- if block.settings.kicker != blank or block.settings.heading != blank -%}
+                <div class="sec-head narrow">
+                  {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker }}</p>{%- endif -%}
+                  {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | newline_to_br }}</h2>{%- endif -%}
+                </div>
+              {%- endif -%}
+              <div class="grid3">
+                {%- if block.settings.card_1_heading != blank -%}
+                  <div><h3>{{ block.settings.card_1_heading }}</h3><p>{{ block.settings.card_1_body }}</p></div>
+                {%- endif -%}
+                {%- if block.settings.card_2_heading != blank -%}
+                  <div><h3>{{ block.settings.card_2_heading }}</h3><p>{{ block.settings.card_2_body }}</p></div>
+                {%- endif -%}
+                {%- if block.settings.card_3_heading != blank -%}
+                  <div><h3>{{ block.settings.card_3_heading }}</h3><p>{{ block.settings.card_3_body }}</p></div>
+                {%- endif -%}
+              </div>
+            </div>
+          </section>
+        {%- endif -%}
 
       {%- when 'price' -%}
         <section class="bone" {{ block.shopify_attributes }}>
@@ -186,12 +236,19 @@
                 {%- endif -%}
               </div>
               {%- if block.settings.body != blank -%}<p>{{ block.settings.body }}</p>{%- endif -%}
-              <div class="price-block" id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% if lp_from_label == blank %} hidden{% endif %} style="margin-top:var(--s3)">
-                <span class="from" data-lp-price>{{ lp_from_label | default: block.settings.price_from | default: 'From …' }}</span>
-                {%- if block.settings.price_klarna != blank -%}
-                  <span class="klarna">{{ block.settings.price_klarna }}</span>
-                {%- endif -%}
-              </div>
+              {% render 'lp-price-block',
+                show: true,
+                large: false,
+                anchor: true,
+                from_label: lp_from_label,
+                from_fallback: block.settings.price_from,
+                hide_when_empty: true,
+                klarna: block.settings.price_klarna,
+                klarna_amount: block.settings.klarna_amount,
+                show_pay: block.settings.show_pay,
+                pay_label: block.settings.pay_label
+              %}
+              {% render 'lp-sizestrip', show: block.settings.show_sizestrip, rows: block.settings.sizestrip_rows %}
             </div>
           </div>
         </section>
@@ -261,22 +318,23 @@
         </section>
 
       {%- when 'assurance' -%}
-        <section class="bone" {{ block.shopify_attributes }}>
+        <section class="{% if block.settings.ground == 'bone' %}bone{% endif %}" {{ block.shopify_attributes }}>
           <div class="wrap">
-            <div class="narrow">
-              <div class="assure">
-                <div>
-                  <b>{{ block.settings.a1_heading | default: 'You cannot get this wrong' }}</b>
-                  <p>{{ block.settings.a1_body | default: 'Adjust to Desire. A year to get the feel right. We remake the comfort layer to that, with our compliments, as often as it takes.' }}</p>
-                </div>
-                <div>
-                  <b>{{ block.settings.a2_heading | default: '100 days to change your mind' | replace: '100', trial }}</b>
-                  <p>{{ block.settings.a2_body | default: 'Collected from your home and refunded in full. Some sizes are not covered by the 100 day returns policy.' | replace: '100', trial }}</p>
-                </div>
-                <div>
-                  <b>{{ block.settings.a3_heading | default: '25 years on the core' | replace: '25', warranty }}</b>
-                  <p>{{ block.settings.a3_body | default: 'The part that carries you is guaranteed for a quarter of a century.' }}</p>
-                </div>
+            <div class="assure">
+              <div>
+                <span class="ic"></span>
+                <b>{{ block.settings.a1_heading | default: 'You cannot get this wrong' }}</b>
+                <p>{{ block.settings.a1_body | default: 'Adjust to Desire. A year to get the feel right. We remake the comfort layer to that, with our compliments, as often as it takes.' }}</p>
+              </div>
+              <div>
+                <span class="ic"></span>
+                <b>{{ block.settings.a2_heading | default: '100 days to change your mind' | replace: '100', trial }}</b>
+                <p>{{ block.settings.a2_body | default: 'Collected from your home and refunded in full. Some sizes are not covered by the 100 day returns policy.' | replace: '100', trial }}</p>
+              </div>
+              <div>
+                <span class="ic"></span>
+                <b>{{ block.settings.a3_heading | default: '25 years on the core' | replace: '25', warranty }}</b>
+                <p>{{ block.settings.a3_body | default: 'The part that carries you is guaranteed for a quarter of a century.' }}</p>
               </div>
             </div>
           </div>
@@ -317,10 +375,15 @@
         { "type": "text", "id": "cta_secondary", "label": "Secondary CTA" },
         { "type": "text", "id": "cta_secondary_href", "label": "Secondary CTA href", "default": "#configure" },
         { "type": "checkbox", "id": "show_price", "label": "Show price block", "default": true },
-        { "type": "checkbox", "id": "price_first", "label": "Price above trust strip", "default": false },
+        { "type": "checkbox", "id": "price_first", "label": "Price above CTA and trust strip", "default": false },
         { "type": "checkbox", "id": "price_large", "label": "Large price", "default": false },
         { "type": "text", "id": "price_from", "label": "From price", "default": "From £2,499" },
-        { "type": "text", "id": "price_klarna", "label": "Klarna line", "default": "or £104 a month with Klarna" },
+        { "type": "text", "id": "price_klarna", "label": "Klarna line (fallback)", "default": "or £104 a month with Klarna" },
+        { "type": "text", "id": "klarna_amount", "label": "Klarna amount (bold)", "default": "£104 a month", "info": "Renders as: or £104 a month with Klarna. Leave blank to use Klarna line fallback." },
+        { "type": "checkbox", "id": "show_pay", "label": "Show payment row", "default": true },
+        { "type": "text", "id": "pay_label", "label": "Payment row label", "default": "Pay by" },
+        { "type": "checkbox", "id": "show_sizestrip", "label": "Show size strip", "default": false },
+        { "type": "textarea", "id": "sizestrip_rows", "label": "Size strip rows", "info": "One per line: Label|dims|on. Example: King|150 x 200 cm|on" },
         { "type": "text", "id": "trust_1", "label": "Trust 1" },
         { "type": "text", "id": "trust_2", "label": "Trust 2" },
         { "type": "text", "id": "trust_3", "label": "Trust 3" },
@@ -376,7 +439,11 @@
       "type": "cards",
       "name": "Three cards",
       "settings": [
-        { "type": "select", "id": "ground", "label": "Ground", "options": [
+        { "type": "select", "id": "layout", "label": "Layout", "options": [
+          { "value": "grid", "label": "Light grid" },
+          { "value": "arrive", "label": "Arriving (carbon)" }
+        ], "default": "grid" },
+        { "type": "select", "id": "ground", "label": "Ground (grid layout)", "options": [
           { "value": "", "label": "Snow" },
           { "value": "bone", "label": "Bone" },
           { "value": "dark", "label": "Dark" }
@@ -384,10 +451,14 @@
         { "type": "text", "id": "anchor_id", "label": "Anchor id" },
         { "type": "text", "id": "kicker", "label": "Kicker" },
         { "type": "textarea", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "lede", "label": "Lede (arriving layout)" },
+        { "type": "text", "id": "card_1_label", "label": "Card 1 timing label" },
         { "type": "text", "id": "card_1_heading", "label": "Card 1 heading" },
         { "type": "textarea", "id": "card_1_body", "label": "Card 1 body" },
+        { "type": "text", "id": "card_2_label", "label": "Card 2 timing label" },
         { "type": "text", "id": "card_2_heading", "label": "Card 2 heading" },
         { "type": "textarea", "id": "card_2_body", "label": "Card 2 body" },
+        { "type": "text", "id": "card_3_label", "label": "Card 3 timing label" },
         { "type": "text", "id": "card_3_heading", "label": "Card 3 heading" },
         { "type": "textarea", "id": "card_3_body", "label": "Card 3 body" }
       ]
@@ -400,7 +471,12 @@
         { "type": "textarea", "id": "heading", "label": "Heading" },
         { "type": "textarea", "id": "body", "label": "Body" },
         { "type": "text", "id": "price_from", "label": "From price", "default": "From £1,999" },
-        { "type": "text", "id": "price_klarna", "label": "Klarna line" }
+        { "type": "text", "id": "price_klarna", "label": "Klarna line (fallback)" },
+        { "type": "text", "id": "klarna_amount", "label": "Klarna amount (bold)", "default": "£83 a month" },
+        { "type": "checkbox", "id": "show_pay", "label": "Show payment row", "default": true },
+        { "type": "text", "id": "pay_label", "label": "Payment row label", "default": "Pay by" },
+        { "type": "checkbox", "id": "show_sizestrip", "label": "Show size strip", "default": false },
+        { "type": "textarea", "id": "sizestrip_rows", "label": "Size strip rows", "info": "One per line: Label|dims|on" }
       ]
     },
     {
@@ -485,6 +561,10 @@
       "type": "assurance",
       "name": "Assurance",
       "settings": [
+        { "type": "select", "id": "ground", "label": "Ground", "options": [
+          { "value": "", "label": "Snow" },
+          { "value": "bone", "label": "Bone" }
+        ], "default": "" },
         { "type": "text", "id": "a1_heading", "label": "Panel 1 heading" },
         { "type": "textarea", "id": "a1_body", "label": "Panel 1 body" },
         { "type": "text", "id": "a2_heading", "label": "Panel 2 heading" },

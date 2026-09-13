@@ -15,8 +15,8 @@
             "show_price": true,
             "price_first": false,
             "price_large": false,
-            "price_from": "From \u00a32,499",
-            "price_klarna": "or \u00a3104 a month with Klarna",
+            "price_from": "From £2,499",
+            "price_klarna": "or £104 a month with Klarna",
             "image_file": "coolknit-side.webp",
             "image_alt": "",
             "show_press": false,
@@ -28,7 +28,12 @@
             "press_2": "The National",
             "press_3": "Time Out",
             "press_4": "Khaleej Times",
-            "press_5": "Wallpaper*"
+            "press_5": "Wallpaper*",
+            "show_pay": true,
+            "pay_label": "Pay by",
+            "klarna_amount": "£104 a month",
+            "show_sizestrip": true,
+            "sizestrip_rows": "Double|135 x 190 cm\nKing|150 x 200 cm\nEuropean King|160 x 200 cm\nSuper King|180 x 200 cm\nEmperor|200 x 200 cm"
           }
         },
         "b2": {
@@ -163,24 +168,12 @@
             "image_file": "",
             "image_alt": ""
           }
-        },
-        "b6": {
-          "type": "assurance",
-          "settings": {
-            "a1_heading": "You cannot get this wrong",
-            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
-            "a2_heading": "100 days to change your mind",
-            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
-            "a3_heading": "25 years on the core",
-            "a3_body": "The part that carries you is guaranteed for a quarter of a century."
-          }
         }
       },
       "block_order": [
         "b3",
         "b4",
-        "b5",
-        "b6"
+        "b5"
       ],
       "settings": {
         "variant": "spec-size-more"
@@ -359,18 +352,43 @@
       ],
       "settings": {
         "enable_section": true,
-        "eyebrow": "As seen on",
+        "eyebrow": "As featured in",
         "heading": "Press & recognition.",
         "subheading": "Selected coverage, mentions, and distinctions.",
         "awards_heading": "Awards",
         "ground": "surface"
       }
+    },
+    "assurance": {
+      "type": "lp",
+      "blocks": {
+        "b6": {
+          "type": "assurance",
+          "settings": {
+            "a1_heading": "You cannot get this wrong",
+            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
+            "a2_heading": "100 days to change your mind",
+            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
+            "a3_heading": "25 years on the core",
+            "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
+            "ground": ""
+          }
+        }
+      },
+      "block_order": [
+        "b6"
+      ],
+      "settings": {
+        "variant": "spec-size-assurance",
+        "allowed_size_ids": "king,super-king,european-king"
+      }
     }
   },
   "order": [
     "main",
-    "press-logos",
     "configure",
-    "more"
+    "more",
+    "press-logos",
+    "assurance"
   ]
 }

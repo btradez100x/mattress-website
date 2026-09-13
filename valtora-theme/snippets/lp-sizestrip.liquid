@@ -1,0 +1,19 @@
+{%- comment -%} Hero size strip. sizestrip_rows = one "Label|dims|on" per line. {%- endcomment -%}
+{%- if show and rows != blank -%}
+  <div class="sizestrip">
+    {%- assign lines = rows | split: '
+' -%}
+    {%- for line in lines -%}
+      {%- assign raw = line | strip -%}
+      {%- unless raw == blank -%}
+        {%- assign parts = raw | split: '|' -%}
+        {%- assign label = parts[0] | strip -%}
+        {%- assign dims = parts[1] | default: '' | strip -%}
+        {%- assign on = parts[2] | default: '' | strip -%}
+        {%- if label != blank -%}
+          <a href="#configure"{% if on == 'on' %} class="on"{% endif %} data-lp-cta="sizestrip"><b>{{ label }}</b>{%- if dims != blank -%}<span>{{ dims }}</span>{%- endif -%}</a>
+        {%- endif -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,11 @@
+{%- comment -%} Mono payment chips under From price. {%- endcomment -%}
+{%- if show_pay -%}
+  <div class="pay">
+    <span class="k">{{ pay_label | default: 'Pay by' }}</span>
+    <div class="m">
+      <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span>
+      <span>Apple Pay</span><span>Google Pay</span>
+      <span>Klarna, 3 payments</span><span>Klarna, 24 months</span>
+    </div>
+  </div>
+{%- endif -%}
