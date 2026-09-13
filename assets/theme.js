@@ -4,6 +4,10 @@
 (function () {
   'use strict';
 
+  /* theme.js included twice (or hot-reloaded) must not re-bind the storefront. */
+  if (window.__numaThemeJs) return;
+  window.__numaThemeJs = 1;
+
   var SIZE_MAPS = {
     ae: [
       { id: 'single', label: 'Single', dims: '90-100 × 200 cm', firmness: 'Medium / Medium firm' },
@@ -781,9 +785,22 @@
       function (e) {
         var el =
           e.target && e.target.closest
-            ? e.target.closest('[data-lp-cta], [data-hero-cta], [data-header-cta]')
+            ? e.target.closest(
+                '[data-lp-cta], [data-hero-cta], [data-header-cta], [data-reserve-continue], [data-reserve-cta], .size-option__add, .size-row__add'
+              )
             : null;
         if (!el) return;
+        // Size Add only on configure / size-reserve (not random page chrome).
+        if (
+          (el.classList && (el.classList.contains('size-option__add') || el.classList.contains('size-row__add'))) ||
+          el.hasAttribute('data-reserve-cta')
+        ) {
+          var inReserve =
+            el.closest && el.closest('[data-size-reserve], [data-lp-configure], [data-reserve-section]');
+          if (!inReserve && !el.hasAttribute('data-reserve-continue') && !el.hasAttribute('data-lp-cta')) {
+            return;
+          }
+        }
         var position = '';
         if (el.hasAttribute('data-lp-cta')) {
           var lpRole = String(el.getAttribute('data-lp-cta') || '').trim() || 'primary';
@@ -791,6 +808,13 @@
         } else if (el.hasAttribute('data-header-cta')) {
           var hdr = String(el.getAttribute('data-header-cta') || '').trim();
           position = hdr === 'mobile' ? 'header_mobile' : 'header';
+        } else if (el.hasAttribute('data-reserve-continue') || el.getAttribute('data-reserve-cta') === 'continue') {
+          position = 'reserve_continue';
+        } else if (
+          el.getAttribute('data-reserve-cta') === 'add' ||
+          (el.classList && (el.classList.contains('size-option__add') || el.classList.contains('size-row__add')))
+        ) {
+          position = 'size_add';
         } else if (el.hasAttribute('data-hero-cta')) {
           position = 'hero_primary';
         }
@@ -799,12 +823,19 @@
           .trim()
           .slice(0, 120);
         var href = String(el.getAttribute('href') || '').trim();
-        vTrack('cta_click', {
+        var sizeId = '';
+        var row = el.closest && el.closest('[data-size-id], [data-size]');
+        if (row) {
+          sizeId = String(row.getAttribute('data-size-id') || row.getAttribute('data-size') || '').trim();
+        }
+        var payload = {
           page_path: location.pathname || '',
           cta_position: position,
           cta_label: label,
           cta_href: href,
-        });
+        };
+        if (sizeId) payload.size = sizeId;
+        vTrack('cta_click', payload);
       },
       true
     );
@@ -1726,7 +1757,7 @@
       '</span>' +
       '<div class="size-option__foot">' +
       (available
-        ? '<button type="button" class="size-option__add" data-size-pick>' +
+        ? '<button type="button" class="size-option__add" data-size-pick data-reserve-cta="add">' +
           escapeHtml(addLabel || 'Add') +
           '</button>' +
           '<span class="size-option__qty" data-size-qty data-qty-stepper data-lp-qty>' +
@@ -1967,8 +1998,8 @@
 
   function pageAllowedSizeIds() {
     var el =
-      document.querySelector('[data-lp-page][data-allowed-sizes]') ||
       document.querySelector('[data-size-reserve][data-allowed-sizes]') ||
+      document.querySelector('[data-lp-page][data-allowed-sizes]') ||
       document.querySelector('[data-allowed-sizes]');
     return parseAllowedSizeIds(el && el.getAttribute('data-allowed-sizes'));
   }
@@ -2111,7 +2142,10 @@
   function initLandingFunnel() {
     var page = document.querySelector('[data-lp-page]');
     fillLandingPrices();
-    document.addEventListener('preview:market-changed', fillLandingPrices);
+    if (document.documentElement.getAttribute('data-lp-funnel-ready') !== '1') {
+      document.documentElement.setAttribute('data-lp-funnel-ready', '1');
+      document.addEventListener('preview:market-changed', fillLandingPrices);
+    }
     if (!page) return;
     captureLpVariantOnce();
   }
@@ -2949,6 +2983,7 @@
     /* Liquid request.design_mode already set shopify-design-mode on Customize.
        Do not copy window.Shopify.designMode onto the live storefront — the
        GitHub admin bar / Preview must still play the stagger. */
+    if (document.documentElement.getAttribute('data-reveal-booted') === '1') return;
     var designMode = document.documentElement.classList.contains('shopify-design-mode');
     void (window.Shopify && window.Shopify.designMode);
     if (/[?&]force-motion=1(?:&|$)/.test(location.search)) {
@@ -3600,6 +3635,8 @@
 
   function initFaq() {
     document.querySelectorAll('[data-faq]').forEach(function (root) {
+      if (root.getAttribute('data-faq-ready') === '1') return;
+      root.setAttribute('data-faq-ready', '1');
       root.addEventListener('click', function (e) {
         var btn = e.target.closest('[data-faq-trigger]');
         if (!btn || !root.contains(btn)) return;
@@ -5030,8 +5067,9 @@
       return firstAvail >= 0 ? firstAvail : 0;
     }
 
-    function rebuildSizeButtons() {
+    function rebuildSizeButtons(opts) {
       if (!list) return;
+      opts = opts || {};
       try {
         paintMarketTabs(root.querySelector('[data-size-markets]'));
         var shopper = detectMarket();
@@ -5048,7 +5086,12 @@
             return allowed.indexOf(String((r && r.id) || '').toLowerCase()) !== -1;
           });
         }
-        paintSizeGrid(list, sizes, selectorTab, addLabel);
+        /* Live Liquid already paints tiles. Replacing them on first boot flashes
+           the size list twice; only rewrite when empty or explicitly forced. */
+        var hasTiles = !!list.querySelector('.size-option, .size-row');
+        if (opts.force || !hasTiles) {
+          paintSizeGrid(list, sizes, selectorTab, addLabel);
+        }
         hydratePolicyStrips(root);
         syncSizeQtyUi();
       } catch (e) {}
@@ -5058,7 +5101,7 @@
       rebuildSizeButtons();
     }
     bindSizeTypeTabs(root, function () {
-      rebuildSizeButtons();
+      rebuildSizeButtons({ force: true });
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
     });
 
@@ -5073,7 +5116,7 @@
         root.getAttribute('data-finance-name') || marketFinanceName(market);
       selectorTab = marketToTabKey(market);
       sizes = filterSizesForMarket(market);
-      rebuildSizeButtons();
+      rebuildSizeButtons({ force: true });
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
       if (typeof refreshTotals === 'function') refreshTotals();
     };
@@ -7187,6 +7230,8 @@
 
     function loadReviews() {
       var url = root.getAttribute('data-reviews-url');
+      var fetchGen = (root._valtoraReviewsGen || 0) + 1;
+      root._valtoraReviewsGen = fetchGen;
       shown = 0;
       reviews = [];
       if (grid) grid.innerHTML = '';
@@ -7204,6 +7249,7 @@
           return res.json();
         })
         .then(function (data) {
+          if (root._valtoraReviewsGen !== fetchGen) return;
           var allowSeed = showSeedPack();
           reviews = (Array.isArray(data.reviews) ? data.reviews : []).filter(function (r) {
             if (!r || typeof r !== 'object') return false;
@@ -7224,6 +7270,7 @@
           paint();
         })
         .catch(function () {
+          if (root._valtoraReviewsGen !== fetchGen) return;
           showEmpty();
         });
     }
@@ -7241,8 +7288,8 @@
         });
       }
       document.addEventListener('preview:reviews-reload', loadReviews);
+      loadReviews();
     }
-    loadReviews();
   }
 
   function enhanceFloatBasket(bar) {
@@ -7350,6 +7397,8 @@
   }
 
   function initStickyReserve() {
+    if (document.documentElement.getAttribute('data-sticky-reserve-ready') === '1') return;
+    document.documentElement.setAttribute('data-sticky-reserve-ready', '1');
     var bar = document.querySelector('[data-sticky-reserve]');
     if (!bar) return;
     enhanceFloatBasket(bar);
@@ -7723,6 +7772,8 @@
   }
 
   function initTrustMarquee() {
+    if (document.documentElement.getAttribute('data-trust-marquee-ready') === '1') return;
+    document.documentElement.setAttribute('data-trust-marquee-ready', '1');
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var viewports = document.querySelectorAll('[data-trust-marquee]');
     if (!viewports.length) return;
@@ -8119,6 +8170,7 @@
       line: line,
       business: businessName,
       guidelines: guidelines,
+      headingWeight: headingWeight,
       fontSet: fontSet,
       scheme: scheme,
       market: (boot && boot.market) || '',
@@ -8471,6 +8523,8 @@
   }
 
   function boot() {
+    if (window.__numaHomeInit) return;
+    window.__numaHomeInit = 1;
     unlockPageOverflow();
     initPreviewBrandChrome();
     var market = detectMarket();
@@ -8483,6 +8537,9 @@
     applyMarketOnlyVisibility(market);
     initPreviewAnnouncement();
     applyPreviewTopsFlag();
+    /* Paint size grids before reveal tags them, so SSR/JS tiles are final once. */
+    initAllReserves();
+    initLandingConfigure();
     initReveal();
     initRedesignMedia();
     initSectionGrounds();
@@ -8496,7 +8553,6 @@
     initTiltCards();
     initFaq();
     initSpecPanel();
-    initAllReserves();
     initSizeGuide();
     initLifestyleCaptions();
     initMobileNav();
@@ -8518,7 +8574,6 @@
     initFunnelTracking();
     initLandingFunnel();
     initTradeEnquiry();
-    initLandingConfigure();
     initSizeHelp();
     initNumaTracking();
     initCtaClickTracking();

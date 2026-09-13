@@ -38,11 +38,15 @@
           html.setAttribute('data-force-motion', 'true');
         }
         if (html.classList.contains('shopify-design-mode')) return;
+        /* Hide reveal children until theme.js boots. Do not strip js-ready at 900ms:
+           deferred theme.js often arrives later on a cold CDN hit, which used to
+           flash all copy visible, then hide it again, then reveal (double load). */
         html.classList.add('js-ready');
         setTimeout(function () {
           if (html.getAttribute('data-reveal-booted') === '1') return;
+          if (window.__numaThemeJs) return;
           html.classList.remove('js-ready');
-        }, 900);
+        }, 4500);
       })();
     </script>
     {% render 'meta-tags' %}
