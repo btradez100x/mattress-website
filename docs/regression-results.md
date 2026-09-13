@@ -5,7 +5,7 @@
 - Kept emperor returns strip off size-picker tiles and LP/configure policy strips; cart item notes unchanged.
 - Configure heads: single gold rule under Reserve yours (`lp-kicker` only; dropped duplicate `hr` in `landing-funnel.liquid`). Preview LP configure heads already had one.
 - Smoke: exit 1 on pre-existing checks (footer lockup, trade 5-working-days CX, section grounds, JS auto ground). No new LP-specific fails.
-- Checkpoint: `checkpoints/13.0.0-lp-css-mobile-parity/`. Deploy: `v9` `3ec551a`, `shopify-theme` `4c9a308`. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-lp-css-mobile-parity/`. Deploy: `v9` `3ec551a` / docs `19f8474`, `shopify-theme` `02953c2`. No VERSION bump.
 
 
 # Regression results — Saturday 12 Sep 2026 (nine LP zip handles)
