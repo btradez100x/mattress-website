@@ -5,8 +5,8 @@ Named deploy checkpoint. `VERSION` was not bumped.
 
 | Tree | SHA |
 |---|---|
-| `v9` | `PENDING` |
-| `shopify-theme` | `PENDING` |
+| `v9` | `3ec551a` |
+| `shopify-theme` | `4c9a308` |
 
 ## What shipped
 
@@ -15,6 +15,7 @@ Named deploy checkpoint. `VERSION` was not bumped.
 - Mobile menu: hide header “Reserve yours” below 900px so the hamburger is not clipped; nav panel opens with full links.
 - Theme + preview synced (`lp.css`, `base.css` header rules, `mobile-fit.css`, nine LP preview pages + related configure pages).
 - Emperor “Not covered by the … day returns policy” remains removed from size-picker tiles and LP/configure emperor policy strips; cart notes still carry it.
+- Configure / size-reserve heads: one gold rule under **Reserve yours** (removed duplicate `<hr class="gold-rule">` after `lp-kicker`, which already emits the line).
 
 ## What was left out
 
