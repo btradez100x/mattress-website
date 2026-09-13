@@ -1,3 +1,10 @@
+# Regression results — Sunday 13 Sep 2026 (homepage-single-init)
+
+- Root cause: 900ms js-ready failsafe stripped before deferred theme.js booted, flashing content visible → hidden → revealed. Also unguarded boot and Liquid size tiles re-painted by JS.
+- Fix: 4.5s failsafe + `__numaThemeJs` / `__numaHomeInit` guards; skip first size-grid replace when SSR tiles exist; reviews fetch generation token.
+- Smoke: exit 1 on pre-existing checks (footer lockup, landing configure, grounds, consistency). theme.js syntax ok.
+- Checkpoint: `checkpoints/13.0.0-homepage-single-init/`. Deploy: `v9` `e222957`, `shopify-theme` `df985bb`. No VERSION bump.
+
 # Regression results — Sunday 13 Sep 2026 (deploy 13.0.0-trade-developers-image)
 
 - Property developers Trade card image restored by renaming `trade-large.webp` → `trade-developers.webp` (Shopify reserved size token collision). Preview + theme synced. Live CLI push + Connect branch updated.
