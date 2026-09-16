@@ -93,14 +93,14 @@
         "id": "brand_product_line",
         "label": "Product line (line 2)",
         "default": "Mattresses",
-        "info": "Lockup descriptor under the name, plus Trading as and [Line] tokens. Leave blank to hide the descriptor."
+        "info": "Lockup descriptor under the name, plus [Line] tokens. Leave blank to hide the descriptor. Trading as uses Brand name only."
       },
       {
         "type": "text",
         "id": "legal_name",
         "label": "Legal name",
         "default": "Valtora FZE",
-        "info": "Registered company on Privacy, Terms, Cookies, checkout terms, and copyright. Not the wordmark. Trading as still uses Brand name and Product line. UK can override under Business details."
+        "info": "Registered company on Privacy, Terms, Cookies, checkout terms, and copyright. Not the wordmark. Trading as uses Brand name only. UK can override under Business details."
       },
       {
         "type": "text",
@@ -1376,7 +1376,7 @@
         "id": "legal_entity_name_ae",
         "label": "Legal name (UAE)",
         "default": "Valtora FZE",
-        "info": "Fallback if Brand → Legal name is blank. Trading as still uses Brand name + Product line."
+        "info": "Fallback if Brand → Legal name is blank. Trading as uses Brand name only."
       },
       {
         "type": "text",
@@ -1420,7 +1420,7 @@
         "type": "text",
         "id": "legal_entity_name_gb",
         "label": "Legal name (UK)",
-        "info": "Overrides Brand → Legal name for UK visitors. Leave blank to use Legal name. Trading as still uses Brand name + Product line."
+        "info": "Overrides Brand → Legal name for UK visitors. Leave blank to use Legal name. Trading as uses Brand name only."
       },
       {
         "type": "text",

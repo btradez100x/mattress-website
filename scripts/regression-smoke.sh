@@ -167,16 +167,19 @@ else
   fail "wordmark line 2 is not a distinct scheme colour"
 fi
 
-if grep -q 'settings.brand_product_line' "$THEME/sections/footer.liquid" \
-  && grep -q 'Trading as {{ trading_as }}' "$THEME/sections/footer.liquid" \
+if grep -q 'data-trading-as-wrap' "$THEME/sections/footer.liquid" \
+  && grep -q 'Trading as' "$THEME/sections/footer.liquid" \
+  && grep -q 'data-brand-text' "$THEME/sections/footer.liquid" \
+  && ! grep -q 'brand_product_line' "$THEME/sections/footer.liquid" \
+  && ! grep -q 'data-brand-product-line' "$THEME/sections/footer.liquid" \
   && ! grep -q 'site-footer__trading-lockup' "$THEME/sections/footer.liquid" \
   && ! grep -q 'site-footer__trading-name' "$THEME/sections/footer.liquid" \
   && ! grep -q 'site-footer__trading-line' "$THEME/sections/footer.liquid" \
   && ! grep -q 'site-footer__trading-name' "$THEME/assets/base.css" \
   && ! grep -q 'site-footer__trading-line' "$THEME/assets/base.css"; then
-  pass "footer Trading as is one plain line from Brand settings"
+  pass "footer Trading as is brand name only (no product-line descriptor)"
 else
-  fail "footer Trading as is still a styled two-line lockup"
+  fail "footer Trading as still includes product line or two-line lockup"
 fi
 
 if grep -q "render 'favicon'" "$THEME/snippets/meta-tags.liquid" \

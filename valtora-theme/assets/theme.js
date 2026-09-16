@@ -8294,7 +8294,7 @@
     document.querySelectorAll('.wordmark').forEach(function (a) {
       a.setAttribute('aria-label', line ? name + ' ' + line : name);
     });
-    var tradingName = line ? name + ' ' + line : name;
+    var tradingName = name;
     document.querySelectorAll('[data-trading-as]').forEach(function (el) {
       el.textContent = tradingName;
     });

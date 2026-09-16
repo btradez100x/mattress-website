@@ -1599,7 +1599,7 @@
           <p>Made by experts who have been making mattresses for 49 years.</p>
           <div class="site-footer__contact">
             <p class="site-footer__company"><strong data-business-name>Valtora FZE</strong></p>
-            <p class="site-footer__trading" data-trading-as-wrap>Trading as Numa Mattresses</p>
+            <p class="site-footer__trading" data-trading-as-wrap>Trading as Numa</p>
             <p class="site-footer__address-inline" data-business-address>Business Centre, Sharjah Publishing City Free Zone<br>Sharjah, United Arab Emirates</p>
             <p data-business-email-wrap><a href="mailto:hello@aligna.com" data-business-email>hello@aligna.com</a></p>
             <p data-business-phone-wrap hidden><a href="tel:" data-business-phone></a></p>
@@ -2755,7 +2755,7 @@
             var line = (document.getElementById('PreviewBrandLine') && document.getElementById('PreviewBrandLine').value.trim()) || '';
 
             setText('[data-business-name]', name);
-            var tradingName = line ? (brand + ' ' + line) : brand;
+            var tradingName = brand;
             document.querySelectorAll('[data-trading-as]').forEach(function (el) { el.textContent = tradingName; });
             document.querySelectorAll('[data-trading-as-wrap]').forEach(function (el) {
               el.textContent = tradingName ? ('Trading as ' + tradingName) : '';
