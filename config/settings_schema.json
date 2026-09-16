@@ -592,15 +592,15 @@
         "label": "Section titles",
         "options": [
           {
-            "value": "regular",
-            "label": "Regular — Geist Mono 500"
-          },
-          {
             "value": "bold",
             "label": "Bold — Geist Mono 600"
+          },
+          {
+            "value": "regular",
+            "label": "Regular — Geist Mono 500"
           }
         ],
-        "default": "regular",
+        "default": "bold",
         "info": "Weight of the small uppercase labels (As seen on, Customer reviews, The feel). Does not change large headings — that is Theme settings → Brand → Heading weight."
       },
       {
