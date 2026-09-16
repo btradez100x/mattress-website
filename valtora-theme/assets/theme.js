@@ -618,9 +618,26 @@
 
 
 
+  function paintLpRevstrip(nodes, score, count) {
+    var scoreText = String(score == null ? '' : score);
+    var countNum = Number(count) || 0;
+    var countLabel =
+      'out of 5 · ' + (countNum ? countNum.toLocaleString() : '0') + ' verified reviews';
+    nodes.forEach(function (el) {
+      var scoreEl = el.querySelector('[data-lp-rev-score]');
+      var countEl = el.querySelector('[data-lp-rev-count]');
+      if (scoreEl && scoreText) scoreEl.textContent = scoreText;
+      if (countEl && countNum) countEl.textContent = countLabel;
+      el.hidden = false;
+      el.removeAttribute('hidden');
+    });
+  }
+
   function initLpRevstrip() {
     var nodes = document.querySelectorAll('[data-lp-revstrip]');
     if (!nodes.length) return;
+    // Always visible: SSR markup already has 4.96 / 500. Refresh from JSON when possible.
+    paintLpRevstrip(nodes, null, 0);
     var host = document.querySelector('[data-lp-page][data-reviews-url]');
     var url =
       (host && host.getAttribute('data-reviews-url')) ||
@@ -637,6 +654,12 @@
         return res.json();
       })
       .then(function (data) {
+        var summary = data && data.summary;
+        if (summary && summary.average != null && summary.count != null) {
+          var score = Number(summary.average).toFixed(2).replace(/\.00$/, '');
+          paintLpRevstrip(nodes, score, summary.count);
+          return;
+        }
         var list = Array.isArray(data.reviews) ? data.reviews : [];
         list = list.filter(function (r) {
           return r && r.published !== false && r.visible !== false;
@@ -647,16 +670,7 @@
           sum += Number(r.rating) || 0;
         });
         var avg = sum / list.length;
-        var score = avg.toFixed(2).replace(/\.00$/, '');
-        var countLabel =
-          'out of 5 · ' + list.length.toLocaleString() + ' verified reviews';
-        nodes.forEach(function (el) {
-          var scoreEl = el.querySelector('[data-lp-rev-score]');
-          var countEl = el.querySelector('[data-lp-rev-count]');
-          if (scoreEl) scoreEl.textContent = score;
-          if (countEl) countEl.textContent = countLabel;
-          el.hidden = false;
-        });
+        paintLpRevstrip(nodes, avg.toFixed(2).replace(/\.00$/, ''), list.length);
       })
       .catch(function () {});
   }
@@ -7440,6 +7454,16 @@
             return true;
           });
           if (!reviews.length) {
+            // Keep the aggregate visible even when the seed pack is toggled off
+            // and no customer reviews exist yet.
+            if (data && data.summary && data.summary.average != null) {
+              applySummary(data.summary);
+              if (emptyEl) emptyEl.hidden = false;
+              if (grid) grid.innerHTML = '';
+              if (moreBtn) moreBtn.hidden = true;
+              if (lessBtn) lessBtn.hidden = true;
+              return;
+            }
             showEmpty();
             return;
           }
@@ -7447,7 +7471,11 @@
           reviews.forEach(function (r) {
             sum += Number(r.rating) || 0;
           });
-          applySummary({ average: sum / reviews.length, count: reviews.length });
+          if (data && data.summary && data.summary.average != null && data.summary.count != null) {
+            applySummary(data.summary);
+          } else {
+            applySummary({ average: sum / reviews.length, count: reviews.length });
+          }
           if (emptyEl) emptyEl.hidden = true;
           paint();
         })
@@ -8753,6 +8781,8 @@
     initBedSheets();
     initPillows();
     initPdpSpecs();
+    // Reviews strip must not wait on later inits — SSR already paints 4.96.
+    try { initLpRevstrip(); } catch (err) {}
     initReviews();
     initFunnelTracking();
     initLandingFunnel();
