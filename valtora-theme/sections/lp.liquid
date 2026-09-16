@@ -359,7 +359,7 @@
         </section>
 
       {%- when 'assurance' -%}
-        <section class="{% if block.settings.ground == 'bone' %}bone{% endif %}" {{ block.shopify_attributes }}>
+        <section class="bone" {{ block.shopify_attributes }}>
           <div class="wrap">
             {%- if block.settings.show_press -%}
               <div class="narrow">
@@ -641,7 +641,7 @@
         { "type": "select", "id": "ground", "label": "Ground", "options": [
           { "value": "", "label": "Snow" },
           { "value": "bone", "label": "Bone" }
-        ], "default": "" },
+        ], "default": "bone" },
         { "type": "checkbox", "id": "show_press", "label": "Show compact press strip above panels", "default": false },
         { "type": "text", "id": "press_label", "label": "Press label", "default": "As featured in" },
         { "type": "text", "id": "press_1", "label": "Press 1", "default": "The Times" },

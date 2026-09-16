@@ -1,12 +1,12 @@
-{%- comment -%} Mono payment chips under From price (v18 HTML). Klarna chips carry a mark. {%- endcomment -%}
+{%- comment -%} Mono payment chips under From price (v18 HTML) — hairline boxes, no colour badges. {%- endcomment -%}
 {%- if show_pay -%}
   <div class="pay">
     <span class="k">{{ pay_label | default: 'Pay by' }}</span>
     <div class="m">
       <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span>
       <span>Apple Pay</span><span>Google Pay</span>
-      <span class="pay-klarna" title="Klarna"><svg class="pay-klarna__mark" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" focusable="false"><rect width="24" height="24" rx="0" fill="#FFA8CD"/><path fill="#0A0B09" d="M4.2 6.2h3.1l3.2 5.1V6.2h2.9v11.6h-2.9l-3.2-5.1v5.1H4.2V6.2zm11.4 0c2.6 0 4.2 1.5 4.2 3.7 0 1.7-1 3-2.6 3.4l2.9 4.5h-3.3l-2.5-4.1h-.5v4.1h-2.9V6.2h4.7zm-.2 2.3h-1.6v2.7h1.6c1.1 0 1.7-.5 1.7-1.35 0-.85-.6-1.35-1.7-1.35z"/></svg>Klarna, 3 payments</span>
-      <span class="pay-klarna" title="Klarna"><svg class="pay-klarna__mark" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" focusable="false"><rect width="24" height="24" rx="0" fill="#FFA8CD"/><path fill="#0A0B09" d="M4.2 6.2h3.1l3.2 5.1V6.2h2.9v11.6h-2.9l-3.2-5.1v5.1H4.2V6.2zm11.4 0c2.6 0 4.2 1.5 4.2 3.7 0 1.7-1 3-2.6 3.4l2.9 4.5h-3.3l-2.5-4.1h-.5v4.1h-2.9V6.2h4.7zm-.2 2.3h-1.6v2.7h1.6c1.1 0 1.7-.5 1.7-1.35 0-.85-.6-1.35-1.7-1.35z"/></svg>Klarna, 24 months</span>
+      <span>Klarna, 3 payments</span>
+      <span>Klarna, 24 months</span>
     </div>
   </div>
 {%- endif -%}
