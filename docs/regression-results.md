@@ -1,3 +1,9 @@
+# Regression results — Wednesday 16 Sep 2026 (heading-weight-sitewide)
+
+- Sitewide display/heading surfaces use `var(--heading-weight, 700)`. LP polish untouched. Mono labels stay 600.
+- Smoke: exit 1 on pre-existing checks only (landing configure cart add, consistency, section grounds).
+- Checkpoint: `checkpoints/13.0.0-heading-weight-sitewide/`. Deploy: `v9` `14bfffcfe2ca4c37d3ef7a749fa6f4d762d97b59`, `shopify-theme` `cecebe619ba568db27ce94af6a33ba53f6b31776`. No VERSION bump.
+
 # Regression results — Wednesday 16 Sep 2026 (lp-v18-reviews-visible)
 
 - Reviews strip visible (SSR 4.96); HTML press row; Klarna payment chips; desktop section-pad collapse; figure-number LP copy; `--heading-weight` 700 on LP/redesign display. Handles unchanged.
