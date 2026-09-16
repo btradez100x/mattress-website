@@ -1,3 +1,11 @@
+# Regression results — Wednesday 16 Sep 2026 (trading-as-brand-only)
+
+- Trading as is Brand name only; product-line descriptor removed from footer/contact Trading as and brand hydrate.
+- Smoke: footer Trading as assertion **PASSED**. Overall smoke still fails on pre-existing checks (landing configure/size tiles, Trade reply copy, section grounds).
+- Checkpoint: `checkpoints/13.0.0-trading-as-brand-only/`. Deploy: `v9` `c107f0f`, `shopify-theme` `6342591`. No VERSION bump.
+
+---
+
 # Regression results — Sunday 13 Sep 2026 (lp-v18-pack)
 
 - v18 pack: Coolweave/Coolcell/Sevencore theme settings + `[Cover]`/`[Gel]`/`[Core]` tokens; Sevencore build, spec layers, temperature gel attack, premium originality from zip. Reviews stay **4.96** from reviews.json. Handles unchanged.
