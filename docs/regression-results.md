@@ -1,3 +1,11 @@
+# Regression results — Wednesday 16 Sep 2026 (heading-weight-restore)
+
+- Restored Guidelines **700** heading weight. LP/redesign no longer hardcode 600; spec labels 600; section titles default Bold 600.
+- Smoke: pre-existing grounds fails only (exit reported 0 with 4 known checks). Cart untouched.
+- Checkpoint: `checkpoints/13.0.0-heading-weight-restore/`. Deploy: `v9` `a621fb0`, `shopify-theme` `75502ac`. No VERSION bump.
+
+---
+
 # Regression results — Wednesday 16 Sep 2026 (trading-as-brand-only)
 
 - Trading as is Brand name only; product-line descriptor removed from footer/contact Trading as and brand hydrate.
