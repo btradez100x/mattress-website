@@ -1,3 +1,9 @@
+# Regression results — Wednesday 16 Sep 2026 (lp-v18-reviews-visible)
+
+- Reviews strip visible (SSR 4.96); HTML press row; Klarna payment chips; desktop section-pad collapse; figure-number LP copy; `--heading-weight` 700 on LP/redesign display. Handles unchanged.
+- Smoke: exit 1 on pre-existing checks only (landing configure cart add noted).
+- Checkpoint: `checkpoints/13.0.0-lp-v18-reviews-visible/`. Deploy: `v9` `58d0bb9b50861af129c926f4b0acdade6f93af4d`, `shopify-theme` `839a88f8d77de1e45a8220388982a168236bc3e5`. No VERSION bump.
+
 # Regression results — Wednesday 16 Sep 2026 (heading-weight-restore)
 
 - Restored Guidelines **700** heading weight. LP/redesign no longer hardcode 600; spec labels 600; section titles default Bold 600.
