@@ -95,6 +95,8 @@
                     show_pay: block.settings.show_pay,
                     pay_label: block.settings.pay_label
                   %}
+                {%- elsif block.settings.show_price == false and block.settings.show_pay -%}
+                  {% render 'lp-pay-row', show_pay: true, pay_label: block.settings.pay_label %}
                 {%- endif -%}
               </div>
               {%- if block.settings.image_file != blank -%}
@@ -107,10 +109,14 @@
               {%- liquid
                 assign reviews_href = pages['reviews'].url | default: '/#reviews'
               -%}
-              <div class="revstrip" data-lp-revstrip hidden>
+              {%- comment -%}
+                Visible by default with the shared reviews.json aggregate (4.96 / 500).
+                theme.js refreshes from the asset when fetch succeeds — do not gate on JS.
+              {%- endcomment -%}
+              <div class="revstrip" data-lp-revstrip>
                 <span class="stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-                <span class="score" data-lp-rev-score></span>
-                <span class="n" data-lp-rev-count></span>
+                <span class="score" data-lp-rev-score>4.96</span>
+                <span class="n" data-lp-rev-count>out of 5 · 500 verified reviews</span>
                 <a href="{{ reviews_href }}">{{ block.settings.reviews_link_label | default: 'Read them' }}</a>
               </div>
             {%- endif -%}

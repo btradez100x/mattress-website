@@ -6,7 +6,7 @@
         "b1": {
           "type": "hero",
           "settings": {
-            "kicker": "Made to order \u00b7 United Kingdom",
+            "kicker": "Made to order · United Kingdom",
             "heading": "The top comes off.\nTheirs does not.",
             "lede": "Almost every mattress is sealed. The comfort layer is glued to the core, so when it softens, or was never right, the whole thing goes. Ours is closed with a zip. The top lifts out, and we remake it to you.",
             "cta_primary": "Choose your size",
@@ -15,8 +15,8 @@
             "show_price": true,
             "price_first": false,
             "price_large": false,
-            "price_from": "From \u00a32,499",
-            "price_klarna": "or \u00a3104 a month with Klarna",
+            "price_from": "From £2,499",
+            "price_klarna": "or £104 a month with Klarna",
             "image_file": "coolknit-side.webp",
             "image_alt": "",
             "show_press": true,
@@ -31,7 +31,7 @@
             "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "\u00a3104 a month",
+            "klarna_amount": "£104 a month",
             "show_sizestrip": false,
             "sizestrip_rows": "",
             "show_reviews": true,
@@ -56,7 +56,7 @@
         "mattress_product": "the-mattress",
         "eyebrow": "Reserve yours",
         "heading": "Choose your size.",
-        "body": "Every size is the same build. Thirty five centimetres, seven-zone core, removable comfort layer. You do not choose a firmness.",
+        "body": "Every size is the same build. 35 centimetres, seven-zone core, removable comfort layer. You do not choose a firmness.",
         "firmness_line": "It arrives medium firm with a flippable comfort layer.",
         "market_force": "auto",
         "request_size_enabled": true,
@@ -81,8 +81,8 @@
             "anchor_id": "",
             "kicker": "The difference",
             "heading": "A sealed mattress\ncannot change.",
-            "body_1": "If the feel is wrong at week three, a sealed mattress is wrong for ten years. If it softens at year six, the whole thing is replaced, springs and all, because the part that wore is glued to the part that did not.",
-            "body_2": "Ours separates them. Twenty centimetres of springs guaranteed for twenty five years, and fifteen centimetres of comfort above it that comes out. Wrong at week three, we remake it. Soft at year six, you replace a layer for \u00a3299 and keep the bed.",
+            "body_1": "If the feel is wrong at week 3, a sealed mattress is wrong for 10 years. If it softens at year 6, the whole thing is replaced, springs and all, because the part that wore is glued to the part that did not.",
+            "body_2": "Ours separates them. 20 centimetres of springs guaranteed for 25 years, and 15 centimetres of comfort above it that comes out. Wrong at week 3, we remake it. Soft at year 6, you replace a layer for £299 and keep the bed.",
             "pull": "The part that wears is the part that comes out."
           }
         },
@@ -93,7 +93,7 @@
             "tight": false,
             "anchor_id": "",
             "kicker": "Why you cannot choose in a showroom",
-            "heading": "Four minutes lying down\ntells you nothing.",
+            "heading": "4 minutes lying down\ntells you nothing.",
             "body_1": "You cannot know how a mattress feels until you have slept on it for weeks. By then the decision is behind you and the money is spent, which is why most people keep a mattress they never liked.",
             "body_2": "So you do not choose a firmness when you order. Your mattress arrives, you sleep on it, and for a year you tell us how it should feel. We build a new comfort layer to that description and send it, with our compliments.",
             "pull": "You do not choose the feel. You discover it."
@@ -107,7 +107,7 @@
             "anchor_id": "",
             "kicker": "Why we can do this",
             "heading": "Because nothing is built\nuntil you order it.",
-            "body_1": "No warehouse, no stock to shift, no reason to sell you what is on the shelf. Your mattress is made after you choose it. That is why the guarantee is twenty five years and the comfort layer is remade for a year.",
+            "body_1": "No warehouse, no stock to shift, no reason to sell you what is on the shelf. Your mattress is made after you choose it. That is why the guarantee is 25 years and the comfort layer is remade for a year.",
             "body_2": "",
             "pull": ""
           }
