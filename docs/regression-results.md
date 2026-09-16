@@ -1,3 +1,9 @@
+# Regression results — Wednesday 16 Sep 2026 (lp-v18-visual-parity)
+
+- Restored v18 HTML section rhythm (88px), mono Klarna chips, assurance after configure, LP hero type guard. Reviews 4.96 / press / pay match zip.
+- Smoke: exit 1 on pre-existing checks only (landing configure cart add, consistency, section grounds). Nine LP pages keep size-reserve + cart add.
+- Checkpoint: `checkpoints/13.0.0-lp-v18-visual-parity/`. Deploy: `v9` `2ec8e7c5065dc4bbf7fea000bb06b83371841ce6`, `shopify-theme` `8ba06d75bbb08ad648184c008ea7478fdd6f4529`. No VERSION bump.
+
 # Regression results — Wednesday 16 Sep 2026 (heading-weight-sitewide)
 
 - Sitewide display/heading surfaces use `var(--heading-weight, 700)`. LP polish untouched. Mono labels stay 600.
