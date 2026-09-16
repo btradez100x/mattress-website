@@ -332,7 +332,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--rd-graphite);
-  font-weight: var(--heading-weight, 700);
+  font-weight: 600;
   width: 150px;
   flex: none;
   padding-top: 3px;

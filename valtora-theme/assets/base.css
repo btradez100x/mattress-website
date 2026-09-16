@@ -121,7 +121,7 @@ h2 {
 h3 {
   font-size: clamp(1.2rem, 2.2vw, 1.4rem);
   letter-spacing: -0.025em;
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
 }
 
 h1,
@@ -584,7 +584,7 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
     html[data-brand-guidelines="v2"] h1,
     html[data-brand-guidelines="v2"] h2 {
       font-family: var(--font-headline);
-      font-weight: 700;
+      font-weight: var(--heading-weight, 700);
       letter-spacing: -0.035em;
       line-height: 1.1;
     }
@@ -638,7 +638,7 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
     html[data-brand-guidelines="v2"] [data-order-total] {
       font-variant-numeric: tabular-nums;
       font-family: var(--font-headline);
-      font-weight: 700;
+      font-weight: var(--heading-weight, 700);
       letter-spacing: -0.03em;
     }
     html[data-brand-guidelines="v2"] .btn {
@@ -2240,7 +2240,7 @@ video[controls],
 .oo-notice__heading {
   font-family: var(--font-headline, 'Instrument Sans', system-ui, sans-serif);
   font-size: clamp(1.875rem, 4.6vw, 2.75rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   line-height: 1.1;
   letter-spacing: -0.035em;
   margin: 0 0 clamp(2.25rem, 5vw, 3.5rem);
@@ -2304,7 +2304,7 @@ video[controls],
 .oo-card--lead .oo-card__title {
   font-family: var(--font-headline, 'Instrument Sans', system-ui, sans-serif);
   font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.035em;
   line-height: 1.1;
   margin: 2rem 0 1.125rem;
@@ -2357,7 +2357,7 @@ video[controls],
 html[data-brand-guidelines="v2"] .oo-notice__heading,
 html[data-brand-guidelines="v2"] .oo-card--lead .oo-card__title {
   font-family: var(--font-headline);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
 }
 
 html[data-brand-guidelines="v2"] .oo-notice__heading {
@@ -2530,7 +2530,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 
 .vspec__label {
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   font-size: 19px;
   letter-spacing: -0.02em;
   color: var(--brand-ink);
@@ -3019,7 +3019,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 .size-row__name {
   font-family: var(--font-headline, var(--font-sans));
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   line-height: 1.15;
   color: var(--heading-color, var(--brand-primary));
@@ -3059,7 +3059,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 .size-row__price {
   font-family: var(--font-headline, var(--font-sans));
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   color: var(--heading-color, var(--brand-primary));
   white-space: nowrap;
   letter-spacing: -0.02em;
@@ -3236,7 +3236,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 }
 .size-helper summary {
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 16px;
   letter-spacing: -0.02em;
   cursor: pointer;
@@ -3536,7 +3536,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 .size-note label {
   display: block;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   font-size: 1.25rem;
   letter-spacing: -0.025em;
   color: var(--brand-ink);
@@ -3734,7 +3734,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 .reserve-panel__price {
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(2.25rem, 4.5vw, 3rem);
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   color: var(--brand-primary);
   letter-spacing: -0.03em;
   line-height: 1;
@@ -3799,7 +3799,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
   margin: 0.15rem 0 0;
   font-family: var(--font-display, inherit);
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.025em;
   color: var(--brand-bg, #f5f4f1);
 }
@@ -4092,7 +4092,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(2.5rem, 5vw, 3.25rem);
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   line-height: 1;
   color: var(--brand-primary);
   letter-spacing: -0.04em;
@@ -4305,7 +4305,7 @@ html[data-brand-guidelines="v2"] .oo-card__close {
   margin: 0 0 0.5rem;
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(1.5rem, 3vw, 1.85rem);
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   color: var(--brand-primary);
 }
@@ -5797,7 +5797,7 @@ body:has([data-float-total]:empty) .hero__cta {
 .float-basket__total {
   margin-left: auto;
   font-family: var(--font-display, inherit);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   font-size: clamp(1.05rem, 3.5vw, 1.25rem);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
@@ -7510,7 +7510,7 @@ body.has-sticky-reserve .whatsapp-float {
 .order-basket__tot strong {
   font-family: var(--font-display, inherit);
   font-size: clamp(1.75rem, 4vw, 2.125rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
   color: var(--brand-ink);
@@ -7527,7 +7527,7 @@ body.has-sticky-reserve .whatsapp-float {
   margin: 0 0 0.35rem;
   font-family: var(--font-display, inherit);
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.025em;
 }
 
@@ -7570,7 +7570,7 @@ body.has-sticky-reserve .whatsapp-float {
   margin: 0.4rem 0 0;
   font-family: var(--font-display, inherit);
   font-size: 1.55rem;
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
 }
 
@@ -7917,7 +7917,7 @@ body.has-sticky-reserve .whatsapp-float {
 .cart-page__title {
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(1.85rem, 4vw, 2.45rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   line-height: 1.15;
   margin: 0.35rem 0 0;
@@ -7960,7 +7960,7 @@ body.has-sticky-reserve .whatsapp-float {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.015em;
   color: var(--brand-ink);
 }
@@ -7985,7 +7985,7 @@ body.has-sticky-reserve .whatsapp-float {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
@@ -8022,7 +8022,7 @@ body.has-sticky-reserve .whatsapp-float {
 .cart-page .cart-summary__row strong {
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(1.75rem, 4vw, 2.15rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -8068,7 +8068,7 @@ html[data-brand-guidelines="v2"] [data-order-total],
 html[data-brand-guidelines="v2"] [data-cart-subtotal] {
   font-variant-numeric: tabular-nums;
   font-family: var(--font-headline);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
 }
 
@@ -8112,7 +8112,7 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(28px, 4vw, 42px);
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   line-height: 1.06;
   color: var(--brand-ink);
@@ -8149,7 +8149,7 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
 .checkout-stage__lead-v {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: clamp(34px, 5vw, 54px);
   letter-spacing: -0.04em;
   line-height: 0.98;
@@ -8248,7 +8248,7 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
 }
 .checkout-item__name {
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 19px;
   letter-spacing: -0.02em;
   margin: 0 0 5px;
@@ -8534,7 +8534,7 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
 .checkout-s-total strong,
 .checkout-stage__total strong {
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 32px;
   letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
@@ -8652,7 +8652,7 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
 .checkout-bar__total {
   display: block;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 19px;
   letter-spacing: -0.03em;
   color: #f5f4f1;
@@ -8814,7 +8814,7 @@ html[data-brand-guidelines="v2"] .thanks-hero {
   margin: 0.35rem 0 0;
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(2.75rem, 7vw, 4.25rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.04em;
   line-height: 1.02;
   color: var(--brand-on-dark, #f7f5f1);
@@ -8839,7 +8839,7 @@ html[data-brand-guidelines="v2"] .thanks-hero {
   margin-top: 0.45rem;
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(1.5rem, 3.5vw, 1.85rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   text-transform: none;
   color: var(--brand-on-dark);
@@ -8898,7 +8898,7 @@ html[data-brand-guidelines="v2"] .thanks-hero {
 .thanks-order__total strong {
   font-family: var(--font-headline, var(--font-sans));
   font-size: clamp(1.65rem, 4vw, 2rem);
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
 }
@@ -9439,7 +9439,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin: 0;
   font-family: var(--font-display, var(--font-headline, var(--font-sans)));
   font-size: clamp(1.45rem, 2.4vw, 1.85rem);
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.02em;
   line-height: 1.15;
   color: var(--heading-color, var(--brand-primary));
@@ -9461,7 +9461,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   padding-top: 1.25rem;
   font-family: var(--font-headline, var(--font-sans));
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
   color: var(--heading-color, var(--brand-primary));
@@ -10014,7 +10014,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 }
 .lp-price {
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: clamp(1.5rem, 3vw, 1.875rem);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
@@ -10095,7 +10095,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-section--built .lp-sec-head h2,
 #how-it-is-built .lp-sec-head h2 {
   font-family: var(--font-display, var(--font-headline, var(--font-sans)));
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   color: var(--brand-primary, #1F3A5F);
 }
@@ -10163,7 +10163,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin: 0 0 1rem;
   font-family: var(--font-display, var(--font-headline, var(--font-sans)));
   font-size: clamp(1.25rem, 2vw, 1.5rem);
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.03em;
   line-height: 1.22;
   color: var(--brand-primary, #1F3A5F);
@@ -10445,7 +10445,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-addprice {
   display: block;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: clamp(1.5rem, 3vw, 1.875rem);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
@@ -10533,7 +10533,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-outcome__name {
   margin: 0 0 0.55rem;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 1.3rem;
   letter-spacing: -0.02em;
 }
@@ -10637,7 +10637,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-tier__name {
   margin: 0 0 0.5rem;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 1.125rem;
   letter-spacing: -0.025em;
   line-height: 1.28;
@@ -10657,7 +10657,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   align-self: start;
   padding-top: 0.12em;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 1rem;
   letter-spacing: -0.02em;
   line-height: 1.28;
@@ -10785,7 +10785,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   display: block;
   margin-bottom: 0.6rem;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 2.35rem;
   letter-spacing: -0.035em;
   line-height: 1;
@@ -10813,7 +10813,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-sizegrid__s {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 1rem;
   letter-spacing: -0.02em;
   color: var(--brand-ink);
@@ -10909,7 +10909,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .rte .lp-pull p {
   margin: 0;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: clamp(1.3rem, 2.7vw, 1.7rem);
   line-height: 1.28;
   letter-spacing: -0.025em;
@@ -10965,7 +10965,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   margin-top: 1.35rem;
   padding-bottom: 0.2rem;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: clamp(1.25rem, 3vw, 1.75rem);
   letter-spacing: -0.025em;
   color: var(--brand-accent, #8a6d3b);

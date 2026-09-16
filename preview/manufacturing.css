@@ -93,7 +93,7 @@
 }
 .mfg-stack__n {
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 1.65rem;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -145,7 +145,7 @@
 .mfg-heritage {
   margin: 1.35rem 0 0;
   font-family: var(--font-headline, var(--font-sans));
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   font-size: 1.05rem;
   letter-spacing: -0.02em;
 }

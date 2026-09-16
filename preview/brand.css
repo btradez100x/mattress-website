@@ -547,6 +547,13 @@ html .media-feature__split-copy h2 {
 
 html h3,
 html h4,
+html h5,
+html h6 {
+  font-family: var(--font-text, 'Inter', system-ui, sans-serif);
+  font-weight: var(--heading-weight, 700);
+  letter-spacing: -0.015em;
+}
+
 html .oo-card__title {
   font-family: var(--font-text, 'Inter', system-ui, sans-serif);
   font-weight: 600;
@@ -684,3 +691,65 @@ html[data-heading-weight="500"] .btn,
 html[data-font-set="classic"]:not([data-heading-weight]) .btn {
   font-weight: 500;
 }
+
+/* Heading weight sitewide chrome — cart titles, LP, trade, manufacturing, journal. */
+html[data-heading-weight="700"] h3,
+html[data-heading-weight="700"] h4,
+html[data-heading-weight="700"] h5,
+html[data-heading-weight="700"] h6,
+html[data-heading-weight="700"] .cart-page__title,
+html[data-heading-weight="700"] .trade h1,
+html[data-heading-weight="700"] .trade h2,
+html[data-heading-weight="700"] .trade h3,
+html[data-heading-weight="700"] .lp h1,
+html[data-heading-weight="700"] .lp h2,
+html[data-heading-weight="700"] .lp h3,
+html[data-heading-weight="700"] .mfg-stack__n,
+html[data-heading-weight="700"] .mfg-heritage,
+html[data-heading-weight="700"] .blog-card__title,
+html[data-heading-weight="700"] .pdp__heading,
+html[data-heading-weight="700"] .policy-hero h1 {
+  font-weight: 700;
+}
+
+html[data-heading-weight="600"] h3,
+html[data-heading-weight="600"] h4,
+html[data-heading-weight="600"] h5,
+html[data-heading-weight="600"] h6,
+html[data-heading-weight="600"] .cart-page__title,
+html[data-heading-weight="600"] .trade h1,
+html[data-heading-weight="600"] .trade h2,
+html[data-heading-weight="600"] .trade h3,
+html[data-heading-weight="600"] .lp h1,
+html[data-heading-weight="600"] .lp h2,
+html[data-heading-weight="600"] .lp h3,
+html[data-heading-weight="600"] .mfg-stack__n,
+html[data-heading-weight="600"] .mfg-heritage,
+html[data-heading-weight="600"] .blog-card__title,
+html[data-heading-weight="600"] .pdp__heading,
+html[data-heading-weight="600"] .policy-hero h1 {
+  font-weight: 600;
+}
+
+html[data-heading-weight="500"] h3,
+html[data-heading-weight="500"] h4,
+html[data-heading-weight="500"] h5,
+html[data-heading-weight="500"] h6,
+html[data-heading-weight="500"] .cart-page__title,
+html[data-heading-weight="500"] .trade h1,
+html[data-heading-weight="500"] .trade h2,
+html[data-heading-weight="500"] .trade h3,
+html[data-heading-weight="500"] .lp h1,
+html[data-heading-weight="500"] .lp h2,
+html[data-heading-weight="500"] .lp h3,
+html[data-heading-weight="500"] .mfg-stack__n,
+html[data-heading-weight="500"] .mfg-heritage,
+html[data-heading-weight="500"] .blog-card__title,
+html[data-heading-weight="500"] .pdp__heading,
+html[data-heading-weight="500"] .policy-hero h1,
+html[data-font-set="classic"]:not([data-heading-weight]) h3,
+html[data-font-set="classic"]:not([data-heading-weight]) h4,
+html[data-font-set="classic"]:not([data-heading-weight]) h5,
+html[data-font-set="classic"]:not([data-heading-weight]) h6 {{
+  font-weight: 500;
+}}
