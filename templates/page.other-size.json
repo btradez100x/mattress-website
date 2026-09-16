@@ -6,7 +6,7 @@
         "b1": {
           "type": "hero",
           "settings": {
-            "kicker": "Made to order · United Kingdom",
+            "kicker": "Made to order \u00b7 United Kingdom",
             "heading": "You already know\nthe size.",
             "lede": "What you do not know is which mattress. Ours is 35 centimetres, built in 2 parts, and the feel is settled after you have slept on it rather than guessed at in a showroom.",
             "cta_primary": "Choose your size",
@@ -15,8 +15,8 @@
             "show_price": true,
             "price_first": false,
             "price_large": false,
-            "price_from": "From £1,999",
-            "price_klarna": "or £83 a month with Klarna",
+            "price_from": "From \u00a31,999",
+            "price_klarna": "or \u00a383 a month with Klarna",
             "image_file": "product-floating.webp",
             "image_alt": "",
             "show_press": true,
@@ -28,7 +28,7 @@
             "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "£83 a month",
+            "klarna_amount": "\u00a383 a month",
             "show_sizestrip": true,
             "sizestrip_rows": "Single|90 x 190 cm\nSmall Double|120 x 190 cm\nDouble|135 x 190 cm\nKing|150 x 200 cm",
             "show_reviews": true,
@@ -120,7 +120,21 @@
             "card_2_label": "Same visit",
             "card_3_label": "Beforehand"
           }
-        },
+        }
+      },
+      "block_order": [
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "variant": "other-size-story",
+        "allowed_size_ids": "single,small-double"
+      }
+    },
+    "assurance": {
+      "type": "lp",
+      "blocks": {
         "b5": {
           "type": "assurance",
           "settings": {
@@ -130,14 +144,11 @@
             "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
             "a3_heading": "25 years on the core",
             "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
-            "ground": ""
+            "ground": "bone"
           }
         }
       },
       "block_order": [
-        "b2",
-        "b3",
-        "b4",
         "b5"
       ],
       "settings": {
@@ -149,6 +160,7 @@
   "order": [
     "main",
     "story",
-    "configure"
+    "configure",
+    "assurance"
   ]
 }

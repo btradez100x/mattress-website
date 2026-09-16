@@ -6,7 +6,7 @@
         "b1": {
           "type": "hero",
           "settings": {
-            "kicker": "Made to order · United Kingdom",
+            "kicker": "Made to order \u00b7 United Kingdom",
             "heading": "A bed that becomes yours,\nand stays that way.",
             "lede": "Nothing is built before you order it. 35 centimetres, a seven-zone pocket sprung core guaranteed for 25 years, and a comfort layer we remake to your preference for a year.",
             "cta_primary": "Choose your size",
@@ -15,8 +15,8 @@
             "show_price": false,
             "price_first": false,
             "price_large": false,
-            "price_from": "From £2,499",
-            "price_klarna": "or £104 a month with Klarna",
+            "price_from": "From \u00a32,499",
+            "price_klarna": "or \u00a3104 a month with Klarna",
             "image_file": "product-plain.webp",
             "image_alt": "",
             "show_press": true,
@@ -28,7 +28,7 @@
             "press_5": "Dezeen",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "£83 a month",
+            "klarna_amount": "\u00a383 a month",
             "show_sizestrip": false,
             "sizestrip_rows": "",
             "show_reviews": true,
@@ -82,7 +82,7 @@
             "card_2_heading": "Your spine stays straight all night",
             "card_2_body": "7 zones, 2 wire gauges. Heavier under the hips and shoulders where the weight lands, lighter at the waist and legs. You wake up the shape you should be rather than the shape the bed made you.",
             "card_3_heading": "In year 8 it is still your bed",
-            "card_3_body": "The top 5 centimetres are what soften. Ours lift out and are replaced for £299. The core underneath is guaranteed for 25 years and never leaves the room.",
+            "card_3_body": "The top 5 centimetres are what soften. Ours lift out and are replaced for \u00a3299. The core underneath is guaranteed for 25 years and never leaves the room.",
             "layout": "grid",
             "lede": "",
             "card_1_label": "",
@@ -128,13 +128,13 @@
           "type": "price",
           "settings": {
             "kicker": "What it costs",
-            "heading": "From £1,999.",
-            "body": "King is £2,999. Super King is £3,299. Every size is the same build, so the price is the size and nothing else.",
-            "price_from": "From £1,999.",
-            "price_klarna": "or £83 a month over 24 months with Klarna",
+            "heading": "From \u00a31,999.",
+            "body": "King is \u00a32,999. Super King is \u00a33,299. Every size is the same build, so the price is the size and nothing else.",
+            "price_from": "From \u00a31,999.",
+            "price_klarna": "or \u00a383 a month over 24 months with Klarna",
             "show_pay": true,
             "pay_label": "Pay by",
-            "klarna_amount": "£83 a month",
+            "klarna_amount": "\u00a383 a month",
             "show_sizestrip": true,
             "sizestrip_rows": "Double|135 x 190 cm\nKing|150 x 200 cm\nEuropean King|160 x 200 cm\nSuper King|180 x 200 cm\nEmperor|200 x 200 cm"
           }
@@ -158,7 +158,24 @@
             "card_2_label": "Same visit",
             "card_3_label": "Beforehand"
           }
-        },
+        }
+      },
+      "block_order": [
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7"
+      ],
+      "settings": {
+        "variant": "premium-story",
+        "allowed_size_ids": ""
+      }
+    },
+    "assurance": {
+      "type": "lp",
+      "blocks": {
         "b8": {
           "type": "assurance",
           "settings": {
@@ -168,17 +185,11 @@
             "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
             "a3_heading": "25 years on the core",
             "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
-            "ground": ""
+            "ground": "bone"
           }
         }
       },
       "block_order": [
-        "b2",
-        "b3",
-        "b4",
-        "b5",
-        "b6",
-        "b7",
         "b8"
       ],
       "settings": {
@@ -190,6 +201,7 @@
   "order": [
     "main",
     "story",
-    "configure"
+    "configure",
+    "assurance"
   ]
 }
