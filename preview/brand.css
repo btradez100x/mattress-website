@@ -515,6 +515,7 @@ html body {
 html[data-heading-weight="700"] { --heading-weight: 700; }
 html[data-heading-weight="600"] { --heading-weight: 600; }
 html[data-heading-weight="500"] { --heading-weight: 500; }
+html:not([data-heading-weight]) { --heading-weight: 700; }
 
 html h1,
 html .hero h1 {
@@ -575,9 +576,14 @@ html .kicker,
 html .wordmark__product {
   font-family: var(--font-mono, 'Geist Mono', ui-monospace, monospace);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+html[data-eyebrow-weight="regular"] .section__eyebrow,
+html[data-eyebrow-weight="regular"] .lp-kicker,
+html[data-eyebrow-weight="regular"] .kicker {
+  font-weight: 500;
 }
 html[data-eyebrow-weight="bold"] .section__eyebrow,
 html[data-eyebrow-weight="bold"] .lp-kicker,

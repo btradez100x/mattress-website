@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js-ready" lang="en" data-market="ae" data-heading-weight="700" data-font-set="modern" data-section-lines="on" data-eyebrow-weight="regular" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="100">
+<html class="js-ready" lang="en" data-market="ae" data-heading-weight="700" data-font-set="modern" data-section-lines="on" data-eyebrow-weight="bold" data-color-scheme="signature" data-brand-guidelines="v1" data-force-motion="true" data-warranty-years="25" data-trial-nights="100">
   <head>
     <meta charset="utf-8">
     <script src="brand-boot.js?v=numa-brand1" data-valtora-brand-boot></script>
@@ -408,8 +408,8 @@
         </label>
         <label>Section titles
           <select id="PreviewEyebrowWeight" aria-label="Section title weight">
-            <option value="regular" selected>Regular (500)</option>
-            <option value="bold">Bold (600)</option>
+            <option value="bold" selected>Bold (600)</option>
+            <option value="regular">Regular (500)</option>
           </select>
         </label>
         <label>Colour
@@ -2078,7 +2078,7 @@
         }
 
         function applyEyebrowWeight() {
-          var weight = (eyebrowWeightSelect && eyebrowWeightSelect.value) || 'regular';
+          var weight = (eyebrowWeightSelect && eyebrowWeightSelect.value) || 'bold';
           if (weight !== 'bold') weight = 'regular';
           document.documentElement.setAttribute('data-eyebrow-weight', weight);
           try { localStorage.setItem('valtoraPreviewEyebrowWeight', weight); } catch (e) {}

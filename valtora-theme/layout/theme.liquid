@@ -23,9 +23,9 @@
   if settings.section_gold_lines == false
     assign section_lines = 'off'
   endif
-  assign eyebrow_weight = settings.section_title_weight | default: 'regular'
-  if eyebrow_weight != 'bold'
-    assign eyebrow_weight = 'regular'
+  assign eyebrow_weight = settings.section_title_weight | default: 'bold'
+  if eyebrow_weight != 'regular'
+    assign eyebrow_weight = 'bold'
   endif
 -%}
 <!doctype html>

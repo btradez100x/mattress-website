@@ -100,7 +100,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 500;
+  font-weight: var(--heading-weight, 700);
   line-height: 1.05;
   letter-spacing: -0.035em;
   margin: 0 0 0.55em;
@@ -109,7 +109,7 @@ h4 {
 
 h1 {
   font-size: clamp(2.75rem, 7vw, 4.75rem);
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.04em;
 }
 
@@ -4596,6 +4596,12 @@ html[data-brand-guidelines="v2"] .oo-card__close {
 
 html[data-section-lines="off"] .gold-rule {
   display: none;
+}
+
+html[data-eyebrow-weight="regular"] .section__eyebrow,
+html[data-eyebrow-weight="regular"] .lp-kicker,
+html[data-eyebrow-weight="regular"] .kicker {
+  font-weight: 500;
 }
 
 html[data-eyebrow-weight="bold"] .section__eyebrow,
