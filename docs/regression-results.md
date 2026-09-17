@@ -1,3 +1,10 @@
+# Regression results — Friday 18 Sep 2026 (lp-icons-reviews-pay)
+
+- Assurance icons replaced empty CSS squares with SVG marks; Read them opens closable on-page modal (4.96 / 500+); pay/footer chips contrast; review counts always `+`.
+- CLI push critical assets to live theme `#204376113477`; Connect `shopify-theme` synced.
+- Smoke: exit 0 with pre-existing fails only (section grounds). Cart untouched. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-lp-icons-reviews-pay/`. Deploy: `v9` `034eb81624dadb1f16e0665d798561d27544d659`, `shopify-theme` `b13966971e9c20172b593bfa265e692430d2c2ea`. No VERSION bump.
+
 # Regression results — Thursday 17 Sep 2026 (lp-sizestrip-pay-restore)
 
 - Live `/pages/size` sizestrip + pay chips were unstyled because CDN `lp.css` was truncated (~8.5KB, no `.sizestrip`/`.pay`). Local/Connect already had the full file.
