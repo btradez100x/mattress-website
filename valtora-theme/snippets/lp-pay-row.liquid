@@ -1,12 +1,16 @@
-{%- comment -%} Mono payment chips under From price (v18 HTML) — hairline boxes, no colour badges. {%- endcomment -%}
+{%- comment -%} Mono payment chips under From price (v18). Strong border + snow fill so chips pop; Klarna keeps mark pink. {%- endcomment -%}
 {%- if show_pay -%}
   <div class="pay">
     <span class="k">{{ pay_label | default: 'Pay by' }}</span>
     <div class="m">
-      <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span>
-      <span>Apple Pay</span><span>Google Pay</span>
-      <span>Klarna, 3 payments</span>
-      <span>Klarna, 24 months</span>
+      <span class="pay-chip">Visa</span>
+      <span class="pay-chip">Mastercard</span>
+      <span class="pay-chip">Amex</span>
+      <span class="pay-chip">PayPal</span>
+      <span class="pay-chip">Apple Pay</span>
+      <span class="pay-chip">Google Pay</span>
+      <span class="pay-chip pay-chip--klarna">Klarna, 3 payments</span>
+      <span class="pay-chip pay-chip--klarna">Klarna, 24 months</span>
     </div>
   </div>
 {%- endif -%}
