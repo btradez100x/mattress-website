@@ -3,7 +3,7 @@
 - Locked Guidelines **700** for sitewide headings: `--heading-weight` from settings in `css-variables.liquid`, `:root` default 700, v2 h3/h4 + `.lp-svc h3` use the token, `.vspec__label` / `.pdp-spec__lbl` in brand chrome. Preview synced. settings_data stays `700`.
 - Local Playwright: homepage H1 and Full specification both computed **700**.
 - Smoke: pre-existing fails only (landing configure, Trade reply, section grounds). Cart layout untouched.
-- Checkpoint: `checkpoints/13.0.0-heading-weight-guidelines/`. Deploy SHAs filled after Connect push.
+- Checkpoint: `checkpoints/13.0.0-heading-weight-guidelines/`. Deploy: `v9` `a8ab33b05d606a58392216d4cad3892bd0511a89`, `shopify-theme` `1dad045ef93b5d515abd56a173d1a8de6e40fbae`. No VERSION bump.
 
 # Regression results — Wednesday 16 Sep 2026 (lp-v18-visual-parity)
 
