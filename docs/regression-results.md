@@ -2,7 +2,7 @@
 
 - Assurance plaque was unstyled on preview (outside `.lp`); arrive bottom pad was collapsed before configure; size-reserve inherited navy. Fixed lp.css + wrapped preview assure in `.lp`.
 - Smoke: exit reported with pre-existing fails only (section grounds). Cart untouched. No VERSION bump.
-- Checkpoint: `checkpoints/13.0.0-lp-v18-parity/`.
+- Checkpoint: `checkpoints/13.0.0-lp-v18-parity/`. Deploy: `v9` `efb8bcaa94b36f1add4ab82639f030411c95d82d`, `shopify-theme` `cb477d234d6250b8b462852252f4a60cd9df7175`. No VERSION bump.
 
 # Regression results — Thursday 17 Sep 2026 (heading-weight-guidelines)
 
