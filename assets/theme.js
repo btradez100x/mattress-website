@@ -618,11 +618,17 @@
 
 
 
+  function formatReviewCountLabel(count) {
+    var countNum = Number(count) || 0;
+    if (!countNum) return '0+';
+    return countNum.toLocaleString() + '+';
+  }
+
   function paintLpRevstrip(nodes, score, count) {
     var scoreText = String(score == null ? '' : score);
     var countNum = Number(count) || 0;
     var countLabel =
-      'out of 5 · ' + (countNum ? countNum.toLocaleString() : '0') + ' verified reviews';
+      'out of 5 · ' + (countNum ? formatReviewCountLabel(countNum) : '0+') + ' verified reviews';
     nodes.forEach(function (el) {
       var scoreEl = el.querySelector('[data-lp-rev-score]');
       var countEl = el.querySelector('[data-lp-rev-count]');
@@ -636,7 +642,7 @@
   function initLpRevstrip() {
     var nodes = document.querySelectorAll('[data-lp-revstrip]');
     if (!nodes.length) return;
-    // Always visible: SSR markup already has 4.96 / 500. Refresh from JSON when possible.
+    // Always visible: SSR markup already has 4.96 / 500+. Refresh from JSON when possible.
     paintLpRevstrip(nodes, null, 0);
     var host = document.querySelector('[data-lp-page][data-reviews-url]');
     var url =
@@ -673,6 +679,162 @@
         paintLpRevstrip(nodes, avg.toFixed(2).replace(/\.00$/, ''), list.length);
       })
       .catch(function () {});
+  }
+
+  function ensureLpReviewsModal() {
+    var existing = document.getElementById('lp-reviews-modal');
+    if (existing) return existing;
+    var root = document.createElement('div');
+    root.id = 'lp-reviews-modal';
+    root.className = 'lp-reviews-modal';
+    root.hidden = true;
+    root.setAttribute('role', 'dialog');
+    root.setAttribute('aria-modal', 'true');
+    root.setAttribute('aria-labelledby', 'lp-reviews-modal-title');
+    root.innerHTML =
+      '<div class="lp-reviews-modal__backdrop" data-lp-reviews-close></div>' +
+      '<div class="lp-reviews-modal__panel" role="document">' +
+      '<div class="lp-reviews-modal__head">' +
+      '<h2 id="lp-reviews-modal-title">Customer reviews</h2>' +
+      '<button type="button" class="lp-reviews-modal__close" data-lp-reviews-close>Close</button>' +
+      '</div>' +
+      '<div class="lp-reviews-modal__summary">' +
+      '<span class="lp-reviews-modal__stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>' +
+      '<span class="lp-reviews-modal__score" data-lp-modal-score>4.96</span>' +
+      '<span class="lp-reviews-modal__n" data-lp-modal-count>out of 5 · 500+ verified reviews</span>' +
+      '</div>' +
+      '<div class="lp-reviews-modal__list" data-lp-modal-list></div>' +
+      '<p class="lp-reviews-modal__empty" data-lp-modal-empty hidden>Reviews will appear here shortly.</p>' +
+      '</div>';
+    document.body.appendChild(root);
+    return root;
+  }
+
+  function closeLpReviewsModal() {
+    var modal = document.getElementById('lp-reviews-modal');
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove('lp-reviews-modal-open');
+    var opener = modal._lpReviewsOpener;
+    if (opener && typeof opener.focus === 'function') {
+      try { opener.focus(); } catch (err) {}
+    }
+    modal._lpReviewsOpener = null;
+  }
+
+  function paintLpReviewsModal(data) {
+    var modal = ensureLpReviewsModal();
+    var scoreEl = modal.querySelector('[data-lp-modal-score]');
+    var countEl = modal.querySelector('[data-lp-modal-count]');
+    var listEl = modal.querySelector('[data-lp-modal-list]');
+    var emptyEl = modal.querySelector('[data-lp-modal-empty]');
+    var summary = (data && data.summary) || {};
+    var score =
+      summary.average != null
+        ? Number(summary.average).toFixed(2).replace(/\.00$/, '')
+        : '4.96';
+    var count = summary.count != null ? summary.count : 500;
+    if (scoreEl) scoreEl.textContent = score;
+    if (countEl) {
+      countEl.textContent =
+        'out of 5 · ' + formatReviewCountLabel(count) + ' verified reviews';
+    }
+    var list = Array.isArray(data && data.reviews) ? data.reviews : [];
+    list = list.filter(function (r) {
+      return r && r.published !== false && r.visible !== false;
+    }).slice(0, 6);
+    if (listEl) listEl.innerHTML = '';
+    if (!list.length) {
+      if (emptyEl) emptyEl.hidden = false;
+      return;
+    }
+    if (emptyEl) emptyEl.hidden = true;
+    list.forEach(function (r) {
+      var card = document.createElement('article');
+      card.className = 'lp-reviews-modal__card';
+      var title = (r.title || r.headline || '').toString().trim();
+      var body = (r.body || r.text || r.review || '').toString().trim();
+      var name = (r.display_name || r.author || r.name || 'Verified buyer').toString().trim();
+      var rating = Number(r.rating) || 5;
+      var strong = document.createElement('strong');
+      strong.textContent = title || name;
+      var p = document.createElement('p');
+      p.textContent = body || 'Verified purchase review.';
+      var meta = document.createElement('p');
+      meta.className = 'lp-reviews-modal__meta';
+      meta.textContent = name + ' · ' + rating + ' / 5';
+      card.appendChild(strong);
+      card.appendChild(p);
+      card.appendChild(meta);
+      listEl.appendChild(card);
+    });
+  }
+
+  function openLpReviewsModal(opener) {
+    var modal = ensureLpReviewsModal();
+    modal._lpReviewsOpener = opener || null;
+    modal.hidden = false;
+    document.body.classList.add('lp-reviews-modal-open');
+    var closeBtn = modal.querySelector('[data-lp-reviews-close]');
+    if (closeBtn && typeof closeBtn.focus === 'function') {
+      try { closeBtn.focus(); } catch (err) {}
+    }
+    if (modal.getAttribute('data-lp-reviews-loaded') === '1') return;
+    var host = document.querySelector('[data-lp-page][data-reviews-url]');
+    var url =
+      (host && host.getAttribute('data-reviews-url')) ||
+      (document.querySelector('[data-reviews-url]') &&
+        document.querySelector('[data-reviews-url]').getAttribute('data-reviews-url')) ||
+      '';
+    if (!url) {
+      if (/\/pages\//.test(location.pathname)) url = '../assets/reviews.json';
+      else url = './assets/reviews.json';
+    }
+    fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('lp reviews modal fetch failed');
+        return res.json();
+      })
+      .then(function (data) {
+        paintLpReviewsModal(data);
+        modal.setAttribute('data-lp-reviews-loaded', '1');
+      })
+      .catch(function () {
+        paintLpReviewsModal({ summary: { average: 4.96, count: 500 }, reviews: [] });
+      });
+  }
+
+  function initLpReadReviews() {
+    if (document.documentElement.getAttribute('data-lp-read-reviews-bound') === '1') return;
+    document.documentElement.setAttribute('data-lp-read-reviews-bound', '1');
+    document.addEventListener('click', function (e) {
+      var link = e.target && e.target.closest && e.target.closest('[data-lp-read-reviews], .revstrip a');
+      if (!link) return;
+      if (!document.querySelector('[data-lp-page], [data-lp-revstrip]')) return;
+      var href = (link.getAttribute('href') || '').trim();
+      // Keep users on the LP: open closable reviews panel instead of leaving.
+      if (
+        link.hasAttribute('data-lp-read-reviews') ||
+        href === '#lp-reviews' ||
+        /\/pages\/reviews/.test(href) ||
+        /#reviews/.test(href) ||
+        /index\.html#reviews/.test(href)
+      ) {
+        e.preventDefault();
+        openLpReviewsModal(link);
+      }
+    });
+    document.addEventListener('click', function (e) {
+      var closer = e.target && e.target.closest && e.target.closest('[data-lp-reviews-close]');
+      if (!closer) return;
+      closeLpReviewsModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var modal = document.getElementById('lp-reviews-modal');
+      if (!modal || modal.hidden) return;
+      closeLpReviewsModal();
+    });
   }
 
   function fireLpView() {
@@ -7418,7 +7580,7 @@
       if (avgEl) avgEl.textContent = Number(summary.average).toFixed(2).replace(/\.00$/, '');
       if (countEl) {
         countEl.textContent =
-          'Based on ' + summary.count.toLocaleString() + ' reviews';
+          'Based on ' + formatReviewCountLabel(summary.count) + ' reviews';
       }
       if (starsEl) starsEl.textContent = stars(summary.average);
       if (summaryEl) summaryEl.hidden = false;
@@ -8783,6 +8945,7 @@
     initPdpSpecs();
     // Reviews strip must not wait on later inits — SSR already paints 4.96.
     try { initLpRevstrip(); } catch (err) {}
+    try { initLpReadReviews(); } catch (err) {}
     initReviews();
     initFunnelTracking();
     initLandingFunnel();
