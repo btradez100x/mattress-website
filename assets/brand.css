@@ -752,7 +752,7 @@ html[data-font-set="classic"]:not([data-heading-weight]) .btn {
   font-weight: 500;
 }
 
-/* Heading weight sitewide chrome — cart titles, LP, trade, manufacturing, journal. */
+/* Heading weight sitewide chrome — cart titles, LP, trade, manufacturing, journal, specs. */
 html[data-heading-weight="700"] h3,
 html[data-heading-weight="700"] h4,
 html[data-heading-weight="700"] h5,
@@ -768,7 +768,9 @@ html[data-heading-weight="700"] .mfg-stack__n,
 html[data-heading-weight="700"] .mfg-heritage,
 html[data-heading-weight="700"] .blog-card__title,
 html[data-heading-weight="700"] .pdp__heading,
-html[data-heading-weight="700"] .policy-hero h1 {
+html[data-heading-weight="700"] .policy-hero h1,
+html[data-heading-weight="700"] .vspec__label,
+html[data-heading-weight="700"] .pdp-spec__lbl {
   font-weight: 700;
 }
 
@@ -787,7 +789,9 @@ html[data-heading-weight="600"] .mfg-stack__n,
 html[data-heading-weight="600"] .mfg-heritage,
 html[data-heading-weight="600"] .blog-card__title,
 html[data-heading-weight="600"] .pdp__heading,
-html[data-heading-weight="600"] .policy-hero h1 {
+html[data-heading-weight="600"] .policy-hero h1,
+html[data-heading-weight="600"] .vspec__label,
+html[data-heading-weight="600"] .pdp-spec__lbl {
   font-weight: 600;
 }
 
@@ -807,9 +811,11 @@ html[data-heading-weight="500"] .mfg-heritage,
 html[data-heading-weight="500"] .blog-card__title,
 html[data-heading-weight="500"] .pdp__heading,
 html[data-heading-weight="500"] .policy-hero h1,
+html[data-heading-weight="500"] .vspec__label,
+html[data-heading-weight="500"] .pdp-spec__lbl,
 html[data-font-set="classic"]:not([data-heading-weight]) h3,
 html[data-font-set="classic"]:not([data-heading-weight]) h4,
 html[data-font-set="classic"]:not([data-heading-weight]) h5,
-html[data-font-set="classic"]:not([data-heading-weight]) h6 {{
+html[data-font-set="classic"]:not([data-heading-weight]) h6 {
   font-weight: 500;
-}}
+}

@@ -595,7 +595,7 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
     html[data-brand-guidelines="v2"] h3,
     html[data-brand-guidelines="v2"] h4 {
       font-family: var(--font-sans);
-      font-weight: 600;
+      font-weight: var(--heading-weight, 700);
       letter-spacing: -0.015em;
     }
     html[data-brand-guidelines="v2"] .section__eyebrow,
@@ -729,6 +729,7 @@ html[data-preview-host]:not([data-brand-hydrated]) [data-brand-product-line] {
 /* Buttons — CTA specification. Carbon fill. Never Ember as a fill.
    Shape: html[data-cta-shape] Curved 2px (default) vs Square 0. */
 :root {
+  --heading-weight: 700;
   --btn-carbon: #1A1A1A;
   --btn-snow: #F5F4F1;
   --btn-graphite: #3A3A3C;
@@ -9860,7 +9861,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
   color: inherit;
 }
 .pdp-spec__lbl {
-  font-weight: 700;
+  font-weight: var(--heading-weight, 700);
   font-size: 1.2rem;
   letter-spacing: -0.02em;
 }
@@ -10700,7 +10701,7 @@ html.shopify-design-mode .section--wipe.is-wiping {
 .lp-svc h3 {
   margin: 0 0 0.4rem;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: var(--heading-weight, 700);
   letter-spacing: -0.02em;
   line-height: 1.3;
   color: var(--brand-primary, #1F3A5F);
