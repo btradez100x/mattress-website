@@ -31,7 +31,8 @@ ARRIVE_HTML = """<section class="arrive">
 <div><span class="n">Beforehand</span><h3>A window you agree</h3><p>We call before we come, and arrange a time that suits you. Nothing arrives unannounced.</p></div>
 </div></div></section>"""
 
-ASSURE_IC = """<section class="bone"><div class="wrap"><div class="assure">
+ASSURE_IC = """<div class="lp" data-lp-page data-lp-variant="assurance">
+<section class="bone"><div class="wrap"><div class="assure">
 <div>
 <span class="ic"></span>
 <b>You cannot get this wrong</b>
@@ -47,7 +48,8 @@ ASSURE_IC = """<section class="bone"><div class="wrap"><div class="assure">
 <b>25 years on the core</b>
 <p>The part that carries you is guaranteed for a quarter of a century.</p>
 </div>
-</div></div></section>"""
+</div></div></section>
+</div>"""
 
 
 def sizestrip_html(sizes: list[dict]) -> str:

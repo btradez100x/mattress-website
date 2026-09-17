@@ -1,3 +1,4 @@
+/* connect-force: lp-v18-parity 2026-09-17 */
 /* Landing pages — scoped from numa-landing-pages-v18 prototypes.
    Section rhythm matches the HTML (--s7:88px, --sec:var(--s7)).
    Heading weight uses theme --heading-weight (700). */
@@ -130,19 +131,28 @@ background:var(--carbon);color:var(--snow);text-decoration:none;transition:backg
 .lp .arrive .steps3 .n{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ember-lt);display:block;margin-bottom:var(--s2)}
 .lp .arrive .steps3 h3{margin-bottom:var(--s1);font-size:19px}
 .lp .arrive .steps3 p{font-size:14.5px;color:#C9C5BD;margin:0}
-/* assurance, centred and raised */
-.lp .assure{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;
+/* assurance, centred and raised — also match section.bone (preview orphans / HTML nesting) */
+.lp .assure,
+section.bone .assure{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;
  margin:var(--s5) auto 0;border:1px solid var(--carbon);background:var(--snow);max-width:940px}
-.lp .assure div{padding:var(--s4) var(--s3);text-align:center;border-right:1px solid var(--hair)}
-.lp .assure div:last-child{border-right:0}
+.lp .assure div,
+section.bone .assure div{padding:var(--s4) var(--s3);text-align:center;border-right:1px solid var(--hair)}
+.lp .assure div:last-child,
+section.bone .assure div:last-child{border-right:0}
 @media (max-width:760px) {
-  .lp .assure div{border-right:0;border-bottom:1px solid var(--hair)}
-  .lp .assure div:last-child{border-bottom:0}
+  .lp .assure div,
+  section.bone .assure div{border-right:0;border-bottom:1px solid var(--hair)}
+  .lp .assure div:last-child,
+  section.bone .assure div:last-child{border-bottom:0}
 }
-.lp .assure .ic{width:24px;height:24px;margin:0 auto var(--s2);border:1px solid var(--ember);position:relative}
-.lp .assure .ic::after{content:"";position:absolute;inset:5px;border:1px solid var(--ember);opacity:.45}
-.lp .assure b{display:block;font-family:var(--display);font-weight:var(--heading-weight,700);font-size:17px;letter-spacing:-.02em;margin-bottom:8px}
-.lp .assure p{font-size:13.5px;color:var(--graphite);margin:0;line-height:1.55}
+.lp .assure .ic,
+section.bone .assure .ic{display:block;width:24px;height:24px;margin:0 auto var(--s2);border:1px solid var(--ember);position:relative;box-sizing:border-box}
+.lp .assure .ic::after,
+section.bone .assure .ic::after{content:"";position:absolute;inset:5px;border:1px solid var(--ember);opacity:.45}
+.lp .assure b,
+section.bone .assure b{display:block;font-family:var(--display);font-weight:var(--heading-weight,700);font-size:17px;letter-spacing:-.02em;margin-bottom:8px}
+.lp .assure p,
+section.bone .assure p{font-size:13.5px;color:var(--graphite);margin:0;line-height:1.55}
 .lp .layers{border-top:1px solid var(--carbon);margin-top:var(--s4)}
 .lp .layer{display:grid;grid-template-columns:44px minmax(0,1fr) 70px;gap:var(--s3);align-items:center;padding:18px 0;border-bottom:1px solid var(--hair)}
 .lp .layer .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--graphite)}
@@ -182,7 +192,6 @@ background:var(--carbon);color:var(--snow);text-decoration:none;transition:backg
 .lp .revstrip .stars{flex:none}
 .lp .revstrip .stars i{flex:none}
 .lp .sizestrip a{color:inherit}
-.lp .assure .ic{display:block}
 .lp .lp-configure-head{text-align:center}
 .lp .lp-configure-head .lede{margin-top:var(--s2)}
 .lp .lp-add-status{margin-top:var(--s2);font-size:14.5px;color:var(--graphite)}
@@ -220,18 +229,17 @@ background:var(--carbon);color:var(--snow);text-decoration:none;transition:backg
 .lp .hero-grid picture,
 .lp .split picture{width:100%;max-width:100%}
 
-/* Consecutive .lp shopify sections: avoid double --sec between blocks */
-.shopify-section:has(.lp) + .shopify-section:has(.lp) .lp > section:first-child{padding-top:0}
-.shopify-section:has(.lp):has(+ .shopify-section:has(.lp)) .lp > section:last-child{padding-bottom:0}
-.lp + .lp > section:first-child{padding-top:0}
-.lp:has(+ .lp) > section:last-child{padding-bottom:0}
+/* Consecutive light .lp sections: avoid double --sec. Keep full pad on .arrive/.dark. */
+.shopify-section:has(.lp) + .shopify-section:has(.lp) .lp > section:first-child:not(.arrive):not(.dark){padding-top:0}
+.shopify-section:has(.lp):has(+ .shopify-section:has(.lp)) .lp > section:last-child:not(.arrive):not(.dark){padding-bottom:0}
+.lp + .lp > section:first-child:not(.arrive):not(.dark){padding-top:0}
+.lp:has(+ .lp) > section:last-child:not(.arrive):not(.dark){padding-bottom:0}
 
-/* Configure under LPs — same --sec rhythm as HTML bone configure */
-
-.shopify-section:has(.lp):has(+ .shopify-section #configure) .lp > section:last-child,
-.shopify-section:has(.lp):has(+ .shopify-section [data-reserve-section]) .lp > section:last-child{padding-bottom:0}
-body:has(.lp) .lp:has(~ #configure) > section:last-child,
-body:has(.lp) .lp:has(~ [data-reserve-section]) > section:last-child{padding-bottom:0}
+/* Before configure: collapse only non-arrive story pads — HTML keeps full arrive --sec */
+.shopify-section:has(.lp):has(+ .shopify-section #configure) .lp > section:last-child:not(.arrive):not(.dark),
+.shopify-section:has(.lp):has(+ .shopify-section [data-reserve-section]) .lp > section:last-child:not(.arrive):not(.dark){padding-bottom:0}
+body:has(.lp) .lp:has(~ #configure) > section:last-child:not(.arrive):not(.dark),
+body:has(.lp) .lp:has(~ [data-reserve-section]) > section:last-child:not(.arrive):not(.dark){padding-bottom:0}
 body:has(.lp) #press + #configure.section,
 body:has(.lp) #press + [data-reserve-section],
 .shopify-section:has(.lp) ~ .shopify-section:has(#press) + .shopify-section #configure.section,
@@ -250,21 +258,37 @@ body:has(.lp) #press + [data-reserve-section],
 .lp .press .logos span{opacity:.55;color:var(--graphite)}
 .lp .revstrip .stars i{background:var(--ember)}
 .lp .pay .m span{border:1px solid var(--hair);padding:5px 9px;font-family:var(--mono);font-size:10px}
-.lp .assure{max-width:940px;margin:var(--s5) auto 0;border:1px solid var(--carbon);background:var(--snow);text-align:center}
+.lp .assure,
+section.bone .assure{max-width:940px;margin:var(--s5) auto 0;border:1px solid var(--carbon);background:var(--snow);text-align:center}
 .lp .sizestrip{border:1px solid var(--hair)}
 
-/* Configure + assurance share bone ground like v18 HTML #configure */
+/* Configure + assurance share bone ground like v18 HTML #configure.
+   Kill brand-primary navy bleed into the size-reserve copy. */
 body:has(.lp) #configure.section,
 body:has(.lp) [data-reserve-section].section{
   background: #E4E1DA;
   padding-block: 88px;
-  color: var(--carbon, #1A1A1A);
+  color: #1A1A1A;
+  --brand-primary: #1A1A1A;
+  --heading-color: #1A1A1A;
+  --brand-ink: #1A1A1A;
+  --eyebrow-color: #8A6D3B;
+}
+body:has(.lp) #configure.section h1,
+body:has(.lp) #configure.section h2,
+body:has(.lp) #configure.section h3,
+body:has(.lp) [data-reserve-section].section h1,
+body:has(.lp) [data-reserve-section].section h2,
+body:has(.lp) [data-reserve-section].section h3{
+  color: #1A1A1A;
 }
 .lp section.bone + .lp section.bone,
-.lp section.bone{background:var(--bone)}
+.lp section.bone,
+section.bone{background:var(--bone,#E4E1DA)}
 /* When assurance follows configure, collapse the double gap */
 body:has(.lp) #configure.section + .shopify-section .lp > section.bone:first-child,
 body:has(.lp) [data-reserve-section] + .shopify-section .lp > section.bone:first-child,
-body:has(.lp) #configure + .lp > section.bone:first-child{
+body:has(.lp) #configure + .lp > section.bone:first-child,
+body:has(.lp) #configure + section.bone{
   padding-top: 48px;
 }

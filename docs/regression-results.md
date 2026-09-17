@@ -1,3 +1,9 @@
+# Regression results — Thursday 17 Sep 2026 (lp-v18-parity)
+
+- Assurance plaque was unstyled on preview (outside `.lp`); arrive bottom pad was collapsed before configure; size-reserve inherited navy. Fixed lp.css + wrapped preview assure in `.lp`.
+- Smoke: exit reported with pre-existing fails only (section grounds). Cart untouched. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-lp-v18-parity/`.
+
 # Regression results — Thursday 17 Sep 2026 (heading-weight-guidelines)
 
 - Locked Guidelines **700** for sitewide headings: `--heading-weight` from settings in `css-variables.liquid`, `:root` default 700, v2 h3/h4 + `.lp-svc h3` use the token, `.vspec__label` / `.pdp-spec__lbl` in brand chrome. Preview synced. settings_data stays `700`.
