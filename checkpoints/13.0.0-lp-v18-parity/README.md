@@ -7,6 +7,7 @@ Named deploy checkpoint. `VERSION` was not bumped. Current line remains **13.0.0
 |---|---|
 | `v9` | `efb8bcaa94b36f1add4ab82639f030411c95d82d` |
 | Connect / `shopify-theme` | `cb477d234d6250b8b462852252f4a60cd9df7175` |
+| Live CLI push | `assets/lp.css` → theme `#204376113477` (`shopify theme push --allow-live`) |
 
 ## What was wrong vs the HTML
 
