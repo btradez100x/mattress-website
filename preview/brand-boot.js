@@ -306,6 +306,9 @@
       '--heading-color:' +
       tokens.heading +
       ';' +
+      '--heading-weight:' +
+      (boot.headingWeight || '700') +
+      ';' +
       '--eyebrow-color:' +
       tokens.eyebrow +
       ';' +

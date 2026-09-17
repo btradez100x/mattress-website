@@ -124,6 +124,10 @@
   assign display_stack = "'Instrument Sans', system-ui, sans-serif"
   assign text_stack = "'Inter', system-ui, sans-serif"
   assign mono_stack = "'Geist Mono', ui-monospace, monospace"
+  assign heading_weight = settings.heading_weight | default: '700'
+  if heading_weight != '600' and heading_weight != '500'
+    assign heading_weight = '700'
+  endif
 -%}
 {% style %}
   :root {
@@ -138,6 +142,7 @@
     --wordmark-line-2: {{ wordmark_line_2 }};
     --wordmark-line-2-on-dark: {{ wordmark_line_2_on_dark }};
     --heading-color: {{ heading_color }};
+    --heading-weight: {{ heading_weight }};
     --eyebrow-color: {{ eyebrow_color }};
     --eyebrow-on-dark: {{ eyebrow_on_dark }};
 
@@ -203,13 +208,13 @@
 
   {% if guidelines == 'v2' %}
   h1, h2 {
-    font-weight: 700;
+    font-weight: var(--heading-weight, 700);
     letter-spacing: -0.035em;
     line-height: 1.1;
   }
   h1 { letter-spacing: -0.045em; line-height: 1.02; }
   h3, h4 {
-    font-weight: 600;
+    font-weight: var(--heading-weight, 700);
     letter-spacing: -0.015em;
   }
   .section__eyebrow,

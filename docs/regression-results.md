@@ -1741,3 +1741,10 @@
 - Result: **PASSED** (exit 0)
 - Scope note: Trade page refresh present in working tree and deployed without a VERSION bump. Checkpoint: `checkpoints/11.1.0-trade-page-connect-deploy/`. Deploy: `v9` `48a088d`, `shopify-theme` `99dc00c`. Admin still needs Page handle `trade` if `/pages/trade` 404s, and Trade mailbox must exist.
 
+
+# Regression results — Thursday 17 Sep 2026 (LP v18 force publish)
+
+- Checkpoint: `checkpoints/13.0.0-lp-v18-force-publish`
+- v9 `52a889b34626167262f46d34fb6028d39f236e5a` · shopify-theme `3f0b53fbde70a03160845f9339abdec9f7fb9e38` · live theme #204376113477 CLI push
+- CDN lp.css now includes sizestrip/revstrip; page.size pulls show widget flags + 4 minutes
+- Smoke not re-run this turn (publish-only); cart untouched

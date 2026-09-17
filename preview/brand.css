@@ -230,18 +230,23 @@ html[data-section-lines="off"] .gold-rule {
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--brand-gold, var(--brand-accent, #8A6D3B));
-  outline-offset: 3px;
+  outline-offset: var(--focus-offset, 3px);
 }
 
-/* CTA spec last-wins. Radius 0. Carbon fill on light. Ember is never a fill. */
+/* CTA spec last-wins. Shape from html[data-cta-shape]: Curved 2px / Square 0.
+   Carbon fill on light. Ember is never a fill. Size cards stay on --radius. */
 html .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
 html[data-brand-guidelines="v1"] .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
 html[data-brand-guidelines="v2"] .btn:not(.btn--accent-line):not(.btn--quiet):not(.btn--whatsapp),
+html .btn--quiet,
+html .btn--accent-line,
 .hero__cta .btn,
 .float-basket__btn,
 .sticky-reserve__btn,
-.checkout-stage__pay {
-  border-radius: var(--radius, 0);
+.checkout-stage__pay,
+.size-option__add,
+.size-row__add {
+  border-radius: var(--cta-radius, var(--radius, 0));
 }
 
 html .btn:not(.btn--ghost):not(.btn--line):not(.btn-line):not(.btn--quiet):not(.btn--accent-line):not(.btn--whatsapp),
@@ -307,18 +312,45 @@ html .btn-line:hover {
   border-color: #2E2E30;
 }
 
-.float-basket .btn,
-.float-basket__btn,
-.sticky-reserve__btn {
-  background: #F5F4F1;
-  color: #1A1A1A;
-  border-radius: 0;
+/* Float basket sits on navy. Inverse CTA must beat html .btn Carbon fill
+   and clear -webkit-text-fill-color from base, or Checkout reads as dark-on-dark. */
+html .float-basket .btn,
+html .float-basket .btn.float-basket__btn,
+html .float-basket__btn,
+html .float-basket.has-items .float-basket__btn,
+html .float-basket.is-active .float-basket__btn,
+html .sticky-reserve__btn,
+html[data-brand-guidelines="v1"] .float-basket .btn,
+html[data-brand-guidelines="v1"] .float-basket__btn,
+html[data-brand-guidelines="v1"] .float-basket.has-items .float-basket__btn,
+html[data-brand-guidelines="v1"] .float-basket.is-active .float-basket__btn,
+html[data-brand-guidelines="v2"] .float-basket .btn,
+html[data-brand-guidelines="v2"] .float-basket__btn,
+html[data-brand-guidelines="v2"] .float-basket.has-items .float-basket__btn,
+html[data-brand-guidelines="v2"] .float-basket.is-active .float-basket__btn {
+  background: var(--brand-on-dark, #F7F5F1) !important;
+  background-color: var(--brand-on-dark, #F7F5F1) !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+  -webkit-text-fill-color: var(--brand-primary, #1F3A5F) !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--cta-radius, 0);
+  box-shadow: none !important;
+  font-weight: 600;
 }
-.float-basket .btn:hover,
-.float-basket__btn:hover,
-.sticky-reserve__btn:hover {
-  background: #E4E1DA;
-  color: #1A1A1A;
+html .float-basket .btn:hover,
+html .float-basket .btn.float-basket__btn:hover,
+html .float-basket__btn:hover,
+html .float-basket.has-items .float-basket__btn:hover,
+html .float-basket.is-active .float-basket__btn:hover,
+html .sticky-reserve__btn:hover,
+html[data-brand-guidelines="v1"] .float-basket .btn:hover,
+html[data-brand-guidelines="v1"] .float-basket__btn:hover,
+html[data-brand-guidelines="v2"] .float-basket .btn:hover,
+html[data-brand-guidelines="v2"] .float-basket__btn:hover {
+  background: var(--brand-surface, #EAE6DF) !important;
+  background-color: var(--brand-surface, #EAE6DF) !important;
+  color: var(--brand-primary, #1F3A5F) !important;
+  -webkit-text-fill-color: var(--brand-primary, #1F3A5F) !important;
 }
 .size-option,
 .size-row,
@@ -501,6 +533,34 @@ html .btn-line:hover {
 .mfg-band--dark .lp-outcome .lp-kicker {
   color: var(--brand-on-dark, #F7F5F1) !important;
 }
+
+/* CTA shape last-wins. Comparison spec: Curved 2px + 4px focus; Square 0 + 3px.
+   Buttons only. Size cards remain on --radius (0). Full-bleed stays 0. */
+html[data-cta-shape="curved"],
+html[data-brand-guidelines][data-cta-shape="curved"],
+html[data-brand-guidelines][data-color-scheme][data-cta-shape="curved"] {
+  --cta-radius: 2px;
+  --focus-offset: 4px;
+}
+
+html[data-cta-shape="square"],
+html[data-brand-guidelines][data-cta-shape="square"],
+html[data-brand-guidelines][data-color-scheme][data-cta-shape="square"] {
+  --cta-radius: 0;
+  --focus-offset: 3px;
+}
+
+html[data-cta-shape] .btn,
+html[data-cta-shape] .float-basket__btn,
+html[data-cta-shape] .sticky-reserve__btn,
+html[data-cta-shape] .checkout-stage__pay,
+html[data-cta-shape] .reserve-stage-b__pay,
+html[data-cta-shape] .size-option__add,
+html[data-cta-shape] .size-row__add {
+  border-radius: var(--cta-radius, 0);
+}
+
+/* checkout-pop + lifestyle webp 20260903T201536Z */
 
 /* Type scale — guidelines zip. Faces stay Instrument / Inter / Geist.
    Applies on the live navy theme, not only the v2 colour switch. */
@@ -692,7 +752,7 @@ html[data-font-set="classic"]:not([data-heading-weight]) .btn {
   font-weight: 500;
 }
 
-/* Heading weight sitewide chrome — cart titles, LP, trade, manufacturing, journal. */
+/* Heading weight sitewide chrome — cart titles, LP, trade, manufacturing, journal, specs. */
 html[data-heading-weight="700"] h3,
 html[data-heading-weight="700"] h4,
 html[data-heading-weight="700"] h5,
@@ -708,7 +768,9 @@ html[data-heading-weight="700"] .mfg-stack__n,
 html[data-heading-weight="700"] .mfg-heritage,
 html[data-heading-weight="700"] .blog-card__title,
 html[data-heading-weight="700"] .pdp__heading,
-html[data-heading-weight="700"] .policy-hero h1 {
+html[data-heading-weight="700"] .policy-hero h1,
+html[data-heading-weight="700"] .vspec__label,
+html[data-heading-weight="700"] .pdp-spec__lbl {
   font-weight: 700;
 }
 
@@ -727,7 +789,9 @@ html[data-heading-weight="600"] .mfg-stack__n,
 html[data-heading-weight="600"] .mfg-heritage,
 html[data-heading-weight="600"] .blog-card__title,
 html[data-heading-weight="600"] .pdp__heading,
-html[data-heading-weight="600"] .policy-hero h1 {
+html[data-heading-weight="600"] .policy-hero h1,
+html[data-heading-weight="600"] .vspec__label,
+html[data-heading-weight="600"] .pdp-spec__lbl {
   font-weight: 600;
 }
 
@@ -747,9 +811,11 @@ html[data-heading-weight="500"] .mfg-heritage,
 html[data-heading-weight="500"] .blog-card__title,
 html[data-heading-weight="500"] .pdp__heading,
 html[data-heading-weight="500"] .policy-hero h1,
+html[data-heading-weight="500"] .vspec__label,
+html[data-heading-weight="500"] .pdp-spec__lbl,
 html[data-font-set="classic"]:not([data-heading-weight]) h3,
 html[data-font-set="classic"]:not([data-heading-weight]) h4,
 html[data-font-set="classic"]:not([data-heading-weight]) h5,
-html[data-font-set="classic"]:not([data-heading-weight]) h6 {{
+html[data-font-set="classic"]:not([data-heading-weight]) h6 {
   font-weight: 500;
-}}
+}
