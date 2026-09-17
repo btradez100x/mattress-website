@@ -1,3 +1,10 @@
+# Regression results — Thursday 17 Sep 2026 (lp-sizestrip-pay-restore)
+
+- Live `/pages/size` sizestrip + pay chips were unstyled because CDN `lp.css` was truncated (~8.5KB, no `.sizestrip`/`.pay`). Local/Connect already had the full file.
+- Fix: CLI push `assets/lp.css` to live theme `#204376113477`; connect-force bump; `shopify-theme` sync. Preview CDP: flex pills + bordered chips.
+- Smoke: exit 0 with pre-existing fails only (section grounds). Cart untouched. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-lp-sizestrip-pay-restore/`. Deploy: `v9` `33be877a4dd235ae5f68264fce3e49ff62a336c6`, `shopify-theme` `0adcc499946d9443797e9165c251e25d62376bd4`. No VERSION bump.
+
 # Regression results — Thursday 17 Sep 2026 (lp-v18-parity)
 
 - Assurance plaque was unstyled on preview (outside `.lp`); arrive bottom pad was collapsed before configure; size-reserve inherited navy. Fixed lp.css + wrapped preview assure in `.lp`.
