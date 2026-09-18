@@ -1,3 +1,8 @@
+# Regression results — Friday 18 Sep 2026 (modern-slavery)
+
+- Added `page.modern-slavery` + preview `/pages/modern-slavery.html`; footer Policies link; smoke covers template + preview.
+- Smoke: policy check pass; pre-existing fails only (section grounds / landing configure / trade copy). Cart untouched. No VERSION bump.
+- Checkpoint: `checkpoints/13.0.0-modern-slavery/`. Deploy: `v9` `72ee45cc939c791a9160f576d18f5581aa32041c`, `shopify-theme` `ad5332336507ba9f676c74a7534b6f74c7a0d9ba`. No VERSION bump.
 # Regression results — Friday 18 Sep 2026 (lp-icons-reviews-pay)
 
 - Assurance icons replaced empty CSS squares with SVG marks; Read them opens closable on-page modal (4.96 / 500+); pay/footer chips contrast; review counts always `+`.
