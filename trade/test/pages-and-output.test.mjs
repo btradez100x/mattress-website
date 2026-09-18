@@ -25,11 +25,17 @@ test('build writes every required page, robots.txt, and site.css', () => {
     assert.match(html, /<!DOCTYPE html>/i);
     assert.match(html, /<title>[^<]+<\/title>/i);
     assert.match(html, /<link rel="stylesheet" href="\/assets\/site\.css">/);
+    assert.match(html, /<style>/);
+    assert.match(html, /--snow:#F5F4F1/);
+    assert.match(html, /--ember:#8A6D3B/);
   }
   const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
   assert.match(robots, /User-agent: \*/);
   assert.match(robots, /Disallow: \//);
   assert.ok(existsSync(join(DIST, 'assets', 'site.css')), 'dist/assets/site.css missing');
+  for (const font of ['instrument-sans.woff2', 'inter.woff2', 'geist-mono.woff2']) {
+    assert.ok(existsSync(join(DIST, 'assets', 'fonts', font)), `missing dist/assets/fonts/${font}`);
+  }
 });
 
 test('every image referenced by a built page exists in dist', () => {

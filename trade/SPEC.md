@@ -141,7 +141,9 @@ writes the copy.
 - **an em dash** becomes a hyphen with spaces
 - **handmade** becomes made to order or hand assembled
 - The country of manufacture is not named, anywhere
-- Numbers are written out in body copy. Numerals in tables and prices.
+- Numbers are numerals in body copy, not spelled out (12 not twelve, 1 not one).
+  Pronoun "one" (a statement, a thing) stays a word. Tables and prices already
+  use numerals.
 - `{{brand.core}}` on first mention takes the full form with a plain-English
   appositive. The name alone every mention after. **Never mix.** A page saying
   "seven-zone pocket spring core" in one place and the product name in another

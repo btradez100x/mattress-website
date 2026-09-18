@@ -9,7 +9,7 @@ function fixtureCopy() {
   const dir = mkdtempSync(join(tmpdir(), 'onni-trade-'));
   mkdirSync(join(dir, 'src'), { recursive: true });
   mkdirSync(join(dir, 'assets'), { recursive: true });
-  writeFileSync(join(dir, 'assets', '.keep'), '');
+  cpSync(join(ROOT, 'assets', 'site.css'), join(dir, 'assets', 'site.css'));
   cpSync(join(ROOT, 'brand.json'), join(dir, 'brand.json'));
   cpSync(join(ROOT, 'build.mjs'), join(dir, 'build.mjs'));
   cpSync(join(ROOT, 'src'), join(dir, 'src'), { recursive: true });

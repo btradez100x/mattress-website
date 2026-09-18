@@ -3,8 +3,8 @@
 Static trade pages. Node builds `src/` to `dist/`. A static host serves `dist/`.
 No framework, no `npm install`, no runtime.
 
-This folder is the 8bff source pack plus tests and versioning. It is not the
-Shopify theme (`valtora-theme/`).
+This folder is the Onni London trade pack plus tests and versioning. It is not
+the Shopify theme (`valtora-theme/`). Body copy uses numerals (12 not twelve).
 
 ## Run
 

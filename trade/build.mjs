@@ -49,6 +49,14 @@ for (const page of pages) {
   }
   if (html.includes('\u2014')) { console.error(`${page}: contains an em dash`); errors++; }
 
+  // Inline the design system so a page still looks finished if /assets/site.css
+  // is slow or 404s. Keep the stylesheet link so the file remains the source.
+  const css = readFileSync(join('assets', 'site.css'), 'utf8');
+  html = html.replace(
+    '<link rel="stylesheet" href="/assets/site.css">',
+    '<link rel="stylesheet" href="/assets/site.css">\n<style>\n' + css + '\n</style>',
+  );
+
   writeFileSync(join('dist', page), html);
 }
 

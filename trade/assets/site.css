@@ -1,3 +1,7 @@
+/* Self-hosted latin faces so type still loads if Google Fonts is blocked. */
+@font-face{font-family:'Instrument Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url('/assets/fonts/instrument-sans.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url('/assets/fonts/inter.woff2') format('woff2')}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:400 500;font-display:swap;src:url('/assets/fonts/geist-mono.woff2') format('woff2')}
 
 :root{--snow:#F5F4F1;--bone:#E4E1DA;--hair:#D6D2CA;--hair-dk:#2E2E30;--graphite:#3A3A3C;
 --carbon:#1A1A1A;--ember:#8A6D3B;--ember-lt:#C4A46A;--radius:0;

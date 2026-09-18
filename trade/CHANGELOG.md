@@ -10,6 +10,11 @@ commit lands on `main`. Tags look like `onni-london-trade-v1.2.3`.
 
 ## [Unreleased]
 
+### Changed
+
+- Body copy uses numerals rather than spelled-out numbers
+- Built HTML inlines `site.css` so the design ships with every page
+
 ### Added
 
 - Seven-page trade site from the 8bff source pack
