@@ -11,6 +11,7 @@ Additive to Developer Spec v3. Theme pieces are in `valtora-theme/`. Create thes
 | Contact | `contact` | `page.contact` | Contact page |
 | Size guide | `size-guide` | `page.size-guide` | Size guide page |
 | Order status | `order-status` | `page.order-status` | Order status page |
+| Modern slavery | `modern-slavery` | `page.modern-slavery` | Modern slavery page |
 
 Order lookup is **off** until the App Proxy worker is live. See `docs/ORDER_TRACKING.md` (App Proxy + email, not Shopify’s native status page).
 

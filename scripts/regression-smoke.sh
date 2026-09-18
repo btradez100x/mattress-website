@@ -76,6 +76,7 @@ REQUIRED_PATHS=(
   "templates/page.privacy.json"
   "templates/page.terms.json"
   "templates/page.cookies.json"
+  "templates/page.modern-slavery.json"
   "templates/product.comfort-top.json"
   "templates/product.comfort-layer.json"
   "templates/product.bed-sheets.json"
@@ -807,10 +808,13 @@ else
 fi
 
 if grep -q "privacy_link" "$THEME/sections/footer.liquid" \
+  && grep -q "modern_slavery_link\|modern-slavery" "$THEME/sections/footer.liquid" \
   && [[ -f "$THEME/templates/page.privacy.json" ]] \
+  && [[ -f "$THEME/templates/page.modern-slavery.json" ]] \
   && [[ -f "$ROOT/preview/pages/privacy.html" ]] \
   && [[ -f "$ROOT/preview/pages/terms.html" ]] \
   && [[ -f "$ROOT/preview/pages/cookies.html" ]] \
+  && [[ -f "$ROOT/preview/pages/modern-slavery.html" ]] \
   && [[ -f "$ROOT/preview/pages/comfort-top.html" ]] \
   && [[ -f "$ROOT/preview/pages/comfort-layer.html" ]] \
   && [[ -f "$ROOT/preview/pages/bed-sheets.html" ]] \

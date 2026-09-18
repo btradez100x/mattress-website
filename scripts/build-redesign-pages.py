@@ -292,6 +292,7 @@ def chrome(meta: dict) -> tuple[str, str]:
               <li><a href="./privacy.html">Privacy</a></li>
               <li><a href="./terms.html">Terms</a></li>
               <li><a href="./cookies.html">Cookies</a></li>
+              <li><a href="./modern-slavery.html">Modern slavery</a></li>
             </ul>
           </div>
       </div>

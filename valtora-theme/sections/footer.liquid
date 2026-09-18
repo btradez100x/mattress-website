@@ -34,6 +34,7 @@
   assign privacy_url = section.settings.privacy_link | default: pages['privacy'].url | default: '/pages/privacy'
   assign terms_url = section.settings.terms_link | default: pages['terms'].url | default: '/pages/terms'
   assign cookies_url = section.settings.cookies_link | default: pages['cookies'].url | default: '/pages/cookies'
+  assign modern_slavery_url = section.settings.modern_slavery_link | default: pages['modern-slavery'].url | default: '/pages/modern-slavery'
 -%}
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}
@@ -142,6 +143,7 @@
           <li><a href="{{ privacy_url }}">Privacy</a></li>
           <li><a href="{{ terms_url }}">Terms</a></li>
           <li><a href="{{ cookies_url }}">Cookies</a></li>
+          <li><a href="{{ modern_slavery_url }}">Modern slavery</a></li>
         {%- endif -%}
       </ul>
     </div>
@@ -252,6 +254,11 @@
       "type": "url",
       "id": "cookies_link",
       "label": "Cookies page"
+    },
+    {
+      "type": "url",
+      "id": "modern_slavery_link",
+      "label": "Modern slavery page"
     },
     {
       "type": "text",
