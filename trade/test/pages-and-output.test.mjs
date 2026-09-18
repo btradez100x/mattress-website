@@ -76,3 +76,27 @@ test('repo does not store partner passwords or SSH deploy secrets', () => {
   }
   assert.deepEqual(hits, []);
 });
+
+test('table headings stay on one line and text columns are marked', () => {
+  ensureCheckBuild();
+  for (const page of REQUIRED_PAGES) {
+    const html = readDist(page);
+    assert.doesNotMatch(html, /<th[^>]*>[^<]*<br/i, `${page} table heading wraps with <br>`);
+  }
+  const css = readFileSync(join(ROOT, 'assets', 'site.css'), 'utf8');
+  assert.match(css, /th\{[^}]*white-space:nowrap/);
+  const sales = readDist('sales-consultant.html');
+  assert.match(sales, /<th class="text">What it looks like<\/th>/);
+  assert.match(sales, /<td class="text">Designer accounts only<\/td>/);
+});
+
+test('door prices sit on a shared row and dark cards keep contrast', () => {
+  const css = readFileSync(join(ROOT, 'assets', 'site.css'), 'utf8');
+  assert.match(css, /\.doors \.from\{margin:auto 0 var\(--s1\)\}/);
+  assert.match(css, /section\.dark \.grid3 h3[^}]*color:var\(--carbon\)/);
+  assert.match(css, /section\.dark \.grid3 p[^}]*color:var\(--graphite\)/);
+  ensureCheckBuild();
+  const index = readDist('index.html');
+  assert.match(index, /From 12 units/);
+  assert.match(index, /placing 200 are different sales/);
+});

@@ -14,6 +14,9 @@ commit lands on `main`. Tags look like `onni-london-trade-v1.2.3`.
 
 - Body copy uses numerals rather than spelled-out numbers
 - Built HTML inlines `site.css` so the design ships with every page
+- Nav label is How it works
+- Door prices share one baseline; dark-section cards keep readable type
+- Table headings stay on one line; text columns left, numbers right
 
 ### Added
 

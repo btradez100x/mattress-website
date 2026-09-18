@@ -45,13 +45,23 @@ section.flush{padding:0}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
 .grid3 div{background:var(--snow);padding:var(--s4) var(--s3)}
 section.bone .grid3 div{background:var(--bone)}
-.grid3 h3{margin-bottom:var(--s1)}.grid3 p{font-size:14.5px;color:var(--graphite)}
+.grid3 h3{margin-bottom:var(--s1);color:var(--carbon)}.grid3 p{font-size:14.5px;color:var(--graphite)}
+/* Light cards on a Carbon band keep Carbon type. section.dark p/h3 is 0,1,2 and
+   would otherwise paint snow/#C9C5BD onto --snow, which is unreadable. */
+section.dark .grid3,section.dark .figs,section.dark .doors,section.dark .ladder,section.dark .assure{
+  border-color:var(--hair);background:var(--hair)}
+section.dark .grid3 h3,section.dark .figs h3,section.dark .doors h3,section.dark .ladder h3,section.dark .assure b{
+  color:var(--carbon)}
+section.dark .grid3 p,section.dark .figs p,section.dark .doors p,section.dark .ladder p,section.dark .assure p{
+  color:var(--graphite)}
 .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--body);font-weight:500;
 font-size:15px;padding:16px 30px;min-height:52px;border-radius:var(--radius);border:1px solid transparent;
 background:var(--carbon);color:var(--snow);text-decoration:none;transition:background .18s}
 .btn:hover{background:var(--graphite)}
 .btn-line{background:transparent;color:var(--carbon);border-color:var(--hair)}
 .btn-line:hover{background:var(--bone)}
+section.dark .btn-line{color:var(--snow);border-color:#8E8A82}
+section.dark .btn-line:hover{background:var(--graphite);color:var(--snow)}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:var(--s4);align-items:center}
 .pull{border-left:1px solid var(--carbon);padding:6px 0 6px 26px;margin:var(--s5) 0}
 .pull p{font-family:var(--display);font-weight:600;font-size:clamp(21px,2.7vw,28px);line-height:1.26;letter-spacing:-.025em}
@@ -139,14 +149,17 @@ video{display:block;width:100%;height:auto;background:var(--carbon)}
 
 /* ---- trade site additions, built on the same tokens ---- */
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;min-width:560px;font-size:14.5px;
+table{width:100%;border-collapse:collapse;min-width:720px;font-size:14.5px;
   font-variant-numeric:tabular-nums;background:var(--snow)}
 section.bone table{background:var(--bone)}
 th{background:var(--carbon);color:var(--snow);font-family:var(--mono);font-weight:500;font-size:10.5px;
-  letter-spacing:.1em;text-transform:uppercase;padding:12px 14px;text-align:right;vertical-align:bottom}
-th:first-child{text-align:left}
+  letter-spacing:.1em;text-transform:uppercase;padding:12px 14px;text-align:right;vertical-align:bottom;
+  white-space:nowrap}
+th:first-child,th.text{text-align:left}
 td{padding:12px 14px;border-bottom:1px solid var(--hair);text-align:right;font-family:var(--mono);font-size:13.5px}
 td:first-child{text-align:left;font-family:var(--body);font-size:14.5px;font-weight:500}
+th.text,td.text{text-align:left;font-family:var(--body);white-space:normal}
+td.text{font-size:14.5px;font-weight:400;color:var(--graphite)}
 tr:last-child td{border-bottom:0}
 td.ref{color:var(--graphite)}
 .note{border-left:1px solid var(--ember);padding:0 0 0 var(--s3);margin:var(--s4) 0 0}
@@ -164,9 +177,10 @@ section.bone .figs div{background:var(--bone)}
 .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;
   background:var(--hair);border:1px solid var(--hair)}
 .doors>div{background:var(--snow);padding:var(--s4) var(--s3);display:flex;flex-direction:column}
-.doors .from{margin:var(--s3) 0 var(--s1)}
+/* Price + label share one baseline across cards. Descriptions absorb leftover height. */
+.doors .from{margin:auto 0 var(--s1)}
 .doors p{font-size:14.5px;color:var(--graphite)}
-.doors .btn{margin-top:auto;align-self:flex-start}
+.doors .btn{margin-top:var(--s3);align-self:flex-start}
 .routes{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
 @media(max-width:860px){.routes{grid-template-columns:1fr}}
 .route{border:1px solid var(--hair);padding:var(--s4)}

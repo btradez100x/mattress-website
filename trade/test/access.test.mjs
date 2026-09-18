@@ -58,11 +58,23 @@ test('partner-facing pages do not link Strategy; internal pages do', () => {
     assert.match(nav, /retail\.html/);
     assert.match(nav, /contract\.html/);
     assert.match(nav, /sales-consultant\.html/);
+    assert.match(nav, />How it works</, `${page} nav should say How it works`);
+    assert.doesNotMatch(nav, />Trade</, `${page} nav still says Trade`);
   }
   for (const page of INTERNAL_NAV_PAGES) {
     const nav = navBlock(readDist(page));
     assert.match(nav, /b2b-strategy\.html/, `${page} must carry Strategy in the nav`);
     assert.match(nav, />Strategy</);
+  }
+});
+
+test('landing nav is How it works, not Trade', () => {
+  ensureCheckBuild();
+  for (const page of REQUIRED_PAGES) {
+    const nav = navBlock(readDist(page));
+    assert.match(nav, />How it works</, `${page} nav should say How it works`);
+    assert.doesNotMatch(nav, />Trade</, `${page} nav still says Trade`);
+    assert.match(nav, /href="\/"/);
   }
 });
 
