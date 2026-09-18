@@ -10,6 +10,22 @@ commit lands on `main`. Tags look like `onni-london-trade-vX.Y.Z`.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-09-18
+
+Updates 6 pack. Size chart on The bed, dimensions under price-list size names,
+nav in Instrument Sans, and table headings that share alignment with their cells.
+
+### Added
+
+- Size chart on `the-bed.html` (15 UK, US and Australian sizes)
+- `span.dim` under each size name on specification, retail and contract lists
+
+### Changed
+
+- Nav links use Instrument Sans (`--display`), same family as the wordmark
+- Text column headings are left-aligned with the cells they label
+- Numeric column headings stay right-aligned with their figures
+
 ## [1.1.0] - 2026-09-18
 
 Updates 5 pack. Adds The bed and Training, refreshes partner copy and glance

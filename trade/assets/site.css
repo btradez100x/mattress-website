@@ -23,9 +23,9 @@ nav{border-bottom:1px solid var(--hair);background:var(--snow);position:sticky;t
 nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:var(--s2) 28px}
 .brand{font-family:var(--display);font-weight:600;font-size:18px;line-height:1;letter-spacing:-.03em;text-decoration:none;color:var(--carbon);flex:none;white-space:nowrap}
 .navlinks{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:20px;align-items:center}
-.navlinks a{font-family:var(--body);font-weight:400;font-size:14px;line-height:1;letter-spacing:-.011em;color:var(--carbon);text-decoration:none;white-space:nowrap}
+.navlinks a{font-family:var(--display);font-weight:400;font-size:14px;line-height:1;letter-spacing:-.02em;color:var(--carbon);text-decoration:none;white-space:nowrap}
 .navlinks a:hover,.navlinks a:focus{color:var(--ember)}
-.navlinks a.on{font-family:var(--body);font-weight:400;font-size:14px;line-height:1;letter-spacing:-.011em;color:var(--carbon)}
+.navlinks a.on{font-family:var(--display);font-weight:400;font-size:14px;line-height:1;letter-spacing:-.02em;color:var(--carbon)}
 .navtrack{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite)!important}
 .navcta{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--snow)!important;background:var(--carbon);padding:10px 18px}
 .navcta:hover{background:var(--graphite)}
@@ -255,10 +255,15 @@ section.dark .journey>div::after{background:var(--carbon);border-color:var(--sno
   .journey>div::after{top:var(--s4);left:0}}
 
 /* ---- objection table ---- */
+.obj th,.obj td{text-align:left}
 .obj td:first-child{width:24%;vertical-align:top}
-.obj td{text-align:left;font-family:var(--body);font-size:14px;color:var(--graphite);vertical-align:top}
+.obj td{font-family:var(--body);font-size:14px;color:var(--graphite);vertical-align:top}
 .obj td:first-child{font-weight:600;color:var(--carbon)}
 .obj td b{color:var(--carbon)}
+
+/* ---- size dimensions in price tables ---- */
+td .dim{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  color:var(--graphite);font-weight:400;margin-top:3px;font-variant-numeric:tabular-nums}
 
 /* Light cards on a Carbon band keep Carbon type. */
 section.dark .grid3,section.dark .figs,section.dark .doors,section.dark .ladder,section.dark .assure,section.dark .glance{
@@ -270,4 +275,6 @@ section.dark .grid3 p,section.dark .figs p,section.dark .doors p,section.dark .l
 section.dark .btn-line{color:var(--snow);border-color:#8E8A82}
 section.dark .btn-line:hover{background:var(--graphite);color:var(--snow)}
 
-th.text,td.text{text-align:left;font-family:var(--body);font-weight:400;color:var(--graphite)}
+/* Headings share alignment with the cells they label. th.text keeps header type. */
+th.text{text-align:left}
+td.text{text-align:left;font-family:var(--body);font-weight:400;color:var(--graphite)}
