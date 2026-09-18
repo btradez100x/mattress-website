@@ -285,3 +285,23 @@ section.dark a.btn-line:hover{
 /* Headings share alignment with the cells they label. th.text keeps header type. */
 th.text{text-align:left}
 td.text{text-align:left;font-family:var(--body);font-weight:400;color:var(--graphite)}
+
+/* ---- full bleed (B2B v7) ---- */
+.fb{padding:0;position:relative;line-height:0}
+.fb img{width:100%;height:clamp(280px,46vh,520px);object-fit:cover;display:block}
+.fb.tall img{height:clamp(360px,64vh,680px)}
+.fb figcaption{position:absolute;left:0;right:0;bottom:0;padding:var(--s5) 28px var(--s4);
+  background:linear-gradient(to top,rgba(17,17,17,.78),rgba(17,17,17,0));line-height:1.4}
+.fb figcaption .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ember-lt);display:block;margin-bottom:8px}
+.fb figcaption h2{color:#fff;font-size:clamp(22px,3.2vw,34px);max-width:22ch}
+.fb figcaption p{color:#D9D5CD;font-size:15px;max-width:52ch;margin:10px 0 0}
+
+/* ---- media strip / duo (B2B v7) ---- */
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);
+  border:1px solid var(--hair);margin-top:var(--s5)}
+.strip img{aspect-ratio:1/1;object-fit:cover;display:block;width:100%;height:auto}
+@media(max-width:620px){.strip{grid-template-columns:1fr 1fr}.strip>*:last-child{display:none}}
+.duo{display:grid;grid-template-columns:1.45fr 1fr;gap:var(--s2);align-items:stretch}
+.duo img{height:100%;object-fit:cover;width:100%}
+@media(max-width:760px){.duo{grid-template-columns:1fr}}

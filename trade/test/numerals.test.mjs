@@ -52,6 +52,7 @@ const ALLOW = [
   /\bzero one\b/gi,
   /\bthis one describes\b/gi,
   /\bthis one is built\b/gi,
+  /\bthis one answers\b/gi,
   /\bthis one is slept\b/gi,
   /\bproduce one\b/gi,
   /\bunknown one\b/gi,

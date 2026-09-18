@@ -10,6 +10,22 @@ commit lands on `main`. Tags look like `onni-london-trade-vX.Y.Z`.
 
 ## [Unreleased]
 
+## [1.3.0-beta.1] - 2026-09-18
+
+B2B v7 pack for review only. **Not for production deploy.** Live One.com stays on
+`onni-london-trade-v1.2.1`.
+
+### Added
+
+- Full-bleed captioned figures (`.fb`), three-up strips (`.strip`), and duo image layouts from the v7 zip
+
+### Changed
+
+- Partner and product pages pick up v7 photography and captions
+- Prior live rules still apply: How it works, numerals, Instrument Sans nav,
+  Strategy/Training for internal and master only, left-aligned text headings,
+  matching door CTAs on Carbon
+
 ## [1.2.1] - 2026-09-18
 
 Saved live snapshot on `mattress.valtoraholdings.com`. Same content as 1.2.0

@@ -154,6 +154,8 @@ test('door prices sit on a shared row and dark cards keep contrast', () => {
   assert.match(css, /section\.dark \.grid3 p[^}]*color:var\(--graphite\)/);
   assert.match(css, /section\.dark a\.btn\{/);
   assert.match(css, /section\.dark a\.btn-line\{/);
+  assert.match(css, /\.fb figcaption\{/);
+  assert.match(css, /\.strip\{display:grid/);
   ensureCheckBuild();
   const index = readDist('index.html');
   assert.match(index, /From 12 units/);
