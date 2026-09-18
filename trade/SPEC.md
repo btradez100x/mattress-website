@@ -1,7 +1,7 @@
 # Trade Site  /  Build Spec
 
-Five static pages behind password protection on a subdomain. No framework, no
-npm install, no runtime. Node builds it, a static host serves it.
+Nine static pages. No framework, no npm install, no runtime. Node builds it, a
+static host serves it.
 
 ---
 
@@ -46,21 +46,23 @@ Adding a token: add it to `brand.json` under an existing group, use
 
 ## 3. Pages and access
 
-Seven pages. **`DEPLOYMENT.md` is the authority on which page goes where and
+Nine pages. **`DEPLOYMENT.md` is the authority on which page goes where and
 which access group opens it.** This section is a summary only.
 
 | File | Site | Access |
 |---|---|---|
 | `index.html` | Trade | Open |
+| `the-bed.html` | Trade | Open |
 | `modern-slavery.html` | Trade, and pasted to Shopify | Open |
 | `sales-consultant.html` | Trade | Open |
 | `b2b-strategy.html` | Trade | Internal |
+| `training.html` | Trade | Internal |
 | `specification.html` | Trade | Specification partners |
 | `retail.html` | Trade | Retail partners |
 | `contract.html` | Trade | Contract buyers |
 
-Navigation differs by page. Partner-facing pages do not link to the strategy
-page. See `DEPLOYMENT.md` section 4.
+Nav chrome is identical on every page. Partner-facing HTML does not link Strategy
+or Training. Internal and master see those links. See `DEPLOYMENT.md` section 4.
 
 ## 4. Design system
 
@@ -118,17 +120,18 @@ pages. Consumer product shots appear only where construction is the argument.
 | Page | Images |
 |---|---|
 | index | trade-suite, product-profile, coolknit-side, room-calm |
+| the-bed | product-floating, room-calm, room-dark, product-profile, coolknit-macro, quilt-macro, coolknit-corner, spring.mp4, compression.mp4 |
 | specification | room-marble, product-profile, coolknit-side |
 | retail | room-suite, product-profile, coolknit-side |
 | contract | trade-penthouse, trade-apartment, room-hotel, product-profile, coolknit-side |
 | sales-consultant | trade-view, coolknit-macro, quilt-macro, product-floating |
+| training | trade-twin |
 
 Every image carries `width`, `height`, `loading` and `decoding`. Heroes are
 `eager`, everything else `lazy`. **Always set width and height**, or the page
 shifts as images load.
 
-The two videos are unused. If one is added it takes `preload="none"`, because the
-pair is 4.2MB and would otherwise load on every page.
+Videos take `preload="none"`. They live on `the-bed.html`.
 
 ---
 
@@ -141,9 +144,7 @@ writes the copy.
 - **an em dash** becomes a hyphen with spaces
 - **handmade** becomes made to order or hand assembled
 - The country of manufacture is not named, anywhere
-- Numbers are numerals in body copy, not spelled out (12 not twelve, 1 not one).
-  Pronoun "one" (a statement, a thing) stays a word. Tables and prices already
-  use numerals.
+- **Numbers are numerals in body copy** (12 not twelve, 1 not one). Pronoun "one" stays a word. Numerals in tables and prices.
 - `{{brand.core}}` on first mention takes the full form with a plain-English
   appositive. The name alone every mention after. **Never mix.** A page saying
   "seven-zone pocket spring core" in one place and the product name in another

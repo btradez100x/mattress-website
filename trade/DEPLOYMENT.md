@@ -1,6 +1,6 @@
 # Deployment  /  Which page goes where
 
-Seven pages across two sites. Three of them are judgement calls rather than
+Nine pages across two sites. Three of them are judgement calls rather than
 obvious placements, and those are flagged below.
 
 ---
@@ -26,9 +26,11 @@ Link it from the site footer. Procurement teams look for it there first.
 | File | Route | Access group |
 |---|---|---|
 | `index.html` | `/` | **Open** |
+| `the-bed.html` | `/the-bed.html` | **Open** |
 | `modern-slavery.html` | `/modern-slavery.html` | **Open** |
 | `sales-consultant.html` | `/sales-consultant.html` | **Open** |
 | `b2b-strategy.html` | `/b2b-strategy.html` | **Internal** |
+| `training.html` | `/training.html` | **Internal** |
 | `specification.html` | `/specification.html` | Specification partners |
 | `retail.html` | `/retail.html` | Retail partners |
 | `contract.html` | `/contract.html` | Contract buyers |
@@ -55,6 +57,16 @@ not work the deal" learns something they should not.
 Put it behind the same password as the internal playbook, not behind a partner
 group password.
 
+### Training is gated internal
+
+`training.html` is the objection-handling playbook. It sits with Strategy, behind
+the Internal group (and master). Partner logins do not open it.
+
+### The bed is open
+
+`the-bed.html` is construction and the year of adjustment. It is in the partner
+nav on every page. No prices.
+
 ### Modern slavery sits on both sites
 
 Same statement, two places. **They must stay in step.** The annual update changes
@@ -69,18 +81,21 @@ write it here.
 
 ## 4. Navigation
 
-The nav is deliberately not the same on every page.
+Nav chrome is the same on every page: type size, weight, spacing, colour, and
+layout. The label for `/` is **How it works**.
 
-**Partner-facing pages** carry Trade, Specification, Retail, Contract and Work
-with us. They do **not** link to Strategy, because a specification partner
-clicking a link they cannot open is a worse experience than not seeing it.
+**Partner-facing HTML** carries How it works, The bed, Specification, Retail,
+Contract and Work with us. It does **not** link to Strategy or Training, because
+a specification partner clicking a link they cannot open is a worse experience
+than not seeing it.
 
-**Internal pages**, meaning `b2b-strategy.html` and `sales-consultant.html`,
-carry Strategy in the nav.
+**Internal HTML** (`b2b-strategy.html` and `training.html`) also carries Strategy
+and Training. A small script requests `/b2b-strategy.html` with the browser's
+stored credentials. Internal and master get 200 and those two links are inserted
+on every other page, in the same type treatment. Partner groups get 401 and never
+see them.
 
 **Modern slavery is in the footer of every trade page.** It is not in the nav.
-
-Reaching the strategy page is by direct URL or from the consultant page.
 
 ---
 
@@ -98,7 +113,7 @@ Four groups:
 | Specification | `/specification.html` |
 | Retail | `/retail.html` |
 | Contract | `/contract.html` |
-| Internal | `/b2b-strategy.html` and anything added later |
+| Internal | `/b2b-strategy.html`, `/training.html`, and anything added later |
 
 A master credential opens all four.
 

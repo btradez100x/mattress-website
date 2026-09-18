@@ -10,9 +10,11 @@ export const DIST = join(ROOT, 'dist');
 
 export const REQUIRED_PAGES = [
   'index.html',
+  'the-bed.html',
   'modern-slavery.html',
   'sales-consultant.html',
   'b2b-strategy.html',
+  'training.html',
   'specification.html',
   'retail.html',
   'contract.html',
@@ -21,9 +23,11 @@ export const REQUIRED_PAGES = [
 /** DEPLOYMENT.md is the authority. Access is host/CDN, not a password in git. */
 export const PAGE_RULES = {
   'index.html': { access: 'open', nav: 'partner', route: '/' },
+  'the-bed.html': { access: 'open', nav: 'partner', route: '/the-bed.html' },
   'modern-slavery.html': { access: 'open', nav: 'partner', route: '/modern-slavery.html' },
-  'sales-consultant.html': { access: 'open', nav: 'internal', route: '/sales-consultant.html' },
+  'sales-consultant.html': { access: 'open', nav: 'partner', route: '/sales-consultant.html' },
   'b2b-strategy.html': { access: 'internal', nav: 'internal', route: '/b2b-strategy.html' },
+  'training.html': { access: 'internal', nav: 'internal', route: '/training.html' },
   'specification.html': { access: 'specification', nav: 'partner', route: '/specification.html' },
   'retail.html': { access: 'retail', nav: 'partner', route: '/retail.html' },
   'contract.html': { access: 'contract', nav: 'partner', route: '/contract.html' },

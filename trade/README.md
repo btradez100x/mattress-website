@@ -27,9 +27,11 @@ does not store partner passwords. See `DEPLOYMENT.md`.
 | File | Access |
 |---|---|
 | `index.html` | Open |
+| `the-bed.html` | Open |
 | `modern-slavery.html` | Open |
 | `sales-consultant.html` | Open |
 | `b2b-strategy.html` | Internal |
+| `training.html` | Internal |
 | `specification.html` | Specification partners |
 | `retail.html` | Retail partners |
 | `contract.html` | Contract buyers |

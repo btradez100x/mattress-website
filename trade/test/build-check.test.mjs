@@ -10,6 +10,7 @@ function fixtureCopy() {
   mkdirSync(join(dir, 'src'), { recursive: true });
   mkdirSync(join(dir, 'assets'), { recursive: true });
   cpSync(join(ROOT, 'assets', 'site.css'), join(dir, 'assets', 'site.css'));
+  cpSync(join(ROOT, 'assets', 'nav-auth.js'), join(dir, 'assets', 'nav-auth.js'));
   cpSync(join(ROOT, 'brand.json'), join(dir, 'brand.json'));
   cpSync(join(ROOT, 'build.mjs'), join(dir, 'build.mjs'));
   cpSync(join(ROOT, 'src'), join(dir, 'src'), { recursive: true });
@@ -19,7 +20,7 @@ function fixtureCopy() {
 test('node build.mjs --check stays green', () => {
   const result = runBuild(['--check']);
   assert.equal(result.status, 0, combinedOutput(result));
-  assert.match(result.stdout, /Built 7 pages/);
+  assert.match(result.stdout, /Built 9 pages/);
 });
 
 test('--check fails when a brand name is hardcoded in a template', () => {

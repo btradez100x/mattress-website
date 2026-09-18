@@ -20,14 +20,15 @@ p{margin:0 0 var(--stack)}p:last-child{margin-bottom:0}img{display:block;width:1
 .banner{background:var(--carbon);color:var(--snow);text-align:center;padding:10px 24px;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase}
 .banner b{color:var(--ember-lt);font-weight:500}
 nav{border-bottom:1px solid var(--hair);background:var(--snow);position:sticky;top:0;z-index:20}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:var(--s2) 28px}
-.brand{font-family:var(--display);font-weight:600;font-size:18px;letter-spacing:-.03em;text-decoration:none;color:inherit}
-.navlinks{display:flex;gap:20px;align-items:center}
-.navlinks a{font-size:14px;color:var(--carbon);text-decoration:none}.navlinks a:hover{color:var(--ember)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:var(--s2) 28px}
+.brand{font-family:var(--display);font-weight:600;font-size:18px;line-height:1;letter-spacing:-.03em;text-decoration:none;color:var(--carbon);flex:none;white-space:nowrap}
+.navlinks{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:20px;align-items:center}
+.navlinks a{font-family:var(--body);font-weight:400;font-size:14px;line-height:1;letter-spacing:-.011em;color:var(--carbon);text-decoration:none;white-space:nowrap}
+.navlinks a:hover,.navlinks a:focus{color:var(--ember)}
+.navlinks a.on{font-family:var(--body);font-weight:400;font-size:14px;line-height:1;letter-spacing:-.011em;color:var(--carbon)}
 .navtrack{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite)!important}
 .navcta{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--snow)!important;background:var(--carbon);padding:10px 18px}
 .navcta:hover{background:var(--graphite)}
-@media(max-width:960px){.navlinks a:not(.navcta){display:none}}
 section{padding:var(--sec) 0}section+section.tight{padding-top:0}
 section.bone{background:var(--bone)}section.dark{background:var(--carbon);color:var(--snow)}
 section.dark h2,section.dark h3{color:var(--snow)}section.dark p,section.dark .lede{color:#C9C5BD}
@@ -45,23 +46,13 @@ section.flush{padding:0}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair)}
 .grid3 div{background:var(--snow);padding:var(--s4) var(--s3)}
 section.bone .grid3 div{background:var(--bone)}
-.grid3 h3{margin-bottom:var(--s1);color:var(--carbon)}.grid3 p{font-size:14.5px;color:var(--graphite)}
-/* Light cards on a Carbon band keep Carbon type. section.dark p/h3 is 0,1,2 and
-   would otherwise paint snow/#C9C5BD onto --snow, which is unreadable. */
-section.dark .grid3,section.dark .figs,section.dark .doors,section.dark .ladder,section.dark .assure{
-  border-color:var(--hair);background:var(--hair)}
-section.dark .grid3 h3,section.dark .figs h3,section.dark .doors h3,section.dark .ladder h3,section.dark .assure b{
-  color:var(--carbon)}
-section.dark .grid3 p,section.dark .figs p,section.dark .doors p,section.dark .ladder p,section.dark .assure p{
-  color:var(--graphite)}
+.grid3 h3{margin-bottom:var(--s1)}.grid3 p{font-size:14.5px;color:var(--graphite)}
 .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--body);font-weight:500;
 font-size:15px;padding:16px 30px;min-height:52px;border-radius:var(--radius);border:1px solid transparent;
 background:var(--carbon);color:var(--snow);text-decoration:none;transition:background .18s}
 .btn:hover{background:var(--graphite)}
 .btn-line{background:transparent;color:var(--carbon);border-color:var(--hair)}
 .btn-line:hover{background:var(--bone)}
-section.dark .btn-line{color:var(--snow);border-color:#8E8A82}
-section.dark .btn-line:hover{background:var(--graphite);color:var(--snow)}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:var(--s4);align-items:center}
 .pull{border-left:1px solid var(--carbon);padding:6px 0 6px 26px;margin:var(--s5) 0}
 .pull p{font-family:var(--display);font-weight:600;font-size:clamp(21px,2.7vw,28px);line-height:1.26;letter-spacing:-.025em}
@@ -149,17 +140,14 @@ video{display:block;width:100%;height:auto;background:var(--carbon)}
 
 /* ---- trade site additions, built on the same tokens ---- */
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;min-width:720px;font-size:14.5px;
+table{width:100%;border-collapse:collapse;min-width:560px;font-size:14.5px;
   font-variant-numeric:tabular-nums;background:var(--snow)}
 section.bone table{background:var(--bone)}
 th{background:var(--carbon);color:var(--snow);font-family:var(--mono);font-weight:500;font-size:10.5px;
-  letter-spacing:.1em;text-transform:uppercase;padding:12px 14px;text-align:right;vertical-align:bottom;
-  white-space:nowrap}
-th:first-child,th.text{text-align:left}
+  letter-spacing:.1em;text-transform:uppercase;padding:12px 14px;text-align:right;vertical-align:bottom;white-space:nowrap}
+th:first-child{text-align:left}
 td{padding:12px 14px;border-bottom:1px solid var(--hair);text-align:right;font-family:var(--mono);font-size:13.5px}
 td:first-child{text-align:left;font-family:var(--body);font-size:14.5px;font-weight:500}
-th.text,td.text{text-align:left;font-family:var(--body);white-space:normal}
-td.text{font-size:14.5px;font-weight:400;color:var(--graphite)}
 tr:last-child td{border-bottom:0}
 td.ref{color:var(--graphite)}
 .note{border-left:1px solid var(--ember);padding:0 0 0 var(--s3);margin:var(--s4) 0 0}
@@ -177,7 +165,6 @@ section.bone .figs div{background:var(--bone)}
 .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;
   background:var(--hair);border:1px solid var(--hair)}
 .doors>div{background:var(--snow);padding:var(--s4) var(--s3);display:flex;flex-direction:column}
-/* Price + label share one baseline across cards. Descriptions absorb leftover height. */
 .doors .from{margin:auto 0 var(--s1)}
 .doors p{font-size:14.5px;color:var(--graphite)}
 .doors .btn{margin-top:var(--s3);align-self:flex-start}
@@ -231,3 +218,56 @@ section.bone .band-row{background:var(--bone)}
 .band-row .track{height:2px;background:linear-gradient(90deg,var(--carbon),var(--ember));position:relative}
 @media(max-width:700px){.band-row{grid-template-columns:1fr 1fr;gap:var(--s3)}
   .band-row .track{grid-column:1/-1;order:3}}
+
+/* ---- at a glance ---- */
+.glance{border:1px solid var(--carbon);margin-top:var(--s4)}
+.glance .gh{background:var(--carbon);color:var(--snow);padding:var(--s2) var(--s3);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+.glance dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;
+  background:var(--hair);margin:0;border-top:1px solid var(--carbon)}
+.glance dl>div{background:var(--snow);padding:var(--s3)}
+section.bone .glance dl>div{background:var(--bone)}
+.glance dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--graphite);margin-bottom:6px}
+.glance dd{margin:0;font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.glance dd small{display:block;font-family:var(--body);font-weight:400;font-size:13px;
+  letter-spacing:0;color:var(--graphite);margin-top:5px}
+
+/* ---- visual journey ---- */
+.journey{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;
+  margin-top:var(--s5);position:relative}
+.journey>div{position:relative;padding:var(--s5) var(--s3) 0 0}
+.journey>div::before{content:"";position:absolute;top:10px;left:0;right:0;height:1px;background:var(--hair)}
+.journey>div::after{content:"";position:absolute;top:5px;left:0;width:11px;height:11px;
+  background:var(--snow);border:1px solid var(--carbon);border-radius:50%!important}
+section.bone .journey>div::after{background:var(--bone)}
+section.dark .journey>div::before{background:#3A3A3C}
+section.dark .journey>div::after{background:var(--carbon);border-color:var(--snow)}
+.journey>div:last-child::after{background:var(--ember);border-color:var(--ember)}
+.journey .st{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--graphite);margin-bottom:6px}
+.journey h3{font-size:16px;margin-bottom:6px}
+.journey p{font-size:13.5px;color:var(--graphite);margin:0}
+@media(max-width:720px){.journey{grid-template-columns:1fr;gap:var(--s3)}
+  .journey>div{padding:var(--s4) 0 0 var(--s4)}
+  .journey>div::before{top:0;bottom:0;left:5px;right:auto;width:1px;height:auto}
+  .journey>div::after{top:var(--s4);left:0}}
+
+/* ---- objection table ---- */
+.obj td:first-child{width:24%;vertical-align:top}
+.obj td{text-align:left;font-family:var(--body);font-size:14px;color:var(--graphite);vertical-align:top}
+.obj td:first-child{font-weight:600;color:var(--carbon)}
+.obj td b{color:var(--carbon)}
+
+/* Light cards on a Carbon band keep Carbon type. */
+section.dark .grid3,section.dark .figs,section.dark .doors,section.dark .ladder,section.dark .assure,section.dark .glance{
+  border-color:var(--hair);background:var(--hair)}
+section.dark .grid3 h3,section.dark .figs h3,section.dark .doors h3,section.dark .ladder h3,section.dark .assure b,section.dark .glance dd{
+  color:var(--carbon)}
+section.dark .grid3 p,section.dark .figs p,section.dark .doors p,section.dark .ladder p,section.dark .assure p,section.dark .glance dt,section.dark .glance small{
+  color:var(--graphite)}
+section.dark .btn-line{color:var(--snow);border-color:#8E8A82}
+section.dark .btn-line:hover{background:var(--graphite);color:var(--snow)}
+
+th.text,td.text{text-align:left;font-family:var(--body);font-weight:400;color:var(--graphite)}

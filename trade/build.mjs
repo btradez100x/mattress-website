@@ -57,6 +57,9 @@ for (const page of pages) {
     '<link rel="stylesheet" href="/assets/site.css">\n<style>\n' + css + '\n</style>',
   );
 
+  const navJs = readFileSync(join('assets', 'nav-auth.js'), 'utf8');
+  html = html.replace('</body>', '<script>\n' + navJs + '\n</script>\n</body>');
+
   writeFileSync(join('dist', page), html);
 }
 

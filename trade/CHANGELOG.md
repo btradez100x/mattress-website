@@ -10,6 +10,22 @@ commit lands on `main`. Tags look like `onni-london-trade-vX.Y.Z`.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-18
+
+Updates 5 pack. Adds The bed and Training, refreshes partner copy and glance
+panels, and keeps Ben's live rules on top of the zip.
+
+### Added
+
+- Open page `the-bed.html` (construction, adjustment, videos)
+- Internal page `training.html` (objection handling)
+- `nav-auth.js` so Strategy and Training appear only for internal and master
+
+### Changed
+
+- Partner pages include The bed in a single shared nav treatment
+- Door, table, contrast, numeral, and How it works rules from 1.0.0 still apply
+
 ## [1.0.0] - 2026-09-18
 
 Live snapshot of the seven-page Onni London trade site on

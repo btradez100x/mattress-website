@@ -47,11 +47,18 @@ const ALLOW = [
   /\bone-off\b/gi,
   /\bthree-quarter\b/gi,
   /\bwhich one you\b/gi,
+  /\bwhich one applies\b/gi,
   /\bpublishes one because\b/gi,
   /\bzero one\b/gi,
   /\bthis one describes\b/gi,
+  /\bthis one is built\b/gi,
+  /\bthis one is slept\b/gi,
   /\bproduce one\b/gi,
   /\bunknown one\b/gi,
+  /\blumpy one after\b/gi,
+  /\bthe one real lever\b/gi,
+  /\bis one a buyer\b/gi,
+  /\bhit one that\b/gi,
 ];
 
 function hitsIn(html) {

@@ -20,9 +20,11 @@ test('DEPLOYMENT.md still lists every page and its access group', () => {
   const doc = readFileSync(join(ROOT, 'DEPLOYMENT.md'), 'utf8');
   const expected = {
     'index.html': 'Open',
+    'the-bed.html': 'Open',
     'modern-slavery.html': 'Open',
     'sales-consultant.html': 'Open',
     'b2b-strategy.html': 'Internal',
+    'training.html': 'Internal',
     'specification.html': 'Specification partners',
     'retail.html': 'Retail partners',
     'contract.html': 'Contract buyers',
@@ -37,23 +39,28 @@ test('DEPLOYMENT.md still lists every page and its access group', () => {
     'index.html',
     'modern-slavery.html',
     'sales-consultant.html',
+    'the-bed.html',
   ]);
   assert.deepEqual(GATED_PAGES.sort(), [
     'b2b-strategy.html',
     'contract.html',
     'retail.html',
     'specification.html',
+    'training.html',
   ]);
 });
 
-test('partner-facing pages do not link Strategy; internal pages do', () => {
+test('partner-facing HTML omits Strategy and Training; internal HTML includes both', () => {
   ensureCheckBuild();
   for (const page of PARTNER_NAV_PAGES) {
     const nav = navBlock(readDist(page));
     assert.ok(nav, `${page} has no nav`);
     assert.doesNotMatch(nav, /b2b-strategy\.html/, `${page} partner nav links Strategy`);
     assert.doesNotMatch(nav, />Strategy</, `${page} partner nav shows Strategy`);
+    assert.doesNotMatch(nav, /training\.html/, `${page} partner nav links Training`);
+    assert.doesNotMatch(nav, />Training</, `${page} partner nav shows Training`);
     assert.doesNotMatch(nav, /modern-slavery\.html/, `${page} put modern slavery in the nav`);
+    assert.match(nav, /the-bed\.html/, `${page} should link The bed`);
     assert.match(nav, /specification\.html/);
     assert.match(nav, /retail\.html/);
     assert.match(nav, /contract\.html/);
@@ -65,6 +72,8 @@ test('partner-facing pages do not link Strategy; internal pages do', () => {
     const nav = navBlock(readDist(page));
     assert.match(nav, /b2b-strategy\.html/, `${page} must carry Strategy in the nav`);
     assert.match(nav, />Strategy</);
+    assert.match(nav, /training\.html/, `${page} must carry Training in the nav`);
+    assert.match(nav, />Training</);
   }
 });
 
@@ -98,5 +107,7 @@ test('encoded access map matches DEPLOYMENT routes', () => {
   assert.equal(PAGE_RULES['index.html'].route, '/');
   assert.equal(PAGE_RULES['b2b-strategy.html'].access, 'internal');
   assert.equal(PAGE_RULES['sales-consultant.html'].access, 'open');
-  assert.equal(PAGE_RULES['sales-consultant.html'].nav, 'internal');
+  assert.equal(PAGE_RULES['sales-consultant.html'].nav, 'partner');
+  assert.equal(PAGE_RULES['training.html'].access, 'internal');
+  assert.equal(PAGE_RULES['the-bed.html'].access, 'open');
 });

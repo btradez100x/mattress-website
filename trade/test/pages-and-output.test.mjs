@@ -11,7 +11,7 @@ import {
   srcPages,
 } from './helpers.mjs';
 
-test('src has exactly the seven required pages', () => {
+test('src has exactly the required pages', () => {
   assert.deepEqual(srcPages(), [...REQUIRED_PAGES].sort());
 });
 
@@ -33,6 +33,7 @@ test('build writes every required page, robots.txt, and site.css', () => {
   assert.match(robots, /User-agent: \*/);
   assert.match(robots, /Disallow: \//);
   assert.ok(existsSync(join(DIST, 'assets', 'site.css')), 'dist/assets/site.css missing');
+  assert.ok(existsSync(join(DIST, 'assets', 'nav-auth.js')), 'dist/assets/nav-auth.js missing');
   for (const font of ['instrument-sans.woff2', 'inter.woff2', 'geist-mono.woff2']) {
     assert.ok(existsSync(join(DIST, 'assets', 'fonts', font)), `missing dist/assets/fonts/${font}`);
   }
@@ -59,6 +60,7 @@ test('repo does not store partner passwords or SSH deploy secrets', () => {
     'build.mjs',
     'DEPLOYMENT.md',
     'package.json',
+    'assets/nav-auth.js',
     ...REQUIRED_PAGES.map((page) => join('src', page)),
   ];
   const forbidden = [
@@ -99,4 +101,17 @@ test('door prices sit on a shared row and dark cards keep contrast', () => {
   const index = readDist('index.html');
   assert.match(index, /From 12 units/);
   assert.match(index, /placing 200 are different sales/);
+});
+
+test('nav type is pinned and Strategy is revealed only when authorised', () => {
+  const css = readFileSync(join(ROOT, 'assets', 'site.css'), 'utf8');
+  assert.match(css, /\.navlinks a\{font-family:var\(--body\);font-weight:400;font-size:14px/);
+  assert.doesNotMatch(css, /@media\(max-width:960px\)\{\.navlinks a:not\(\.navcta\)\{display:none\}\}/);
+  const js = readFileSync(join(ROOT, 'assets', 'nav-auth.js'), 'utf8');
+  assert.match(js, /b2b-strategy\.html/);
+  assert.match(js, /training\.html/);
+  ensureCheckBuild();
+  for (const page of REQUIRED_PAGES) {
+    assert.match(readDist(page), /credentials: 'same-origin'/);
+  }
 });
