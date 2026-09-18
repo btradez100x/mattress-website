@@ -272,8 +272,15 @@ section.dark .grid3 h3,section.dark .figs h3,section.dark .doors h3,section.dark
   color:var(--carbon)}
 section.dark .grid3 p,section.dark .figs p,section.dark .doors p,section.dark .ladder p,section.dark .assure p,section.dark .glance dt,section.dark .glance small{
   color:var(--graphite)}
-section.dark .btn-line{color:var(--snow);border-color:#8E8A82}
-section.dark .btn-line:hover{background:var(--graphite);color:var(--snow)}
+/* Filled carbon buttons vanish on a Carbon band; section.dark a also paints them ember. */
+section.dark a.btn{
+  background:var(--snow);color:var(--carbon);border-color:var(--snow)}
+section.dark a.btn:hover{
+  background:var(--bone);color:var(--carbon)}
+section.dark a.btn-line{
+  background:transparent;color:var(--snow);border-color:#8E8A82}
+section.dark a.btn-line:hover{
+  background:var(--graphite);color:var(--snow)}
 
 /* Headings share alignment with the cells they label. th.text keeps header type. */
 th.text{text-align:left}

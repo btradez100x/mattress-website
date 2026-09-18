@@ -152,10 +152,21 @@ test('door prices sit on a shared row and dark cards keep contrast', () => {
   assert.match(css, /\.doors \.from\{margin:auto 0 var\(--s1\)\}/);
   assert.match(css, /section\.dark \.grid3 h3[^}]*color:var\(--carbon\)/);
   assert.match(css, /section\.dark \.grid3 p[^}]*color:var\(--graphite\)/);
+  assert.match(css, /section\.dark a\.btn\{/);
+  assert.match(css, /section\.dark a\.btn-line\{/);
   ensureCheckBuild();
   const index = readDist('index.html');
   assert.match(index, /From 12 units/);
   assert.match(index, /placing 200 are different sales/);
+  const bed = readDist('the-bed.html');
+  const cta = bed.match(/<div class="cta-row">([\s\S]*?)<\/div>/);
+  assert.ok(cta, 'the-bed is missing the door CTA row');
+  const buttons = [...cta[1].matchAll(/<a class="([^"]+)"[^>]*>([^<]+)<\/a>/g)];
+  assert.equal(buttons.length, 3);
+  for (const [, cls, label] of buttons) {
+    assert.match(cls, /\bbtn\b/, `${label} is not a button`);
+    assert.match(cls, /\bbtn-line\b/, `${label} must match the outlined door CTAs`);
+  }
 });
 
 test('nav type is pinned and Strategy is revealed only when authorised', () => {

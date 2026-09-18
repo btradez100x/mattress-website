@@ -25,6 +25,8 @@ nav in Instrument Sans, and table headings that share alignment with their cells
 - Nav links use Instrument Sans (`--display`), same family as the wordmark
 - Text column headings are left-aligned with the cells they label
 - Numeric column headings stay right-aligned with their figures
+- The bed “3 ways to buy it” CTAs are three matching outlined buttons
+- Filled buttons on Carbon bands stay visible (Snow fill, not ember text)
 
 ## [1.1.0] - 2026-09-18
 
