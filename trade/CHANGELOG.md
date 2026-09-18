@@ -10,6 +10,14 @@ commit lands on `main`. Tags look like `onni-london-trade-vX.Y.Z`.
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-09-18
+
+Saved live snapshot on `mattress.valtoraholdings.com`. Same content as 1.2.0
+plus the Carbon-band door CTA fix that went live with that pass.
+
+This is the production freeze. Do not upload over it until Ben signs off the
+next pack.
+
 ## [1.2.0] - 2026-09-18
 
 Updates 6 pack. Size chart on The bed, dimensions under price-list size names,

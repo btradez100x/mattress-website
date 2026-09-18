@@ -1,6 +1,6 @@
 {
   "name": "onni-london-trade",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Onni London trade site. Static HTML, built with Node. No runtime dependencies.",
   "type": "module",
