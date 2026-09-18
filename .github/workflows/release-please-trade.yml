@@ -1,0 +1,23 @@
+# Version bump + git tag for trade/ only.
+# Conventional commits that touch trade/ open a release PR on main.
+# Merging that PR tags onni-london-trade-vX.Y.Z and updates CHANGELOG.md.
+# Does not touch valtora-theme or the root VERSION file.
+name: Release Please (trade)
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

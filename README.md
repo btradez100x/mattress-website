@@ -16,6 +16,12 @@ Premium deposit-taking Shopify theme for the Valtora mattress brand (name under 
 valtora-theme/
 ```
 
+## Trade site
+
+The Onni London B2B trade site lives in [`trade/`](trade/). It is a static Node
+build (`node build.mjs --check`), not part of this Shopify theme. Tests, semver,
+and release tags are documented in [`trade/README.md`](trade/README.md).
+
 ## Quick start
 
 1. Create a Shopify store (Basic or above). Enable **Shopify Markets** for UAE + UK.
