@@ -36,6 +36,8 @@
   assign cookies_url = section.settings.cookies_link | default: pages['cookies'].url | default: '/pages/cookies'
   assign modern_slavery_url = section.settings.modern_slavery_link | default: pages['modern-slavery'].url | default: '/pages/modern-slavery'
 -%}
+{%- capture core_url -%}{% render 'core-page-url' %}{%- endcapture -%}
+{%- assign core_url = core_url | strip -%}
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}
 {%- capture contact_phone -%}{% render 'contact-phone' %}{%- endcapture -%}
@@ -121,7 +123,7 @@
         <li><a href="{{ guarantee_url }}">Comfort guarantee</a></li>
         <li><a href="{{ delivery_url }}">Delivery and lead time</a></li>
         <li><a href="{{ pages['mattress-recycling'].url | default: '/pages/mattress-recycling' }}">Old mattress removal and recycling</a></li>
-        <li><a href="{{ pages['support'].url | default: '/pages/support' }}">Support</a></li>
+        <li><a href="{{ core_url }}">The core</a></li>
         <li><a href="{{ pages['about'].url | default: '/pages/about' }}">About</a></li>
         <li><a href="{{ order_status_url }}">Order status</a></li>
         <li><a href="{{ contact_url }}">Contact</a></li>

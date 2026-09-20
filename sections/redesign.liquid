@@ -208,9 +208,9 @@
 </ul>
 <p style="text-align:center;margin-top:40px"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a></p>
 </div></div></section>
-{% elsif page_key == 'support' %}
+{% elsif page_key == 'support' or page_key == 'the-core' %}
 <section class="rd-sec rd-hero"><div class="wrap"><div class="hero-split">
-<div><p class="kicker">Support</p>
+<div><p class="kicker">The core</p>
 <h1>Support is the core.<br>Comfort is the layer.</h1>
 <p class="lede">A back that hurts in the morning is usually a core that has stopped holding. Ours is twenty centimetres of seven-zone pocket springs, guaranteed for twenty five years, with the comfort settled separately.</p>
 <div class="cta-row"><a class="btn" href="{{ pages['configure'].url | default: '/pages/configure' }}">Choose your size</a><a class="btn btn--ghost btn-line" href="{{ pages['specification'].url | default: '/pages/specification' }}">See the build</a></div></div>
@@ -575,7 +575,8 @@
       { "value": "specification", "label": "specification" },
       { "value": "manufacturing", "label": "manufacturing" },
       { "value": "about", "label": "about" },
-      { "value": "support", "label": "support" },
+      { "value": "support", "label": "support (legacy)" },
+      { "value": "the-core", "label": "the-core" },
       { "value": "large-sizes", "label": "large-sizes" },
       { "value": "european-king", "label": "european-king" },
       { "value": "what-it-buys", "label": "what-it-buys" },

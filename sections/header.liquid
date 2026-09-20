@@ -3,13 +3,14 @@
 -%}
 {%- capture journal_url -%}{% render 'journal-index-href' %}{%- endcapture -%}
 {%- assign journal_url = journal_url | strip -%}
+{%- capture core_url -%}{% render 'core-page-url' %}{%- endcapture -%}
+{%- assign core_url = core_url | strip -%}
 {%- liquid
   assign large_sizes_url = pages['large-sizes'].url | default: '/pages/large-sizes'
   assign european_king_url = pages['european-king'].url | default: '/pages/european-king'
   assign split_king_url = pages['split-king'].url | default: '/pages/split-king'
   assign size_guide_url = pages['size-guide'].url | default: '/pages/size-guide'
   assign specification_url = pages['specification'].url | default: '/pages/specification'
-  assign support_url = pages['support'].url | default: '/pages/support'
   assign about_url = pages['about'].url | default: '/pages/about'
   assign trade_url = pages['trade'].url | default: '/pages/trade'
   assign recycling_url = pages['mattress-recycling'].url | default: '/pages/mattress-recycling'
@@ -37,7 +38,7 @@
     assign reserve_src = '#reserve'
   endif
   assign reserve_label = section.settings.reserve_label | default: 'See sizes and prices'
-  if template.suffix == 'large-sizes' or template.suffix == 'european-king' or template.suffix == 'what-it-buys' or template.suffix == 'specification' or template.suffix == 'support' or template.suffix == 'cooling' or template.suffix == 'split-king' or template.suffix == 'size' or template.suffix == 'need' or template.suffix == 'premium' or template.suffix == 'other-size' or template.suffix == 'conquest' or template.suffix == 'spec-size' or template.suffix == 'need-only' or template.suffix == 'spec-only' or template.suffix == 'temperature'
+  if template.suffix == 'large-sizes' or template.suffix == 'european-king' or template.suffix == 'what-it-buys' or template.suffix == 'specification' or template.suffix == 'support' or template.suffix == 'the-core' or template.suffix == 'cooling' or template.suffix == 'split-king' or template.suffix == 'size' or template.suffix == 'need' or template.suffix == 'premium' or template.suffix == 'other-size' or template.suffix == 'conquest' or template.suffix == 'spec-size' or template.suffix == 'need-only' or template.suffix == 'spec-only' or template.suffix == 'temperature'
     assign reserve_src = '#configure'
     assign reserve_label = 'Reserve yours'
   elsif template.suffix == 'about' or template.suffix == 'mattress-recycling'
@@ -68,9 +69,14 @@
       {%- if link_title_down == 'the mattress' or link.url contains '/products/the-mattress' -%}
         {%- assign nav_href = specification_url -%}
       {%- endif -%}
+      {%- assign nav_label = link.title -%}
+      {%- if link_title_down == 'support' or link.url contains '/pages/support' -%}
+        {%- assign nav_href = core_url -%}
+        {%- assign nav_label = 'The core' -%}
+      {%- endif -%}
       {%- if link.links.size > 0 -%}
         <div class="site-header__item">
-          <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ nav_label }}</a>
           <div class="site-header__sub">
             {%- for child in link.links -%}
               {%- assign child_title_down = child.title | strip | downcase -%}
@@ -85,18 +91,23 @@
               {%- if child_title_down == 'the mattress' or child.url contains '/products/the-mattress' -%}
                 {%- assign child_href = specification_url -%}
               {%- endif -%}
-              <a href="{{ child_href }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
+              {%- assign child_label = child.title -%}
+              {%- if child_title_down == 'support' or child.url contains '/pages/support' -%}
+                {%- assign child_href = core_url -%}
+                {%- assign child_label = 'The core' -%}
+              {%- endif -%}
+              <a href="{{ child_href }}"{% if child.active %} aria-current="page"{% endif %}>{{ child_label }}</a>
             {%- endfor -%}
           </div>
         </div>
       {%- else -%}
-        <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+        <a href="{{ nav_href }}"{% if link.active %} aria-current="page"{% endif %}>{{ nav_label }}</a>
       {%- endif -%}
     {%- endfor -%}
   {%- else -%}
     <a href="{{ specification_url }}"{% if template.suffix == 'specification' %} aria-current="page"{% endif %}>The mattress</a>
     <a href="{{ manufacturing_url }}"{% if template.suffix == 'manufacturing' %} aria-current="page"{% endif %}>How it is made</a>
-    <a href="{{ support_url }}"{% if template.suffix == 'support' %} aria-current="page"{% endif %}>Support</a>
+    <a href="{{ core_url }}"{% if template.suffix == 'support' or template.suffix == 'the-core' %} aria-current="page"{% endif %}>The core</a>
     <a href="{{ about_url }}"{% if template.suffix == 'about' %} aria-current="page"{% endif %}>About</a>
   {%- endif -%}
   {%- unless menu_has_trade -%}

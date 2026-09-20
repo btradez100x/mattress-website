@@ -1,0 +1,2 @@
+{%- comment -%} Mattress core page (not customer help). Prefer handle the-core; fall back to support. {%- endcomment -%}
+{{- pages['the-core'].url | default: pages['support'].url | default: '/pages/the-core' -}}
