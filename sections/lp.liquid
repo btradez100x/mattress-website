@@ -242,24 +242,44 @@
         {%- endif -%}
 
       {%- when 'price' -%}
+        {%- assign lp_price_heading = block.settings.heading | strip -%}
+        {%- if lp_price_heading != blank -%}
+          {%- assign lp_omit_from = '1' -%}
+          {%- assign lp_price_anchor = '' -%}
+        {%- else -%}
+          {%- assign lp_omit_from = '' -%}
+          {%- assign lp_price_anchor = '1' -%}
+        {%- endif -%}
         <section class="bone" {{ block.shopify_attributes }}>
           <div class="wrap">
             <div class="narrow">
               <div class="sec-head">
                 {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
-                {%- if block.settings.heading != blank -%}
-                  {%- if lp_from_label != blank -%}
-                    <h2 data-lp-from-heading>From {{ lp_min_money }}.</h2>
-                  {%- else -%}
-                    <h2 data-lp-from-heading>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>
-                  {%- endif -%}
+                {%- if lp_price_heading != blank -%}
+                  <div
+                    class="price-block price-block--heading"
+                    id="price-anchor"
+                    data-lp-hero-price
+                    data-lp-price-mode="from"
+                  >
+                    {%- if lp_from_label != blank -%}
+                      <h2 class="from" data-lp-from-heading data-lp-price>From {{ lp_min_money }}.</h2>
+                    {%- else -%}
+                      <h2 class="from" data-lp-from-heading data-lp-price>{{ lp_price_heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>
+                    {%- endif -%}
+                    {% render 'lp-klarna-line',
+                      klarna: block.settings.price_klarna,
+                      klarna_amount: block.settings.klarna_amount
+                    %}
+                  </div>
                 {%- endif -%}
               </div>
               {%- if block.settings.body != blank -%}<p>{{ block.settings.body | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | replace: '[layer_price]', layer_price }}</p>{%- endif -%}
               {% render 'lp-price-block',
                 show: true,
                 large: false,
-                anchor: true,
+                anchor: lp_price_anchor,
+                omit_from: lp_omit_from,
                 from_label: lp_from_label,
                 from_fallback: block.settings.price_from,
                 hide_when_empty: true,

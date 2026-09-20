@@ -1,0 +1,6 @@
+{%- comment -%} Monthly Klarna reframe. Prefer klarna_amount ("or £83 a month with Klarna"). {%- endcomment -%}
+{%- if klarna_amount != blank -%}
+  <span class="klarna">or <b>{{ klarna_amount }}</b> with Klarna</span>
+{%- elsif klarna != blank -%}
+  <span class="klarna">{{ klarna }}</span>
+{%- endif -%}

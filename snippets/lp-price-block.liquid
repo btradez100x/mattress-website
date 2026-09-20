@@ -1,14 +1,14 @@
-{%- comment -%} From price + Klarna monthly reframe. Pay row stays visible even when From is empty. {%- endcomment -%}
+{%- comment -%} From price + Klarna monthly reframe. Pay row stays visible even when From is empty.
+   omit_from: heading already shows From — only pay chips (Klarna sits on the heading). {%- endcomment -%}
 {%- if show -%}
-  <div class="price-block{% if large %} price-block--large{% endif %}"{% if anchor %} id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% endif %}{% if from_label == blank and hide_when_empty %} hidden{% endif %} style="margin-top:var(--s3)">
-    <span class="from"{% if anchor %} data-lp-price{% endif %}>{{ from_label | default: from_fallback | default: 'From …' }}</span>
-    {%- if klarna_amount != blank -%}
-      <span class="klarna">or <b>{{ klarna_amount }}</b> with Klarna</span>
-    {%- elsif klarna != blank -%}
-      <span class="klarna">{{ klarna }}</span>
-    {%- endif -%}
-  </div>
+  {%- unless omit_from == '1' -%}
+    <div class="price-block{% if large %} price-block--large{% endif %}"{% if anchor %} id="price-anchor" data-lp-hero-price data-lp-price-mode="from"{% endif %}{% if from_label == blank and hide_when_empty %} hidden{% endif %} style="margin-top:var(--s3)">
+      <span class="from"{% if anchor %} data-lp-price{% endif %}>{{ from_label | default: from_fallback | default: 'From …' }}</span>
+      {% render 'lp-klarna-line', klarna: klarna, klarna_amount: klarna_amount %}
+    </div>
+  {%- endunless -%}
   {% render 'lp-pay-row', show_pay: show_pay, pay_label: pay_label %}
 {%- elsif show_pay -%}
   {% render 'lp-pay-row', show_pay: true, pay_label: pay_label %}
 {%- endif -%}
+
