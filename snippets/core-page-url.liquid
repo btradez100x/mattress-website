@@ -1,2 +1,2 @@
-{%- comment -%} Mattress core page (not customer help). Prefer handle the-core; fall back to support. {%- endcomment -%}
+{%- comment -%} Mattress core page (not customer help). Prefer handle the-core; fall back to support until Admin renames the page. {%- endcomment -%}
 {{- pages['the-core'].url | default: pages['support'].url | default: '/pages/the-core' -}}
