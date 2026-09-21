@@ -7101,6 +7101,10 @@ html[data-brand-guidelines="v2"] [data-cart-subtotal] {
   height: 1px;
   background: color-mix(in srgb, var(--brand-accent) 55%, transparent);
 }
+/* display:flex on these li (live cart) otherwise beats [hidden] and leaves a dash with no copy. */
+.checkout-stage__terms li[hidden] {
+  display: none !important;
+}
 .checkout-stage__back {
   display: block;
   margin-top: 0.35rem;
