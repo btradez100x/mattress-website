@@ -126,7 +126,7 @@ account.** It costs nothing and it is the one that matters most.
 
 1. `node build.mjs --check`. It must pass. It fails on an unresolved token, a
    hardcoded brand name, the word "free" and an em dash.
-2. Replace `brand.tradeEmail` in `brand.json`. It is still a placeholder.
+2. `brand.tradeEmail` is `trade@onnlondon.co.uk`. Rebuild if that token changes.
 3. Confirm lead times against the factory. The figures in `brand.json` are
    estimates and appear on four pages.
 4. Deploy `/dist` to the subdomain.

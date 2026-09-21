@@ -33,6 +33,27 @@ test('built pages resolve tokens and do not leak mustache leftovers', () => {
   }
 });
 
+test('trade email uses onnlondon.co.uk and is resolved on every page that cites it', () => {
+  const email = flatTokens()['brand.tradeEmail'];
+  assert.ok(email, 'brand.tradeEmail must exist in brand.json');
+  assert.match(email, /@onnlondon\.co\.uk$/);
+  assert.doesNotMatch(email, /example\.com/i);
+  ensureCheckBuild();
+  const leftovers = [];
+  for (const page of REQUIRED_PAGES) {
+    const src = readSrc(page);
+    const dist = readDist(page);
+    if (/@[a-z0-9.-]*example\.com/i.test(src) || /@[a-z0-9.-]*example\.com/i.test(dist)) {
+      leftovers.push(page);
+    }
+    if (src.includes('brand.tradeEmail')) {
+      assert.match(dist, new RegExp(escapeRegExp(email)), `${page} missing resolved trade email`);
+      assert.doesNotMatch(dist, /example\.com/i, `${page} still has example.com`);
+    }
+  }
+  assert.deepEqual(leftovers, []);
+});
+
 test('held stock lead time never appears on a page', () => {
   ensureCheckBuild();
   const stock = flatTokens()['lead.stockFuture'];

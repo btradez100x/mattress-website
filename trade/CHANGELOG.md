@@ -10,6 +10,10 @@ commit lands on `main`. Tags look like `onni-london-trade-vX.Y.Z`.
 
 ## [Unreleased]
 
+### Changed
+
+- Trade contact is `trade@onnlondon.co.uk` (same local part, domain only)
+
 ## [1.2.1] - 2026-09-18
 
 Saved live snapshot on `mattress.valtoraholdings.com`. Same content as 1.2.0

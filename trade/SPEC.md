@@ -28,7 +28,7 @@ The trading name is not settled. Every name on the site comes from `brand.json`.
 | `{{brand.gel}}` | The gel layer | Coolcell |
 | `{{brand.cover}}` | The cover knit | Coolweave |
 | `{{brand.legal}}` | Legal entity | Cole Commerce Ltd |
-| `{{brand.tradeEmail}}` | Contact on every CTA | trade@example.com |
+| `{{brand.tradeEmail}}` | Contact on every CTA | trade@onnlondon.co.uk |
 | `{{service.adjust}}` | Named service | Adjust to Desire |
 | `{{service.unpacking}}` | Named service | Concierge unpacking |
 | `{{service.removal}}` | Named service | Old mattress removal and recycling |
@@ -240,7 +240,7 @@ and repel considered ones.
 
 ## 8. Before it goes live
 
-1. Replace `brand.tradeEmail` in `brand.json`.
+1. `brand.tradeEmail` is `trade@onnlondon.co.uk`. Keep the local part; only the domain changes.
 2. Confirm whether `sales-consultant.html` sits inside or outside the password.
 3. Wire `--check` into the deploy step so it cannot ship with an unresolved token.
 4. Point the subdomain at `/dist`.
