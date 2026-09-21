@@ -1125,54 +1125,63 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-airy.webp",
+            "fallback_asset": "styled-01-morning.webp",
             "span": "wide",
-            "caption": "Soft morning light"
+            "caption": "Morning light, oak and linen"
           }
         },
         "img2": {
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-luxury.webp",
-            "span": "tall",
-            "caption": "Navy suite calm"
+            "fallback_asset": "styled-07-home.webp",
+            "span": "wide",
+            "caption": "A room somebody lives in"
           }
         },
         "img3": {
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-city.webp",
-            "span": "mid",
-            "caption": "City apartment rest"
+            "fallback_asset": "styled-08-lake.webp",
+            "span": "square",
+            "caption": "A slow morning by the water"
           }
         },
         "img4": {
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-suite.webp",
+            "fallback_asset": "styled-02-navy.webp",
             "span": "tall",
-            "caption": "Depth in place"
+            "caption": "A navy room with the lamps on"
           }
         },
         "img5": {
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-warm.webp",
+            "fallback_asset": "styled-05-rose.webp",
             "span": "mid",
-            "caption": "Warm evening light"
+            "caption": "Rose velvet, city outside"
           }
         },
         "img6": {
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-edge.webp",
-            "span": "square",
-            "caption": "Edge support"
+            "fallback_asset": "styled-06-daylight.webp",
+            "span": "tall",
+            "caption": "Daylight and an olive tree"
+          }
+        },
+        "img7": {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "styled-09-teal.webp",
+            "span": "mid",
+            "caption": "Teal, terracotta, lamplight"
           }
         }
       },
@@ -1182,7 +1191,8 @@
         "img3",
         "img4",
         "img5",
-        "img6"
+        "img6",
+        "img7"
       ],
       "settings": {
         "enable_section": true,

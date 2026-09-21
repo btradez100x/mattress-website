@@ -29,7 +29,7 @@
         {%- if block.type == 'image' and block.settings.enabled -%}
           {%- liquid
             assign span = block.settings.span | default: 'mid'
-            assign fallback = block.settings.fallback_asset | default: 'lifestyle-airy.webp'
+            assign fallback = block.settings.fallback_asset | default: 'styled-01-morning.webp'
             assign img_alt = block.settings.caption
             if img_alt == blank
               assign img_alt = 'Styled by ' | append: brand
@@ -144,13 +144,14 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image",
+          "info": "Rooms only: a bed in a real room, soft light. No product-on-plain-ground, detail shots, side panels, hotel interiors or anything that looks rendered. One image per shoot. Supply at the cell ratio, 1600px wide: wide 5:4, mid 4:5, tall 3:4, square 1:1. An upload here overrides the theme fallback file."
         },
         {
           "type": "text",
           "id": "fallback_asset",
           "label": "Theme fallback asset",
-          "default": "lifestyle-airy.webp",
+          "default": "styled-01-morning.webp",
           "info": "Used when no image is uploaded. Prefer compressed .webp theme assets."
         },
         {
@@ -182,54 +183,63 @@
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-airy.webp",
+            "fallback_asset": "styled-01-morning.webp",
             "span": "wide",
-            "caption": "Soft morning light"
+            "caption": "Morning light, oak and linen"
           }
         },
         {
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-luxury.webp",
-            "span": "tall",
-            "caption": "Navy suite calm"
+            "fallback_asset": "styled-07-home.webp",
+            "span": "wide",
+            "caption": "A room somebody lives in"
           }
         },
         {
           "type": "image",
           "settings": {
             "enabled": true,
-            "fallback_asset": "lifestyle-city.webp",
-            "span": "mid",
-            "caption": "City apartment rest"
-          }
-        },
-        {
-          "type": "image",
-          "settings": {
-            "enabled": true,
-            "fallback_asset": "lifestyle-suite.webp",
-            "span": "tall",
-            "caption": "Depth in place"
-          }
-        },
-        {
-          "type": "image",
-          "settings": {
-            "enabled": true,
-            "fallback_asset": "lifestyle-warm.webp",
-            "span": "mid",
-            "caption": "Warm evening light"
-          }
-        },
-        {
-          "type": "image",
-          "settings": {
-            "enabled": true,
-            "fallback_asset": "lifestyle-edge.webp",
+            "fallback_asset": "styled-08-lake.webp",
             "span": "square",
-            "caption": "Edge support"
+            "caption": "A slow morning by the water"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "styled-02-navy.webp",
+            "span": "tall",
+            "caption": "A navy room with the lamps on"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "styled-05-rose.webp",
+            "span": "mid",
+            "caption": "Rose velvet, city outside"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "styled-06-daylight.webp",
+            "span": "tall",
+            "caption": "Daylight and an olive tree"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "enabled": true,
+            "fallback_asset": "styled-09-teal.webp",
+            "span": "mid",
+            "caption": "Teal, terracotta, lamplight"
           }
         }
       ]
