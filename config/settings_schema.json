@@ -1208,14 +1208,14 @@
         "id": "contact_email",
         "label": "Contact email",
         "default": "hello@onnilondon.co.uk",
-        "info": "Shown in the footer and contact page."
+        "info": "Shown in the footer, contact page, and Trade. One inbox for customers and contract enquiries."
       },
       {
         "type": "text",
         "id": "trade_email",
         "label": "Trade and contract enquiries email",
-        "default": "trade@onnilondon.co.uk",
-        "info": "Shown on the Trade page and used for all bulk order enquiries. If empty, both mailto links fall back to the contact page."
+        "default": "hello@onnilondon.co.uk",
+        "info": "Leave blank to use Contact email. Default is the same inbox: hello@onnilondon.co.uk."
       },
       {
         "type": "paragraph",

@@ -149,6 +149,9 @@
   endif
 
   assign trade_email = settings.trade_email | strip
+  if trade_email == blank
+    assign trade_email = settings.contact_email | strip
+  endif
   assign trade_mailto = ''
   if trade_email != blank
     assign trade_mailto = 'mailto:' | append: trade_email | append: '?subject=Trade%20enquiry'

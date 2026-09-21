@@ -71,6 +71,9 @@
   endif
 
   assign trade_email = settings.trade_email | strip
+  if trade_email == blank
+    assign trade_email = settings.contact_email | strip
+  endif
   assign trade_contact_url = pages['contact'].url | default: '/pages/contact'
   assign brand = settings.brand_name | default: 'Numa' | strip
   assign trade_alt = brand | append: ' mattress in a hotel suite'
