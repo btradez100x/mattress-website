@@ -1,0 +1,30 @@
+# Regression suite for the Onni London trade site in trade/.
+# Runs on every pull request, and on every push that touches the trade path.
+# Does not deploy and does not read One.com or SSH credentials.
+name: Trade site regression
+
+on:
+  pull_request:
+  push:
+    paths:
+      - 'trade/**'
+      - '.github/workflows/trade-ci.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: trade
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build with --check
+        run: node build.mjs --check
+
+      - name: Regression suite
+        run: node --test --test-concurrency=1 test/*.test.mjs

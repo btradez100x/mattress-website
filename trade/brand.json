@@ -1,0 +1,31 @@
+{
+  "_comment": "Single source for every name on the site. Change a value, run the build, every page updates.",
+  "brand": {
+    "name": "Onni London",
+    "core": "Sevencore",
+    "gel": "Coolcell",
+    "cover": "Coolweave",
+    "legal": "Cole Commerce Ltd",
+    "tradeEmail": "trade@onnlondon.co.uk",
+    "incorporated": "2024"
+  },
+  "service": {
+    "adjust": "Adjust to Desire",
+    "unpacking": "Concierge unpacking",
+    "removal": "Old mattress removal and recycling"
+  },
+  "lead": {
+    "_comment": "Lead times in weeks, from cleared deposit. CONFIRM with the factory before publishing.",
+    "standard": "10 to 12 weeks",
+    "bespoke": "12 to 14 weeks",
+    "bespokeFirst": "14 to 16 weeks",
+    "stockFuture": "5 to 10 working days"
+  },
+  "statement": {
+    "_comment": "Modern slavery statement metadata. Update annually.",
+    "period": "the financial year ending 31 March 2026",
+    "approved": "18 September 2026",
+    "signatory": "Ben Acolatse",
+    "role": "Director"
+  }
+}
