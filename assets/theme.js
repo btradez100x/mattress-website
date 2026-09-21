@@ -8484,7 +8484,13 @@
     document.querySelectorAll('.wordmark').forEach(function (a) {
       a.setAttribute('aria-label', line ? name + ' ' + line : name);
     });
-    var tradingName = name;
+    var tradingName = String(name || '').replace(/\s*A sleep company\.?\s*$/i, '').trim();
+    if (line) {
+      var lineTail = String(line).trim();
+      if (lineTail && tradingName.toLowerCase().endsWith(lineTail.toLowerCase())) {
+        tradingName = tradingName.slice(0, tradingName.length - lineTail.length).trim();
+      }
+    }
     document.querySelectorAll('[data-trading-as]').forEach(function (el) {
       el.textContent = tradingName;
     });

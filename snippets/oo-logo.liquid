@@ -22,6 +22,7 @@
     link         false to render without a link (default links to the home page)
     class        extra class names
     id           unique id when rendering more than once on a page (default 'header')
+    hide_descriptor  true to omit the product-line line (footer Trading as)
 {% endcomment %}
 
 {%- liquid
@@ -32,6 +33,9 @@
   assign uid = id | default: 'header'
   assign raw_name = settings.brand_name | default: 'Numa' | strip
   assign product_line = settings.brand_product_line | default: '' | strip
+  if hide_descriptor == true or hide_descriptor == 'true'
+    assign product_line = ''
+  endif
 
   if accent == nil or accent == blank
     assign accent = settings.oo_logo_amp_accent

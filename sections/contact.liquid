@@ -1,6 +1,5 @@
-{%- liquid
-  assign brand = settings.brand_name | default: 'Numa' | strip
--%}
+{%- capture trading_as -%}{% render 'trading-as-name' %}{%- endcapture -%}
+{%- assign trading_as = trading_as | strip -%}
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}
 {%- capture company_no -%}{% render 'company-number' %}{%- endcapture -%}
@@ -38,10 +37,10 @@
             <span>{{ company_no }}</span>
           </li>
         {%- endif -%}
-        {%- if brand != blank and brand != legal_name -%}
+        {%- if trading_as != blank and trading_as != legal_name -%}
           <li>
             <strong>Trading as</strong>
-            <span data-trading-as><span data-brand-text>{{ brand }}</span></span>
+            <span data-trading-as>{{ trading_as }}</span>
           </li>
         {%- endif -%}
         {%- if settings.trade_licence_no != blank -%}

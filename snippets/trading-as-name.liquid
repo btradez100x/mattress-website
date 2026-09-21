@@ -1,0 +1,12 @@
+{%- comment -%}
+  Trading as shows the brand name only. Never the product-line descriptor.
+{%- endcomment -%}
+{%- liquid
+  assign trading_as = settings.brand_name | default: 'Numa' | strip
+  assign product_line = settings.brand_product_line | default: '' | strip
+  if product_line != blank
+    assign trading_as = trading_as | replace: product_line, '' | strip
+  endif
+  assign trading_as = trading_as | replace: 'A sleep company.', '' | replace: 'A sleep company', '' | strip
+-%}
+{{- trading_as -}}
