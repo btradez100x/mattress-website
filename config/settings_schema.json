@@ -1207,14 +1207,14 @@
         "type": "text",
         "id": "contact_email",
         "label": "Contact email",
-        "default": "hello@aligna.com",
+        "default": "hello@onnilondon.co.uk",
         "info": "Shown in the footer and contact page."
       },
       {
         "type": "text",
         "id": "trade_email",
         "label": "Trade and contract enquiries email",
-        "default": "trade@numamattress.com",
+        "default": "trade@onnilondon.co.uk",
         "info": "Shown on the Trade page and used for all bulk order enquiries. If empty, both mailto links fall back to the contact page."
       },
       {
