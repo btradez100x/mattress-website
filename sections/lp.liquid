@@ -309,6 +309,9 @@
                 {%- if block.settings.kicker != blank -%}<p class="kicker">{{ block.settings.kicker | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core }}</p>{%- endif -%}
                 {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | replace: '[Brand]', brand | replace: '[Cover]', cover | replace: '[Gel]', gel | replace: '[Core]', core | newline_to_br }}</h2>{%- endif -%}
               </div>
+              {%- if block.settings.factory_stack -%}
+                {% render 'factory-layer-stack', brand: brand, cover: cover, gel: gel, core: core %}
+              {%- else -%}
               <div class="layers">
                 {%- for i in (1..8) -%}
                   {%- capture nkey -%}layer_{{ i }}_n{%- endcapture -%}
@@ -326,6 +329,7 @@
                   {%- endif -%}
                 {%- endfor -%}
               </div>
+              {%- endif -%}
             </div>
           </div>
         </section>
@@ -587,6 +591,7 @@
       "name": "Layer table",
       "settings": [
         { "type": "text", "id": "anchor_id", "label": "Anchor id", "default": "layers" },
+        { "type": "checkbox", "id": "factory_stack", "label": "Use 13-layer factory stack", "default": false },
         { "type": "text", "id": "kicker", "label": "Kicker" },
         { "type": "textarea", "id": "heading", "label": "Heading" },
         { "type": "text", "id": "layer_1_n", "label": "1 number", "default": "01" },

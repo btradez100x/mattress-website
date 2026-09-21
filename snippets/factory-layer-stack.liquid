@@ -1,0 +1,22 @@
+{%- comment -%}
+  13-layer factory stack. Used when the LP layers block cannot hold 13 setting groups.
+{%- endcomment -%}
+{%- assign brand = brand | default: settings.brand_name | default: 'Numa' -%}
+{%- assign cover = cover | default: settings.cover_material | default: 'Coolweave' -%}
+{%- assign gel = gel | default: settings.gel_material | default: 'Coolcell' -%}
+{%- assign core = core | default: settings.core_name | default: 'Sevencore' -%}
+<div class="layers">
+  <div class="layer"><span class="n">01</span><div><b>{{ brand }} {{ cover }} cover</b><span>400gsm viscose cool-knit. Knitted open so heat leaves rather than gathering. Zip access all the way round.</span></div><em>Cover</em></div>
+  <div class="layer"><span class="n">02</span><div><b>{{ brand }} {{ gel }}</b><span>1cm gel memory foam at the surface. Pulls heat off the skin and contours without holding warmth.</span></div><em>1cm</em></div>
+  <div class="layer"><span class="n">03</span><div><b>Comfort foam</b><span>1.5cm, grade 2030. Softens the transition into the layers below.</span></div><em>1.5cm</em></div>
+  <div class="layer"><span class="n">04</span><div><b>Wave-profile foam</b><span>2.5cm. Channels cut through it so air moves when you do.</span></div><em>2.5cm</em></div>
+  <div class="layer"><span class="n">05</span><div><b>Nonwoven separator</b><span>25g. Keeps the foams above from bonding to the foams below. Nothing is glued to anything.</span></div><em>25g</em></div>
+  <div class="layer"><span class="n">06</span><div><b>Comfort face A</b><span>5cm, grade 2540. The softer face. Density 25, hardness 40.</span></div><em>5cm</em></div>
+  <div class="layer"><span class="n">07</span><div><b>Comfort face B</b><span>5cm, grade 2580. The firmer face. Density 25, hardness 80. Same density, two hardnesses.</span></div><em>5cm</em></div>
+  <div class="layer"><span class="n">08</span><div><b>Nonwoven separator</b><span>70g. Separates the comfort section from the core, which is why the layer still lifts out in year 8.</span></div><em>70g</em></div>
+  <div class="layer"><span class="n">09</span><div><b>Padding</b><span>White. Cushions the spring tops.</span></div><em>White</em></div>
+  <div class="layer core"><span class="n">10</span><div><b>{{ brand }} {{ core }}</b><span>20cm 7-zone pocket springs. 2.0mm at the shoulder, hip and leg. 1.8mm elsewhere. 2.2mm around the edge. Counted per size, not per model.</span></div><em>20cm</em></div>
+  <div class="layer"><span class="n">11</span><div><b>Encased perimeter</b><span>8cm, 35 density. The edge holds when you sit on it.</span></div><em>8cm</em></div>
+  <div class="layer"><span class="n">12</span><div><b>Padding</b><span>White. Cushions the spring base.</span></div><em>White</em></div>
+  <div class="layer"><span class="n">13</span><div><b>Anti-slip base</b><span>Holds position on the frame.</span></div><em>Base</em></div>
+</div>

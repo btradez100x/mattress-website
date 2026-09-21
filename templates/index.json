@@ -54,7 +54,7 @@
         "enable_section": false,
         "eyebrow": "The Swap System",
         "heading": "A better bed, for life.",
-        "body": "The part that softens is the fifteen centimetres of comfort. Ours separates, so you renew that layer instead of the bed.",
+        "body": "The part that softens is the 15cm of comfort. Ours separates, so you renew that layer instead of the bed.",
         "ground": "surface"
       }
     },
@@ -76,7 +76,7 @@
           "settings": {
             "icon": "zones",
             "heading": "Wake without the ache.",
-            "text": "7 zones of springs. Firm under your hips. Soft at your shoulders. Not the same everywhere. Neither are you."
+            "text": "7 zones of springs. 2.0mm at the shoulder, hip and leg. 1.8mm at the head, back, knee and feet."
           }
         },
         "b3": {
@@ -100,7 +100,7 @@
           "settings": {
             "icon": "cool",
             "heading": "Sleep cool.",
-            "text": "400gsm of cooling yarn against you, so heat leaves your skin faster than cotton gives it back."
+            "text": "400gsm viscose cooling yarn against you, so heat leaves your skin faster than cotton gives it back."
           }
         },
         "b6": {
@@ -166,7 +166,7 @@
           "type": "spec",
           "settings": {
             "name": "Cover",
-            "meta": "400 G COOL-KNIT \u00b7 ZIP ACCESS",
+            "meta": "400 G COOL-KNIT VISCOSE · ZIP ACCESS",
             "does": "Opens all the way round to reach the comfort layer"
           }
         },
@@ -174,7 +174,7 @@
           "type": "spec",
           "settings": {
             "name": "Gel memory foam",
-            "meta": "1 CM \u00b7 28 DENSITY",
+            "meta": "1 CM · 28 DENSITY",
             "does": "Contours without trapping heat"
           }
         },
@@ -182,7 +182,7 @@
           "type": "spec",
           "settings": {
             "name": "Comfort foam",
-            "meta": "1.5 CM \u00b7 20 DENSITY",
+            "meta": "1.5 CM · GRADE 2030",
             "does": "The softness you feel first"
           }
         },
@@ -190,7 +190,7 @@
           "type": "spec",
           "settings": {
             "name": "Wave-profile foam",
-            "meta": "2.5 CM \u00b7 20 DENSITY",
+            "meta": "2.5 CM · 20 DENSITY",
             "does": "Moves air through the comfort layers"
           }
         },
@@ -198,15 +198,15 @@
           "type": "spec",
           "settings": {
             "name": "Flippable comfort layer",
-            "meta": "10 CM \u00b7 2 CM 2540 OVER 8 CM 2580",
-            "does": "Medium one side, medium firm the other"
+            "meta": "10 CM · 5 CM 2540 AND 5 CM 2580",
+            "does": "Same density, two hardnesses. Medium one face, medium firm the other"
           }
         },
         "s7": {
           "type": "spec",
           "settings": {
             "name": "Pocket spring core",
-            "meta": "20 CM \u00b7 7 ZONES \u00b7 1.8 / 2.0 MM WIRE",
+            "meta": "20 CM · 7 ZONES · 1.8 / 2.0 MM WIRE · 2.2 MM EDGE",
             "does": "Individually pocketed, so movement does not travel"
           }
         },
@@ -214,7 +214,7 @@
           "type": "spec",
           "settings": {
             "name": "Encased perimeter",
-            "meta": "7 CM \u00b7 35 DENSITY",
+            "meta": "8 CM · 35 DENSITY",
             "does": "Holds the edge. Sit on it without sliding"
           }
         },
@@ -224,6 +224,14 @@
             "name": "Underside",
             "meta": "ANTI-SLIP",
             "does": "Stays where you put it"
+          }
+        },
+        "s_springs": {
+          "type": "spec",
+          "settings": {
+            "name": "Springs by size",
+            "meta": "SINGLE 324 · DOUBLE 513 · KING 609 · SUPER KING 754 · EMPEROR 841",
+            "does": "Counted per size, not per model"
           }
         }
       },
@@ -236,6 +244,7 @@
         "s5",
         "s6",
         "s7",
+        "s_springs",
         "s8",
         "s9"
       ],
@@ -296,7 +305,7 @@
         "proof_oeko": {
           "type": "proof",
           "settings": {
-            "caption": "OEKO-TEX\u00ae STANDARD 100",
+            "caption": "OEKO-TEX® STANDARD 100",
             "link": ""
           }
         }
@@ -352,7 +361,7 @@
         "offer_oeko": {
           "type": "offer_item",
           "settings": {
-            "title": "OEKO-TEX\u00ae STANDARD 100",
+            "title": "OEKO-TEX® STANDARD 100",
             "text": "Textiles independently tested for harmful substances.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -376,7 +385,7 @@
         "cta_link": "#reserve",
         "body_ae": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
         "body_gb": "Cancel any time before dispatch. Honest lead times. Delivery options confirmed at checkout.",
-        "replacement_top_price_gb": "A comfort layer is \u00a3299.",
+        "replacement_top_price_gb": "A comfort layer is £299.",
         "replacement_top_price_ae": "A comfort layer is AED 1,200.",
         "replacement_frame": "<p>The part that softens is replaceable. The part that lasts, lasts.</p>",
         "ground": "dark"
@@ -598,6 +607,14 @@
             "answer": "Close, but not identical. Every mattress is hand-assembled and fabrics are sourced in batches, so the shade of the cover or the side panel can vary very slightly between runs. It is the same difference you would see between two lengths of the same cloth.\n\nWhat never varies is what is inside it. The spring unit, the comfort layers, the depth, the firmness and the construction are identical in every mattress we make, to the same specification.\n\nIf yours arrives and you are not happy with it for any reason, including how it looks, you have [N] nights to tell us and we will collect it and refund you in full.",
             "payment_mode_visibility": "all"
           }
+        },
+        "faq_springs": {
+          "type": "item",
+          "settings": {
+            "question": "Why do other mattresses claim more springs?",
+            "answer": "Because a spring count is often a model name rather than a measurement. If a brand quotes the same number for a single and a super king, it is a label on the box.\n\nOurs changes with the size, because we count them. Single 324, Double 513, King 609, Super King 754, Emperor 841.\n\nA single layer of pocket springs cannot physically hold a thousand at king size. Higher figures come from stacking smaller springs above the main unit, or from the number being chosen rather than counted.\n\nWhat matters more than the count is the wire. Ours is 1.8 and 2.0mm through the unit with 2.2mm around the edge, in seven zones.",
+            "payment_mode_visibility": "all"
+          }
         }
       },
       "block_order": [
@@ -606,6 +623,7 @@
         "faq_further",
         "faq_partner",
         "faq_motion",
+        "faq_springs",
         "faq_9",
         "faq_6",
         "faq_7",
@@ -678,7 +696,7 @@
           "type": "item",
           "settings": {
             "icon": "oeko",
-            "label": "OEKO-TEX\u00ae STANDARD 100",
+            "label": "OEKO-TEX® STANDARD 100",
             "sublabel": "Textiles independently tested",
             "link": "#specs",
             "market_visibility": "all"
@@ -711,7 +729,7 @@
           "type": "step",
           "settings": {
             "title": "Measure the sleeping surface",
-            "body": "<p>Strip the sheets. Measure the mattress itself - width \u00d7 length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
+            "body": "<p>Strip the sheets. Measure the mattress itself - width × length - with a tape in centimetres. Do not measure the outer bed frame or headboard.</p>"
           }
         },
         "m2": {
@@ -724,7 +742,7 @@
         "m3": {
           "type": "step",
           "settings": {
-            "title": "Match width \u00d7 length",
+            "title": "Match width × length",
             "body": "<p>Find the listed size whose cm dimensions match your measurement. Ignore marketing names if the centimetres disagree - order by the numbers.</p>"
           }
         },

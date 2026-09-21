@@ -5,16 +5,16 @@
   assign eyebrow = section.settings.eyebrow | default: 'How it is made'
   assign heading = section.settings.heading | default: 'Built in two parts.
 Closed with a zip.'
-  assign lede = section.settings.lede | default: 'Thirty five centimetres. A pocket spring core beneath a comfort layer that lifts out. Made after you order it, in the size you ask for.'
+  assign lede = section.settings.lede | default: '35cm. A pocket spring core beneath a comfort layer that lifts out. Made after you order it, in the size you ask for.'
   assign core_heading = section.settings.core_heading | default: 'The core'
   assign core_body = section.settings.core_body
   if core_body == blank
-    assign core_body = '<p>Twenty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>'
+    assign core_body = '<p>20cm of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year 20. It carries a 25 year guarantee. Zone 2 is your shoulder, zone 4 is your hip, zone 6 is your leg: those three are 2.0mm. Head, back, knee and feet sit on 1.8mm. 2.2mm around the edge.</p>'
   endif
   assign layer_heading = section.settings.layer_heading | default: 'The layer'
   assign layer_body = section.settings.layer_body
   if layer_body == blank
-    assign layer_body = '<p>Ten centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><div class="lp-pull"><p>Every mattress you have thrown away was thrown away because of ten centimetres.</p></div><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>When you tell us how it should feel, we send the layer that takes you there. You keep every layer, so you can go back to whichever suited best.</p><p>Two minutes to change. No tools.</p>'
+    assign layer_body = '<p>10cm, two 5cm faces at the same density and different hardness, built as its own product rather than glued into the mattress. Nonwoven separators, 25g and 70g, keep the foams from bonding. It sits under the top panel and comes out with a zip.</p><div class="lp-pull"><p>Every mattress you have thrown away was thrown away because of 10cm.</p></div><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for 25 years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>When you tell us how it should feel, we send the layer that takes you there. You keep every layer, so you can go back to whichever suited best.</p><p>Two minutes to change. No tools.</p>'
   endif
   assign made_heading = section.settings.made_heading | default: 'Made after you order'
   assign made_body = section.settings.made_body
@@ -24,7 +24,7 @@ Closed with a zip.'
   assign heritage = section.settings.heritage | default: 'Made by experts who have been making mattresses for 49 years.'
   assign sizes_heading = section.settings.sizes_heading | default: 'The sizes'
   assign sizes_lede = section.settings.sizes_lede | default: 'British and European. Every size, one construction.'
-  assign sizes_note = section.settings.sizes_note | default: 'Every size, one construction. Thirty five centimetres throughout.'
+  assign sizes_note = section.settings.sizes_note | default: 'Every size, one construction. 35cm throughout.'
   assign outcome_heading = section.settings.outcome_heading | default: 'A bed that becomes yours,
 and stays that way.'
   assign cta_label = section.settings.cta_label | default: 'Choose your size'
@@ -205,9 +205,9 @@ and stays that way.'
             <p class="lp-outcome__desc">Concierge unpacking. Room of your choice. Unrolled onto your bed. Your old mattress leaves with the packaging.</p>
           </div>
           <div class="lp-outcome__item">
-            <p class="section__eyebrow lp-kicker lp-outcome__kicker">Twenty five years</p>
+            <p class="section__eyebrow lp-kicker lp-outcome__kicker">25 years</p>
             <hr class="gold-rule">
-            <p class="lp-outcome__name">It stays right for twenty five years.</p>
+            <p class="lp-outcome__name">It stays right for 25 years.</p>
             <p class="lp-outcome__desc">The part that softens is replaceable. The part that lasts, lasts.</p>
           </div>
         {%- endif -%}
@@ -241,7 +241,7 @@ and stays that way.'
       "type": "textarea",
       "id": "lede",
       "label": "Supporting line",
-      "default": "Thirty five centimetres. A pocket spring core beneath a comfort layer that lifts out. Made after you order it, in the size you ask for."
+      "default": "35cm. A pocket spring core beneath a comfort layer that lifts out. Made after you order it, in the size you ask for."
     },
     {
       "type": "header",
@@ -291,7 +291,7 @@ and stays that way.'
       "type": "richtext",
       "id": "core_body",
       "label": "Core body",
-      "default": "<p>Twenty centimetres of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year twenty. It carries a twenty five year guarantee.</p>"
+      "default": "<p>20cm of individually pocketed springs. Each one moves alone, so one person turning over does not move the other side of the bed.</p><p>This is the part that lasts. Pocket springs do not soften the way foam does, and a well-built core is still doing its job at year 20. It carries a 25 year guarantee. Zone 2 is your shoulder, zone 4 is your hip, zone 6 is your leg: those three are 2.0mm. Head, back, knee and feet sit on 1.8mm. 2.2mm around the edge.</p>"
     },
     {
       "type": "text",
@@ -303,7 +303,7 @@ and stays that way.'
       "type": "richtext",
       "id": "layer_body",
       "label": "Layer body",
-      "default": "<p>Ten centimetres, built as its own product rather than glued into the mattress. It sits under the top panel and comes out with a zip.</p><p>Every mattress you have thrown away was thrown away because of ten centimetres.</p><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for twenty five years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>When you tell us how it should feel, we send the layer that takes you there. You keep every layer, so you can go back to whichever suited best.</p><p>Two minutes to change. No tools.</p>"
+      "default": "<p>10cm, two 5cm faces at the same density and different hardness, built as its own product rather than glued into the mattress. Nonwoven separators, 25g and 70g, keep the foams from bonding. It sits under the top panel and comes out with a zip.</p><p>Every mattress you have thrown away was thrown away because of 10cm.</p><p>Underneath, the core was almost certainly still sound. Renewing the layer keeps the bed right for 25 years, and it is why the feel can be settled after you own it rather than guessed at before.</p><p>When you tell us how it should feel, we send the layer that takes you there. You keep every layer, so you can go back to whichever suited best.</p><p>Two minutes to change. No tools.</p>"
     },
     {
       "type": "header",
@@ -347,7 +347,7 @@ and stays that way.'
       "type": "text",
       "id": "sizes_note",
       "label": "Sizes note",
-      "default": "Every size, one construction. Thirty five centimetres throughout."
+      "default": "Every size, one construction. 35cm throughout."
     },
     {
       "type": "header",
@@ -428,7 +428,7 @@ and stays that way.'
         { "type": "size", "settings": { "label": "Emperor", "dims": "200 × 200cm" } },
         { "type": "outcome", "settings": { "kicker": "The feel", "heading": "You do not choose the feel. You discover it.", "text": "Feel is discovered over months of use. You have a year with us. We adjust it until it is." } },
         { "type": "outcome", "settings": { "kicker": "Arrival", "heading": "It arrives finished.", "text": "Concierge unpacking. Room of your choice. Unrolled onto your bed. Your old mattress leaves with the packaging." } },
-        { "type": "outcome", "settings": { "kicker": "Twenty five years", "heading": "It stays right for twenty five years.", "text": "The part that softens is replaceable. The part that lasts, lasts." } }
+        { "type": "outcome", "settings": { "kicker": "25 years", "heading": "It stays right for 25 years.", "text": "The part that softens is replaceable. The part that lasts, lasts." } }
       ]
     }
   ]

@@ -2150,7 +2150,7 @@
   function initSizeHelp() {
     var HELP = {
       ikea: 'Continental and IKEA frames take 160 \u00d7 200cm. That is European King.',
-      two: 'Super King gives each sleeper 90cm, the width of a single bed. Emperor gives a full metre each. If one of you moves, that ten centimetres is the difference between waking and not.',
+      two: 'Super King gives each sleeper 90cm, the width of a single bed. Emperor gives a full metre each. If one of you moves, that 10cm is the difference between waking and not.',
       measure: 'Measure the inside of the frame, not the mattress in it. Width first, then length, in centimetres. If it falls between two of these, take the smaller one.',
     };
     document.querySelectorAll('[data-size-help]').forEach(function (btn) {
@@ -6076,7 +6076,7 @@
             'Two comfort layers, tailored separately after a month'
           ]
         : [
-            'Seven-zone pocket spring core, twenty five year guarantee',
+            '7-zone pocket spring core, 25 year guarantee',
             'Removable comfort layer, medium one face and medium firm the other'
           ];
     var html =
