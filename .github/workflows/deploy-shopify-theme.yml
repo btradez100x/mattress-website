@@ -1,4 +1,5 @@
 # Pushes valtora-theme/ to the unpublished (or named) theme on each push to main/v9.
+# Path-filtered: trade/ changes do not run this job (see trade-ci.yml).
 # Secrets (repo → Settings → Secrets and variables → Actions):
 #   SHOPIFY_STORE            e.g. 7dbr1b-1q.myshopify.com
 #   SHOPIFY_CLI_THEME_TOKEN  Theme Access password (Shopify Admin → Settings → Apps)

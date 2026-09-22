@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "include-component-in-tag": true,
+  "include-v-in-tag": true,
+  "separate-pull-requests": true,
+  "packages": {
+    "trade": {
+      "release-type": "node",
+      "package-name": "onni-london-trade",
+      "component": "onni-london-trade",
+      "changelog-path": "CHANGELOG.md",
+      "initial-version": "1.0.0"
+    }
+  }
+}
