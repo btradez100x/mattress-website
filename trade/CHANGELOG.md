@@ -10,17 +10,24 @@ commit lands on `main`. Tags look like `onni-london-trade-vX.Y.Z`.
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-09-22
+
+Saved live snapshot on `mattress.valtoraholdings.com` before the wording and
+URL pack. Same pages and auth as 1.2.1, with the live trade email.
+
 ### Changed
 
 - Trade contact is `trade@onnlondon.co.uk` (same local part, domain only)
+
+This is the production freeze of what was live on 22 September 2026. Retrieve
+it with git tag `onni-london-trade-v1.2.2`.
 
 ## [1.2.1] - 2026-09-18
 
 Saved live snapshot on `mattress.valtoraholdings.com`. Same content as 1.2.0
 plus the Carbon-band door CTA fix that went live with that pass.
 
-This is the production freeze. Do not upload over it until Ben signs off the
-next pack.
+Superseded as the live freeze by 1.2.2 (email domain).
 
 ## [1.2.0] - 2026-09-18
 
