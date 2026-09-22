@@ -1,0 +1,21 @@
+Policy: Refunds & cancellations
+Handle: refunds
+Captured: 2026-09-22T14:01:30Z
+Last-modified setting: 2026-09-22T14:01:30Z
+
+Refunds and cancellations are handled by [Legal].
+
+## Cancel before dispatch
+You can cancel any time before your mattress is dispatched for a full refund, no questions asked.
+
+## How to cancel
+Email or WhatsApp us with your order number. No forms designed to slow you down.
+
+## Timing & method
+Refunds return to the original payment method within 5-10 business days of cancellation confirmation.
+
+## After delivery
+Once it arrives you still have 100 nights to decide. If it is not right we collect it and refund you.
+
+## Who to contact
+Use the email or WhatsApp on our contact page. We reply within one working day.

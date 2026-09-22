@@ -1,0 +1,18 @@
+Policy: Delivery & lead time
+Handle: delivery
+Captured: 2026-09-22T14:01:30Z
+Last-modified setting: 2026-09-22T14:01:30Z
+
+Delivery is arranged by [Legal].
+
+## Lead time
+Each mattress is made to order and delivered in 8 to 10 weeks. Most orders arrive sooner. If we are going to miss that window we will tell you before the date, and you can cancel for a full refund.
+
+## How dispatch is confirmed
+You receive written confirmation with a delivery window. Cancel any time before dispatch for a full refund.
+
+## Delivery
+Delivery into your home is arranged for your market. Options and any access requirements are confirmed before dispatch. There is no setup service contracted at this time.
+
+## Areas served
+UAE: mainland delivery on the founding allocation; remote areas confirmed at checkout. UK: fulfilment route confirmed per order.

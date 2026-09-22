@@ -7624,6 +7624,21 @@ html.shopify-design-mode .section--wipe.is-wiping {
   padding-left: 1.15rem;
   max-width: 40rem;
 }
+.policy-updated {
+  margin: 2.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  max-width: 40rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  opacity: 0.72;
+}
+.policy-updated time {
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
 .policy-cta {
   text-align: center;
   padding-block: clamp(3.5rem, 8vw, 5.5rem);

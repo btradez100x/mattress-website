@@ -26,6 +26,7 @@ REQUIRED_PATHS=(
   "config/settings_data.json"
   "assets/base.css"
   "assets/theme.js"
+  "assets/checkout-return.js"
   "assets/utm-persistence.js"
   "snippets/wordmark.liquid"
   "snippets/css-variables.liquid"
@@ -48,11 +49,13 @@ REQUIRED_PATHS=(
   "templates/page.landing.json"
   "templates/page.size-guide.json"
   "templates/page.trial.json"
+  "templates/page.365-night-programme.json"
   "templates/page.warranty.json"
   "templates/page.refunds.json"
   "templates/page.delivery.json"
   "templates/page.contact.json"
   "templates/page.order-status.json"
+  "templates/page.order-confirmed.json"
   "templates/page.privacy.json"
   "templates/page.terms.json"
   "templates/page.cookies.json"
@@ -570,10 +573,13 @@ else
 fi
 
 if grep -q "privacy_link" "$THEME/sections/footer.liquid" \
+  && grep -q "programme_link" "$THEME/sections/footer.liquid" \
   && [[ -f "$THEME/templates/page.privacy.json" ]] \
+  && [[ -f "$THEME/templates/page.365-night-programme.json" ]] \
   && [[ -f "$ROOT/preview/pages/privacy.html" ]] \
   && [[ -f "$ROOT/preview/pages/terms.html" ]] \
   && [[ -f "$ROOT/preview/pages/cookies.html" ]] \
+  && [[ -f "$ROOT/preview/pages/365-night-programme.html" ]] \
   && [[ -f "$ROOT/preview/pages/comfort-top.html" ]] \
   && [[ -f "$ROOT/preview/pages/comfort-layer.html" ]] \
   && [[ -f "$ROOT/preview/pages/bed-sheets.html" ]] \
@@ -581,6 +587,26 @@ if grep -q "privacy_link" "$THEME/sections/footer.liquid" \
   pass "policy + product preview pages exist"
 else
   fail "policy or comfort-top preview pages missing"
+fi
+
+if grep -q "policy-updated" "$THEME/sections/trust-policy.liquid" \
+  && grep -q "last_modified" "$THEME/sections/trust-policy.liquid" \
+  && grep -q "policy-updated" "$THEME/assets/base.css" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/trial.html" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/365-night-programme.html" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/terms.html" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/privacy.html" \
+  && [[ -f "$ROOT/docs/policy-log/CHANGELOG.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/100-night-trial.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/365-night-programme.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/terms.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/privacy.txt" ]] \
+  && grep -q "first_time_accessed" "$ROOT/docs/CHECKOUT_THANK_YOU.md" \
+  && grep -q "orderConfirmed" "$THEME/layout/theme.liquid" \
+  && grep -q "snapshotSuccessfulOrderIfNeeded" "$THEME/assets/theme.js"; then
+  pass "policy stamps, policy log, and checkout return notes present"
+else
+  fail "policy stamps, policy log, or checkout return wiring missing"
 fi
 
 if grep -q 'localhost' "$ROOT/apps/order-status-worker/wrangler.toml"; then

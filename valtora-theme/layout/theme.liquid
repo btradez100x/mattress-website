@@ -135,6 +135,7 @@
         cart: {{ routes.cart_url | json }},
         checkout: {{ routes.root_url | append: 'checkout' | json }},
         review: {{ pages['checkout'].url | default: '/pages/checkout' | json }},
+        orderConfirmed: {{ pages['order-confirmed'].url | default: '/pages/order-confirmed' | json }},
         root: {{ routes.root_url | json }}
       };
     </script>

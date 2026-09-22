@@ -1,0 +1,17 @@
+Policy: Cookies
+Handle: cookies
+Captured: 2026-09-22T14:01:30Z
+Last-modified setting: 2026-09-22T14:01:30Z
+
+This cookie notice is issued by [Legal].
+
+## Essential
+We use cookies and local storage to keep your basket, market, and theme preference. These are required for the site to work.
+
+## Analytics
+If analytics is enabled, we measure page views and checkout steps so we can see what is broken. We do not use that data to advertise to you on other sites.
+
+## Choices
+You can block non-essential cookies in your browser. The basket may not persist if essential storage is blocked.
+
+Replace this fallback with the full policy from Shopify Settings → Policies when you publish.

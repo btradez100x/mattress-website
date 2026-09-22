@@ -37,6 +37,7 @@
     assign home_hash = routes.root_url
   endunless
   assign trial_url = section.settings.trial_link | default: pages['100-night-trial'].url | default: '/pages/100-night-trial'
+  assign programme_url = section.settings.programme_link | default: pages['365-night-programme'].url | default: '/pages/365-night-programme'
   assign warranty_url = section.settings.warranty_link | default: pages['warranty'].url | default: '/pages/warranty'
   assign refund_url = section.settings.refund_link | default: pages['refunds-deposit'].url | default: '/pages/refunds-deposit'
   assign delivery_url = section.settings.delivery_link | default: pages['delivery-lead-time'].url | default: '/pages/delivery-lead-time'
@@ -151,6 +152,7 @@
           {%- endunless -%}
         {%- else -%}
           <li><a href="{{ trial_url }}">100-night trial</a></li>
+          <li><a href="{{ programme_url }}">365-night programme</a></li>
           <li><a href="{{ warranty_url }}">Warranty</a></li>
           <li><a href="{{ refund_url }}">Refunds &amp; cancellations</a></li>
           <li><a href="{{ delivery_url }}">Delivery &amp; lead time</a></li>
@@ -227,6 +229,11 @@
       "type": "url",
       "id": "trial_link",
       "label": "Trial page"
+    },
+    {
+      "type": "url",
+      "id": "programme_link",
+      "label": "365-night programme page"
     },
     {
       "type": "url",
