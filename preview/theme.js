@@ -4648,11 +4648,14 @@
       }
       if (leadEl) {
         var cartLead = resolveCartLeadTime(lines);
-        leadEl.textContent =
-          cartLead.display ||
-          (lines[0] && lines[0].leadWindow) ||
-          page.getAttribute('data-lead-window') ||
-          '8 to 10 weeks';
+        var leadText = (cartLead && cartLead.display) || '';
+        if (!lines.length || !leadText || /^0(\s+to\s+0)?\s+weeks?$/i.test(leadText)) {
+          leadText =
+            (lines[0] && lines[0].leadWindow) ||
+            page.getAttribute('data-lead-window') ||
+            '8 to 10 weeks';
+        }
+        leadEl.textContent = leadText;
       }
 
       if (linesEl) {
