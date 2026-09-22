@@ -1,7 +1,7 @@
 # Trade Site  /  Build Spec
 
-Nine static pages. No framework, no npm install, no runtime. Node builds it, a
-static host serves it.
+Five static pages behind password protection on a subdomain. No framework, no
+npm install, no runtime. Node builds it, a static host serves it.
 
 ---
 
@@ -54,15 +54,15 @@ which access group opens it.** This section is a summary only.
 | `index.html` | Trade | Open |
 | `the-bed.html` | Trade | Open |
 | `modern-slavery.html` | Trade, and pasted to Shopify | Open |
-| `sales-consultant.html` | Trade | Open |
+| `agents.html` | Trade | Open |
 | `b2b-strategy.html` | Trade | Internal |
 | `training.html` | Trade | Internal |
 | `specification.html` | Trade | Specification partners |
 | `retail.html` | Trade | Retail partners |
 | `contract.html` | Trade | Contract buyers |
 
-Nav chrome is identical on every page. Partner-facing HTML does not link Strategy
-or Training. Internal and master see those links. See `DEPLOYMENT.md` section 4.
+Navigation differs by page. Partner-facing pages do not link to the strategy
+page. See `DEPLOYMENT.md` section 4.
 
 ## 4. Design system
 
@@ -120,18 +120,17 @@ pages. Consumer product shots appear only where construction is the argument.
 | Page | Images |
 |---|---|
 | index | trade-suite, product-profile, coolknit-side, room-calm |
-| the-bed | product-floating, room-calm, room-dark, product-profile, coolknit-macro, quilt-macro, coolknit-corner, spring.mp4, compression.mp4 |
 | specification | room-marble, product-profile, coolknit-side |
 | retail | room-suite, product-profile, coolknit-side |
 | contract | trade-penthouse, trade-apartment, room-hotel, product-profile, coolknit-side |
-| sales-consultant | trade-view, coolknit-macro, quilt-macro, product-floating |
-| training | trade-twin |
+| agents | trade-view, coolknit-macro, quilt-macro, product-floating |
 
 Every image carries `width`, `height`, `loading` and `decoding`. Heroes are
 `eager`, everything else `lazy`. **Always set width and height**, or the page
 shifts as images load.
 
-Videos take `preload="none"`. They live on `the-bed.html`.
+The two videos are unused. If one is added it takes `preload="none"`, because the
+pair is 4.2MB and would otherwise load on every page.
 
 ---
 
@@ -144,7 +143,7 @@ writes the copy.
 - **an em dash** becomes a hyphen with spaces
 - **handmade** becomes made to order or hand assembled
 - The country of manufacture is not named, anywhere
-- **Numbers are numerals in body copy** (12 not twelve, 1 not one). Pronoun "one" stays a word. Numerals in tables and prices.
+- Numbers are written out in body copy. Numerals in tables and prices.
 - `{{brand.core}}` on first mention takes the full form with a plain-English
   appositive. The name alone every mention after. **Never mix.** A page saying
   "seven-zone pocket spring core" in one place and the product name in another
@@ -241,6 +240,27 @@ and repel considered ones.
 ## 8. Before it goes live
 
 1. `brand.tradeEmail` is `trade@onnlondon.co.uk`. Keep the local part; only the domain changes.
-2. Confirm whether `sales-consultant.html` sits inside or outside the password.
+2. `agents.html` is open. Confirm only if that decision changes.
 3. Wire `--check` into the deploy step so it cannot ship with an unresolved token.
 4. Point the subdomain at `/dist`.
+
+### Terminology
+
+**We appoint agents, not consultants.** An agent is self-employed, carries several
+non-competing lines, is paid commission only and brings an existing book of buyers.
+That is the relationship described on every page and in every document.
+
+Use:
+
+- **agent** in general copy
+- **commercial agent** where the legal status matters, such as the agreement and the
+  agents page title
+
+Do not use "sales consultant", "rep", "salesperson" or "sales team" for this role.
+"Consultant" implies an employee, and an experienced agent reading it will assume a job
+and move on.
+
+**"FF&E consultants" is a buyer type, not our role.** It refers to the procurement and
+design consultants who specify furniture for a project. It stays exactly as it is.
+
+The agents page lives at `/agents.html`. There is no `/sales-consultant.html`.

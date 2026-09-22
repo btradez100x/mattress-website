@@ -14,7 +14,7 @@
 
   function insert(nav) {
     if (nav.querySelector('a[href="' + STRATEGY + '"]')) return;
-    var work = nav.querySelector('a[href="/sales-consultant.html"]');
+    var work = nav.querySelector('a[href="/agents.html"]');
     if (!work) return;
     var file = currentFile();
     var strategy = document.createElement('a');

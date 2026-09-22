@@ -90,7 +90,7 @@ test('table headings stay on one line and text columns are marked', () => {
   assert.match(css, /th\.text\{text-align:left\}/);
   assert.match(css, /td\.text\{text-align:left/);
   assert.match(css, /\.obj th,\.obj td\{text-align:left\}/);
-  const sales = readDist('sales-consultant.html');
+  const sales = readDist('agents.html');
   assert.match(sales, /<th class="text">What it looks like<\/th>/);
   assert.match(sales, /<td class="text">Designer accounts only<\/td>/);
   assert.match(sales, /<th class="text">What a typical order looks like<\/th>/);
@@ -157,7 +157,7 @@ test('door prices sit on a shared row and dark cards keep contrast', () => {
   ensureCheckBuild();
   const index = readDist('index.html');
   assert.match(index, /From 12 units/);
-  assert.match(index, /placing 200 are different sales/);
+  assert.match(index, /placing two hundred are different sales/);
   const bed = readDist('the-bed.html');
   const cta = bed.match(/<div class="cta-row">([\s\S]*?)<\/div>/);
   assert.ok(cta, 'the-bed is missing the door CTA row');

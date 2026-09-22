@@ -22,7 +22,7 @@ test('DEPLOYMENT.md still lists every page and its access group', () => {
     'index.html': 'Open',
     'the-bed.html': 'Open',
     'modern-slavery.html': 'Open',
-    'sales-consultant.html': 'Open',
+    'agents.html': 'Open',
     'b2b-strategy.html': 'Internal',
     'training.html': 'Internal',
     'specification.html': 'Specification partners',
@@ -36,9 +36,9 @@ test('DEPLOYMENT.md still lists every page and its access group', () => {
     assert.match(row, new RegExp(access), `${file} access should be ${access}`);
   }
   assert.deepEqual(OPEN_PAGES.sort(), [
+    'agents.html',
     'index.html',
     'modern-slavery.html',
-    'sales-consultant.html',
     'the-bed.html',
   ]);
   assert.deepEqual(GATED_PAGES.sort(), [
@@ -64,7 +64,8 @@ test('partner-facing HTML omits Strategy and Training; internal HTML includes bo
     assert.match(nav, /specification\.html/);
     assert.match(nav, /retail\.html/);
     assert.match(nav, /contract\.html/);
-    assert.match(nav, /sales-consultant\.html/);
+    assert.match(nav, /agents\.html/);
+    assert.match(nav, />Agents</, `${page} nav should say Agents`);
     assert.match(nav, />How it works</, `${page} nav should say How it works`);
     assert.doesNotMatch(nav, />Trade</, `${page} nav still says Trade`);
   }
@@ -106,8 +107,8 @@ test('every page is noindex and robots disallow the host', () => {
 test('encoded access map matches DEPLOYMENT routes', () => {
   assert.equal(PAGE_RULES['index.html'].route, '/');
   assert.equal(PAGE_RULES['b2b-strategy.html'].access, 'internal');
-  assert.equal(PAGE_RULES['sales-consultant.html'].access, 'open');
-  assert.equal(PAGE_RULES['sales-consultant.html'].nav, 'partner');
+  assert.equal(PAGE_RULES['agents.html'].access, 'open');
+  assert.equal(PAGE_RULES['agents.html'].nav, 'partner');
   assert.equal(PAGE_RULES['training.html'].access, 'internal');
   assert.equal(PAGE_RULES['the-bed.html'].access, 'open');
 });

@@ -4,7 +4,9 @@ Static trade pages. Node builds `src/` to `dist/`. A static host serves `dist/`.
 No framework, no `npm install`, no runtime.
 
 This folder is the Onni London trade pack plus tests and versioning. It is not
-the Shopify theme (`valtora-theme/`). Body copy uses numerals (12 not twelve).
+the Shopify theme (`valtora-theme/`). Body copy spells quantities (twelve not
+12). Numerals stay in tables and prices. The role is commercial agent, at
+`/agents.html`.
 
 ## Run
 
@@ -29,7 +31,7 @@ does not store partner passwords. See `DEPLOYMENT.md`.
 | `index.html` | Open |
 | `the-bed.html` | Open |
 | `modern-slavery.html` | Open |
-| `sales-consultant.html` | Open |
+| `agents.html` | Open |
 | `b2b-strategy.html` | Internal |
 | `training.html` | Internal |
 | `specification.html` | Specification partners |

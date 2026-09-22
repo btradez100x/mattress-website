@@ -10,6 +10,21 @@ commit lands on `main`. Tags look like `onni-london-trade-vX.Y.Z`.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-09-22
+
+Wording and URL alignment pack (`onni-london-trade-site_7246.zip`). Same look
+and auth as 1.2.2. Trade email stays `trade@onnlondon.co.uk`.
+
+### Changed
+
+- Recruitment page is `/agents.html` (was `/sales-consultant.html`)
+- Nav label is Agents (was Work with us)
+- Role wording is commercial agent, not sales consultant
+- Body copy spells quantities; tables and prices keep digits
+- Home Carbon CTA points at `/agents.html`
+
+B2B v7 / `1.3.0-beta.1` is unrelated and remains scrapped.
+
 ## [1.2.2] - 2026-09-22
 
 Saved live snapshot on `mattress.valtoraholdings.com` before the wording and

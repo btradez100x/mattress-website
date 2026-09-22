@@ -28,7 +28,7 @@ Link it from the site footer. Procurement teams look for it there first.
 | `index.html` | `/` | **Open** |
 | `the-bed.html` | `/the-bed.html` | **Open** |
 | `modern-slavery.html` | `/modern-slavery.html` | **Open** |
-| `sales-consultant.html` | `/sales-consultant.html` | **Open** |
+| `agents.html` | `/agents.html` | **Open** |
 | `b2b-strategy.html` | `/b2b-strategy.html` | **Internal** |
 | `training.html` | `/training.html` | **Internal** |
 | `specification.html` | `/specification.html` | Specification partners |
@@ -41,16 +41,17 @@ Deploy `/dist` after running `node build.mjs`. Never deploy `/src`.
 
 ## 3. The three that needed a decision
 
-### Sales consultant is open
+### Agents is open
 
 A password on a recruitment page halves the applications. Nothing on it helps a
 competitor beyond knowing the commission band, and a candidate who has to email
-for access will not email.
+for access will not email. The page lives at `/agents.html`. There is no
+`/sales-consultant.html` in this version; the host may rewrite the old path.
 
 ### B2B strategy is gated, and gated **internal**, not with the trade groups
 
 It contains no prices, no costs, no margins and no supplier detail. It is gated
-anyway, because it names the segments we cannot win yet and tells a consultant
+anyway, because it names the segments we cannot win yet and tells an agent
 when to walk away from a deal. A buyer reading "flagged hotel chains, not yet, do
 not work the deal" learns something they should not.
 
@@ -85,7 +86,7 @@ Nav chrome is the same on every page: type size, weight, spacing, colour, and
 layout. The label for `/` is **How it works**.
 
 **Partner-facing HTML** carries How it works, The bed, Specification, Retail,
-Contract and Work with us. It does **not** link to Strategy or Training, because
+Contract and Agents. It does **not** link to Strategy or Training, because
 a specification partner clicking a link they cannot open is a worse experience
 than not seeing it.
 
@@ -117,7 +118,7 @@ Four groups:
 
 A master credential opens all four.
 
-**Rotate the internal password whenever a consultant stops working on the
+**Rotate the internal password whenever an agent stops working on the
 account.** It costs nothing and it is the one that matters most.
 
 ---
