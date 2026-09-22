@@ -4950,19 +4950,6 @@
       document.documentElement.style.setProperty('--float-basket-space', h + 'px');
     }
 
-    function copyrightAtPageEnd() {
-      var copyright =
-        document.querySelector('[data-footer-copyright]') || document.querySelector('.site-footer__bottom');
-      var footer = document.querySelector('.site-footer');
-      var el = copyright || footer;
-      if (!el) return false;
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var rect = el.getBoundingClientRect();
-      var doc = document.documentElement;
-      var atScrollEnd = doc.scrollHeight - window.scrollY - vh < 8;
-      return atScrollEnd || rect.bottom <= vh + 1;
-    }
-
     function narrowBasket() {
       return !(window.matchMedia && window.matchMedia('(min-width: 980px)').matches);
     }
@@ -4979,7 +4966,7 @@
         bar.removeAttribute('hidden');
         bar.classList.add('is-active', 'has-items');
         document.body.classList.add('has-sticky-reserve');
-        document.body.classList.toggle('float-basket-at-footer', copyrightAtPageEnd());
+        document.body.classList.remove('float-basket-at-footer');
         setFloatBasketSpace();
       } else {
         bar.classList.remove('is-active', 'has-items');
@@ -5022,9 +5009,6 @@
       if (hero) io.observe(hero);
       if (heroCta) io.observe(heroCta);
       if (reserve) io.observe(reserve);
-      var footerWatch =
-        document.querySelector('[data-footer-copyright]') || document.querySelector('.site-footer');
-      if (footerWatch) io.observe(footerWatch);
     }
 
     window.addEventListener('scroll', checkVisibility, { passive: true });

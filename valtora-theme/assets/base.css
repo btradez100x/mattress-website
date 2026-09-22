@@ -45,6 +45,7 @@ html[data-market='gb'] span[data-market-only='gb'] {
 }
 
 html {
+  background: var(--brand-bg, #f7f5f1);
   overscroll-behavior-y: none;
 }
 
@@ -4657,7 +4658,7 @@ body:has([data-float-total]:empty) .hero__cta {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 40;
+  z-index: 48;
   display: none;
   align-items: center;
   justify-content: space-between;
@@ -4675,7 +4676,7 @@ body:has([data-float-total]:empty) .hero__cta {
 
 .float-basket.is-active,
 .float-basket.has-items {
-  transform: translateY(0);
+  transform: none;
 }
 
 .float-basket[hidden] {
@@ -4851,21 +4852,6 @@ body.has-sticky-reserve .site-footer {
 
 body.has-sticky-reserve .whatsapp-float {
   bottom: 5.75rem;
-}
-
-body.float-basket-at-footer .float-basket {
-  transform: translateY(110%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-body.has-sticky-reserve.float-basket-at-footer .site-footer {
-  padding-bottom: 2.25rem;
-}
-
-body.float-basket-at-footer .whatsapp-float,
-body.has-sticky-reserve.float-basket-at-footer .whatsapp-float {
-  bottom: 1.25rem;
 }
 
 @media (min-width: 900px) {

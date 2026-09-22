@@ -770,7 +770,9 @@ if grep -q "min-width: 980px" "$CSS" \
   && grep -q "max-width: 979px" "$CSS" \
   && grep -q "data-float-view" "$THEME/snippets/sticky-reserve-bar.liquid" \
   && grep -q "function openBasketSheet" "$JS" \
-  && grep -q "function paintBasketSheet" "$JS"; then
+  && grep -q "function paintBasketSheet" "$JS" \
+  && ! grep -q "copyrightAtPageEnd" "$JS" \
+  && ! grep -q "float-basket-at-footer" "$CSS"; then
   pass "980px panel vs bar split; View opens a shared-order sheet"
 else
   fail "980px basket surfaces or sheet missing"
