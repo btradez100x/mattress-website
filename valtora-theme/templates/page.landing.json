@@ -337,7 +337,7 @@
         "market_force": "auto",
         "heading": "Choose your size.",
         "request_size_enabled": true,
-        "deposit_terms_link": "/pages/refunds-deposit",
+        "deposit_terms_link": "/pages/refunds",
         "anchor_id": "reserve",
         "leadtime_placement": "staged",
         "stage_b_heading": "Before you order",
@@ -511,7 +511,7 @@
             "icon": "deposit",
             "label": "Cancel before dispatch",
             "sublabel": "Refund any time before dispatch",
-            "link": "/pages/refunds-deposit"
+            "link": "/pages/refunds"
           }
         },
         "tb2": {
@@ -520,7 +520,7 @@
             "icon": "trial",
             "label": "100-night trial",
             "sublabel": "Sleep on it properly",
-            "link": "/pages/100-night-trial"
+            "link": "/pages/trial"
           }
         },
         "tb3": {
@@ -1061,7 +1061,7 @@
         "market_force": "auto",
         "heading": "Choose your size.",
         "request_size_enabled": true,
-        "deposit_terms_link": "/pages/refunds-deposit",
+        "deposit_terms_link": "/pages/refunds",
         "anchor_id": "reserve-late",
         "leadtime_placement": "staged",
         "stage_b_heading": "Before you order",

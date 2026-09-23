@@ -1,0 +1,7 @@
+POLICY CHANGE LOG
+=================
+
+2026-09-22T14:01:30Z
+- Initial snapshot of published fallback copy. Added 365-night programme. 100-night trial and terms now name Emperor and the 365-night programme.
+- Files: docs/policy-log/snapshots/2026-09-22T140130Z/ (100-night-trial, 365-night-programme, terms, privacy, warranty, refunds, delivery, cookies)
+

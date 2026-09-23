@@ -26,6 +26,7 @@ REQUIRED_PATHS=(
   "config/settings_data.json"
   "assets/base.css"
   "assets/theme.js"
+  "assets/checkout-return.js"
   "assets/utm-persistence.js"
   "snippets/wordmark.liquid"
   "snippets/css-variables.liquid"
@@ -34,6 +35,7 @@ REQUIRED_PATHS=(
   "snippets/tracking-pixels.liquid"
   "snippets/whatsapp-button.liquid"
   "snippets/payment-marks.liquid"
+  "snippets/policy-page-url.liquid"
   "sections/hero.liquid"
   "sections/trust-bar.liquid"
   "sections/size-reserve.liquid"
@@ -48,11 +50,13 @@ REQUIRED_PATHS=(
   "templates/page.landing.json"
   "templates/page.size-guide.json"
   "templates/page.trial.json"
+  "templates/page.365-night-programme.json"
   "templates/page.warranty.json"
   "templates/page.refunds.json"
   "templates/page.delivery.json"
   "templates/page.contact.json"
   "templates/page.order-status.json"
+  "templates/page.order-confirmed.json"
   "templates/page.privacy.json"
   "templates/page.terms.json"
   "templates/page.cookies.json"
@@ -362,8 +366,13 @@ else
 fi
 
 if grep -q "trust-bar-top" "$THEME/templates/index.json" \
-  && grep -q "founder-note" "$THEME/templates/index.json"; then
+  && grep -q '"link": "/pages/refunds"' "$THEME/templates/index.json" \
+  && grep -q '"link": "/pages/trial"' "$THEME/templates/index.json" \
+  && grep -q "policy-page-url" "$THEME/sections/trust-bar.liquid" \
+  && ! grep -q "/pages/refunds-deposit" "$THEME/templates/index.json" \
+  && ! grep -q "/pages/100-night-trial" "$THEME/templates/index.json"; then
   pass "index wires trust bar + founder note"
+  pass "trust bar Cancel / trial links use live page handles"
 else
   fail "index missing trust bar / founder note placements"
 fi
@@ -570,10 +579,13 @@ else
 fi
 
 if grep -q "privacy_link" "$THEME/sections/footer.liquid" \
+  && grep -q "programme_link" "$THEME/sections/footer.liquid" \
   && [[ -f "$THEME/templates/page.privacy.json" ]] \
+  && [[ -f "$THEME/templates/page.365-night-programme.json" ]] \
   && [[ -f "$ROOT/preview/pages/privacy.html" ]] \
   && [[ -f "$ROOT/preview/pages/terms.html" ]] \
   && [[ -f "$ROOT/preview/pages/cookies.html" ]] \
+  && [[ -f "$ROOT/preview/pages/365-night-programme.html" ]] \
   && [[ -f "$ROOT/preview/pages/comfort-top.html" ]] \
   && [[ -f "$ROOT/preview/pages/comfort-layer.html" ]] \
   && [[ -f "$ROOT/preview/pages/bed-sheets.html" ]] \
@@ -581,6 +593,26 @@ if grep -q "privacy_link" "$THEME/sections/footer.liquid" \
   pass "policy + product preview pages exist"
 else
   fail "policy or comfort-top preview pages missing"
+fi
+
+if grep -q "policy-updated" "$THEME/sections/trust-policy.liquid" \
+  && grep -q "last_modified" "$THEME/sections/trust-policy.liquid" \
+  && grep -q "policy-updated" "$THEME/assets/base.css" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/trial.html" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/365-night-programme.html" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/terms.html" \
+  && grep -q "policy-updated" "$ROOT/preview/pages/privacy.html" \
+  && [[ -f "$ROOT/docs/policy-log/CHANGELOG.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/100-night-trial.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/365-night-programme.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/terms.txt" ]] \
+  && [[ -f "$ROOT/docs/policy-log/snapshots/2026-09-22T140130Z/privacy.txt" ]] \
+  && grep -q "first_time_accessed" "$ROOT/docs/CHECKOUT_THANK_YOU.md" \
+  && grep -q "orderConfirmed" "$THEME/layout/theme.liquid" \
+  && grep -q "snapshotSuccessfulOrderIfNeeded" "$THEME/assets/theme.js"; then
+  pass "policy stamps, policy log, and checkout return notes present"
+else
+  fail "policy stamps, policy log, or checkout return wiring missing"
 fi
 
 if grep -q 'localhost' "$ROOT/apps/order-status-worker/wrangler.toml"; then
@@ -724,6 +756,72 @@ if grep -q "render 'market-tagline'" "$THEME/sections/footer.liquid" \
   pass "market-tagline helper wired (includes AL; GB is UK)"
 else
   fail "market-tagline helper missing, unwired, or missing AL/GB/US"
+fi
+
+JS="$THEME/assets/theme.js"
+CSS="$THEME/assets/base.css"
+if grep -q "function sizeFootprintMarkup" "$JS" \
+  && grep -q "size-plan" "$JS" \
+  && grep -q "SIZE_QTY_CAP = 20" "$JS" \
+  && grep -q "SIZE_TAB_THRESHOLD = 5" "$JS" \
+  && grep -q "function showSizeTabs" "$JS" \
+  && ! grep -q "market == 'UAE'" "$JS" \
+  && grep -q "role=\"img\"" "$JS"; then
+  pass "size rows draw footprints to scale; qty cap 20; tabs are a count check"
+else
+  fail "size row footprints, qty cap, or count-based tabs missing"
+fi
+
+if grep -q "min-width: 980px" "$CSS" \
+  && grep -q "max-width: 979px" "$CSS" \
+  && grep -q "data-float-view" "$THEME/snippets/sticky-reserve-bar.liquid" \
+  && grep -q "function openBasketSheet" "$JS" \
+  && grep -q "function paintBasketSheet" "$JS" \
+  && grep -q "function visualViewportBottomOverlap" "$JS" \
+  && grep -q -- "--vv-bottom-overlap" "$CSS" \
+  && ! grep -q "copyrightAtPageEnd" "$JS" \
+  && ! grep -q "float-basket-at-footer" "$CSS"; then
+  pass "980px panel vs bar split; View opens a shared-order sheet; bar clears overlay chrome"
+else
+  fail "980px basket surfaces or sheet missing"
+fi
+
+if grep -q "grid-area: auto" "$CSS" \
+  && grep -q "grid-auto-rows: min-content" "$CSS" \
+  && grep -q "reserve-panel:has(.order-basket__empty)" "$CSS" \
+  && ! grep -q "grid-area: main" "$CSS" \
+  && ! grep -q "grid-area: price" "$CSS"; then
+  pass "request row has no unnamed grid areas; empty mobile order panel is hidden"
+else
+  fail "empty-basket request row or mobile panel slab still in CSS"
+fi
+
+if grep -q "data-order-returns" "$THEME/sections/size-reserve.liquid" \
+  && grep -q "return_window_days" "$THEME/config/settings_schema.json" \
+  && grep -q "window.NUMA.returnsDays" "$THEME/layout/theme.liquid" \
+  && grep -q "function returnsPolicyCopy" "$JS" \
+  && grep -q "Old mattress removal" "$JS"; then
+  pass "returns window from settings; old mattress removal multiplies with units"
+else
+  fail "returns setting or removal × units missing"
+fi
+
+if grep -q "trackAddToBasket" "$JS" \
+  && grep -q "configure_complete" "$JS" \
+  && grep -q "quantity_increase" "$JS" \
+  && grep -q "market_switch" "$JS" \
+  && grep -q "basket_sheet_open" "$JS"; then
+  pass "size-selector tracking events present"
+else
+  fail "size-selector tracking events missing"
+fi
+
+if grep -q "data-size-tabs" "$ROOT/preview/index.html" \
+  && grep -q "size-plan" "$ROOT/preview/theme.js" \
+  && cmp -s "$JS" "$ROOT/preview/theme.js"; then
+  pass "preview picker + theme.js stay in sync"
+else
+  fail "preview picker markup or theme.js drift"
 fi
 
 info "----------------------------------------"

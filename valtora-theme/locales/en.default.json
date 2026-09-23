@@ -5,5 +5,12 @@
   },
   "accessibility": {
     "skip_to_content": "Skip to content"
+  },
+  "size_types": {
+    "uk": "UK sizes",
+    "us": "US sizes",
+    "international": "International sizes",
+    "uae": "UAE sizes",
+    "default": "Other sizes"
   }
 }

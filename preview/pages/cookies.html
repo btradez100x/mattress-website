@@ -140,6 +140,7 @@
               </div>
             </article>
             </div>
+            <p class="policy-updated">Last modified <time datetime="2026-09-22T14:01:30Z">22 September 2026, 14:01 UTC</time></p>
           </div>
         </div>
 
@@ -183,6 +184,7 @@
           <h3>Policies</h3>
           <ul>
             <li><a href="../pages/trial.html">100-night trial</a></li>
+            <li><a href="../pages/365-night-programme.html">365-night programme</a></li>
             <li><a href="../pages/warranty.html">Warranty</a></li>
             <li><a href="../pages/refunds.html">Refunds &amp; cancellations</a></li>
             <li><a href="../pages/delivery.html">Delivery &amp; lead time</a></li>
@@ -200,9 +202,14 @@
       window.ValtoraTheme = { brandName: 'Aligna', defaultMarket: 'ae', routes: { cart: '#', cartAdd: '#', root: '../index.html', review: './checkout.html' }, debugTrack: true };
     </script>
     <div class="float-basket" data-float-basket data-sticky-reserve hidden>
-      <span class="float-basket__count" data-float-count>Choose a size</span>
-      <strong class="float-basket__total" data-float-total data-sticky-price></strong>
-      <a class="float-basket__btn" data-float-continue data-checkout-href="./checkout.html" href="../index.html#reserve">See sizes and prices</a>
+      <div class="float-basket__sum">
+        <span class="float-basket__count" data-float-count>0 mattresses</span>
+        <strong class="float-basket__total" data-float-total data-sticky-price></strong>
+      </div>
+      <div class="float-basket__acts">
+        <button type="button" class="float-basket__view" data-float-view>View</button>
+        <a class="float-basket__btn" data-float-continue data-checkout-href="./checkout.html" href="./checkout.html">Checkout</a>
+      </div>
     </div>
 
     <script src="../theme.js?v=wo-v9-favicon1"></script>

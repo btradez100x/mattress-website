@@ -4,19 +4,28 @@ Additive to Developer Spec v3. Theme pieces are in `valtora-theme/`. Create thes
 
 | Page title | Suggested handle | Template | Footer setting |
 |---|---|---|---|
-| 100-night trial | `100-night-trial` | `page.trial` | Trial page |
+| 100-night trial | `trial` | `page.trial` | Trial page |
+| 365-night programme | `365-night-programme` | `page.365-night-programme` | 365-night programme page |
 | Warranty | `warranty` | `page.warranty` | Warranty page |
-| Refunds & deposit | `refunds-deposit` | `page.refunds` | Refunds & deposit page |
-| Delivery & lead time | `delivery-lead-time` | `page.delivery` | Delivery & lead time page |
+| Refunds & cancellations | `refunds` | `page.refunds` | Refunds page |
+| Delivery & lead time | `delivery` | `page.delivery` | Delivery page |
 | Contact | `contact` | `page.contact` | Contact page |
 | Size guide | `size-guide` | `page.size-guide` | Size guide page |
 | Order status | `order-status` | `page.order-status` | Order status page |
+| Order confirmed | `order-confirmed` | `page.order-confirmed` | (not in footer — Shopify thank-you return) |
+| Privacy | `privacy` | `page.privacy` | Privacy page |
+| Terms | `terms` | `page.terms` | Terms page |
+| Cookies | `cookies` | `page.cookies` | Cookies page |
 
 Order lookup is **off** until the App Proxy worker is live. See `docs/ORDER_TRACKING.md` (App Proxy + email, not Shopify’s native status page).
 
 Fallback copy is already in each template section if the page body is empty - replace with your final legal wording.
 
-Local preview mirrors these at `preview/pages/*.html` (http://127.0.0.1:5173/pages/trial.html etc.).
+Each trust-policy page shows **Last modified** at the bottom. Set the section field *Last modified (UTC)* when you change fallback copy; leave it blank to use the Shopify page updated time. Snapshot the text into `docs/policy-log/` whenever the wording changes (`python3 scripts/snapshot-policies.py "what changed"`).
+
+Shopify checkout does not use `page.order-confirmed` by itself. Create the page above, then paste the Additional scripts snippet in `docs/CHECKOUT_THANK_YOU.md` so Pay returns the shopper to `/pages/order-confirmed`.
+
+Local preview mirrors these at `preview/pages/*.html` (http://127.0.0.1:5173/pages/trial.html, `365-night-programme.html`, etc.).
 
 ## Theme settings to fill
 

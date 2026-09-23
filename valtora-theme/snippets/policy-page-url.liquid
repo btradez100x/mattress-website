@@ -1,0 +1,23 @@
+{%- comment -%}
+  Print a storefront URL for a policy/trust link.
+  Old handles (refunds-deposit, 100-night-trial, delivery-lead-time) map to the
+  pages that actually exist: refunds, trial, delivery.
+{%- endcomment -%}
+{%- assign raw = path | default: '' | strip -%}
+{%- if raw == blank -%}
+{%- elsif raw contains '://' or raw contains '#' -%}
+  {{- raw -}}
+{%- else -%}
+  {%- assign handle = raw | split: '/' | last | split: '?' | first -%}
+  {%- if handle == 'refunds-deposit' or handle == 'refunds' -%}
+    {{- pages['refunds'].url | default: pages['refunds-deposit'].url | default: '/pages/refunds' -}}
+  {%- elsif handle == '100-night-trial' or handle == 'trial' -%}
+    {{- pages['trial'].url | default: pages['100-night-trial'].url | default: '/pages/trial' -}}
+  {%- elsif handle == 'delivery-lead-time' or handle == 'delivery' -%}
+    {{- pages['delivery'].url | default: pages['delivery-lead-time'].url | default: '/pages/delivery' -}}
+  {%- elsif handle != blank and pages[handle].url != blank -%}
+    {{- pages[handle].url -}}
+  {%- else -%}
+    {{- raw -}}
+  {%- endif -%}
+{%- endif -%}

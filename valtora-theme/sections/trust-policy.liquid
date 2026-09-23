@@ -72,6 +72,18 @@
           {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
+      {%- liquid
+        assign stamp_raw = section.settings.last_modified | strip
+        if stamp_raw == blank
+          assign stamp_raw = page.updated_at
+        endif
+      -%}
+      {%- if stamp_raw != blank -%}
+        <p class="policy-updated">
+          Last modified
+          <time datetime="{{ stamp_raw | date: '%Y-%m-%dT%H:%M:%SZ' }}">{{ stamp_raw | date: '%d %B %Y, %H:%M UTC' }}</time>
+        </p>
+      {%- endif -%}
     </div>
   </div>
 
@@ -125,6 +137,12 @@
       "type": "url",
       "id": "cta_link",
       "label": "CTA link"
+    },
+    {
+      "type": "text",
+      "id": "last_modified",
+      "label": "Last modified (UTC)",
+      "info": "ISO datetime such as 2026-09-22T14:01:30Z. Shown at the foot of the policy. Leave blank to use the Shopify page updated time. When you change the copy, set this and add a snapshot under docs/policy-log/."
     }
   ]
 }

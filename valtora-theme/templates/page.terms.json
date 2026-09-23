@@ -6,9 +6,10 @@
         "eyebrow": "Policies",
         "heading": "Terms",
         "intro": "How ordering, lead time, cancellation, and the trial work.",
-        "fallback_content": "<p>These terms are the contract between you and [Legal].</p><h2>Made to order</h2><p>Mattresses are built after you order. The current delivery window is 8 to 10 weeks. We give a window rather than a single date because freight can move.</p><h2>Cancellation</h2><p>Cancel any time before dispatch for a full refund, no questions asked.</p><h2>100-night trial</h2><p>Once your mattress arrives you have 100 nights. If it is not right, tell us within that period and we collect it and refund you.</p><h2>Comfort layer</h2><p>A comfort layer has its own lead time and the same 100-night trial. Delivery is charged once per order.</p><p>Replace this fallback with the full terms from Shopify Settings → Policies when you publish.</p>",
+        "fallback_content": "<p>These terms are the contract between you and [Legal].</p><h2>Made to order</h2><p>Mattresses are built after you order. The current delivery window is 8 to 10 weeks. We give a window rather than a single date because freight can move.</p><h2>Cancellation</h2><p>Cancel any time before dispatch for a full refund, no questions asked.</p><h2>100-night trial</h2><p>Once your mattress arrives you have 100 nights. If it is not right, tell us within that period and we collect it and refund you.</p><h2>365-night programme</h2><p>For 365 nights from delivery, tell us how the bed should feel and we send the comfort layer that takes you there, with our compliments. It stays with you.</p><h2>Layers stay with you</h2><p>Every comfort layer we send is yours to keep. We do not ask for the previous layer back.</p><h2>Not a warranty claim</h2><p>The 365-night programme is a tailoring service. It is not a defect, and it does not use the core warranty.</p><h2>How many layers</h2><p>We adjust the feel for 365 nights from delivery. There is no set number of layers. We send the layer that takes you there until the bed is right, or until you ask us to stop.</p><h2>Emperor</h2><p>Emperor is not covered by the 100-night return. The 365-night programme still applies. Your statutory cancellation rights are unaffected.</p><h2>Comfort layer</h2><p>A comfort layer ordered later has its own lead time. Delivery is charged once per order.</p>",
         "cta_label": "Reserve your size",
-        "cta_link": "/#reserve"
+        "cta_link": "/#reserve",
+        "last_modified": "2026-09-22T14:01:30Z"
       }
     }
   },

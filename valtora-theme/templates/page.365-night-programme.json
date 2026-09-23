@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "trust-policy",
+      "settings": {
+        "eyebrow": "Programme",
+        "heading": "365-night programme",
+        "intro": "A year to get the feel right. Not a return, and not a warranty claim.",
+        "fallback_content": "<p>The 365-night programme is offered by [Legal].</p><h2>A year to get the feel right</h2><p>For 365 nights from delivery, tell us how the bed should feel and we send the comfort layer that takes you there, with our compliments. It stays with you.</p><p>It is not a warranty claim, and it is not a return.</p><h2>Layers stay with you</h2><p>Every comfort layer we send is yours to keep. We do not ask for the previous layer back.</p><h2>How many layers</h2><p>We adjust the feel for 365 nights from delivery. There is no set number of layers. We send the layer that takes you there until the bed is right, or until you ask us to stop.</p><h2>Worth</h2><p>A replacement comfort layer is priced at the current comfort-layer price on the site (UK £299 / UAE AED 1,200 unless a different figure is shown). Under this programme the layer is sent with our compliments.</p><h2>100-night return</h2><p>If you would rather not keep the mattress, the 100-night trial still applies. That is a return, not this programme.</p><h2>Emperor</h2><p>Emperor is made to order at 200 × 200cm and is not covered by the 100-night return. The 365-night programme still applies. Your statutory cancellation rights are unaffected.</p>",
+        "cta_label": "Reserve your size",
+        "cta_link": "/#reserve",
+        "last_modified": "2026-09-22T14:01:30Z"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
