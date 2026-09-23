@@ -1,0 +1,17 @@
+{%- comment -%}
+  Theme Customiser can keep old section copy and Theme settings after git updates.
+  Retired comfort-layer figures (£250 / £249) always resolve to £299.
+{%- endcomment -%}
+{%- liquid
+  assign gb = settings.comfort_layer_price_gb | strip
+  if gb == blank or gb contains '250' or gb contains '249'
+    assign gb = '£299'
+  endif
+  assign gb_num = gb | replace: '£', '' | replace: 'GBP', '' | strip
+  assign gb_gbp = 'GBP ' | append: gb_num
+  assign out = text | default: ''
+  assign out = out | replace: '£250', gb | replace: '£249', gb
+  assign out = out | replace: 'GBP 250', gb_gbp | replace: 'GBP 249', gb_gbp
+-%}
+{{- out -}}
+

@@ -9,9 +9,15 @@
   assign arrival_heading = section.settings.arrival_heading | replace: '[Brand]', brand
   assign arrival_body = section.settings.arrival_body | replace: '[Brand]', brand
   assign years_heading = section.settings.years_heading | replace: '[Brand]', brand
-  assign years_body_gb = section.settings.years_body_gb | replace: '[Brand]', brand
+  assign layer_gb = settings.comfort_layer_price_gb | strip
+  if layer_gb == blank or layer_gb contains '250' or layer_gb contains '249'
+    assign layer_gb = '£299'
+  endif
+  assign years_body_gb = 'The comfort layer is the part of any mattress that wears. Ours is designed to be replaced. Around year 5, and again around year 10, swap in a new layer for around ' | append: layer_gb | append: ' and the mattress underneath, which has years left in it, feels as it did on day 1. Two layers over 10 years costs less than one cheaper bed replaced twice, and sends far less to landfill.'
   assign years_body_ae = section.settings.years_body_ae | replace: '[Brand]', brand
 -%}
+{%- capture years_body_ae -%}{% render 'rewrite-layer-price', text: years_body_ae %}{%- endcapture -%}
+{%- assign years_body_ae = years_body_ae | strip -%}
 {%- if section.settings.enable_section -%}
 <section class="section{% render 'section-ground', fallback: 'dark' %} swap-explainer" id="swap-video" data-reveal data-section-ground="{% render 'section-ground', as: 'value', fallback: 'dark' %}">
   <div class="page-width swap-explainer__column">
@@ -133,7 +139,7 @@
       "type": "textarea",
       "id": "years_body_gb",
       "label": "Years on body (UK)",
-      "default": "The comfort layer is the part of any mattress that wears. Ours is designed to be replaced. Around year 5, and again around year 10, swap in a new layer for about £299 and the mattress underneath, which has years left in it, feels as it did on day 1. Two layers over 10 years costs less than one cheaper bed replaced twice, and sends far less to landfill."
+      "default": "The comfort layer is the part of any mattress that wears. Ours is designed to be replaced. Around year 5, and again around year 10, swap in a new layer for around £299 and the mattress underneath, which has years left in it, feels as it did on day 1. Two layers over 10 years costs less than one cheaper bed replaced twice, and sends far less to landfill."
     },
     {
       "type": "textarea",

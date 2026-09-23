@@ -14,6 +14,9 @@
     assign layer_price = settings.comfort_layer_price_ae | default: 'AED 1,200'
   else
     assign layer_price = settings.comfort_layer_price_gb | default: '£299'
+    if layer_price contains '250' or layer_price contains '249'
+      assign layer_price = '£299'
+    endif
   endif
 
   assign mattress = all_products['the-mattress']

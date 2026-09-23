@@ -35,6 +35,9 @@
     assign layer_price = settings.comfort_layer_price_ae | strip
   else
     assign layer_price = settings.comfort_layer_price_gb | strip
+    if layer_price == blank or layer_price contains '250' or layer_price contains '249'
+      assign layer_price = '£299'
+    endif
   endif
   if layer_price == blank and all_products['comfort-layer'] and all_products['comfort-layer'].price > 0
     assign layer_price = all_products['comfort-layer'].price | money

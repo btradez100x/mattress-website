@@ -19,6 +19,8 @@
     assign cta_note_default = 'Pay the first instalment today. Balance due before dispatch.'
   endif
 -%}
+{%- capture top_price -%}{% render 'rewrite-layer-price', text: top_price %}{%- endcapture -%}
+{%- assign top_price = top_price | strip -%}
 {%- if section.settings.enable_section -%}
 <section class="section{% render 'section-ground', fallback: 'dark' %}" id="offer" data-reveal data-section-ground="{% render 'section-ground', as: 'value', fallback: 'dark' %}">
   <div class="page-width">

@@ -135,7 +135,7 @@
 
   <div class="section section--dark">
     <div class="page-width">
-      <h2>{{ section.settings.argument_heading }}</h2>
+      <h2>{% render 'rewrite-layer-price', text: section.settings.argument_heading %}</h2>
       <p class="section__lede">{{ section.settings.argument_body }}</p>
       <p class="section__eyebrow section__eyebrow--accent" style="margin-top:2.5rem;">{{ section.settings.how_eyebrow }}</p>
       <div class="pdp-how">
@@ -220,7 +220,7 @@
     { "type": "text", "id": "buy_eyebrow", "label": "Buy panel eyebrow", "default": "Your order" },
     { "type": "text", "id": "add_label", "label": "Add button", "default": "Add to order" },
     { "type": "text", "id": "reassure", "label": "Reassure", "default": "[N] nights to change your mind" },
-    { "type": "text", "id": "argument_heading", "label": "Argument heading", "default": "A layer costs £249. A mattress does not." },
+    { "type": "text", "id": "argument_heading", "label": "Argument heading", "default": "A layer costs £299. A mattress does not." },
     { "type": "textarea", "id": "argument_body", "label": "Argument body", "default": "Refresh it at year five and year ten and you have spent less than replacing a cheaper bed twice." },
     { "type": "text", "id": "how_eyebrow", "label": "How-it-works eyebrow", "default": "How it works" },
     { "type": "text", "id": "how_a_heading", "label": "How A heading", "default": "Inside our mattress" },

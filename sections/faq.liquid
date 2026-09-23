@@ -56,10 +56,19 @@
         -%}
           {%- capture answer -%}{% render 'warranty-tokens', text: answer %}{%- endcapture -%}
           {%- capture answer -%}{% render 'trial-tokens', text: answer %}{%- endcapture -%}
+          {%- capture answer -%}{% render 'rewrite-layer-price', text: answer %}{%- endcapture -%}
         {%- liquid
           assign answer = answer | strip | replace: '[X-Y]', lead
           assign q_down = block.settings.question | downcase
           assign a_down = block.settings.answer | downcase
+          if q_down == 'how much is a comfort layer?'
+            assign layer_gb = settings.comfort_layer_price_gb | strip
+            if layer_gb == blank or layer_gb contains '250' or layer_gb contains '249'
+              assign layer_gb = '£299'
+            endif
+            assign gb_num = layer_gb | replace: '£', '' | replace: 'GBP', '' | strip
+            assign answer = 'Around GBP ' | append: gb_num | append: ' depending on the mattress size. A new quality mattress does not cost GBP ' | append: gb_num | append: ', which is the point - you refresh the layer that wears rather than replacing the whole bed. The same layer works on any other mattress as a 10cm topper, so it is not only useful to people who own ours.'
+          endif
           if q_down contains 'oeko' or a_down contains 'oeko'
             if settings.show_oeko_tex_claim != true or settings.oeko_tex_certificate_no == blank
               assign show_item = false
@@ -94,11 +103,15 @@
               <span class="faq__icon" aria-hidden="true"></span>
             </button>
             <div class="faq__panel">
-              {%- if block.settings.answer_gb != blank and block.settings.answer_ae != blank -%}
+              {%- if q_down == 'how much is a comfort layer?' -%}
+                {{ answer | newline_to_br }}
+              {%- elsif block.settings.answer_gb != blank and block.settings.answer_ae != blank -%}
                 {%- capture answer_gb -%}{% render 'warranty-tokens', text: block.settings.answer_gb %}{%- endcapture -%}
                 {%- capture answer_gb -%}{% render 'trial-tokens', text: answer_gb %}{%- endcapture -%}
+                {%- capture answer_gb -%}{% render 'rewrite-layer-price', text: answer_gb %}{%- endcapture -%}
                 {%- capture answer_ae -%}{% render 'warranty-tokens', text: block.settings.answer_ae %}{%- endcapture -%}
                 {%- capture answer_ae -%}{% render 'trial-tokens', text: answer_ae %}{%- endcapture -%}
+                {%- capture answer_ae -%}{% render 'rewrite-layer-price', text: answer_ae %}{%- endcapture -%}
                 <span data-market-only="gb"{% if market == 'ae' %} hidden{% endif %}>{{ answer_gb | strip | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: 'Numa', brand | replace: '[X-Y]', lead | newline_to_br }}</span>
                 <span data-market-only="ae"{% if market != 'ae' %} hidden{% endif %}>{{ answer_ae | strip | replace: '[Brand]', brand | replace: 'Aligna', brand | replace: 'Numa', brand | replace: '[X-Y]', lead | newline_to_br }}</span>
               {%- else -%}
