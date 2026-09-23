@@ -144,9 +144,11 @@
       <p class="thanks-close__inbox">
         Questions?
         {%- if wa_raw != blank -%} WhatsApp {{ wa_raw }}{%- endif -%}
-        {%- if settings.contact_email != blank -%}
+        {%- capture customer_email -%}{% render 'customer-email' %}{%- endcapture -%}
+        {%- assign customer_email = customer_email | strip -%}
+        {%- if customer_email != blank -%}
           {%- if wa_raw != blank %} · {% endif -%}
-          <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>
+          <a href="mailto:{{ customer_email }}">{{ customer_email }}</a>
         {%- endif -%}
       </p>
     </div>

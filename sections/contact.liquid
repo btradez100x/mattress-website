@@ -55,10 +55,12 @@
             <span>{{ legal_address | newline_to_br }}</span>
           </li>
         {%- endif -%}
-        {%- if settings.contact_email != blank -%}
+        {%- capture customer_email -%}{% render 'customer-email' %}{%- endcapture -%}
+        {%- assign customer_email = customer_email | strip -%}
+        {%- if customer_email != blank -%}
           <li>
             <strong>Email</strong>
-            <span><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></span>
+            <span><a href="mailto:{{ customer_email }}">{{ customer_email }}</a></span>
           </li>
         {%- endif -%}
         {%- if contact_phone != blank -%}

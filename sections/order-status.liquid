@@ -30,8 +30,10 @@
       {%- unless lookup_on -%}
         <p class="reserve-panel__note" role="status">
           Order lookup is not on yet. Email us with your order number and we will tell you exactly where it is.
-          {%- if settings.contact_email != blank -%}
-            <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>
+          {%- capture customer_email -%}{% render 'customer-email' %}{%- endcapture -%}
+          {%- assign customer_email = customer_email | strip -%}
+          {%- if customer_email != blank -%}
+            <a href="mailto:{{ customer_email }}">{{ customer_email }}</a>
           {%- endif -%}
         </p>
       {%- else -%}
