@@ -780,6 +780,16 @@ else
   fail "980px basket surfaces or sheet missing"
 fi
 
+if grep -q "grid-area: auto" "$CSS" \
+  && grep -q "grid-auto-rows: min-content" "$CSS" \
+  && grep -q "reserve-panel:has(.order-basket__empty)" "$CSS" \
+  && ! grep -q "grid-area: main" "$CSS" \
+  && ! grep -q "grid-area: price" "$CSS"; then
+  pass "request row has no unnamed grid areas; empty mobile order panel is hidden"
+else
+  fail "empty-basket request row or mobile panel slab still in CSS"
+fi
+
 if grep -q "data-order-returns" "$THEME/sections/size-reserve.liquid" \
   && grep -q "return_window_days" "$THEME/config/settings_schema.json" \
   && grep -q "window.NUMA.returnsDays" "$THEME/layout/theme.liquid" \

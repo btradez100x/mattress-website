@@ -2384,9 +2384,11 @@ video[controls],
 }
 
 .size-request-entry {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--hairline, rgba(31, 58, 95, 0.12));
+  margin-top: 0.35rem;
+  padding-top: 0;
+  border-top: 0;
+  min-height: 0;
+  background: transparent;
 }
 
 .size-option {
@@ -2783,9 +2785,12 @@ video[controls],
   display: none !important;
 }
 
-/* Empty Your order: Checkout is hidden - keep a floor so the panel does not collapse into the next band. */
-.reserve-panel:has([data-order-retail][hidden]) {
-  padding-bottom: clamp(2.75rem, 5.5vw, 3.65rem);
+/* Desktop only: extra floor when Checkout is hidden. On mobile this padding
+   reads as the empty lighter slab under the last size. */
+@media (min-width: 980px) {
+  .reserve-panel:has([data-order-retail][hidden]) {
+    padding-bottom: clamp(2.75rem, 5.5vw, 3.65rem);
+  }
 }
 
 .reserve-panel .reserve-stage-b {
@@ -4282,12 +4287,18 @@ video[controls],
 .size-option--request {
   margin-top: 0;
   width: 100%;
+  min-height: 0;
+  height: auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: none;
+  grid-auto-rows: min-content;
   align-items: center;
+  align-content: start;
   column-gap: 1.5rem;
-  padding: 1.25rem 0.25rem;
-  border-style: none;
+  padding: 1.125rem 0.25rem;
+  border: 0;
+  border-top: 1px solid var(--hairline, color-mix(in srgb, var(--brand-ink) 12%, transparent));
   border-bottom: 0;
   background: transparent;
   cursor: pointer;
@@ -4300,6 +4311,11 @@ video[controls],
 .size-option--request .size-option__qty,
 .size-option--request .size-option__qty--spacer {
   display: none !important;
+}
+
+.size-option--request .size-option__main,
+.size-option--request .size-option__price--request {
+  grid-area: auto;
 }
 
 .size-option--request .size-option__main {
@@ -4320,11 +4336,12 @@ video[controls],
 [data-section-ground="surface"] .size-option--request,
 [data-section-ground="surface"] .size-option--request:hover,
 [data-section-ground="surface"] .size-option--request.is-active {
-  background: var(--brand-bg);
+  background: transparent;
 }
 
 .size-option--request .size-option__price--request {
   width: auto;
+  max-width: none;
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 0.75rem;
   font-weight: 500;
@@ -4337,46 +4354,8 @@ video[controls],
   background: var(--brand-surface);
 }
 
-.size-option--request .size-option__qty,
-.size-option--request .size-option__qty--spacer {
-  display: none !important;
-}
-
-.size-option--request .size-option__main {
-  grid-area: main;
-  min-width: 10rem;
-  width: auto;
-  max-width: none;
-}
-
-.size-option--request:hover {
-  background: #fff;
-  border-color: var(--brand-primary);
-}
-
-.section--surface .size-option--request,
-.section--surface .size-option--request:hover,
-.section--surface .size-option--request.is-active,
-[data-section-ground="surface"] .size-option--request,
-[data-section-ground="surface"] .size-option--request:hover,
-[data-section-ground="surface"] .size-option--request.is-active {
-  background: var(--brand-bg);
-}
-
-.size-option--request .size-option__price--request {
-  grid-area: price;
-  width: auto;
-  max-width: 8rem;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--brand-accent) 65%, var(--brand-ink));
-}
-
-.size-option--request.is-active {
-  border-style: solid;
-  background: #fff;
+.size-option--request .size-option__label {
+  color: var(--brand-ink);
 }
 
 .size-option--request .size-option__label,
@@ -4698,6 +4677,12 @@ body:has([data-float-total]:empty) .hero__cta {
 
   body.has-sticky-reserve {
     padding-bottom: var(--float-basket-space, 5.5rem);
+  }
+
+  /* Empty basket: do not leave the desktop order card in flow as a blank slab. */
+  .reserve-panel:has([data-order-lines-list]:empty),
+  .reserve-panel:has(.order-basket__empty) {
+    display: none;
   }
 }
 
