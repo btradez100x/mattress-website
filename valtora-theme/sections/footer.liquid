@@ -36,11 +36,11 @@
   unless template.name == 'index'
     assign home_hash = routes.root_url
   endunless
-  assign trial_url = section.settings.trial_link | default: pages['100-night-trial'].url | default: '/pages/100-night-trial'
+  assign trial_url = section.settings.trial_link | default: '/pages/trial'
   assign programme_url = section.settings.programme_link | default: pages['365-night-programme'].url | default: '/pages/365-night-programme'
   assign warranty_url = section.settings.warranty_link | default: pages['warranty'].url | default: '/pages/warranty'
-  assign refund_url = section.settings.refund_link | default: pages['refunds-deposit'].url | default: '/pages/refunds-deposit'
-  assign delivery_url = section.settings.delivery_link | default: pages['delivery-lead-time'].url | default: '/pages/delivery-lead-time'
+  assign refund_url = section.settings.refund_link | default: '/pages/refunds'
+  assign delivery_url = section.settings.delivery_link | default: '/pages/delivery'
   assign size_guide_url = section.settings.size_guide_link | default: pages['size-guide'].url | default: '/pages/size-guide'
   assign contact_url = section.settings.contact_link | default: pages['contact'].url | default: '/pages/contact'
   assign privacy_url = section.settings.privacy_link | default: pages['privacy'].url | default: '/pages/privacy'
@@ -51,6 +51,12 @@
 {%- assign legal_name = legal_name | strip -%}
 {%- capture contact_phone -%}{% render 'contact-phone' %}{%- endcapture -%}
 {%- assign contact_phone = contact_phone | strip -%}
+{%- capture trial_url -%}{% render 'policy-page-url', path: trial_url %}{%- endcapture -%}
+{%- assign trial_url = trial_url | strip -%}
+{%- capture refund_url -%}{% render 'policy-page-url', path: refund_url %}{%- endcapture -%}
+{%- assign refund_url = refund_url | strip -%}
+{%- capture delivery_url -%}{% render 'policy-page-url', path: delivery_url %}{%- endcapture -%}
+{%- assign delivery_url = delivery_url | strip -%}
 {%- assign order_status_url = pages['order-status'].url | default: '/pages/order-status' -%}
 {%- if section.settings.order_status_link != blank -%}
   {%- assign order_status_url = section.settings.order_status_link -%}

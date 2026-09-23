@@ -4,11 +4,11 @@ Additive to Developer Spec v3. Theme pieces are in `valtora-theme/`. Create thes
 
 | Page title | Suggested handle | Template | Footer setting |
 |---|---|---|---|
-| 100-night trial | `100-night-trial` | `page.trial` | Trial page |
+| 100-night trial | `trial` | `page.trial` | Trial page |
 | 365-night programme | `365-night-programme` | `page.365-night-programme` | 365-night programme page |
 | Warranty | `warranty` | `page.warranty` | Warranty page |
-| Refunds & deposit | `refunds-deposit` | `page.refunds` | Refunds & deposit page |
-| Delivery & lead time | `delivery-lead-time` | `page.delivery` | Delivery & lead time page |
+| Refunds & cancellations | `refunds` | `page.refunds` | Refunds page |
+| Delivery & lead time | `delivery` | `page.delivery` | Delivery page |
 | Contact | `contact` | `page.contact` | Contact page |
 | Size guide | `size-guide` | `page.size-guide` | Size guide page |
 | Order status | `order-status` | `page.order-status` | Order status page |

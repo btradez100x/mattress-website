@@ -35,6 +35,7 @@ REQUIRED_PATHS=(
   "snippets/tracking-pixels.liquid"
   "snippets/whatsapp-button.liquid"
   "snippets/payment-marks.liquid"
+  "snippets/policy-page-url.liquid"
   "sections/hero.liquid"
   "sections/trust-bar.liquid"
   "sections/size-reserve.liquid"
@@ -365,8 +366,13 @@ else
 fi
 
 if grep -q "trust-bar-top" "$THEME/templates/index.json" \
-  && grep -q "founder-note" "$THEME/templates/index.json"; then
+  && grep -q '"link": "/pages/refunds"' "$THEME/templates/index.json" \
+  && grep -q '"link": "/pages/trial"' "$THEME/templates/index.json" \
+  && grep -q "policy-page-url" "$THEME/sections/trust-bar.liquid" \
+  && ! grep -q "/pages/refunds-deposit" "$THEME/templates/index.json" \
+  && ! grep -q "/pages/100-night-trial" "$THEME/templates/index.json"; then
   pass "index wires trust bar + founder note"
+  pass "trust bar Cancel / trial links use live page handles"
 else
   fail "index missing trust bar / founder note placements"
 fi

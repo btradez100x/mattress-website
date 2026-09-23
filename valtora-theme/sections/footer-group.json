@@ -7,11 +7,11 @@
       "settings": {
         "show_payment_icons": true,
         "copyright_text": "",
-        "trial_link": "/pages/100-night-trial",
+        "trial_link": "/pages/trial",
         "programme_link": "/pages/365-night-programme",
         "warranty_link": "/pages/warranty",
-        "refund_link": "/pages/refunds-deposit",
-        "delivery_link": "/pages/delivery-lead-time",
+        "refund_link": "/pages/refunds",
+        "delivery_link": "/pages/delivery",
         "size_guide_link": "/pages/size-guide",
         "contact_link": "/pages/contact",
         "order_status_link": "/pages/order-status"

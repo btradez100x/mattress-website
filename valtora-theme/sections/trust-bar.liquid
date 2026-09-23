@@ -74,9 +74,11 @@
                   endif
                 -%}
                 {%- if show_item -%}
+                {%- capture item_link -%}{% render 'policy-page-url', path: block.settings.link %}{%- endcapture -%}
+                {%- assign item_link = item_link | strip -%}
                 <li class="trust-bar__item" {% if pass == 1 %}{{ block.shopify_attributes }}{% endif %}>
-                  {%- if block.settings.link != blank -%}
-                    <a class="trust-bar__link" href="{{ block.settings.link }}"{% if pass == 2 %} tabindex="-1"{% endif %}>
+                  {%- if item_link != blank -%}
+                    <a class="trust-bar__link" href="{{ item_link }}"{% if pass == 2 %} tabindex="-1"{% endif %}>
                   {%- else -%}
                     <div class="trust-bar__link trust-bar__link--static">
                   {%- endif -%}
@@ -113,7 +115,7 @@
                         <span class="trust-bar__sub">{{ settings.oeko_tex_certificate_no }}</span>
                       {%- endif -%}
                     </span>
-                  {%- if block.settings.link != blank -%}
+                  {%- if item_link != blank -%}
                     </a>
                   {%- else -%}
                     </div>
@@ -178,9 +180,11 @@
               endif
             -%}
             {%- if show_item -%}
+            {%- capture item_link -%}{% render 'policy-page-url', path: block.settings.link %}{%- endcapture -%}
+            {%- assign item_link = item_link | strip -%}
             <li class="trust-bar__item" {{ block.shopify_attributes }}>
-              {%- if block.settings.link != blank -%}
-                <a class="trust-bar__link" href="{{ block.settings.link }}">
+              {%- if item_link != blank -%}
+                <a class="trust-bar__link" href="{{ item_link }}">
               {%- else -%}
                 <div class="trust-bar__link trust-bar__link--static">
               {%- endif -%}
@@ -217,7 +221,7 @@
                     <span class="trust-bar__sub">{{ settings.oeko_tex_certificate_no }}</span>
                   {%- endif -%}
                 </span>
-              {%- if block.settings.link != blank -%}
+              {%- if item_link != blank -%}
                 </a>
               {%- else -%}
                 </div>
@@ -378,7 +382,7 @@
           "type": "text",
           "id": "link",
           "label": "Proof link",
-          "info": "Path or in-page anchor (for example /pages/warranty or #specs)."
+          "info": "Path or in-page anchor. Use /pages/refunds, /pages/trial, /pages/warranty, /pages/delivery, /pages/manufacturing. Older handles such as /pages/refunds-deposit are remapped."
         }
       ]
     }
@@ -395,7 +399,8 @@
           "settings": {
             "icon": "deposit",
             "label": "Cancel before dispatch",
-            "sublabel": "Refund any time before dispatch"
+            "sublabel": "Refund any time before dispatch",
+            "link": "/pages/refunds"
           }
         },
         {
@@ -403,7 +408,8 @@
           "settings": {
             "icon": "trial",
             "label": "100-night trial",
-            "sublabel": "Sleep on it properly"
+            "sublabel": "Sleep on it properly",
+            "link": "/pages/trial"
           }
         },
         {
@@ -411,7 +417,8 @@
           "settings": {
             "icon": "warranty",
             "label": "15-year core warranty",
-            "sublabel": "On the spring core"
+            "sublabel": "On the spring core",
+            "link": "/pages/warranty"
           }
         },
         {
@@ -419,7 +426,8 @@
           "settings": {
             "icon": "craft",
             "label": "Handmade to order",
-            "sublabel": "Built after you order it, never from stock"
+            "sublabel": "Built after you order it, never from stock",
+            "link": "/pages/manufacturing"
           }
         },
         {
