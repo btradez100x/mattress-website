@@ -4945,9 +4945,25 @@
       return document.documentElement.getAttribute('data-float-basket-force') === '1';
     }
 
-    function setFloatBasketSpace() {
+    function visualViewportBottomOverlap() {
+      if (!narrowBasket()) return 0;
+      var vv = window.visualViewport;
+      if (!vv) return 0;
+      var layoutH = window.innerHeight || document.documentElement.clientHeight || 0;
+      var offsetTop = Math.max(0, vv.offsetTop || 0);
+      return Math.max(0, Math.round(layoutH - vv.height - offsetTop));
+    }
+
+    function syncVisualViewportOverlap() {
+      var overlap = visualViewportBottomOverlap();
+      document.documentElement.style.setProperty('--vv-bottom-overlap', overlap + 'px');
+      if (bar.hidden) return;
       var h = Math.ceil((bar.getBoundingClientRect && bar.getBoundingClientRect().height) || bar.offsetHeight || 72);
-      document.documentElement.style.setProperty('--float-basket-space', h + 'px');
+      document.documentElement.style.setProperty('--float-basket-space', h + overlap + 'px');
+    }
+
+    function setFloatBasketSpace() {
+      syncVisualViewportOverlap();
     }
 
     function narrowBasket() {
@@ -5012,7 +5028,15 @@
     }
 
     window.addEventListener('scroll', checkVisibility, { passive: true });
-    window.addEventListener('resize', checkVisibility);
+    window.addEventListener('resize', function () {
+      syncVisualViewportOverlap();
+      checkVisibility();
+    });
+    window.addEventListener('orientationchange', syncVisualViewportOverlap);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncVisualViewportOverlap);
+      window.visualViewport.addEventListener('scroll', syncVisualViewportOverlap);
+    }
     document.addEventListener('valtora:float-basket-mode', checkVisibility);
     checkVisibility();
 

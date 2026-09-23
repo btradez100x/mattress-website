@@ -47,6 +47,7 @@ html[data-market='gb'] span[data-market-only='gb'] {
 html {
   background: var(--brand-bg, #f7f5f1);
   overscroll-behavior-y: none;
+  --vv-bottom-overlap: 0px;
 }
 
 body {
@@ -4004,7 +4005,7 @@ video[controls],
 /* Keep float clear of sticky reserve CTA when that bar is visible */
 @media (max-width: 899px) {
   body.has-sticky-reserve .whatsapp-float {
-    bottom: 5.75rem;
+    bottom: calc(5.75rem + var(--vv-bottom-overlap, 0px));
     right: 0.85rem;
     padding: 0.75rem;
   }
@@ -4652,12 +4653,15 @@ body:has([data-float-total]:empty) .hero__cta {
   }
 }
 
-/* Floating basket — below 980px only, once the order has lines. */
+/* Floating basket — below 980px only, once the order has lines.
+   bottom uses --vv-bottom-overlap so iOS overlay chrome (iPhone 16 Pro Max
+   Safari tab bar) does not cover the bar. Safe-area padding shrinks by the
+   same overlap so the home indicator is not counted twice. */
 .float-basket {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--vv-bottom-overlap, 0px);
   z-index: 48;
   display: none;
   align-items: center;
@@ -4666,12 +4670,12 @@ body:has([data-float-total]:empty) .hero__cta {
   width: 100%;
   max-width: 100vw;
   box-sizing: border-box;
-  padding: 0.875rem 1.25rem calc(0.875rem + env(safe-area-inset-bottom, 0px));
+  padding: 0.875rem 1.25rem calc(0.875rem + max(0px, env(safe-area-inset-bottom, 0px) - var(--vv-bottom-overlap, 0px)));
   background: var(--brand-ink, #1a1a1a);
   color: var(--brand-bg, #f5f4f1);
   border-top: 1px solid var(--hairline-dark, #2e2e30);
   transform: translateY(100%);
-  transition: transform 0.28s var(--ease);
+  transition: transform 0.28s var(--ease), bottom 0.2s linear;
 }
 
 .float-basket.is-active,
@@ -4693,7 +4697,7 @@ body:has([data-float-total]:empty) .hero__cta {
   }
 
   body.has-sticky-reserve {
-    padding-bottom: 78px;
+    padding-bottom: var(--float-basket-space, 5.5rem);
   }
 }
 
@@ -4837,7 +4841,7 @@ body:has([data-float-total]:empty) .hero__cta {
 }
 
 body.has-sticky-reserve {
-  padding-bottom: 78px;
+  padding-bottom: var(--float-basket-space, 5.5rem);
 }
 
 @media (min-width: 980px) {
@@ -4851,7 +4855,7 @@ body.has-sticky-reserve .site-footer {
 }
 
 body.has-sticky-reserve .whatsapp-float {
-  bottom: 5.75rem;
+  bottom: calc(5.75rem + var(--vv-bottom-overlap, 0px));
 }
 
 @media (min-width: 900px) {
@@ -4889,7 +4893,7 @@ body.has-sticky-reserve .whatsapp-float {
   }
 
   body.has-sticky-reserve .whatsapp-float {
-    bottom: 6rem;
+    bottom: calc(6rem + var(--vv-bottom-overlap, 0px));
   }
 }
 
@@ -4898,6 +4902,10 @@ body.has-sticky-reserve .whatsapp-float {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .float-basket {
+    transition: none;
   }
 }
 
@@ -6298,11 +6306,12 @@ body.has-sticky-reserve .whatsapp-float {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--vv-bottom-overlap, 0px);
   max-height: 82vh;
+  max-height: 82dvh;
   overflow: auto;
   background: var(--brand-bg);
-  padding: 1.625rem 1.5rem 1.875rem;
+  padding: 1.625rem 1.5rem calc(1.875rem + max(0px, env(safe-area-inset-bottom, 0px) - var(--vv-bottom-overlap, 0px)));
 }
 
 .order-sheet__body h3 {
