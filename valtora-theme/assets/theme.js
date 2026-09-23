@@ -4954,12 +4954,37 @@
       return Math.max(0, Math.round(layoutH - vv.height - offsetTop));
     }
 
+    var chromeCollapsed = false;
+    var lastScrollY = Math.max(0, window.pageYOffset || window.scrollY || 0);
+    var lastVvHeight = window.visualViewport ? window.visualViewport.height : 0;
+
+    function noteSafariChrome() {
+      var y = Math.max(0, window.pageYOffset || window.scrollY || 0);
+      if (y > lastScrollY + 8) chromeCollapsed = true;
+      else if (y < lastScrollY - 8) chromeCollapsed = false;
+      lastScrollY = y;
+      var vv = window.visualViewport;
+      if (vv) {
+        if (lastVvHeight && vv.height > lastVvHeight + 12) chromeCollapsed = true;
+        else if (lastVvHeight && vv.height < lastVvHeight - 12) chromeCollapsed = false;
+        lastVvHeight = vv.height;
+      }
+    }
+
     function syncVisualViewportOverlap() {
-      var overlap = visualViewportBottomOverlap();
+      noteSafariChrome();
+      // 16 Pro Max keeps the tab-bar inset after the buttons hide. Once the
+      // user has scrolled down, drop that inset so we do not hold a cream slab.
+      var overlap = chromeCollapsed ? 0 : visualViewportBottomOverlap();
       document.documentElement.style.setProperty('--vv-bottom-overlap', overlap + 'px');
+      if (chromeCollapsed || overlap > 0) {
+        document.documentElement.style.setProperty('--vv-safe-pad', '0px');
+      } else {
+        document.documentElement.style.removeProperty('--vv-safe-pad');
+      }
       if (bar.hidden) return;
       var h = Math.ceil((bar.getBoundingClientRect && bar.getBoundingClientRect().height) || bar.offsetHeight || 72);
-      document.documentElement.style.setProperty('--float-basket-space', h + overlap + 'px');
+      document.documentElement.style.setProperty('--float-basket-space', h + 'px');
     }
 
     function setFloatBasketSpace() {
@@ -5027,7 +5052,10 @@
       if (reserve) io.observe(reserve);
     }
 
-    window.addEventListener('scroll', checkVisibility, { passive: true });
+    window.addEventListener('scroll', function () {
+      syncVisualViewportOverlap();
+      checkVisibility();
+    }, { passive: true });
     window.addEventListener('resize', function () {
       syncVisualViewportOverlap();
       checkVisibility();
