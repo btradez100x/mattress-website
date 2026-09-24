@@ -1,0 +1,66 @@
+{%- capture kicker -%}{% render 'lp-copy', text: section.settings.kicker %}{%- endcapture -%}
+{%- capture heading -%}{% render 'lp-copy', text: section.settings.heading %}{%- endcapture -%}
+{%- capture lede -%}{% render 'lp-copy', text: section.settings.lede %}{%- endcapture -%}
+{%- assign show_oeko = false -%}
+{%- if settings.show_oeko_tex_claim and settings.oeko_tex_certificate_no != blank -%}
+  {%- assign show_oeko = true -%}
+{%- endif -%}
+{%- if section.settings.enable_section -%}
+<section class="lp-section" id="why-{{ section.id }}">
+  <div class="page-width">
+    <div class="lp-head lp-narrow lp-center">
+      <p class="lp-kicker">{{ kicker }}</p>
+      <h2>{{ heading | newline_to_br }}</h2>
+      <p class="lp-lede">{{ lede }}</p>
+    </div>
+    <div class="lp-usp">
+      <article>
+        <span class="tag">{{ settings.brand_name }} {{ settings.refit_name | default: 'Refit' }}</span>
+        <h3>The bed renews. You do not replace it.</h3>
+        <p>Around year 5, and again around year 10, a new comfort layer goes on for {{ settings.refit_price | default: '£299' }}. Everything underneath stays. Two {{ settings.refit_name | default: 'Refit' }}s over ten years cost less than one cheap mattress bought twice.</p>
+      </article>
+      <article>
+        <span class="tag">Adjust to Desire</span>
+        <h3>A year to get the feel right.</h3>
+        <p>You cannot learn a bed in 4 minutes on a shop floor. Sleep on it, tell us what is wrong, and we build a new comfort layer to your description. With our compliments, for a year, as often as it takes.</p>
+      </article>
+      <article>
+        <span class="tag">Made to order</span>
+        <h3>Yours did not exist last week.</h3>
+        <p>Nothing is built before you order it. No warehouse, no old stock to move, no last season's tension being sold as this season's. Wound, layered and closed after you chose your size.</p>
+      </article>
+      <article>
+        <span class="tag">Concierge unpacking</span>
+        <h3>It arrives finished.</h3>
+        <p>Carried to the room you choose, unboxed, unrolled onto your bed and positioned. The packaging leaves with the crew. Complimentary with every mattress.</p>
+      </article>
+      <article>
+        <span class="tag">Old mattress removal</span>
+        <h3>The old one leaves the same day.</h3>
+        <p>Taken away on the same visit and sent for recycling rather than landfill. We carry the cost. Complimentary with every mattress.</p>
+      </article>
+      {%- if show_oeko -%}
+        <article>
+          <span class="tag">Certification</span>
+          <h3>OEKO-TEX® STANDARD 100.</h3>
+          <p>Every textile in the bed is independently tested for harmful substances, and certified. The cover you breathe against for {% render 'lp-warranty' %} years is the part most worth testing. {{ settings.oeko_tex_certificate_no }}</p>
+        </article>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Landing why special",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Show this section", "default": true },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Why a [Range] bed" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Most mattresses live once.\nThis one comes back." },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "An annual plant dies at the end of the season and is bought again. A perennial returns from the same root, year after year. The comfort layer is the part that dies back. [Core] is the root." }
+  ],
+  "presets": [{ "name": "Landing why special" }]
+}
+{% endschema %}

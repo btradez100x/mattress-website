@@ -1,159 +1,145 @@
 {
   "sections": {
-    "main": {
-      "type": "lp",
-      "blocks": {
-        "b1": {
-          "type": "hero",
-          "settings": {
-            "kicker": "The core",
-            "heading": "Support is the core.\nComfort is the layer.",
-            "lede": "A back that hurts in the morning is usually a core that has stopped holding. Ours is 20cm of 7-zone pocket springs, and the comfort above it is settled separately, after you have slept on it.",
-            "cta_primary": "Choose your size",
-            "cta_secondary": "How it works",
-            "cta_secondary_href": "#configure",
-            "show_price": true,
-            "price_first": false,
-            "price_large": false,
-            "price_from": "From \u00a32,499",
-            "price_klarna": "or \u00a3104 a month with Klarna",
-            "image_file": "product-profile.webp",
-            "image_alt": "",
-            "show_press": true,
-            "press_label": "As featured in",
-            "trust_1": "7 support zones",
-            "trust_2": "2.0mm at shoulder, hip and leg",
-            "trust_3": "Comfort settled after",
-            "press_1": "The Times",
-            "press_2": "Financial Times",
-            "press_3": "Evening Standard",
-            "press_4": "Wallpaper*",
-            "press_5": "Dezeen",
-            "show_pay": true,
-            "pay_label": "Pay by",
-            "klarna_amount": "\u00a3104 a month",
-            "show_sizestrip": false,
-            "sizestrip_rows": "",
-            "show_reviews": true,
-            "reviews_link_label": "Read them"
-          }
-        }
-      },
-      "block_order": [
-        "b1"
-      ],
+    "hero": {
+      "type": "lp-hero",
       "settings": {
-        "variant": "need"
+        "enable_section": true,
+        "kicker": "Support",
+        "heading": "Wake up\nwithout the ache.",
+        "subheading": "A back that hurts in the morning is usually a core that stopped holding. [Core] is 20cm of 7-zone pocket springs, and the comfort above it is settled separately, after you have slept on it.",
+        "cta_label": "Choose your size",
+        "cta_link": "#configure",
+        "secondary_cta_label": "See the zone map",
+        "secondary_cta_link": "#twinbuild",
+        "assurance": "Complimentary concierge unpacking \u00b7 Old mattress taken away \u00b7 100 nights to change your mind",
+        "show_price": true,
+        "price": "From \u00a32,499",
+        "price_note": "or \u00a3104 a month with Klarna",
+        "show_size_strip": false,
+        "highlight_size": "",
+        "image_asset": "lp-product-profile.webp"
+      }
+    },
+    "proof": {
+      "type": "lp-proof",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "twinbuild": {
+      "type": "lp-twinbuild",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "why": {
+      "type": "lp-why",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "cost": {
+      "type": "lp-cost",
+      "settings": {
+        "enable_section": true
       }
     },
     "configure": {
-      "type": "size-reserve",
-      "blocks": {},
-      "block_order": [],
+      "type": "lp-configure",
       "settings": {
         "enable_section": true,
-        "ground": "surface",
-        "mattress_product": "the-mattress",
-        "eyebrow": "Reserve yours",
-        "heading": "Choose your size.",
-        "body": "Every size is the same build. 35cm, 7-zone core, removable comfort layer. You do not choose a firmness.",
-        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
-        "market_force": "auto",
-        "request_size_enabled": true,
-        "deposit_terms_link": "/pages/refunds-deposit",
-        "anchor_id": "configure",
-        "leadtime_placement": "hidden",
-        "continue_path": "/cart",
-        "configure_funnel": true,
-        "stage_b_heading": "Summary",
-        "continue_label_full": "Add to basket",
-        "button_label_full": "Add to basket"
+        "size_allow": "double,king,european-king,super-king,emperor",
+        "highlight_size": "",
+        "market_force": "auto"
       }
     },
-    "story": {
-      "type": "lp",
+    "trust-bar-top": {
+      "type": "trust-bar",
       "blocks": {
-        "b2": {
-          "type": "prose",
+        "tb1": {
+          "type": "item",
           "settings": {
-            "ground": "",
-            "tight": true,
-            "anchor_id": "",
-            "kicker": "2 problems",
-            "heading": "Support and comfort\nare not the same job.",
-            "body_1": "Most mattresses solve both with the same 5 centimetres, which is why fixing one makes the other worse. Softer for the shoulder means less under the hip. Firmer for the back means pressure at the shoulder.",
-            "body_2": "Ours separates them. The core holds. The layer adapts.",
-            "pull": "Ours separates them. The core holds. The layer adapts."
+            "icon": "deposit",
+            "label": "Cancel before dispatch",
+            "sublabel": "Refund any time before dispatch",
+            "link": "/pages/refunds-deposit"
           }
         },
-        "b3": {
-          "type": "split",
+        "tb2": {
+          "type": "item",
           "settings": {
-            "ground": "",
-            "reverse": true,
-            "kicker": "The core",
-            "heading": "7 zones along the bed",
-            "body_1": "Your hips are the heaviest part of you and they sink first. On a single-tension mattress that tips the spine out of line for 8 hours, and you feel it at 7 in the morning rather than at 11 at night.",
-            "body_2": "2.0mm at the shoulder, hip and leg. 1.8mm everywhere else. Each spring in its own pocket, so one person turning over does not move the other.",
-            "pull": "",
-            "image_file": "coolknit-side.webp",
-            "image_alt": ""
+            "icon": "trial",
+            "label": "Adjust to Desire",
+            "sublabel": "Sleep on it. Tell us how it should feel.",
+            "link": "/pages/guarantee"
           }
         },
-        "b4": {
-          "type": "split",
+        "tb3": {
+          "type": "item",
           "settings": {
-            "ground": "bone",
-            "reverse": true,
-            "kicker": "Adjust to Desire",
-            "heading": "You do not have to\nget it right.",
-            "body_1": "Which is fortunate, because nobody can. Firm or soft, medium or medium firm, it is an impossible question to answer before you have slept on it.",
-            "body_2": "So you do not answer it. Sleep on it, tell us where it is wrong, and we make a new comfort layer to that description. With our compliments, for a year.",
-            "pull": "",
-            "image_file": "product-floating.webp",
-            "image_alt": ""
+            "icon": "warranty",
+            "label": "[X]-year core warranty",
+            "sublabel": "On the spring core",
+            "link": "/pages/warranty"
+          }
+        },
+        "tb4": {
+          "type": "item",
+          "settings": {
+            "icon": "craft",
+            "label": "Made to order",
+            "sublabel": "Built after you order it, never from stock",
+            "link": "/pages/manufacturing"
+          }
+        },
+        "oeko": {
+          "type": "item",
+          "settings": {
+            "icon": "chemicals",
+            "label": "No harmful chemicals",
+            "sublabel": "Materials chosen for cleaner sleep",
+            "link": "#specs",
+            "market_visibility": "all"
+          }
+        },
+        "oeko_tex": {
+          "type": "item",
+          "settings": {
+            "icon": "oeko",
+            "label": "OEKO-TEX\u00ae STANDARD 100",
+            "sublabel": "Textiles independently tested",
+            "link": "#specs",
+            "market_visibility": "all"
           }
         }
       },
       "block_order": [
-        "b2",
-        "b3",
-        "b4"
+        "tb1",
+        "tb2",
+        "tb3",
+        "tb4",
+        "oeko",
+        "oeko_tex"
       ],
       "settings": {
-        "variant": "need-story",
-        "allowed_size_ids": ""
-      }
-    },
-    "assurance": {
-      "type": "lp",
-      "blocks": {
-        "b5": {
-          "type": "assurance",
-          "settings": {
-            "a1_heading": "You cannot get this wrong",
-            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
-            "a2_heading": "100 days to change your mind",
-            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
-            "a3_heading": "25 years on the core",
-            "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
-            "ground": "bone"
-          }
-        }
-      },
-      "block_order": [
-        "b5"
-      ],
-      "settings": {
-        "variant": "need-story",
-        "allowed_size_ids": ""
+        "enable_section": true,
+        "surface": false,
+        "show_lead_line": true,
+        "anchor_id": "trust-top",
+        "enable_marquee": true,
+        "marquee_duration": 40,
+        "pause_on_hover": true,
+        "ground": "surface"
       }
     }
   },
   "order": [
-    "main",
-    "story",
-    "configure",
-    "assurance"
+    "trust-bar-top",
+    "hero",
+    "twinbuild",
+    "proof",
+    "why",
+    "cost",
+    "configure"
   ]
 }

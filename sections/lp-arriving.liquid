@@ -1,0 +1,39 @@
+{%- if section.settings.enable_section -%}
+<section class="lp-section lp-section--dark" id="arriving-{{ section.id }}">
+  <div class="page-width">
+    <div class="lp-head lp-narrow lp-center">
+      <p class="lp-kicker">What arriving looks like</p>
+      <h2>It arrives finished.</h2>
+      <p class="lp-lede">Not left in a hallway in a box for you to wrestle upstairs.</p>
+    </div>
+    <div class="lp-arrive">
+      <article>
+        <p class="lp-kicker">Beforehand</p>
+        <h3>A window you agree</h3>
+        <p>We call before we come and arrange a time that suits you. Nothing arrives unannounced.</p>
+      </article>
+      <article>
+        <p class="lp-kicker">On the day</p>
+        <h3>Concierged in</h3>
+        <p>To the room you choose, unboxed, unrolled and positioned. The packaging leaves with it.</p>
+      </article>
+      <article>
+        <p class="lp-kicker">Same visit</p>
+        <h3>The old one leaves</h3>
+        <p>Taken away and sent for recycling. We carry the cost.</p>
+      </article>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Landing arriving",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Show this section", "default": true }
+  ],
+  "presets": [{ "name": "Landing arriving" }]
+}
+{% endschema %}

@@ -1,0 +1,152 @@
+{{ 'landing.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign market = settings.default_market | default: 'ae'
+  if localization.country.iso_code == 'GB'
+    assign market = 'gb'
+  elsif localization.country.iso_code == 'AE'
+    assign market = 'ae'
+  endif
+  assign brand = settings.brand_name | default: 'Aligna'
+  assign image_asset = section.settings.image_asset | default: 'lp-product-floating.webp'
+  assign highlight = section.settings.highlight_size | handleize
+-%}
+{%- capture hero_kicker -%}{% render 'lp-copy', text: section.settings.kicker %}{%- endcapture -%}
+{%- capture hero_heading -%}{% render 'lp-copy', text: section.settings.heading %}{%- endcapture -%}
+{%- capture hero_sub -%}{% render 'lp-copy', text: section.settings.subheading %}{%- endcapture -%}
+{%- capture hero_assurance -%}{% render 'lp-copy', text: section.settings.assurance %}{%- endcapture -%}
+{%- capture spec_1 -%}{% render 'lp-copy', text: section.settings.spec_1 %}{%- endcapture -%}
+{%- capture spec_2 -%}{% render 'lp-copy', text: section.settings.spec_2 %}{%- endcapture -%}
+{%- capture spec_3 -%}{% render 'lp-copy', text: section.settings.spec_3 %}{%- endcapture -%}
+{%- capture spec_4 -%}{% render 'lp-copy', text: section.settings.spec_4 %}{%- endcapture -%}
+{%- capture img_alt -%}{% render 'lp-copy', text: section.settings.image_alt %}{%- endcapture -%}
+{%- if section.settings.enable_section -%}
+<section class="hero hero--light lp-hero" id="lp-hero">
+  <div class="hero__content">
+    {%- if hero_kicker != blank -%}
+      <p class="lp-kicker">{{ hero_kicker }}</p>
+    {%- endif -%}
+    {%- if hero_heading != blank -%}
+      <h1>{{ hero_heading | newline_to_br }}</h1>
+    {%- endif -%}
+    {%- if hero_sub != blank -%}
+      <p class="hero__sub">{{ hero_sub }}</p>
+    {%- endif -%}
+    <div class="hero__cta">
+      <a class="btn" href="{{ section.settings.cta_link | default: '#configure' }}">{{ section.settings.cta_label | default: 'Choose your size' }}</a>
+      {%- if section.settings.secondary_cta_label != blank -%}
+        <a class="btn btn--ghost" href="{{ section.settings.secondary_cta_link | default: '#twinbuild' }}">{{ section.settings.secondary_cta_label }}</a>
+      {%- endif -%}
+    </div>
+    {%- if hero_assurance != blank -%}
+      <p class="hero__assurance lp-hero__assurance">{{ hero_assurance }}</p>
+    {%- endif -%}
+    {%- liquid
+      assign show_price = false
+      assign price_main = ''
+      assign price_note = ''
+      if section.settings.show_price
+        if market == 'ae' and section.settings.price_ae != blank
+          assign show_price = true
+          assign price_main = section.settings.price_ae
+          assign price_note = section.settings.price_note_ae
+        elsif market == 'gb'
+          assign show_price = true
+          assign price_main = section.settings.price
+          assign price_note = section.settings.price_note
+        endif
+      endif
+    -%}
+    {%- if show_price and price_main != blank -%}
+      <div class="lp-price">
+        <b>{{ price_main }}</b>
+        {%- if price_note != blank -%}
+          <span>{{ price_note }}</span>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.payment_pills != blank -%}
+        <ul class="lp-pay" aria-label="Ways to pay">
+          {%- assign pills = section.settings.payment_pills | split: ',' -%}
+          {%- for pill in pills -%}
+            {%- assign pill_label = pill | strip -%}
+            {%- if pill_label != blank -%}
+              <li>{{ pill_label }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  <div class="lp-specband">
+    <ul>
+      {%- if spec_1 != blank -%}<li>{{ spec_1 }}</li>{%- endif -%}
+      {%- if spec_2 != blank -%}<li>{{ spec_2 }}</li>{%- endif -%}
+      {%- if spec_3 != blank -%}<li>{{ spec_3 }}</li>{%- endif -%}
+      {%- if spec_4 != blank -%}<li>{{ spec_4 }}</li>{%- endif -%}
+    </ul>
+  </div>
+
+  {%- if section.settings.show_size_strip -%}
+    <div class="lp-sizestrip" data-lp-size-strip>
+      {%- assign sizes = 'single|Single|90 x 190 cm,small-double|Small Double|120 x 190 cm,double|Double|135 x 190 cm,king|King|150 x 200 cm,european-king|European King|160 x 200 cm,super-king|Super King|180 x 200 cm,emperor|Emperor|200 x 200 cm' | split: ',' -%}
+      {%- for row in sizes -%}
+        {%- assign parts = row | split: '|' -%}
+        <a href="#configure" data-size="{{ parts[0] }}"{% if parts[0] == highlight %} class="is-on"{% endif %}>
+          <b>{{ parts[1] }}</b>
+          <s>{{ parts[2] }}</s>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="hero__media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', alt: img_alt, widths: '800,1200,1600,2000', sizes: '100vw' }}
+    {%- else -%}
+      <img
+        src="{{ image_asset | asset_url }}"
+        alt="{{ img_alt | escape }}"
+        width="1600"
+        height="900"
+        loading="eager"
+      >
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Landing hero",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Show this section", "default": true },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Made to order · United Kingdom" },
+    { "type": "textarea", "id": "heading", "label": "Headline", "default": "Wake up refreshed\nfor [Warranty] years." },
+    { "type": "textarea", "id": "subheading", "label": "Subhead", "default": "You already know the size. What you do not know is how it will feel, and that is the part we settle after you have slept on it. [Architecture] construction: [Core] below, a comfort layer above." },
+    { "type": "text", "id": "cta_label", "label": "Primary button", "default": "Choose your size" },
+    { "type": "text", "id": "cta_link", "label": "Primary link", "default": "#configure" },
+    { "type": "text", "id": "secondary_cta_label", "label": "Secondary button", "default": "How it is built" },
+    { "type": "text", "id": "secondary_cta_link", "label": "Secondary link", "default": "#twinbuild" },
+    { "type": "text", "id": "assurance", "label": "Assurance line", "default": "Complimentary concierge unpacking · Old mattress taken away · 100 nights to change your mind" },
+    { "type": "checkbox", "id": "show_price", "label": "Show price", "default": true },
+    { "type": "text", "id": "price", "label": "Price (UK)", "default": "From £2,499" },
+    { "type": "text", "id": "price_note", "label": "Price note (UK)", "default": "or £104 a month with Klarna" },
+    { "type": "text", "id": "price_ae", "label": "Price (UAE)", "info": "Leave blank to hide the price for UAE visitors. Do not show a pound figure there." },
+    { "type": "text", "id": "price_note_ae", "label": "Price note (UAE)" },
+    { "type": "text", "id": "payment_pills", "label": "Payment pills", "default": "Visa, Mastercard, Amex, PayPal, Apple Pay, Google Pay, Klarna, 3 payments, Klarna, 24 months" },
+    { "type": "text", "id": "spec_1", "label": "Spec 1", "default": "35cm hybrid" },
+    { "type": "text", "id": "spec_2", "label": "Spec 2", "default": "2,000 pocket springs, housed alone" },
+    { "type": "text", "id": "spec_3", "label": "Spec 3", "default": "Swappable comfort layer" },
+    { "type": "text", "id": "spec_4", "label": "Spec 4", "default": "[Warranty]-year [Core]" },
+    { "type": "checkbox", "id": "show_size_strip", "label": "Show size strip", "default": false, "info": "On for size-led ad groups only." },
+    { "type": "text", "id": "highlight_size", "label": "Highlighted size", "info": "single, king, or blank. A size parameter in the URL overrides this." },
+    { "type": "text", "id": "image_asset", "label": "Fallback image asset", "default": "lp-product-floating.webp" },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "text", "id": "image_alt", "label": "Image alt", "default": "[Brand] [Range] bed" }
+  ],
+  "presets": [
+    { "name": "Landing hero" }
+  ]
+}
+{% endschema %}
