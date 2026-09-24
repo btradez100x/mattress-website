@@ -55,14 +55,10 @@
             <span>{{ legal_address | newline_to_br }}</span>
           </li>
         {%- endif -%}
-        {%- capture customer_email -%}{% render 'customer-email' %}{%- endcapture -%}
-        {%- assign customer_email = customer_email | strip -%}
-        {%- if customer_email != blank -%}
-          <li>
-            <strong>Email</strong>
-            <span><a href="mailto:{{ customer_email }}">{{ customer_email }}</a></span>
-          </li>
-        {%- endif -%}
+        <li>
+          <strong>Email</strong>
+          <span><a href="mailto:hello@onnilondon.co.uk" data-onni-mail="hello@onnilondon.co.uk">hello@onnilondon.co.uk</a></span>
+        </li>
         {%- if contact_phone != blank -%}
           <li>
             <strong>Phone</strong>
