@@ -176,7 +176,7 @@
     (function () {
       var h1 = document.querySelector('#lp-hero h1');
       if (!h1) return;
-      var text = h1.textContent.replace(/\s+/g, ' ').trim();
+      var text = h1.innerHTML.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
       if (text) document.title = text + ' · Aligna';
     })();
   </script>
