@@ -101,20 +101,20 @@
       "type": "lp-hero",
       "settings": {
         "enable_section": true,
-        "kicker": "The specification",
-        "heading": "Every layer earns\nits place in your morning.",
-        "subheading": "You have decided what you want. 35cm, a 7-zone pocket sprung core, a comfort layer that lifts out. Here is all 13 layers, so you can check it against what you had in mind.",
+        "kicker": "Made to order · United Kingdom",
+        "heading": "Wake up refreshed\nfor [Warranty] years.",
+        "subheading": "One mattress, made in every size, and the feel settled after you have slept on it rather than guessed at in a showroom. [Architecture] construction: [Core] below, a comfort layer above.",
         "cta_label": "Choose your size",
         "cta_link": "#configure",
-        "secondary_cta_label": "See all 13 layers",
+        "secondary_cta_label": "How it is built",
         "secondary_cta_link": "#twinbuild",
         "assurance": "Complimentary concierge unpacking · Old mattress taken away · 100 nights to change your mind",
         "show_price": true,
-        "price": "From £2,499",
-        "price_note": "or £104 a month with Klarna",
-        "show_size_strip": false,
-        "highlight_size": "",
-        "image_asset": "lp-coolknit-side.webp"
+        "price": "From £1,999",
+        "price_note": "or £83 a month with Klarna",
+        "show_size_strip": true,
+        "highlight_size": "king",
+        "image_asset": "lp-product-floating.webp"
       }
     },
     "proof": {
@@ -152,7 +152,7 @@
       "settings": {
         "enable_section": true,
         "size_allow": "double,king,european-king,super-king,emperor",
-        "highlight_size": "",
+        "highlight_size": "king",
         "market_force": "auto"
       }
     }
@@ -160,8 +160,8 @@
   "order": [
     "trust",
     "hero",
-    "twinbuild",
     "proof",
+    "twinbuild",
     "why",
     "cost",
     "arriving",
