@@ -2472,9 +2472,28 @@
         return true;
       });
     }
-    sizes = filterSizesForMarket(market);
+    function allowedSizes(list) {
+      var allow = String(root.getAttribute('data-size-allow') || '')
+        .split(',')
+        .map(normalizeSizeId)
+        .filter(Boolean);
+      if (!allow.length) return list;
+      return list.filter(function (s) {
+        return allow.indexOf(normalizeSizeId(s.id)) !== -1 || allow.indexOf(normalizeSizeId(s.label)) !== -1;
+      });
+    }
+
+    function landingHighlightId() {
+      var fromQuery = '';
+      try {
+        fromQuery = new URLSearchParams(window.location.search).get('size') || '';
+      } catch (e) {}
+      return normalizeSizeId(fromQuery || root.getAttribute('data-highlight-size') || '');
+    }
+
+    sizes = allowedSizes(filterSizesForMarket(market));
     if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-      sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+      sizes = allowedSizes((SIZE_MAPS[market] || SIZE_MAPS.ae).slice());
     }
 
     function eventParams(extra) {
@@ -2669,6 +2688,13 @@
     }
 
     function preferredIndex() {
+      var hi = landingHighlightId();
+      if (hi) {
+        var highlighted = sizes.findIndex(function (s) {
+          return (normalizeSizeId(s.id) === hi || normalizeSizeId(s.label) === hi) && s.available !== false;
+        });
+        if (highlighted >= 0) return highlighted;
+      }
       var preferredIds = market === 'gb' ? ['king', 'double', 'queen'] : ['queen', 'king'];
       var i;
       for (i = 0; i < sizes.length; i++) {
@@ -2703,10 +2729,13 @@
         }
         var btn = document.createElement('button');
         btn.type = 'button';
+        var highlighted = landingHighlightId();
+        var isHighlighted = highlighted && (normalizeSizeId(s.id) === highlighted || normalizeSizeId(s.label) === highlighted);
         btn.className =
           'size-option' +
           (available ? '' : ' size-option--oos') +
-          (popular ? ' size-option--popular' : '');
+          (popular ? ' size-option--popular' : '') +
+          (isHighlighted ? ' is-highlighted' : '');
         btn.setAttribute('role', 'option');
         btn.setAttribute('aria-selected', 'false');
         btn.setAttribute('data-size-id', s.id);
@@ -2756,6 +2785,15 @@
       syncSizeQtyUi();
     }
 
+    root._valtoraRebuildSizes = function () {
+      market = root.getAttribute('data-market') || market;
+      sizes = allowedSizes(filterSizesForMarket(market));
+      if (!sizes.length && root.getAttribute('data-preview') === 'true') {
+        sizes = allowedSizes((SIZE_MAPS[market] || SIZE_MAPS.ae).slice());
+      }
+      rebuildSizeButtons();
+    };
+
     if (list && !list.children.length) {
       rebuildSizeButtons();
     } else if (list) {
@@ -2769,9 +2807,9 @@
       leadtimePlacement = root.getAttribute('data-leadtime-placement') || leadtimePlacement || 'staged';
       financeName =
         root.getAttribute('data-finance-name') || (market === 'gb' ? 'Klarna' : 'Tabby or Tamara');
-      sizes = filterSizesForMarket(market);
+      sizes = allowedSizes(filterSizesForMarket(market));
       if (!sizes.length && root.getAttribute('data-preview') === 'true') {
-        sizes = (SIZE_MAPS[market] || SIZE_MAPS.ae).slice();
+        sizes = allowedSizes((SIZE_MAPS[market] || SIZE_MAPS.ae).slice());
       }
       rebuildSizeButtons();
       if (typeof renderOrderPanel === 'function') renderOrderPanel();
@@ -5188,8 +5226,8 @@
   function initPreviewAnnouncement() {
     if (!isPreviewHost()) return;
 
-    var DEFAULT_AE = 'Cancel any time before dispatch · 100-night trial · Made to order';
-    var DEFAULT_GB = 'Cancel any time before dispatch · 100-night trial · Spread with Klarna';
+    var DEFAULT_AE = 'Cancel any time before dispatch · 100 nights to change your mind · Made to order';
+    var DEFAULT_GB = 'Cancel any time before dispatch · 100 nights to change your mind · Spread with Klarna';
     var textAe = DEFAULT_AE;
     var textGb = DEFAULT_GB;
     var enabled = true;
@@ -5259,6 +5297,81 @@
     }
   }
 
+  function initLpLanding() {
+    var params = null;
+    try {
+      params = new URLSearchParams(window.location.search);
+    } catch (e) {}
+    var querySize = params && params.get('size');
+
+    document.querySelectorAll('[data-lp-size-strip]').forEach(function (strip) {
+      function paint(id) {
+        strip.querySelectorAll('[data-size]').forEach(function (el) {
+          el.classList.toggle('is-on', el.getAttribute('data-size') === id);
+        });
+      }
+      if (querySize) {
+        paint(String(querySize).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+      }
+      strip.querySelectorAll('[data-size]').forEach(function (link) {
+        link.addEventListener('click', function () {
+          var id = link.getAttribute('data-size') || '';
+          paint(id);
+          try {
+            var url = new URL(window.location.href);
+            url.searchParams.set('size', id);
+            url.hash = 'configure';
+            history.replaceState(null, '', url.pathname + url.search + url.hash);
+          } catch (err) {}
+          document.querySelectorAll('[data-size-reserve]').forEach(function (root) {
+            root.setAttribute('data-highlight-size', id);
+            if (typeof root._valtoraRebuildSizes === 'function') root._valtoraRebuildSizes();
+          });
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-lp-proof]').forEach(function (root) {
+      var url = root.getAttribute('data-reviews-url');
+      if (!url) return;
+      var avgEl = root.querySelector('[data-lp-average]');
+      var countEl = root.querySelector('[data-lp-count]');
+      fetch(url)
+        .then(function (res) {
+          if (!res.ok) throw new Error('reviews');
+          return res.json();
+        })
+        .then(function (data) {
+          var summary = data && data.summary;
+          var reviews = data && Array.isArray(data.reviews) ? data.reviews : [];
+          var average = summary && summary.average;
+          var count = summary && summary.count;
+          if ((average === undefined || average === null || count === undefined || count === null) && reviews.length) {
+            var sum = 0;
+            var n = 0;
+            reviews.forEach(function (review) {
+              var rating = Number(review && review.rating);
+              if (rating) {
+                sum += rating;
+                n += 1;
+              }
+            });
+            if (n) {
+              average = sum / n;
+              count = n;
+            }
+          }
+          if (!count || average === undefined || average === null || Number(average) <= 0) return;
+          if (avgEl) avgEl.textContent = Number(average).toFixed(2);
+          if (countEl) {
+            countEl.textContent = 'out of 5 · ' + Number(count).toLocaleString() + ' verified reviews';
+          }
+          root.hidden = false;
+        })
+        .catch(function () {});
+    });
+  }
+
   function boot() {
     initPreviewBrandChrome();
     var market = detectMarket();
@@ -5282,6 +5395,7 @@
     initFaq();
     initSpecPanel();
     initAllReserves();
+    initLpLanding();
     initLifestyleCaptions();
     initMobileNav();
     rewriteHomeSectionLinks();

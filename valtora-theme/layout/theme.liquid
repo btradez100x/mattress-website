@@ -68,6 +68,16 @@
     <link rel="stylesheet" href="{{ font_href }}">
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {%- liquid
+      assign lp_suffix = template.suffix | default: ''
+      assign is_landing = false
+      if lp_suffix == 'landing' or lp_suffix == 'ag1-size' or lp_suffix == 'ag2-need' or lp_suffix == 'ag3-premium' or lp_suffix == 'ag4-other-size' or lp_suffix == 'ag5-conquest' or lp_suffix == 'ag6-spec-size' or lp_suffix == 'ag7-need-only' or lp_suffix == 'ag8-spec-only' or lp_suffix == 'ag9-temperature' or lp_suffix == 'ag14-bare-size'
+        assign is_landing = true
+      endif
+    -%}
+    {%- if is_landing -%}
+      {{ 'landing.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
 
     <script src="{{ 'utm-persistence.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>

@@ -15,7 +15,8 @@
   else
     assign fly_to = 'the UAE'
   endif
-  assign variation_notice = settings.variation_notice | default: 'Handmade, so natural variation in fabric shade is possible. The construction is identical every time.'
+  assign variation_notice = settings.variation_notice | default: 'Made to order, so natural variation in fabric shade is possible. The construction is identical every time.'
+  assign warranty = settings.warranty_years | default: '25'
 -%}
 {%- capture legal_name -%}{% render 'legal-name' %}{%- endcapture -%}
 {%- assign legal_name = legal_name | strip -%}
@@ -27,6 +28,7 @@
     assign terms_title = order_terms_title_split | default: 'Payment and order terms'
     assign terms_body = order_terms_split
   endif
+  assign terms_body = terms_body | replace: '[Warranty]', warranty
 -%}
 <div
   class="reserve-stage-b is-collapsed"
@@ -75,7 +77,7 @@
           <li>Spread the cost with {{ finance_name }} at no extra charge.</li>
           <li>Refunds returned to the original payment method within 5-10 business days.</li>
           <li>100 nights to change your mind once it arrives.</li>
-          <li>15-year warranty on the spring core.</li>
+          <li>{{ warranty }}-year warranty on the spring core.</li>
           <li>{{ variation_notice }}</li>
         </ul>
       {%- endif -%}

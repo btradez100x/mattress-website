@@ -418,8 +418,8 @@
         <label style="cursor:pointer;" title="Theme setting: OEKO-TEX STANDARD 100 (off until a certificate number is entered)"><input type="checkbox" id="PreviewOekoClaim"> OEKO-TEX</label>
         <label title="Required to show the OEKO-TEX claim">OEKO cert <input id="PreviewOekoCert" type="text" value="" placeholder="certificate no." style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:8rem;color:#000;background:#F7F5F1;"></label>
         <label style="cursor:pointer;" title="Show site announcement bar on every page"><input type="checkbox" id="PreviewAnnouncementOn" checked> Announcement</label>
-        <label title="Announcement bar copy (UAE)">Banner UAE <input id="PreviewAnnouncementAe" type="text" value="Cancel any time before dispatch · 100-night trial · Made to order" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
-        <label title="Announcement bar copy (UK)">Banner UK <input id="PreviewAnnouncementGb" type="text" value="Cancel any time before dispatch · 100-night trial · Spread with Klarna" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
+        <label title="Announcement bar copy (UAE)">Banner UAE <input id="PreviewAnnouncementAe" type="text" value="Cancel any time before dispatch · 100 nights to change your mind · Made to order" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
+        <label title="Announcement bar copy (UK)">Banner UK <input id="PreviewAnnouncementGb" type="text" value="Cancel any time before dispatch · 100 nights to change your mind · Spread with Klarna" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;min-width:16rem;color:#000;background:#F7F5F1;"></label>
         <label style="cursor:pointer;" title="Exit-intent leave prompt (off by default)"><input type="checkbox" id="PreviewExitIntent"> Exit prompt</label>
         <label title="Seconds on page before exit prompt can appear">Exit delay <input id="PreviewExitIntentDelay" type="number" min="0" max="120" step="5" value="30" style="margin-left:0.35rem;padding:0.2rem 0.45rem;border:0;width:3.5rem;color:#000;background:#F7F5F1;"></label>
         <button type="button" id="PreviewExitIntentExport" class="preview-banner__btn" title="Download local exit-intent responses">Exit log</button>
@@ -503,8 +503,8 @@
 
     <div class="announcement" role="region" aria-label="Announcement" data-announcement-bar>
       <p style="margin:0" data-market-announcement>
-        <span data-market-only="ae">Cancel any time before dispatch · 100-night trial · Made to order</span>
-        <span data-market-only="gb" hidden>Cancel any time before dispatch · 100-night trial · Spread with Klarna</span>
+        <span data-market-only="ae">Cancel any time before dispatch · 100 nights to change your mind · Made to order</span>
+        <span data-market-only="gb" hidden>Cancel any time before dispatch · 100 nights to change your mind · Spread with Klarna</span>
       </p>
     </div>
 
@@ -556,7 +556,7 @@
             <a class="btn" href="#reserve" data-hero-cta>See sizes and prices</a>
             <a class="btn btn--ghost hero__secondary" href="#swap">How the swap system works</a>
           </div>
-          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Cancel any time before dispatch · 100-night trial · 15-year warranty</p>
+          <p class="hero__assurance" data-reveal-child data-reveal-first style="--reveal-delay: 200ms">Cancel any time before dispatch · 100 nights to change your mind · 25-year warranty</p>
         </div>
         <div class="hero__media" data-reveal-child data-reveal-first style="--reveal-delay: 100ms">
           <img src="./assets/hero-mattress.jpg" alt="Aligna mattress" data-brand-alt-suffix=" mattress" width="2000" height="1500">
@@ -568,18 +568,16 @@
           <div class="trust-bar__track">
             <ul class="trust-bar__list" role="list">
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100 nights to change your mind</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">25-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Made to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-oeko hidden><a class="trust-bar__link" href="#specs"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">OEKO-TEX® STANDARD 100</strong><span class="trust-bar__sub">Textiles independently tested</span><span class="trust-bar__sub" data-oeko-cert-no></span><span class="trust-bar__sub" data-oeko-cert-no></span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
             </ul>
             <ul class="trust-bar__list" role="list" aria-hidden="true">
               <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/refunds.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Cancel before dispatch</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100-night trial</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">15-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Handmade to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
-              <li class="trust-bar__item" data-claim-chemicals hidden><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Free from harmful chemicals</strong><span class="trust-bar__sub">Materials chosen for cleaner sleep</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/trial.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.25"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">100 nights to change your mind</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/warranty.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">25-year core warranty</strong></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
+              <li class="trust-bar__item"><a class="trust-bar__link" href="./pages/manufacturing.html" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18l6-6 3 3 7-8" stroke="currentColor" stroke-width="1.25"/><path d="M14 5h5v5" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">Made to order</strong><span class="trust-bar__sub">Built after you order it, never from stock</span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
               <li class="trust-bar__item" data-claim-oeko hidden><a class="trust-bar__link" href="#specs" tabindex="-1"><span class="trust-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.25"/></svg></span><span class="trust-bar__copy"><strong class="trust-bar__label">OEKO-TEX® STANDARD 100</strong><span class="trust-bar__sub">Textiles independently tested</span><span class="trust-bar__sub" data-oeko-cert-no></span></span></a><span class="trust-bar__sep" aria-hidden="true"></span></li>
             </ul>
           </div>
@@ -947,7 +945,7 @@
                     <tbody>
                       <tr>
                         <td><div class="vspec__name">Height</div>
-                            <div class="vspec__meta">37 CM MADE UP</div></td>
+                            <div class="vspec__meta">35 CM MADE UP</div></td>
                         <td class="vspec__does">Deeper than most. Deep-fitted sheets needed</td>
                       </tr>
                       <tr>
@@ -1215,11 +1213,10 @@
           </p>
           <hr class="gold-rule gold-rule--measure">
           <div class="offer__items">
-            <div class="offer__item"><strong>100-night trial</strong><span>Sleep on it. Decide at home.</span></div>
-            <div class="offer__item"><strong>15-year warranty</strong><span>On the spring core.</span></div>
-            <div class="offer__item"><strong>Handmade to order</strong><span>Built after you order it, never from stock.</span></div>
+            <div class="offer__item"><strong>100 nights to change your mind</strong><span>Sleep on it. Decide at home.</span></div>
+            <div class="offer__item"><strong>25-year warranty</strong><span>On the spring core.</span></div>
+            <div class="offer__item"><strong>Made to order</strong><span>Built after you order it, never from stock.</span></div>
             <div class="offer__item"><strong>Cancel before dispatch</strong><span>Full refund any time before your mattress ships.</span></div>
-            <div class="offer__item" data-claim-chemicals hidden><strong>Free from harmful chemicals</strong><span>Materials chosen for cleaner sleep.</span></div>
             <div class="offer__item" data-claim-oeko hidden><strong>OEKO-TEX® STANDARD 100</strong><span>Textiles independently tested for harmful substances. <span data-oeko-cert-no></span></span></div>
           </div>
           <div class="offer__cta" data-reveal-child style="--reveal-delay: 50ms">
@@ -1406,7 +1403,7 @@
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Will it fit my sheets?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel"><div class="faq__panel-inner">Our mattress is 37cm, which is deeper than standard fitted sheets allow for. You will need deep-fitted sheets, sold as 35cm or 40cm depth.<br><br>If you are using a comfort layer on your own mattress, add 10cm to whatever your mattress measures now and check against that.<span data-sheets-discover hidden><br><br><a href="./pages/bed-sheets.html?sheets=1">Sheets that fit.</a></span></div></div>
+              <div class="faq__panel"><div class="faq__panel-inner">Our mattress is 35cm, which is deeper than standard fitted sheets allow for. You will need deep-fitted sheets, sold as 35cm or 40cm depth.<br><br>If you are using a comfort layer on your own mattress, add 10cm to whatever your mattress measures now and check against that.<span data-sheets-discover hidden><br><br><a href="./pages/bed-sheets.html?sheets=1">Sheets that fit.</a></span></div></div>
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is the price negotiable?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1426,11 +1423,7 @@
             </div>
             <div class="faq__item" data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>What is the warranty?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel"><div class="faq__panel-inner">15-year warranty on the spring core. Full terms: <a href="./pages/warranty.html">Warranty</a>.</div></div>
-            </div>
-            <div class="faq__item" data-claim-chemicals hidden data-faq-item aria-expanded="false">
-              <button class="faq__trigger" type="button" data-faq-trigger><span>Is it free from harmful chemicals?</span><span class="faq__icon" aria-hidden="true"></span></button>
-              <div class="faq__panel"><div class="faq__panel-inner">Yes. Materials are selected to be free from harmful chemicals for cleaner sleep.</div></div>
+              <div class="faq__panel"><div class="faq__panel-inner">25-year warranty on the spring core. Full terms: <a href="./pages/warranty.html">Warranty</a>.</div></div>
             </div>
             <div class="faq__item" data-claim-oeko hidden data-faq-item aria-expanded="false">
               <button class="faq__trigger" type="button" data-faq-trigger><span>Is it OEKO-TEX® certified?</span><span class="faq__icon" aria-hidden="true"></span></button>
@@ -1531,7 +1524,7 @@
         <div>
           <h3>Policies</h3>
           <ul>
-            <li><a href="./pages/trial.html">100-night trial</a></li>
+            <li><a href="./pages/trial.html">100 nights to change your mind</a></li>
             <li><a href="./pages/warranty.html">Warranty</a></li>
             <li><a href="./pages/refunds.html">Refunds &amp; order terms</a></li>
             <li><a href="./pages/delivery.html">Delivery &amp; lead time</a></li>
@@ -2465,8 +2458,8 @@
           var onToggle = document.getElementById('PreviewAnnouncementOn');
           var aeInput = document.getElementById('PreviewAnnouncementAe');
           var gbInput = document.getElementById('PreviewAnnouncementGb');
-          var DEFAULT_AE = 'Cancel any time before dispatch · 100-night trial · Made to order';
-          var DEFAULT_GB = 'Cancel any time before dispatch · 100-night trial · Spread with Klarna';
+          var DEFAULT_AE = 'Cancel any time before dispatch · 100 nights to change your mind · Made to order';
+          var DEFAULT_GB = 'Cancel any time before dispatch · 100 nights to change your mind · Spread with Klarna';
 
           function apply() {
             var enabled = !onToggle || onToggle.checked;

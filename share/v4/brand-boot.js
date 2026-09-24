@@ -180,19 +180,23 @@
 
   var name = 'Aligna';
   var line = 'Mattresses';
+  var business = 'Valtora FZE';
   var guidelines = 'v1';
   var fontSet = 'modern';
   var scheme = 'signature';
   var market = '';
+  var taglineMarket = '';
 
   try {
     name = localStorage.getItem('valtoraPreviewBrand') || name;
     var savedLine = localStorage.getItem('valtoraPreviewBrandLine');
     if (savedLine !== null) line = savedLine;
+    business = localStorage.getItem('valtoraPreviewBusinessName') || business;
     guidelines = localStorage.getItem('valtoraPreviewBrandGuidelines') || guidelines;
     fontSet = localStorage.getItem('valtoraPreviewFontSet') || fontSet;
     scheme = localStorage.getItem('valtoraPreviewColorScheme') || scheme;
     market = localStorage.getItem('valtoraPreviewMarket') || '';
+    taglineMarket = localStorage.getItem('valtoraPreviewTaglineMarket') || market;
   } catch (e) {}
 
   if (guidelines === 'v2') {
@@ -208,6 +212,16 @@
   if (fontSet) d.setAttribute('data-font-set', fontSet);
   if (scheme) d.setAttribute('data-color-scheme', scheme);
   if (market === 'ae' || market === 'gb') d.setAttribute('data-market', market);
+  if (
+    taglineMarket === 'ae' ||
+    taglineMarket === 'gb' ||
+    taglineMarket === 'us' ||
+    taglineMarket === 'eu' ||
+    taglineMarket === 'gh' ||
+    taglineMarket === 'ng'
+  ) {
+    d.setAttribute('data-tagline-market', taglineMarket);
+  }
 
   try {
     var forceMotion = localStorage.getItem('valtoraPreviewForceMotion');
@@ -225,6 +239,7 @@
   window.__valtoraPreviewBoot = {
     name: name,
     line: line,
+    business: business,
     guidelines: guidelines,
     fontSet: fontSet,
     scheme: scheme,
@@ -339,12 +354,37 @@
       el.textContent = boot.line;
       el.hidden = !boot.line;
     });
+    var taglineText = 'Premium Sleep, Engineered for the Gulf';
+    try {
+      var taglineKey =
+        d.getAttribute('data-tagline-market') ||
+        localStorage.getItem('valtoraPreviewTaglineMarket') ||
+        'ae';
+      var taglineMap = JSON.parse(localStorage.getItem('valtoraPreviewTaglines') || '{}');
+      if (taglineMap && taglineMap[taglineKey]) taglineText = taglineMap[taglineKey];
+      else if (taglineMap && taglineMap.default) taglineText = taglineMap.default;
+      else taglineText = localStorage.getItem('valtoraPreviewTagline') || taglineText;
+    } catch (e) {}
+    document.querySelectorAll('[data-brand-tagline]').forEach(function (el) {
+      el.textContent = taglineText;
+    });
     document.querySelectorAll('.wordmark').forEach(function (a) {
       a.setAttribute('aria-label', boot.line ? boot.name + ' ' + boot.line : boot.name);
     });
     d.setAttribute('data-brand-hydrated', '1');
+    applyBusinessName(boot);
     applyBrandFavicon(boot);
     return true;
+  }
+
+  function applyBusinessName(boot) {
+    boot = boot || window.__valtoraPreviewBoot;
+    if (!boot) return;
+    var legal = (boot.business || '').trim();
+    if (!legal) return;
+    document.querySelectorAll('[data-business-name]').forEach(function (el) {
+      el.textContent = legal;
+    });
   }
 
   function brandInitials(name) {
@@ -413,6 +453,7 @@
   }
 
   window.__valtoraApplyPreviewBrandText = applyBrandText;
+  window.__valtoraApplyPreviewBusinessName = applyBusinessName;
   window.__valtoraInjectPreviewScheme = injectSchemeVars;
   window.__valtoraApplyBrandFavicon = applyBrandFavicon;
 

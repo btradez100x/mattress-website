@@ -1,0 +1,181 @@
+{%- liquid
+  assign market = section.settings.market_force | default: 'auto'
+  if market == 'auto' or market == blank
+    if localization.country.iso_code == 'GB'
+      assign market = 'gb'
+    elsif localization.country.iso_code == 'AE'
+      assign market = 'ae'
+    else
+      assign market = settings.default_market | default: 'ae'
+    endif
+  endif
+  assign mattress = section.settings.mattress_product
+  if mattress == blank
+    assign mattress = all_products['the-mattress']
+  endif
+  if mattress == blank
+    assign mattress = all_products['mattress']
+  endif
+  assign payment_mode = settings.payment_mode | default: 'full'
+  if market == 'gb'
+    assign finance_name = 'Klarna'
+  else
+    assign finance_name = 'Tabby or Tamara'
+  endif
+-%}
+{%- capture lead_window -%}{%- render 'lead-time', product: mattress, product_type: 'mattress' -%}{%- endcapture -%}
+{%- capture lt_min -%}{%- render 'lead-time', product: mattress, product_type: 'mattress', format: 'min' -%}{%- endcapture -%}
+{%- capture lt_max -%}{%- render 'lead-time', product: mattress, product_type: 'mattress', format: 'max' -%}{%- endcapture -%}
+{%- assign lead_window = lead_window | strip -%}
+{%- capture heading -%}{% render 'lp-copy', text: section.settings.heading %}{%- endcapture -%}
+{%- capture lede -%}{% render 'lp-copy', text: section.settings.lede %}{%- endcapture -%}
+{%- if section.settings.enable_section -%}
+<section class="lp-section lp-configure" id="configure">
+  <div class="page-width">
+    <div class="lp-narrow lp-center">
+      <p class="lp-kicker">Choose your size</p>
+      <h2>{{ heading }}</h2>
+      <p class="lp-lede">{{ lede }}</p>
+    </div>
+
+    <script type="application/json" data-size-price-config>
+      [
+      {%- assign first_out = true -%}
+      {%- if mattress != blank -%}
+        {%- for v in mattress.variants -%}
+          {%- if v.metafields.custom.enabled == false -%}
+            {%- continue -%}
+          {%- endif -%}
+          {%- liquid
+            assign v_market = v.metafields.custom.market | strip | downcase
+            if v_market == blank
+              assign v_title_down = v.title | downcase
+              if v_title_down contains 'uae'
+                assign v_market = 'ae'
+              else
+                assign v_market = 'gb'
+              endif
+            endif
+            assign size_id = v.sku | handleize | replace: 'matt-uk-', '' | replace: 'matt-ae-', ''
+            if size_id == blank
+              assign size_id = v.option1 | handle | replace: '-uae', ''
+            endif
+            if size_id == blank
+              assign size_id = v.title | handle | replace: '-uae', ''
+            endif
+            assign size_label = v.option1 | replace: ' (UAE)', ''
+            if size_label == blank
+              assign size_label = v.title | replace: ' (UAE)', ''
+            endif
+          -%}
+          {%- unless first_out -%},{%- endunless -%}
+          {
+            "id": {{ size_id | json }},
+            "label": {{ size_label | json }},
+            "dims": {{ v.metafields.custom.dims | json }},
+            "price": {{ v.price | money | json }},
+            "price_raw": {{ v.price | json }},
+            "variant_id": {{ v.id | json }},
+            "market": {{ v_market | json }},
+            "available": {{ v.available | json }},
+            "popular": {% if v.metafields.custom.popular == true %}true{% else %}false{% endif %}
+          }
+          {%- assign first_out = false -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if first_out -%}
+        {"market":"gb","id":"single","label":"Single","dims":"90 × 190 cm","price":"£1,999","price_raw":199900,"available":true},
+        {"market":"gb","id":"small-double","label":"Small Double","dims":"120 × 190 cm","price":"£2,249","price_raw":224900,"available":true},
+        {"market":"gb","id":"double","label":"Double","dims":"135 × 190 cm","price":"£2,499","price_raw":249900,"available":true},
+        {"market":"gb","id":"king","label":"King","dims":"150 × 200 cm","price":"£2,999","price_raw":299900,"available":true,"popular":true},
+        {"market":"gb","id":"european-king","label":"European King","dims":"160 × 200 cm","price":"£3,199","price_raw":319900,"available":true},
+        {"market":"gb","id":"super-king","label":"Super King","dims":"180 × 200 cm","price":"£3,299","price_raw":329900,"available":true},
+        {"market":"gb","id":"emperor","label":"Emperor","dims":"200 × 200 cm","price":"£3,699","price_raw":369900,"available":true},
+        {"market":"ae","id":"single","label":"Single","dims":"90-100 × 200 cm","price":"AED 8,999","price_raw":899900,"available":true},
+        {"market":"ae","id":"queen","label":"Queen","dims":"160 × 200 cm","price":"AED 11,999","price_raw":1199900,"available":true,"popular":true},
+        {"market":"ae","id":"king","label":"King","dims":"180 × 200 cm","price":"AED 14,999","price_raw":1499900,"available":true},
+        {"market":"ae","id":"super-king","label":"Super King","dims":"200 × 200 cm","price":"AED 16,999","price_raw":1699900,"available":true}
+      {%- endif -%}
+      ]
+    </script>
+
+    <div
+      class="page-width size-reserve__layout"
+      data-size-reserve
+      data-market="{{ market }}"
+      data-payment-mode="{{ payment_mode }}"
+      data-finance-name="{{ finance_name | escape }}"
+      data-lead-window="{{ lead_window | escape }}"
+      data-lead-min="{{ lt_min | strip }}"
+      data-lead-max="{{ lt_max | strip }}"
+      data-size-allow="{{ section.settings.size_allow | escape }}"
+      data-highlight-size="{{ section.settings.highlight_size | escape }}"
+      data-add-label="{{ settings.size_add_label | default: 'Add' | escape }}"
+      data-default-firmness="Medium / medium firm"
+      data-checkout-path="{{ pages['checkout'].url | default: '/pages/checkout' }}"
+      data-contact-path="/pages/contact"
+      data-large-order-threshold-gb="10000"
+      data-large-order-threshold-ae="47000"
+    >
+      <div class="size-picker">
+        <div class="size-list" data-size-list role="listbox" aria-label="Mattress size"></div>
+      </div>
+    </div>
+
+    <div class="lp-assure">
+      <article>
+        <span class="ic" aria-hidden="true"></span>
+        <b>You cannot get this wrong</b>
+        <p>A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.</p>
+      </article>
+      <article>
+        <span class="ic" aria-hidden="true"></span>
+        <b>100 nights to change your mind</b>
+        <p>Collected from your home and refunded in full. Emperor is made to order and excluded.</p>
+      </article>
+      <article>
+        <span class="ic" aria-hidden="true"></span>
+        <b>{% render 'lp-warranty' %} years on {% render 'lp-copy', text: '[Core]' %}</b>
+        <p>The part that carries you is guaranteed for a quarter of a century.</p>
+      </article>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Landing configure",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Show this section", "default": true },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Every size is the same build." },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "You do not choose a firmness. It arrives medium firm with a flippable comfort layer, and the feel is settled afterwards." },
+    { "type": "product", "id": "mattress_product", "label": "Mattress product" },
+    {
+      "type": "select",
+      "id": "market_force",
+      "label": "Market",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "gb", "label": "United Kingdom" },
+        { "value": "ae", "label": "UAE" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "text",
+      "id": "size_allow",
+      "label": "Sizes to show",
+      "info": "Comma-separated ids. Blank shows every size for the market. Example: double,king,european-king,super-king,emperor"
+    },
+    {
+      "type": "text",
+      "id": "highlight_size",
+      "label": "Highlighted size",
+      "info": "A size parameter in the URL overrides this."
+    }
+  ],
+  "presets": [{ "name": "Landing configure" }]
+}
+{% endschema %}

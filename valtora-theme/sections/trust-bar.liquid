@@ -29,8 +29,13 @@
                 {%- liquid
                   assign label = block.settings.label
                   assign sub = block.settings.sublabel
+                  assign warranty_marked = '<!--{{settings.warranty_years}}-->' | append: warranty
                   assign label = label | replace: '{{ settings.warranty_years }}', warranty
                   assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
+                  assign label = label | replace: '[Warranty]', warranty_marked
+                  assign sub = sub | replace: '[Warranty]', warranty_marked
+                  assign label = label | replace: '[Core]', settings.core_name
+                  assign sub = sub | replace: '[Core]', settings.core_name
                   assign label = label | replace: '[X]', warranty
                   assign sub = sub | replace: '[X-Y]', lead
                 -%}
@@ -133,8 +138,13 @@
             {%- liquid
               assign label = block.settings.label
               assign sub = block.settings.sublabel
+              assign warranty_marked = '<!--{{settings.warranty_years}}-->' | append: warranty
               assign label = label | replace: '{{ settings.warranty_years }}', warranty
               assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
+              assign label = label | replace: '[Warranty]', warranty_marked
+              assign sub = sub | replace: '[Warranty]', warranty_marked
+              assign label = label | replace: '[Core]', settings.core_name
+              assign sub = sub | replace: '[Core]', settings.core_name
               assign label = label | replace: '[X]', warranty
               assign sub = sub | replace: '[X-Y]', lead
             -%}
@@ -340,7 +350,7 @@
             { "value": "warranty", "label": "Warranty" },
             { "value": "delivery", "label": "Delivery" },
             { "value": "lead", "label": "Lead time" },
-            { "value": "craft", "label": "Handmade / craft" },
+            { "value": "craft", "label": "Made to order" },
             { "value": "chemicals", "label": "Chemicals claim (gated)" },
             { "value": "oeko", "label": "OEKO-TEX claim (gated)" }
           ],
@@ -402,23 +412,23 @@
           "type": "item",
           "settings": {
             "icon": "trial",
-            "label": "100-night trial",
-            "sublabel": "Sleep on it properly"
+            "label": "100 nights to change your mind",
+            "sublabel": "Collected from your home, refunded in full"
           }
         },
         {
           "type": "item",
           "settings": {
             "icon": "warranty",
-            "label": "15-year core warranty",
-            "sublabel": "On the spring core"
+            "label": "[Warranty]-year core warranty",
+            "sublabel": "On [Core], the part that carries you"
           }
         },
         {
           "type": "item",
           "settings": {
             "icon": "craft",
-            "label": "Handmade to order",
+            "label": "Made to order",
             "sublabel": "Built after you order it, never from stock"
           }
         },

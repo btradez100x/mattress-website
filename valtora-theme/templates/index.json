@@ -11,7 +11,7 @@
         "tone": "light",
         "secondary_cta_label": "How the swap system works",
         "secondary_cta_link": "#swap",
-        "assurance": "Cancel any time before dispatch · 100-night trial · 15-year warranty"
+        "assurance": "Cancel any time before dispatch · 100 nights to change your mind · [Warranty]-year warranty"
       }
     },
     "big-idea": {
@@ -97,7 +97,7 @@
           "type": "spec",
           "settings": {
             "name": "Height",
-            "meta": "37 CM MADE UP",
+            "meta": "35 CM MADE UP",
             "does": "Deeper than most. Deep-fitted sheets needed"
           }
         },
@@ -233,13 +233,6 @@
         "ground": "surface"
       },
       "blocks": {
-        "oeko": {
-          "type": "proof",
-          "settings": {
-            "caption": "Free from harmful chemicals",
-            "link": ""
-          }
-        },
         "proof_oeko": {
           "type": "proof",
           "settings": {
@@ -249,7 +242,6 @@
         }
       },
       "block_order": [
-        "oeko",
         "proof_oeko"
       ]
     },
@@ -259,21 +251,21 @@
         "o1": {
           "type": "offer_item",
           "settings": {
-            "title": "100-night trial",
-            "text": "Sleep on it. Decide at home."
+            "title": "100 nights to change your mind",
+            "text": "Collected from your home, refunded in full."
           }
         },
         "o2": {
           "type": "offer_item",
           "settings": {
-            "title": "15-year warranty",
+            "title": "[Warranty]-year warranty",
             "text": "On the spring core."
           }
         },
         "o3": {
           "type": "offer_item",
           "settings": {
-            "title": "Handmade to order",
+            "title": "Made to order",
             "text": "Built after you order it, never from stock.",
             "market_visibility": "all",
             "payment_mode_visibility": "all"
@@ -285,15 +277,6 @@
             "title": "Cancel before dispatch",
             "text": "Full refund any time before your mattress ships.",
             "payment_mode_visibility": "full"
-          }
-        },
-        "oeko": {
-          "type": "offer_item",
-          "settings": {
-            "title": "Free from harmful chemicals",
-            "text": "Materials chosen for cleaner sleep.",
-            "market_visibility": "all",
-            "payment_mode_visibility": "all"
           }
         },
         "offer_oeko": {
@@ -311,7 +294,6 @@
         "o2",
         "o3",
         "o4",
-        "oeko",
         "offer_oeko"
       ],
       "settings": {
@@ -514,47 +496,64 @@
         "tb1": {
           "type": "item",
           "settings": {
-            "icon": "deposit",
-            "label": "Cancel before dispatch",
-            "sublabel": "Refund any time before dispatch",
-            "link": "/pages/refunds-deposit"
+            "icon": "trial",
+            "label": "Adjust to Desire",
+            "sublabel": "A year to get the feel right",
+            "link": "/pages/guarantee"
           }
         },
         "tb2": {
           "type": "item",
           "settings": {
-            "icon": "trial",
-            "label": "100-night trial",
-            "sublabel": "Sleep on it properly",
-            "link": "/pages/100-night-trial"
+            "icon": "warranty",
+            "label": "[Warranty]-year core warranty",
+            "sublabel": "On [Core], the part that carries you",
+            "link": "/pages/warranty"
           }
         },
         "tb3": {
           "type": "item",
           "settings": {
-            "icon": "warranty",
-            "label": "15-year core warranty",
-            "sublabel": "On the spring core",
-            "link": "/pages/warranty"
+            "icon": "trial",
+            "label": "100 nights to change your mind",
+            "sublabel": "Collected from your home, refunded in full",
+            "link": "/pages/100-night-trial"
           }
         },
         "tb4": {
           "type": "item",
           "settings": {
+            "icon": "deposit",
+            "label": "Cancel before dispatch",
+            "sublabel": "Refund any time before it is built",
+            "link": "/pages/refunds-deposit"
+          }
+        },
+        "tb5": {
+          "type": "item",
+          "settings": {
             "icon": "craft",
-            "label": "Handmade to order",
+            "label": "Made to order",
             "sublabel": "Built after you order it, never from stock",
             "link": "/pages/manufacturing"
           }
         },
-        "oeko": {
+        "tb6": {
           "type": "item",
           "settings": {
-            "icon": "chemicals",
-            "label": "Free from harmful chemicals",
-            "sublabel": "Materials chosen for cleaner sleep",
-            "link": "#specs",
-            "market_visibility": "all"
+            "icon": "delivery",
+            "label": "Complimentary concierge unpacking",
+            "sublabel": "To the room of your choice, packaging taken away",
+            "link": "/pages/delivery"
+          }
+        },
+        "tb7": {
+          "type": "item",
+          "settings": {
+            "icon": "delivery",
+            "label": "Old mattress removal and recycling",
+            "sublabel": "Taken on the same visit, at our cost",
+            "link": "/pages/recycling"
           }
         },
         "oeko_tex": {
@@ -563,7 +562,7 @@
             "icon": "oeko",
             "label": "OEKO-TEX® STANDARD 100",
             "sublabel": "Textiles independently tested",
-            "link": "#specs",
+            "link": "/pages/certification",
             "market_visibility": "all"
           }
         }
@@ -573,7 +572,9 @@
         "tb2",
         "tb3",
         "tb4",
-        "oeko",
+        "tb5",
+        "tb6",
+        "tb7",
         "oeko_tex"
       ],
       "settings": {

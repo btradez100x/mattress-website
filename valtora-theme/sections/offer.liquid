@@ -82,8 +82,10 @@
         -%}
         {%- if show_item -%}
           <div class="offer__item" {{ block.shopify_attributes }}>
-            <strong>{{ block.settings.title }}</strong>
-            <span>{{ block.settings.text }}{% if is_oeko_claim %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</span>
+            {%- assign offer_title = block.settings.title | replace: '[Warranty]', settings.warranty_years | replace: '{{ settings.warranty_years }}', settings.warranty_years -%}
+            {%- assign offer_text = block.settings.text | replace: '[Warranty]', settings.warranty_years | replace: '{{ settings.warranty_years }}', settings.warranty_years -%}
+            <strong>{{ offer_title }}</strong>
+            <span>{{ offer_text }}{% if is_oeko_claim %} · {{ settings.oeko_tex_certificate_no }}{% endif %}</span>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -216,7 +218,7 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "100-night trial"
+          "default": "100 nights to change your mind"
         },
         {
           "type": "text",
@@ -256,16 +258,16 @@
       "blocks": [
         {
           "type": "offer_item",
-          "settings": { "title": "100-night trial", "text": "Sleep on it. Decide at home." }
+          "settings": { "title": "100 nights to change your mind", "text": "Collected from your home, refunded in full." }
         },
         {
           "type": "offer_item",
-          "settings": { "title": "15-year warranty", "text": "On the spring core." }
+          "settings": { "title": "[Warranty]-year warranty", "text": "On the spring core." }
         },
         {
           "type": "offer_item",
           "settings": {
-            "title": "Handmade to order",
+            "title": "Made to order",
             "text": "Built after you order it, never from stock."
           }
         },

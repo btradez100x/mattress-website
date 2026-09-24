@@ -1,0 +1,92 @@
+{%- capture kicker -%}{% render 'lp-copy', text: section.settings.kicker %}{%- endcapture -%}
+{%- capture heading -%}{% render 'lp-copy', text: section.settings.heading %}{%- endcapture -%}
+{%- capture lede -%}{% render 'lp-copy', text: section.settings.lede %}{%- endcapture -%}
+{%- capture zone_kicker -%}{% render 'lp-copy', text: section.settings.zone_kicker %}{%- endcapture -%}
+{%- capture zone_heading -%}{% render 'lp-copy', text: section.settings.zone_heading %}{%- endcapture -%}
+{%- capture zone_body -%}{% render 'lp-copy', text: section.settings.zone_body %}{%- endcapture -%}
+{%- capture lift_kicker -%}{% render 'lp-copy', text: section.settings.lift_kicker %}{%- endcapture -%}
+{%- capture lift_heading -%}{% render 'lp-copy', text: section.settings.lift_heading %}{%- endcapture -%}
+{%- capture lift_lede -%}{% render 'lp-copy', text: section.settings.lift_lede %}{%- endcapture -%}
+{%- if section.settings.enable_section -%}
+<section class="lp-section lp-section--dark" id="twinbuild">
+  <div class="page-width">
+    <div class="lp-head lp-narrow lp-center">
+      <p class="lp-kicker">{{ kicker }}</p>
+      <h2>{{ heading | newline_to_br }}</h2>
+      <p class="lp-lede">{{ lede }}</p>
+    </div>
+    <div class="lp-split">
+      <img src="{{ 'lp-construction-stack.webp' | asset_url }}" alt="The 13 layers" width="1400" height="1400" loading="lazy">
+      <div class="lp-layers">
+        <div class="lp-layer"><span class="n">01</span><div><b>{% render 'lp-copy', text: '[Cover] cover' %}</b><s>400gsm. Heat passes through instead of sitting on you</s></div><em>Cover</em></div>
+        <div class="lp-layer"><span class="n">02</span><div><b>{% render 'lp-copy', text: '[Gel] gel' %}</b><s>1cm, at the surface where the heat is</s></div><em>1cm</em></div>
+        <div class="lp-layer"><span class="n">03</span><div><b>Comfort foam</b><s>1.5cm, grade 2030</s></div><em>1.5cm</em></div>
+        <div class="lp-layer"><span class="n">04</span><div><b>Wave-profile foam</b><s>2.5cm. Air moves when you do</s></div><em>2.5cm</em></div>
+        <div class="lp-layer"><span class="n">05</span><div><b>Nonwoven separator</b><s>25g. Stops the foams bonding</s></div><em>25g</em></div>
+        <div class="lp-layer"><span class="n">06</span><div><b>Comfort face A</b><s>5cm, grade 2540. The softer side</s></div><em>5cm</em></div>
+        <div class="lp-layer"><span class="n">07</span><div><b>Comfort face B</b><s>5cm, grade 2580. The firmer side</s></div><em>5cm</em></div>
+        <div class="lp-layer"><span class="n">08</span><div><b>Nonwoven separator</b><s>70g. The release surface</s></div><em>70g</em></div>
+        <div class="lp-layer"><span class="n">09</span><div><b>Spring padding</b><s>Over the coil tops</s></div><em>Pad</em></div>
+        <div class="lp-layer lp-layer--core"><span class="n">10</span><div><b>{% render 'lp-copy', text: '[Core]' %}</b><s>20cm. 2,000 springs, 7 zones, guaranteed {% render 'lp-warranty' %} years</s></div><em>20cm</em></div>
+        <div class="lp-layer"><span class="n">11</span><div><b>Encased perimeter</b><s>8cm, 35 density. The edge holds</s></div><em>8cm</em></div>
+        <div class="lp-layer"><span class="n">12</span><div><b>Base padding</b><s>Under the coils</s></div><em>Pad</em></div>
+        <div class="lp-layer"><span class="n">13</span><div><b>Anti-slip base</b><s>Stays where you put it</s></div><em>Base</em></div>
+      </div>
+    </div>
+
+    <div class="lp-stack" id="zones">
+      <div class="lp-head lp-narrow lp-center">
+        <p class="lp-kicker">{{ zone_kicker }}</p>
+        <h2>{{ zone_heading | newline_to_br }}</h2>
+      </div>
+      <div class="lp-split">
+        <div class="lp-prose">
+          {{ zone_body }}
+          <div class="lp-zones" aria-label="7 zones">
+            <div><span class="z">Zone 1</span><strong>Head</strong><span class="w">1.8mm</span></div>
+            <div class="is-hard"><span class="z">Zone 2</span><strong>Shoulder</strong><span class="w">2.0mm</span></div>
+            <div><span class="z">Zone 3</span><strong>Back</strong><span class="w">1.8mm</span></div>
+            <div class="is-hard"><span class="z">Zone 4</span><strong>Hip</strong><span class="w">2.0mm</span></div>
+            <div><span class="z">Zone 5</span><strong>Knee</strong><span class="w">1.8mm</span></div>
+            <div class="is-hard"><span class="z">Zone 6</span><strong>Leg</strong><span class="w">2.0mm</span></div>
+            <div><span class="z">Zone 7</span><strong>Feet</strong><span class="w">1.8mm</span></div>
+          </div>
+        </div>
+        <img src="{{ 'lp-seven-zones.webp' | asset_url }}" alt="The 7 zones" width="1400" height="1400" loading="lazy">
+      </div>
+    </div>
+
+    <div class="lp-stack">
+      <div class="lp-head lp-narrow lp-center">
+        <p class="lp-kicker">{{ lift_kicker }}</p>
+        <h2>{{ lift_heading | newline_to_br }}</h2>
+        <p class="lp-lede">{{ lift_lede }}</p>
+      </div>
+      <div class="lp-pair">
+        <img src="{{ 'lp-layer-lifting.webp' | asset_url }}" alt="The comfort layer lifting away" width="1400" height="1400" loading="lazy">
+        <img src="{{ 'lp-zip-open.webp' | asset_url }}" alt="The zip, full perimeter" width="1400" height="1400" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Landing Twinbuild",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Show this section", "default": true },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "[Architecture]" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Two parts.\nOnly one of them wears." },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Every other mattress is one sealed unit, so when the surface goes soft the springs go to landfill with it. A [Range] bed is built in two, and the part that wears lifts out." },
+    { "type": "text", "id": "zone_kicker", "label": "Zone kicker", "default": "[Core]" },
+    { "type": "textarea", "id": "zone_heading", "label": "Zone heading", "default": "Your spine is not one weight.\nSo the bed is not one tension." },
+    { "type": "html", "id": "zone_body", "label": "Zone copy", "default": "<p>2,000 springs in a super king, each sealed in its own pocket so it answers only to the weight above it. Your shoulder does not decide what your hip gets, and nobody turning over at 3am decides anything for you.</p><p>Two gauges across 7 bands. The shoulder, hip and leg carry 2.0mm wire because that is where a body lands hardest. Head, back, knee and feet sit on 1.8mm because they do not.</p>" },
+    { "type": "text", "id": "lift_kicker", "label": "Lift kicker", "default": "The part that comes out" },
+    { "type": "textarea", "id": "lift_heading", "label": "Lift heading", "default": "Two faces. Two nights.\nOne layer." },
+    { "type": "textarea", "id": "lift_lede", "label": "Lift lede", "default": "10cm of comfort in two equal 5cm faces, same density, two hardnesses. Sleep on the 40 and it gives. Turn it to the 80 and it holds you higher. Both last as long as each other." }
+  ],
+  "presets": [{ "name": "Landing Twinbuild" }]
+}
+{% endschema %}

@@ -1,0 +1,170 @@
+{
+  "sections": {
+    "trust": {
+      "type": "trust-bar",
+      "blocks": {
+        "tb1": {
+          "type": "item",
+          "settings": {
+            "icon": "trial",
+            "label": "Adjust to Desire",
+            "sublabel": "A year to get the feel right",
+            "link": "/pages/guarantee"
+          }
+        },
+        "tb2": {
+          "type": "item",
+          "settings": {
+            "icon": "warranty",
+            "label": "[Warranty]-year core warranty",
+            "sublabel": "On [Core], the part that carries you",
+            "link": "/pages/warranty"
+          }
+        },
+        "tb3": {
+          "type": "item",
+          "settings": {
+            "icon": "trial",
+            "label": "100 nights to change your mind",
+            "sublabel": "Collected from your home, refunded in full",
+            "link": "/pages/100-night-trial"
+          }
+        },
+        "tb4": {
+          "type": "item",
+          "settings": {
+            "icon": "deposit",
+            "label": "Cancel before dispatch",
+            "sublabel": "Refund any time before it is built",
+            "link": "/pages/refunds-deposit"
+          }
+        },
+        "tb5": {
+          "type": "item",
+          "settings": {
+            "icon": "craft",
+            "label": "Made to order",
+            "sublabel": "Built after you order it, never from stock",
+            "link": "/pages/manufacturing"
+          }
+        },
+        "tb6": {
+          "type": "item",
+          "settings": {
+            "icon": "delivery",
+            "label": "Complimentary concierge unpacking",
+            "sublabel": "To the room of your choice, packaging taken away",
+            "link": "/pages/delivery"
+          }
+        },
+        "tb7": {
+          "type": "item",
+          "settings": {
+            "icon": "delivery",
+            "label": "Old mattress removal and recycling",
+            "sublabel": "Taken on the same visit, at our cost",
+            "link": "/pages/recycling"
+          }
+        },
+        "oeko_tex": {
+          "type": "item",
+          "settings": {
+            "icon": "oeko",
+            "label": "OEKO-TEX® STANDARD 100",
+            "sublabel": "Textiles independently tested",
+            "link": "/pages/certification"
+          }
+        }
+      },
+      "block_order": [
+        "tb1",
+        "tb2",
+        "tb3",
+        "tb4",
+        "tb5",
+        "tb6",
+        "tb7",
+        "oeko_tex"
+      ],
+      "settings": {
+        "enable_section": true,
+        "surface": false,
+        "show_lead_line": false,
+        "anchor_id": "trust-top",
+        "enable_marquee": true,
+        "marquee_duration": 40,
+        "pause_on_hover": true,
+        "ground": "surface"
+      }
+    },
+    "hero": {
+      "type": "lp-hero",
+      "settings": {
+        "enable_section": true,
+        "kicker": "Made to order · United Kingdom",
+        "heading": "Good mornings,\nfor [Warranty] years.",
+        "subheading": "Most mattresses live one life. A [Range] bed is built in two parts, and the only part that wears is the part that lifts out.",
+        "cta_label": "Choose your size",
+        "cta_link": "#configure",
+        "secondary_cta_label": "How it is built",
+        "secondary_cta_link": "#twinbuild",
+        "assurance": "Complimentary concierge unpacking · Old mattress taken away · 100 nights to change your mind",
+        "show_price": false,
+        "price": "",
+        "price_note": "",
+        "show_size_strip": false,
+        "highlight_size": "",
+        "image_asset": "lp-product-plain.webp"
+      }
+    },
+    "proof": {
+      "type": "lp-proof",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "twinbuild": {
+      "type": "lp-twinbuild",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "why": {
+      "type": "lp-why",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "cost": {
+      "type": "lp-cost",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "arriving": {
+      "type": "lp-arriving",
+      "settings": {
+        "enable_section": true
+      }
+    },
+    "configure": {
+      "type": "lp-configure",
+      "settings": {
+        "enable_section": true,
+        "size_allow": "double,king,european-king,super-king,emperor",
+        "highlight_size": "",
+        "market_force": "auto"
+      }
+    }
+  },
+  "order": [
+    "trust",
+    "hero",
+    "proof",
+    "twinbuild",
+    "why",
+    "cost",
+    "arriving",
+    "configure"
+  ]
+}
