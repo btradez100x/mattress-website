@@ -1,170 +1,157 @@
 {
   "sections": {
-    "trust": {
-      "type": "trust-bar",
+    "main": {
+      "type": "lp",
       "blocks": {
-        "tb1": {
-          "type": "item",
+        "b1": {
+          "type": "hero",
           "settings": {
-            "icon": "trial",
-            "label": "Adjust to Desire",
-            "sublabel": "A year to get the feel right",
-            "link": "/pages/guarantee"
-          }
-        },
-        "tb2": {
-          "type": "item",
-          "settings": {
-            "icon": "warranty",
-            "label": "[Warranty]-year core warranty",
-            "sublabel": "On [Core], the part that carries you",
-            "link": "/pages/warranty"
-          }
-        },
-        "tb3": {
-          "type": "item",
-          "settings": {
-            "icon": "trial",
-            "label": "100 nights to change your mind",
-            "sublabel": "Collected from your home, refunded in full",
-            "link": "/pages/100-night-trial"
-          }
-        },
-        "tb4": {
-          "type": "item",
-          "settings": {
-            "icon": "deposit",
-            "label": "Cancel before dispatch",
-            "sublabel": "Refund any time before it is built",
-            "link": "/pages/refunds-deposit"
-          }
-        },
-        "tb5": {
-          "type": "item",
-          "settings": {
-            "icon": "craft",
-            "label": "Made to order",
-            "sublabel": "Built after you order it, never from stock",
-            "link": "/pages/manufacturing"
-          }
-        },
-        "tb6": {
-          "type": "item",
-          "settings": {
-            "icon": "delivery",
-            "label": "Complimentary concierge unpacking",
-            "sublabel": "To the room of your choice, packaging taken away",
-            "link": "/pages/delivery"
-          }
-        },
-        "tb7": {
-          "type": "item",
-          "settings": {
-            "icon": "delivery",
-            "label": "Old mattress removal and recycling",
-            "sublabel": "Taken on the same visit, at our cost",
-            "link": "/pages/recycling"
-          }
-        },
-        "oeko_tex": {
-          "type": "item",
-          "settings": {
-            "icon": "oeko",
-            "label": "OEKO-TEX® STANDARD 100",
-            "sublabel": "Textiles independently tested",
-            "link": "/pages/certification"
+            "kicker": "Made to order \u00b7 United Kingdom",
+            "heading": "The top comes off.\nTheirs does not.",
+            "lede": "Almost every mattress is sealed. The comfort layer is glued to the core, so when it softens, or was never right, the whole thing goes. Ours is closed with a zip. The top lifts out, and we remake it to you.",
+            "cta_primary": "Choose your size",
+            "cta_secondary": "How it works",
+            "cta_secondary_href": "#configure",
+            "show_price": true,
+            "price_first": false,
+            "price_large": false,
+            "price_from": "From \u00a32,499",
+            "price_klarna": "or \u00a3104 a month with Klarna",
+            "image_file": "coolknit-side.webp",
+            "image_alt": "",
+            "show_press": true,
+            "press_label": "As featured in",
+            "trust_1": "The layer lifts out",
+            "trust_2": "Remade for a year",
+            "trust_3": "25 years on the core",
+            "press_1": "The Times",
+            "press_2": "Financial Times",
+            "press_3": "Evening Standard",
+            "press_4": "Wallpaper*",
+            "press_5": "Dezeen",
+            "show_pay": true,
+            "pay_label": "Pay by",
+            "klarna_amount": "\u00a3104 a month",
+            "show_sizestrip": false,
+            "sizestrip_rows": "",
+            "show_reviews": true,
+            "reviews_link_label": "Read them"
           }
         }
       },
       "block_order": [
-        "tb1",
-        "tb2",
-        "tb3",
-        "tb4",
-        "tb5",
-        "tb6",
-        "tb7",
-        "oeko_tex"
+        "b1"
       ],
       "settings": {
-        "enable_section": true,
-        "surface": false,
-        "show_lead_line": false,
-        "anchor_id": "trust-top",
-        "enable_marquee": true,
-        "marquee_duration": 40,
-        "pause_on_hover": true,
-        "ground": "surface"
-      }
-    },
-    "hero": {
-      "type": "lp-hero",
-      "settings": {
-        "enable_section": true,
-        "kicker": "Made to order · United Kingdom",
-        "heading": "The bed you can\nchange your mind about.",
-        "subheading": "Almost every mattress is sealed, so if the feel is wrong at week three it is wrong for ten years. This one opens. The comfort layer lifts out, and we remake it to you.",
-        "cta_label": "Choose your size",
-        "cta_link": "#configure",
-        "secondary_cta_label": "See it open",
-        "secondary_cta_link": "#twinbuild",
-        "assurance": "Complimentary concierge unpacking · Old mattress taken away · 100 nights to change your mind",
-        "show_price": true,
-        "price": "From £2,499",
-        "price_note": "or £104 a month with Klarna",
-        "show_size_strip": false,
-        "highlight_size": "",
-        "image_asset": "lp-coolknit-side.webp"
-      }
-    },
-    "proof": {
-      "type": "lp-proof",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "twinbuild": {
-      "type": "lp-twinbuild",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "why": {
-      "type": "lp-why",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "cost": {
-      "type": "lp-cost",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "arriving": {
-      "type": "lp-arriving",
-      "settings": {
-        "enable_section": true
+        "variant": "conquest"
       }
     },
     "configure": {
-      "type": "lp-configure",
+      "type": "size-reserve",
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "enable_section": true,
-        "size_allow": "double,king,european-king,super-king,emperor",
-        "highlight_size": "",
-        "market_force": "auto"
+        "ground": "surface",
+        "mattress_product": "the-mattress",
+        "eyebrow": "Reserve yours",
+        "heading": "Choose your size.",
+        "body": "Every size is the same build. 35cm, 7-zone core, removable comfort layer. You do not choose a firmness.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
+        "market_force": "auto",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "anchor_id": "configure",
+        "leadtime_placement": "hidden",
+        "continue_path": "/cart",
+        "configure_funnel": true,
+        "stage_b_heading": "Summary",
+        "continue_label_full": "Add to basket",
+        "button_label_full": "Add to basket"
+      }
+    },
+    "story": {
+      "type": "lp",
+      "blocks": {
+        "b2": {
+          "type": "prose",
+          "settings": {
+            "ground": "",
+            "tight": true,
+            "anchor_id": "",
+            "kicker": "The difference",
+            "heading": "A sealed mattress\ncannot change.",
+            "body_1": "If the feel is wrong at week 3, a sealed mattress is wrong for 10 years. If it softens at year 6, the whole thing is replaced, springs and all, because the part that wore is glued to the part that did not.",
+            "body_2": "Ours separates them. 20 centimetres of springs guaranteed for 25 years, and 15 centimetres of comfort above it that comes out. Wrong at week 3, we remake it. Soft at year 6, you replace a layer for \u00a3299 and keep the bed.",
+            "pull": "The part that wears is the part that comes out."
+          }
+        },
+        "b3": {
+          "type": "prose",
+          "settings": {
+            "ground": "",
+            "tight": false,
+            "anchor_id": "",
+            "kicker": "Why you cannot choose in a showroom",
+            "heading": "4 minutes lying down\ntells you nothing.",
+            "body_1": "You cannot know how a mattress feels until you have slept on it for weeks. By then the decision is behind you and the money is spent, which is why most people keep a mattress they never liked.",
+            "body_2": "So you do not choose a firmness when you order. Your mattress arrives, you sleep on it, and for a year you tell us how it should feel. We build a new comfort layer to that description and send it, with our compliments.",
+            "pull": "You do not choose the feel. You discover it."
+          }
+        },
+        "b4": {
+          "type": "prose",
+          "settings": {
+            "ground": "dark",
+            "tight": false,
+            "anchor_id": "",
+            "kicker": "Why we can do this",
+            "heading": "Because nothing is built\nuntil you order it.",
+            "body_1": "No warehouse, no stock to shift, no reason to sell you what is on the shelf. Your mattress is made after you choose it. That is why the guarantee is 25 years and the comfort layer is remade for a year.",
+            "body_2": "",
+            "pull": ""
+          }
+        }
+      },
+      "block_order": [
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "variant": "conquest-story",
+        "allowed_size_ids": ""
+      }
+    },
+    "assurance": {
+      "type": "lp",
+      "blocks": {
+        "b5": {
+          "type": "assurance",
+          "settings": {
+            "a1_heading": "You cannot get this wrong",
+            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
+            "a2_heading": "100 days to change your mind",
+            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
+            "a3_heading": "25 years on the core",
+            "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
+            "ground": "bone"
+          }
+        }
+      },
+      "block_order": [
+        "b5"
+      ],
+      "settings": {
+        "variant": "conquest-story",
+        "allowed_size_ids": ""
       }
     }
   },
   "order": [
-    "trust",
-    "hero",
-    "why",
-    "twinbuild",
-    "proof",
-    "cost",
-    "arriving",
-    "configure"
+    "main",
+    "story",
+    "configure",
+    "assurance"
   ]
 }

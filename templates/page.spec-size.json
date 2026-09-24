@@ -1,170 +1,226 @@
 {
   "sections": {
-    "trust": {
-      "type": "trust-bar",
+    "main": {
+      "type": "lp",
       "blocks": {
-        "tb1": {
-          "type": "item",
+        "b1": {
+          "type": "hero",
           "settings": {
-            "icon": "trial",
-            "label": "Adjust to Desire",
-            "sublabel": "A year to get the feel right",
-            "link": "/pages/guarantee"
+            "kicker": "The specification",
+            "heading": "13 layers.\nEach one stated.",
+            "lede": "You have decided what you want. 35cm, a 7-zone pocket spring core, a comfort layer that lifts out. Here is exactly what is in it, so you can check it against what you had in mind.",
+            "cta_primary": "Choose your size",
+            "cta_secondary": "See every layer",
+            "cta_secondary_href": "#layers",
+            "show_price": true,
+            "price_first": false,
+            "price_large": false,
+            "price_from": "From \u00a32,499",
+            "price_klarna": "or \u00a3104 a month with Klarna",
+            "image_file": "coolknit-side.webp",
+            "image_alt": "",
+            "show_press": false,
+            "press_label": "As featured in",
+            "trust_1": "20cm 7-zone core",
+            "trust_2": "2.0mm at shoulder, hip and leg",
+            "trust_3": "Flippable comfort layer",
+            "press_1": "The Times",
+            "press_2": "Financial Times",
+            "press_3": "Evening Standard",
+            "press_4": "Wallpaper*",
+            "press_5": "Dezeen",
+            "show_pay": true,
+            "pay_label": "Pay by",
+            "klarna_amount": "\u00a3104 a month",
+            "show_sizestrip": true,
+            "sizestrip_rows": "Double|135 x 190 cm\nKing|150 x 200 cm\nEuropean King|160 x 200 cm\nSuper King|180 x 200 cm\nEmperor|200 x 200 cm",
+            "show_reviews": true,
+            "reviews_link_label": "Read them"
           }
         },
-        "tb2": {
-          "type": "item",
+        "b2": {
+          "type": "layers",
           "settings": {
-            "icon": "warranty",
-            "label": "[Warranty]-year core warranty",
-            "sublabel": "On [Core], the part that carries you",
-            "link": "/pages/warranty"
-          }
-        },
-        "tb3": {
-          "type": "item",
-          "settings": {
-            "icon": "trial",
-            "label": "100 nights to change your mind",
-            "sublabel": "Collected from your home, refunded in full",
-            "link": "/pages/100-night-trial"
-          }
-        },
-        "tb4": {
-          "type": "item",
-          "settings": {
-            "icon": "deposit",
-            "label": "Cancel before dispatch",
-            "sublabel": "Refund any time before it is built",
-            "link": "/pages/refunds-deposit"
-          }
-        },
-        "tb5": {
-          "type": "item",
-          "settings": {
-            "icon": "craft",
-            "label": "Made to order",
-            "sublabel": "Built after you order it, never from stock",
-            "link": "/pages/manufacturing"
-          }
-        },
-        "tb6": {
-          "type": "item",
-          "settings": {
-            "icon": "delivery",
-            "label": "Complimentary concierge unpacking",
-            "sublabel": "To the room of your choice, packaging taken away",
-            "link": "/pages/delivery"
-          }
-        },
-        "tb7": {
-          "type": "item",
-          "settings": {
-            "icon": "delivery",
-            "label": "Old mattress removal and recycling",
-            "sublabel": "Taken on the same visit, at our cost",
-            "link": "/pages/recycling"
-          }
-        },
-        "oeko_tex": {
-          "type": "item",
-          "settings": {
-            "icon": "oeko",
-            "label": "OEKO-TEX® STANDARD 100",
-            "sublabel": "Textiles independently tested",
-            "link": "/pages/certification"
+            "anchor_id": "layers",
+            "factory_stack": true,
+            "kicker": "Top to bottom",
+            "heading": "What 35cm\nis made of",
+            "layer_1_n": "01",
+            "layer_1_name": "[Brand] [Cover] cover",
+            "layer_1_desc": "400gsm. The most effective cooling material on the market, knitted open so body heat passes straight through",
+            "layer_1_meta": "Cover",
+            "layer_1_core": false,
+            "layer_2_n": "02",
+            "layer_2_name": "[Brand] [Gel] gel",
+            "layer_2_desc": "1 centimetre, at the surface. Pulls heat off your skin the moment it leaves you",
+            "layer_2_meta": "1cm",
+            "layer_2_core": false,
+            "layer_3_n": "03",
+            "layer_3_name": "Comfort foam",
+            "layer_3_desc": "1.5 centimetres, 20 density",
+            "layer_3_meta": "1.5cm",
+            "layer_3_core": false,
+            "layer_4_n": "04",
+            "layer_4_name": "Wave-profile airflow foam",
+            "layer_4_desc": "2.5 centimetres. Channels cut through it so air moves when you do",
+            "layer_4_meta": "2.5cm",
+            "layer_4_core": false,
+            "layer_5_n": "05",
+            "layer_5_name": "Flippable comfort layer",
+            "layer_5_desc": "10 centimetres. Medium one face, medium firm the other",
+            "layer_5_meta": "10cm",
+            "layer_5_core": false,
+            "layer_6_n": "06",
+            "layer_6_name": "[Brand] [Core]",
+            "layer_6_desc": "20cm. 7 zones, 1.8 / 2.0mm wire, 2.2mm edge. Counted per size. Guaranteed 25 years",
+            "layer_6_meta": "20cm",
+            "layer_6_core": true,
+            "layer_7_n": "07",
+            "layer_7_name": "Encased perimeter",
+            "layer_7_desc": "8cm, 35 density. The edge holds",
+            "layer_7_meta": "Edge",
+            "layer_7_core": false,
+            "layer_8_n": "08",
+            "layer_8_name": "Anti-slip base",
+            "layer_8_desc": "Stays where you put it",
+            "layer_8_meta": "Base",
+            "layer_8_core": false
           }
         }
       },
       "block_order": [
-        "tb1",
-        "tb2",
-        "tb3",
-        "tb4",
-        "tb5",
-        "tb6",
-        "tb7",
-        "oeko_tex"
+        "b1",
+        "b2"
       ],
       "settings": {
-        "enable_section": true,
-        "surface": false,
-        "show_lead_line": false,
-        "anchor_id": "trust-top",
-        "enable_marquee": true,
-        "marquee_duration": 40,
-        "pause_on_hover": true,
-        "ground": "surface"
-      }
-    },
-    "hero": {
-      "type": "lp-hero",
-      "settings": {
-        "enable_section": true,
-        "kicker": "The specification",
-        "heading": "Every layer earns\nits place in your morning.",
-        "subheading": "You have decided what you want. 35cm, a 7-zone pocket sprung core, a comfort layer that lifts out. Here is all 13 layers, so you can check it against what you had in mind.",
-        "cta_label": "Choose your size",
-        "cta_link": "#configure",
-        "secondary_cta_label": "See all 13 layers",
-        "secondary_cta_link": "#twinbuild",
-        "assurance": "Complimentary concierge unpacking · Old mattress taken away · 100 nights to change your mind",
-        "show_price": true,
-        "price": "From £2,499",
-        "price_note": "or £104 a month with Klarna",
-        "show_size_strip": true,
-        "highlight_size": "king",
-        "image_asset": "lp-coolknit-side.webp"
-      }
-    },
-    "proof": {
-      "type": "lp-proof",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "twinbuild": {
-      "type": "lp-twinbuild",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "why": {
-      "type": "lp-why",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "cost": {
-      "type": "lp-cost",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "arriving": {
-      "type": "lp-arriving",
-      "settings": {
-        "enable_section": true
+        "variant": "spec-size",
+        "allowed_size_ids": "king,super-king,european-king"
       }
     },
     "configure": {
-      "type": "lp-configure",
+      "type": "size-reserve",
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "enable_section": true,
-        "size_allow": "double,king,european-king,super-king,emperor",
-        "highlight_size": "king",
-        "market_force": "auto"
+        "ground": "surface",
+        "mattress_product": "the-mattress",
+        "eyebrow": "Reserve yours",
+        "heading": "Choose your size.",
+        "body": "Every size is the same build. 35cm, 7-zone core, removable comfort layer. You do not choose a firmness.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
+        "market_force": "auto",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "anchor_id": "configure",
+        "leadtime_placement": "hidden",
+        "continue_path": "/cart",
+        "configure_funnel": true,
+        "stage_b_heading": "Summary",
+        "continue_label_full": "Add to basket",
+        "button_label_full": "Add to basket",
+        "allowed_size_ids": "king,super-king,european-king",
+        "featured_size": "king"
+      }
+    },
+    "more": {
+      "type": "lp",
+      "blocks": {
+        "b3": {
+          "type": "video",
+          "settings": {
+            "ground": "bone",
+            "reverse": false,
+            "kicker": "[Brand] [Core]",
+            "heading": "Pocket springs.\nNot one of them touches another.",
+            "body_1": "[Core] is what a mattress should have been doing all along. Springs wound, heat-set and sleeved one by one, so each answers only to the weight directly above it. Counted per size, not per model: Single 324, Double 513, King 609, Super King 754, Emperor 841. Your shoulder does not decide what your hip gets. Nobody turning over at 3 in the morning decides anything for you.",
+            "body_2": "7 bands run the length of it. Zone 2 is your shoulder, zone 4 is your hip, zone 6 is your leg: those three are 2.0mm. Head, back, knee and feet sit on 1.8mm. You are not the same weight all the way down, so the bed is not the same tension all the way down.",
+            "video_file": "spring.mp4",
+            "poster_file": "spring-poster.webp",
+            "caption": "Pocket springs being wound and encased",
+            "image_file": "",
+            "image_alt": "",
+            "body_3": "20cm of it. Guaranteed 25 years, because it is the part that never comes out and never wears."
+          }
+        },
+        "b4": {
+          "type": "split",
+          "settings": {
+            "ground": "",
+            "reverse": false,
+            "kicker": "The comfort layer",
+            "heading": "One layer.\n2 different nights.",
+            "body_1": "10cm, two 5cm faces at the same density and different hardness. Sleep on the 40 and it gives. Turn it over to the 80 and it holds you higher. Same mattress, a different night, and it costs nothing to change your mind.",
+            "body_2": "If neither face is yours, tell us how it should feel. We cut and assemble a new one to your description and send it, for a year, with our compliments. Most people ask once. Some never do.",
+            "pull": "",
+            "image_file": "quilt-macro.webp",
+            "image_alt": ""
+          }
+        },
+        "b5": {
+          "type": "video",
+          "settings": {
+            "ground": "dark",
+            "reverse": false,
+            "kicker": "The cover",
+            "heading": "The most effective cooling\nmaterial on the market.",
+            "body_1": "[Cover] is the most effective cooling material on the market. Knitted at 400gsm, 4 times the weight of what most mattresses arrive in, and open enough that heat walks straight out of it instead of gathering under you. Heavy in the hand, weightless to sleep on.",
+            "body_2": "It works with [Gel], 1 centimetre of gel directly beneath it. [Gel] takes the heat off your skin. [Cover] lets it go. Neither does much alone, which is why everyone else's gel sits buried in foam doing nothing.",
+            "video_file": "compression.mp4",
+            "poster_file": "compression-poster.webp",
+            "caption": "Roll-packed after inspection",
+            "image_file": "",
+            "image_alt": "",
+            "body_3": "It is cut, sewn and fitted by hand, then closed with a zip that runs every side of the mattress. Nothing is glued. Nothing is tufted through. The cover is what holds the bed together, which is the reason the bed can be opened again.",
+            "body_4": "Then it is checked, layer by layer, before it is rolled. Once it is rolled nobody can see inside it, so it is looked at properly while somebody still can."
+          }
+        }
+      },
+      "block_order": [
+        "b3",
+        "b4",
+        "b5"
+      ],
+      "settings": {
+        "variant": "spec-size-more"
+      }
+    },
+    "assurance": {
+      "type": "lp",
+      "blocks": {
+        "b6": {
+          "type": "assurance",
+          "settings": {
+            "a1_heading": "You cannot get this wrong",
+            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
+            "a2_heading": "100 days to change your mind",
+            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
+            "a3_heading": "25 years on the core",
+            "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
+            "ground": "bone",
+            "show_press": true,
+            "press_label": "As featured in",
+            "press_1": "The Times",
+            "press_2": "Financial Times",
+            "press_3": "Evening Standard",
+            "press_4": "Wallpaper*",
+            "press_5": "Dezeen"
+          }
+        }
+      },
+      "block_order": [
+        "b6"
+      ],
+      "settings": {
+        "variant": "spec-size-assurance",
+        "allowed_size_ids": "king,super-king,european-king"
       }
     }
   },
   "order": [
-    "trust",
-    "hero",
-    "twinbuild",
-    "proof",
-    "why",
-    "cost",
-    "arriving",
-    "configure"
+    "main",
+    "configure",
+    "more",
+    "assurance"
   ]
 }

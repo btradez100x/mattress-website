@@ -1,170 +1,207 @@
 {
   "sections": {
-    "trust": {
-      "type": "trust-bar",
+    "main": {
+      "type": "lp",
       "blocks": {
-        "tb1": {
-          "type": "item",
+        "b1": {
+          "type": "hero",
           "settings": {
-            "icon": "trial",
-            "label": "Adjust to Desire",
-            "sublabel": "A year to get the feel right",
-            "link": "/pages/guarantee"
-          }
-        },
-        "tb2": {
-          "type": "item",
-          "settings": {
-            "icon": "warranty",
-            "label": "[Warranty]-year core warranty",
-            "sublabel": "On [Core], the part that carries you",
-            "link": "/pages/warranty"
-          }
-        },
-        "tb3": {
-          "type": "item",
-          "settings": {
-            "icon": "trial",
-            "label": "100 nights to change your mind",
-            "sublabel": "Collected from your home, refunded in full",
-            "link": "/pages/100-night-trial"
-          }
-        },
-        "tb4": {
-          "type": "item",
-          "settings": {
-            "icon": "deposit",
-            "label": "Cancel before dispatch",
-            "sublabel": "Refund any time before it is built",
-            "link": "/pages/refunds-deposit"
-          }
-        },
-        "tb5": {
-          "type": "item",
-          "settings": {
-            "icon": "craft",
-            "label": "Made to order",
-            "sublabel": "Built after you order it, never from stock",
-            "link": "/pages/manufacturing"
-          }
-        },
-        "tb6": {
-          "type": "item",
-          "settings": {
-            "icon": "delivery",
-            "label": "Complimentary concierge unpacking",
-            "sublabel": "To the room of your choice, packaging taken away",
-            "link": "/pages/delivery"
-          }
-        },
-        "tb7": {
-          "type": "item",
-          "settings": {
-            "icon": "delivery",
-            "label": "Old mattress removal and recycling",
-            "sublabel": "Taken on the same visit, at our cost",
-            "link": "/pages/recycling"
-          }
-        },
-        "oeko_tex": {
-          "type": "item",
-          "settings": {
-            "icon": "oeko",
-            "label": "OEKO-TEX® STANDARD 100",
-            "sublabel": "Textiles independently tested",
-            "link": "/pages/certification"
+            "kicker": "Made to order \u00b7 United Kingdom",
+            "heading": "A bed that becomes yours,\nand stays that way.",
+            "lede": "Nothing is built before you order it. 35cm, a 7-zone pocket sprung core guaranteed for 25 years, and a comfort layer we remake to your preference for a year.",
+            "cta_primary": "Choose your size",
+            "cta_secondary": "A year to settle the feel",
+            "cta_secondary_href": "/pages/adjust-to-desire",
+            "show_price": false,
+            "price_first": false,
+            "price_large": false,
+            "price_from": "From \u00a32,499",
+            "price_klarna": "or \u00a3104 a month with Klarna",
+            "image_file": "product-plain.webp",
+            "image_alt": "",
+            "show_press": true,
+            "press_label": "As featured in",
+            "press_1": "The Times",
+            "press_2": "Financial Times",
+            "press_3": "Evening Standard",
+            "press_4": "Wallpaper*",
+            "press_5": "Dezeen",
+            "show_pay": true,
+            "pay_label": "Pay by",
+            "klarna_amount": "\u00a383 a month",
+            "show_sizestrip": false,
+            "sizestrip_rows": "",
+            "show_reviews": true,
+            "reviews_link_label": "Read them"
           }
         }
       },
       "block_order": [
-        "tb1",
-        "tb2",
-        "tb3",
-        "tb4",
-        "tb5",
-        "tb6",
-        "tb7",
-        "oeko_tex"
+        "b1"
       ],
       "settings": {
-        "enable_section": true,
-        "surface": false,
-        "show_lead_line": false,
-        "anchor_id": "trust-top",
-        "enable_marquee": true,
-        "marquee_duration": 40,
-        "pause_on_hover": true,
-        "ground": "surface"
-      }
-    },
-    "hero": {
-      "type": "lp-hero",
-      "settings": {
-        "enable_section": true,
-        "kicker": "Made to order · United Kingdom",
-        "heading": "Good mornings,\nfor [Warranty] years.",
-        "subheading": "Most mattresses live one life. A [Range] bed is built in two parts, and the only part that wears is the part that lifts out.",
-        "cta_label": "Choose your size",
-        "cta_link": "#configure",
-        "secondary_cta_label": "How it is built",
-        "secondary_cta_link": "#twinbuild",
-        "assurance": "Complimentary concierge unpacking · Old mattress taken away · 100 nights to change your mind",
-        "show_price": false,
-        "price": "",
-        "price_note": "",
-        "show_size_strip": false,
-        "highlight_size": "",
-        "image_asset": "lp-product-plain.webp"
-      }
-    },
-    "proof": {
-      "type": "lp-proof",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "twinbuild": {
-      "type": "lp-twinbuild",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "why": {
-      "type": "lp-why",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "cost": {
-      "type": "lp-cost",
-      "settings": {
-        "enable_section": true
-      }
-    },
-    "arriving": {
-      "type": "lp-arriving",
-      "settings": {
-        "enable_section": true
+        "variant": "premium"
       }
     },
     "configure": {
-      "type": "lp-configure",
+      "type": "size-reserve",
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "enable_section": true,
-        "size_allow": "double,king,european-king,super-king,emperor",
-        "highlight_size": "",
-        "market_force": "auto"
+        "ground": "surface",
+        "mattress_product": "the-mattress",
+        "eyebrow": "Reserve yours",
+        "heading": "Choose your size.",
+        "body": "Every size is the same build. 35cm, 7-zone core, removable comfort layer. You do not choose a firmness.",
+        "firmness_line": "It arrives medium firm with a flippable comfort layer.",
+        "market_force": "auto",
+        "request_size_enabled": true,
+        "deposit_terms_link": "/pages/refunds-deposit",
+        "anchor_id": "configure",
+        "leadtime_placement": "hidden",
+        "continue_path": "/cart",
+        "configure_funnel": true,
+        "stage_b_heading": "Summary",
+        "continue_label_full": "Add to basket",
+        "button_label_full": "Add to basket"
+      }
+    },
+    "story": {
+      "type": "lp",
+      "blocks": {
+        "b2": {
+          "type": "cards",
+          "settings": {
+            "ground": "",
+            "anchor_id": "",
+            "kicker": "3 things that matter",
+            "heading": "What makes a mattress\nstill good in 20 years",
+            "card_1_heading": "You will not feel them turn over",
+            "card_1_body": "[Core] is pocket springs, each sleeved on its own. One side of the bed does not travel to the other, so a partner getting up at 6 does not wake you at 6.",
+            "card_2_heading": "Your spine stays straight all night",
+            "card_2_body": "7 zones, 2 wire gauges. 2.0mm at the shoulder, hip and leg. 1.8mm at the head, back, knee and feet. You wake up the shape you should be rather than the shape the bed made you.",
+            "card_3_heading": "In year 8 it is still your bed",
+            "card_3_body": "The top 5 centimetres are what soften. Ours lift out and are replaced for \u00a3299. The core underneath is guaranteed for 25 years and never leaves the room.",
+            "layout": "grid",
+            "lede": "",
+            "card_1_label": "",
+            "card_2_label": "",
+            "card_3_label": ""
+          }
+        },
+        "b3": {
+          "type": "prose",
+          "settings": {
+            "ground": "dark",
+            "tight": false,
+            "anchor_id": "",
+            "kicker": "Ours, and nobody else's",
+            "heading": "We did not copy\nthis from anyone.",
+            "body_1": "[Core] is ours. [Gel] is ours. [Cover] is ours. The 2 wire gauges and exactly where each one starts and stops, the flippable comfort layer, the wave-cut airflow profile, the zip that runs every side. Drawn here, argued over here, specified down to the density of every centimetre, and made to those drawings and no others.",
+            "body_2": "Most mattresses sold in this country are 3 or 4 builds wearing different covers. A brand picks one, chooses a fabric, names it something, and sells it to you as theirs. We did not want to sell you somebody else's bed with our name on it.",
+            "pull": "Nothing is built until you order it. Which is why the guarantee is 25 years, and why you get a year to change how it feels.",
+            "body_3": "So you are not buying what was made last quarter and needs shifting before the next container lands. You are buying a bed that does not exist yet, built to a specification we own, assembled by hand, in the size you chose."
+          }
+        },
+        "b4": {
+          "type": "media",
+          "settings": {
+            "image_file": "room-calm.webp",
+            "image_alt": ""
+          }
+        },
+        "b5": {
+          "type": "prose",
+          "settings": {
+            "ground": "",
+            "tight": false,
+            "anchor_id": "",
+            "kicker": "Why you cannot choose in a showroom",
+            "heading": "4 minutes lying down\ntells you nothing.",
+            "body_1": "You cannot know how a mattress feels until you have slept on it for weeks. By then the decision is behind you and the money is spent, which is why most people keep a mattress they never liked.",
+            "body_2": "So you do not choose a firmness when you order. Your mattress arrives, you sleep on it, and for a year you tell us how it should feel. We build a new comfort layer to that description and send it, with our compliments.",
+            "pull": "You do not choose the feel. You discover it."
+          }
+        },
+        "b6": {
+          "type": "price",
+          "settings": {
+            "kicker": "What it costs",
+            "heading": "From \u00a31,999.",
+            "body": "King is \u00a32,999. Super King is \u00a33,299. Every size is the same build, so the price is the size and nothing else.",
+            "price_from": "From \u00a31,999.",
+            "price_klarna": "or \u00a383 a month over 24 months with Klarna",
+            "show_pay": true,
+            "pay_label": "Pay by",
+            "klarna_amount": "\u00a383 a month",
+            "show_sizestrip": true,
+            "sizestrip_rows": "Double|135 x 190 cm\nKing|150 x 200 cm\nEuropean King|160 x 200 cm\nSuper King|180 x 200 cm\nEmperor|200 x 200 cm"
+          }
+        },
+        "b7": {
+          "type": "cards",
+          "settings": {
+            "ground": "",
+            "anchor_id": "",
+            "kicker": "What arriving looks like",
+            "heading": "It arrives finished.",
+            "card_1_heading": "Concierged in",
+            "card_1_body": "To the room you choose, unboxed, unrolled onto your bed and positioned. The packaging leaves with it.",
+            "card_2_heading": "The old one leaves",
+            "card_2_body": "Taken away and sent for recycling. We carry the cost.",
+            "card_3_heading": "A window you agree",
+            "card_3_body": "We call before we come, and arrange a time that suits you. Nothing arrives unannounced.",
+            "layout": "arrive",
+            "lede": "Not left in a hallway in a box for you to wrestle upstairs.",
+            "card_1_label": "On the day",
+            "card_2_label": "Same visit",
+            "card_3_label": "Beforehand"
+          }
+        }
+      },
+      "block_order": [
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7"
+      ],
+      "settings": {
+        "variant": "premium-story",
+        "allowed_size_ids": ""
+      }
+    },
+    "assurance": {
+      "type": "lp",
+      "blocks": {
+        "b8": {
+          "type": "assurance",
+          "settings": {
+            "a1_heading": "You cannot get this wrong",
+            "a1_body": "A year to tell us how it should feel. We remake the comfort layer to that, with our compliments, as often as it takes.",
+            "a2_heading": "100 days to change your mind",
+            "a2_body": "Collected from your home and refunded in full. Emperor is made to order and excluded.",
+            "a3_heading": "25 years on the core",
+            "a3_body": "The part that carries you is guaranteed for a quarter of a century.",
+            "ground": "bone"
+          }
+        }
+      },
+      "block_order": [
+        "b8"
+      ],
+      "settings": {
+        "variant": "premium-story",
+        "allowed_size_ids": ""
       }
     }
   },
   "order": [
-    "trust",
-    "hero",
-    "proof",
-    "twinbuild",
-    "why",
-    "cost",
-    "arriving",
-    "configure"
+    "main",
+    "story",
+    "configure",
+    "assurance"
   ]
 }
