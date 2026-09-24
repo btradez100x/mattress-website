@@ -846,3 +846,11 @@
 - Scope note: Packaged **V9.2** (`checkpoints/V9.2/Valtora-Shopify-Theme-V9.2.zip` + `preview-and-theme.tar.gz`; copy in Downloads). V9.1 plus order-status page / App Proxy contract; lookup default off.
 
 
+
+### Deploy 2026-09-24 - Automated smoke + public link
+- Environment: local preview + share hub
+- Public: https://deep-adults-roll.loca.lt/v4/
+- Command: `./scripts/deploy-preview.sh`
+- SM-12 / deploy smoke: Pass (gate)
+- Decision: Preview published
+

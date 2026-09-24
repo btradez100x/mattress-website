@@ -2,6 +2,8 @@
 
 ## Live public link (refresh on every deploy)
 
+Run:
+
 ```bash
 ./scripts/deploy-preview.sh
 ```
@@ -20,9 +22,14 @@ That command always:
 Local:
 
 ```bash
+# Preview (working copy)
 cd preview && python3 -m http.server 5173
+
+# Share hub
 cd share && python3 -m http.server 5190
 ```
+
+Then open http://127.0.0.1:5190/
 
 ## Files for someone else
 
@@ -35,3 +42,4 @@ cd share && python3 -m http.server 5190
 
 ### Manufacturing page
 - Preview path: `/pages/manufacturing.html`
+- Shopify: Online Store → Pages → Add page → Title **Manufacturing** → Theme template **manufacturing** → Save

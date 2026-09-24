@@ -1,5 +1,5 @@
 # Valtora public preview (updated by scripts/deploy-preview.sh)
-updated=2026-08-13T22:13:31Z
+updated=2026-09-24T01:27:29Z
 hub=https://deep-adults-roll.loca.lt/
 v4=https://deep-adults-roll.loca.lt/v4/
 reserve=https://deep-adults-roll.loca.lt/v4/#reserve
