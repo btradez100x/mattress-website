@@ -46,6 +46,63 @@
         "info": "Line 2 of the header and footer wordmark (e.g. Mattresses or The Mattress). Trading as and contact append this on the same line (e.g. Aligna Mattresses). Leave blank to hide line 2."
       },
       {
+        "type": "header",
+        "content": "Range names"
+      },
+      {
+        "type": "paragraph",
+        "content": "Landing pages read these fields. They are not the store name. Never use the Shopify shop name for them."
+      },
+      {
+        "type": "text",
+        "id": "range_name",
+        "label": "Range name",
+        "default": "Perennial",
+        "info": "The range and umbrella. Taught on first use, then used alone."
+      },
+      {
+        "type": "text",
+        "id": "architecture_name",
+        "label": "Architecture name",
+        "default": "Twinbuild",
+        "info": "The two-part construction."
+      },
+      {
+        "type": "text",
+        "id": "core_name",
+        "label": "Core name",
+        "default": "Sevencore",
+        "info": "The 20cm 7-zone core."
+      },
+      {
+        "type": "text",
+        "id": "cover_material",
+        "label": "Cover material",
+        "default": "Coolweave",
+        "info": "The 400gsm cover."
+      },
+      {
+        "type": "text",
+        "id": "gel_material",
+        "label": "Gel material",
+        "default": "Coolcell",
+        "info": "The 1cm gel at the surface."
+      },
+      {
+        "type": "text",
+        "id": "refit_name",
+        "label": "Refit name",
+        "default": "Refit",
+        "info": "The replacement comfort layer. The landing tag prefixes this with the brand name."
+      },
+      {
+        "type": "text",
+        "id": "refit_price",
+        "label": "Refit price",
+        "default": "£299",
+        "info": "Shown on landing pages as the comfort-layer replacement price."
+      },
+      {
         "type": "text",
         "id": "legal_name",
         "label": "Legal name",
@@ -549,7 +606,7 @@
         "type": "text",
         "id": "warranty_years",
         "label": "Core warranty (years)",
-        "default": "15"
+        "default": "25"
       },
       {
         "type": "text",
@@ -569,7 +626,7 @@
         "type": "textarea",
         "id": "variation_notice",
         "label": "Variation notice (Stage B / FAQ)",
-        "default": "Handmade, so natural variation in fabric shade is possible. The construction is identical every time."
+        "default": "Made to order, so natural variation in fabric shade is possible. The construction is identical every time."
       },
       {
         "type": "checkbox",

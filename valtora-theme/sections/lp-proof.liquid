@@ -1,0 +1,41 @@
+{%- if section.settings.enable_section -%}
+<section class="lp-section" id="proof-{{ section.id }}" aria-label="Reviews and press">
+  <div class="page-width">
+    {%- comment -%}
+      Score and count come from the review app (reviews.json summary, or the reviews array).
+      Do not hardcode a figure here.
+    {%- endcomment -%}
+    <div
+      class="lp-rev"
+      data-lp-proof
+      data-lp-score
+      data-reviews-url="{{ 'reviews.json' | asset_url }}"
+      hidden
+    >
+      <span class="lp-stars" data-lp-stars aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i>
+      </span>
+      <b data-lp-average></b>
+      <small data-lp-count></small>
+    </div>
+    <ul class="lp-press" role="list">
+      <li><img src="{{ 'press-the-times.svg' | asset_url }}" alt="The Times" width="160" height="28" loading="lazy"></li>
+      <li><img src="{{ 'press-financial-times.svg' | asset_url }}" alt="Financial Times" width="160" height="28" loading="lazy"></li>
+      <li><img src="{{ 'press-evening-standard.svg' | asset_url }}" alt="Evening Standard" width="160" height="28" loading="lazy"></li>
+      <li><img src="{{ 'press-wallpaper-wordmark.svg' | asset_url }}" alt="Wallpaper*" width="160" height="28" loading="lazy"></li>
+      <li><img src="{{ 'press-dezeen.svg' | asset_url }}" alt="Dezeen" width="160" height="28" loading="lazy"></li>
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Landing proof",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Show this section", "default": true }
+  ],
+  "presets": [{ "name": "Landing proof" }]
+}
+{% endschema %}

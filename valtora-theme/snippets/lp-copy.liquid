@@ -1,0 +1,24 @@
+{%- comment -%}
+  Replace landing-page name tokens. Never shop.name.
+  [Brand] [Range] [Architecture] [Core] [Cover] [Gel] [Refit] [Warranty]
+{%- endcomment -%}
+{%- liquid
+  assign out = text | default: ''
+  assign brand = settings.brand_name | default: 'Aligna'
+  assign range_name = settings.range_name | default: 'Perennial'
+  assign architecture_name = settings.architecture_name | default: 'Twinbuild'
+  assign core_name = settings.core_name | default: 'Sevencore'
+  assign cover_name = settings.cover_material | default: 'Coolweave'
+  assign gel_name = settings.gel_material | default: 'Coolcell'
+  assign refit_name = settings.refit_name | default: 'Refit'
+  assign years = settings.warranty_years | default: '25'
+  assign out = out | replace: '[Brand]', brand
+  assign out = out | replace: '[Range]', range_name
+  assign out = out | replace: '[Architecture]', architecture_name
+  assign out = out | replace: '[Core]', core_name
+  assign out = out | replace: '[Cover]', cover_name
+  assign out = out | replace: '[Gel]', gel_name
+  assign out = out | replace: '[Refit]', refit_name
+  assign out = out | replace: '[Warranty]', years
+-%}
+{{- out -}}

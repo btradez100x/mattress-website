@@ -13,7 +13,9 @@
 {%- if legal_name != blank -%}
   {%- assign policy_body = policy_body | replace: '[Legal]', legal_name | replace: '[legal_name]', legal_name -%}
 {%- endif -%}
+{%- assign policy_body = policy_body | replace: '[Warranty]', settings.warranty_years -%}
 {%- assign policy_heading = section.settings.heading | default: page.title -%}
+{%- assign policy_heading = policy_heading | replace: '[Warranty]', settings.warranty_years -%}
 {%- assign cta_href = section.settings.cta_link | default: '/#reserve' -%}
 
 <section class="policy-page">

@@ -19,6 +19,7 @@
   assign payment_mode = settings.payment_mode | default: 'full'
   if section.settings.assurance != blank
     assign assurance_line = section.settings.assurance
+    assign assurance_line = assurance_line | replace: '[Warranty]', settings.warranty_years | default: '25'
   elsif payment_mode == 'split'
     assign assurance_line = 'Pay '
     assign assurance_line = assurance_line | append: settings.split_percent | default: 50 | append: '% today · balance when it ships'
@@ -28,8 +29,8 @@
       assign assurance_line = assurance_line | append: ' · Spread with Tabby or Tamara'
     endif
   else
-    assign assurance_line = 'Cancel any time before dispatch · 100-night trial · '
-    assign assurance_line = assurance_line | append: settings.warranty_years | default: '15' | append: '-year warranty'
+    assign assurance_line = 'Cancel any time before dispatch · 100 nights to change your mind · '
+    assign assurance_line = assurance_line | append: settings.warranty_years | default: '25' | append: '-year warranty'
   endif
 -%}
 {%- if section.settings.enable_section -%}
@@ -141,8 +142,8 @@
       "type": "text",
       "id": "assurance",
       "label": "Assurance line override",
-      "info": "Leave blank for: Cancel any time before dispatch · 100-night trial · 15-year warranty (full payment). Split mode still uses pay-today defaults.",
-      "default": "Cancel any time before dispatch · 100-night trial · 15-year warranty"
+      "info": "Leave blank for: Cancel any time before dispatch · 100 nights to change your mind · warranty years from theme settings (full payment). Split mode still uses pay-today defaults.",
+      "default": "Cancel any time before dispatch · 100 nights to change your mind · [Warranty]-year warranty"
     },
     {
       "type": "header",

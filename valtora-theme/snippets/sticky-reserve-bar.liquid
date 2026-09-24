@@ -9,6 +9,6 @@
     class="float-basket__btn"
     data-float-continue
     data-checkout-href="{{ pages['checkout'].url | default: '/pages/checkout' }}"
-    href="{% if template.name == 'index' %}#reserve{% else %}{{ routes.root_url }}#reserve{% endif %}"
+    href="{% if template.name == 'index' %}#reserve{% elsif template.suffix == 'landing' or template.suffix == 'ag1-size' or template.suffix == 'ag2-need' or template.suffix == 'ag3-premium' or template.suffix == 'ag4-other-size' or template.suffix == 'ag5-conquest' or template.suffix == 'ag6-spec-size' or template.suffix == 'ag7-need-only' or template.suffix == 'ag8-spec-only' or template.suffix == 'ag9-temperature' or template.suffix == 'ag14-bare-size' %}#configure{% else %}{{ routes.root_url }}#reserve{% endif %}"
   >See sizes and prices</a>
 </div>
