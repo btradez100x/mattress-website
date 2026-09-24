@@ -1,6 +1,12 @@
 {%- comment -%}
   Replace landing-page name tokens. Never shop.name.
-  [Brand] [Range] [Architecture] [Core] [Cover] [Gel] [Refit] [Warranty]
+  [Brand] [Range] [Architecture] [Core] [Cover] [Gel] [Refit]
+  Warranty years come from settings.warranty_years, never a literal count.
+  JSON templates cannot contain {{ }}, so they keep the [Warranty] token.
+  [Warranty] resolves to the template marker <!--{{settings.warranty_years}}-->
+  plus the setting. Inline copy uses {% render 'lp-warranty' %}.
+  A spaced {{ settings.warranty_years }} placeholder is also resolved.
+  The marker has no spaces, so that replace leaves it intact.
 {%- endcomment -%}
 {%- liquid
   assign out = text | default: ''
@@ -12,6 +18,7 @@
   assign gel_name = settings.gel_material | default: 'Coolcell'
   assign refit_name = settings.refit_name | default: 'Refit'
   assign years = settings.warranty_years | default: '25'
+  assign warranty_marked = '<!--{{settings.warranty_years}}-->' | append: years
   assign out = out | replace: '[Brand]', brand
   assign out = out | replace: '[Range]', range_name
   assign out = out | replace: '[Architecture]', architecture_name
@@ -19,6 +26,7 @@
   assign out = out | replace: '[Cover]', cover_name
   assign out = out | replace: '[Gel]', gel_name
   assign out = out | replace: '[Refit]', refit_name
-  assign out = out | replace: '[Warranty]', years
+  assign out = out | replace: '{{ settings.warranty_years }}', years
+  assign out = out | replace: '[Warranty]', warranty_marked
 -%}
 {{- out -}}

@@ -29,10 +29,11 @@
                 {%- liquid
                   assign label = block.settings.label
                   assign sub = block.settings.sublabel
+                  assign warranty_marked = '<!--{{settings.warranty_years}}-->' | append: warranty
                   assign label = label | replace: '{{ settings.warranty_years }}', warranty
                   assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
-                  assign label = label | replace: '[Warranty]', warranty
-                  assign sub = sub | replace: '[Warranty]', warranty
+                  assign label = label | replace: '[Warranty]', warranty_marked
+                  assign sub = sub | replace: '[Warranty]', warranty_marked
                   assign label = label | replace: '[Core]', settings.core_name
                   assign sub = sub | replace: '[Core]', settings.core_name
                   assign label = label | replace: '[X]', warranty
@@ -137,10 +138,11 @@
             {%- liquid
               assign label = block.settings.label
               assign sub = block.settings.sublabel
+              assign warranty_marked = '<!--{{settings.warranty_years}}-->' | append: warranty
               assign label = label | replace: '{{ settings.warranty_years }}', warranty
               assign sub = sub | replace: '{{ settings.warranty_years }}', warranty
-              assign label = label | replace: '[Warranty]', warranty
-              assign sub = sub | replace: '[Warranty]', warranty
+              assign label = label | replace: '[Warranty]', warranty_marked
+              assign sub = sub | replace: '[Warranty]', warranty_marked
               assign label = label | replace: '[Core]', settings.core_name
               assign sub = sub | replace: '[Core]', settings.core_name
               assign label = label | replace: '[X]', warranty
